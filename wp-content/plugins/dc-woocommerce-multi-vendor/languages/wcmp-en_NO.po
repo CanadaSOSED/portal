@@ -1,0 +1,5046 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Marketplace\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-04-05 18:44+0530\n"
+"PO-Revision-Date: 2016-04-05 18:44+0530\n"
+"Last-Translator: Admin <norbay@norbay.no>\n"
+"Language-Team: Dualcube <admin@dualcube.com>\n"
+"Language: Norwegian (Bokmål)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Poedit-Basepath: .\n"
+"X-Loco-Target-Locale: nb_NO\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../dc_product_vendor.php:41
+msgid ""
+"WCMp plugin requires <a href=\"http://wordpress.org/extend/plugins/"
+"woocommerce/\">WooCommerce</a> plugins to be active!"
+msgstr ""
+"WCMp plugin krever at<a href=\"http://wordpress.org/extend/plugins/"
+"woocommerce/\">WooCommerce</a> plugin er aktiverte!"
+
+#: ../includes/wcmp-core-functions.php:451
+msgid "Settings"
+msgstr "Innstillinger"
+
+#: ../includes/wcmp-core-functions.php:536
+msgid ""
+"Another Multivendor Plugin is allready Activated Please deactivate first to "
+"install this plugin"
+msgstr ""
+
+#: ../includes/class-wcmp-install.php:102
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_dashboard"
+msgstr "vendor_dashboard"
+
+#: ../includes/class-wcmp-install.php:102
+#: ../admin/class-wcmp-settings-pages.php:36
+msgid "Vendor Dashboard"
+msgstr "Selger panel"
+
+#: ../includes/class-wcmp-install.php:103
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_shop_settings"
+msgstr "shop_settings"
+
+#: ../includes/class-wcmp-install.php:103
+#: ../admin/class-wcmp-settings-pages.php:37
+#: ../classes/class-wcmp-admin.php:220 ../classes/class-wcmp-admin.php:223
+msgid "Shop Settings"
+msgstr "Butikk innstillinger"
+
+#: ../includes/class-wcmp-install.php:104
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_orders"
+msgstr "vendor_orders"
+
+#: ../includes/class-wcmp-install.php:104
+msgid "Vendor Orders"
+msgstr "Selger ordre"
+
+#: ../includes/class-wcmp-install.php:105
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_order_detail"
+msgstr "vendor_order_detail"
+
+#: ../includes/class-wcmp-install.php:105
+msgid "Vendor Order Details"
+msgstr "Selger ordre detaljer"
+
+#: ../includes/class-wcmp-install.php:106
+msgctxt "page_slug"
+msgid "wcmp_withdrawal_request"
+msgstr ""
+
+#: ../includes/class-wcmp-install.php:106 ../classes/class-wcmp.php:610
+msgid "Withdrawal Request Status"
+msgstr ""
+
+#: ../includes/class-wcmp-install.php:107
+msgctxt "page_slug"
+msgid "wcmp_transaction_details"
+msgstr ""
+
+#: ../includes/class-wcmp-install.php:107
+#: ../admin/class-wcmp-settings-pages.php:41 ../classes/class-wcmp.php:626
+#, fuzzy
+msgid "Transaction Details"
+msgstr "Kommisjon detaljer"
+
+#: ../includes/class-wcmp-install.php:108
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_policies"
+msgstr "vendor_orders"
+
+#: ../includes/class-wcmp-install.php:108
+#: ../admin/class-wcmp-settings-pages.php:42 ../classes/class-wcmp.php:643
+#, fuzzy
+msgid "Vendor Policies"
+msgstr "Selger`s kommisjon utbetalt"
+
+#: ../includes/class-wcmp-install.php:109
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_billing"
+msgstr "vendor_order_detail"
+
+#: ../includes/class-wcmp-install.php:109
+#: ../admin/class-wcmp-settings-pages.php:43 ../classes/class-wcmp.php:660
+#, fuzzy
+msgid "Vendor Billing"
+msgstr "Selger opptjening"
+
+#: ../includes/class-wcmp-install.php:110
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_shipping"
+msgstr "vendor_orders"
+
+#: ../includes/class-wcmp-install.php:110
+#: ../admin/class-wcmp-settings-pages.php:48 ../classes/class-wcmp.php:677
+#, fuzzy
+msgid "Vendor Shipping"
+msgstr "Selger kan angi frakt"
+
+#: ../includes/class-wcmp-install.php:111
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_report"
+msgstr "vendor_orders"
+
+#: ../includes/class-wcmp-install.php:111
+#, fuzzy
+msgid "Vendor Reports"
+msgstr "Selger ordre"
+
+#: ../includes/class-wcmp-install.php:112
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_widthdrawals"
+msgstr "vendor_orders"
+
+#: ../includes/class-wcmp-install.php:112 ../classes/class-wcmp.php:712
+#, fuzzy
+msgid "Vendor Widthdrawals"
+msgstr "Antall ordre"
+
+#: ../includes/class-wcmp-install.php:113
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_university"
+msgstr "vendor_orders"
+
+#: ../includes/class-wcmp-install.php:113
+#: ../admin/class-wcmp-settings-pages.php:46 ../classes/class-wcmp.php:729
+#, fuzzy
+msgid "Vendor University"
+msgstr "Selger ordre"
+
+#: ../includes/class-wcmp-install.php:114
+#, fuzzy
+msgctxt "page_slug"
+msgid "wcmp_vendor_announcements"
+msgstr "vendor_orders"
+
+#: ../includes/class-wcmp-install.php:114
+#: ../admin/class-wcmp-settings-pages.php:47 ../classes/class-wcmp.php:747
+#, fuzzy
+msgid "Vendor Announcements"
+msgstr "Ny selgerkonto"
+
+#: ../templates/vendor_tab.php:37 ../templates/widget/vendor-info.php:28
+#: ../templates/widget/vendor-info.php:29
+#, fuzzy, php-format
+msgid "More Products from %1$s"
+msgstr "Flere produkter fra %1$s"
+
+#: ../templates/vendor_message_to_buyer.php:27
+#: ../templates/customer_support_details_to_buyer.php:34
+#, fuzzy
+msgid "Vendor Details"
+msgstr "Selger ordre detaljer"
+
+#: ../templates/vendor_message_to_buyer.php:28
+#: ../templates/widget/quick-info.php:32
+msgid "Message"
+msgstr "Melding"
+
+#: ../templates/vendor_message_to_buyer.php:33
+#: ../templates/customer_support_details_to_buyer.php:40
+#, fuzzy
+msgid "Vender Name"
+msgstr "Ny selger navn"
+
+#: ../templates/vendor_message_to_buyer.php:35
+#: ../templates/customer_support_details_to_buyer.php:42
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:16
+#: ../admin/class-wcmp-settings-to_do_list.php:113
+#, fuzzy
+msgid "Product Name"
+msgstr "Produkt"
+
+#: ../templates/vendor_message_to_buyer.php:41
+#: ../templates/vendor_message_to_buyer.php:61
+#: ../templates/customer_support_details_to_buyer.php:45
+#: ../templates/customer_support_details_to_buyer.php:81
+#: ../templates/shortcode/vendor_policy.php:48
+#, fuzzy
+msgid "Customer Support Details"
+msgstr "Kunde detaljer"
+
+#: ../templates/vendor_message_to_buyer.php:43
+#: ../templates/vendor_message_to_buyer.php:63
+#: ../templates/customer_support_details_to_buyer.php:47
+#: ../templates/customer_support_details_to_buyer.php:83
+#: ../classes/class-wcmp-email.php:76 ../classes/class-wcmp-email.php:143
+#, fuzzy
+msgid "Email : "
+msgstr "E-post:"
+
+#: ../templates/vendor_message_to_buyer.php:48
+#: ../templates/vendor_message_to_buyer.php:68
+#: ../templates/customer_support_details_to_buyer.php:52
+#: ../templates/customer_support_details_to_buyer.php:88
+#: ../classes/class-wcmp-email.php:83 ../classes/class-wcmp-email.php:153
+#, fuzzy
+msgid "Phone : "
+msgstr "Telefon"
+
+#: ../templates/vendor_message_to_buyer.php:51
+#: ../templates/vendor_message_to_buyer.php:71
+#: ../templates/customer_support_details_to_buyer.php:55
+#: ../templates/customer_support_details_to_buyer.php:91
+#, fuzzy
+msgid "Return Address "
+msgstr "Adresse linje 1"
+
+#: ../templates/policies_tab.php:26
+#: ../templates/shortcode/vendor_policy.php:35
+#: ../admin/class-wcmp-settings-general-policies.php:35
+#: ../classes/class-wcmp-product.php:605 ../classes/class-wcmp-user.php:641
+msgid "Cancellation/Return/Exchange Policy"
+msgstr ""
+
+#: ../templates/policies_tab.php:27
+#: ../templates/shortcode/vendor_policy.php:39
+#: ../admin/class-wcmp-settings-general-policies.php:37
+#: ../classes/class-wcmp-product.php:621 ../classes/class-wcmp-user.php:649
+msgid "Refund Policy"
+msgstr ""
+
+#: ../templates/policies_tab.php:28
+#: ../templates/shortcode/vendor_policy.php:43
+#: ../admin/class-wcmp-settings-general-policies.php:39
+#: ../classes/class-wcmp-product.php:637 ../classes/class-wcmp-user.php:657
+#, fuzzy
+msgid "Shipping Policy"
+msgstr "Frakt"
+
+#: ../templates/archive_vendor_info.php:30
+msgid "External Store URL"
+msgstr ""
+
+#: ../templates/archive_vendor_info.php:74 ../classes/class-wcmp-user.php:362
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:171
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: ../templates/customer_support_details_to_buyer.php:76
+msgid "Customer Support Details & Product Return Address"
+msgstr ""
+
+#: ../templates/vendor_dashboard_menu.php:40
+#, fuzzy
+msgid "Shop Name"
+msgstr "Kupong brukt:"
+
+#: ../templates/vendor_dashboard_menu.php:42
+#: ../templates/vendor_dashboard_menu.php:48
+#, fuzzy
+msgid "Shop"
+msgstr "Kupong brukt:"
+
+#: ../templates/vendor_dashboard_menu.php:43
+#: ../templates/vendor_dashboard_menu.php:49
+#: ../templates/shortcode/vendor_announcements.php:19
+#: ../admin/class-wcmp-settings.php:79
+#: ../classes/class-wcmp-post-notices.php:72
+#: ../classes/class-wcmp-post-notices.php:73
+#: ../classes/class-wcmp-post-notices.php:74
+#: ../classes/class-wcmp-post-notices.php:75
+#: ../classes/class-wcmp-post-notices.php:76
+#: ../classes/class-wcmp-post-notices.php:77
+#: ../classes/class-wcmp-post-notices.php:78
+#: ../classes/class-wcmp-post-notices.php:79
+#: ../classes/class-wcmp-post-notices.php:81
+#: ../classes/class-wcmp-post-notices.php:82
+msgid "Announcements"
+msgstr ""
+
+#: ../templates/vendor_dashboard_menu.php:50
+#: ../templates/shortcode/vendor_dashboard.php:36
+#, fuzzy
+msgid "Dashboard"
+msgstr "Selger panel"
+
+#: ../templates/vendor_dashboard_menu.php:51
+#, fuzzy
+msgid "Store Settings"
+msgstr "Butikk innstillinger"
+
+#: ../templates/vendor_dashboard_menu.php:53
+msgid "- Shop front"
+msgstr ""
+
+#: ../templates/vendor_dashboard_menu.php:55
+msgid "- Policies"
+msgstr ""
+
+#: ../templates/vendor_dashboard_menu.php:57
+msgid "- Billing"
+msgstr ""
+
+#: ../templates/vendor_dashboard_menu.php:59
+#, fuzzy
+msgid "- Shipping"
+msgstr "Frakt"
+
+#: ../templates/vendor_dashboard_menu.php:65
+#, fuzzy
+msgid "Product Manager"
+msgstr "Produkt"
+
+#: ../templates/vendor_dashboard_menu.php:70
+msgid "Promote"
+msgstr ""
+
+#: ../templates/vendor_dashboard_menu.php:73
+#, fuzzy
+msgid "- Coupons"
+msgstr "Kupong brukt:"
+
+#: ../templates/vendor_dashboard_menu.php:78
+#, fuzzy
+msgid "Stats/Reports"
+msgstr "Salg etter selger"
+
+#: ../templates/vendor_dashboard_menu.php:80
+#, fuzzy
+msgid "- Overview"
+msgstr "Oversikt"
+
+#: ../templates/vendor_dashboard_menu.php:83
+#: ../classes/class-wcmp-vendor-dashboard.php:471
+#: ../classes/class-wcmp-vendor-dashboard.php:659
+msgid "Orders"
+msgstr "Ordrer"
+
+#: ../templates/vendor_dashboard_menu.php:84
+#, fuzzy
+msgid "Payments"
+msgstr "Betaling"
+
+#: ../templates/vendor_dashboard_menu.php:86
+#, fuzzy
+msgid "- Withdrawal"
+msgstr "Vis kommisjon status"
+
+#: ../templates/vendor_dashboard_menu.php:87
+msgid "- History"
+msgstr ""
+
+#: ../templates/vendor_dashboard_menu.php:91
+#: ../templates/shortcode/vendor_university.php:29
+#: ../admin/class-wcmp-settings.php:78
+#: ../classes/class-wcmp-post-university.php:33
+#: ../classes/class-wcmp-post-university.php:34
+#: ../classes/class-wcmp-post-university.php:35
+#: ../classes/class-wcmp-post-university.php:36
+#: ../classes/class-wcmp-post-university.php:37
+#: ../classes/class-wcmp-post-university.php:38
+#: ../classes/class-wcmp-post-university.php:39
+#: ../classes/class-wcmp-post-university.php:40
+#: ../classes/class-wcmp-post-university.php:42
+#: ../classes/class-wcmp-post-university.php:43
+msgid "University"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:38
+#, fuzzy
+msgid "Your Rating"
+msgstr "Din presentasjon."
+
+#: ../templates/wcmp-vendor-review-form.php:40
+msgid "Rate..."
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:41
+msgid "Perfect"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:42
+msgid "Good"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:43
+msgid "Average"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:44
+msgid "Not that bad"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:45
+msgid "Very Poor"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:48
+msgid "Your Review"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:71
+#, fuzzy, php-format
+msgid "%s review for %s"
+msgid_plural "%s reviews for %s"
+msgstr[0] "Ordre: %s"
+msgstr[1] "Ordre: %s"
+
+#: ../templates/wcmp-vendor-review-form.php:89
+msgid "There are no reviews yet."
+msgstr ""
+
+#: ../templates/widget/store-location.php:16
+msgid "Show in Google Maps"
+msgstr "Vis i Google Maps"
+
+#: ../templates/widget/quick-info.php:13
+#: ../templates/shortcode/vendor_shipping.php:159
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:160
+msgid "Submit"
+msgstr "Send"
+
+#: ../templates/widget/quick-info.php:29
+#: ../classes/class-wcmp-product.php:1088
+msgid "Name"
+msgstr "Navn"
+
+#: ../templates/widget/quick-info.php:30
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:126
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:144
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:134
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:128
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:118
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:146
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:158
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:127
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:124
+msgid "Subject"
+msgstr "Subjekt"
+
+#: ../templates/widget/quick-info.php:31
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:44
+#: ../classes/class-wcmp-product.php:1093
+msgid "Email"
+msgstr "E-post"
+
+#: ../templates/shortcode/vendor_announcements_archive.php:62
+msgid "Restore"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements_archive.php:71
+#: ../templates/shortcode/vendor_announcements_unread.php:90
+#: ../templates/shortcode/vendor_announcements_all.php:83
+#: ../templates/shortcode/vendor_announcements_read.php:87
+msgid "Read More"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements_archive.php:84
+#: ../templates/shortcode/vendor_withdrawal.php:32
+#: ../templates/shortcode/vendor_announcements_unread.php:103
+#: ../templates/shortcode/vendor_orders.php:52
+#: ../templates/shortcode/vendor_orders.php:100
+#: ../templates/shortcode/vendor_orders.php:107
+#: ../templates/shortcode/vendor_orders.php:154
+#: ../templates/shortcode/vendor_orders.php:161
+#: ../templates/shortcode/vendor_orders.php:208
+#: ../templates/shortcode/vendor_dashboard.php:217
+#: ../templates/shortcode/vendor_dashboard.php:240
+#: ../templates/shortcode/vendor_dashboard.php:365
+#: ../templates/shortcode/vendor_dashboard.php:384
+#: ../templates/shortcode/vendor_announcements_all.php:97
+#: ../templates/shortcode/vendor_announcements_read.php:104
+msgid "Showing Results"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements_archive.php:84
+#: ../templates/shortcode/vendor_announcements_unread.php:103
+#: ../templates/shortcode/vendor_announcements_all.php:97
+#: ../templates/shortcode/vendor_announcements_read.php:104
+msgid "out of"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements_archive.php:86
+#: ../templates/shortcode/vendor_withdrawal.php:73
+#: ../templates/shortcode/vendor_announcements_unread.php:105
+#: ../templates/shortcode/vendor_orders.php:95
+#: ../templates/shortcode/vendor_orders.php:149
+#: ../templates/shortcode/vendor_orders.php:203
+#: ../templates/shortcode/vendor_transactions.php:77
+#: ../templates/shortcode/vendor_dashboard.php:218
+#: ../templates/shortcode/vendor_dashboard.php:241
+#: ../templates/shortcode/vendor_dashboard.php:366
+#: ../templates/shortcode/vendor_dashboard.php:385
+#: ../templates/shortcode/vendor_announcements_all.php:99
+#: ../templates/shortcode/vendor_announcements_read.php:106
+#, fuzzy
+msgid "Show More"
+msgstr "Ordrer"
+
+#: ../templates/shortcode/vendor_withdrawal.php:17
+#: ../templates/shortcode/vendor_transactions.php:28
+msgid "Payments        History"
+msgstr ""
+
+#: ../templates/shortcode/vendor_withdrawal.php:19
+#, fuzzy
+msgid "Withdrawals"
+msgstr "Vis kommisjon status"
+
+#: ../templates/shortcode/vendor_withdrawal.php:27
+msgid "Your Threshold value for withdrawals is :"
+msgstr ""
+
+#: ../templates/shortcode/vendor_withdrawal.php:31
+#, fuzzy
+msgid "Completed Orders"
+msgstr "Selger ordre"
+
+#: ../templates/shortcode/vendor_withdrawal.php:39
+msgid "out of "
+msgstr ""
+
+#: ../templates/shortcode/vendor_withdrawal.php:54
+#: ../classes/class-wcmp-post-commission.php:346
+#: ../classes/class-wcmp-vendor-order-page.php:78
+msgid "Order ID"
+msgstr "Ordre ID"
+
+#: ../templates/shortcode/vendor_withdrawal.php:55
+#: ../templates/shortcode/vendor_report.php:47
+#: ../classes/class-wcmp-ajax.php:517 ../classes/class-wcmp-ajax.php:746
+#: ../classes/class-wcmp-ajax.php:936 ../classes/class-wcmp-ajax.php:1033
+#: ../classes/reports/class-wcmp-report-product.php:322
+#: ../classes/reports/class-wcmp-report-vendor.php:238
+#, fuzzy
+msgid "My Earnings"
+msgstr "Selger opptjening"
+
+#: ../templates/shortcode/vendor_withdrawal.php:68
+#, fuzzy
+msgid "Request Withdrawals"
+msgstr "Antall ordre"
+
+#: ../templates/shortcode/vendor_withdrawal.php:82
+msgid "Your next scheduled payment date is on:"
+msgstr ""
+
+#: ../templates/shortcode/vendor_report.php:17
+#, fuzzy
+msgid "Stats & Reports"
+msgstr "Salg etter selger"
+
+#: ../templates/shortcode/vendor_report.php:19
+#: ../classes/class-wcmp-report.php:85
+msgid "Overview"
+msgstr "Oversikt"
+
+#: ../templates/shortcode/vendor_report.php:23
+msgid "Showing stats and reports for : "
+msgstr ""
+
+#: ../templates/shortcode/vendor_report.php:35
+#: ../templates/shortcode/vendor_orders.php:35
+#: ../templates/shortcode/vendor_transactions.php:45
+#, fuzzy
+msgid "Select Date Range :"
+msgstr "Velg rapport dato:"
+
+#: ../templates/shortcode/vendor_report.php:38
+#: ../templates/shortcode/vendor_orders.php:39
+#: ../templates/shortcode/vendor_transactions.php:48
+#: ../classes/reports/views/html-wcmp-report-by-product.php:54
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:54
+msgid "Show"
+msgstr "Vis"
+
+#: ../templates/shortcode/vendor_report.php:43
+#: ../classes/reports/class-wcmp-report-overview.php:366
+#: ../classes/reports/views/html-wcmp-report-by-product.php:64
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:64
+#, fuzzy
+msgid "Total Sales"
+msgstr "Totale salg"
+
+#: ../templates/shortcode/vendor_report.php:52
+msgid " Total number of"
+msgstr ""
+
+#: ../templates/shortcode/vendor_report.php:52
+#, fuzzy
+msgid "Order placed"
+msgstr "Ordre dato: %s"
+
+#: ../templates/shortcode/vendor_report.php:55
+#, fuzzy
+msgid "Number of "
+msgstr "Antall ordre"
+
+#: ../templates/shortcode/vendor_report.php:55
+#, fuzzy
+msgid "Purchased Products"
+msgstr "Kjøpsnotat"
+
+#: ../templates/shortcode/vendor_report.php:58
+#, fuzzy
+msgid " Number of "
+msgstr "Antall ordre"
+
+#: ../templates/shortcode/vendor_report.php:58
+#, fuzzy
+msgid " Coupons used"
+msgstr "Kupong brukt:"
+
+#: ../templates/shortcode/vendor_report.php:61
+#, fuzzy
+msgid " Total "
+msgstr "Totalt"
+
+#: ../templates/shortcode/vendor_report.php:61
+#, fuzzy
+msgid " Coupon Discount "
+msgstr "Del kupong rabatt"
+
+#: ../templates/shortcode/vendor_report.php:61
+msgid " value "
+msgstr ""
+
+#: ../templates/shortcode/vendor_report.php:64
+#, fuzzy
+msgid "  Number of  "
+msgstr "Antall ordre"
+
+#: ../templates/shortcode/vendor_report.php:64
+msgid "  Unique Customers  "
+msgstr ""
+
+#: ../templates/shortcode/vendor_report.php:74
+msgid "Download CSV to get complete Stats & Reports"
+msgstr ""
+
+#: ../templates/shortcode/vendor_report.php:77
+#: ../templates/shortcode/vendor_orders.php:88
+#: ../templates/shortcode/vendor_orders.php:143
+#: ../templates/shortcode/vendor_orders.php:197
+#: ../templates/shortcode/vendor_transactions.php:75
+#, fuzzy
+msgid "Download CSV"
+msgstr "Nedlastbare"
+
+#: ../templates/shortcode/vendor_announcements_unread.php:80
+#: ../templates/shortcode/vendor_announcements_all.php:68
+#: ../classes/class-wcmp-ajax.php:263
+msgid "Mark Read"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements_unread.php:81
+#: ../templates/shortcode/vendor_announcements_all.php:73
+#: ../templates/shortcode/vendor_announcements_read.php:78
+msgid "Delete"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:18
+msgid "Order &amp; Shipping"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:22
+#: ../templates/shortcode/vendor_transactions.php:34
+msgid " Showing stats and reports for  :"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:37
+msgid "from"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:38
+msgid "to"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:44
+#: ../templates/shortcode/vendor_announcements.php:25
+#, fuzzy
+msgid "All"
+msgstr "Alle %s"
+
+#: ../templates/shortcode/vendor_orders.php:45
+#: ../classes/class-wcmp-post-transaction.php:284
+msgid "Processing"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:46
+#: ../classes/class-wcmp-post-transaction.php:283
+msgid "Completed"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:72
+#: ../templates/shortcode/vendor_orders.php:127
+#: ../templates/shortcode/vendor_orders.php:181
+msgid "ID"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:73
+#: ../templates/shortcode/vendor_orders.php:128
+#: ../templates/shortcode/vendor_orders.php:182
+#: ../templates/shortcode/vendor_transactions.php:62
+#: ../classes/class-wcmp-vendor-dashboard.php:204
+#: ../classes/class-wcmp-vendor-order-page.php:82
+#: ../classes/reports/class-wcmp-report-overview.php:300
+msgid "Date"
+msgstr "Dato"
+
+#: ../templates/shortcode/vendor_orders.php:74
+#: ../templates/shortcode/vendor_orders.php:129
+#: ../templates/shortcode/vendor_orders.php:183
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:18
+msgid "dd/mm"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders.php:75
+#: ../templates/shortcode/vendor_orders.php:130
+#: ../templates/shortcode/vendor_orders.php:184
+#, fuzzy
+msgid "Earnings"
+msgstr "Selger opptjening"
+
+#: ../templates/shortcode/vendor_orders.php:76
+#: ../templates/shortcode/vendor_orders.php:131
+#: ../templates/shortcode/vendor_orders.php:185
+#: ../classes/class-wcmp-post-commission.php:350
+msgid "Status"
+msgstr "Status"
+
+#: ../templates/shortcode/vendor_orders.php:77
+#: ../templates/shortcode/vendor_orders.php:132
+#: ../templates/shortcode/vendor_orders.php:186
+msgid "Actions"
+msgstr ""
+
+#: ../templates/shortcode/vendor_university.php:48
+msgid "Sorry no university found"
+msgstr ""
+
+#: ../templates/shortcode/vendor_transactions.php:30
+msgid "History"
+msgstr ""
+
+#: ../templates/shortcode/vendor_transactions.php:63
+msgid "Transc.ID"
+msgstr ""
+
+#: ../templates/shortcode/vendor_transactions.php:64
+#: ../classes/class-wcmp-vendor-dashboard.php:206
+#, fuzzy
+msgid "Order IDs"
+msgstr "Ordre ID"
+
+#: ../templates/shortcode/vendor_transactions.php:65
+#: ../classes/class-wcmp-vendor-dashboard.php:209
+msgid "Fee"
+msgstr ""
+
+#: ../templates/shortcode/vendor_transactions.php:66
+#, fuzzy
+msgid "Net Earnings"
+msgstr "Selger opptjening"
+
+#: ../templates/shortcode/vendor_transactions.php:83
+msgid "Sorry. No transactions are available."
+msgstr ""
+
+#: ../templates/shortcode/vendor_lists.php:22
+msgid "By date"
+msgstr ""
+
+#: ../templates/shortcode/vendor_lists.php:23
+msgid "By Alphabetically"
+msgstr ""
+
+#: ../templates/shortcode/vendor_lists.php:24
+msgid "By Category"
+msgstr ""
+
+#: ../templates/shortcode/vendor_lists.php:45
+msgid "Sort"
+msgstr ""
+
+#: ../templates/shortcode/vendor_order_detail.php:23
+msgid "Order Details"
+msgstr "Ordre detaljer"
+
+#: ../templates/shortcode/vendor_order_detail.php:26
+msgid "Product Title"
+msgstr "Produkt tittel"
+
+#: ../templates/shortcode/vendor_order_detail.php:27
+msgid "Product Quantity"
+msgstr "Antall produkter"
+
+#: ../templates/shortcode/vendor_order_detail.php:28
+msgid "Line Subtotal"
+msgstr "Total sum"
+
+#: ../templates/shortcode/vendor_order_detail.php:30
+msgid "Purchase Note"
+msgstr "Kjøpsnotat"
+
+#: ../templates/shortcode/vendor_order_detail.php:74
+msgid "Coupon Used :"
+msgstr "Kupong brukt:"
+
+#: ../templates/shortcode/vendor_order_detail.php:89
+msgid "Sorry No Coupons of yours is used."
+msgstr ""
+
+#: ../templates/shortcode/vendor_order_detail.php:99
+msgid "Customer Note"
+msgstr "Kundenotat"
+
+#: ../templates/shortcode/vendor_order_detail.php:105
+msgid "No customer note."
+msgstr "Ingen kundenotater"
+
+#: ../templates/shortcode/vendor_order_detail.php:115
+msgid "Comments"
+msgstr "Kommentarer"
+
+#: ../templates/shortcode/vendor_order_detail.php:120
+#, fuzzy, php-format
+msgid "Added %s ago"
+msgstr "Lagt til for %s siden"
+
+#: ../templates/shortcode/vendor_order_detail.php:130
+#: ../admin/class-wcmp-settings-product.php:55
+msgid "Add Comment"
+msgstr "Legg til kommentar"
+
+#: ../templates/shortcode/vendor_order_detail.php:135
+msgid "Add comment"
+msgstr "Legg til kommentar"
+
+#: ../templates/shortcode/vendor_order_detail.php:141
+#: ../templates/emails/vendor-new-order.php:60
+#: ../templates/emails/vendor-notify-shipped.php:59
+#: ../templates/emails/plain/vendor-new-order.php:48
+#: ../templates/emails/plain/vendor-notify-shipped.php:42
+#, fuzzy
+msgid "Customer Details"
+msgstr "Kunde detaljer"
+
+#: ../templates/shortcode/vendor_order_detail.php:146
+msgid "Name:"
+msgstr "Navn:"
+
+#: ../templates/shortcode/vendor_order_detail.php:147
+#: ../templates/emails/vendor-new-order.php:63
+#: ../templates/emails/vendor-notify-shipped.php:62
+#: ../templates/emails/plain/vendor-new-order.php:51
+#: ../templates/emails/plain/vendor-notify-shipped.php:45
+msgid "Email:"
+msgstr "E-post:"
+
+#: ../templates/shortcode/vendor_order_detail.php:148
+#: ../templates/emails/vendor-new-order.php:66
+#: ../templates/emails/vendor-notify-shipped.php:65
+#: ../templates/emails/plain/vendor-new-order.php:54
+#: ../templates/emails/plain/vendor-notify-shipped.php:48
+msgid "Telephone:"
+msgstr "Telefon:"
+
+#: ../templates/shortcode/vendor_order_detail.php:160
+#: ../templates/emails/vendor-new-order.php:76
+#: ../templates/emails/plain/vendor-new-order.php:60
+#: ../templates/emails/plain/vendor-notify-shipped.php:50
+#: ../admin/class-wcmp-settings-capabilities.php:39
+#: ../admin/class-wcmp-settings-capabilities.php:47
+msgid "Billing Address"
+msgstr "Faktura adresse"
+
+#: ../templates/shortcode/vendor_order_detail.php:164
+#: ../templates/shortcode/vendor_order_detail.php:178
+msgid "N/A"
+msgstr "N/A"
+
+#: ../templates/shortcode/vendor_order_detail.php:174
+#: ../templates/emails/vendor-new-order.php:89
+#: ../templates/emails/plain/vendor-new-order.php:66
+#: ../templates/emails/plain/vendor-notify-shipped.php:53
+#: ../admin/class-wcmp-settings-capabilities.php:40
+#: ../admin/class-wcmp-settings-capabilities.php:48
+msgid "Shipping Address"
+msgstr "Post adresse"
+
+#: ../templates/shortcode/vendor_announcements.php:26
+msgid "Read"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements.php:27
+msgid "Unread"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements.php:28
+msgid "Archive"
+msgstr ""
+
+#: ../templates/shortcode/vendor_coupon.php:17
+#, fuzzy
+msgid "Coupons"
+msgstr "Kupong brukt:"
+
+#: ../templates/shortcode/vendor_coupon.php:22
+#, fuzzy
+msgid "Coupon Code"
+msgstr "Kupong brukt:"
+
+#: ../templates/shortcode/vendor_coupon.php:23
+msgid "Usage Count"
+msgstr ""
+
+#: ../templates/shortcode/vendor_coupon.php:37
+#, fuzzy
+msgid "Submit another coupon by"
+msgstr "Send inn kupong"
+
+#: ../templates/shortcode/vendor_coupon.php:37
+#: ../templates/shortcode/vendor_coupon.php:40
+#: ../admin/class-wcmp-settings-capabilities.php:57
+#: ../classes/class-wcmp-user.php:703
+msgid "Submit Coupons"
+msgstr "Send inn kuponger"
+
+#: ../templates/shortcode/vendor_coupon.php:40
+msgid ""
+"Sorry! You have not created any coupon till now.You can create your product "
+"specific coupon from -"
+msgstr ""
+
+#: ../templates/shortcode/vendor_coupon.php:43
+msgid "Sorry ! You do not have the capability to add coupons."
+msgstr ""
+
+#: ../templates/shortcode/vendor_dashboard.php:48
+#, fuzzy
+msgid ""
+"<h4>You have not configured your store properly missing some required fields!"
+"</h4>"
+msgstr "<h3>Du har ikke angitt din butikk logo, beskrivelse eller navn!</h3>"
+
+#: ../templates/shortcode/vendor_dashboard.php:77
+#: ../classes/class-wcmp-ajax.php:178
+#, fuzzy
+msgid "Admin Message:"
+msgstr "Melding"
+
+#: ../templates/shortcode/vendor_dashboard.php:80
+#: ../classes/class-wcmp-ajax.php:181
+msgid "DETAILS"
+msgstr ""
+
+#: ../templates/shortcode/vendor_dashboard.php:88
+msgid "Today"
+msgstr ""
+
+#: ../templates/shortcode/vendor_dashboard.php:89
+msgid " This Week"
+msgstr ""
+
+#: ../templates/shortcode/vendor_dashboard.php:187
+#, fuzzy
+msgid "Todays Sales"
+msgstr "Totale salg"
+
+#: ../templates/shortcode/vendor_dashboard.php:191
+#, fuzzy
+msgid "Todays Earnings"
+msgstr "totalt tjent"
+
+#: ../templates/shortcode/vendor_dashboard.php:195
+msgid "Net Balance"
+msgstr ""
+
+#: ../templates/shortcode/vendor_dashboard.php:199
+#: ../templates/shortcode/vendor_dashboard.php:350
+#: ../classes/class-wcmp-ajax.php:800
+msgid "Sales"
+msgstr "Salg"
+
+#: ../templates/shortcode/vendor_dashboard.php:217
+#: ../templates/shortcode/vendor_dashboard.php:365
+msgid "  out of  "
+msgstr ""
+
+#: ../templates/shortcode/vendor_dashboard.php:225
+#: ../templates/shortcode/vendor_dashboard.php:369
+#, fuzzy
+msgid "Pending Shipping"
+msgstr "Frakt"
+
+#: ../templates/shortcode/vendor_dashboard.php:240
+#: ../templates/shortcode/vendor_dashboard.php:384
+msgid " out of "
+msgstr ""
+
+#: ../templates/shortcode/vendor_dashboard.php:338
+#, fuzzy
+msgid "Weekly Sales"
+msgstr "Totale salg"
+
+#: ../templates/shortcode/vendor_dashboard.php:342
+#, fuzzy
+msgid "Weekly Earnings"
+msgstr "Selger opptjening"
+
+#: ../templates/shortcode/vendor_dashboard.php:346
+msgid "Weekly Balance"
+msgstr ""
+
+#: ../templates/shortcode/vendor_withdrawal_request.php:21
+#, php-format
+msgid ""
+"Hello,<br>We have received a new withdrawal request for $%s from you and "
+"Your request is being processed.The order details are as follow:"
+msgstr ""
+
+#: ../templates/shortcode/vendor_withdrawal_request.php:68
+#, php-format
+msgid ""
+"Hello,<br>Unfortunately your request for withdrawal amount could not be "
+"completed. You may try again later, or check you PayPal settings in your "
+"account page, or contact the admin at <b>%s</b>"
+msgstr ""
+
+#: ../templates/shortcode/vendor_orders_item.php:43
+#: ../classes/class-wcmp-vendor-order-page.php:83
+msgid "Shipped"
+msgstr "Sendt"
+
+#: ../templates/shortcode/vendor_orders_item.php:45
+#, fuzzy
+msgid "Mark as shipped"
+msgstr "Merk som sendt"
+
+#: ../templates/shortcode/vendor_orders_item.php:50
+#: ../classes/class-wcmp-user.php:864
+msgid "View"
+msgstr "Vis"
+
+#: ../templates/shortcode/vendor_orders_item.php:56
+#, fuzzy
+msgid "Download"
+msgstr "Nedlastbare"
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:17
+#, fuzzy
+msgid "Order Date"
+msgstr "Ordre dato: %s"
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:19
+msgid "L/B/H/W"
+msgstr ""
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:20
+#: ../templates/shortcode/shop_settings.php:79
+msgid "Address"
+msgstr "Adresse"
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:21
+msgid "Charges"
+msgstr ""
+
+#: ../templates/shortcode/vendor_announcements_all.php:71
+#: ../templates/shortcode/vendor_announcements_read.php:77
+#: ../classes/class-wcmp-ajax.php:245
+msgid "Mark Unread"
+msgstr ""
+
+#: ../templates/shortcode/vendor_policy.php:20
+#: ../templates/shortcode/vendor_shipping.php:98
+#: ../templates/shortcode/shop_settings.php:28
+#: ../templates/shortcode/vendor_billing.php:18
+#, fuzzy
+msgid "Store Settings "
+msgstr "Butikk innstillinger"
+
+#: ../templates/shortcode/vendor_policy.php:22
+#: ../templates/shortcode/shop_settings.php:30
+#, fuzzy
+msgid "Store Front"
+msgstr "Butikk adresse"
+
+#: ../templates/shortcode/vendor_policy.php:24
+#: ../templates/shortcode/vendor_shipping.php:102
+#: ../templates/shortcode/shop_settings.php:32
+#: ../templates/shortcode/vendor_billing.php:22
+#: ../admin/class-wcmp-settings-to_do_list.php:34
+#: ../admin/class-wcmp-settings-to_do_list.php:78
+#: ../admin/class-wcmp-settings-to_do_list.php:114
+#, fuzzy
+msgid "Edit"
+msgstr "Rediger %s"
+
+#: ../templates/shortcode/vendor_policy.php:30
+msgid "Policy Tab Label"
+msgstr ""
+
+#: ../templates/shortcode/vendor_policy.php:31
+#, fuzzy
+msgid "Policies. "
+msgstr "Selger`s kommisjon utbetalt"
+
+#: ../templates/shortcode/vendor_policy.php:36
+#: ../templates/shortcode/vendor_policy.php:40
+#: ../templates/shortcode/vendor_policy.php:44
+msgid ""
+"It is a long established fact that a reader will be distracted by the "
+"readable content of a page when looking at its layout. "
+msgstr ""
+
+#: ../templates/shortcode/vendor_policy.php:50
+#, fuzzy
+msgid "Phone*"
+msgstr "Telefon"
+
+#: ../templates/shortcode/vendor_policy.php:54
+#, fuzzy
+msgid "Email*"
+msgstr "E-post"
+
+#: ../templates/shortcode/vendor_policy.php:58
+#, fuzzy
+msgid "Address*"
+msgstr "Adresse"
+
+#: ../templates/shortcode/vendor_policy.php:77
+#: ../templates/shortcode/shop_settings.php:153
+msgid "* This field is required, you must fill some information."
+msgstr ""
+
+#: ../templates/shortcode/vendor_policy.php:81
+#: ../templates/shortcode/shop_settings.php:157
+#: ../templates/shortcode/vendor_billing.php:76
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-shop-settings.php:55
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-billing-settings.php:49
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-policy-settings.php:47
+#, fuzzy
+msgid "All Options Saved"
+msgstr "Type valg"
+
+#: ../templates/shortcode/vendor_policy.php:84
+#: ../templates/shortcode/shop_settings.php:159
+#: ../templates/shortcode/vendor_billing.php:79
+#, fuzzy
+msgid "Save Options"
+msgstr "Type valg"
+
+#: ../templates/shortcode/vendor_shipping.php:79
+#: ../classes/class-wcmp-vendor-dashboard.php:552
+msgid "Shipping Data Not Updated."
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:83
+#: ../classes/class-wcmp-vendor-dashboard.php:556
+msgid "Specify Shipping Amount."
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:100
+#: ../admin/class-wcmp-settings-product.php:31
+#: ../admin/class-wcmp-settings-payment.php:54
+#: ../classes/class-wcmp-vendor-dashboard.php:310
+#: ../classes/class-wcmp-vendor-dashboard.php:476
+#: ../classes/class-wcmp-vendor-dashboard.php:566
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-shipping-settings.php:54
+msgid "Shipping"
+msgstr "Frakt"
+
+#: ../templates/shortcode/vendor_shipping.php:113
+#: ../classes/class-wcmp-vendor-dashboard.php:574
+msgid "Enter Shipping Amount for \"Flat Rate\" :"
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:122
+#: ../templates/shortcode/vendor_shipping.php:134
+#: ../classes/class-wcmp-vendor-dashboard.php:577
+#: ../classes/class-wcmp-vendor-dashboard.php:582
+msgid ""
+"Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>. Supports "
+"the following placeholders: <code>[qty]</code> = number of items, "
+"<code>[cost]</code> = cost of items,<br><code>[fee percent=\"10\" min_fee="
+"\"20\"]</code> = Percentage based fee."
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:126
+#: ../classes/class-wcmp-vendor-dashboard.php:579
+msgid "Enter Shipping Amount for \"International Flat Rate\" :"
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:138
+#: ../classes/class-wcmp-vendor-dashboard.php:585
+msgid "Enter Shipping Amount :"
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:144
+#: ../classes/class-wcmp-vendor-dashboard.php:589
+msgid "Enter Handling Fee :"
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:151
+#: ../classes/class-wcmp-vendor-dashboard.php:594
+msgid "Ship from :"
+msgstr ""
+
+#: ../templates/shortcode/vendor_shipping.php:177
+#: ../templates/shortcode/vendor_shipping.php:181
+#: ../classes/class-wcmp-vendor-dashboard.php:550
+#, fuzzy
+msgid "Shipping Data Updated."
+msgstr "Postadresse"
+
+#: ../templates/shortcode/non_vendor_dashboard.php:23
+#: ../templates/shortcode/vendor_dashboard_for_non_logged_in.php:22
+#, fuzzy
+msgid "Your vendor account is not approved yet!"
+msgstr "Du har ikke en selgerkonto."
+
+#: ../templates/shortcode/non_vendor_dashboard.php:37
+#, fuzzy
+msgid ""
+"You have logged in as Administrator. Please log out and then view this page."
+msgstr ""
+"Du er pålogget som administrator. Prøv å logge ut for å se denne siden."
+
+#: ../templates/shortcode/non_vendor_dashboard.php:45
+#: ../classes/class-wcmp-user.php:119
+#, fuzzy
+msgid ""
+"Congratulations! You have successfully applied as a Vendor. Please wait for "
+"further notifications from the admin."
+msgstr ""
+"Gratulerer! Du har sendt inn en søknad for en selgerkonto. Vennligst vent på "
+"godkjenning fra administrator."
+
+#: ../templates/shortcode/shop_settings.php:35
+#: ../admin/class-wcmp-settings.php:59 ../admin/class-wcmp-settings.php:75
+msgid "General"
+msgstr "Generelle"
+
+#: ../templates/shortcode/shop_settings.php:38
+#, fuzzy
+msgid "Store Name *"
+msgstr "Kunde navn:"
+
+#: ../templates/shortcode/shop_settings.php:39
+#: ../templates/shortcode/shop_settings.php:47
+msgid "Enter your Store Name here"
+msgstr ""
+
+#: ../templates/shortcode/shop_settings.php:40
+#, fuzzy
+msgid " Store Slug *"
+msgstr "Butikk nettadresse (eks: norbay.no/nettbutikk/dittbutikknavn"
+
+#: ../templates/shortcode/shop_settings.php:49
+#, fuzzy
+msgid "Shop Description"
+msgstr "Beskrivelse"
+
+#: ../templates/shortcode/shop_settings.php:51
+#: ../templates/shortcode/shop_settings.php:63
+#: ../templates/shortcode/shop_settings.php:73
+#, fuzzy
+msgid "Hide from user"
+msgstr "Skjul for gjester"
+
+#: ../templates/shortcode/shop_settings.php:55
+#: ../classes/class-wcmp-user.php:665
+#, fuzzy
+msgid "Message to Buyers"
+msgstr "Melding: %s\n"
+
+#: ../templates/shortcode/shop_settings.php:59
+#: ../classes/class-wcmp-vendor-order-page.php:302
+#: ../classes/class-wcmp-user.php:455
+msgid "Phone"
+msgstr "Telefon"
+
+#: ../templates/shortcode/shop_settings.php:69
+#, fuzzy
+msgid "Email *"
+msgstr "E-post"
+
+#: ../templates/shortcode/shop_settings.php:83
+#, fuzzy
+msgid " Hide from user"
+msgstr "Skjul for gjester"
+
+#: ../templates/shortcode/shop_settings.php:111
+#, fuzzy
+msgid "Media Files"
+msgstr "Last opp media filer"
+
+#: ../templates/shortcode/shop_settings.php:117
+#: ../templates/shortcode/shop_settings.php:126
+msgid "Upload"
+msgstr ""
+
+#: ../templates/shortcode/shop_settings.php:118
+#: ../templates/shortcode/shop_settings.php:127
+#, fuzzy
+msgid "Replace"
+msgstr "Erstatt \"selger\""
+
+#: ../templates/shortcode/shop_settings.php:131
+msgid "Social Media"
+msgstr ""
+
+#: ../templates/shortcode/shop_settings.php:133
+msgid "Enter your Social Media profile URL below:"
+msgstr ""
+
+#: ../templates/shortcode/vendor_billing.php:20
+#, fuzzy
+msgid "Billing"
+msgstr "Faktura adresse"
+
+#: ../templates/shortcode/vendor_billing.php:27
+#: ../classes/class-wcmp-user.php:560
+#, fuzzy
+msgid "Payment Mode"
+msgstr "Betaling"
+
+#: ../templates/shortcode/vendor_billing.php:30
+#: ../classes/class-wcmp-user.php:562
+#, fuzzy
+msgid "PayPal Masspay"
+msgstr "Paypal e-post"
+
+#: ../templates/shortcode/vendor_billing.php:30
+#: ../classes/class-wcmp-post-transaction.php:161
+#: ../classes/class-wcmp-user.php:562
+msgid "Direct Bank"
+msgstr ""
+
+#: ../templates/shortcode/vendor_billing.php:39
+#, fuzzy
+msgid "Paypal"
+msgstr "Paypal e-post"
+
+#: ../templates/shortcode/vendor_billing.php:40
+#: ../templates/shortcode/vendor_billing.php:41
+#, fuzzy
+msgid "Enter your Paypal ID"
+msgstr "Skriv inn din profil URL"
+
+#: ../templates/shortcode/vendor_billing.php:42
+#, fuzzy
+msgid "Bank Transfer"
+msgstr "Navn"
+
+#: ../templates/shortcode/vendor_billing.php:43
+msgid "Enter your Bank Details"
+msgstr ""
+
+#: ../templates/shortcode/vendor_billing.php:47
+#: ../classes/class-wcmp-user.php:570
+msgid "Current"
+msgstr ""
+
+#: ../templates/shortcode/vendor_billing.php:48
+#: ../classes/class-wcmp-user.php:570
+#, fuzzy
+msgid "Savings"
+msgstr "Innstillinger"
+
+#: ../templates/shortcode/vendor_billing.php:52
+#: ../templates/shortcode/vendor_billing.php:68
+#: ../classes/class-wcmp-post-transaction.php:169
+#: ../classes/class-wcmp-user.php:618
+#, fuzzy
+msgid "Account Holder Name"
+msgstr "Kunde navn:"
+
+#: ../templates/shortcode/vendor_billing.php:54
+#: ../classes/class-wcmp-post-transaction.php:164
+#: ../classes/class-wcmp-user.php:583
+#, fuzzy
+msgid "Bank Name"
+msgstr "Navn"
+
+#: ../templates/shortcode/vendor_billing.php:57
+#: ../classes/class-wcmp-post-transaction.php:165
+#: ../classes/class-wcmp-user.php:590
+msgid "ABA Routing Number"
+msgstr ""
+
+#: ../templates/shortcode/vendor_billing.php:60
+#: ../classes/class-wcmp-post-transaction.php:166
+#: ../classes/class-wcmp-user.php:597
+#, fuzzy
+msgid "Bank Address"
+msgstr "Faktura adresse"
+
+#: ../templates/shortcode/vendor_billing.php:62
+#: ../classes/class-wcmp-post-transaction.php:167
+#: ../classes/class-wcmp-user.php:604
+msgid "Destination Currency"
+msgstr ""
+
+#: ../templates/shortcode/vendor_billing.php:65
+#: ../classes/class-wcmp-post-transaction.php:168
+#: ../classes/class-wcmp-user.php:611
+msgid "IBAN"
+msgstr ""
+
+#: ../templates/emails/new-product.php:16
+#, fuzzy
+msgid "Coupon"
+msgstr "Kupong brukt:"
+
+#: ../templates/emails/new-product.php:17
+#: ../templates/emails/vendor-new-order.php:24
+#: ../templates/emails/vendor-notify-shipped.php:28
+#: ../classes/class-wcmp-post-commission.php:347
+#: ../classes/class-wcmp-report.php:97
+msgid "Product"
+msgstr "Produkt"
+
+#: ../templates/emails/new-product.php:23
+#, fuzzy, php-format
+msgid "Hi there! This is a notification about a new %s on %s."
+msgstr "Hei. Dette er en melding om  nytt %s hos %s."
+
+#: ../templates/emails/new-product.php:26
+#, php-format
+msgid "%s title: %s"
+msgstr "%s tittel: %s"
+
+#: ../templates/emails/new-product.php:27
+#: ../templates/emails/new-admin-product.php:23
+#: ../templates/emails/plain/new-product.php:21
+#: ../templates/emails/plain/new-admin-product.php:22
+#, php-format
+msgid "Submitted by: %s"
+msgstr "Sendt inn av: %s"
+
+#: ../templates/emails/new-product.php:28
+#, php-format
+msgid "Edit %s: %s"
+msgstr "Rediger %s: %s"
+
+#: ../templates/emails/admin-widthdrawal-request.php:24
+#, php-format
+msgid ""
+"Hello,<br> %s has successfully completed a withdrawal of $%s on %s through "
+"PayPal. The order details are as follows:"
+msgstr ""
+
+#: ../templates/emails/admin-widthdrawal-request.php:26
+#: ../templates/emails/plain/admin-widthdrawal-request.php:19
+#, php-format
+msgid ""
+"Hello,<br>There is a new withdrawal request for $%s from a vendor %s at your "
+"site. The order details are as following:"
+msgstr ""
+
+#: ../templates/emails/vendor-new-order.php:18
+#, fuzzy, php-format
+msgid ""
+"A new order was received and marked as processing from %s. Their order is as "
+"follows:"
+msgstr ""
+"En ordre er mottatt og merket som fullført av %s. Ordren er som følger:"
+
+#: ../templates/emails/vendor-new-order.php:25
+#: ../templates/emails/vendor-notify-shipped.php:29
+#: ../classes/class-wcmp-vendor-dashboard.php:300
+msgid "Quantity"
+msgstr "Antall"
+
+#: ../templates/emails/vendor-new-order.php:26
+#: ../admin/class-wcmp-settings-to_do_list.php:151
+#: ../classes/class-wcmp-vendor-dashboard.php:208
+#: ../classes/class-wcmp-product.php:543 ../classes/class-wcmp-product.php:547
+#: ../classes/class-wcmp-product.php:898 ../classes/class-wcmp-product.php:908
+msgid "Commission"
+msgstr "Kommisjon"
+
+#: ../templates/emails/vendor-new-order.php:62
+msgid "Customer Name:"
+msgstr "Kunde navn:"
+
+#: ../templates/emails/vendor-notify-shipped.php:19
+#: ../templates/emails/plain/vendor-notify-shipped.php:16
+#, fuzzy
+msgid ""
+"Some of the items you had ordered have been shipped. The items that have "
+"been shipped are as follows:"
+msgstr ""
+"En selger har merket deler av en ordre som sendt. Varene som er sendt er:"
+
+#: ../templates/emails/vendor-notify-shipped.php:23
+#, php-format
+msgid "Order: %s"
+msgstr "Ordre: %s"
+
+#: ../templates/emails/vendor-notify-shipped.php:30
+msgid "Price"
+msgstr "Pris"
+
+#: ../templates/emails/vendor-new-account.php:18
+#, php-format
+msgid ""
+"Thanks for creating an account on %s. We will process your application and "
+"revert shortly."
+msgstr ""
+
+#: ../templates/emails/vendor-new-account.php:19
+msgid "We have received your application and will revert shortly."
+msgstr ""
+
+#: ../templates/emails/vendor-new-account.php:21
+#, php-format
+msgid "Your password has been automatically generated: <strong>%s</strong>"
+msgstr "Ditt passord har blitt laget automatisk, det er: <strong>%s</strong>"
+
+#: ../templates/emails/vendor-new-account.php:23
+#: ../templates/emails/plain/vendor-new-account.php:23
+#, fuzzy, php-format
+msgid "You can access your account area here: %s."
+msgstr ""
+"Du kan gå inn på din konto for å se en oversikt over dine ordre og endre "
+"passordet ditt her: %s."
+
+#: ../templates/emails/vendor-commissions-transaction.php:22
+#, php-format
+msgid ""
+"Hello,<br>You have successfully completed a withdrawal of $%s on %s through "
+"PayPal. The order details are as follows:"
+msgstr ""
+
+#: ../templates/emails/vendor-commissions-transaction.php:24
+#: ../templates/emails/plain/vendor-commissions-transaction.php:20
+#, php-format
+msgid ""
+"Hello,<br>This is to notify you that your withdrawal request for $%s on %s "
+"has been successfully processed. The order details are as follows:  "
+msgstr ""
+
+#: ../templates/emails/rejected-vendor-account.php:17
+#, fuzzy, php-format
+msgid ""
+"Thanks for creating an account with us on %s. Unfortunately your request has "
+"been rejected."
+msgstr "Takk for din søknad som selger hos %s. Din søknad er avslått."
+
+#: ../templates/emails/rejected-vendor-account.php:18
+#, fuzzy, php-format
+msgid "You may contact the site admin at %s."
+msgstr "Du kan kontakte administrator på %s"
+
+#: ../templates/emails/admin-new-vendor-account.php:17
+#: ../templates/emails/plain/admin-new-vendor-account.php:18
+#, fuzzy, php-format
+msgid ""
+"A new user has applied to be a vendor on %s. His/her email is <strong>%s</"
+"strong>."
+msgstr ""
+"En ny bruker har søkt om selger status på %s. Dens e-post er <strong>%s</"
+"strong>."
+
+#: ../templates/emails/approved-vendor-account.php:16
+#: ../templates/emails/plain/approved-vendor-account.php:19
+#, fuzzy, php-format
+msgid "Congratulations! There is a new vendor application on %s."
+msgstr "Hei. Dette er en melding om ny selger søknad på %s."
+
+#: ../templates/emails/approved-vendor-account.php:18
+msgid "Application status: Approved"
+msgstr "Søknad status: Godkjent"
+
+#: ../templates/emails/approved-vendor-account.php:19
+#: ../templates/emails/plain/approved-vendor-account.php:23
+#, fuzzy, php-format
+msgid "Applicant Username: %s"
+msgstr "Søkers brukernavn: %s"
+
+#: ../templates/emails/approved-vendor-account.php:21
+#: ../templates/emails/plain/approved-vendor-account.php:25
+msgid "You have been cleared for landing! Congratulations and welcome aboard!"
+msgstr ""
+
+#: ../templates/emails/new-admin-product.php:19
+#: ../templates/emails/plain/new-product.php:17
+#: ../templates/emails/plain/new-admin-product.php:18
+#, fuzzy, php-format
+msgid ""
+"Hi there! This is to notify that a new product has been submitted in %s."
+msgstr "Hei. Dette er en melding om nytt produkt på %s."
+
+#: ../templates/emails/new-admin-product.php:22
+#: ../templates/emails/plain/new-product.php:19
+#: ../templates/emails/plain/new-admin-product.php:20
+#, php-format
+msgid "Product title: %s"
+msgstr "Produkt tittel: %s"
+
+#: ../templates/emails/new-admin-product.php:26
+#: ../templates/emails/plain/new-product.php:23
+#: ../templates/emails/plain/new-admin-product.php:25
+#, php-format
+msgid "Edit product: %s"
+msgstr "Rediger produkt: %s"
+
+#: ../templates/emails/new-admin-product.php:28
+#: ../templates/emails/plain/new-admin-product.php:27
+#, php-format
+msgid "View product: %s"
+msgstr "Vis produkt: %s"
+
+#: ../templates/emails/vendor-direct-bank.php:20
+#: ../templates/emails/plain/vendor-direct-bank.php:17
+#, php-format
+msgid ""
+"Hello,<br>We have received a new withdrawal request for $%s from you and "
+"your request is being processed.The order details are as follows:"
+msgstr ""
+
+#: ../templates/emails/plain/admin-widthdrawal-request.php:17
+#, php-format
+msgid ""
+"Hello,<br> %s has successfully completed a withdrawal of $%s on %s through "
+"Paypal. The order details are as follows:"
+msgstr ""
+
+#: ../templates/emails/plain/vendor-new-order.php:17
+#, fuzzy, php-format
+msgid ""
+"A new order was received and marked as completed from %s. Their order is as "
+"follows:"
+msgstr ""
+"En ordre er mottatt og merket som fullført av %s. Ordren er som følger:"
+
+#: ../templates/emails/plain/vendor-new-order.php:23
+#: ../templates/emails/plain/vendor-notify-shipped.php:22
+#, fuzzy, php-format
+msgid "Order Number: %s"
+msgstr "Ordre nummer: %s"
+
+#: ../templates/emails/plain/vendor-new-order.php:24
+#: ../templates/emails/plain/vendor-notify-shipped.php:23
+#, fuzzy, php-format
+msgid "Order Link: %s"
+msgstr "Ordre lenke: %s"
+
+#: ../templates/emails/plain/vendor-new-order.php:25
+#: ../templates/emails/plain/vendor-notify-shipped.php:24
+#, fuzzy, php-format
+msgid "Order Date: %s"
+msgstr "Ordre dato: %s"
+
+#: ../templates/emails/plain/vendor-new-order.php:25
+#: ../templates/emails/plain/vendor-notify-shipped.php:24
+msgid "jS F Y"
+msgstr "jS F Y"
+
+#: ../templates/emails/plain/vendor-new-account.php:18
+#, fuzzy, php-format
+msgid ""
+"Thanks for creating an account with %s. We have received your application "
+"for vendor registration. We will verify the information provided by you and "
+"inform you via email. Your username is <strong>%s</strong>."
+msgstr ""
+"Takk for din registrering hos %s. Vi vil verifisere informasjonen du har "
+"angitt, du får videre beskjed via e-post. Ditt brukernavn er <strong>%s</"
+"strong>."
+
+#: ../templates/emails/plain/vendor-new-account.php:21
+#, php-format
+msgid "Your password is <strong>%s</strong>."
+msgstr "Ditt passord er <strong>%s</strong>."
+
+#: ../templates/emails/plain/vendor-commissions-transaction.php:18
+#, php-format
+msgid ""
+"Hello,<br>You have successfully completed a withdrawal of $%s on %s through "
+"Paypal. The order details are as follows:"
+msgstr ""
+
+#: ../templates/emails/plain/rejected-vendor-account.php:17
+#, fuzzy, php-format
+msgid ""
+"Thanks for creating an account as Pending Vendor on %s. But your request has "
+"been rejected due to some reason."
+msgstr "Takk for din søknad som selger hos %s. Din søknad er avslått."
+
+#: ../templates/emails/plain/approved-vendor-account.php:21
+#, fuzzy, php-format
+msgid "Application Status: %s"
+msgstr "Søknad status: %s"
+
+#: ../templates/review/rating-vendor-tab.php:31
+#: ../templates/review/rating.php:30
+#: ../templates/review/rating_vendor_lists.php:31
+#, php-format
+msgid "Rated %s out of 5"
+msgstr ""
+
+#: ../templates/review/rating-vendor-tab.php:32
+#: ../templates/review/rating.php:31 ../templates/review/review-link.php:32
+#: ../templates/review/review.php:37
+#: ../templates/review/rating_vendor_lists.php:32
+msgid "out of 5"
+msgstr ""
+
+#: ../templates/review/rating-vendor-tab.php:43
+msgid " No Reviews Yet"
+msgstr ""
+
+#: ../templates/review/rating.php:43
+msgid " No Reviews Yet "
+msgstr ""
+
+#: ../templates/review/review-link.php:30
+#: ../templates/review/review-link.php:31
+msgid "Leave Vendor feedback"
+msgstr ""
+
+#: ../templates/review/review.php:36
+#, php-format
+msgid "Rated %d out of 5"
+msgstr ""
+
+#: ../templates/review/review.php:42
+msgid "Your comment is awaiting approval"
+msgstr ""
+
+#: ../templates/review/review.php:49
+msgid "verified buyer"
+msgstr ""
+
+#: ../templates/review/rating_vendor_lists.php:35
+#, fuzzy
+msgid "No Rating Yet"
+msgstr "Din presentasjon."
+
+#: ../admin/class-wcmp-settings-frontend.php:30
+#, fuzzy
+msgid "Reveal Vendor Name- 1"
+msgstr "Vis selger navn- 1"
+
+#: ../admin/class-wcmp-settings-frontend.php:30
+#, fuzzy
+msgid ""
+"Checking this box will add the text - \\\"Sold by [vendor name]\\\" in "
+"product catalogue pages."
+msgstr ""
+"Å huke av denne boksen vil legge til teksten - \\\"Solgt av [vendor name]\\"
+"\" i produkt katalog sidene."
+
+#: ../admin/class-wcmp-settings-frontend.php:31
+#, fuzzy
+msgid "Reveal Vendor Name- 2"
+msgstr "Vis selger navn- 2"
+
+#: ../admin/class-wcmp-settings-frontend.php:31
+msgid ""
+"Checking this box will add the text - \\\"Sold by [vendor name]\\\" in cart, "
+"checkout page and emails to the customer."
+msgstr ""
+"Å huke av denne boksen vil legge til teksten - \\\"Solgt av [vendor name]\\"
+"\" i handlekurven, kassen og e-poster til kunden."
+
+#: ../admin/class-wcmp-settings-frontend.php:32
+#, fuzzy
+msgid "Replace \"Sold by\""
+msgstr "Erstatt \"Solgt av\""
+
+#: ../admin/class-wcmp-settings-frontend.php:32
+#, fuzzy
+msgid ""
+"Add the text you want to replace the phrase \\\"Sold by {vendor name}\\\"."
+msgstr ""
+"Legg til teksten du vil skal erstatte teksten \\\"Solgt av {vendor name}\\\"."
+
+#: ../admin/class-wcmp-settings-frontend.php:33
+msgid "Replace \"Vendor\""
+msgstr "Erstatt \"selger\""
+
+#: ../admin/class-wcmp-settings-frontend.php:33
+#, fuzzy, php-format
+msgid ""
+"To change the slug (/vendor/) , go to %s\\\"Settings/Permalinks\\\"%s . Type "
+"in your desired slug in the \"\\Vendor Shop base\\\" text box. Eg: yoursite."
+"com/slug/[vendor_name]."
+msgstr ""
+"For å endre slugen (/vendor/) , gå til %s\\\"innstillinger/permalenke\\"
+"\"%s . Skriv inn din ønskede slug i \"\\Selger butikk base\\\" tekst boksen. "
+"F.eks: dinside.no/slug/[vendor_name]."
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+msgid "Show \"Report abuse\" link"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+msgid ""
+"Choose if you want to show the \\\"Report abuse\\\" link under product "
+"thumbnails in single product page."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+#, fuzzy
+msgid "All Products"
+msgstr "Produkter"
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+#, fuzzy
+msgid "Only for Vendor's Products"
+msgstr "Nytt selger produkt"
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+#: ../admin/class-wcmp-settings-frontend.php:36
+#, fuzzy
+msgid "Disable"
+msgstr "Aktiver/Deaktiver"
+
+#: ../admin/class-wcmp-settings-frontend.php:35
+#, fuzzy
+msgid "Replace \"Report Abuse\""
+msgstr "Erstatt \"selger\""
+
+#: ../admin/class-wcmp-settings-frontend.php:35
+msgid "Report Abuse Link Text."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Settings for vendor's 'Related Products'"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Select related products to show in single product pages."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Related Products from Entire Store"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Related Products from Vendor's Store"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-frontend.php:37
+msgid "Notice text in the \\\"Vendor Shop Page\\\" if vendor is blocked -"
+msgstr "Melding på \\\"Vendor Shop Page\\\" om selger er blokkert - "
+
+#: ../admin/class-wcmp-settings-frontend.php:37
+msgid ""
+"This text will be visible to users/viewers if you have blocked a vendor."
+msgstr ""
+"Denne teksten vil bli synlig for brukere/besøkende om du har blokkert en "
+"selger."
+
+#: ../admin/class-wcmp-settings-frontend.php:38
+#, fuzzy
+msgid "Vendor Name Label Color"
+msgstr "Butikk navn farge"
+
+#: ../admin/class-wcmp-settings-frontend.php:39
+#, fuzzy
+msgid "Vendor Name Label Color(on hover)"
+msgstr "Butikk navn farge (ved peking)"
+
+#: ../admin/class-wcmp-settings-frontend.php:95
+#, fuzzy
+msgid "Frontend Settings Updated"
+msgstr "Front innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-capabilities.php:28
+msgid "Uploading Product Data "
+msgstr "Laster opp produkt data"
+
+#: ../admin/class-wcmp-settings-capabilities.php:30
+msgid "Submit Products"
+msgstr "Send inn produkter"
+
+#: ../admin/class-wcmp-settings-capabilities.php:30
+msgid "Allow vendors to submit products for approval/publishing."
+msgstr "Tillat selgere å sende inn produkter for godkjenning/ innlegging."
+
+#: ../admin/class-wcmp-settings-capabilities.php:31
+#, fuzzy
+msgid "Publish Products"
+msgstr "Legg ut produkter"
+
+#: ../admin/class-wcmp-settings-capabilities.php:31
+msgid ""
+"If checked, products uploaded by vendors will be directly published without "
+"admin approval."
+msgstr "Om huket av vil produkter bli lastet opp automatisk uten godkjenning."
+
+#: ../admin/class-wcmp-settings-capabilities.php:34
+#, fuzzy
+msgid "Order Export Data / Report Export Data"
+msgstr "Hent ut ordre data"
+
+#: ../admin/class-wcmp-settings-capabilities.php:36
+msgid "Allow vendors to export orders."
+msgstr "Tillat selgere å hente ut ordre data."
+
+#: ../admin/class-wcmp-settings-capabilities.php:37
+#: ../classes/class-wcmp-vendor-dashboard.php:303
+#, fuzzy
+msgid "Customer Name"
+msgstr "Kunde navn:"
+
+#: ../admin/class-wcmp-settings-capabilities.php:38
+#, fuzzy
+msgid "E-mail and Phone Number"
+msgstr "E-post og telefonnummer"
+
+#: ../admin/class-wcmp-settings-capabilities.php:44
+msgid "Order Email Settings for Vendor"
+msgstr "Ordre e-post innstillinger for selger"
+
+#: ../admin/class-wcmp-settings-capabilities.php:46
+#, fuzzy
+msgid "Name, Phone no. and Email"
+msgstr "Navn, telefon og e-post"
+
+#: ../admin/class-wcmp-settings-capabilities.php:49
+#, fuzzy
+msgid "Order Calculations"
+msgstr "Ordre kalkuleringer"
+
+#: ../admin/class-wcmp-settings-capabilities.php:54
+msgid "Miscellaneous"
+msgstr "Forskjellig"
+
+#: ../admin/class-wcmp-settings-capabilities.php:56
+#, fuzzy
+msgid "Upload Media Files"
+msgstr "Last opp media filer"
+
+#: ../admin/class-wcmp-settings-capabilities.php:56
+msgid "Allow vendors to upload media files."
+msgstr "Tillat selgere å laste opp media filer."
+
+#: ../admin/class-wcmp-settings-capabilities.php:57
+msgid "Allow vendors to create coupons."
+msgstr "Tillat selgere å lage kuponger."
+
+#: ../admin/class-wcmp-settings-capabilities.php:58
+#, fuzzy
+msgid "Publish Coupons"
+msgstr "Send inn kuponger"
+
+#: ../admin/class-wcmp-settings-capabilities.php:58
+#, fuzzy
+msgid ""
+"If checked, coupons added by vendors will be directly published without "
+"admin approval."
+msgstr "Om huket av vil produkter bli lastet opp automatisk uten godkjenning."
+
+#: ../admin/class-wcmp-settings-capabilities.php:59
+#, fuzzy
+msgid "View Comment"
+msgstr "Vis kommentar"
+
+#: ../admin/class-wcmp-settings-capabilities.php:59
+msgid "Vendor can see order notes."
+msgstr "Selger kan se ordrenotater."
+
+#: ../admin/class-wcmp-settings-capabilities.php:60
+msgid "Submit Comment"
+msgstr "Send inn kommentar"
+
+#: ../admin/class-wcmp-settings-capabilities.php:60
+msgid "Vendor can add order notes."
+msgstr "Selger kan legge til ordrenotater."
+
+#: ../admin/class-wcmp-settings-capabilities.php:61
+#, fuzzy
+msgid "Enable store url"
+msgstr "Aktiver test modus"
+
+#: ../admin/class-wcmp-settings-capabilities.php:61
+#, fuzzy
+msgid "Vendor can add external store url."
+msgstr "Selger kan legge til ordrenotater."
+
+#: ../admin/class-wcmp-settings-capabilities.php:62
+#, fuzzy
+msgid "Enable hide option for vendor"
+msgstr "Ordre e-post innstillinger for selger"
+
+#: ../admin/class-wcmp-settings-capabilities.php:62
+#, fuzzy
+msgid "Vendor can hide some details from shop."
+msgstr "Selger kan se ordrenotater."
+
+#: ../admin/class-wcmp-settings-capabilities.php:65
+#, fuzzy
+msgid "Messages "
+msgstr "Melding"
+
+#: ../admin/class-wcmp-settings-capabilities.php:67
+#, fuzzy
+msgid "Message to buyer"
+msgstr "Melding"
+
+#: ../admin/class-wcmp-settings-capabilities.php:67
+msgid ""
+"Allow vendors to add vendor shop specific message in \"Thank you\" page and "
+"order mail."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-capabilities.php:71
+#, fuzzy
+msgid "Customer Support Settings "
+msgstr "Kunde detaljer"
+
+#: ../admin/class-wcmp-settings-capabilities.php:73
+#, fuzzy
+msgid "Vendor Shop Support"
+msgstr "Selger butikk base"
+
+#: ../admin/class-wcmp-settings-capabilities.php:73
+msgid ""
+"Allow vendors to add vendor shop specific customer support details. If left "
+"blank by the vendor, the site wide customer support details would be on "
+"display."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-capabilities.php:78
+#, fuzzy
+msgid "Policies Settings "
+msgstr "Side innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-capabilities.php:80
+#, fuzzy
+msgid "Can Vendor Edit Policy Tab Title"
+msgstr "Selger side tittel"
+
+#: ../admin/class-wcmp-settings-capabilities.php:80
+#, fuzzy
+msgid "Allow vendors to edit the Policy Tab Label."
+msgstr "Tillat selgere å laste opp media filer."
+
+#: ../admin/class-wcmp-settings-capabilities.php:81
+msgid "Can Vendor Edit Cancellation/Return/Exchange Policy"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-capabilities.php:81
+msgid "Allow vendors to edit the Cancellation/Return/Exchange Policy."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-capabilities.php:82
+msgid "Can Vendor Edit Refund Policy"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-capabilities.php:82
+#, fuzzy
+msgid "Allow vendors to edit the Refund Policy."
+msgstr "Tillat selgere å lage kuponger."
+
+#: ../admin/class-wcmp-settings-capabilities.php:83
+#, fuzzy
+msgid "Can Vendor Edit Shipping Policy"
+msgstr "Frakt"
+
+#: ../admin/class-wcmp-settings-capabilities.php:83
+#, fuzzy
+msgid "Allow vendors to edit the Shipping Policy."
+msgstr "Tillat selgere å lage kuponger."
+
+#: ../admin/class-wcmp-settings-capabilities.php:248
+#, fuzzy
+msgid "Capability Settings Updated"
+msgstr "Tillatelse innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-capabilities.php:267
+msgid ""
+"Choose customer details you want to show in \"New order e-mail\" to Vendors."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-capabilities.php:282
+msgid ""
+"Choose customer details you want to show in \"Order Details\" in Vendor "
+"dashboard."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-capabilities.php:325
+msgid ""
+"Please Enter the customer supports details and returns address of "
+"adminstrator if admin want to care of support and returns insteed of "
+"vendors ."
+msgstr ""
+
+#: ../admin/class-wcmp-settings.php:44 ../admin/class-wcmp-settings.php:45
+#: ../classes/class-wcmp-report.php:82
+msgid "WCMp"
+msgstr ""
+
+#: ../admin/class-wcmp-settings.php:60
+#: ../classes/class-wcmp-post-transaction.php:216
+#: ../classes/class-wcmp-vendor-order-page.php:80
+#: ../classes/class-wcmp-user.php:831
+msgid "Products"
+msgstr "Produkter"
+
+#: ../admin/class-wcmp-settings.php:61
+msgid "Frontend"
+msgstr "Front"
+
+#: ../admin/class-wcmp-settings.php:62
+msgid "Payment"
+msgstr "Betaling"
+
+#: ../admin/class-wcmp-settings.php:63
+msgid "Capabilities"
+msgstr "Tillatelser"
+
+#: ../admin/class-wcmp-settings.php:64
+msgid "To-do List"
+msgstr ""
+
+#: ../admin/class-wcmp-settings.php:65
+msgid "Pages"
+msgstr "Sider"
+
+#: ../admin/class-wcmp-settings.php:76 ../classes/class-wcmp-product.php:579
+#: ../classes/class-wcmp-product.php:961
+msgid "Policies"
+msgstr ""
+
+#: ../admin/class-wcmp-settings.php:77
+#, fuzzy
+msgid "Customer Support"
+msgstr "Kundenotat"
+
+#: ../admin/class-wcmp-settings.php:80
+#: ../classes/class-wcmp-post-commission.php:58
+#: ../classes/class-wcmp-post-commission.php:59
+#: ../classes/class-wcmp-post-commission.php:60
+#: ../classes/class-wcmp-post-commission.php:62
+#, fuzzy
+msgid "WCMp Commission"
+msgstr "Kommisjon"
+
+#: ../admin/class-wcmp-settings.php:81
+#, fuzzy
+msgid "Vendor Review and Rating"
+msgstr "Legg til selger merknad seksjon"
+
+#: ../admin/class-wcmp-settings.php:90
+msgid ""
+"Configure the \"Product Add\" page for vendors. Choose the features you want "
+"to show to your vendors."
+msgstr ""
+"Konfigurer \"legg til produkt\" siden for selgere. Velg muligheter du vil "
+"vise til dine selgere."
+
+#: ../admin/class-wcmp-settings.php:91
+msgid "Configure which vendor details you want to reveal to your users"
+msgstr "Konfigurer hvilke selger detaljer du vil vise til dine brukere"
+
+#: ../admin/class-wcmp-settings.php:92
+msgid ""
+"Manage everything about payments to vendors in this page - what to pay, how "
+"to pay and when to pay."
+msgstr ""
+"Behandle alt om betalinger til selgere på denne siden - Hva som betales, "
+"hvordan det betales og når det skal betales."
+
+#: ../admin/class-wcmp-settings.php:93
+#, fuzzy
+msgid ""
+"These are general sets of permissions for vendors. Note that these are "
+"global settings, and you may override these settings for an individual "
+"vendor from the vendor profile page. "
+msgstr ""
+"Dette er generelle tillatelser for selgere. Merk at disse er globale "
+"innstillinger og at du kan overstyre disse innstillingene for hver enkelt "
+"selger fra selger profil siden."
+
+#: ../admin/class-wcmp-settings.php:155
+#, php-format
+msgid "<h2>%s Settings</h2>"
+msgstr "<h2>%s Innstillinger</h2>"
+
+#: ../admin/class-wcmp-settings.php:172
+#, php-format
+msgid ""
+"<h4 style='border-bottom: 1px solid rgb(215, 211, 211);padding-bottom: "
+"21px;'>%s</h4>"
+msgstr ""
+"<h4 style='border-bottom: 1px solid rgb(215, 211, 211);padding-bottom: "
+"21px;'>%s</h4>"
+
+#: ../admin/class-wcmp-settings.php:230
+msgid "<br><b>MassPay Sync</b><br>"
+msgstr "<br><b>MassPay Sync</b><br>"
+
+#: ../admin/class-wcmp-settings.php:231
+#, php-format
+msgid "Next MassPay cron @ %s"
+msgstr "Neste massebetaling cron @ %s"
+
+#: ../admin/class-wcmp-settings.php:232
+#, php-format
+msgid "<br>Now the time is %s"
+msgstr "<br>Nå står den på %s"
+
+#: ../admin/class-wcmp-settings-general.php:30
+#, fuzzy
+msgid "New Vendor Registration"
+msgstr "Ny selger registrering"
+
+#: ../admin/class-wcmp-settings-general.php:30
+msgid ""
+"Allow people to sign up as a vendor. Leave it unchecked if you want to keep "
+"your site an invite only marketpace."
+msgstr ""
+"Tillat folk å registrere seg som selger. La stå tom hvis du vil at folk må "
+"inviteres for registrere seg."
+
+#: ../admin/class-wcmp-settings-general.php:31
+#, fuzzy
+msgid "Approve Vendors Manually"
+msgstr "Godkjenn selgere manuelt"
+
+#: ../admin/class-wcmp-settings-general.php:31
+#, fuzzy
+msgid ""
+"If left unchecked, every vendor applicant will be auto-approved, which is "
+"not a recommended setting."
+msgstr ""
+"Om denne står tom, vil hver selger søknad bli automatisk godkjent. Dette er "
+"ikke en anbefalt innstilling."
+
+#: ../admin/class-wcmp-settings-general.php:32
+#, fuzzy
+msgid "Add Vendor Notify Section"
+msgstr "Legg til selger merknad seksjon"
+
+#: ../admin/class-wcmp-settings-general.php:32
+msgid ""
+"Add a section in the vendor dashboard to notify vendors if they have not "
+"configured stores properly."
+msgstr ""
+"Legg til en seksjon i selger siden hvis de ikke har konfigurert butikken "
+"riktig."
+
+#: ../admin/class-wcmp-settings-general.php:33
+#, fuzzy
+msgid "Enable University"
+msgstr "Aktiver test modus"
+
+#: ../admin/class-wcmp-settings-general.php:33
+msgid ""
+"Check this box to enable \"University\" section in the vendor dashboard."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general.php:70
+#, fuzzy
+msgid "General Settings Updated"
+msgstr "Generelle innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-general.php:90
+#, php-format
+msgid "These features are now available in the %sFrontend%s tab."
+msgstr "Disse alternativene er nå tilgjengelige i %sFrontend%s tab."
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:34
+#, fuzzy
+msgid "Show Customer Support Details"
+msgstr "Kunde detaljer"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:34
+msgid ""
+"If checked, customer support details will be visible to the customer in the "
+"\"Thank you\" page and new order emails."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:41
+msgid "Return Address & Customer Support Details "
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:45
+#, fuzzy
+msgid "Phone Number"
+msgstr "Telefon"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:46
+#, fuzzy
+msgid "Address Line 1"
+msgstr "Adresse linje 1"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:47
+#, fuzzy
+msgid "Address Line 2"
+msgstr "Adresse linje 2"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:48
+#: ../classes/class-wcmp-user.php:443
+msgid "State"
+msgstr "Fylke"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:49
+#: ../classes/class-wcmp-user.php:419
+msgid "City"
+msgstr "By"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:50
+#: ../classes/class-wcmp-user.php:449
+msgid "Country"
+msgstr "Land"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:51
+msgid "ZipCode"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:107
+#, fuzzy
+msgid "Customer Support Details Settings Updated"
+msgstr "Tillatelse innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:128
+msgid ""
+"Enter the store wide customer support deails here. If you wish to show your "
+"customers vendor specific customer support details, the setting is at "
+"WooCommerce>WCMp>Capabilities>Customer Support Setting."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-product.php:28
+#, fuzzy
+msgid "Left Side Panel "
+msgstr "Venstre sidepanel"
+
+#: ../admin/class-wcmp-settings-product.php:30
+msgid "Inventory"
+msgstr "Lager"
+
+#: ../admin/class-wcmp-settings-product.php:32
+msgid "Linked Products"
+msgstr "Lenkede produkter"
+
+#: ../admin/class-wcmp-settings-product.php:33
+msgid "Attributes"
+msgstr "Atributter"
+
+#: ../admin/class-wcmp-settings-product.php:34
+msgid "Advanced"
+msgstr "Avansert"
+
+#: ../admin/class-wcmp-settings-product.php:37
+msgid "Product Types "
+msgstr "Produkt typer"
+
+#: ../admin/class-wcmp-settings-product.php:39
+msgid "Simple"
+msgstr "Enkelt"
+
+#: ../admin/class-wcmp-settings-product.php:40
+msgid "Variable"
+msgstr "Variabelt"
+
+#: ../admin/class-wcmp-settings-product.php:41
+msgid "Grouped"
+msgstr "Grupperte"
+
+#: ../admin/class-wcmp-settings-product.php:42
+#, fuzzy
+msgid "External / Affiliate"
+msgstr "Eksterne / Affiliate"
+
+#: ../admin/class-wcmp-settings-product.php:45
+msgid "Type Options "
+msgstr "Type valg"
+
+#: ../admin/class-wcmp-settings-product.php:47
+msgid "Virtual"
+msgstr "Virtuelle"
+
+#: ../admin/class-wcmp-settings-product.php:48
+msgid "Downloadable"
+msgstr "Nedlastbare"
+
+#: ../admin/class-wcmp-settings-product.php:51
+msgid "Miscellaneous "
+msgstr "Diverse"
+
+#: ../admin/class-wcmp-settings-product.php:53
+msgid "SKU"
+msgstr "SKU"
+
+#: ../admin/class-wcmp-settings-product.php:54
+msgid "Taxes"
+msgstr "Mva"
+
+#: ../admin/class-wcmp-settings-product.php:56
+msgid "Comment Box"
+msgstr "Kommentar boks"
+
+#: ../admin/class-wcmp-settings-product.php:57
+msgid "Stylesheet"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-product.php:57
+#, fuzzy
+msgid ""
+"You can add CSS in the text area that will be loaded on the product page."
+msgstr "Du kan legge inn CSS i tekst feltet som vil lastes på produktsiden."
+
+#: ../admin/class-wcmp-settings-product.php:161
+#, fuzzy
+msgid "Product Settings Updated"
+msgstr "Produkt innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-payment.php:40
+msgid "Revenue Sharing Mode"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:42
+msgid "Mode "
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:42
+msgid "Admin fees"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:42
+#, fuzzy
+msgid "Vendor Commissions"
+msgstr "Selger`s kommisjon utbetalt"
+
+#: ../admin/class-wcmp-settings-payment.php:42
+#, php-format
+msgid "To know more about these two modes, please visit [%s]"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:45
+#, fuzzy
+msgid "What to Pay"
+msgstr "Hva skal betales"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid "Commission Type"
+msgstr "Kommisjon  type"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+#, fuzzy
+msgid "Choose Commission Type"
+msgstr "Kommisjon  type"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+#: ../admin/class-wcmp-settings-payment.php:50
+#: ../admin/class-wcmp-settings-payment.php:51
+#, fuzzy
+msgid "Fixed Amount"
+msgstr "Sum"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+#, fuzzy
+msgid "Percentage"
+msgstr "Kommisjon type"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid "%age + Fixed (per transaction)"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:47
+#, fuzzy
+msgid "%age + Fixed (per unit)"
+msgstr "Kommisjon sum"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+#, fuzzy
+msgid ""
+"Choose your preferred commission type. It will affect all commission "
+"calculations."
+msgstr ""
+"Velg din type kommisjon. Dette vil påvirke alle kommisjon kalkuleringer."
+
+#: ../admin/class-wcmp-settings-payment.php:48
+msgid "Commission value"
+msgstr "Kommisjon verdi"
+
+#: ../admin/class-wcmp-settings-payment.php:48
+#, fuzzy
+msgid ""
+"This will be the default commission(in percentage or fixed) paid to vendors "
+"if product and vendor specific commission is not set. "
+msgstr ""
+"Dette vil være standard kommisjon (i prosent eller fast pris) betalt til "
+"selgere om en annen kommisjon ikke er satt på selger eller produkt."
+
+#: ../admin/class-wcmp-settings-payment.php:49
+#: ../classes/class-wcmp-product.php:494 ../classes/class-wcmp-product.php:498
+#: ../classes/class-wcmp-product.php:519 ../classes/class-wcmp-product.php:523
+#: ../classes/class-wcmp-product.php:855 ../classes/class-wcmp-product.php:876
+#, fuzzy
+msgid "Commission Percentage"
+msgstr "Kommisjon type"
+
+#: ../admin/class-wcmp-settings-payment.php:49
+#, fuzzy
+msgid ""
+"This will be the default percentage paid to vendors if product and vendor "
+"specific commission is not set. "
+msgstr ""
+"Dette vil være standard kommisjon (i prosent eller fast pris) betalt til "
+"selgere om en annen kommisjon ikke er satt på selger eller produkt."
+
+#: ../admin/class-wcmp-settings-payment.php:50
+msgid "Fixed (per transaction)"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:51
+msgid "Fixed (per unit)"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:52
+#, fuzzy
+msgid "Share Coupon Discount"
+msgstr "Del kupong rabatt"
+
+#: ../admin/class-wcmp-settings-payment.php:52
+msgid ""
+"If checked, vendors commission will be calculated AFTER the discount. If "
+"left unchecked, the site owner will bear the cost of the coupon.  "
+msgstr ""
+"Om huket av vil kommisjon bli kalkulert etter rabatt. Om den er tom vil "
+"selgeren ta kostnaden av rabatten."
+
+#: ../admin/class-wcmp-settings-payment.php:53
+#: ../classes/class-wcmp-vendor-dashboard.php:309
+msgid "Tax"
+msgstr "Mva"
+
+#: ../admin/class-wcmp-settings-payment.php:53
+msgid "Transfer the tax collected (per product) to the vendor. "
+msgstr "Overfør mva til selger"
+
+#: ../admin/class-wcmp-settings-payment.php:54
+msgid "Transfer shipping charges collected (per product) to the vendor."
+msgstr "Overfør frakt til selger"
+
+#: ../admin/class-wcmp-settings-payment.php:55
+msgid "Minimum Threshold"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:55
+#, fuzzy
+msgid "Threshold amount required to disburse commission."
+msgstr "Selgeren som mottar denne kommisjonen."
+
+#: ../admin/class-wcmp-settings-payment.php:58
+msgid "How/When to Pay "
+msgstr "Hvordan/ når skal betaling gjennomføres"
+
+#: ../admin/class-wcmp-settings-payment.php:59
+msgid "Disbursal Mode"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:59
+msgid "Automatic disbursal"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:59
+#, fuzzy
+msgid "Withdrawal by request"
+msgstr "Vis kommisjon status"
+
+#: ../admin/class-wcmp-settings-payment.php:59
+#, fuzzy
+msgid "Choose your preferred payment mode."
+msgstr "Velg din foretrukne side for selger panelet"
+
+#: ../admin/class-wcmp-settings-payment.php:60
+msgid "Withdrawal Charges"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:60
+msgid ""
+"Vendor will be charged this amount per withdrawal after the quota of free "
+"withdrawals is over."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:61
+#, fuzzy
+msgid "Number of Free Withdrawals"
+msgstr "Antall ordre"
+
+#: ../admin/class-wcmp-settings-payment.php:61
+msgid "Number of Free Withdrawal Requests."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:62
+#, fuzzy
+msgid "Activate MassPay"
+msgstr "Aktiver massebetaling"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Set Schedule"
+msgstr "Sett tidsplan"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Weekly"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Daily"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:63
+#, fuzzy
+msgid "Monthly"
+msgstr "Måned"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Fortnightly"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Hourly"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-payment.php:63
+#, fuzzy
+msgid "Choose your preferred schedule for PayaPal MassPay."
+msgstr "Velg din foretrukne tidsplan for Paypal massebetaling"
+
+#: ../admin/class-wcmp-settings-payment.php:64
+#, fuzzy
+msgid "API Username"
+msgstr "Api Brukernavn"
+
+#: ../admin/class-wcmp-settings-payment.php:64
+#, fuzzy
+msgid "Give your PayPal API Username."
+msgstr "Angi ditt Paypal API brukernavn."
+
+#: ../admin/class-wcmp-settings-payment.php:65
+#, fuzzy
+msgid "API Password"
+msgstr "API passord"
+
+#: ../admin/class-wcmp-settings-payment.php:65
+#, fuzzy
+msgid "Give your PayPal API Password."
+msgstr "Angi ditt Paypal API passord."
+
+#: ../admin/class-wcmp-settings-payment.php:66
+#, fuzzy
+msgid "API Signature"
+msgstr "API signatur"
+
+#: ../admin/class-wcmp-settings-payment.php:66
+#, fuzzy
+msgid "Give your PayPal API Signature."
+msgstr "Angi din API signatur"
+
+#: ../admin/class-wcmp-settings-payment.php:67
+msgid "Enable Test Mode"
+msgstr "Aktiver test modus"
+
+#: ../admin/class-wcmp-settings-payment.php:169
+#, fuzzy
+msgid "Set API Username"
+msgstr "Angi API brukernavn"
+
+#: ../admin/class-wcmp-settings-payment.php:181
+#, fuzzy
+msgid "Set API Password"
+msgstr "Angi API passord"
+
+#: ../admin/class-wcmp-settings-payment.php:193
+#, fuzzy
+msgid "Set API Signature"
+msgstr "Angi API signatur"
+
+#: ../admin/class-wcmp-settings-payment.php:203
+#, fuzzy
+msgid "Payment Settings Updated"
+msgstr "Betalings innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-payment.php:215
+#, fuzzy
+msgid ""
+"Payment can be done only if vendors have valid PayPal Email Id in their "
+"profile. You can add from [Users->Edit Users->PayPal Email]"
+msgstr ""
+"Betaling kan kun gjennomføres om selgeren har en gyldig paypal e-post "
+"adresse på deres profil. Du kan legge til fra [Brukere->Rediger brukere-"
+">Paypal e-post]"
+
+#: ../admin/class-wcmp-settings-payment.php:219
+#, fuzzy
+msgid "View All Transaction Details"
+msgstr "Kommisjon detaljer"
+
+#: ../admin/class-wcmp-settings-pages.php:36
+msgid "Choose your preferred page for vendor dashboard."
+msgstr "Velg din foretrukne side for selger panelet"
+
+#: ../admin/class-wcmp-settings-pages.php:37
+msgid "Choose your preferred page for vendor shop settings"
+msgstr "Velg din ønskede side for butikk innstillinger"
+
+#: ../admin/class-wcmp-settings-pages.php:38
+msgid "View Vendor Orders"
+msgstr "Vis selger ordre"
+
+#: ../admin/class-wcmp-settings-pages.php:38
+msgid "Choose your preferred page for vendor view order"
+msgstr "Velg din ønskede side for å vise selger ordre på"
+
+#: ../admin/class-wcmp-settings-pages.php:39
+msgid "Vendor Order Detail Page"
+msgstr "Selger ordre detaljer side"
+
+#: ../admin/class-wcmp-settings-pages.php:39
+msgid "Choose your preferred page for vendor order details"
+msgstr "Velg en ønsket side å vise selger ordre detaljer på"
+
+#: ../admin/class-wcmp-settings-pages.php:40
+msgid "Withdrawal Request Status Page"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-pages.php:40
+#, fuzzy
+msgid "Choose your preferred page for vendor transaction thankyou"
+msgstr "Velg din foretrukne side for selger panelet"
+
+#: ../admin/class-wcmp-settings-pages.php:41
+#: ../admin/class-wcmp-settings-pages.php:43
+#, fuzzy
+msgid "Choose your preferred page for vendor transactions details"
+msgstr "Velg en ønsket side å vise selger ordre detaljer på"
+
+#: ../admin/class-wcmp-settings-pages.php:42
+#, fuzzy
+msgid "Choose your preferred page for vendor policies"
+msgstr "Velg din ønskede side for å vise selger ordre på"
+
+#: ../admin/class-wcmp-settings-pages.php:44 ../classes/class-wcmp.php:695
+#, fuzzy
+msgid "Vendor Report"
+msgstr "Selger ordre"
+
+#: ../admin/class-wcmp-settings-pages.php:44
+#: ../admin/class-wcmp-settings-pages.php:45
+#, fuzzy
+msgid "Choose your preferred page for vendor report"
+msgstr "Velg din ønskede side for å vise selger ordre på"
+
+#: ../admin/class-wcmp-settings-pages.php:45
+#, fuzzy
+msgid "Vendor Withdrawals"
+msgstr "Antall ordre"
+
+#: ../admin/class-wcmp-settings-pages.php:46
+#, fuzzy
+msgid "Choose your preferred page for university"
+msgstr "Velg din ønskede side for å vise selger ordre på"
+
+#: ../admin/class-wcmp-settings-pages.php:47
+#, fuzzy
+msgid "Choose your preferred page for vendor announcements"
+msgstr "Velg din ønskede side for å vise selger ordre på"
+
+#: ../admin/class-wcmp-settings-pages.php:48
+#, fuzzy
+msgid "Choose your preferred page for vendor shipping"
+msgstr "Velg din ønskede side for butikk innstillinger"
+
+#: ../admin/class-wcmp-settings-pages.php:115
+#: ../admin/class-wcmp-settings-notices.php:60
+#, fuzzy
+msgid "Page Settings Updated"
+msgstr "Side innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-general-policies.php:34
+#, fuzzy
+msgid "Enable Policies "
+msgstr "Selger`s kommisjon utbetalt"
+
+#: ../admin/class-wcmp-settings-general-policies.php:36
+msgid "Cancellation/Return/Exchange Policy Product Wise"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:38
+msgid "Refund Policy Product Wise"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:40
+#, fuzzy
+msgid "Shipping Policy Product Wise"
+msgstr "Frakt"
+
+#: ../admin/class-wcmp-settings-general-policies.php:46
+#, fuzzy
+msgid "Product Tab Title :"
+msgstr "Produkt tittel"
+
+#: ../admin/class-wcmp-settings-general-policies.php:46
+msgid "Please Enter the Policies Tab Title ."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:47
+msgid "Cancellation/Return/Exchange Policy Label :"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:47
+msgid "Please Enter the Cancellation Policy Custom Heading."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:48
+msgid "Cancellation/Return/Exchange Policy :"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:48
+msgid "Please Enter the Cancellation Policy ."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:49
+msgid "Refund Policy Label:"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:49
+msgid "Please Enter the Refund Policy Label."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:50
+#, fuzzy
+msgid "Refund Policy :"
+msgstr "Selger`s kommisjon utbetalt"
+
+#: ../admin/class-wcmp-settings-general-policies.php:50
+msgid "Please Enter the Refund Policy ."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:51
+#, fuzzy
+msgid "Shipping Policy Label :"
+msgstr "Frakt"
+
+#: ../admin/class-wcmp-settings-general-policies.php:51
+msgid "Please Enter the Shipping Policy Label."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:52
+#, fuzzy
+msgid "Shipping Policy :"
+msgstr "Frakt"
+
+#: ../admin/class-wcmp-settings-general-policies.php:52
+#, fuzzy
+msgid "Please Enter the Shipping Policy ."
+msgstr "Frakt"
+
+#: ../admin/class-wcmp-settings-general-policies.php:109
+#, fuzzy
+msgid "Policies Settings Updated"
+msgstr "Side innstillinger oppdatert"
+
+#: ../admin/class-wcmp-settings-general-policies.php:122
+msgid "Please configure the policies section."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:29
+#, fuzzy
+msgid "Pending Vendor Approval"
+msgstr "Ventende selger"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:33
+#, fuzzy
+msgid "Pending User"
+msgstr "Ventende selger"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:35
+msgid "Activate"
+msgstr "Aktiver"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:36
+#: ../classes/class-wcmp-user.php:871
+msgid "Reject"
+msgstr "Avslå"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:37
+#: ../admin/class-wcmp-settings-to_do_list.php:79
+#: ../admin/class-wcmp-settings-to_do_list.php:115
+#: ../admin/class-wcmp-settings-to_do_list.php:155
+msgid "Dismiss"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:72
+msgid "Pending Coupons Approval"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:76
+#: ../admin/class-wcmp-settings-to_do_list.php:112
+#: ../classes/class-wcmp-vendor-dashboard.php:298
+#, fuzzy
+msgid "Vendor Name"
+msgstr "Ny selger navn"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:77
+#, fuzzy
+msgid "Coupon Name"
+msgstr "Kupong brukt:"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:108
+msgid "Pending Products Approval"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:146
+msgid "Pending Bank Transfer"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:150
+#: ../classes/class-wcmp-post-commission.php:348
+#: ../classes/class-wcmp-report.php:91 ../classes/class-wcmp-product.php:292
+#: ../classes/class-wcmp-product.php:453 ../classes/class-wcmp-product.php:478
+#: ../classes/class-wcmp-product.php:928 ../classes/class-wcmp-user.php:243
+#: ../classes/class-wcmp-taxonomy.php:37
+msgid "Vendor"
+msgstr "Selger"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:152
+#: ../classes/class-wcmp-post-commission.php:349
+#: ../classes/class-wcmp-post-transaction.php:155
+#: ../classes/class-wcmp-post-transaction.php:216
+msgid "Amount"
+msgstr "Sum"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:153
+msgid "Account Detail"
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:154
+#, fuzzy
+msgid "Notify the Vendor"
+msgstr "Merk som sendt"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "Account Name- "
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "Account No - "
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "Bank Name - "
+msgstr ""
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "IBAN - "
+msgstr ""
+
+#: ../admin/class-wcmp-settings-notices.php:29
+#, fuzzy
+msgid "Notices Enable/Disable :"
+msgstr "Aktiver/Deaktiver"
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:34
+#, fuzzy
+msgid "Enable Review ( for Vendor )"
+msgstr "Ordre e-post innstillinger for selger"
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:34
+msgid "If checked, user can rate vendor(s)."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:35
+msgid "Enable Review ( by verified customers )."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:35
+msgid ""
+"If checked, only customers who have purchased from the vendor can rate them."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:69
+#, fuzzy
+msgid "Vendor Review Rating Settings Updated"
+msgstr "Generelle innstillinger oppdatert"
+
+#: ../classes/class-wcmp-post-commission.php:55
+#, fuzzy
+msgctxt "post type general name"
+msgid "WCMp Commissions"
+msgstr "Kommisjon"
+
+#: ../classes/class-wcmp-post-commission.php:56
+#, fuzzy
+msgctxt "post type singular name"
+msgid "WCMp Commission"
+msgstr "Kommisjon"
+
+#: ../classes/class-wcmp-post-commission.php:58
+#: ../classes/class-wcmp-post-transaction.php:36
+#: ../classes/class-wcmp-post-notices.php:72
+#: ../classes/class-wcmp-post-university.php:33
+#, php-format
+msgid "Add New %s"
+msgstr "Legg til ny %s"
+
+#: ../classes/class-wcmp-post-commission.php:59
+#: ../classes/class-wcmp-post-transaction.php:37
+#: ../classes/class-wcmp-post-notices.php:73
+#: ../classes/class-wcmp-post-university.php:34
+#, php-format
+msgid "Edit %s"
+msgstr "Rediger %s"
+
+#: ../classes/class-wcmp-post-commission.php:60
+#: ../classes/class-wcmp-post-transaction.php:38
+#: ../classes/class-wcmp-post-notices.php:74
+#: ../classes/class-wcmp-post-university.php:35
+#, php-format
+msgid "New %s"
+msgstr "Ny %s"
+
+#: ../classes/class-wcmp-post-commission.php:61
+#: ../classes/class-wcmp-post-transaction.php:39
+#: ../classes/class-wcmp-post-notices.php:75
+#: ../classes/class-wcmp-post-university.php:36
+#, php-format
+msgid "All %s"
+msgstr "Alle %s"
+
+#: ../classes/class-wcmp-post-commission.php:61
+#: ../classes/class-wcmp-post-commission.php:63
+#: ../classes/class-wcmp-post-commission.php:64
+#: ../classes/class-wcmp-post-commission.php:65
+#: ../classes/class-wcmp-post-commission.php:67
+#: ../classes/class-wcmp-post-commission.php:68
+#, fuzzy
+msgid "WCMp Commissions"
+msgstr "Kommisjon"
+
+#: ../classes/class-wcmp-post-commission.php:62
+#: ../classes/class-wcmp-post-transaction.php:40
+#: ../classes/class-wcmp-post-notices.php:76
+#: ../classes/class-wcmp-post-university.php:37
+#, php-format
+msgid "View %s"
+msgstr "Vis %s"
+
+#: ../classes/class-wcmp-post-commission.php:63
+#: ../classes/class-wcmp-post-transaction.php:41
+#: ../classes/class-wcmp-post-notices.php:77
+#: ../classes/class-wcmp-post-university.php:38
+msgid "Search %a"
+msgstr "Søk %s"
+
+#: ../classes/class-wcmp-post-commission.php:64
+#: ../classes/class-wcmp-post-transaction.php:42
+#: ../classes/class-wcmp-post-notices.php:78
+#: ../classes/class-wcmp-post-university.php:39
+#, fuzzy, php-format
+msgid "No %s found"
+msgstr "Ingen %s funnet"
+
+#: ../classes/class-wcmp-post-commission.php:65
+#: ../classes/class-wcmp-post-notices.php:79
+#: ../classes/class-wcmp-post-university.php:40
+#, fuzzy, php-format
+msgid "No %s found in trash"
+msgstr "Ingen %s funnet i søppelbøtten"
+
+#: ../classes/class-wcmp-post-commission.php:101
+msgid "Commission Details"
+msgstr "Kommisjon detaljer"
+
+#: ../classes/class-wcmp-post-commission.php:161
+#: ../classes/class-wcmp-product.php:294 ../classes/class-wcmp-product.php:480
+#, fuzzy
+msgid "Search for vendor"
+msgstr "Søk i selgere"
+
+#: ../classes/class-wcmp-post-commission.php:197
+msgid "Order ID:"
+msgstr "Ordre ID:"
+
+#: ../classes/class-wcmp-post-commission.php:198
+#, fuzzy
+msgid "The order ID of Commission ("
+msgstr "Skriv inn standard kommisjon"
+
+#: ../classes/class-wcmp-post-commission.php:205
+msgid "Product:"
+msgstr "Produkt:"
+
+#: ../classes/class-wcmp-post-commission.php:206
+msgid "The product purchased that generated this commission."
+msgstr "Det kjøpte produktet som genererte denne kommisjonen."
+
+#: ../classes/class-wcmp-post-commission.php:213
+msgid "Vendor:"
+msgstr "Selger:"
+
+#: ../classes/class-wcmp-post-commission.php:214
+msgid "The vendor who receives this commission."
+msgstr "Selgeren som mottar denne kommisjonen."
+
+#: ../classes/class-wcmp-post-commission.php:221
+msgid "Amount:"
+msgstr "Sum:"
+
+#: ../classes/class-wcmp-post-commission.php:222
+#, fuzzy
+msgid "The total value of this commission ("
+msgstr "Selgeren som mottar denne kommisjonen."
+
+#: ../classes/class-wcmp-post-commission.php:229
+#, fuzzy
+msgid "Shipping Amount:"
+msgstr "Frakt delsum:"
+
+#: ../classes/class-wcmp-post-commission.php:230
+msgid "The total value of shipping ("
+msgstr ""
+
+#: ../classes/class-wcmp-post-commission.php:237
+#, fuzzy
+msgid "Tax Amount:"
+msgstr "Sum:"
+
+#: ../classes/class-wcmp-post-commission.php:238
+msgid "The total value of this tax ("
+msgstr ""
+
+#: ../classes/class-wcmp-post-commission.php:302
+#: ../classes/class-wcmp-post-commission.php:672
+msgid "Unpaid"
+msgstr ""
+
+#: ../classes/class-wcmp-post-commission.php:303
+#: ../classes/class-wcmp-post-commission.php:671
+msgid "Paid"
+msgstr "Betalt"
+
+#: ../classes/class-wcmp-post-commission.php:304
+#: ../classes/class-wcmp-post-commission.php:673
+msgid "Reverse"
+msgstr "Tilbakefør"
+
+#: ../classes/class-wcmp-post-commission.php:451
+#: ../classes/class-wcmp-post-commission.php:452
+#, fuzzy
+msgid "Export Unpaid Commissions (CSV)"
+msgstr "Ta ut ubetalte kommisjoner (CSV)"
+
+#: ../classes/class-wcmp-post-commission.php:453
+#: ../classes/class-wcmp-post-commission.php:454
+msgid "Mark all commissions as paid"
+msgstr "Merk alle kommisjoner som betalt"
+
+#: ../classes/class-wcmp-post-commission.php:455
+#: ../classes/class-wcmp-post-commission.php:456
+msgid "Mark selected commissions as unpaid"
+msgstr "Merk alle valgte kommisjoner som ikke betalt"
+
+#: ../classes/class-wcmp-post-commission.php:457
+#: ../classes/class-wcmp-post-commission.php:458
+msgid "Mark selected commissions as paid"
+msgstr "Merk alle valgte kommisjoner som betalt"
+
+#: ../classes/class-wcmp-post-commission.php:459
+#: ../classes/class-wcmp-post-commission.php:460
+#, fuzzy
+msgid "Mark selected commissions as reverse"
+msgstr "Merk alle valgte kommisjoner som betalt"
+
+#: ../classes/class-wcmp-post-commission.php:523
+#: ../classes/class-wcmp-vendor-dashboard.php:109
+#: ../classes/class-wcmp-masspay-cron.php:70
+#, php-format
+msgid "Total commissions earned from %1$s as at %2$s on %3$s"
+msgstr "Total kommisjon opptjent fra %1$s til %2$s på %3$s"
+
+#: ../classes/class-wcmp-post-commission.php:670
+msgid "Show Commission Status"
+msgstr "Vis kommisjon status"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:205
+msgid "Transaction ID"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:207
+msgid "Mode"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:210
+msgid "Credit"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:230
+#: ../classes/class-wcmp-post-transaction.php:171
+#: ../classes/class-wcmp-post-transaction.php:291
+#, fuzzy
+msgid "PayPal"
+msgstr "Paypal e-post"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:231
+#: ../classes/class-wcmp-post-transaction.php:292
+msgid "Direct Bank Transfer"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:258
+msgid "Sorry. no transaction data is available upon your selection"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:295
+#: ../classes/class-wcmp-post-transaction.php:216
+msgid "Order"
+msgstr "Ordre"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:296
+msgid "Date of Purchase"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:297
+msgid "Time Of Purchase"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:299
+msgid "Items bought"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:301
+#, fuzzy
+msgid "Discount Used"
+msgstr "Kupong brukt:"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:302
+#, fuzzy
+msgid "Payment System"
+msgstr "Betaling"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:304
+#: ../classes/class-wcmp-user.php:547
+#, fuzzy
+msgid "Customer Email"
+msgstr "Kunde e-post"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:305
+#, fuzzy
+msgid "Customer Contact"
+msgstr "Kundenotat"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:306
+#, fuzzy
+msgid "Billing Address Details"
+msgstr "Faktura adresse"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:307
+#, fuzzy
+msgid "Shipping Address Details"
+msgstr "Post adresse"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:308
+#, fuzzy
+msgid "Order Status"
+msgstr "Ordre detaljer"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:311
+#, fuzzy
+msgid "Commission Share"
+msgstr "Kommisjon verdi"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:684
+#, fuzzy
+msgid "No shipping class"
+msgstr "Postadresse"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:784
+#: ../classes/class-wcmp-vendor-dashboard.php:787
+#: ../classes/class-wcmp-user.php:927 ../classes/class-wcmp-user.php:973
+msgid "Slug already exists"
+msgstr "Slug finnes allerede"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:798
+#: ../classes/class-wcmp-vendor-dashboard.php:801
+msgid "Slug can not be empty"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:809
+#: ../classes/class-wcmp-vendor-dashboard.php:812
+#, fuzzy
+msgid "Shop Title can not be empty"
+msgstr "Feil under oppdatering av butikk tittel"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:819
+#: ../classes/class-wcmp-vendor-dashboard.php:822
+msgid "Shop Title Update Error"
+msgstr "Feil under oppdatering av butikk tittel"
+
+#: ../classes/class-wcmp-calculate-commission.php:205
+#, php-format
+msgid "Commission - %s"
+msgstr "Kommisjon - %s"
+
+#: ../classes/class-wcmp-calculate-commission.php:205
+msgctxt "Commission date parsed by strftime"
+msgid "%B %e, %Y @ %I:%M %p"
+msgstr "%B %e, %Y @ %I:%M %p"
+
+#: ../classes/class-wcmp.php:408
+#, fuzzy
+msgid "Every 7 Days"
+msgstr "Hver 7 dager"
+
+#: ../classes/class-wcmp.php:412
+#, fuzzy
+msgid "Every 1 Month"
+msgstr "Hver måned"
+
+#: ../classes/class-wcmp.php:416
+#, fuzzy
+msgid "Every 15 Days"
+msgstr "Hver 7 dager"
+
+#: ../classes/class-wcmp-vendor-details.php:533
+#, php-format
+msgid "Quantity: %s"
+msgstr "Antall: %s"
+
+#: ../classes/class-wcmp-vendor-details.php:539
+#, php-format
+msgid "Total: %s"
+msgstr "Totalt: %s"
+
+#: ../classes/class-wcmp-vendor-details.php:540
+#, php-format
+msgid "Commission: %s"
+msgstr "Kommisjon: %s"
+
+#: ../classes/class-wcmp-vendor-details.php:702
+msgid "Commission Subtotal:"
+msgstr "Kommisjon delsum:"
+
+#: ../classes/class-wcmp-vendor-details.php:705
+msgid "Tax Subtotal:"
+msgstr "Mva delsum:"
+
+#: ../classes/class-wcmp-vendor-details.php:710
+msgid "Shipping Subtotal:"
+msgstr "Frakt delsum:"
+
+#: ../classes/class-wcmp-vendor-details.php:713
+#, fuzzy
+msgid "Total:"
+msgstr "Totalt"
+
+#: ../classes/class-wcmp-post-transaction.php:33
+msgctxt "post type general name"
+msgid "Transactions"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:34
+msgctxt "post type singular name"
+msgid "Transaction"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:36
+#: ../classes/class-wcmp-post-transaction.php:37
+#: ../classes/class-wcmp-post-transaction.php:38
+#: ../classes/class-wcmp-post-transaction.php:39
+#: ../classes/class-wcmp-post-transaction.php:40
+msgid "Transaction"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:41
+#: ../classes/class-wcmp-post-transaction.php:42
+#: ../classes/class-wcmp-post-transaction.php:43
+#: ../classes/class-wcmp-post-transaction.php:45
+#: ../classes/class-wcmp-post-transaction.php:46
+msgid "Transactions"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:43
+#, fuzzy, php-format
+msgid "No %s found In trash"
+msgstr "Ingen %s funnet i søppelbøtten"
+
+#: ../classes/class-wcmp-post-transaction.php:77
+#, php-format
+msgid "Processing <span class=\"count\">(%s)</span>"
+msgid_plural "Processing <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../classes/class-wcmp-post-transaction.php:86
+#, php-format
+msgid "Completed <span class=\"count\">(%s)</span>"
+msgid_plural "Completed <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../classes/class-wcmp-post-transaction.php:107
+#, php-format
+msgid "Transaction - %s"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:107
+#, fuzzy
+msgctxt "Transaction date parsed by strftime"
+msgid "%B %e, %Y @ %I:%M %p"
+msgstr "%B %e, %Y @ %I:%M %p"
+
+#: ../classes/class-wcmp-post-transaction.php:154
+msgid "Date of request"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:157
+msgid "Transfer Fee"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:161
+#: ../classes/class-wcmp-post-transaction.php:171
+#: ../classes/class-wcmp-post-transaction.php:174
+msgid "Transaction Mode"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:162
+#: ../classes/class-wcmp-user.php:568
+msgid "Bank Account Type"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:163
+msgid "Bank Account Number"
+msgstr ""
+
+#: ../classes/class-wcmp-post-transaction.php:172
+#: ../classes/class-wcmp-user.php:624
+#, fuzzy
+msgid "PayPal Email"
+msgstr "Paypal e-post"
+
+#: ../classes/class-wcmp-post-transaction.php:174
+msgid "Manual"
+msgstr ""
+
+#: ../classes/class-wcmp-post-notices.php:29
+msgid "Addtional Fields"
+msgstr ""
+
+#: ../classes/class-wcmp-post-notices.php:69
+msgctxt "post type general name"
+msgid "Announcements"
+msgstr ""
+
+#: ../classes/class-wcmp-post-notices.php:70
+msgctxt "post type singular name"
+msgid "Announcements"
+msgstr ""
+
+#: ../classes/class-wcmp-email.php:69
+#, fuzzy
+msgid "Customer Support Details of : "
+msgstr "Kunde detaljer"
+
+#: ../classes/class-wcmp-email.php:88
+msgid "Return Address of : "
+msgstr ""
+
+#: ../classes/class-wcmp-email.php:93 ../classes/class-wcmp-email.php:169
+#, fuzzy
+msgid "Address Line 1 : "
+msgstr "Adresse linje 1"
+
+#: ../classes/class-wcmp-email.php:98 ../classes/class-wcmp-email.php:179
+#, fuzzy
+msgid "Address Line 2 : "
+msgstr "Adresse linje 2"
+
+#: ../classes/class-wcmp-email.php:103 ../classes/class-wcmp-email.php:189
+#, fuzzy
+msgid "State : "
+msgstr "Status"
+
+#: ../classes/class-wcmp-email.php:108 ../classes/class-wcmp-email.php:199
+#, fuzzy
+msgid "City : "
+msgstr "By"
+
+#: ../classes/class-wcmp-email.php:113 ../classes/class-wcmp-email.php:209
+#, fuzzy
+msgid "Country : "
+msgstr "Land"
+
+#: ../classes/class-wcmp-email.php:118 ../classes/class-wcmp-email.php:219
+msgid "Zip Code : "
+msgstr ""
+
+#: ../classes/class-wcmp-email.php:137
+#, fuzzy
+msgid "Customer Support Details :"
+msgstr "Kunde detaljer"
+
+#: ../classes/class-wcmp-email.php:162
+msgid "Our Return Address :"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:104
+#, fuzzy
+msgid "Vendor Rating"
+msgstr "Selger opptjening"
+
+#: ../classes/class-wcmp-seller-review-rating.php:130
+#: ../classes/class-wcmp-seller-review-rating.php:132
+#, fuzzy
+msgid "Vendor Name."
+msgstr "Ny selger navn"
+
+#: ../classes/class-wcmp-seller-review-rating.php:156
+#, fuzzy
+msgid "Vendor Rating."
+msgstr "Selger opptjening"
+
+#: ../classes/class-wcmp-seller-review-rating.php:158
+#, fuzzy
+msgid "Vendor Rating Star."
+msgstr "Selger opptjening"
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "Please Select"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "1 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "2 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "3 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "4 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "5 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-capabilities.php:259
+#: ../classes/class-wcmp-capabilities.php:279
+msgid "Sold By"
+msgstr "Solgt av"
+
+#: ../classes/class-wcmp-product.php:165
+msgid "SKU must be unique"
+msgstr ""
+
+#: ../classes/class-wcmp-product.php:295 ../classes/class-wcmp-product.php:476
+#, fuzzy
+msgid "Choose a vendor"
+msgstr "Velg en selger"
+
+#: ../classes/class-wcmp-product.php:505 ../classes/class-wcmp-product.php:509
+#, fuzzy
+msgid "Commission Fixed per transaction"
+msgstr "Kommisjon sum"
+
+#: ../classes/class-wcmp-product.php:530 ../classes/class-wcmp-product.php:534
+#: ../classes/class-wcmp-product.php:866 ../classes/class-wcmp-product.php:885
+#, fuzzy
+msgid "Commission Fixed per unit"
+msgstr "Kommisjon sum"
+
+#: ../classes/class-wcmp-product.php:558
+#, fuzzy
+msgid "Unassign vendor"
+msgstr "Ventende selger"
+
+#: ../classes/class-wcmp-product.php:813 ../classes/class-wcmp-product.php:833
+#, fuzzy
+msgid "Commission (percentage)"
+msgstr "Kommisjon type"
+
+#: ../classes/class-wcmp-product.php:823 ../classes/class-wcmp-product.php:841
+msgid "Commission (fixed) Per Transaction"
+msgstr ""
+
+#: ../classes/class-wcmp-product.php:1075
+msgid "Report Abuse"
+msgstr ""
+
+#: ../classes/class-wcmp-product.php:1082 ../classes/class-wcmp-ajax.php:1255
+#, fuzzy
+msgid "Report an abuse for product"
+msgstr "Ikke et selger produkt :("
+
+#: ../classes/class-wcmp-product.php:1098
+msgid "Leave a message explaining the reasons for your abuse report"
+msgstr ""
+
+#: ../classes/class-wcmp-product.php:1104
+msgid "Report"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-order-page.php:79
+msgid "Customer"
+msgstr "Kunde"
+
+#: ../classes/class-wcmp-vendor-order-page.php:81
+msgid "Total"
+msgstr "Totalt"
+
+#: ../classes/class-wcmp-vendor-order-page.php:114
+#, fuzzy
+msgid "Mark as Shipped"
+msgstr "Merk som sendt"
+
+#: ../classes/class-wcmp-vendor-order-page.php:138
+#, fuzzy
+msgid "Orders Marked as shipped."
+msgstr "Ordre merket som sendt."
+
+#: ../classes/class-wcmp-vendor-order-page.php:227
+#, fuzzy
+msgid "Flat Shipping Charges"
+msgstr "Postadresse"
+
+#: ../classes/class-wcmp-vendor-order-page.php:274
+msgid "CPF"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-order-page.php:277
+msgid "RG"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-order-page.php:282
+#: ../classes/class-wcmp-user.php:401
+#, fuzzy
+msgid "Company Name"
+msgstr "Firma"
+
+#: ../classes/class-wcmp-vendor-order-page.php:283
+msgid "CNPJ"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-order-page.php:286
+#, fuzzy
+msgid "State Registration"
+msgstr "Ny selger registrering"
+
+#: ../classes/class-wcmp-vendor-order-page.php:290
+msgid "Company"
+msgstr "Firma"
+
+#: ../classes/class-wcmp-vendor-order-page.php:296
+msgid "Birthdate"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-order-page.php:299
+msgid "Sex"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-order-page.php:306
+#, fuzzy
+msgid "Cell Phone"
+msgstr "Telefon"
+
+#: ../classes/class-wcmp-post-university.php:30
+msgctxt "post type general name"
+msgid "University"
+msgstr ""
+
+#: ../classes/class-wcmp-post-university.php:31
+msgctxt "post type singular name"
+msgid "University"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:125
+msgid "Dashboard - manage your account here"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:251
+msgid "Pending Vendor"
+msgstr "Ventende selger"
+
+#: ../classes/class-wcmp-user.php:257
+msgid "Rejected Vendor"
+msgstr "Avslått selger"
+
+#: ../classes/class-wcmp-user.php:350
+msgid "Vendor Page Title"
+msgstr "Selger side tittel"
+
+#: ../classes/class-wcmp-user.php:356
+msgid "Vendor Page Slug"
+msgstr "Selger side slug"
+
+#: ../classes/class-wcmp-user.php:369
+#, fuzzy
+msgid "Hide address in frontend"
+msgstr "Skjul beskrivelse i front"
+
+#: ../classes/class-wcmp-user.php:377
+#, fuzzy
+msgid "Hide phone in frontend"
+msgstr "Skjul beskrivelse i front"
+
+#: ../classes/class-wcmp-user.php:385
+#, fuzzy
+msgid "Hide email in frontend"
+msgstr "Skjul beskrivelse i front"
+
+#: ../classes/class-wcmp-user.php:393
+msgid "Hide description in frontend"
+msgstr "Skjul beskrivelse i front"
+
+#: ../classes/class-wcmp-user.php:407
+msgid "Address 1"
+msgstr "Adresse linje 1"
+
+#: ../classes/class-wcmp-user.php:413
+msgid "Address 2"
+msgstr "Adresse linje 2"
+
+#: ../classes/class-wcmp-user.php:425
+msgid "Postcode"
+msgstr "Postnummer"
+
+#: ../classes/class-wcmp-user.php:431
+msgid "External store URL"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:437
+msgid "External store URL label"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:461
+#, fuzzy
+msgid "Facebook Profile"
+msgstr "Facebook profil URL"
+
+#: ../classes/class-wcmp-user.php:467
+#, fuzzy
+msgid "Twitter Profile"
+msgstr "Twitter profil URL"
+
+#: ../classes/class-wcmp-user.php:473
+#, fuzzy
+msgid "Google+ Profile"
+msgstr "Google+ profil URL"
+
+#: ../classes/class-wcmp-user.php:479
+#, fuzzy
+msgid "LinkedIn Profile"
+msgstr "Linkedin profil URL"
+
+#: ../classes/class-wcmp-user.php:485
+msgid "YouTube Channel"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:491
+msgid "Logo"
+msgstr "Logo"
+
+#: ../classes/class-wcmp-user.php:498
+msgid "Banner"
+msgstr "Banner"
+
+#: ../classes/class-wcmp-user.php:505
+#, fuzzy
+msgid "Customer address1"
+msgstr "Kunde navn:"
+
+#: ../classes/class-wcmp-user.php:511
+#, fuzzy
+msgid "Customer address2"
+msgstr "Kunde navn:"
+
+#: ../classes/class-wcmp-user.php:517
+#, fuzzy
+msgid "Customer Country"
+msgstr "Kundenotat"
+
+#: ../classes/class-wcmp-user.php:523
+#, fuzzy
+msgid "Customer Return State"
+msgstr "Kundenotat"
+
+#: ../classes/class-wcmp-user.php:529
+#, fuzzy
+msgid "Customer Return City"
+msgstr "Kunde detaljer"
+
+#: ../classes/class-wcmp-user.php:535
+#, fuzzy
+msgid "Customer Return Zip"
+msgstr "Kunde detaljer"
+
+#: ../classes/class-wcmp-user.php:541
+#, fuzzy
+msgid "Customer Phone"
+msgstr "Kundenotat"
+
+#: ../classes/class-wcmp-user.php:576
+msgid "Bank Account Name"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:633
+msgid "Enter the title of Policies Tab"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:672
+msgid "Is Message to buyer Hide From Users"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:683
+msgid "Commission Amount"
+msgstr "Kommisjon sum"
+
+#: ../classes/class-wcmp-user.php:689
+msgid "Submit products"
+msgstr "Send inn produkter"
+
+#: ../classes/class-wcmp-user.php:696
+msgid "Disallow direct publishing of products"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:710
+msgid "Disallow direct publishing of coupons"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:717
+msgid "Withhold Tax"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:724
+#, fuzzy
+msgid "Withhold Shipping"
+msgstr "Frakt"
+
+#: ../classes/class-wcmp-user.php:731
+msgid "Block this vendor with all items"
+msgstr "Blokker denne selgeren og alle dens varer"
+
+#: ../classes/class-wcmp-user.php:743 ../classes/class-wcmp-user.php:759
+#, fuzzy
+msgid "Commission Percentage(%)"
+msgstr "Kommisjon type"
+
+#: ../classes/class-wcmp-user.php:749
+msgid "Commission(fixed), Per Transaction"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:765
+#, fuzzy
+msgid "Commission Fixed Per Unit"
+msgstr "Kommisjon betalt (til selger)"
+
+#: ../classes/class-wcmp-user.php:870 ../classes/class-wcmp-user.php:876
+msgid "Approve"
+msgstr ""
+
+#: ../classes/class-wcmp-user.php:898 ../classes/class-wcmp-taxonomy.php:43
+msgid "View Vendor"
+msgstr "Vis selger"
+
+#: ../classes/class-wcmp-user.php:919
+#, fuzzy
+msgid "Slug Already Exists"
+msgstr "Slug finnes allerede"
+
+#: ../classes/class-wcmp-user.php:967
+msgid "Title Update Error"
+msgstr "Feil under oppdatering av tittel"
+
+#: ../classes/class-wcmp-user.php:1056
+#, fuzzy
+msgid "Select a Vendor."
+msgstr "Velg en selger"
+
+#: ../classes/class-wcmp-user.php:1144 ../classes/class-wcmp-user.php:1163
+#, fuzzy
+msgid "Apply to become a vendor? "
+msgstr "Søke om selgerkonto?"
+
+#: ../classes/class-wcmp-user.php:1166
+msgid "Save"
+msgstr "Lagre"
+
+#: ../classes/class-wcmp-taxonomy.php:21 ../classes/class-wcmp-admin.php:167
+msgctxt "slug"
+msgid "vendor"
+msgstr "vendor"
+
+#: ../classes/class-wcmp-taxonomy.php:36
+msgid "WCMp Vendors"
+msgstr "WCMp Vendors"
+
+#: ../classes/class-wcmp-taxonomy.php:38 ../classes/class-wcmp-ajax.php:1038
+#: ../classes/reports/class-wcmp-report-vendor.php:243
+msgid "Vendors"
+msgstr "Selgere"
+
+#: ../classes/class-wcmp-taxonomy.php:39
+msgid "Search Vendors"
+msgstr "Søk i selgere"
+
+#: ../classes/class-wcmp-taxonomy.php:40
+msgid "All Vendors"
+msgstr "Alle selgere"
+
+#: ../classes/class-wcmp-taxonomy.php:41
+msgid "Parent Vendor"
+msgstr "Hoved selger"
+
+#: ../classes/class-wcmp-taxonomy.php:42
+msgid "Parent Vendor:"
+msgstr "Hoved selger:"
+
+#: ../classes/class-wcmp-taxonomy.php:44
+msgid "Edit Vendor"
+msgstr "Rediger selger"
+
+#: ../classes/class-wcmp-taxonomy.php:45
+msgid "Update Vendor"
+msgstr "Oppdater selger"
+
+#: ../classes/class-wcmp-taxonomy.php:46
+msgid "Add New Vendor"
+msgstr "Legg til ny selger"
+
+#: ../classes/class-wcmp-taxonomy.php:47
+msgid "New Vendor Name"
+msgstr "Ny selger navn"
+
+#: ../classes/class-wcmp-taxonomy.php:48
+msgid "Popular Vendors"
+msgstr "Populære selgere"
+
+#: ../classes/class-wcmp-taxonomy.php:49
+msgid "Separate vendors with commas"
+msgstr "Separer selgere med komma"
+
+#: ../classes/class-wcmp-taxonomy.php:50
+msgid "Add or remove vendors"
+msgstr "Legg til eller fjern selgere"
+
+#: ../classes/class-wcmp-taxonomy.php:51
+msgid "Choose from most used vendors"
+msgstr "Velg fra de mest brukte selgere"
+
+#: ../classes/class-wcmp-taxonomy.php:52
+msgid "No vendors found"
+msgstr "Ingen selgere funnet"
+
+#: ../classes/class-wcmp-frontend.php:365
+#, fuzzy
+msgid "Please rate the vendor"
+msgstr "Hoved selger"
+
+#: ../classes/class-wcmp-frontend.php:366
+msgid "Please review your vendor and minimum 10 Character required"
+msgstr ""
+
+#: ../classes/class-wcmp-frontend.php:367
+msgid "Your review submitted successfully"
+msgstr ""
+
+#: ../classes/class-wcmp-frontend.php:368
+msgid "Error in system please try again later"
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:188
+#, fuzzy
+msgid "No Messages Found:"
+msgstr "Ingen salg funnet"
+
+#: ../classes/class-wcmp-ajax.php:194
+msgid "Error in process:"
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:281
+msgid "Mark Restore"
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:306 ../classes/class-wcmp-ajax.php:327
+msgid "no more data found"
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:512 ../classes/class-wcmp-ajax.php:741
+#: ../classes/class-wcmp-ajax.php:795 ../classes/class-wcmp-ajax.php:1028
+#: ../classes/reports/class-wcmp-report-product.php:317
+#: ../classes/reports/class-wcmp-report-vendor.php:233
+#, fuzzy
+msgid "Sales and Earnings"
+msgstr "Salg og opptjening for %s:"
+
+#: ../classes/class-wcmp-ajax.php:515 ../classes/class-wcmp-ajax.php:744
+#: ../classes/class-wcmp-ajax.php:934 ../classes/class-wcmp-ajax.php:1031
+#: ../classes/reports/class-wcmp-report-product.php:320
+#: ../classes/reports/class-wcmp-report-vendor.php:236
+#, fuzzy
+msgid "Gross Sales"
+msgstr "Salg"
+
+#: ../classes/class-wcmp-ajax.php:522 ../classes/class-wcmp-ajax.php:751
+#: ../classes/class-wcmp-ajax.php:799 ../classes/class-wcmp-ajax.php:941
+#: ../classes/reports/class-wcmp-report-product.php:327
+msgid "Month"
+msgstr "Måned"
+
+#: ../classes/class-wcmp-ajax.php:523 ../classes/class-wcmp-ajax.php:752
+#: ../classes/class-wcmp-ajax.php:1039
+#: ../classes/reports/class-wcmp-report-product.php:328
+#: ../classes/reports/class-wcmp-report-vendor.php:244
+#, fuzzy
+msgid "Sales Report"
+msgstr "Salg etter selger"
+
+#: ../classes/class-wcmp-ajax.php:532
+#: ../classes/reports/class-wcmp-report-product.php:337
+msgid "No product was sold in the given period."
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:761
+msgid "This product was not sold in the given period."
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:766
+msgid "Please select a product."
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:804
+#, fuzzy
+msgid "No Sales :("
+msgstr "Ingen salg :("
+
+#: ../classes/class-wcmp-ajax.php:942
+msgid "Vendor Earnings"
+msgstr "Selger opptjening"
+
+#: ../classes/class-wcmp-ajax.php:951
+msgid "This vendor did not generate any sales in the given period."
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:1048
+#: ../classes/reports/class-wcmp-report-vendor.php:253
+msgid "Any vendor did not generate any sales in the given period."
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:1261
+#, php-format
+msgid "User %s (%s) is reporting an abuse on the following product: \n"
+msgstr "Bruker %s (%s) rapporterte feil/svindel på følgende produkt: \n"
+
+#: ../classes/class-wcmp-ajax.php:1262
+#, php-format
+msgid "Product details: %s (ID: #%s) \n"
+msgstr "Produkt detaljer: %s (ID: #%s) \n"
+
+#: ../classes/class-wcmp-ajax.php:1264
+#, php-format
+msgid "Vendor shop: %s \n"
+msgstr "Selger butikk: %s \n"
+
+#: ../classes/class-wcmp-ajax.php:1266
+#, php-format
+msgid "Message: %s\n"
+msgstr "Melding: %s\n"
+
+#: ../classes/class-wcmp-ajax.php:1269
+#, php-format
+msgid "Product page:: %s\n"
+msgstr "Produkt side: %s\n"
+
+#: ../classes/class-wcmp-admin.php:156
+#, fuzzy
+msgid "Vendor Shop Base"
+msgstr "Selger butikk base"
+
+#: ../classes/class-wcmp-admin.php:208
+#, fuzzy
+msgid "Frontend  Dashboard"
+msgstr "Selger panel"
+
+#: ../classes/class-wcmp-admin.php:211
+#, fuzzy
+msgid "Frontend Dashboard"
+msgstr "Selger panel"
+
+#: ../classes/class-wcmp-admin.php:255
+msgid "Powered by"
+msgstr "Utviklet av"
+
+#: ../classes/class-wcmp-admin.php:255
+msgid "Dualcube"
+msgstr "Dualcube"
+
+#: ../classes/class-wcmp-admin.php:282
+msgid ""
+"\"University\" section is visible only to vendors through the vendor "
+"dashboard. You may use this section to onboard your vendors. Share "
+"tutorials, best practices, \"how to\" guides or whatever you feel is "
+"appropriate with your vendors."
+msgstr ""
+
+#: ../classes/class-wcmp-admin.php:285
+msgid ""
+"Announcements are visible only to vendors through the vendor "
+"dashboard(message section). You may use this section to broadcast your "
+"announcements."
+msgstr ""
+
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-shipping-settings.php:59
+msgid "Sorry you are not authorized for this pages. Please contact with admin."
+msgstr ""
+
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-orders.php:33
+#, fuzzy
+msgid "Order is marked as shipped."
+msgstr "Ordre merket som sendt."
+
+#: ../classes/reports/class-wcmp-report-overview.php:212
+#, php-format
+msgid "%s Average Daily Sales"
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-overview.php:216
+#, php-format
+msgid "%s Average Monthly Sales"
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-overview.php:221
+#, php-format
+msgid "%s Gross Sales in this Period"
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-overview.php:222
+msgid "This is the sum of the order totals"
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-overview.php:235
+#, fuzzy, php-format
+msgid "%s Number of Orders Placed"
+msgstr "Antall ordre"
+
+#: ../classes/reports/class-wcmp-report-overview.php:241
+#, php-format
+msgid "%s Net Earnings in this Period"
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-overview.php:247
+#, fuzzy, php-format
+msgid "%s Net Vendor Commission"
+msgstr "Selger`s kommisjon utbetalt"
+
+#: ../classes/reports/class-wcmp-report-overview.php:262
+#: ../classes/reports/class-wcmp-report-product.php:24
+#: ../classes/reports/class-wcmp-report-vendor.php:26
+msgid "Year"
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-overview.php:263
+#: ../classes/reports/class-wcmp-report-product.php:25
+#: ../classes/reports/class-wcmp-report-vendor.php:27
+#, fuzzy
+msgid "Last Month"
+msgstr "Måned"
+
+#: ../classes/reports/class-wcmp-report-overview.php:264
+#: ../classes/reports/class-wcmp-report-product.php:26
+#: ../classes/reports/class-wcmp-report-vendor.php:28
+#, fuzzy
+msgid "This Month"
+msgstr "Måned"
+
+#: ../classes/reports/class-wcmp-report-overview.php:265
+#: ../classes/reports/class-wcmp-report-product.php:27
+#: ../classes/reports/class-wcmp-report-vendor.php:29
+msgid "Last 7 Days"
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-overview.php:304
+#, fuzzy
+msgid "Export CSV"
+msgstr "Lagre ordrer"
+
+#: ../classes/reports/class-wcmp-report-overview.php:359
+#, fuzzy
+msgid "Number of Orders"
+msgstr "Antall ordre"
+
+#: ../classes/reports/class-wcmp-report-overview.php:376
+#, fuzzy
+msgid "Average Order Value"
+msgstr "Gjennomsnittlig ordre total"
+
+#: ../classes/reports/class-wcmp-report-overview.php:386
+#: ../classes/reports/views/html-wcmp-report-by-product.php:65
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:65
+#, fuzzy
+msgid "Total Earnings"
+msgstr "totalt tjent"
+
+#: ../classes/reports/class-wcmp-report-overview.php:396
+#, fuzzy
+msgid "Total Earnings by Vendor"
+msgstr "Totalt tjent av selgere"
+
+#: ../classes/reports/class-wcmp-report-product.php:341
+msgid "Your store has no products."
+msgstr ""
+
+#: ../classes/reports/class-wcmp-report-vendor.php:256
+#, fuzzy
+msgid "Your store has no vendors."
+msgstr "Du har ikke en selgerkonto."
+
+#: ../classes/reports/views/html-report-by-date.php:25
+#: ../classes/reports/views/html-wcmp-report-by-product.php:24
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:24
+#, fuzzy
+msgid "Custom"
+msgstr "Kunde"
+
+#: ../classes/reports/views/html-report-by-date.php:43
+#: ../classes/reports/views/html-wcmp-report-by-product.php:42
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:42
+msgid "Go"
+msgstr ""
+
+#: ../classes/reports/views/html-wcmp-report-by-product.php:51
+#, fuzzy
+msgid "Search for a Product"
+msgstr "Søk i selgere"
+
+#: ../classes/reports/views/html-wcmp-report-by-product.php:62
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:62
+msgid "Sort By : "
+msgstr ""
+
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:51
+#, fuzzy
+msgid "Search for a Vendor"
+msgstr "Søk i selgere"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:29
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:29
+#, fuzzy
+msgid "Transactions (for Vendor)"
+msgstr "Kommisjon betalt (til selger)"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:30
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:30
+#, fuzzy
+msgid "New commissions have been credited to vendor."
+msgstr "Nye kommisjoner har blitt lagt til selger"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:32
+#, fuzzy
+msgid "Vendor's New Transaction"
+msgstr "Legg til selger merknad seksjon"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:33
+#, fuzzy
+msgid "[{site_title}] New Transaction"
+msgstr "[{site_title}] Ny selgerkonto"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:120
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:131
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:128
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:122
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:112
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:140
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:145
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:121
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:118
+msgid "Enable/Disable"
+msgstr "Aktiver/Deaktiver"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:122
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:114
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:123
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:120
+msgid "Enable notification for this email"
+msgstr "Aktiver varsel for denne e-posten"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:128
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:146
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:136
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:130
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:120
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:148
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:160
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:129
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:126
+#, php-format
+msgid ""
+"This controls the email subject line. Leave it blank to use the default "
+"subject: <code>%s</code>."
+msgstr ""
+"Dette kontrollerer e-post subjekt linjen. La stå tom for standard: <code>%s</"
+"code>."
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:133
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:151
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:141
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:135
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:125
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:153
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:165
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:134
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:131
+msgid "Email Heading"
+msgstr "E-post overskrift"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:135
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:127
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:136
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:133
+#, php-format
+msgid ""
+"This controls the main heading contained in the email notification. Leave it "
+"blank to use the default heading: <code>%s</code>."
+msgstr ""
+"Dette kontrollerer overskriften i e-posten. La stå tom for standard: <code>"
+"%s</code>."
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:140
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:158
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:148
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:142
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:132
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:160
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:172
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:141
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:138
+#, fuzzy
+msgid "Email Type"
+msgstr "E-post type"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:142
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:134
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:143
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:140
+msgid "Choose format for the email that will be sent."
+msgstr "Velg format på e-post."
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:33
+msgid "Approved Vendor Account"
+msgstr "Godkjent selgerkonto"
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:34
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:34
+#, fuzzy
+msgid ""
+"Vendor new account emails are sent when site admin approves a pending vendor."
+msgstr ""
+"Ny selger konto e-poster blir sendt når admin godkjenner en selgerkonto"
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:39
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:39
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:39
+msgid "Your account on {site_title}"
+msgstr "Din konto på {site_title}"
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:40
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:38
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:40
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:40
+msgid "Welcome to {site_title}"
+msgstr "Velkommen til {site_title}"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:26
+msgid "Admin New Vendor Account"
+msgstr "Admin ny selgerkonto"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:27
+#, fuzzy
+msgid "New emails are sent when a user applies to be a vendor."
+msgstr "Ny ordre e-post blir sendt når en ny kupong er sendt inn av en selger"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:29
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:33
+msgid "New Vendor Account"
+msgstr "Ny selgerkonto"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:30
+msgid "[{site_title}] New Vendor Account"
+msgstr "[{site_title}] Ny selgerkonto"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:133
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:130
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:124
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:142
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:147
+#, fuzzy
+msgid "Enable this email notification."
+msgstr "Aktiver dette e-post varslet"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:137
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:151
+msgid "Recipient(s)"
+msgstr "Mottakere"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:139
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:153
+#, fuzzy, php-format
+msgid ""
+"Enter recipient(s) (comma separated) for this email. Defaults to <code>%s</"
+"code>."
+msgstr ""
+"Skriv inn mottakere (separert med komma) for denne s-posten. Standard er: "
+"<code>%s</code>."
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:153
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:143
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:137
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:155
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:167
+#, fuzzy, php-format
+msgid ""
+"This controls the main heading contained within the email notification. "
+"Leave it blank to use the default heading: <code>%s</code>."
+msgstr ""
+"Dette kontrollerer overskriften på e-post meldingen. La stå tom for å bruke "
+"standard overskrift: <code>%s</code>."
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:160
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:150
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:144
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:162
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:174
+#, fuzzy
+msgid "Choose which format of email to be sent."
+msgstr "Velg formatet på e-poster"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:164
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:154
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:148
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:166
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:178
+#, fuzzy
+msgid "Plain Text"
+msgstr "Ren tekst"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:165
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:155
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:149
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:167
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:179
+msgid "HTML"
+msgstr "HTML"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:166
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:156
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:150
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:168
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:180
+msgid "Multipart"
+msgstr "Begge deler"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:26
+msgid "Vendor New order"
+msgstr "Nye selger ordre"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:27
+#, fuzzy
+msgid "New order notification emails are sent when order is processing."
+msgstr "Ny ordre e-poster blir sendt når en betaling er komplett."
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:29
+msgid "New Vendor Order"
+msgstr "Ny selger ordre"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:30
+msgid "[{site_title}] New customer order ({order_number}) - {order_date}"
+msgstr "[{site_title}]  Ny ordre ({order_number}) - {order_date}"
+
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:31
+#, fuzzy
+msgid "Notify as Shipped."
+msgstr "Merk som sendt"
+
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:32
+#, fuzzy
+msgid "Confirm customer that vendor has shipped the order."
+msgstr "Bekreft for kunden at selgeren har sendt varen(e)"
+
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:37
+#, fuzzy
+msgid "Your Order on {site_title} has been Shipped"
+msgstr "Din ordre på {site_title} er sendt"
+
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:33
+msgid "Rejected Vendor Account"
+msgstr "Avvist selgerkonto"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:32
+#, fuzzy
+msgid " Transaction Details"
+msgstr "Kommisjon detaljer"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:33
+msgid ""
+"[{site_title}] The transaction you requested was successfully completed."
+msgstr ""
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:35
+msgid "New Vendor Product By Admin"
+msgstr "Nytt produkt av admin"
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:36
+#, fuzzy
+msgid ""
+"New order emails are sent when a new product is assigned to a vendor by the "
+"admin"
+msgstr ""
+"Ny ordre e-poster blir sendt ut når et produkt blir godkjent av administrator"
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:38
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:38
+msgid "New product submitted: {product_name}"
+msgstr "Nytt produkt sendt inn: {product_name}"
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:39
+#, fuzzy
+msgid "[{blogname}] Admin has assigned new product to You- {product_name}"
+msgstr ""
+"[{blogname}] Administrator har godkjent et nytt produkt for deg - "
+"{product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:35
+msgid "New Vendor Product"
+msgstr "Nytt selger produkt"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:36
+#, fuzzy
+msgid ""
+"Notification emails are sent when a new product is submitted by a vendor."
+msgstr ""
+"Ny ordre e-post blir sendt når et nytt produkt er sendt inn av en selger"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:39
+msgid "[{blogname}] New product submitted by {vendor_name} - {product_name}"
+msgstr "[{blogname}] Nytt produkt sendt inn av {vendor_name} - {product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:76
+msgid "New Vendor Coupon"
+msgstr "Ny selger kupong"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:77
+#, fuzzy
+msgid ""
+"Notification emails are sent when a new coupon is submitted by a vendor."
+msgstr "Ny ordre e-post blir sendt når en ny kupong er sendt inn av en selger"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:79
+msgid "New coupon submitted: {product_name}"
+msgstr "Ny kupong innsendt: {product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:80
+msgid "[{blogname}] New coupon submitted by {vendor_name} - {product_name}"
+msgstr "[{blogname}] Ny kupong innsendt av {vendor_name} - {product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:34
+msgid ""
+"Vendor new account emails are sent when a customer signs up via the checkout "
+"or My Account page."
+msgstr ""
+"Ny selgerkonto e-poster blir sendt ut når en kunde registrerer seg via "
+"kassen eller min side."
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:29
+msgid "Withdrawal request to Admin from Vendor by BAC"
+msgstr ""
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:30
+#, fuzzy
+msgid "New commissions withdrawal request have been submitted."
+msgstr "Nye kommisjoner har blitt lagt til selger"
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:32
+#, fuzzy
+msgid "New Commission Withdrawal Request"
+msgstr "Vis kommisjon status"
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:33
+#, fuzzy
+msgid "[{site_title}] Commission Widthdrawal Request"
+msgstr "[{site_title}] kommisjon betalt"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:29
+#, fuzzy
+msgid "Commission Paid (for Vendor) by BAC"
+msgstr "Kommisjon betalt (til selger)"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:30
+#, fuzzy
+msgid "New commissions withdrawal request have been submitted by vendor."
+msgstr "Nye kommisjoner har blitt lagt til selger"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:32
+#, fuzzy
+msgid "Vendor's Commission Requests"
+msgstr "Selger`s kommisjon utbetalt"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:33
+#, fuzzy
+msgid "[{site_title}] Commission Payment Request"
+msgstr "[{site_title}] kommisjon betalt"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:26
+msgid "Display a list of vendors."
+msgstr "Vis en liste med selgere."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:28
+#, fuzzy
+msgid "WCMp Product Vendors List"
+msgstr "Selger liste"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:124
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:140
+msgid "Title (optional):"
+msgstr "Tittel (valgfri)"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:127
+#, fuzzy
+msgid "This widget shows a list of shop vendors.."
+msgstr "Denne widgeten viser en liste med butikk selgere.."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:27
+msgid "WCMp Store Location"
+msgstr "Butikk lokasjon"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:28
+msgid "Display the vendor's store location in Google Maps."
+msgstr "Vis butikkens adresse i Google maps."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:149
+msgid "Store Location"
+msgstr "Butikk adresse"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:155
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:166
+msgid "Title"
+msgstr "Tittel"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:26
+msgid "WCMp Vendor Quick Info"
+msgstr "WCMp Selger info"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:27
+#, fuzzy
+msgid "Add a quick info contact form in vendor's store page."
+msgstr "Legg til info kontakt skjema på selgers butikk side"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:39
+#, fuzzy
+msgid "Unable to send email. Please try again."
+msgstr "Kunne ikke sende e-post. Vennligst prøv igjen"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:43
+#, fuzzy
+msgid "Email sent successfully."
+msgstr "E-post sendt!"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:157
+msgid "Quick Info"
+msgstr "Info"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:158
+msgid "Do you need more information? Write to us!"
+msgstr "Trenger du mer informasjon? Skriv til oss!"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:176
+#, fuzzy
+msgid "Submit Button Label Text"
+msgstr "Send knapp tekst"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:181
+msgid "Hide from guests"
+msgstr "Skjul for gjester"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:27
+#, fuzzy
+msgid "WCMp Product Vendor's Info"
+msgstr "Selger info"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:29
+msgid "Display selected or current product vendor info."
+msgstr "Vis valgte eller nåværende produkt selger info."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:143
+#, fuzzy
+msgid "This widget shows.."
+msgstr "Denne widgeten viser.."
+
+#, fuzzy
+#~ msgid "Rate…"
+#~ msgstr "Sats"
+
+#, fuzzy
+#~ msgid "Desciption"
+#~ msgstr "Beskrivelse"
+
+#, fuzzy
+#~ msgid "Shipping class:"
+#~ msgstr "Postadresse"
+
+#, fuzzy
+#~ msgctxt "page_slug"
+#~ msgid "wcmp_vendor_messages"
+#~ msgstr "vendor_orders"
+
+#, fuzzy
+#~ msgid "Vendor Messages"
+#~ msgstr "Ny selger navn"
+
+#, fuzzy
+#~ msgid "View Shop"
+#~ msgstr "Vis %s"
+
+#, fuzzy
+#~ msgid "Messages"
+#~ msgstr "Melding"
+
+#, fuzzy
+#~ msgid "Policies Enable/Disable :"
+#~ msgstr "Aktiver/Deaktiver"
+
+#, fuzzy
+#~ msgid "Export Orders"
+#~ msgstr "Lagre ordrer"
+
+#, fuzzy
+#~ msgid "Full Name"
+#~ msgstr "Fult navn"
+
+#, fuzzy
+#~ msgid "Email Address"
+#~ msgstr "E-post adresse"
+
+#~ msgid "Quantity: %d"
+#~ msgstr "Antall: %d"
+
+#~ msgid "Comments (%s)"
+#~ msgstr "Kommentarer (%s)"
+
+#, fuzzy
+#~ msgid ""
+#~ "You have not selected any product's orders.! Please go back to the Vendor "
+#~ "Dashboard and click Show Orders on the product you'd like to view."
+#~ msgstr ""
+#~ "Du har ikke valgt et produkts ordre å vise! Vennligst gå tilbake til din "
+#~ "side og klikk på \"vis ordre\" på det produktet du vil vise."
+
+#, fuzzy
+#~ msgid "Export"
+#~ msgstr "Lagre ordrer"
+
+#, fuzzy
+#~ msgid "Order IDs are : "
+#~ msgstr "Ordre ID:"
+
+#~ msgid "SALES REPORT"
+#~ msgstr "Salgsrapport"
+
+#~ msgid "Vendor Total Sales Report : "
+#~ msgstr "Selgere total salgs rapport:"
+
+#, fuzzy
+#~ msgid ""
+#~ "There are no sale reports as your vendor application has not been "
+#~ "approved yet. Please wait for further notification from the site admin."
+#~ msgstr ""
+#~ "Det finnes ingen salgsrapport da du allerede har søkt om selgerkonto. "
+#~ "Vennligst vent på godkjenning."
+
+#, fuzzy
+#~ msgid "Commission Status"
+#~ msgstr "Vis kommisjon status"
+
+#~ msgid "Profile"
+#~ msgstr "Profil"
+
+#~ msgid "My Company"
+#~ msgstr "Min butikk"
+
+#~ msgid "Go to My Shop"
+#~ msgstr "Gå til min butikk"
+
+#~ msgid "Submit a Product"
+#~ msgstr "Legg inn et produkt"
+
+#~ msgid "Edit My Profile"
+#~ msgstr "Rediger min profil"
+
+#, fuzzy
+#~ msgid ""
+#~ "Your request to become a \\\"Vendor\\\" has not been approved yet. You "
+#~ "will receive a notification email when your request is approved!"
+#~ msgstr ""
+#~ "Din søknad om selgerkonto er ikke godkjent ennå. Når den er det, vil du "
+#~ "få en e-post med melding om godkjenning!"
+
+#~ msgid "Your account is not vendor capable."
+#~ msgstr "Du har ikke en selgerkonto."
+
+#, fuzzy
+#~ msgid "Status : %s"
+#~ msgstr "Status"
+
+#~ msgid "Shop Title"
+#~ msgstr "Butikk tittel"
+
+#~ msgid "Biographical Info"
+#~ msgstr "Biografisk info"
+
+#, fuzzy
+#~ msgid "Hide Description in Vendor Shop"
+#~ msgstr "Skjul beskrivelse på butikksiden"
+
+#, fuzzy
+#~ msgid "Facebook Profile URL"
+#~ msgstr "Facebook profil URL"
+
+#~ msgid "Give permission to export orders."
+#~ msgstr "Gi tillatelse til å hente ut ordre data."
+
+#~ msgid "Show customer email in exported data."
+#~ msgstr "Vis kunde e-post i hentet ordre data."
+
+#~ msgid "Order Details in Vendor Dashboard "
+#~ msgstr "Ordre detaljer i selger panel"
+
+#~ msgctxt "post type singular name"
+#~ msgid "Commission"
+#~ msgstr "Kommisjon"
+
+#~ msgid "Extra Data"
+#~ msgstr "Ekstra info"
+
+#, fuzzy
+#~ msgid "All Months"
+#~ msgstr "Alle måneder"
+
+#, fuzzy
+#~ msgid "All Years"
+#~ msgstr "Alle år"
+
+#~ msgid "Give Taxes per product"
+#~ msgstr "Mva per produkt"
+
+#~ msgid "This feature is now available in the %s\\\"Payment\\\"%s tab."
+#~ msgstr "Dette alternativet er nå tilgjengelig i %s\\\"Betaling\\\"%s fanen."
+
+#~ msgid "Give Shipping per product"
+#~ msgstr "Gi frakt per produkt"
+
+#~ msgid "Billing address"
+#~ msgstr "Faktura adresse"
+
+#~ msgid "Default commission"
+#~ msgstr "Standard kommisjon"
+
+#~ msgid "Include coupons in commission calculations"
+#~ msgstr "Inkluder kuponger i kommisjon kalkuleriing"
+
+#~ msgid " Mention vendor name in product catalog pages"
+#~ msgstr "Vis butikk navn i produkt katalog sider"
+
+#~ msgid "Mention vendor name in cart, checkout page, and emails."
+#~ msgstr "Vis butikknavn i handlekurv, kasse sider og e-post."
+
+#~ msgid "Alternative to the text -Sold By"
+#~ msgstr "Alternativ til teksten - Solgt av"
+
+#~ msgid "Add notice for blocked vendor on vendor shop page"
+#~ msgstr "Legg til melding til blokkerte selgere på butikk side"
+
+#~ msgid "Add notice for blocked vendor to vendor shop page"
+#~ msgstr "Legg inn melding til blokkerte selgere på butikk siden"
+
+#~ msgid "These features are now available in the %sPayment%s tab."
+#~ msgstr "Disse alternativene er nå tilgjengelige i %payment%s fanen."
+
+#~ msgid "Vendor page title"
+#~ msgstr "Selger side tittel"
+
+#~ msgid "Vendor page Slug"
+#~ msgstr "Selger side slug"
+
+#~ msgid "Hide Description on Vendor Shop Page."
+#~ msgstr "Skjul beskrivelse på selger butikk side."
+
+#~ msgid "Vendor Company"
+#~ msgstr "Selger firma"
+
+#~ msgid "Facebook Profile Url"
+#~ msgstr "Facebook profil URL"
+
+#~ msgid "Youtube Vedio Url"
+#~ msgstr "Youtube video URL"
+
+#~ msgid "Enter Vedio Url"
+#~ msgstr "Skriv inn Video URL"
+
+#~ msgid "Is Vendor can Submit Product."
+#~ msgstr "Selger kan sene inn produkt."
+
+#~ msgid "Is Vendor can Submit Coupon."
+#~ msgstr "Selger kan sende inn kupong"
+
+#~ msgid "Withdraw to give Tax"
+#~ msgstr "Ta ut for Mva"
+
+#~ msgid "Is Vendor can Give Tax."
+#~ msgstr "Selger kan sette Mva."
+
+#~ msgid "Withdraw to give Shippng"
+#~ msgstr "Ta ut for frakt"
+
+#~ msgid "Block this vendor with all items."
+#~ msgstr "Blokker denne selgeren og ale dens varer."
+
+#~ msgid "Add New"
+#~ msgstr "Legg til ny"
+
+#~ msgid "UnPaid"
+#~ msgstr "Ikke betalt"
+
+#~ msgid "Sales by Product"
+#~ msgstr "Salg etter produkt"
+
+#~ msgid "n/a"
+#~ msgstr "n/a"
+
+#~ msgid "Total orders"
+#~ msgstr "Totalt antall ordre"
+
+#~ msgid "This month's sales"
+#~ msgstr "Denne måneds salg"
+
+#~ msgid "Search for a vendor&hellip;"
+#~ msgstr "Søk etter selger&hellip;"
+
+#~ msgid "Zip"
+#~ msgstr "Postnummer"
+
+#~ msgid "New emails are sent when a pending vendor account is received."
+#~ msgstr "Nye e-poster blir sendt når en ventende selgerkonto er mottatt."
+
+#~ msgid ""
+#~ "This controls the email subject line. Leave blank to use the default "
+#~ "subject: <code>%s</code>."
+#~ msgstr ""
+#~ "Dette kontrollerer e-post subjekt linjen. LA stå tom for å bruke standard "
+#~ "subjekt: <code>%s</code>."
+
+#~ msgid "The commission has been credited successfully."
+#~ msgstr "Kommisjon har blitt kreditert."
+
+#~ msgid "Commission #%s detail"
+#~ msgstr "Kommisjon #%s detaljer"
+
+#~ msgid "Order number"
+#~ msgstr "Ordre nummer"
+
+#~ msgid "Tel:"
+#~ msgstr "Telefon:"
+
+#~ msgid ""
+#~ "Thanks for creating an account as Pending Vendor on %s. Your username is "
+#~ "<strong>%s</strong>."
+#~ msgstr ""
+#~ "Takk for din registrering hos %s. Ditt brukernavn er <strong>%s</strong>."
+
+#~ msgid ""
+#~ "We take your application for vendor.We will verify your informations and "
+#~ "inform you by mail"
+#~ msgstr ""
+#~ "Vi har mottatt din søknad som selger og vil verifisere informasjonen. Du "
+#~ "vil få videre beskjed over e-post."
+
+#~ msgid ""
+#~ "Congratulations !! First set up your store account and Start selling from "
+#~ "now.."
+#~ msgstr "Gratulerer! Sett opp din  butikk konto og begynn å selge nå."
+
+#~ msgid ""
+#~ "Thanks for creating an account as Pending Vendor on %s.But Your request "
+#~ "is rejected due to some reason."
+#~ msgstr "Takk for din søknad hos %s. Men din søknad er avslått."
+
+#~ msgid "Commission number: %s"
+#~ msgstr "Kommisjon nummer: %s"
+
+#~ msgid "Your Account is not Vendor Capable"
+#~ msgstr "Din konto er ikke en selgerkonto"
+
+#~ msgid "%s for %s item"
+#~ msgid_plural "%s for %s items"
+#~ msgstr[0] "%s for %s vare"
+#~ msgstr[1] "%s for %s varer"
+
+#~ msgid "There are no order is marked as completed that are sold from you."
+#~ msgstr "Ingen ordre er merket som fullført som er solgt av deg."

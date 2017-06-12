@@ -34,7 +34,7 @@ function twentyseventeen_custom_header_setup() {
 	 * }
 	 */
 	add_theme_support( 'custom-header', apply_filters( 'twentyseventeen_custom_header_args', array(
-		'default-image'      => get_parent_theme_file_uri( '/assets/images/header.jpg' ),
+		'default-image'      => get_parent_theme_file_uri( '/assets/images/studentsbanner.jpg' ),
 		'width'              => 2000,
 		'height'             => 1200,
 		'flex-height'        => true,
@@ -44,8 +44,8 @@ function twentyseventeen_custom_header_setup() {
 
 	register_default_headers( array(
 		'default-image' => array(
-			'url'           => '%s/assets/images/header.jpg',
-			'thumbnail_url' => '%s/assets/images/header.jpg',
+			'url'           => '%s/assets/images/studentsbanner.jpg',
+			'thumbnail_url' => '%s/assets/images/studentsbanner.jpg',
 			'description'   => __( 'Default Header Image', 'twentyseventeen' ),
 		),
 	) );

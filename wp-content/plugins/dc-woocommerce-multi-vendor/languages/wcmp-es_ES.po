@@ -1,0 +1,4566 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WC Marketplace\n"
+"POT-Creation-Date: 2016-04-05 18:45+0530\n"
+"PO-Revision-Date: 2016-04-05 18:45+0530\n"
+"Last-Translator: \n"
+"Language-Team: Dualcube <admin@dualcube.com>\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../dc_product_vendor.php:41
+msgid ""
+"WCMp plugin requires <a href=\"http://wordpress.org/extend/plugins/"
+"woocommerce/\">WooCommerce</a> plugins to be active!"
+msgstr ""
+"WCMp plugin necesita <a href=\"http://wordpress.org/extend/plugins/"
+"woocommerce/\">WooCommerce</a> activo!"
+
+#: ../includes/wcmp-core-functions.php:451
+msgid "Settings"
+msgstr "Ajustes"
+
+#: ../includes/wcmp-core-functions.php:536
+msgid ""
+"Another Multivendor Plugin is allready Activated Please deactivate first to "
+"install this plugin"
+msgstr ""
+
+#: ../includes/class-wcmp-install.php:102
+#: ../admin/class-wcmp-settings-pages.php:36
+msgid "Vendor Dashboard"
+msgstr "Escritorio del vendedor"
+
+#: ../includes/class-wcmp-install.php:103
+#: ../admin/class-wcmp-settings-pages.php:37
+#: ../classes/class-wcmp-admin.php:220 ../classes/class-wcmp-admin.php:223
+msgid "Shop Settings"
+msgstr "Ajustes de tienda"
+
+#: ../includes/class-wcmp-install.php:104
+msgid "Vendor Orders"
+msgstr "Pedidos de vendedor"
+
+#: ../includes/class-wcmp-install.php:105
+msgid "Vendor Order Details"
+msgstr "Proveedor Detalles de pedidos"
+
+#: ../includes/class-wcmp-install.php:106 ../classes/class-wcmp.php:610
+msgid "Withdrawal Request Status"
+msgstr "Estado de la solicitud de retirada"
+
+#: ../includes/class-wcmp-install.php:107
+#: ../admin/class-wcmp-settings-pages.php:41 ../classes/class-wcmp.php:626
+msgid "Transaction Details"
+msgstr "Detalles de la transacción"
+
+#: ../includes/class-wcmp-install.php:108
+#: ../admin/class-wcmp-settings-pages.php:42 ../classes/class-wcmp.php:643
+msgid "Vendor Policies"
+msgstr "Políticas del vendedor"
+
+#: ../includes/class-wcmp-install.php:109
+#: ../admin/class-wcmp-settings-pages.php:43 ../classes/class-wcmp.php:660
+msgid "Vendor Billing"
+msgstr "Facturación de proveedores"
+
+#: ../includes/class-wcmp-install.php:110
+#: ../admin/class-wcmp-settings-pages.php:48 ../classes/class-wcmp.php:677
+msgid "Vendor Shipping"
+msgstr "Envíos del vendedor"
+
+#: ../includes/class-wcmp-install.php:111
+msgid "Vendor Reports"
+msgstr "Informes de vendedor"
+
+#: ../includes/class-wcmp-install.php:112 ../classes/class-wcmp.php:712
+msgid "Vendor Widthdrawals"
+msgstr "Retiradas del vendedor"
+
+#: ../includes/class-wcmp-install.php:113
+#: ../admin/class-wcmp-settings-pages.php:46 ../classes/class-wcmp.php:729
+msgid "Vendor University"
+msgstr "Universidad del vendedor"
+
+#: ../includes/class-wcmp-install.php:114
+#: ../admin/class-wcmp-settings-pages.php:47 ../classes/class-wcmp.php:747
+#, fuzzy
+msgid "Vendor Announcements"
+msgstr "Avisos"
+
+#: ../templates/vendor_tab.php:37 ../templates/widget/vendor-info.php:28
+#: ../templates/widget/vendor-info.php:29
+#, php-format
+msgid "More Products from %1$s"
+msgstr "Más pedidos de %1$s"
+
+#: ../templates/vendor_message_to_buyer.php:27
+#: ../templates/customer_support_details_to_buyer.php:34
+msgid "Vendor Details"
+msgstr "Detalles de vendedor"
+
+#: ../templates/vendor_message_to_buyer.php:28
+#: ../templates/widget/quick-info.php:32
+msgid "Message"
+msgstr "Mensaje"
+
+#: ../templates/vendor_message_to_buyer.php:33
+#: ../templates/customer_support_details_to_buyer.php:40
+msgid "Vender Name"
+msgstr "Nombre del vendedor"
+
+#: ../templates/vendor_message_to_buyer.php:35
+#: ../templates/customer_support_details_to_buyer.php:42
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:16
+#: ../admin/class-wcmp-settings-to_do_list.php:113
+msgid "Product Name"
+msgstr "Nombre de producto"
+
+#: ../templates/vendor_message_to_buyer.php:41
+#: ../templates/vendor_message_to_buyer.php:61
+#: ../templates/customer_support_details_to_buyer.php:45
+#: ../templates/customer_support_details_to_buyer.php:81
+#: ../templates/shortcode/vendor_policy.php:48
+msgid "Customer Support Details"
+msgstr "Detalles de atención al cliente"
+
+#: ../templates/vendor_message_to_buyer.php:43
+#: ../templates/vendor_message_to_buyer.php:63
+#: ../templates/customer_support_details_to_buyer.php:47
+#: ../templates/customer_support_details_to_buyer.php:83
+#: ../classes/class-wcmp-email.php:76 ../classes/class-wcmp-email.php:143
+msgid "Email : "
+msgstr "Email:"
+
+#: ../templates/vendor_message_to_buyer.php:48
+#: ../templates/vendor_message_to_buyer.php:68
+#: ../templates/customer_support_details_to_buyer.php:52
+#: ../templates/customer_support_details_to_buyer.php:88
+#: ../classes/class-wcmp-email.php:83 ../classes/class-wcmp-email.php:153
+msgid "Phone : "
+msgstr "Teléfono : "
+
+#: ../templates/vendor_message_to_buyer.php:51
+#: ../templates/vendor_message_to_buyer.php:71
+#: ../templates/customer_support_details_to_buyer.php:55
+#: ../templates/customer_support_details_to_buyer.php:91
+msgid "Return Address "
+msgstr "Dirección de devoluciones"
+
+#: ../templates/policies_tab.php:26
+#: ../templates/shortcode/vendor_policy.php:35
+#: ../admin/class-wcmp-settings-general-policies.php:35
+#: ../classes/class-wcmp-product.php:605 ../classes/class-wcmp-user.php:641
+msgid "Cancellation/Return/Exchange Policy"
+msgstr "Cancelación/Devolución/Política de cambios"
+
+#: ../templates/policies_tab.php:27
+#: ../templates/shortcode/vendor_policy.php:39
+#: ../admin/class-wcmp-settings-general-policies.php:37
+#: ../classes/class-wcmp-product.php:621 ../classes/class-wcmp-user.php:649
+msgid "Refund Policy"
+msgstr "Política de devoluciones"
+
+#: ../templates/policies_tab.php:28
+#: ../templates/shortcode/vendor_policy.php:43
+#: ../admin/class-wcmp-settings-general-policies.php:39
+#: ../classes/class-wcmp-product.php:637 ../classes/class-wcmp-user.php:657
+msgid "Shipping Policy"
+msgstr "Política de envíos"
+
+#: ../templates/archive_vendor_info.php:30
+msgid "External Store URL"
+msgstr "URL de tienda externa"
+
+#: ../templates/archive_vendor_info.php:74 ../classes/class-wcmp-user.php:362
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:171
+msgid "Description"
+msgstr "Descripción"
+
+#: ../templates/customer_support_details_to_buyer.php:76
+msgid "Customer Support Details & Product Return Address"
+msgstr "Detalles de atención al cliente & Dirección de devolución del producto"
+
+#: ../templates/vendor_dashboard_menu.php:40
+msgid "Shop Name"
+msgstr "Nombre de la tienda"
+
+#: ../templates/vendor_dashboard_menu.php:42
+#: ../templates/vendor_dashboard_menu.php:48
+#, fuzzy
+msgid "Shop"
+msgstr "Nombre de la tienda"
+
+#: ../templates/vendor_dashboard_menu.php:43
+#: ../templates/vendor_dashboard_menu.php:49
+#: ../templates/shortcode/vendor_announcements.php:19
+#: ../admin/class-wcmp-settings.php:79
+#: ../classes/class-wcmp-post-notices.php:72
+#: ../classes/class-wcmp-post-notices.php:73
+#: ../classes/class-wcmp-post-notices.php:74
+#: ../classes/class-wcmp-post-notices.php:75
+#: ../classes/class-wcmp-post-notices.php:76
+#: ../classes/class-wcmp-post-notices.php:77
+#: ../classes/class-wcmp-post-notices.php:78
+#: ../classes/class-wcmp-post-notices.php:79
+#: ../classes/class-wcmp-post-notices.php:81
+#: ../classes/class-wcmp-post-notices.php:82
+msgid "Announcements"
+msgstr "Avisos"
+
+#: ../templates/vendor_dashboard_menu.php:50
+#: ../templates/shortcode/vendor_dashboard.php:36
+msgid "Dashboard"
+msgstr "Escritorio"
+
+#: ../templates/vendor_dashboard_menu.php:51
+msgid "Store Settings"
+msgstr "Ajustes de tienda "
+
+#: ../templates/vendor_dashboard_menu.php:53
+msgid "- Shop front"
+msgstr "- Front tienda:"
+
+#: ../templates/vendor_dashboard_menu.php:55
+msgid "- Policies"
+msgstr "- Políticas"
+
+#: ../templates/vendor_dashboard_menu.php:57
+msgid "- Billing"
+msgstr "- Facturación"
+
+#: ../templates/vendor_dashboard_menu.php:59
+msgid "- Shipping"
+msgstr "- Envío"
+
+#: ../templates/vendor_dashboard_menu.php:65
+msgid "Product Manager"
+msgstr "Manager de producto"
+
+#: ../templates/vendor_dashboard_menu.php:70
+msgid "Promote"
+msgstr "Promocionar"
+
+#: ../templates/vendor_dashboard_menu.php:73
+msgid "- Coupons"
+msgstr " - Cupones"
+
+#: ../templates/vendor_dashboard_menu.php:78
+msgid "Stats/Reports"
+msgstr "Estadísticas/Informes"
+
+#: ../templates/vendor_dashboard_menu.php:80
+msgid "- Overview"
+msgstr "- Resumen"
+
+#: ../templates/vendor_dashboard_menu.php:83
+#: ../classes/class-wcmp-vendor-dashboard.php:471
+#: ../classes/class-wcmp-vendor-dashboard.php:659
+msgid "Orders"
+msgstr "Pedidos"
+
+#: ../templates/vendor_dashboard_menu.php:84
+msgid "Payments"
+msgstr "Pagos"
+
+#: ../templates/vendor_dashboard_menu.php:86
+msgid "- Withdrawal"
+msgstr "- Retirada"
+
+#: ../templates/vendor_dashboard_menu.php:87
+msgid "- History"
+msgstr "Histórico"
+
+#: ../templates/vendor_dashboard_menu.php:91
+#: ../templates/shortcode/vendor_university.php:29
+#: ../admin/class-wcmp-settings.php:78
+#: ../classes/class-wcmp-post-university.php:33
+#: ../classes/class-wcmp-post-university.php:34
+#: ../classes/class-wcmp-post-university.php:35
+#: ../classes/class-wcmp-post-university.php:36
+#: ../classes/class-wcmp-post-university.php:37
+#: ../classes/class-wcmp-post-university.php:38
+#: ../classes/class-wcmp-post-university.php:39
+#: ../classes/class-wcmp-post-university.php:40
+#: ../classes/class-wcmp-post-university.php:42
+#: ../classes/class-wcmp-post-university.php:43
+msgid "University"
+msgstr "Universidad"
+
+#: ../templates/wcmp-vendor-review-form.php:38
+msgid "Your Rating"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:40
+#, fuzzy
+msgid "Rate..."
+msgstr "Tasa"
+
+#: ../templates/wcmp-vendor-review-form.php:41
+msgid "Perfect"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:42
+msgid "Good"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:43
+msgid "Average"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:44
+msgid "Not that bad"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:45
+msgid "Very Poor"
+msgstr ""
+
+#: ../templates/wcmp-vendor-review-form.php:48
+#, fuzzy
+msgid "Your Review"
+msgstr "Ver comentarios"
+
+#: ../templates/wcmp-vendor-review-form.php:89
+msgid "There are no reviews yet."
+msgstr ""
+
+#: ../templates/widget/store-location.php:16
+msgid "Show in Google Maps"
+msgstr "Mostrar en Google Maps"
+
+#: ../templates/widget/quick-info.php:13
+#: ../templates/shortcode/vendor_shipping.php:159
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:160
+msgid "Submit"
+msgstr "Enviar"
+
+#: ../templates/widget/quick-info.php:29
+#: ../classes/class-wcmp-product.php:1088
+msgid "Name"
+msgstr "Nombre"
+
+#: ../templates/widget/quick-info.php:30
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:126
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:144
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:134
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:128
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:118
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:146
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:158
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:127
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:124
+msgid "Subject"
+msgstr "Asunto"
+
+#: ../templates/widget/quick-info.php:31
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:44
+#: ../classes/class-wcmp-product.php:1093
+msgid "Email"
+msgstr "Email"
+
+#: ../templates/shortcode/vendor_announcements_archive.php:62
+msgid "Restore"
+msgstr "Restaurar"
+
+#: ../templates/shortcode/vendor_announcements_archive.php:71
+#: ../templates/shortcode/vendor_announcements_unread.php:90
+#: ../templates/shortcode/vendor_announcements_all.php:83
+#: ../templates/shortcode/vendor_announcements_read.php:87
+msgid "Read More"
+msgstr "Leer más"
+
+#: ../templates/shortcode/vendor_announcements_archive.php:84
+#: ../templates/shortcode/vendor_withdrawal.php:32
+#: ../templates/shortcode/vendor_announcements_unread.php:103
+#: ../templates/shortcode/vendor_orders.php:52
+#: ../templates/shortcode/vendor_orders.php:100
+#: ../templates/shortcode/vendor_orders.php:107
+#: ../templates/shortcode/vendor_orders.php:154
+#: ../templates/shortcode/vendor_orders.php:161
+#: ../templates/shortcode/vendor_orders.php:208
+#: ../templates/shortcode/vendor_dashboard.php:217
+#: ../templates/shortcode/vendor_dashboard.php:240
+#: ../templates/shortcode/vendor_dashboard.php:365
+#: ../templates/shortcode/vendor_dashboard.php:384
+#: ../templates/shortcode/vendor_announcements_all.php:97
+#: ../templates/shortcode/vendor_announcements_read.php:104
+msgid "Showing Results"
+msgstr "Mostrando resultados"
+
+#: ../templates/shortcode/vendor_announcements_archive.php:84
+#: ../templates/shortcode/vendor_announcements_unread.php:103
+#: ../templates/shortcode/vendor_announcements_all.php:97
+#: ../templates/shortcode/vendor_announcements_read.php:104
+msgid "out of"
+msgstr "fuera de"
+
+#: ../templates/shortcode/vendor_announcements_archive.php:86
+#: ../templates/shortcode/vendor_withdrawal.php:73
+#: ../templates/shortcode/vendor_announcements_unread.php:105
+#: ../templates/shortcode/vendor_orders.php:95
+#: ../templates/shortcode/vendor_orders.php:149
+#: ../templates/shortcode/vendor_orders.php:203
+#: ../templates/shortcode/vendor_transactions.php:77
+#: ../templates/shortcode/vendor_dashboard.php:218
+#: ../templates/shortcode/vendor_dashboard.php:241
+#: ../templates/shortcode/vendor_dashboard.php:366
+#: ../templates/shortcode/vendor_dashboard.php:385
+#: ../templates/shortcode/vendor_announcements_all.php:99
+#: ../templates/shortcode/vendor_announcements_read.php:106
+msgid "Show More"
+msgstr "Mostrar más"
+
+#: ../templates/shortcode/vendor_withdrawal.php:17
+#: ../templates/shortcode/vendor_transactions.php:28
+msgid "Payments        History"
+msgstr "Pagos      Histórico"
+
+#: ../templates/shortcode/vendor_withdrawal.php:19
+msgid "Withdrawals"
+msgstr "Retiradas"
+
+#: ../templates/shortcode/vendor_withdrawal.php:27
+msgid "Your Threshold value for withdrawals is :"
+msgstr "El valor umbral para las retiradas es:"
+
+#: ../templates/shortcode/vendor_withdrawal.php:31
+msgid "Completed Orders"
+msgstr "Pedidos completados"
+
+#: ../templates/shortcode/vendor_withdrawal.php:39
+msgid "out of "
+msgstr "fuera de"
+
+#: ../templates/shortcode/vendor_withdrawal.php:54
+#: ../classes/class-wcmp-post-commission.php:346
+#: ../classes/class-wcmp-vendor-order-page.php:78
+msgid "Order ID"
+msgstr "ID del pedido"
+
+#: ../templates/shortcode/vendor_withdrawal.php:55
+#: ../templates/shortcode/vendor_report.php:47
+#: ../classes/class-wcmp-ajax.php:517 ../classes/class-wcmp-ajax.php:746
+#: ../classes/class-wcmp-ajax.php:936 ../classes/class-wcmp-ajax.php:1033
+#: ../classes/reports/class-wcmp-report-product.php:322
+#: ../classes/reports/class-wcmp-report-vendor.php:238
+msgid "My Earnings"
+msgstr "Mis ganancias"
+
+#: ../templates/shortcode/vendor_withdrawal.php:68
+msgid "Request Withdrawals"
+msgstr "Solicitar retiradas"
+
+#: ../templates/shortcode/vendor_withdrawal.php:82
+msgid "Your next scheduled payment date is on:"
+msgstr "Tu próximo pago programado es el:"
+
+#: ../templates/shortcode/vendor_report.php:17
+msgid "Stats & Reports"
+msgstr "Estadísticas & Informes"
+
+#: ../templates/shortcode/vendor_report.php:19
+#: ../classes/class-wcmp-report.php:85
+msgid "Overview"
+msgstr "Resumen"
+
+#: ../templates/shortcode/vendor_report.php:23
+msgid "Showing stats and reports for : "
+msgstr "Mostrar estadísticas e informes para:"
+
+#: ../templates/shortcode/vendor_report.php:35
+#: ../templates/shortcode/vendor_orders.php:35
+#: ../templates/shortcode/vendor_transactions.php:45
+msgid "Select Date Range :"
+msgstr "Seleccionar rango de fechas:"
+
+#: ../templates/shortcode/vendor_report.php:38
+#: ../templates/shortcode/vendor_orders.php:39
+#: ../templates/shortcode/vendor_transactions.php:48
+#: ../classes/reports/views/html-wcmp-report-by-product.php:54
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:54
+msgid "Show"
+msgstr "Mostrar"
+
+#: ../templates/shortcode/vendor_report.php:43
+#: ../classes/reports/class-wcmp-report-overview.php:366
+#: ../classes/reports/views/html-wcmp-report-by-product.php:64
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:64
+msgid "Total Sales"
+msgstr "Ventas totales"
+
+#: ../templates/shortcode/vendor_report.php:52
+msgid " Total number of"
+msgstr "Número total de"
+
+#: ../templates/shortcode/vendor_report.php:52
+msgid "Order placed"
+msgstr "Pedido realizado"
+
+#: ../templates/shortcode/vendor_report.php:55
+msgid "Number of "
+msgstr "Número de"
+
+#: ../templates/shortcode/vendor_report.php:55
+msgid "Purchased Products"
+msgstr "Productos comprados"
+
+#: ../templates/shortcode/vendor_report.php:58
+msgid " Number of "
+msgstr "Número de"
+
+#: ../templates/shortcode/vendor_report.php:58
+msgid " Coupons used"
+msgstr "Cupones usados"
+
+#: ../templates/shortcode/vendor_report.php:61
+msgid " Total "
+msgstr "Total"
+
+#: ../templates/shortcode/vendor_report.php:61
+msgid " Coupon Discount "
+msgstr "Cupón de descuento"
+
+#: ../templates/shortcode/vendor_report.php:61
+msgid " value "
+msgstr "valor"
+
+#: ../templates/shortcode/vendor_report.php:64
+msgid "  Number of  "
+msgstr "Número de"
+
+#: ../templates/shortcode/vendor_report.php:64
+msgid "  Unique Customers  "
+msgstr "Clientes únicos"
+
+#: ../templates/shortcode/vendor_report.php:74
+msgid "Download CSV to get complete Stats & Reports"
+msgstr "Descargar CSV para tener estadísticas e informes completos"
+
+#: ../templates/shortcode/vendor_report.php:77
+#: ../templates/shortcode/vendor_orders.php:88
+#: ../templates/shortcode/vendor_orders.php:143
+#: ../templates/shortcode/vendor_orders.php:197
+#: ../templates/shortcode/vendor_transactions.php:75
+msgid "Download CSV"
+msgstr "Descargar CSV"
+
+#: ../templates/shortcode/vendor_announcements_unread.php:80
+#: ../templates/shortcode/vendor_announcements_all.php:68
+#: ../classes/class-wcmp-ajax.php:263
+msgid "Mark Read"
+msgstr "Marcar como leído"
+
+#: ../templates/shortcode/vendor_announcements_unread.php:81
+#: ../templates/shortcode/vendor_announcements_all.php:73
+#: ../templates/shortcode/vendor_announcements_read.php:78
+msgid "Delete"
+msgstr "Borrar"
+
+#: ../templates/shortcode/vendor_orders.php:18
+msgid "Order &amp; Shipping"
+msgstr "Pedidos &amp; Envíos"
+
+#: ../templates/shortcode/vendor_orders.php:22
+#: ../templates/shortcode/vendor_transactions.php:34
+msgid " Showing stats and reports for  :"
+msgstr "Mostrar estadísticas y reportes para:"
+
+#: ../templates/shortcode/vendor_orders.php:37
+msgid "from"
+msgstr "desde"
+
+#: ../templates/shortcode/vendor_orders.php:38
+msgid "to"
+msgstr "a"
+
+#: ../templates/shortcode/vendor_orders.php:44
+#: ../templates/shortcode/vendor_announcements.php:25
+msgid "All"
+msgstr "Todo"
+
+#: ../templates/shortcode/vendor_orders.php:45
+#: ../classes/class-wcmp-post-transaction.php:284
+msgid "Processing"
+msgstr "Procesando"
+
+#: ../templates/shortcode/vendor_orders.php:46
+#: ../classes/class-wcmp-post-transaction.php:283
+msgid "Completed"
+msgstr "Completado"
+
+#: ../templates/shortcode/vendor_orders.php:72
+#: ../templates/shortcode/vendor_orders.php:127
+#: ../templates/shortcode/vendor_orders.php:181
+msgid "ID"
+msgstr "ID"
+
+#: ../templates/shortcode/vendor_orders.php:73
+#: ../templates/shortcode/vendor_orders.php:128
+#: ../templates/shortcode/vendor_orders.php:182
+#: ../templates/shortcode/vendor_transactions.php:62
+#: ../classes/class-wcmp-vendor-dashboard.php:204
+#: ../classes/class-wcmp-vendor-order-page.php:82
+msgid "Date"
+msgstr "Fecha"
+
+#: ../templates/shortcode/vendor_orders.php:74
+#: ../templates/shortcode/vendor_orders.php:129
+#: ../templates/shortcode/vendor_orders.php:183
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:18
+msgid "dd/mm"
+msgstr "dd/mm"
+
+#: ../templates/shortcode/vendor_orders.php:75
+#: ../templates/shortcode/vendor_orders.php:130
+#: ../templates/shortcode/vendor_orders.php:184
+msgid "Earnings"
+msgstr "Ganancias"
+
+#: ../templates/shortcode/vendor_orders.php:76
+#: ../templates/shortcode/vendor_orders.php:131
+#: ../templates/shortcode/vendor_orders.php:185
+#: ../classes/class-wcmp-post-commission.php:350
+msgid "Status"
+msgstr "Estado"
+
+#: ../templates/shortcode/vendor_orders.php:77
+#: ../templates/shortcode/vendor_orders.php:132
+#: ../templates/shortcode/vendor_orders.php:186
+msgid "Actions"
+msgstr "Acciones"
+
+#: ../templates/shortcode/vendor_university.php:48
+msgid "Sorry no university found"
+msgstr ""
+
+#: ../templates/shortcode/vendor_transactions.php:30
+msgid "History"
+msgstr "Histórico"
+
+#: ../templates/shortcode/vendor_transactions.php:63
+msgid "Transc.ID"
+msgstr "ID de la transacción:"
+
+#: ../templates/shortcode/vendor_transactions.php:64
+#: ../classes/class-wcmp-vendor-dashboard.php:206
+msgid "Order IDs"
+msgstr "IDs del pedido"
+
+#: ../templates/shortcode/vendor_transactions.php:65
+#: ../classes/class-wcmp-vendor-dashboard.php:209
+msgid "Fee"
+msgstr "Pago"
+
+#: ../templates/shortcode/vendor_transactions.php:66
+msgid "Net Earnings"
+msgstr "Ganancias netas"
+
+#: ../templates/shortcode/vendor_transactions.php:83
+msgid "Sorry. No transactions are available."
+msgstr "Lo sentimos. Ninguna transacción está disponible"
+
+#: ../templates/shortcode/vendor_lists.php:22
+msgid "By date"
+msgstr "Por fecha"
+
+#: ../templates/shortcode/vendor_lists.php:23
+msgid "By Alphabetically"
+msgstr "Por orden alfabético"
+
+#: ../templates/shortcode/vendor_lists.php:24
+msgid "By Category"
+msgstr "Por categoría"
+
+#: ../templates/shortcode/vendor_lists.php:45
+msgid "Sort"
+msgstr "Ordenar"
+
+#: ../templates/shortcode/vendor_order_detail.php:23
+msgid "Order Details"
+msgstr "Detalles de pedido"
+
+#: ../templates/shortcode/vendor_order_detail.php:26
+msgid "Product Title"
+msgstr "Título de producto"
+
+#: ../templates/shortcode/vendor_order_detail.php:27
+msgid "Product Quantity"
+msgstr "Cantidad de producto"
+
+#: ../templates/shortcode/vendor_order_detail.php:28
+msgid "Line Subtotal"
+msgstr "Línea subtotal"
+
+#: ../templates/shortcode/vendor_order_detail.php:30
+msgid "Purchase Note"
+msgstr "Ticket de compra"
+
+#: ../templates/shortcode/vendor_order_detail.php:74
+msgid "Coupon Used :"
+msgstr "Cupón usado:"
+
+#: ../templates/shortcode/vendor_order_detail.php:89
+msgid "Sorry No Coupons of yours is used."
+msgstr "¡Lo sentimos! Ninguno de tus cupones ha sido usado"
+
+#: ../templates/shortcode/vendor_order_detail.php:99
+msgid "Customer Note"
+msgstr "Nota del cliente"
+
+#: ../templates/shortcode/vendor_order_detail.php:105
+msgid "No customer note."
+msgstr "No hay anotaciones del cliente"
+
+#: ../templates/shortcode/vendor_order_detail.php:115
+msgid "Comments"
+msgstr "Comentarios"
+
+#: ../templates/shortcode/vendor_order_detail.php:120
+#, php-format
+msgid "Added %s ago"
+msgstr "Añadido hace %s "
+
+#: ../templates/shortcode/vendor_order_detail.php:130
+#: ../admin/class-wcmp-settings-product.php:55
+msgid "Add Comment"
+msgstr "Añadir comentario"
+
+#: ../templates/shortcode/vendor_order_detail.php:135
+msgid "Add comment"
+msgstr "Añadir comentario"
+
+#: ../templates/shortcode/vendor_order_detail.php:141
+#: ../templates/emails/vendor-new-order.php:60
+#: ../templates/emails/vendor-notify-shipped.php:59
+#: ../templates/emails/plain/vendor-new-order.php:48
+#: ../templates/emails/plain/vendor-notify-shipped.php:42
+msgid "Customer Details"
+msgstr "Detalles de cliente"
+
+#: ../templates/shortcode/vendor_order_detail.php:146
+msgid "Name:"
+msgstr "Nombre"
+
+#: ../templates/shortcode/vendor_order_detail.php:147
+#: ../templates/emails/vendor-new-order.php:63
+#: ../templates/emails/vendor-notify-shipped.php:62
+#: ../templates/emails/plain/vendor-new-order.php:51
+#: ../templates/emails/plain/vendor-notify-shipped.php:45
+msgid "Email:"
+msgstr "Email:"
+
+#: ../templates/shortcode/vendor_order_detail.php:148
+#: ../templates/emails/vendor-new-order.php:66
+#: ../templates/emails/vendor-notify-shipped.php:65
+#: ../templates/emails/plain/vendor-new-order.php:54
+#: ../templates/emails/plain/vendor-notify-shipped.php:48
+msgid "Telephone:"
+msgstr "Teléfono"
+
+#: ../templates/shortcode/vendor_order_detail.php:160
+#: ../templates/emails/vendor-new-order.php:76
+#: ../templates/emails/plain/vendor-new-order.php:60
+#: ../templates/emails/plain/vendor-notify-shipped.php:50
+#: ../admin/class-wcmp-settings-capabilities.php:39
+#: ../admin/class-wcmp-settings-capabilities.php:47
+msgid "Billing Address"
+msgstr "Dirección de Facturación"
+
+#: ../templates/shortcode/vendor_order_detail.php:164
+#: ../templates/shortcode/vendor_order_detail.php:178
+msgid "N/A"
+msgstr "N/A"
+
+#: ../templates/shortcode/vendor_order_detail.php:174
+#: ../templates/emails/vendor-new-order.php:89
+#: ../templates/emails/plain/vendor-new-order.php:66
+#: ../templates/emails/plain/vendor-notify-shipped.php:53
+#: ../admin/class-wcmp-settings-capabilities.php:40
+#: ../admin/class-wcmp-settings-capabilities.php:48
+msgid "Shipping Address"
+msgstr "Dirección de envío"
+
+#: ../templates/shortcode/vendor_announcements.php:26
+msgid "Read"
+msgstr "Leer"
+
+#: ../templates/shortcode/vendor_announcements.php:27
+msgid "Unread"
+msgstr "Sin leer"
+
+#: ../templates/shortcode/vendor_announcements.php:28
+msgid "Archive"
+msgstr "Archivo"
+
+#: ../templates/shortcode/vendor_coupon.php:17
+msgid "Coupons"
+msgstr "Cupones"
+
+#: ../templates/shortcode/vendor_coupon.php:22
+msgid "Coupon Code"
+msgstr "Código de cupón"
+
+#: ../templates/shortcode/vendor_coupon.php:23
+msgid "Usage Count"
+msgstr "Contador de uso"
+
+#: ../templates/shortcode/vendor_coupon.php:37
+msgid "Submit another coupon by"
+msgstr "Enviar otro cupón por"
+
+#: ../templates/shortcode/vendor_coupon.php:37
+#: ../templates/shortcode/vendor_coupon.php:40
+#: ../admin/class-wcmp-settings-capabilities.php:57
+#: ../classes/class-wcmp-user.php:703
+msgid "Submit Coupons"
+msgstr "Enviar cupones"
+
+#: ../templates/shortcode/vendor_coupon.php:40
+msgid ""
+"Sorry! You have not created any coupon till now.You can create your product "
+"specific coupon from -"
+msgstr ""
+"¡Lo sentimos! No has creado ningún cupón hasta ahora. Puedes crear un cupón "
+"específico de producto desde -"
+
+#: ../templates/shortcode/vendor_coupon.php:43
+msgid "Sorry ! You do not have the capability to add coupons."
+msgstr "¡Lo sentimos! No tienes permiso para añadir cupones"
+
+#: ../templates/shortcode/vendor_dashboard.php:48
+msgid ""
+"<h4>You have not configured your store properly missing some required fields!"
+"</h4>"
+msgstr ""
+"<h4>No has configurado tu tienda apropiadamente, faltan algunos campos "
+"importantes</h4>"
+
+#: ../templates/shortcode/vendor_dashboard.php:77
+#: ../classes/class-wcmp-ajax.php:178
+msgid "Admin Message:"
+msgstr "Mensaje del administrador"
+
+#: ../templates/shortcode/vendor_dashboard.php:80
+#: ../classes/class-wcmp-ajax.php:181
+msgid "DETAILS"
+msgstr "DETALLES"
+
+#: ../templates/shortcode/vendor_dashboard.php:88
+msgid "Today"
+msgstr "Hoy"
+
+#: ../templates/shortcode/vendor_dashboard.php:89
+msgid " This Week"
+msgstr "Esta semana"
+
+#: ../templates/shortcode/vendor_dashboard.php:187
+msgid "Todays Sales"
+msgstr "Ventas totales hoy"
+
+#: ../templates/shortcode/vendor_dashboard.php:191
+msgid "Todays Earnings"
+msgstr "Ganancias hoy"
+
+#: ../templates/shortcode/vendor_dashboard.php:195
+msgid "Net Balance"
+msgstr "Balance neto"
+
+#: ../templates/shortcode/vendor_dashboard.php:199
+#: ../templates/shortcode/vendor_dashboard.php:350
+#: ../classes/class-wcmp-ajax.php:800
+msgid "Sales"
+msgstr "Ventas"
+
+#: ../templates/shortcode/vendor_dashboard.php:217
+#: ../templates/shortcode/vendor_dashboard.php:365
+msgid "  out of  "
+msgstr "fuera de"
+
+#: ../templates/shortcode/vendor_dashboard.php:225
+#: ../templates/shortcode/vendor_dashboard.php:369
+msgid "Pending Shipping"
+msgstr "Envíos pendientes"
+
+#: ../templates/shortcode/vendor_dashboard.php:240
+#: ../templates/shortcode/vendor_dashboard.php:384
+msgid " out of "
+msgstr "  out of  "
+
+#: ../templates/shortcode/vendor_dashboard.php:338
+msgid "Weekly Sales"
+msgstr "Ventas Semanales"
+
+#: ../templates/shortcode/vendor_dashboard.php:342
+msgid "Weekly Earnings"
+msgstr "Ganancias semanales"
+
+#: ../templates/shortcode/vendor_dashboard.php:346
+msgid "Weekly Balance"
+msgstr "Balance Semanal"
+
+#: ../templates/shortcode/vendor_withdrawal_request.php:21
+#, php-format
+msgid ""
+"Hello,<br>We have received a new withdrawal request for $%s from you and "
+"Your request is being processed.The order details are as follow:"
+msgstr ""
+"Hola,<br>Hemos recibido una nueva solicitud de retirada de $%s y tu "
+"solicitud está siendo procesada. Los detalles del pedido son los siguientes:"
+
+#: ../templates/shortcode/vendor_withdrawal_request.php:68
+#, php-format
+msgid ""
+"Hello,<br>Unfortunately your request for withdrawal amount could not be "
+"completed. You may try again later, or check you PayPal settings in your "
+"account page, or contact the admin at <b>%s</b>"
+msgstr ""
+"Hola,<br>Desafortunadamente tu solicitud de retirada no ha podido ser "
+"completada. Puedes intentarlo luego, o comprobar tus ajustes de Paypal en la "
+"página de tu cuenta, o contactar al administrador al <b>%s</b>"
+
+#: ../templates/shortcode/vendor_orders_item.php:43
+#: ../classes/class-wcmp-vendor-order-page.php:83
+msgid "Shipped"
+msgstr "Enviado"
+
+#: ../templates/shortcode/vendor_orders_item.php:45
+msgid "Mark as shipped"
+msgstr "Marcar como enviado"
+
+#: ../templates/shortcode/vendor_orders_item.php:50
+#: ../classes/class-wcmp-user.php:864
+msgid "View"
+msgstr "Ver"
+
+#: ../templates/shortcode/vendor_orders_item.php:56
+msgid "Download"
+msgstr "Descargar"
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:17
+msgid "Order Date"
+msgstr "Fecha de pedido"
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:19
+msgid "L/B/H/W"
+msgstr "L/B/H/W"
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:20
+#: ../templates/shortcode/shop_settings.php:79
+msgid "Address"
+msgstr "Dirección"
+
+#: ../templates/shortcode/vendor_dasboard_pending_shipping_items_header.php:21
+msgid "Charges"
+msgstr "Cargos"
+
+#: ../templates/shortcode/vendor_announcements_all.php:71
+#: ../templates/shortcode/vendor_announcements_read.php:77
+#: ../classes/class-wcmp-ajax.php:245
+msgid "Mark Unread"
+msgstr "Marcar como no leído"
+
+#: ../templates/shortcode/vendor_policy.php:20
+#: ../templates/shortcode/vendor_shipping.php:98
+#: ../templates/shortcode/shop_settings.php:28
+#: ../templates/shortcode/vendor_billing.php:18
+msgid "Store Settings "
+msgstr "Ajustes de tienda "
+
+#: ../templates/shortcode/vendor_policy.php:22
+#: ../templates/shortcode/shop_settings.php:30
+msgid "Store Front"
+msgstr "Tienda"
+
+#: ../templates/shortcode/vendor_policy.php:24
+#: ../templates/shortcode/vendor_shipping.php:102
+#: ../templates/shortcode/shop_settings.php:32
+#: ../templates/shortcode/vendor_billing.php:22
+#: ../admin/class-wcmp-settings-to_do_list.php:34
+#: ../admin/class-wcmp-settings-to_do_list.php:78
+#: ../admin/class-wcmp-settings-to_do_list.php:114
+msgid "Edit"
+msgstr "Editar"
+
+#: ../templates/shortcode/vendor_policy.php:30
+msgid "Policy Tab Label"
+msgstr ""
+
+#: ../templates/shortcode/vendor_policy.php:31
+#, fuzzy
+msgid "Policies. "
+msgstr "Políticas"
+
+#: ../templates/shortcode/vendor_policy.php:36
+#: ../templates/shortcode/vendor_policy.php:40
+#: ../templates/shortcode/vendor_policy.php:44
+msgid ""
+"It is a long established fact that a reader will be distracted by the "
+"readable content of a page when looking at its layout. "
+msgstr ""
+"Es un hecho bien establecido que un lector se distraerá del contenido "
+"legible de una página cuando mira su diseño."
+
+#: ../templates/shortcode/vendor_policy.php:50
+msgid "Phone*"
+msgstr "Teléfono*"
+
+#: ../templates/shortcode/vendor_policy.php:54
+msgid "Email*"
+msgstr "Email*"
+
+#: ../templates/shortcode/vendor_policy.php:58
+msgid "Address*"
+msgstr "Dirección*"
+
+#: ../templates/shortcode/vendor_policy.php:77
+#: ../templates/shortcode/shop_settings.php:153
+msgid "* This field is required, you must fill some information."
+msgstr "* Este campo es obligatorio, debes completar alguna información."
+
+#: ../templates/shortcode/vendor_policy.php:81
+#: ../templates/shortcode/shop_settings.php:157
+#: ../templates/shortcode/vendor_billing.php:76
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-shop-settings.php:55
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-billing-settings.php:49
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-policy-settings.php:47
+msgid "All Options Saved"
+msgstr "Todas las opciones guardadas"
+
+#: ../templates/shortcode/vendor_policy.php:84
+#: ../templates/shortcode/shop_settings.php:159
+#: ../templates/shortcode/vendor_billing.php:79
+msgid "Save Options"
+msgstr "Guardar opciones"
+
+#: ../templates/shortcode/vendor_shipping.php:79
+#: ../classes/class-wcmp-vendor-dashboard.php:552
+msgid "Shipping Data Not Updated."
+msgstr "Datos de transporte no actualizados."
+
+#: ../templates/shortcode/vendor_shipping.php:83
+#: ../classes/class-wcmp-vendor-dashboard.php:556
+msgid "Specify Shipping Amount."
+msgstr "Especificar coste de transporte."
+
+#: ../templates/shortcode/vendor_shipping.php:100
+#: ../admin/class-wcmp-settings-product.php:31
+#: ../admin/class-wcmp-settings-payment.php:54
+#: ../classes/class-wcmp-vendor-dashboard.php:310
+#: ../classes/class-wcmp-vendor-dashboard.php:476
+#: ../classes/class-wcmp-vendor-dashboard.php:566
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-shipping-settings.php:54
+msgid "Shipping"
+msgstr "Enviando"
+
+#: ../templates/shortcode/vendor_shipping.php:113
+#: ../classes/class-wcmp-vendor-dashboard.php:574
+msgid "Enter Shipping Amount for \"Flat Rate\" :"
+msgstr "Introducir coste de transporte para \"Tarifa plana\""
+
+#: ../templates/shortcode/vendor_shipping.php:122
+#: ../templates/shortcode/vendor_shipping.php:134
+#: ../classes/class-wcmp-vendor-dashboard.php:577
+#: ../classes/class-wcmp-vendor-dashboard.php:582
+msgid ""
+"Enter a cost (excl. tax) or sum, e.g. <code>10.00 * [qty]</code>. Supports "
+"the following placeholders: <code>[qty]</code> = number of items, "
+"<code>[cost]</code> = cost of items,<br><code>[fee percent=\"10\" min_fee="
+"\"20\"]</code> = Percentage based fee."
+msgstr ""
+"Introduce un coste (impuestos excluidos) o suma, ej. <code>10.00 * [qty]</"
+"code>. Soportados los siguientes marcadores: <code>[qty]</code> = número de "
+"artículos, <code>[cost]</code> = coste de artículos,<br><code>[fee percent="
+"\"10\" min_fee=\"20\"]</code> = Tarifa basada en porcentaje."
+
+#: ../templates/shortcode/vendor_shipping.php:126
+#: ../classes/class-wcmp-vendor-dashboard.php:579
+msgid "Enter Shipping Amount for \"International Flat Rate\" :"
+msgstr "Introducir coste de transporte para \"Tarifa plana international\""
+
+#: ../templates/shortcode/vendor_shipping.php:138
+#: ../classes/class-wcmp-vendor-dashboard.php:585
+msgid "Enter Shipping Amount :"
+msgstr "Introducir coste de transporte"
+
+#: ../templates/shortcode/vendor_shipping.php:144
+#: ../classes/class-wcmp-vendor-dashboard.php:589
+msgid "Enter Handling Fee :"
+msgstr "Introducir coste de manipulación:"
+
+#: ../templates/shortcode/vendor_shipping.php:151
+#: ../classes/class-wcmp-vendor-dashboard.php:594
+msgid "Ship from :"
+msgstr "Enviado desde:"
+
+#: ../templates/shortcode/vendor_shipping.php:177
+#: ../templates/shortcode/vendor_shipping.php:181
+#: ../classes/class-wcmp-vendor-dashboard.php:550
+msgid "Shipping Data Updated."
+msgstr "Datos de transporte actualizados"
+
+#: ../templates/shortcode/non_vendor_dashboard.php:23
+#: ../templates/shortcode/vendor_dashboard_for_non_logged_in.php:22
+msgid "Your vendor account is not approved yet!"
+msgstr "¡Tu cuenta de proveedor no está aprobado todavía!"
+
+#: ../templates/shortcode/non_vendor_dashboard.php:37
+msgid ""
+"You have logged in as Administrator. Please log out and then view this page."
+msgstr ""
+"Has iniciado sesión como Administrador. Por favor cierre la sesión y luego "
+"vea esta página."
+
+#: ../templates/shortcode/non_vendor_dashboard.php:45
+#: ../classes/class-wcmp-user.php:119
+msgid ""
+"Congratulations! You have successfully applied as a Vendor. Please wait for "
+"further notifications from the admin."
+msgstr ""
+"¡Enhorabuena! Tu solicitud ha sido registrada. Por favor, espera las "
+"notificaciones del administrador."
+
+#: ../templates/shortcode/shop_settings.php:35
+#: ../admin/class-wcmp-settings.php:59 ../admin/class-wcmp-settings.php:75
+msgid "General"
+msgstr "General"
+
+#: ../templates/shortcode/shop_settings.php:38
+msgid "Store Name *"
+msgstr "Nombre de la tienda*"
+
+#: ../templates/shortcode/shop_settings.php:39
+#: ../templates/shortcode/shop_settings.php:47
+msgid "Enter your Store Name here"
+msgstr "Introducir el nombre de tu tienda aquí"
+
+#: ../templates/shortcode/shop_settings.php:40
+msgid " Store Slug *"
+msgstr "Slug de tienda"
+
+#: ../templates/shortcode/shop_settings.php:49
+msgid "Shop Description"
+msgstr "Descripción de la tienda"
+
+#: ../templates/shortcode/shop_settings.php:51
+#: ../templates/shortcode/shop_settings.php:63
+#: ../templates/shortcode/shop_settings.php:73
+msgid "Hide from user"
+msgstr "Ocultar a usuarios"
+
+#: ../templates/shortcode/shop_settings.php:55
+#: ../classes/class-wcmp-user.php:665
+msgid "Message to Buyers"
+msgstr "Mensaje a los compradores"
+
+#: ../templates/shortcode/shop_settings.php:59
+#: ../classes/class-wcmp-vendor-order-page.php:302
+#: ../classes/class-wcmp-user.php:455
+msgid "Phone"
+msgstr "Teléfono"
+
+#: ../templates/shortcode/shop_settings.php:69
+#, fuzzy
+msgid "Email *"
+msgstr "Email*"
+
+#: ../templates/shortcode/shop_settings.php:83
+msgid " Hide from user"
+msgstr "Ocultar a usuarios"
+
+#: ../templates/shortcode/shop_settings.php:111
+msgid "Media Files"
+msgstr "Archivos multimedia"
+
+#: ../templates/shortcode/shop_settings.php:117
+#: ../templates/shortcode/shop_settings.php:126
+msgid "Upload"
+msgstr "Cargar"
+
+#: ../templates/shortcode/shop_settings.php:118
+#: ../templates/shortcode/shop_settings.php:127
+msgid "Replace"
+msgstr "Cambiar"
+
+#: ../templates/shortcode/shop_settings.php:131
+msgid "Social Media"
+msgstr "Redes Sociales"
+
+#: ../templates/shortcode/shop_settings.php:133
+msgid "Enter your Social Media profile URL below:"
+msgstr "Introducir la URL de tu perfil Social Media debajo:"
+
+#: ../templates/shortcode/vendor_billing.php:20
+msgid "Billing"
+msgstr "Facturación"
+
+#: ../templates/shortcode/vendor_billing.php:27
+#: ../classes/class-wcmp-user.php:560
+msgid "Payment Mode"
+msgstr "Modo de pago"
+
+#: ../templates/shortcode/vendor_billing.php:30
+#: ../classes/class-wcmp-user.php:562
+msgid "PayPal Masspay"
+msgstr "PayPal Masspay"
+
+#: ../templates/shortcode/vendor_billing.php:30
+#: ../classes/class-wcmp-post-transaction.php:161
+#: ../classes/class-wcmp-user.php:562
+msgid "Direct Bank"
+msgstr "Transferencia bancaria"
+
+#: ../templates/shortcode/vendor_billing.php:39
+msgid "Paypal"
+msgstr "Paypal"
+
+#: ../templates/shortcode/vendor_billing.php:40
+#: ../templates/shortcode/vendor_billing.php:41
+msgid "Enter your Paypal ID"
+msgstr "Introducir tu ID de Paypal"
+
+#: ../templates/shortcode/vendor_billing.php:42
+msgid "Bank Transfer"
+msgstr "Transferencia bancaria"
+
+#: ../templates/shortcode/vendor_billing.php:43
+msgid "Enter your Bank Details"
+msgstr "Introducir tus detalles bancarios"
+
+#: ../templates/shortcode/vendor_billing.php:47
+#: ../classes/class-wcmp-user.php:570
+msgid "Current"
+msgstr "Actual"
+
+#: ../templates/shortcode/vendor_billing.php:48
+#: ../classes/class-wcmp-user.php:570
+msgid "Savings"
+msgstr "Ahorros"
+
+#: ../templates/shortcode/vendor_billing.php:52
+#: ../templates/shortcode/vendor_billing.php:68
+#: ../classes/class-wcmp-post-transaction.php:169
+#: ../classes/class-wcmp-user.php:618
+msgid "Account Holder Name"
+msgstr "Beneficiario"
+
+#: ../templates/shortcode/vendor_billing.php:54
+#: ../classes/class-wcmp-post-transaction.php:164
+#: ../classes/class-wcmp-user.php:583
+msgid "Bank Name"
+msgstr "Nombre banco"
+
+#: ../templates/shortcode/vendor_billing.php:57
+#: ../classes/class-wcmp-post-transaction.php:165
+#: ../classes/class-wcmp-user.php:590
+msgid "ABA Routing Number"
+msgstr "Identificación bancaria"
+
+#: ../templates/shortcode/vendor_billing.php:60
+#: ../classes/class-wcmp-post-transaction.php:166
+#: ../classes/class-wcmp-user.php:597
+msgid "Bank Address"
+msgstr "Dirección bancaria"
+
+#: ../templates/shortcode/vendor_billing.php:62
+#: ../classes/class-wcmp-post-transaction.php:167
+#: ../classes/class-wcmp-user.php:604
+msgid "Destination Currency"
+msgstr "Moneda de destino"
+
+#: ../templates/shortcode/vendor_billing.php:65
+#: ../classes/class-wcmp-post-transaction.php:168
+#: ../classes/class-wcmp-user.php:611
+msgid "IBAN"
+msgstr "IBAN"
+
+#: ../templates/emails/new-product.php:16
+msgid "Coupon"
+msgstr "Cupón"
+
+#: ../templates/emails/new-product.php:17
+#: ../templates/emails/vendor-new-order.php:24
+#: ../templates/emails/vendor-notify-shipped.php:28
+#: ../classes/class-wcmp-post-commission.php:347
+#: ../classes/class-wcmp-report.php:97
+msgid "Product"
+msgstr "Producto"
+
+#: ../templates/emails/new-product.php:23
+#, php-format
+msgid "Hi there! This is a notification about a new %s on %s."
+msgstr "¡Hola! Esta es una notificación de un nuevo %s el %s."
+
+#: ../templates/emails/new-product.php:26
+#, php-format
+msgid "%s title: %s"
+msgstr "%s título: %s"
+
+#: ../templates/emails/new-product.php:27
+#: ../templates/emails/new-admin-product.php:23
+#: ../templates/emails/plain/new-product.php:21
+#: ../templates/emails/plain/new-admin-product.php:22
+#, php-format
+msgid "Submitted by: %s"
+msgstr "Enviado por: %s"
+
+#: ../templates/emails/new-product.php:28
+#, php-format
+msgid "Edit %s: %s"
+msgstr "Editar %s: %s"
+
+#: ../templates/emails/admin-widthdrawal-request.php:24
+#, php-format
+msgid ""
+"Hello,<br> %s has successfully completed a withdrawal of $%s on %s through "
+"PayPal. The order details are as follows:"
+msgstr ""
+"Hola,<br> %s ha completado satisfactoriamente una retirada de $%s el %s "
+"desde PayPal. Los detalles del pedido son los siguientes:"
+
+#: ../templates/emails/admin-widthdrawal-request.php:26
+#: ../templates/emails/plain/admin-widthdrawal-request.php:19
+#, php-format
+msgid ""
+"Hello,<br>There is a new withdrawal request for $%s from a vendor %s at your "
+"site. The order details are as following:"
+msgstr ""
+"Hola,<br>Hay una nueva solicitud de retirada de $%s de un vendedor %s en tu "
+"sitio. Los detalles del pedido son los siguientes:"
+
+#: ../templates/emails/vendor-new-order.php:18
+#, fuzzy, php-format
+msgid ""
+"A new order was received and marked as processing from %s. Their order is as "
+"follows:"
+msgstr ""
+"Nuevo pedido recibidoy marcado como completado por %s. El pedido es el "
+"siguiente:"
+
+#: ../templates/emails/vendor-new-order.php:25
+#: ../templates/emails/vendor-notify-shipped.php:29
+#: ../classes/class-wcmp-vendor-dashboard.php:300
+msgid "Quantity"
+msgstr "Cantidad"
+
+#: ../templates/emails/vendor-new-order.php:26
+#: ../admin/class-wcmp-settings-to_do_list.php:151
+#: ../classes/class-wcmp-vendor-dashboard.php:208
+#: ../classes/class-wcmp-product.php:543 ../classes/class-wcmp-product.php:547
+#: ../classes/class-wcmp-product.php:898 ../classes/class-wcmp-product.php:908
+msgid "Commission"
+msgstr "Comisión"
+
+#: ../templates/emails/vendor-new-order.php:62
+msgid "Customer Name:"
+msgstr "Nombre del cliente"
+
+#: ../templates/emails/vendor-notify-shipped.php:19
+#: ../templates/emails/plain/vendor-notify-shipped.php:16
+msgid ""
+"Some of the items you had ordered have been shipped. The items that have "
+"been shipped are as follows:"
+msgstr ""
+"Algunos de los productos que has pedido ya han sido enviados. Los productos "
+"enviados son los siguientes:"
+
+#: ../templates/emails/vendor-notify-shipped.php:23
+#, php-format
+msgid "Order: %s"
+msgstr "Pedido: %s"
+
+#: ../templates/emails/vendor-notify-shipped.php:30
+msgid "Price"
+msgstr "Precio"
+
+#: ../templates/emails/vendor-new-account.php:18
+#, php-format
+msgid ""
+"Thanks for creating an account on %s. We will process your application and "
+"revert shortly."
+msgstr ""
+"Gracias por crear una cuenta el %s. Revisaremos tu solicitud pronto y "
+"recibirán una contestación pronto."
+
+#: ../templates/emails/vendor-new-account.php:19
+msgid "We have received your application and will revert shortly."
+msgstr "Hemos recibido su solicitud y le responderemos en breve."
+
+#: ../templates/emails/vendor-new-account.php:21
+#, php-format
+msgid "Your password has been automatically generated: <strong>%s</strong>"
+msgstr "Tu contraseña ha sido generada automáticamente: <strong>%s</strong>"
+
+#: ../templates/emails/vendor-new-account.php:23
+#: ../templates/emails/plain/vendor-new-account.php:23
+#, php-format
+msgid "You can access your account area here: %s."
+msgstr "Puedes acceder a tu cuenta aquí: %s."
+
+#: ../templates/emails/vendor-commissions-transaction.php:22
+#, php-format
+msgid ""
+"Hello,<br>You have successfully completed a withdrawal of $%s on %s through "
+"PayPal. The order details are as follows:"
+msgstr ""
+"Hola,<br>Has completado satisfactoriamente una retirada de $%s el %s desde "
+"PayPal. Los detalles del pedido son los siguientes:"
+
+#: ../templates/emails/vendor-commissions-transaction.php:24
+#: ../templates/emails/plain/vendor-commissions-transaction.php:20
+#, php-format
+msgid ""
+"Hello,<br>This is to notify you that your withdrawal request for $%s on %s "
+"has been successfully processed. The order details are as follows:  "
+msgstr ""
+"Hola,<br>Esto es para notificarte que tu solicitud de retirada para $%s el "
+"%s ha sido satisfactoriamente procesada. Los detalles del pedido son los "
+"siguientes "
+
+#: ../templates/emails/rejected-vendor-account.php:17
+#, php-format
+msgid ""
+"Thanks for creating an account with us on %s. Unfortunately your request has "
+"been rejected."
+msgstr ""
+"Gracias por crear una cuenta con nosotros. %s. Desgraciadamente tu solicitud "
+"ha sido rechazada."
+
+#: ../templates/emails/rejected-vendor-account.php:18
+#, php-format
+msgid "You may contact the site admin at %s."
+msgstr "Debes ponerte en contacto con el administrador del sitio en %s."
+
+#: ../templates/emails/admin-new-vendor-account.php:17
+#: ../templates/emails/plain/admin-new-vendor-account.php:18
+#, php-format
+msgid ""
+"A new user has applied to be a vendor on %s. His/her email is <strong>%s</"
+"strong>."
+msgstr ""
+"Un nuevo usuario ha solicitado ser vendedor el  %s. Su correo electrónico es "
+"<strong>%s</strong>."
+
+#: ../templates/emails/approved-vendor-account.php:16
+#: ../templates/emails/plain/approved-vendor-account.php:19
+#, php-format
+msgid "Congratulations! There is a new vendor application on %s."
+msgstr "¡Felicidades! Hay una nueva solicitud de vendedor el %s."
+
+#: ../templates/emails/approved-vendor-account.php:18
+msgid "Application status: Approved"
+msgstr "Estado de la solicitud: Aprobada"
+
+#: ../templates/emails/approved-vendor-account.php:19
+#: ../templates/emails/plain/approved-vendor-account.php:23
+#, php-format
+msgid "Applicant Username: %s"
+msgstr "Usuario solicitante %s"
+
+#: ../templates/emails/approved-vendor-account.php:21
+#: ../templates/emails/plain/approved-vendor-account.php:25
+msgid "You have been cleared for landing! Congratulations and welcome aboard!"
+msgstr "Has sido aprobado. ¡ Felicitaciones y Bienvenido a bordo!"
+
+#: ../templates/emails/new-admin-product.php:19
+#: ../templates/emails/plain/new-product.php:17
+#: ../templates/emails/plain/new-admin-product.php:18
+#, php-format
+msgid ""
+"Hi there! This is to notify that a new product has been submitted in %s."
+msgstr "¡Hola! Un nuevo producto ha sido enviado el %s."
+
+#: ../templates/emails/new-admin-product.php:22
+#: ../templates/emails/plain/new-product.php:19
+#: ../templates/emails/plain/new-admin-product.php:20
+#, php-format
+msgid "Product title: %s"
+msgstr "Título de producto: %s"
+
+#: ../templates/emails/new-admin-product.php:26
+#: ../templates/emails/plain/new-product.php:23
+#: ../templates/emails/plain/new-admin-product.php:25
+#, php-format
+msgid "Edit product: %s"
+msgstr "Editar producto: %s"
+
+#: ../templates/emails/new-admin-product.php:28
+#: ../templates/emails/plain/new-admin-product.php:27
+#, php-format
+msgid "View product: %s"
+msgstr "Ver producto: %s"
+
+#: ../templates/emails/vendor-direct-bank.php:20
+#: ../templates/emails/plain/vendor-direct-bank.php:17
+#, php-format
+msgid ""
+"Hello,<br>We have received a new withdrawal request for $%s from you and "
+"your request is being processed.The order details are as follows:"
+msgstr ""
+"Hola,<br>Hemos recibido una nueva solicitud de retirada de $%s y tu "
+"solicitud está siendo procesada. Los detalles del pedido son los siguientes:"
+
+#: ../templates/emails/plain/admin-widthdrawal-request.php:17
+#, php-format
+msgid ""
+"Hello,<br> %s has successfully completed a withdrawal of $%s on %s through "
+"Paypal. The order details are as follows:"
+msgstr ""
+"Hola,<br> %s ha completado satisfactoriamente una retirada de $%s el %s "
+"desde PayPal. Los detalles del pedido son los siguientes:"
+
+#: ../templates/emails/plain/vendor-new-order.php:17
+#, php-format
+msgid ""
+"A new order was received and marked as completed from %s. Their order is as "
+"follows:"
+msgstr ""
+"Nuevo pedido recibidoy marcado como completado por %s. El pedido es el "
+"siguiente:"
+
+#: ../templates/emails/plain/vendor-new-order.php:23
+#: ../templates/emails/plain/vendor-notify-shipped.php:22
+#, php-format
+msgid "Order Number: %s"
+msgstr "Pedido número: %s"
+
+#: ../templates/emails/plain/vendor-new-order.php:24
+#: ../templates/emails/plain/vendor-notify-shipped.php:23
+#, php-format
+msgid "Order Link: %s"
+msgstr "Enlace del pedido: %s"
+
+#: ../templates/emails/plain/vendor-new-order.php:25
+#: ../templates/emails/plain/vendor-notify-shipped.php:24
+#, php-format
+msgid "Order Date: %s"
+msgstr "Fecha de pedido: %s"
+
+#: ../templates/emails/plain/vendor-new-order.php:25
+#: ../templates/emails/plain/vendor-notify-shipped.php:24
+msgid "jS F Y"
+msgstr "jS F Y"
+
+#: ../templates/emails/plain/vendor-new-account.php:18
+#, php-format
+msgid ""
+"Thanks for creating an account with %s. We have received your application "
+"for vendor registration. We will verify the information provided by you and "
+"inform you via email. Your username is <strong>%s</strong>."
+msgstr ""
+"Gracias por crear una cuenta con %s. Hemos recibido tu solicitud para "
+"registrarte como vendedor.  Revisaremos la información proporcionada y te "
+"informaremos vía email sobre tu solicitud. Tu nombre de usuario es <strong>"
+"%s</strong>."
+
+#: ../templates/emails/plain/vendor-new-account.php:21
+#, php-format
+msgid "Your password is <strong>%s</strong>."
+msgstr "Su contraseña es <strong>%s</strong>."
+
+#: ../templates/emails/plain/vendor-commissions-transaction.php:18
+#, php-format
+msgid ""
+"Hello,<br>You have successfully completed a withdrawal of $%s on %s through "
+"Paypal. The order details are as follows:"
+msgstr ""
+"Hola,<br>Has completado satisfactoriamente una retirada de $%s el %s desde "
+"Paypal. Los detalles del pedido son los siguientes:"
+
+#: ../templates/emails/plain/rejected-vendor-account.php:17
+#, php-format
+msgid ""
+"Thanks for creating an account as Pending Vendor on %s. But your request has "
+"been rejected due to some reason."
+msgstr ""
+"Gracias por crear una cuenta como vendedor el %s. , pero tu solicitud ha "
+"sido rechazada por alguna razón."
+
+#: ../templates/emails/plain/approved-vendor-account.php:21
+#, php-format
+msgid "Application Status: %s"
+msgstr "Estado de la solicitud: %s"
+
+#: ../templates/review/rating-vendor-tab.php:31
+#: ../templates/review/rating.php:30
+#: ../templates/review/rating_vendor_lists.php:31
+#, fuzzy, php-format
+msgid "Rated %s out of 5"
+msgstr "fuera de"
+
+#: ../templates/review/rating-vendor-tab.php:32
+#: ../templates/review/rating.php:31 ../templates/review/review-link.php:32
+#: ../templates/review/review.php:37
+#: ../templates/review/rating_vendor_lists.php:32
+#, fuzzy
+msgid "out of 5"
+msgstr "fuera de"
+
+#: ../templates/review/rating-vendor-tab.php:43
+msgid " No Reviews Yet"
+msgstr ""
+
+#: ../templates/review/rating.php:43
+msgid " No Reviews Yet "
+msgstr ""
+
+#: ../templates/review/review-link.php:30
+#: ../templates/review/review-link.php:31
+msgid "Leave Vendor feedback"
+msgstr ""
+
+#: ../templates/review/review.php:36
+#, fuzzy, php-format
+msgid "Rated %d out of 5"
+msgstr "fuera de"
+
+#: ../templates/review/review.php:42
+msgid "Your comment is awaiting approval"
+msgstr ""
+
+#: ../templates/review/review.php:49
+msgid "verified buyer"
+msgstr ""
+
+#: ../templates/review/rating_vendor_lists.php:35
+#, fuzzy
+msgid "No Rating Yet"
+msgstr "Ganancias del vendedor"
+
+#: ../admin/class-wcmp-settings-frontend.php:30
+msgid "Reveal Vendor Name- 1"
+msgstr "Revelar nombre del vendedor- 1"
+
+#: ../admin/class-wcmp-settings-frontend.php:30
+msgid ""
+"Checking this box will add the text - \\\"Sold by [vendor name]\\\" in "
+"product catalogue pages."
+msgstr ""
+"Marcando esta casilla se añadirá el texto - \\\"Vendido por [vendor name]\\"
+"\" en las páginas de producto."
+
+#: ../admin/class-wcmp-settings-frontend.php:31
+msgid "Reveal Vendor Name- 2"
+msgstr "Revelar nombre del vendedor- 2"
+
+#: ../admin/class-wcmp-settings-frontend.php:31
+msgid ""
+"Checking this box will add the text - \\\"Sold by [vendor name]\\\" in cart, "
+"checkout page and emails to the customer."
+msgstr ""
+"Marca esta casilla si quieres que el texto - \\\"Vendido por [vendor name]\\"
+"\" en el carro, pago y correo al cliente."
+
+#: ../admin/class-wcmp-settings-frontend.php:32
+msgid "Replace \"Sold by\""
+msgstr "Cambiar \"Vendido por\""
+
+#: ../admin/class-wcmp-settings-frontend.php:32
+msgid ""
+"Add the text you want to replace the phrase \\\"Sold by {vendor name}\\\"."
+msgstr ""
+"Añadir el texto que quieres para remplazar la frase  \\\"Vendido por {vendor "
+"name}\\\"."
+
+#: ../admin/class-wcmp-settings-frontend.php:33
+msgid "Replace \"Vendor\""
+msgstr "Cambiar \"Vendedor\""
+
+#: ../admin/class-wcmp-settings-frontend.php:33
+#, php-format
+msgid ""
+"To change the slug (/vendor/) , go to %s\\\"Settings/Permalinks\\\"%s . Type "
+"in your desired slug in the \"\\Vendor Shop base\\\" text box. Eg: yoursite."
+"com/slug/[vendor_name]."
+msgstr ""
+"Para cambiar el slug (/vendor/) , vaya a %s\\\"Ajustes/Enlaces permanentes\\"
+"\"%s . Ponga el enlace que desee como slug \"\\Vendor Shop base\\\" en la "
+"caja de texto. Ej: tusitio.com/slug/[vendor_name]."
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+msgid "Show \"Report abuse\" link"
+msgstr "Mostrar \"Denunciar abuso\" link"
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+msgid ""
+"Choose if you want to show the \\\"Report abuse\\\" link under product "
+"thumbnails in single product page."
+msgstr ""
+"Elige si quieres mostrar el \\\"Denunciar abuso\\\" link debajo de los "
+"thumbnails de productos en la página de producto."
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+msgid "All Products"
+msgstr "Todos los productos"
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+msgid "Only for Vendor's Products"
+msgstr "Solo para los productos del vendedor"
+
+#: ../admin/class-wcmp-settings-frontend.php:34
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Disable"
+msgstr "Deshabilitar"
+
+#: ../admin/class-wcmp-settings-frontend.php:35
+msgid "Replace \"Report Abuse\""
+msgstr "Cambiar \"Denunciar mal uso\""
+
+#: ../admin/class-wcmp-settings-frontend.php:35
+msgid "Report Abuse Link Text."
+msgstr "Denunciar abuso texto enlazado"
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Settings for vendor's 'Related Products'"
+msgstr "Ajustes para \"Productos relacionados\" en vendedor"
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Select related products to show in single product pages."
+msgstr ""
+"Seleccionar productos relacionados para mostrar en las páginas de productos"
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Related Products from Entire Store"
+msgstr "Productos relacionados de la tienda"
+
+#: ../admin/class-wcmp-settings-frontend.php:36
+msgid "Related Products from Vendor's Store"
+msgstr "Productos relacionados del vendedor"
+
+#: ../admin/class-wcmp-settings-frontend.php:37
+msgid "Notice text in the \\\"Vendor Shop Page\\\" if vendor is blocked -"
+msgstr ""
+"Texto informativo en \\\"La tienda del vendedor\\\" si el vendedor está "
+"bloqueado -"
+
+#: ../admin/class-wcmp-settings-frontend.php:37
+msgid ""
+"This text will be visible to users/viewers if you have blocked a vendor."
+msgstr ""
+"Este texto será visionado por los usuarios/visitantes si has bloqueado un "
+"vendedor"
+
+#: ../admin/class-wcmp-settings-frontend.php:38
+msgid "Vendor Name Label Color"
+msgstr "Color de la etiqueta del nombre del vendedor"
+
+#: ../admin/class-wcmp-settings-frontend.php:39
+msgid "Vendor Name Label Color(on hover)"
+msgstr "Color de la etiqueta del nombre del vendedor (en hover)"
+
+#: ../admin/class-wcmp-settings-frontend.php:95
+msgid "Frontend Settings Updated"
+msgstr "Ajustes de la interfaz actualizados"
+
+#: ../admin/class-wcmp-settings-capabilities.php:28
+msgid "Uploading Product Data "
+msgstr "Subiendo datos de producto"
+
+#: ../admin/class-wcmp-settings-capabilities.php:30
+msgid "Submit Products"
+msgstr "Enviar productos"
+
+#: ../admin/class-wcmp-settings-capabilities.php:30
+msgid "Allow vendors to submit products for approval/publishing."
+msgstr ""
+"Permitir a los vendedores enviar productos para su aprobación/publicación."
+
+#: ../admin/class-wcmp-settings-capabilities.php:31
+msgid "Publish Products"
+msgstr "Publicar productos"
+
+#: ../admin/class-wcmp-settings-capabilities.php:31
+msgid ""
+"If checked, products uploaded by vendors will be directly published without "
+"admin approval."
+msgstr ""
+"Si está marcado los productos subidos por los vendedores serán publicados "
+"automáticamente sin la aprobación del administrador"
+
+#: ../admin/class-wcmp-settings-capabilities.php:34
+msgid "Order Export Data / Report Export Data"
+msgstr "Exportar datos de pedido / Exportar datos de reportes"
+
+#: ../admin/class-wcmp-settings-capabilities.php:36
+msgid "Allow vendors to export orders."
+msgstr "Permitir exportar pedidos a los vendedores"
+
+#: ../admin/class-wcmp-settings-capabilities.php:37
+#: ../classes/class-wcmp-vendor-dashboard.php:303
+msgid "Customer Name"
+msgstr "Nombre del cliente "
+
+#: ../admin/class-wcmp-settings-capabilities.php:38
+msgid "E-mail and Phone Number"
+msgstr "Email y número de teléfono"
+
+#: ../admin/class-wcmp-settings-capabilities.php:44
+msgid "Order Email Settings for Vendor"
+msgstr "Ajustes del email de pedido para el vendedor"
+
+#: ../admin/class-wcmp-settings-capabilities.php:46
+msgid "Name, Phone no. and Email"
+msgstr "Nombre, número de teléfono y email"
+
+#: ../admin/class-wcmp-settings-capabilities.php:49
+msgid "Order Calculations"
+msgstr "Cálculos del pedido"
+
+#: ../admin/class-wcmp-settings-capabilities.php:54
+msgid "Miscellaneous"
+msgstr "Diverso"
+
+#: ../admin/class-wcmp-settings-capabilities.php:56
+msgid "Upload Media Files"
+msgstr "Subir archivos"
+
+#: ../admin/class-wcmp-settings-capabilities.php:56
+msgid "Allow vendors to upload media files."
+msgstr "Permitir a los vendedores subir archivos"
+
+#: ../admin/class-wcmp-settings-capabilities.php:57
+msgid "Allow vendors to create coupons."
+msgstr "Permitir crear cupones a los vendedores"
+
+#: ../admin/class-wcmp-settings-capabilities.php:58
+msgid "Publish Coupons"
+msgstr "Publicar cupones"
+
+#: ../admin/class-wcmp-settings-capabilities.php:58
+msgid ""
+"If checked, coupons added by vendors will be directly published without "
+"admin approval."
+msgstr ""
+"Si está marcado los cupones añadidos por los vendedores serán publicados "
+"automáticamente, sin la aprobación del administrador."
+
+#: ../admin/class-wcmp-settings-capabilities.php:59
+msgid "View Comment"
+msgstr "Ver comentario"
+
+#: ../admin/class-wcmp-settings-capabilities.php:59
+msgid "Vendor can see order notes."
+msgstr "El vendedor puede ver las notas de pedido."
+
+#: ../admin/class-wcmp-settings-capabilities.php:60
+msgid "Submit Comment"
+msgstr "Enviar comentario"
+
+#: ../admin/class-wcmp-settings-capabilities.php:60
+msgid "Vendor can add order notes."
+msgstr "El vendedor puede añadir notas de pedido."
+
+#: ../admin/class-wcmp-settings-capabilities.php:61
+msgid "Enable store url"
+msgstr "Activar la URL de la tienda"
+
+#: ../admin/class-wcmp-settings-capabilities.php:61
+msgid "Vendor can add external store url."
+msgstr "El vendedor puede añadir una URL externa de tienda"
+
+#: ../admin/class-wcmp-settings-capabilities.php:62
+#, fuzzy
+msgid "Enable hide option for vendor"
+msgstr "Ajustes del email de pedido para el vendedor"
+
+#: ../admin/class-wcmp-settings-capabilities.php:62
+#, fuzzy
+msgid "Vendor can hide some details from shop."
+msgstr "El vendedor puede ver las notas de pedido."
+
+#: ../admin/class-wcmp-settings-capabilities.php:65
+msgid "Messages "
+msgstr "Mensajes"
+
+#: ../admin/class-wcmp-settings-capabilities.php:67
+msgid "Message to buyer"
+msgstr "Mensaje al comprador"
+
+#: ../admin/class-wcmp-settings-capabilities.php:67
+msgid ""
+"Allow vendors to add vendor shop specific message in \"Thank you\" page and "
+"order mail."
+msgstr ""
+"Permitir a los vendedores añadir un mensaje específico en la página de "
+"agradecimiento y el email del pedido"
+
+#: ../admin/class-wcmp-settings-capabilities.php:71
+msgid "Customer Support Settings "
+msgstr "Ajustes de atención al cliente"
+
+#: ../admin/class-wcmp-settings-capabilities.php:73
+msgid "Vendor Shop Support"
+msgstr "Soporte del vendedor"
+
+#: ../admin/class-wcmp-settings-capabilities.php:73
+msgid ""
+"Allow vendors to add vendor shop specific customer support details. If left "
+"blank by the vendor, the site wide customer support details would be on "
+"display."
+msgstr ""
+"Permitir a los vendedores añadir detalles de atención al cliente "
+"adicionales. Si se deja en blanco por el vendedor, los detalles por defecto "
+"del sitio se mostrarán."
+
+#: ../admin/class-wcmp-settings-capabilities.php:78
+#, fuzzy
+msgid "Policies Settings "
+msgstr "Ajustes de políticas actualizados"
+
+#: ../admin/class-wcmp-settings-capabilities.php:80
+#, fuzzy
+msgid "Can Vendor Edit Policy Tab Title"
+msgstr "Título de la página de vendedor"
+
+#: ../admin/class-wcmp-settings-capabilities.php:80
+#, fuzzy
+msgid "Allow vendors to edit the Policy Tab Label."
+msgstr "Permitir a los vendedores subir archivos"
+
+#: ../admin/class-wcmp-settings-capabilities.php:81
+#, fuzzy
+msgid "Can Vendor Edit Cancellation/Return/Exchange Policy"
+msgstr "Cancelación/Devolución/Política de cambios"
+
+#: ../admin/class-wcmp-settings-capabilities.php:81
+#, fuzzy
+msgid "Allow vendors to edit the Cancellation/Return/Exchange Policy."
+msgstr "Cancelación/Devolución/Política de cambios"
+
+#: ../admin/class-wcmp-settings-capabilities.php:82
+#, fuzzy
+msgid "Can Vendor Edit Refund Policy"
+msgstr "Política de devoluciones"
+
+#: ../admin/class-wcmp-settings-capabilities.php:82
+#, fuzzy
+msgid "Allow vendors to edit the Refund Policy."
+msgstr "Permitir crear cupones a los vendedores"
+
+#: ../admin/class-wcmp-settings-capabilities.php:83
+#, fuzzy
+msgid "Can Vendor Edit Shipping Policy"
+msgstr "Política de envíos"
+
+#: ../admin/class-wcmp-settings-capabilities.php:83
+#, fuzzy
+msgid "Allow vendors to edit the Shipping Policy."
+msgstr "Permitir crear cupones a los vendedores"
+
+#: ../admin/class-wcmp-settings-capabilities.php:248
+msgid "Capability Settings Updated"
+msgstr "Ajustes de capacidad Actualizados"
+
+#: ../admin/class-wcmp-settings-capabilities.php:267
+msgid ""
+"Choose customer details you want to show in \"New order e-mail\" to Vendors."
+msgstr ""
+"Elige los detalles del cliente que quieres enviar  en \"Nuevo pedido de "
+"cliente\" enviado al vendedor."
+
+#: ../admin/class-wcmp-settings-capabilities.php:282
+msgid ""
+"Choose customer details you want to show in \"Order Details\" in Vendor "
+"dashboard."
+msgstr ""
+"Elige los detalles del cliente que quieres mostrar en  \"Detalles del pedido"
+"\" en el escritorio del vendedor."
+
+#: ../admin/class-wcmp-settings-capabilities.php:325
+msgid ""
+"Please Enter the customer supports details and returns address of "
+"adminstrator if admin want to care of support and returns insteed of "
+"vendors ."
+msgstr ""
+"Por favor, introduce los detalles de atención al cliente y la dirección de "
+"devoluciones del administrador si va a ser el que se encargue de ello en vez "
+"de los vendedores."
+
+#: ../admin/class-wcmp-settings.php:44 ../admin/class-wcmp-settings.php:45
+#: ../classes/class-wcmp-report.php:82
+msgid "WCMp"
+msgstr "WCMp"
+
+#: ../admin/class-wcmp-settings.php:60
+#: ../classes/class-wcmp-post-transaction.php:216
+#: ../classes/class-wcmp-vendor-order-page.php:80
+#: ../classes/class-wcmp-user.php:831
+msgid "Products"
+msgstr "Productos"
+
+#: ../admin/class-wcmp-settings.php:61
+msgid "Frontend"
+msgstr "Interfaz"
+
+#: ../admin/class-wcmp-settings.php:62
+msgid "Payment"
+msgstr "Pago"
+
+#: ../admin/class-wcmp-settings.php:63
+msgid "Capabilities"
+msgstr "Capacidad"
+
+#: ../admin/class-wcmp-settings.php:64
+msgid "To-do List"
+msgstr "Lista de tareas"
+
+#: ../admin/class-wcmp-settings.php:65
+msgid "Pages"
+msgstr "Páginas"
+
+#: ../admin/class-wcmp-settings.php:76 ../classes/class-wcmp-product.php:579
+#: ../classes/class-wcmp-product.php:961
+msgid "Policies"
+msgstr "Políticas"
+
+#: ../admin/class-wcmp-settings.php:77
+msgid "Customer Support"
+msgstr "Atención al cliente"
+
+#: ../admin/class-wcmp-settings.php:80
+#: ../classes/class-wcmp-post-commission.php:58
+#: ../classes/class-wcmp-post-commission.php:59
+#: ../classes/class-wcmp-post-commission.php:60
+#: ../classes/class-wcmp-post-commission.php:62
+msgid "WCMp Commission"
+msgstr "WCMp Comisión"
+
+#: ../admin/class-wcmp-settings.php:81
+#, fuzzy
+msgid "Vendor Review and Rating"
+msgstr "Nueva transacción de proveedor"
+
+#: ../admin/class-wcmp-settings.php:90
+msgid ""
+"Configure the \"Product Add\" page for vendors. Choose the features you want "
+"to show to your vendors."
+msgstr ""
+"Configurar la página \"Añadir producto\" para vendedores. Elige las opciones "
+"que quieres mostrar a los vendedores."
+
+#: ../admin/class-wcmp-settings.php:91
+msgid "Configure which vendor details you want to reveal to your users"
+msgstr ""
+"Configura los detalles de los vendedores que quieres mostrar a los usuarios"
+
+#: ../admin/class-wcmp-settings.php:92
+msgid ""
+"Manage everything about payments to vendors in this page - what to pay, how "
+"to pay and when to pay."
+msgstr ""
+"Controla todo sobre los pagos a vendedores en esta página - qué pagar, cómo "
+"y cuándo."
+
+#: ../admin/class-wcmp-settings.php:93
+msgid ""
+"These are general sets of permissions for vendors. Note that these are "
+"global settings, and you may override these settings for an individual "
+"vendor from the vendor profile page. "
+msgstr ""
+"Estos son los ajustes generales de permisos de vendedores. Importante: estos "
+"son los ajustes generales y puedes modificar estos para un vendedor en "
+"particular desde la página del perfil del vendedor."
+
+#: ../admin/class-wcmp-settings.php:155
+#, php-format
+msgid "<h2>%s Settings</h2>"
+msgstr "<h2>%s Ajustes</h2>"
+
+#: ../admin/class-wcmp-settings.php:172
+#, php-format
+msgid ""
+"<h4 style='border-bottom: 1px solid rgb(215, 211, 211);padding-bottom: "
+"21px;'>%s</h4>"
+msgstr ""
+"<h4 style='border-bottom: 1px solid rgb(215, 211, 211);padding-bottom: "
+"21px;'>%s</h4>"
+
+#: ../admin/class-wcmp-settings.php:230
+msgid "<br><b>MassPay Sync</b><br>"
+msgstr "<br><b>Sincronización MassPay</b><br>"
+
+#: ../admin/class-wcmp-settings.php:231
+#, php-format
+msgid "Next MassPay cron @ %s"
+msgstr "Próximo MassPay cron @ %s"
+
+#: ../admin/class-wcmp-settings.php:232
+#, php-format
+msgid "<br>Now the time is %s"
+msgstr "<br>Ahora el tiempo es %s"
+
+#: ../admin/class-wcmp-settings-general.php:30
+msgid "New Vendor Registration"
+msgstr "Registro de nuevo vendedor"
+
+#: ../admin/class-wcmp-settings-general.php:30
+msgid ""
+"Allow people to sign up as a vendor. Leave it unchecked if you want to keep "
+"your site an invite only marketpace."
+msgstr ""
+"Permitir a la gente inscribirse como vendedores. Dejar sin marcar si quieres "
+"que el sitio funcione mediante invitaciones"
+
+#: ../admin/class-wcmp-settings-general.php:31
+msgid "Approve Vendors Manually"
+msgstr "Aprobar vendedores manualmente"
+
+#: ../admin/class-wcmp-settings-general.php:31
+msgid ""
+"If left unchecked, every vendor applicant will be auto-approved, which is "
+"not a recommended setting."
+msgstr ""
+"Si se deja desmarcado todas las solicitudes de nuevos vendedores serán "
+"automáticamente aprobadas. Esta opción no es recomendable."
+
+#: ../admin/class-wcmp-settings-general.php:32
+msgid "Add Vendor Notify Section"
+msgstr "Añadir una sección de notificación al vendedor"
+
+#: ../admin/class-wcmp-settings-general.php:32
+msgid ""
+"Add a section in the vendor dashboard to notify vendors if they have not "
+"configured stores properly."
+msgstr ""
+"Añadir una sección en el escritorio del vendedor para notificarle que no ha "
+"configurado la tienda correctamente"
+
+#: ../admin/class-wcmp-settings-general.php:33
+msgid "Enable University"
+msgstr "Activar Universidad"
+
+#: ../admin/class-wcmp-settings-general.php:33
+msgid ""
+"Check this box to enable \"University\" section in the vendor dashboard."
+msgstr ""
+"Marca esta casilla para habilitar la sección de \"Universidad\" en el "
+"escritorio del vendedor."
+
+#: ../admin/class-wcmp-settings-general.php:70
+msgid "General Settings Updated"
+msgstr "Opciones generales actualizadas"
+
+#: ../admin/class-wcmp-settings-general.php:90
+#, php-format
+msgid "These features are now available in the %sFrontend%s tab."
+msgstr "Estas características están ahora disponibles en el %sFrontend%s tab."
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:34
+msgid "Show Customer Support Details"
+msgstr "Mostrar detalles de atención al cliente"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:34
+msgid ""
+"If checked, customer support details will be visible to the customer in the "
+"\"Thank you\" page and new order emails."
+msgstr ""
+"Si está marcado los detalles de atención al cliente serán visible en la "
+"página de agradecimiento y en los emails de nuevo pedido."
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:41
+msgid "Return Address & Customer Support Details "
+msgstr "Dirección de devoluciones & Detalles de la Atención al cliente"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:45
+msgid "Phone Number"
+msgstr "Número de teléfono"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:46
+msgid "Address Line 1"
+msgstr "Dirección 1"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:47
+msgid "Address Line 2"
+msgstr "Dirección 2"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:48
+#: ../classes/class-wcmp-user.php:443
+msgid "State"
+msgstr "Estado"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:49
+#: ../classes/class-wcmp-user.php:419
+msgid "City"
+msgstr "Ciudad"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:50
+#: ../classes/class-wcmp-user.php:449
+msgid "Country"
+msgstr "País"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:51
+msgid "ZipCode"
+msgstr "Código postal"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:107
+msgid "Customer Support Details Settings Updated"
+msgstr "Detalles de atención al cliente y ajustes actualizados"
+
+#: ../admin/class-wcmp-settings-general-customer_support_details.php:128
+msgid ""
+"Enter the store wide customer support deails here. If you wish to show your "
+"customers vendor specific customer support details, the setting is at "
+"WooCommerce>WCMp>Capabilities>Customer Support Setting."
+msgstr ""
+"Introducir los detalles generales de atención al cliente aquí- Si deseas "
+"mostrar a tus clientes detalles específicos de atención al cliente del "
+"vendedor, navega a Woocomerce > WCMp>Capacidades>Ajustes de atención al "
+"cliente."
+
+#: ../admin/class-wcmp-settings-product.php:28
+msgid "Left Side Panel "
+msgstr "Contenido del panel izquierdo"
+
+#: ../admin/class-wcmp-settings-product.php:30
+msgid "Inventory"
+msgstr "Inventario"
+
+#: ../admin/class-wcmp-settings-product.php:32
+msgid "Linked Products"
+msgstr "Productos vinculados"
+
+#: ../admin/class-wcmp-settings-product.php:33
+msgid "Attributes"
+msgstr "Atributos"
+
+#: ../admin/class-wcmp-settings-product.php:34
+msgid "Advanced"
+msgstr "Avanzado"
+
+#: ../admin/class-wcmp-settings-product.php:37
+msgid "Product Types "
+msgstr "Tipos de productos"
+
+#: ../admin/class-wcmp-settings-product.php:39
+msgid "Simple"
+msgstr "Sencillo"
+
+#: ../admin/class-wcmp-settings-product.php:40
+msgid "Variable"
+msgstr "Variable"
+
+#: ../admin/class-wcmp-settings-product.php:41
+msgid "Grouped"
+msgstr "Agrupado"
+
+#: ../admin/class-wcmp-settings-product.php:42
+msgid "External / Affiliate"
+msgstr "Externo / Afiliado"
+
+#: ../admin/class-wcmp-settings-product.php:45
+msgid "Type Options "
+msgstr "Opciones de tipo"
+
+#: ../admin/class-wcmp-settings-product.php:47
+msgid "Virtual"
+msgstr "Virtual"
+
+#: ../admin/class-wcmp-settings-product.php:48
+msgid "Downloadable"
+msgstr "Descargable"
+
+#: ../admin/class-wcmp-settings-product.php:51
+msgid "Miscellaneous "
+msgstr "Diverso"
+
+#: ../admin/class-wcmp-settings-product.php:53
+msgid "SKU"
+msgstr "SKU"
+
+#: ../admin/class-wcmp-settings-product.php:54
+msgid "Taxes"
+msgstr "Impuestos"
+
+#: ../admin/class-wcmp-settings-product.php:56
+msgid "Comment Box"
+msgstr "Caja de Comentarios"
+
+#: ../admin/class-wcmp-settings-product.php:57
+msgid "Stylesheet"
+msgstr "Hoja de estilo"
+
+#: ../admin/class-wcmp-settings-product.php:57
+msgid ""
+"You can add CSS in the text area that will be loaded on the product page."
+msgstr ""
+"Puede Agregar CSS en el área de texto que se cargará en la página del "
+"producto."
+
+#: ../admin/class-wcmp-settings-product.php:161
+msgid "Product Settings Updated"
+msgstr "Ajustes de producto actualizados"
+
+#: ../admin/class-wcmp-settings-payment.php:40
+msgid "Revenue Sharing Mode"
+msgstr "Modo de compartir las ganacias"
+
+#: ../admin/class-wcmp-settings-payment.php:42
+msgid "Mode "
+msgstr "Modo"
+
+#: ../admin/class-wcmp-settings-payment.php:42
+msgid "Admin fees"
+msgstr "Comisión de administración"
+
+#: ../admin/class-wcmp-settings-payment.php:42
+msgid "Vendor Commissions"
+msgstr "Comisiones de proveedores"
+
+#: ../admin/class-wcmp-settings-payment.php:42
+#, php-format
+msgid "To know more about these two modes, please visit [%s]"
+msgstr "Para saber más sobre estos dos modos, por favor visite [%s]"
+
+#: ../admin/class-wcmp-settings-payment.php:45
+msgid "What to Pay"
+msgstr "Qué pagar"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid "Commission Type"
+msgstr "Tipo de comisión"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid "Choose Commission Type"
+msgstr "Elegir tipo de comisión"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+#: ../admin/class-wcmp-settings-payment.php:50
+#: ../admin/class-wcmp-settings-payment.php:51
+msgid "Fixed Amount"
+msgstr "Cantidad fija"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid "Percentage"
+msgstr "Porcentaje"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid "%age + Fixed (per transaction)"
+msgstr "%age + Fijo (por transacción)"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid "%age + Fixed (per unit)"
+msgstr "%age + Fijo (por unidad)"
+
+#: ../admin/class-wcmp-settings-payment.php:47
+msgid ""
+"Choose your preferred commission type. It will affect all commission "
+"calculations."
+msgstr ""
+"Elige tu tipo de comisión más usual. Esto afectará a todos los tipos de "
+"cálculos de comisión."
+
+#: ../admin/class-wcmp-settings-payment.php:48
+msgid "Commission value"
+msgstr "Valor de comisión"
+
+#: ../admin/class-wcmp-settings-payment.php:48
+msgid ""
+"This will be the default commission(in percentage or fixed) paid to vendors "
+"if product and vendor specific commission is not set. "
+msgstr ""
+"Esta será la comisión por defecto(en porcentaje o fija) pagada a vendedores, "
+"si en el producto o en la sección del vendedor no está fijada. "
+
+#: ../admin/class-wcmp-settings-payment.php:49
+#: ../classes/class-wcmp-product.php:494 ../classes/class-wcmp-product.php:498
+#: ../classes/class-wcmp-product.php:519 ../classes/class-wcmp-product.php:523
+#: ../classes/class-wcmp-product.php:855 ../classes/class-wcmp-product.php:876
+msgid "Commission Percentage"
+msgstr "Porcentaje de comisión"
+
+#: ../admin/class-wcmp-settings-payment.php:49
+msgid ""
+"This will be the default percentage paid to vendors if product and vendor "
+"specific commission is not set. "
+msgstr ""
+"Esta será la comisión pagada por defecto pagada a los vendedores si la "
+"comisión por defecto del producto y del vendedor no están fijadas."
+
+#: ../admin/class-wcmp-settings-payment.php:50
+msgid "Fixed (per transaction)"
+msgstr "Fijo (por transacción)"
+
+#: ../admin/class-wcmp-settings-payment.php:51
+msgid "Fixed (per unit)"
+msgstr "Fijo (por unidad)"
+
+#: ../admin/class-wcmp-settings-payment.php:52
+msgid "Share Coupon Discount"
+msgstr "Compartir cupón de descuento"
+
+#: ../admin/class-wcmp-settings-payment.php:52
+msgid ""
+"If checked, vendors commission will be calculated AFTER the discount. If "
+"left unchecked, the site owner will bear the cost of the coupon.  "
+msgstr ""
+"Si está marcado las comisiones de los vendedores serán calculadas DESPUÉS "
+"del descuento. Si está desmarcado el propietario del sitio soportará el "
+"coste del cupón."
+
+#: ../admin/class-wcmp-settings-payment.php:53
+#: ../classes/class-wcmp-vendor-dashboard.php:309
+msgid "Tax"
+msgstr "Impuesto"
+
+#: ../admin/class-wcmp-settings-payment.php:53
+msgid "Transfer the tax collected (per product) to the vendor. "
+msgstr "Transferir el impuesto recaudado (por producto) para el vendedor."
+
+#: ../admin/class-wcmp-settings-payment.php:54
+msgid "Transfer shipping charges collected (per product) to the vendor."
+msgstr "Transferir los gastos de envío recogidos (por producto) al vendedor."
+
+#: ../admin/class-wcmp-settings-payment.php:55
+msgid "Minimum Threshold"
+msgstr "Umbral mínimo"
+
+#: ../admin/class-wcmp-settings-payment.php:55
+msgid "Threshold amount required to disburse commission."
+msgstr "Cantidad umbral necesaria para desembolsar la comisión."
+
+#: ../admin/class-wcmp-settings-payment.php:58
+msgid "How/When to Pay "
+msgstr "Como/Cuando pagar"
+
+#: ../admin/class-wcmp-settings-payment.php:59
+msgid "Disbursal Mode"
+msgstr "Modo de desembolso"
+
+#: ../admin/class-wcmp-settings-payment.php:59
+msgid "Automatic disbursal"
+msgstr "Desembolso Automático"
+
+#: ../admin/class-wcmp-settings-payment.php:59
+msgid "Withdrawal by request"
+msgstr "Retirada por solicitud"
+
+#: ../admin/class-wcmp-settings-payment.php:59
+msgid "Choose your preferred payment mode."
+msgstr "Elige tu forma de pago preferida"
+
+#: ../admin/class-wcmp-settings-payment.php:60
+msgid "Withdrawal Charges"
+msgstr "Cargos por retirada"
+
+#: ../admin/class-wcmp-settings-payment.php:60
+msgid ""
+"Vendor will be charged this amount per withdrawal after the quota of free "
+"withdrawals is over."
+msgstr ""
+"Al vendedor se le cobrará esta cantidad por la retirada después de que el "
+"cupo de retiradas gratuitas haya terminado."
+
+#: ../admin/class-wcmp-settings-payment.php:61
+msgid "Number of Free Withdrawals"
+msgstr "Número de retiradas gratuitas"
+
+#: ../admin/class-wcmp-settings-payment.php:61
+msgid "Number of Free Withdrawal Requests."
+msgstr "Número de retiradas gratuitas solicitadas."
+
+#: ../admin/class-wcmp-settings-payment.php:62
+msgid "Activate MassPay"
+msgstr "Activar MassPay"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Set Schedule"
+msgstr "Seleccionar programación"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Weekly"
+msgstr "Semanalmente"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Daily"
+msgstr "Diariamente"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Monthly"
+msgstr "Mensualmente"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Fortnightly"
+msgstr "Quincenalmente"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Hourly"
+msgstr "A cada hora"
+
+#: ../admin/class-wcmp-settings-payment.php:63
+msgid "Choose your preferred schedule for PayaPal MassPay."
+msgstr "Elige tu planificación horaria para Paypal MassPay."
+
+#: ../admin/class-wcmp-settings-payment.php:64
+msgid "API Username"
+msgstr "Usuario API"
+
+#: ../admin/class-wcmp-settings-payment.php:64
+msgid "Give your PayPal API Username."
+msgstr "Introduce tu usuario de la API de Paypal"
+
+#: ../admin/class-wcmp-settings-payment.php:65
+msgid "API Password"
+msgstr "Contraseña API"
+
+#: ../admin/class-wcmp-settings-payment.php:65
+msgid "Give your PayPal API Password."
+msgstr "Introduce tu contraseña de la API de Paypal"
+
+#: ../admin/class-wcmp-settings-payment.php:66
+msgid "API Signature"
+msgstr "Firma API"
+
+#: ../admin/class-wcmp-settings-payment.php:66
+msgid "Give your PayPal API Signature."
+msgstr "Introduce tu firma de la API de Paypal"
+
+#: ../admin/class-wcmp-settings-payment.php:67
+msgid "Enable Test Mode"
+msgstr "Activar el modo test"
+
+#: ../admin/class-wcmp-settings-payment.php:169
+msgid "Set API Username"
+msgstr "Introducir nombre de usuario API"
+
+#: ../admin/class-wcmp-settings-payment.php:181
+msgid "Set API Password"
+msgstr "Introducir contraseña API "
+
+#: ../admin/class-wcmp-settings-payment.php:193
+msgid "Set API Signature"
+msgstr "Introducir firma API"
+
+#: ../admin/class-wcmp-settings-payment.php:203
+msgid "Payment Settings Updated"
+msgstr "Ajustes de pago actualizados"
+
+#: ../admin/class-wcmp-settings-payment.php:215
+msgid ""
+"Payment can be done only if vendors have valid PayPal Email Id in their "
+"profile. You can add from [Users->Edit Users->PayPal Email]"
+msgstr ""
+"El pago solo puede ser hecho solo si los vendedores tienen un email de "
+"Paypal válido en su perfil. Puedes añadirlo en [Usuarios->Editar usuarios-"
+">PayPal Email]"
+
+#: ../admin/class-wcmp-settings-payment.php:219
+msgid "View All Transaction Details"
+msgstr "Ver todos los detalles de las transacciones"
+
+#: ../admin/class-wcmp-settings-pages.php:36
+msgid "Choose your preferred page for vendor dashboard."
+msgstr "Elige tu tipo de página preferida para el escritorio del vendedor."
+
+#: ../admin/class-wcmp-settings-pages.php:37
+msgid "Choose your preferred page for vendor shop settings"
+msgstr "Elige tu página preferida para los ajustes de la página del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:38
+msgid "View Vendor Orders"
+msgstr "Ver pedidos de vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:38
+msgid "Choose your preferred page for vendor view order"
+msgstr "Elige tu página preferida para los vendedores al ver el pedido"
+
+#: ../admin/class-wcmp-settings-pages.php:39
+msgid "Vendor Order Detail Page"
+msgstr "Pagina de detalles de pedido de vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:39
+msgid "Choose your preferred page for vendor order details"
+msgstr ""
+"Elige tu página preferida para los vendedores para los detalles del pedido"
+
+#: ../admin/class-wcmp-settings-pages.php:40
+msgid "Withdrawal Request Status Page"
+msgstr "Página de estado solicitudes de retirada"
+
+#: ../admin/class-wcmp-settings-pages.php:40
+msgid "Choose your preferred page for vendor transaction thankyou"
+msgstr "Elige tu página preferida de agradecimiento del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:41
+#: ../admin/class-wcmp-settings-pages.php:43
+msgid "Choose your preferred page for vendor transactions details"
+msgstr ""
+"Elige tu página preferida para los vendedores para los detalles del pedido"
+
+#: ../admin/class-wcmp-settings-pages.php:42
+msgid "Choose your preferred page for vendor policies"
+msgstr "Elige tu página preferida para la política del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:44 ../classes/class-wcmp.php:695
+msgid "Vendor Report"
+msgstr "Informe de vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:44
+#: ../admin/class-wcmp-settings-pages.php:45
+msgid "Choose your preferred page for vendor report"
+msgstr "Elige tu página preferida para la información del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:45
+msgid "Vendor Withdrawals"
+msgstr "Retiradas del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:46
+#, fuzzy
+msgid "Choose your preferred page for university"
+msgstr "Elige tu página preferida para el envío del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:47
+#, fuzzy
+msgid "Choose your preferred page for vendor announcements"
+msgstr "Elige tu página preferida para la política del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:48
+msgid "Choose your preferred page for vendor shipping"
+msgstr "Elige tu página preferida para el envío del vendedor"
+
+#: ../admin/class-wcmp-settings-pages.php:115
+#: ../admin/class-wcmp-settings-notices.php:60
+msgid "Page Settings Updated"
+msgstr "Ajustes de página actualizados"
+
+#: ../admin/class-wcmp-settings-general-policies.php:34
+#, fuzzy
+msgid "Enable Policies "
+msgstr "- Políticas"
+
+#: ../admin/class-wcmp-settings-general-policies.php:36
+#, fuzzy
+msgid "Cancellation/Return/Exchange Policy Product Wise"
+msgstr "Cancelación/Devolución/Política de cambios"
+
+#: ../admin/class-wcmp-settings-general-policies.php:38
+#, fuzzy
+msgid "Refund Policy Product Wise"
+msgstr "Política de devoluciones"
+
+#: ../admin/class-wcmp-settings-general-policies.php:40
+#, fuzzy
+msgid "Shipping Policy Product Wise"
+msgstr "Política de envíos"
+
+#: ../admin/class-wcmp-settings-general-policies.php:46
+#, fuzzy
+msgid "Product Tab Title :"
+msgstr "Título de producto"
+
+#: ../admin/class-wcmp-settings-general-policies.php:46
+#, fuzzy
+msgid "Please Enter the Policies Tab Title ."
+msgstr "Introducir el título de la pestaña de Políticas"
+
+#: ../admin/class-wcmp-settings-general-policies.php:47
+#, fuzzy
+msgid "Cancellation/Return/Exchange Policy Label :"
+msgstr "Cancelación/Devolución/Política de cambios"
+
+#: ../admin/class-wcmp-settings-general-policies.php:47
+msgid "Please Enter the Cancellation Policy Custom Heading."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:48
+#, fuzzy
+msgid "Cancellation/Return/Exchange Policy :"
+msgstr "Cancelación/Devolución/Política de cambios"
+
+#: ../admin/class-wcmp-settings-general-policies.php:48
+msgid "Please Enter the Cancellation Policy ."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:49
+#, fuzzy
+msgid "Refund Policy Label:"
+msgstr "Política de devoluciones"
+
+#: ../admin/class-wcmp-settings-general-policies.php:49
+#, fuzzy
+msgid "Please Enter the Refund Policy Label."
+msgstr "Introducir el título de la pestaña de Políticas"
+
+#: ../admin/class-wcmp-settings-general-policies.php:50
+#, fuzzy
+msgid "Refund Policy :"
+msgstr "Política de devoluciones"
+
+#: ../admin/class-wcmp-settings-general-policies.php:50
+#, fuzzy
+msgid "Please Enter the Refund Policy ."
+msgstr "Introducir el título de la pestaña de Políticas"
+
+#: ../admin/class-wcmp-settings-general-policies.php:51
+#, fuzzy
+msgid "Shipping Policy Label :"
+msgstr "Política de envíos"
+
+#: ../admin/class-wcmp-settings-general-policies.php:51
+msgid "Please Enter the Shipping Policy Label."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-policies.php:52
+#, fuzzy
+msgid "Shipping Policy :"
+msgstr "Política de envíos"
+
+#: ../admin/class-wcmp-settings-general-policies.php:52
+#, fuzzy
+msgid "Please Enter the Shipping Policy ."
+msgstr "Política de envíos"
+
+#: ../admin/class-wcmp-settings-general-policies.php:109
+msgid "Policies Settings Updated"
+msgstr "Ajustes de políticas actualizados"
+
+#: ../admin/class-wcmp-settings-general-policies.php:122
+msgid "Please configure the policies section."
+msgstr "Por favor, configura la sección de políticas"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:29
+msgid "Pending Vendor Approval"
+msgstr "Vendedor pendiente de aprovación"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:33
+msgid "Pending User"
+msgstr "Usuario pendiente"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:35
+msgid "Activate"
+msgstr "Activar"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:36
+#: ../classes/class-wcmp-user.php:871
+msgid "Reject"
+msgstr "Rechazar"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:37
+#: ../admin/class-wcmp-settings-to_do_list.php:79
+#: ../admin/class-wcmp-settings-to_do_list.php:115
+#: ../admin/class-wcmp-settings-to_do_list.php:155
+msgid "Dismiss"
+msgstr "Descartar"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:72
+msgid "Pending Coupons Approval"
+msgstr "Cupones pendientes de aprovación"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:76
+#: ../admin/class-wcmp-settings-to_do_list.php:112
+#: ../classes/class-wcmp-vendor-dashboard.php:298
+msgid "Vendor Name"
+msgstr "Nombre del vendedor"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:77
+msgid "Coupon Name"
+msgstr "Nombre de cupón"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:108
+msgid "Pending Products Approval"
+msgstr "Productos pendientes de aprovación"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:146
+msgid "Pending Bank Transfer"
+msgstr "Transferencias bancarias pendientes"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:150
+#: ../classes/class-wcmp-post-commission.php:348
+#: ../classes/class-wcmp-report.php:91 ../classes/class-wcmp-product.php:453
+#: ../classes/class-wcmp-product.php:478 ../classes/class-wcmp-product.php:928
+#: ../classes/class-wcmp-user.php:243 ../classes/class-wcmp-taxonomy.php:37
+msgid "Vendor"
+msgstr "Productor"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:152
+#: ../classes/class-wcmp-post-commission.php:349
+#: ../classes/class-wcmp-post-transaction.php:155
+#: ../classes/class-wcmp-post-transaction.php:216
+msgid "Amount"
+msgstr "Cantidad"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:153
+msgid "Account Detail"
+msgstr "Número de cuenta"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:154
+msgid "Notify the Vendor"
+msgstr "Añadir una sección de notificación al vendedor"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "Account Name- "
+msgstr "Nombre de la cuenta"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "Account No - "
+msgstr "Cuenta nº"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "Bank Name - "
+msgstr "Nombre banco -"
+
+#: ../admin/class-wcmp-settings-to_do_list.php:175
+msgid "IBAN - "
+msgstr "IBAN - "
+
+#: ../admin/class-wcmp-settings-notices.php:29
+msgid "Notices Enable/Disable :"
+msgstr "Noticias Activadas/Desactivadas"
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:34
+#, fuzzy
+msgid "Enable Review ( for Vendor )"
+msgstr "Transacciones por vendedor"
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:34
+msgid "If checked, user can rate vendor(s)."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:35
+msgid "Enable Review ( by verified customers )."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:35
+msgid ""
+"If checked, only customers who have purchased from the vendor can rate them."
+msgstr ""
+
+#: ../admin/class-wcmp-settings-general-sellerreview.php:69
+#, fuzzy
+msgid "Vendor Review Rating Settings Updated"
+msgstr "Opciones generales actualizadas"
+
+#: ../classes/class-wcmp-post-commission.php:58
+#: ../classes/class-wcmp-post-transaction.php:36
+#: ../classes/class-wcmp-post-notices.php:72
+#: ../classes/class-wcmp-post-university.php:33
+#, php-format
+msgid "Add New %s"
+msgstr "Añadir Nuevo %s"
+
+#: ../classes/class-wcmp-post-commission.php:59
+#: ../classes/class-wcmp-post-transaction.php:37
+#: ../classes/class-wcmp-post-notices.php:73
+#: ../classes/class-wcmp-post-university.php:34
+#, php-format
+msgid "Edit %s"
+msgstr "Editar %s"
+
+#: ../classes/class-wcmp-post-commission.php:60
+#: ../classes/class-wcmp-post-transaction.php:38
+#: ../classes/class-wcmp-post-notices.php:74
+#: ../classes/class-wcmp-post-university.php:35
+#, php-format
+msgid "New %s"
+msgstr "Nuevo %s"
+
+#: ../classes/class-wcmp-post-commission.php:61
+#: ../classes/class-wcmp-post-transaction.php:39
+#: ../classes/class-wcmp-post-notices.php:75
+#: ../classes/class-wcmp-post-university.php:36
+#, php-format
+msgid "All %s"
+msgstr "Todos %s"
+
+#: ../classes/class-wcmp-post-commission.php:61
+#: ../classes/class-wcmp-post-commission.php:63
+#: ../classes/class-wcmp-post-commission.php:64
+#: ../classes/class-wcmp-post-commission.php:65
+#: ../classes/class-wcmp-post-commission.php:67
+#: ../classes/class-wcmp-post-commission.php:68
+msgid "WCMp Commissions"
+msgstr "WCMp Comisión"
+
+#: ../classes/class-wcmp-post-commission.php:62
+#: ../classes/class-wcmp-post-transaction.php:40
+#: ../classes/class-wcmp-post-notices.php:76
+#: ../classes/class-wcmp-post-university.php:37
+#, php-format
+msgid "View %s"
+msgstr "Ver %s"
+
+#: ../classes/class-wcmp-post-commission.php:63
+#: ../classes/class-wcmp-post-transaction.php:41
+#: ../classes/class-wcmp-post-notices.php:77
+#: ../classes/class-wcmp-post-university.php:38
+msgid "Search %a"
+msgstr "Buscar %a"
+
+#: ../classes/class-wcmp-post-commission.php:64
+#: ../classes/class-wcmp-post-transaction.php:42
+#: ../classes/class-wcmp-post-notices.php:78
+#: ../classes/class-wcmp-post-university.php:39
+#, php-format
+msgid "No %s found"
+msgstr "No se han encontrado %s"
+
+#: ../classes/class-wcmp-post-commission.php:65
+#: ../classes/class-wcmp-post-notices.php:79
+#: ../classes/class-wcmp-post-university.php:40
+#, php-format
+msgid "No %s found in trash"
+msgstr "No se han encontrado %s en la papelera"
+
+#: ../classes/class-wcmp-post-commission.php:101
+msgid "Commission Details"
+msgstr "Detalles de comisión"
+
+#: ../classes/class-wcmp-post-commission.php:161
+#: ../classes/class-wcmp-product.php:294 ../classes/class-wcmp-product.php:480
+msgid "Search for vendor"
+msgstr "Buscar un vendedor"
+
+#: ../classes/class-wcmp-post-commission.php:197
+msgid "Order ID:"
+msgstr "ID del pedido:"
+
+#: ../classes/class-wcmp-post-commission.php:198
+msgid "The order ID of Commission ("
+msgstr "ID correspondiente a la comisión ("
+
+#: ../classes/class-wcmp-post-commission.php:205
+msgid "Product:"
+msgstr "Producto:"
+
+#: ../classes/class-wcmp-post-commission.php:206
+msgid "The product purchased that generated this commission."
+msgstr "El producto pedido ha generado las siguientes comisiones."
+
+#: ../classes/class-wcmp-post-commission.php:213
+msgid "Vendor:"
+msgstr "Vendedor"
+
+#: ../classes/class-wcmp-post-commission.php:214
+msgid "The vendor who receives this commission."
+msgstr "El vendedor que recibirá esta comisión."
+
+#: ../classes/class-wcmp-post-commission.php:221
+msgid "Amount:"
+msgstr "Cantidad:"
+
+#: ../classes/class-wcmp-post-commission.php:222
+msgid "The total value of this commission ("
+msgstr "Valor total de esta comisión ("
+
+#: ../classes/class-wcmp-post-commission.php:229
+msgid "Shipping Amount:"
+msgstr "Cantidad transporte:"
+
+#: ../classes/class-wcmp-post-commission.php:230
+msgid "The total value of shipping ("
+msgstr "Valor total del coste del transporte ("
+
+#: ../classes/class-wcmp-post-commission.php:237
+msgid "Tax Amount:"
+msgstr "Total impuestos"
+
+#: ../classes/class-wcmp-post-commission.php:238
+msgid "The total value of this tax ("
+msgstr "Valor total de este impuesto ("
+
+#: ../classes/class-wcmp-post-commission.php:302
+#: ../classes/class-wcmp-post-commission.php:672
+msgid "Unpaid"
+msgstr "Impagado"
+
+#: ../classes/class-wcmp-post-commission.php:303
+#: ../classes/class-wcmp-post-commission.php:671
+msgid "Paid"
+msgstr "Pagado"
+
+#: ../classes/class-wcmp-post-commission.php:304
+#: ../classes/class-wcmp-post-commission.php:673
+msgid "Reverse"
+msgstr "Opuesto"
+
+#: ../classes/class-wcmp-post-commission.php:451
+#: ../classes/class-wcmp-post-commission.php:452
+msgid "Export Unpaid Commissions (CSV)"
+msgstr "Exportar comisiones impagadas (CSV)"
+
+#: ../classes/class-wcmp-post-commission.php:453
+#: ../classes/class-wcmp-post-commission.php:454
+msgid "Mark all commissions as paid"
+msgstr "Marcar todas las comisiones como pagadas"
+
+#: ../classes/class-wcmp-post-commission.php:455
+#: ../classes/class-wcmp-post-commission.php:456
+msgid "Mark selected commissions as unpaid"
+msgstr "Marcar las comisiones seleccionadas como impagadas"
+
+#: ../classes/class-wcmp-post-commission.php:457
+#: ../classes/class-wcmp-post-commission.php:458
+msgid "Mark selected commissions as paid"
+msgstr "Marcar las comisiones seleccionadas como pagadas"
+
+#: ../classes/class-wcmp-post-commission.php:459
+#: ../classes/class-wcmp-post-commission.php:460
+msgid "Mark selected commissions as reverse"
+msgstr "Marcar las comisiones seleccionadas como retrocedidas"
+
+#: ../classes/class-wcmp-post-commission.php:523
+#: ../classes/class-wcmp-vendor-dashboard.php:109
+#: ../classes/class-wcmp-masspay-cron.php:70
+#, php-format
+msgid "Total commissions earned from %1$s as at %2$s on %3$s"
+msgstr "Total comisiones obtenidas de %1$s en %2$s en %3$s"
+
+#: ../classes/class-wcmp-post-commission.php:670
+msgid "Show Commission Status"
+msgstr "Mostrar el estado de la comisión"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:205
+msgid "Transaction ID"
+msgstr "ID de la transacción:"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:207
+msgid "Mode"
+msgstr "Modo"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:210
+msgid "Credit"
+msgstr "Crédito"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:230
+#: ../classes/class-wcmp-post-transaction.php:171
+#: ../classes/class-wcmp-post-transaction.php:291
+msgid "PayPal"
+msgstr "PayPal"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:231
+#: ../classes/class-wcmp-post-transaction.php:292
+msgid "Direct Bank Transfer"
+msgstr "Transferencia bancaria directa"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:258
+msgid "Sorry. no transaction data is available upon your selection"
+msgstr ""
+"Lo sentimos, ningún dato de transacción está disponible en tu selección"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:295
+#: ../classes/class-wcmp-post-transaction.php:216
+msgid "Order"
+msgstr "Pedido"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:296
+msgid "Date of Purchase"
+msgstr "Fecha de compra"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:297
+msgid "Time Of Purchase"
+msgstr "Tiempo de compra"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:299
+msgid "Items bought"
+msgstr "Productos comprados"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:301
+msgid "Discount Used"
+msgstr "Descuento usado:"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:302
+msgid "Payment System"
+msgstr "Sistema de pago"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:304
+#: ../classes/class-wcmp-user.php:547
+msgid "Customer Email"
+msgstr "Email del cliente"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:305
+msgid "Customer Contact"
+msgstr "Contacto del cliente"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:306
+msgid "Billing Address Details"
+msgstr "Detalles de la dirección de facturación"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:307
+msgid "Shipping Address Details"
+msgstr "Detalles de la dirección de envío"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:308
+msgid "Order Status"
+msgstr "Estado del pedido"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:311
+msgid "Commission Share"
+msgstr "Cuota de comisión"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:684
+msgid "No shipping class"
+msgstr "No hay método de envío"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:784
+#: ../classes/class-wcmp-vendor-dashboard.php:787
+#: ../classes/class-wcmp-user.php:927 ../classes/class-wcmp-user.php:973
+msgid "Slug already exists"
+msgstr "El slug ya existe"
+
+#: ../classes/class-wcmp-vendor-dashboard.php:798
+#: ../classes/class-wcmp-vendor-dashboard.php:801
+msgid "Slug can not be empty"
+msgstr ""
+
+#: ../classes/class-wcmp-vendor-dashboard.php:809
+#: ../classes/class-wcmp-vendor-dashboard.php:812
+#, fuzzy
+msgid "Shop Title can not be empty"
+msgstr "Error al actualizar el título de la tienda "
+
+#: ../classes/class-wcmp-vendor-dashboard.php:819
+#: ../classes/class-wcmp-vendor-dashboard.php:822
+msgid "Shop Title Update Error"
+msgstr "Error al actualizar el título de la tienda "
+
+#: ../classes/class-wcmp-calculate-commission.php:205
+#, php-format
+msgid "Commission - %s"
+msgstr "Comisión - %s"
+
+#: ../classes/class-wcmp.php:408
+msgid "Every 7 Days"
+msgstr "Una vez cada 7 días"
+
+#: ../classes/class-wcmp.php:412
+msgid "Every 1 Month"
+msgstr "Una vez al mes"
+
+#: ../classes/class-wcmp.php:416
+msgid "Every 15 Days"
+msgstr "Una vez cada 15 días"
+
+#: ../classes/class-wcmp-vendor-details.php:533
+#, php-format
+msgid "Quantity: %s"
+msgstr "Cantidad: %s"
+
+#: ../classes/class-wcmp-vendor-details.php:539
+#, php-format
+msgid "Total: %s"
+msgstr "Total:%s"
+
+#: ../classes/class-wcmp-vendor-details.php:540
+#, php-format
+msgid "Commission: %s"
+msgstr "Comisión: %s"
+
+#: ../classes/class-wcmp-vendor-details.php:702
+msgid "Commission Subtotal:"
+msgstr "Subtotal de comisión:"
+
+#: ../classes/class-wcmp-vendor-details.php:705
+msgid "Tax Subtotal:"
+msgstr "Subtotal impuestos"
+
+#: ../classes/class-wcmp-vendor-details.php:710
+msgid "Shipping Subtotal:"
+msgstr "Subtotal transporte"
+
+#: ../classes/class-wcmp-vendor-details.php:713
+msgid "Total:"
+msgstr "Total:"
+
+#: ../classes/class-wcmp-post-transaction.php:36
+#: ../classes/class-wcmp-post-transaction.php:37
+#: ../classes/class-wcmp-post-transaction.php:38
+#: ../classes/class-wcmp-post-transaction.php:39
+#: ../classes/class-wcmp-post-transaction.php:40
+msgid "Transaction"
+msgstr "Transacción"
+
+#: ../classes/class-wcmp-post-transaction.php:41
+#: ../classes/class-wcmp-post-transaction.php:42
+#: ../classes/class-wcmp-post-transaction.php:43
+#: ../classes/class-wcmp-post-transaction.php:45
+#: ../classes/class-wcmp-post-transaction.php:46
+msgid "Transactions"
+msgstr "Transacciones"
+
+#: ../classes/class-wcmp-post-transaction.php:43
+#, php-format
+msgid "No %s found In trash"
+msgstr "No se han encontrado %s en la papelera"
+
+#: ../classes/class-wcmp-post-transaction.php:107
+#, php-format
+msgid "Transaction - %s"
+msgstr "Transacción - %s"
+
+#: ../classes/class-wcmp-post-transaction.php:154
+msgid "Date of request"
+msgstr "Fecha de la petición"
+
+#: ../classes/class-wcmp-post-transaction.php:157
+msgid "Transfer Fee"
+msgstr "Comisión de transferencia"
+
+#: ../classes/class-wcmp-post-transaction.php:161
+#: ../classes/class-wcmp-post-transaction.php:171
+#: ../classes/class-wcmp-post-transaction.php:174
+msgid "Transaction Mode"
+msgstr "Modo de la transacción"
+
+#: ../classes/class-wcmp-post-transaction.php:162
+#: ../classes/class-wcmp-user.php:568
+msgid "Bank Account Type"
+msgstr "Tipo de cuenta bancaria"
+
+#: ../classes/class-wcmp-post-transaction.php:163
+msgid "Bank Account Number"
+msgstr "Número cuenta bancaria"
+
+#: ../classes/class-wcmp-post-transaction.php:172
+#: ../classes/class-wcmp-user.php:624
+msgid "PayPal Email"
+msgstr "PayPal email"
+
+#: ../classes/class-wcmp-post-transaction.php:174
+msgid "Manual"
+msgstr "Manual"
+
+#: ../classes/class-wcmp-post-notices.php:29
+msgid "Addtional Fields"
+msgstr "Campos adicionales"
+
+#: ../classes/class-wcmp-email.php:69
+msgid "Customer Support Details of : "
+msgstr "Detalles de atención al cliente de:"
+
+#: ../classes/class-wcmp-email.php:88
+msgid "Return Address of : "
+msgstr "Dirección de devolución de:"
+
+#: ../classes/class-wcmp-email.php:93 ../classes/class-wcmp-email.php:169
+msgid "Address Line 1 : "
+msgstr "Dirección 1"
+
+#: ../classes/class-wcmp-email.php:98 ../classes/class-wcmp-email.php:179
+msgid "Address Line 2 : "
+msgstr "Dirección 2"
+
+#: ../classes/class-wcmp-email.php:103 ../classes/class-wcmp-email.php:189
+msgid "State : "
+msgstr "Estado:"
+
+#: ../classes/class-wcmp-email.php:108 ../classes/class-wcmp-email.php:199
+msgid "City : "
+msgstr "Ciudad:"
+
+#: ../classes/class-wcmp-email.php:113 ../classes/class-wcmp-email.php:209
+msgid "Country : "
+msgstr "País : "
+
+#: ../classes/class-wcmp-email.php:118 ../classes/class-wcmp-email.php:219
+msgid "Zip Code : "
+msgstr "Código postal:"
+
+#: ../classes/class-wcmp-email.php:137
+msgid "Customer Support Details :"
+msgstr "Detalles de atención al cliente:"
+
+#: ../classes/class-wcmp-email.php:162
+msgid "Our Return Address :"
+msgstr "Nuestra dirección de devoluciones:"
+
+#: ../classes/class-wcmp-seller-review-rating.php:104
+#, fuzzy
+msgid "Vendor Rating"
+msgstr "Ganancias del vendedor"
+
+#: ../classes/class-wcmp-seller-review-rating.php:130
+#: ../classes/class-wcmp-seller-review-rating.php:132
+#, fuzzy
+msgid "Vendor Name."
+msgstr "Nombre del vendedor"
+
+#: ../classes/class-wcmp-seller-review-rating.php:156
+#, fuzzy
+msgid "Vendor Rating."
+msgstr "Ganancias del vendedor"
+
+#: ../classes/class-wcmp-seller-review-rating.php:158
+#, fuzzy
+msgid "Vendor Rating Star."
+msgstr "Ganancias del vendedor"
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+#, fuzzy
+msgid "Please Select"
+msgstr "Por favor, selecciona un producto"
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "1 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "2 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "3 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "4 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-seller-review-rating.php:159
+msgid "5 Star"
+msgstr ""
+
+#: ../classes/class-wcmp-capabilities.php:259
+#: ../classes/class-wcmp-capabilities.php:279
+msgid "Sold By"
+msgstr "Vendido por"
+
+#: ../classes/class-wcmp-product.php:165
+msgid "SKU must be unique"
+msgstr ""
+
+#: ../classes/class-wcmp-product.php:295 ../classes/class-wcmp-product.php:476
+msgid "Choose a vendor"
+msgstr "Elige un vendedor"
+
+#: ../classes/class-wcmp-product.php:505 ../classes/class-wcmp-product.php:509
+msgid "Commission Fixed per transaction"
+msgstr "Comisión fija por transacción"
+
+#: ../classes/class-wcmp-product.php:530 ../classes/class-wcmp-product.php:534
+#: ../classes/class-wcmp-product.php:866 ../classes/class-wcmp-product.php:885
+msgid "Commission Fixed per unit"
+msgstr "Comisión fija por unidad"
+
+#: ../classes/class-wcmp-product.php:558
+msgid "Unassign vendor"
+msgstr "Cancelar asignación de vendedor"
+
+#: ../classes/class-wcmp-product.php:813 ../classes/class-wcmp-product.php:833
+msgid "Commission (percentage)"
+msgstr "Comisión (porcentaje)"
+
+#: ../classes/class-wcmp-product.php:823 ../classes/class-wcmp-product.php:841
+msgid "Commission (fixed) Per Transaction"
+msgstr "Comisión (fija) por transacción"
+
+#: ../classes/class-wcmp-product.php:1075
+msgid "Report Abuse"
+msgstr "Denunciar mal uso"
+
+#: ../classes/class-wcmp-product.php:1082 ../classes/class-wcmp-ajax.php:1255
+msgid "Report an abuse for product"
+msgstr "Denunciar un mal uso de un producto"
+
+#: ../classes/class-wcmp-product.php:1098
+msgid "Leave a message explaining the reasons for your abuse report"
+msgstr ""
+"Deja un mensaje explicando las razones por las que consideras que hay un mal "
+"uso"
+
+#: ../classes/class-wcmp-product.php:1104
+msgid "Report"
+msgstr "Denunciar"
+
+#: ../classes/class-wcmp-vendor-order-page.php:79
+msgid "Customer"
+msgstr "Cliente"
+
+#: ../classes/class-wcmp-vendor-order-page.php:81
+msgid "Total"
+msgstr "Total"
+
+#: ../classes/class-wcmp-vendor-order-page.php:114
+msgid "Mark as Shipped"
+msgstr "Marcar como enviado"
+
+#: ../classes/class-wcmp-vendor-order-page.php:138
+msgid "Orders Marked as shipped."
+msgstr "Pedidos marcados como enviados."
+
+#: ../classes/class-wcmp-vendor-order-page.php:227
+msgid "Flat Shipping Charges"
+msgstr "Tasa de envío"
+
+#: ../classes/class-wcmp-vendor-order-page.php:274
+msgid "CPF"
+msgstr "CPF"
+
+#: ../classes/class-wcmp-vendor-order-page.php:277
+msgid "RG"
+msgstr "RG"
+
+#: ../classes/class-wcmp-vendor-order-page.php:282
+#: ../classes/class-wcmp-user.php:401
+msgid "Company Name"
+msgstr "Nombre de la empresa"
+
+#: ../classes/class-wcmp-vendor-order-page.php:283
+msgid "CNPJ"
+msgstr "CNPJ"
+
+#: ../classes/class-wcmp-vendor-order-page.php:286
+msgid "State Registration"
+msgstr "Estado del registro"
+
+#: ../classes/class-wcmp-vendor-order-page.php:290
+msgid "Company"
+msgstr "Empresa"
+
+#: ../classes/class-wcmp-vendor-order-page.php:296
+msgid "Birthdate"
+msgstr "Fecha de nacimiento"
+
+#: ../classes/class-wcmp-vendor-order-page.php:299
+msgid "Sex"
+msgstr "Genero"
+
+#: ../classes/class-wcmp-vendor-order-page.php:306
+msgid "Cell Phone"
+msgstr "Teléfono móvil"
+
+#: ../classes/class-wcmp-user.php:125
+msgid "Dashboard - manage your account here"
+msgstr "Escritorio - administra tu cuenta desde aquí"
+
+#: ../classes/class-wcmp-user.php:251
+msgid "Pending Vendor"
+msgstr "Vendedor pendiente"
+
+#: ../classes/class-wcmp-user.php:257
+msgid "Rejected Vendor"
+msgstr "Rechazar vendedor"
+
+#: ../classes/class-wcmp-user.php:350
+msgid "Vendor Page Title"
+msgstr "Título de la página de vendedor"
+
+#: ../classes/class-wcmp-user.php:356
+msgid "Vendor Page Slug"
+msgstr "Slug de la página de vendedor"
+
+#: ../classes/class-wcmp-user.php:369
+msgid "Hide address in frontend"
+msgstr "Ocultar dirección en el frontend"
+
+#: ../classes/class-wcmp-user.php:377
+msgid "Hide phone in frontend"
+msgstr "Ocultar teléfono en el frontend"
+
+#: ../classes/class-wcmp-user.php:385
+msgid "Hide email in frontend"
+msgstr "Ocultar email en el frontend"
+
+#: ../classes/class-wcmp-user.php:393
+msgid "Hide description in frontend"
+msgstr "Ocultar descripción en el frontend"
+
+#: ../classes/class-wcmp-user.php:407
+msgid "Address 1"
+msgstr "Dirección 1"
+
+#: ../classes/class-wcmp-user.php:413
+msgid "Address 2"
+msgstr "Dirección 2"
+
+#: ../classes/class-wcmp-user.php:425
+msgid "Postcode"
+msgstr "Código postal"
+
+#: ../classes/class-wcmp-user.php:431
+msgid "External store URL"
+msgstr "URL de tienda externa"
+
+#: ../classes/class-wcmp-user.php:437
+msgid "External store URL label"
+msgstr "Etiqueta de la URL de tienda externa"
+
+#: ../classes/class-wcmp-user.php:461
+msgid "Facebook Profile"
+msgstr "Perfil de Facebook"
+
+#: ../classes/class-wcmp-user.php:467
+msgid "Twitter Profile"
+msgstr "Perfil de Twitter"
+
+#: ../classes/class-wcmp-user.php:473
+msgid "Google+ Profile"
+msgstr "Perfil de Google+"
+
+#: ../classes/class-wcmp-user.php:479
+msgid "LinkedIn Profile"
+msgstr "Perfil de Linkedin"
+
+#: ../classes/class-wcmp-user.php:485
+msgid "YouTube Channel"
+msgstr "Canal de Youtube"
+
+#: ../classes/class-wcmp-user.php:491
+msgid "Logo"
+msgstr "Logotipo"
+
+#: ../classes/class-wcmp-user.php:498
+msgid "Banner"
+msgstr "Banner"
+
+#: ../classes/class-wcmp-user.php:505
+msgid "Customer address1"
+msgstr "Dirección del cliente 1"
+
+#: ../classes/class-wcmp-user.php:511
+msgid "Customer address2"
+msgstr "Dirección del cliente 2"
+
+#: ../classes/class-wcmp-user.php:517
+msgid "Customer Country"
+msgstr "País del cliente"
+
+#: ../classes/class-wcmp-user.php:523
+msgid "Customer Return State"
+msgstr "Estado de devolución del cliente"
+
+#: ../classes/class-wcmp-user.php:529
+msgid "Customer Return City"
+msgstr "Ciudad de devolución del cliente"
+
+#: ../classes/class-wcmp-user.php:535
+msgid "Customer Return Zip"
+msgstr "Código Postal de devolución del cliente"
+
+#: ../classes/class-wcmp-user.php:541
+msgid "Customer Phone"
+msgstr "Teléfono del cliente"
+
+#: ../classes/class-wcmp-user.php:576
+msgid "Bank Account Name"
+msgstr "Nombre cuenta bancaria"
+
+#: ../classes/class-wcmp-user.php:633
+msgid "Enter the title of Policies Tab"
+msgstr "Introducir el título de la pestaña de Políticas"
+
+#: ../classes/class-wcmp-user.php:672
+msgid "Is Message to buyer Hide From Users"
+msgstr "El mensaje al comprador no se muestra a usuarios si no han comprado"
+
+#: ../classes/class-wcmp-user.php:683
+msgid "Commission Amount"
+msgstr "Comisión importe"
+
+#: ../classes/class-wcmp-user.php:689
+msgid "Submit products"
+msgstr "Enviar productos"
+
+#: ../classes/class-wcmp-user.php:696
+msgid "Disallow direct publishing of products"
+msgstr "Deshabilitar la publicación automática de productos"
+
+#: ../classes/class-wcmp-user.php:710
+msgid "Disallow direct publishing of coupons"
+msgstr "Deshabilitar la publicación automática de cupones"
+
+#: ../classes/class-wcmp-user.php:717
+msgid "Withhold Tax"
+msgstr "Retener el impuesto"
+
+#: ../classes/class-wcmp-user.php:724
+msgid "Withhold Shipping"
+msgstr "Retener el envío"
+
+#: ../classes/class-wcmp-user.php:731
+msgid "Block this vendor with all items"
+msgstr "Bloquear este vendedor y todos sus productos"
+
+#: ../classes/class-wcmp-user.php:743 ../classes/class-wcmp-user.php:759
+msgid "Commission Percentage(%)"
+msgstr "Porcentaje de comisión(%)"
+
+#: ../classes/class-wcmp-user.php:749
+msgid "Commission(fixed), Per Transaction"
+msgstr "Comisión(fija), por comisión"
+
+#: ../classes/class-wcmp-user.php:765
+msgid "Commission Fixed Per Unit"
+msgstr "Comisión fija por unidad"
+
+#: ../classes/class-wcmp-user.php:870 ../classes/class-wcmp-user.php:876
+msgid "Approve"
+msgstr "Aprobar"
+
+#: ../classes/class-wcmp-user.php:898 ../classes/class-wcmp-taxonomy.php:43
+msgid "View Vendor"
+msgstr "Ver vendedor"
+
+#: ../classes/class-wcmp-user.php:919
+msgid "Slug Already Exists"
+msgstr "El slug ya existe"
+
+#: ../classes/class-wcmp-user.php:967
+msgid "Title Update Error"
+msgstr "Error de actualización de título"
+
+#: ../classes/class-wcmp-user.php:1056
+msgid "Select a Vendor."
+msgstr "Seleccionar un vendedor."
+
+#: ../classes/class-wcmp-user.php:1144 ../classes/class-wcmp-user.php:1163
+msgid "Apply to become a vendor? "
+msgstr "Solicitar ser un vendedor?"
+
+#: ../classes/class-wcmp-user.php:1166
+msgid "Save"
+msgstr "Guardar"
+
+#: ../classes/class-wcmp-taxonomy.php:36
+msgid "WCMp Vendors"
+msgstr "WCMp Vendores"
+
+#: ../classes/class-wcmp-taxonomy.php:38 ../classes/class-wcmp-ajax.php:1038
+#: ../classes/reports/class-wcmp-report-vendor.php:243
+msgid "Vendors"
+msgstr "Proveedores"
+
+#: ../classes/class-wcmp-taxonomy.php:39
+msgid "Search Vendors"
+msgstr "Buscar vendedores"
+
+#: ../classes/class-wcmp-taxonomy.php:40
+msgid "All Vendors"
+msgstr "Todos los vendedores"
+
+#: ../classes/class-wcmp-taxonomy.php:41
+msgid "Parent Vendor"
+msgstr "Proveedor padre"
+
+#: ../classes/class-wcmp-taxonomy.php:42
+msgid "Parent Vendor:"
+msgstr "Proveedor padre:"
+
+#: ../classes/class-wcmp-taxonomy.php:44
+msgid "Edit Vendor"
+msgstr "Editar vendedor"
+
+#: ../classes/class-wcmp-taxonomy.php:45
+msgid "Update Vendor"
+msgstr "Actualización de proveedores"
+
+#: ../classes/class-wcmp-taxonomy.php:46
+msgid "Add New Vendor"
+msgstr "Añadir nuevo vendedor"
+
+#: ../classes/class-wcmp-taxonomy.php:47
+msgid "New Vendor Name"
+msgstr "Nuevo nombre de vendedor"
+
+#: ../classes/class-wcmp-taxonomy.php:48
+msgid "Popular Vendors"
+msgstr "Vendedores populares"
+
+#: ../classes/class-wcmp-taxonomy.php:49
+msgid "Separate vendors with commas"
+msgstr "Separar vendedores con comas"
+
+#: ../classes/class-wcmp-taxonomy.php:50
+msgid "Add or remove vendors"
+msgstr "Añadir o quitar vendedores"
+
+#: ../classes/class-wcmp-taxonomy.php:51
+msgid "Choose from most used vendors"
+msgstr "Elige entre los vendedores más comunes"
+
+#: ../classes/class-wcmp-taxonomy.php:52
+msgid "No vendors found"
+msgstr "No se han encontrado vendedores"
+
+#: ../classes/class-wcmp-frontend.php:365
+#, fuzzy
+msgid "Please rate the vendor"
+msgstr "Proveedor padre"
+
+#: ../classes/class-wcmp-frontend.php:366
+msgid "Please review your vendor and minimum 10 Character required"
+msgstr ""
+
+#: ../classes/class-wcmp-frontend.php:367
+msgid "Your review submitted successfully"
+msgstr ""
+
+#: ../classes/class-wcmp-frontend.php:368
+msgid "Error in system please try again later"
+msgstr ""
+
+#: ../classes/class-wcmp-ajax.php:188
+msgid "No Messages Found:"
+msgstr "No se han encontrado mensajes:"
+
+#: ../classes/class-wcmp-ajax.php:194
+msgid "Error in process:"
+msgstr "Error en el proceso:"
+
+#: ../classes/class-wcmp-ajax.php:281
+msgid "Mark Restore"
+msgstr "Marcar restaurar"
+
+#: ../classes/class-wcmp-ajax.php:306 ../classes/class-wcmp-ajax.php:327
+msgid "no more data found"
+msgstr "No se han encontrado más datos"
+
+#: ../classes/class-wcmp-ajax.php:512 ../classes/class-wcmp-ajax.php:741
+#: ../classes/class-wcmp-ajax.php:795 ../classes/class-wcmp-ajax.php:1028
+#: ../classes/reports/class-wcmp-report-product.php:317
+#: ../classes/reports/class-wcmp-report-vendor.php:233
+msgid "Sales and Earnings"
+msgstr "Ventas y Ganancias"
+
+#: ../classes/class-wcmp-ajax.php:515 ../classes/class-wcmp-ajax.php:744
+#: ../classes/class-wcmp-ajax.php:934 ../classes/class-wcmp-ajax.php:1031
+#: ../classes/reports/class-wcmp-report-product.php:320
+#: ../classes/reports/class-wcmp-report-vendor.php:236
+msgid "Gross Sales"
+msgstr "Ventas brutas"
+
+#: ../classes/class-wcmp-ajax.php:522 ../classes/class-wcmp-ajax.php:751
+#: ../classes/class-wcmp-ajax.php:799 ../classes/class-wcmp-ajax.php:941
+#: ../classes/reports/class-wcmp-report-product.php:327
+msgid "Month"
+msgstr "Mes"
+
+#: ../classes/class-wcmp-ajax.php:523 ../classes/class-wcmp-ajax.php:752
+#: ../classes/class-wcmp-ajax.php:1039
+#: ../classes/reports/class-wcmp-report-product.php:328
+#: ../classes/reports/class-wcmp-report-vendor.php:244
+msgid "Sales Report"
+msgstr "Informes de ventas"
+
+#: ../classes/class-wcmp-ajax.php:532
+#: ../classes/reports/class-wcmp-report-product.php:337
+msgid "No product was sold in the given period."
+msgstr "Ningún producto se ha vendido en el periodo solicitado"
+
+#: ../classes/class-wcmp-ajax.php:761
+msgid "This product was not sold in the given period."
+msgstr "Este producto no ha sido vendido en el periodo solicitado."
+
+#: ../classes/class-wcmp-ajax.php:766
+msgid "Please select a product."
+msgstr "Por favor, selecciona un producto"
+
+#: ../classes/class-wcmp-ajax.php:804
+msgid "No Sales :("
+msgstr "No hay ventas :("
+
+#: ../classes/class-wcmp-ajax.php:942
+msgid "Vendor Earnings"
+msgstr "Ganancias del vendedor"
+
+#: ../classes/class-wcmp-ajax.php:951
+msgid "This vendor did not generate any sales in the given period."
+msgstr "Este vendedor no ha generado ninguna venta en el periodo solicitado."
+
+#: ../classes/class-wcmp-ajax.php:1048
+#: ../classes/reports/class-wcmp-report-vendor.php:253
+msgid "Any vendor did not generate any sales in the given period."
+msgstr "Ningún vendedor ha generado ninguna venta en el periodo solicitado"
+
+#: ../classes/class-wcmp-ajax.php:1261
+#, php-format
+msgid "User %s (%s) is reporting an abuse on the following product: \n"
+msgstr "Usuario %s (%s) informar sobre un abuso en el siguiente producto:\n"
+
+#: ../classes/class-wcmp-ajax.php:1262
+#, php-format
+msgid "Product details: %s (ID: #%s) \n"
+msgstr "Detalles del producto: %s (ID: #%s) \n"
+
+#: ../classes/class-wcmp-ajax.php:1264
+#, php-format
+msgid "Vendor shop: %s \n"
+msgstr "Tienda del vendedor: %s \n"
+
+#: ../classes/class-wcmp-ajax.php:1266
+#, php-format
+msgid "Message: %s\n"
+msgstr "Mensaje: %s\n"
+
+#: ../classes/class-wcmp-ajax.php:1269
+#, php-format
+msgid "Product page:: %s\n"
+msgstr "Página de producto: %s\n"
+
+#: ../classes/class-wcmp-admin.php:156
+msgid "Vendor Shop Base"
+msgstr "Base de la tienda del vendedor"
+
+#: ../classes/class-wcmp-admin.php:208
+msgid "Frontend  Dashboard"
+msgstr "Escritorio en el frontend"
+
+#: ../classes/class-wcmp-admin.php:211
+msgid "Frontend Dashboard"
+msgstr "Escritorio en el frontend"
+
+#: ../classes/class-wcmp-admin.php:255
+msgid "Powered by"
+msgstr "Gestionado por"
+
+#: ../classes/class-wcmp-admin.php:255
+msgid "Dualcube"
+msgstr "Dualcube"
+
+#: ../classes/class-wcmp-admin.php:282
+msgid ""
+"\"University\" section is visible only to vendors through the vendor "
+"dashboard. You may use this section to onboard your vendors. Share "
+"tutorials, best practices, \"how to\" guides or whatever you feel is "
+"appropriate with your vendors."
+msgstr ""
+"La sección de \"Universidad es visible solo para los vendedores desde el "
+"panel de administración de vendedores. Puedes usar esta sección para enseñar "
+"a tus vendedores. Comparte tutoriales, mejores prácticas, cómo hacer las "
+"cosas o cualquier cosa que consideres importante para tus vendedores."
+
+#: ../classes/class-wcmp-admin.php:285
+msgid ""
+"Announcements are visible only to vendors through the vendor "
+"dashboard(message section). You may use this section to broadcast your "
+"announcements."
+msgstr ""
+"Los avisos son solo visibles por los vendedores desde el panel de "
+"administración (sección de mensajes). Puedes usar esta sección para hacer "
+"anuncios generales."
+
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-shipping-settings.php:59
+msgid "Sorry you are not authorized for this pages. Please contact with admin."
+msgstr ""
+"Lo sentimos no estas autorizado a ver estas páginas. Por favor, contacta con "
+"el administrador."
+
+#: ../classes/shortcode/class-wcmp-shortcode-vendor-orders.php:33
+msgid "Order is marked as shipped."
+msgstr "El pedido está marcado como enviado"
+
+#: ../classes/reports/class-wcmp-report-overview.php:212
+#, php-format
+msgid "%s Average Daily Sales"
+msgstr "%s Media de ventas diarias"
+
+#: ../classes/reports/class-wcmp-report-overview.php:216
+#, php-format
+msgid "%s Average Monthly Sales"
+msgstr "%s Media de ventas mensual"
+
+#: ../classes/reports/class-wcmp-report-overview.php:221
+#, php-format
+msgid "%s Gross Sales in this Period"
+msgstr "%s Ventas brutas en el periodo"
+
+#: ../classes/reports/class-wcmp-report-overview.php:222
+msgid "This is the sum of the order totals"
+msgstr "Esta es la suma de los totales del pedido"
+
+#: ../classes/reports/class-wcmp-report-overview.php:235
+#, php-format
+msgid "%s Number of Orders Placed"
+msgstr "%s Número de pedidos recibidos"
+
+#: ../classes/reports/class-wcmp-report-overview.php:241
+#, php-format
+msgid "%s Net Earnings in this Period"
+msgstr "%s Ventas netas en el periodo"
+
+#: ../classes/reports/class-wcmp-report-overview.php:247
+#, php-format
+msgid "%s Net Vendor Commission"
+msgstr "%s Comisión neta del vendedor"
+
+#: ../classes/reports/class-wcmp-report-overview.php:262
+#: ../classes/reports/class-wcmp-report-product.php:24
+#: ../classes/reports/class-wcmp-report-vendor.php:26
+msgid "Year"
+msgstr "Año"
+
+#: ../classes/reports/class-wcmp-report-overview.php:263
+#: ../classes/reports/class-wcmp-report-product.php:25
+#: ../classes/reports/class-wcmp-report-vendor.php:27
+msgid "Last Month"
+msgstr "Último mes"
+
+#: ../classes/reports/class-wcmp-report-overview.php:264
+#: ../classes/reports/class-wcmp-report-product.php:26
+#: ../classes/reports/class-wcmp-report-vendor.php:28
+msgid "This Month"
+msgstr "Este mes"
+
+#: ../classes/reports/class-wcmp-report-overview.php:265
+#: ../classes/reports/class-wcmp-report-product.php:27
+#: ../classes/reports/class-wcmp-report-vendor.php:29
+msgid "Last 7 Days"
+msgstr "Últimos 7 días"
+
+#: ../classes/reports/class-wcmp-report-overview.php:304
+msgid "Export CSV"
+msgstr "Exportar CSV"
+
+#: ../classes/reports/class-wcmp-report-overview.php:359
+msgid "Number of Orders"
+msgstr "%s Número de pedidos"
+
+#: ../classes/reports/class-wcmp-report-overview.php:376
+msgid "Average Order Value"
+msgstr "Pedido medio"
+
+#: ../classes/reports/class-wcmp-report-overview.php:386
+#: ../classes/reports/views/html-wcmp-report-by-product.php:65
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:65
+msgid "Total Earnings"
+msgstr "Ganancias totales"
+
+#: ../classes/reports/class-wcmp-report-overview.php:396
+msgid "Total Earnings by Vendor"
+msgstr "Ingresos totales por vendedor"
+
+#: ../classes/reports/class-wcmp-report-product.php:341
+msgid "Your store has no products."
+msgstr "Su tienda no tiene productos."
+
+#: ../classes/reports/class-wcmp-report-vendor.php:256
+msgid "Your store has no vendors."
+msgstr "Su tienda no tiene vendedores."
+
+#: ../classes/reports/views/html-report-by-date.php:25
+#: ../classes/reports/views/html-wcmp-report-by-product.php:24
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:24
+msgid "Custom"
+msgstr "Personalizado"
+
+#: ../classes/reports/views/html-wcmp-report-by-product.php:51
+msgid "Search for a Product"
+msgstr "Buscar un producto"
+
+#: ../classes/reports/views/html-wcmp-report-by-product.php:62
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:62
+msgid "Sort By : "
+msgstr "Ordenar por:"
+
+#: ../classes/reports/views/html-wcmp-report-by-vendor.php:51
+msgid "Search for a Vendor"
+msgstr "Buscar un vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:29
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:29
+msgid "Transactions (for Vendor)"
+msgstr "Transacciones por vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:30
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:30
+msgid "New commissions have been credited to vendor."
+msgstr "Nuevas comisiones han sido asignadas al vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:32
+msgid "Vendor's New Transaction"
+msgstr "Nueva transacción de proveedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:33
+msgid "[{site_title}] New Transaction"
+msgstr "[{site_title}] Nueva transacción"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:120
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:131
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:128
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:122
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:112
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:140
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:145
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:121
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:118
+msgid "Enable/Disable"
+msgstr "Activar/Desactivar"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:122
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:114
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:123
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:120
+msgid "Enable notification for this email"
+msgstr "Activar notificaciones para este email"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:128
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:146
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:136
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:130
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:120
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:148
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:160
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:129
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:126
+#, php-format
+msgid ""
+"This controls the email subject line. Leave it blank to use the default "
+"subject: <code>%s</code>."
+msgstr ""
+"Esto controla el asunto del email. Déjalo en blanco si quieres usar el "
+"asunto por defecto: <code>%s</code>."
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:133
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:151
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:141
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:135
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:125
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:153
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:165
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:134
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:131
+msgid "Email Heading"
+msgstr "Cabecera del email"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:135
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:127
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:136
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:133
+#, php-format
+msgid ""
+"This controls the main heading contained in the email notification. Leave it "
+"blank to use the default heading: <code>%s</code>."
+msgstr ""
+"Esto controla la cabecera principal de la notificación de email. Deja en "
+"blanco para usar la cabecera por defecto: <code>%s</code>."
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:140
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:158
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:148
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:142
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:132
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:160
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:172
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:141
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:138
+msgid "Email Type"
+msgstr "Tipo de email"
+
+#: ../classes/emails/class-wcmp-email-vendor-transaction.php:142
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:134
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:143
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:140
+msgid "Choose format for the email that will be sent."
+msgstr "Elige el tipo de formato para el correo que se enviará."
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:33
+msgid "Approved Vendor Account"
+msgstr "Cuenta de vendedor aprobada"
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:34
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:34
+msgid ""
+"Vendor new account emails are sent when site admin approves a pending vendor."
+msgstr ""
+"Emails de nueva cuenta de vendedor son enviados cuando el administrador "
+"aprueba un nuevo vendedor."
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:39
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:39
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:39
+msgid "Your account on {site_title}"
+msgstr "Tu cuenta en {site_title}"
+
+#: ../classes/emails/class-wcmp-email-approved-vendor-new-account.php:40
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:38
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:40
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:40
+msgid "Welcome to {site_title}"
+msgstr "Bienvenido a {site_title}"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:26
+msgid "Admin New Vendor Account"
+msgstr "Nueva cuenta de vendedor"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:27
+msgid "New emails are sent when a user applies to be a vendor."
+msgstr "Nuevos emails son enviados cuando un usuario solicita ser vendedor"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:29
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:33
+msgid "New Vendor Account"
+msgstr "Nueva cuenta de vendedor"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:30
+msgid "[{site_title}] New Vendor Account"
+msgstr "[{site_title}] Nueva cuenta de vendedor"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:133
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:130
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:124
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:142
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:147
+msgid "Enable this email notification."
+msgstr "Activar esta modificación de email"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:137
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:151
+msgid "Recipient(s)"
+msgstr "Receptores"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:139
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:153
+#, php-format
+msgid ""
+"Enter recipient(s) (comma separated) for this email. Defaults to <code>%s</"
+"code>."
+msgstr ""
+"Introducir destinatarios (separados por comas) para este email. Por defecto "
+"a <code>%s</code>."
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:153
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:143
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:137
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:155
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:167
+#, php-format
+msgid ""
+"This controls the main heading contained within the email notification. "
+"Leave it blank to use the default heading: <code>%s</code>."
+msgstr ""
+"Esto controla la cabecera contenida en la notificación de email. Deja en "
+"blanco para usar la cabecera por defecto: <code>%s</code>."
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:160
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:150
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:144
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:162
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:174
+msgid "Choose which format of email to be sent."
+msgstr "Elige que formato de email se enviará."
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:164
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:154
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:148
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:166
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:178
+msgid "Plain Text"
+msgstr "Texto plano"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:165
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:155
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:149
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:167
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:179
+msgid "HTML"
+msgstr "HTML"
+
+#: ../classes/emails/class-wcmp-email-admin-new-vendor-account.php:166
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:156
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:150
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:168
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:180
+msgid "Multipart"
+msgstr "Multipart"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:26
+msgid "Vendor New order"
+msgstr "Nuevo pedido de proveedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:27
+#, fuzzy
+msgid "New order notification emails are sent when order is processing."
+msgstr "Email de nuevo pedido es enviado cuando el pago ha sido completado"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:29
+msgid "New Vendor Order"
+msgstr "Nuevo pedido de vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-order.php:30
+msgid "[{site_title}] New customer order ({order_number}) - {order_date}"
+msgstr "[{site_title}] Nuevo pedido de cliente ({order_number}) - {order_date}"
+
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:31
+msgid "Notify as Shipped."
+msgstr "Notificar como enviado"
+
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:32
+msgid "Confirm customer that vendor has shipped the order."
+msgstr "Confirmar al cliente que el vendedor ha enviado el pedido."
+
+#: ../classes/emails/class-wcmp-email-vendor-notify-shipped.php:37
+msgid "Your Order on {site_title} has been Shipped"
+msgstr "Tu pedido en {site_title} ha sido enviado"
+
+#: ../classes/emails/class-wcmp-email-rejected-vendor-new-account.php:33
+msgid "Rejected Vendor Account"
+msgstr "Rechazar cuenta de vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:32
+msgid " Transaction Details"
+msgstr "Detalles de la transacción"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:33
+msgid ""
+"[{site_title}] The transaction you requested was successfully completed."
+msgstr ""
+"[{site_title}] La transacción solicitada ha sido completada "
+"satisfactoriamente"
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:35
+msgid "New Vendor Product By Admin"
+msgstr "Nuevo producto de vendedor por Administrador"
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:36
+msgid ""
+"New order emails are sent when a new product is assigned to a vendor by the "
+"admin"
+msgstr ""
+"Nuevos emails de pedido son enviados cuando un producto es asignado a un "
+"vendedor por el administrador"
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:38
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:38
+msgid "New product submitted: {product_name}"
+msgstr "Nuevo producto enviado: {product_name}"
+
+#: ../classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:39
+msgid "[{blogname}] Admin has assigned new product to You- {product_name}"
+msgstr ""
+"[{blogname}] El administrador te ha asignado un nuevo producto- "
+"{product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:35
+msgid "New Vendor Product"
+msgstr "Nuevo producto de vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:36
+msgid ""
+"Notification emails are sent when a new product is submitted by a vendor."
+msgstr ""
+"Emails de notificación son enviados cuando un nuevo producto es enviado por "
+"un vendedor."
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:39
+msgid "[{blogname}] New product submitted by {vendor_name} - {product_name}"
+msgstr "[{blogname}] Nuevo producto enviado por {vendor_name} - {product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:76
+msgid "New Vendor Coupon"
+msgstr "Nuevo cupón de vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:77
+msgid ""
+"Notification emails are sent when a new coupon is submitted by a vendor."
+msgstr ""
+"Emails de notificación son enviados cuando un nuevo cupón es enviado por un "
+"vendedor."
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:79
+msgid "New coupon submitted: {product_name}"
+msgstr "Nuevo cupón enviado: {product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-product-added.php:80
+msgid "[{blogname}] New coupon submitted by {vendor_name} - {product_name}"
+msgstr "[{blogname}] Nuevo cupón enviado por {vendor_name} - {product_name}"
+
+#: ../classes/emails/class-wcmp-email-vendor-new-account.php:34
+msgid ""
+"Vendor new account emails are sent when a customer signs up via the checkout "
+"or My Account page."
+msgstr ""
+"Se enviará un correo de “Cuenta Nueva” cuando un cliente ingrese a través de "
+"la página de checkout, la página de cuenta."
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:29
+msgid "Withdrawal request to Admin from Vendor by BAC"
+msgstr "Solicitud de retirada al Administrador de vendedor por BAC"
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:30
+msgid "New commissions withdrawal request have been submitted."
+msgstr "Nuevas solicitudes de retirada de comisión han sido enviadas."
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:32
+msgid "New Commission Withdrawal Request"
+msgstr "Nueva solicitud de retirada de comisión"
+
+#: ../classes/emails/class-wcmp-email-admin-withdrawal-request.php:33
+msgid "[{site_title}] Commission Widthdrawal Request"
+msgstr "[{site_title}] Solicitud de retirada de comisión"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:29
+msgid "Commission Paid (for Vendor) by BAC"
+msgstr "Comisión pagada (por vendedor) por BAC"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:30
+msgid "New commissions withdrawal request have been submitted by vendor."
+msgstr ""
+"Nuevas solicitudes de retirada de comisión han sido solicitadas por un "
+"vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:32
+msgid "Vendor's Commission Requests"
+msgstr "Solicitudes de comisión del vendedor"
+
+#: ../classes/emails/class-wcmp-email-vendor-direct-bank.php:33
+msgid "[{site_title}] Commission Payment Request"
+msgstr "[{site_title}] Solicitud de pago de comisión"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:26
+msgid "Display a list of vendors."
+msgstr "Mostrar una lista de vendedores."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:28
+msgid "WCMp Product Vendors List"
+msgstr "WCMp lista de productos del vendedor"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:124
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:140
+msgid "Title (optional):"
+msgstr "Título (opcional):"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-list.php:127
+msgid "This widget shows a list of shop vendors.."
+msgstr "Este widget muestra una lista de los vendedores de la tienda."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:27
+msgid "WCMp Store Location"
+msgstr "WCMp localización de la tienda"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:28
+msgid "Display the vendor's store location in Google Maps."
+msgstr "Mostrar la ubicación de la tienda del vendedor en Google Maps"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:149
+msgid "Store Location"
+msgstr "Localización de la tienda"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-location.php:155
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:166
+msgid "Title"
+msgstr "Título"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:26
+msgid "WCMp Vendor Quick Info"
+msgstr "WCMp información rápida del vendedor"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:27
+msgid "Add a quick info contact form in vendor's store page."
+msgstr ""
+"Añadir una breve información de contacto del vendedor en el formulario de "
+"venta de la tienda"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:39
+msgid "Unable to send email. Please try again."
+msgstr ""
+"No se puede enviar el correo electrónico. Por favor, inténtelo de nuevo."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:43
+msgid "Email sent successfully."
+msgstr "Email enviado satisfactoriamente"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:157
+msgid "Quick Info"
+msgstr "Información rápida"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:158
+msgid "Do you need more information? Write to us!"
+msgstr "¿Necesitas más información? ¡Escríbenos!"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:176
+msgid "Submit Button Label Text"
+msgstr "Enviar texto del botón"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-quick-info.php:181
+msgid "Hide from guests"
+msgstr "Ocultar a invitados"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:27
+msgid "WCMp Product Vendor's Info"
+msgstr "WCMp información del producto del vendedor"
+
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:29
+msgid "Display selected or current product vendor info."
+msgstr ""
+"Mostrar la información del proveedor en el producto seleccionado o actual."
+
+#: ../classes/widgets/class-wcmp-widget-vendor-info.php:143
+msgid "This widget shows.."
+msgstr "Este widget muestra."
+
+#~ msgid "Vendor Messages"
+#~ msgstr "Mensajes del vendedor"
+
+#~ msgid "Desciption"
+#~ msgstr "Descripción"
+
+#~ msgid "View Shop"
+#~ msgstr "Ver tienda"
+
+#~ msgid "Messages"
+#~ msgstr "Mensajes"
+
+#~ msgid "Policies Enable/Disable :"
+#~ msgstr "Políticas Activadas/Desactivadas"
+
+#~ msgid "Hide From Product Page"
+#~ msgstr "Esconder en la página de producto"
+
+#~ msgid "Shipping class:"
+#~ msgstr "Clase transporte"
+
+#~ msgid "Is Policy Tab Hide From Product Page"
+#~ msgstr "La pestaña de políticas no se muestra en la página de producto"
+
+#~ msgid "Give permission to export orders."
+#~ msgstr "Dar permiso para exportar pedidos"
+
+#~ msgid "Show customer email in exported data."
+#~ msgstr "Mostrar el email del cliente en los datos exportados"
+
+#~ msgid "Order Details in Vendor Dashboard "
+#~ msgstr "Detalles del pedido en el escritorio del vendedor"
+
+#~ msgid ""
+#~ "Check the checkbox if you grant the permission, to add a message to "
+#~ "vendor which will comes in thankyou page and order mail."
+#~ msgstr ""
+#~ "Marca esta casilla si das permiso para añadir un mensaje del vendedor en "
+#~ "la página de confirmación del pedido y email"
+
+#~ msgid ""
+#~ "Check the checkbox if you grant the permission to add a customer support "
+#~ "details to vendor."
+#~ msgstr ""
+#~ "Marca esta casilla si permites al vendedor añadir los detalles de "
+#~ "atención al cliente"
+
+#~ msgid "All Months"
+#~ msgstr "Todos los meses"
+
+#~ msgid "All Years"
+#~ msgstr "Todos los años"
+
+#~ msgid "Full Name"
+#~ msgstr "Nombre completo"
+
+#~ msgid "ZIP"
+#~ msgstr "Código postal"
+
+#~ msgid "Email Address"
+#~ msgstr "Dirección email"
+
+#~ msgid "Extra Data"
+#~ msgstr "Datos extra"
+
+#~ msgid "Shop Title"
+#~ msgstr "Título tienda"
+
+#~ msgid "Biographical Info"
+#~ msgstr "Información biográfica"
+
+#~ msgid "Hide Address in Vendor Shop"
+#~ msgstr "Ocultar dirección en la tienda del vendedor"
+
+#~ msgid "Hide Phone in Vendor Shop"
+#~ msgstr "Ocultar teléfono en la tienda del vendedor"
+
+#~ msgid "Hide Email in Vendor Shop"
+#~ msgstr "Ocultar email en la tienda del vendedor"
+
+#~ msgid "Hide Description in Vendor Shop"
+#~ msgstr "Ocultar descripción en la tienda del vendedor"
+
+#~ msgid "Facebook Profile URL"
+#~ msgstr "URL perfil de Facebook"
+
+#~ msgid "Remove"
+#~ msgstr "Quitar"
+
+#~ msgid "Profile"
+#~ msgstr "Perfil"
+
+#~ msgid "My Company"
+#~ msgstr "Mi empresa"
+
+#~ msgid " Click here to set your store settings"
+#~ msgstr "Hacer clic para ajustar las opciones de la tienda"
+
+#~ msgid "Go to My Shop"
+#~ msgstr "Ir a Mi Tienda"
+
+#~ msgid "Submit a Product"
+#~ msgstr "Enviar un producto"
+
+#~ msgid "Edit My Profile"
+#~ msgstr "Editar mi perfil"
+
+#~ msgid ""
+#~ "Your request to become a \\\"Vendor\\\" has not been approved yet. You "
+#~ "will receive a notification email when your request is approved!"
+#~ msgstr ""
+#~ "Su solicitud para convertirse en \\ \"Vendor \\\" no ha sido aprobado "
+#~ "todavía. ¡Recibirá una notificación por correo electrónico en cuanto se "
+#~ "apruebe su solicitud!"
+
+#~ msgid "Your account is not vendor capable."
+#~ msgstr "Su cuenta no está capacitada como vendedor."
+
+#~ msgid "Export Orders"
+#~ msgstr "Exportar pedidos"
+
+#~ msgid "Commission Status"
+#~ msgstr "Estado de la comisión"
+
+#~ msgid "Previous Transactions"
+#~ msgstr "Transacciones previas"
+
+#~ msgid "More Orders"
+#~ msgstr "Más pedidos"
+
+#~ msgid "Withdrawal Request"
+#~ msgstr "Solicitud de retirada"
+
+#~ msgid "Orders for %s"
+#~ msgstr "Pedidos por %s"
+
+#~ msgid "Quantity: %d"
+#~ msgstr "Cantidad: %d"
+
+#~ msgid "Comments (%s)"
+#~ msgstr "Comentarios (%s)"
+
+#~ msgid ""
+#~ "You have not selected any product's orders.! Please go back to the Vendor "
+#~ "Dashboard and click Show Orders on the product you'd like to view."
+#~ msgstr ""
+#~ "¡No has seleccionado pedidos de productos para ver! Por favor ve al "
+#~ "escritorio del vendedor y haz click en mostrar pedidos en el producto que "
+#~ "quieres ver."
+
+#~ msgid "Status : %s"
+#~ msgstr "Estado : %s"
+
+#~ msgid "SALES REPORT"
+#~ msgstr "INFORMES DE VENTAS"
+
+#~ msgid "Vendor Total Sales Report : "
+#~ msgstr "Informes de ventas del vendedor:"
+
+#~ msgid ""
+#~ "There are no sale reports as your vendor application has not been "
+#~ "approved yet. Please wait for further notification from the site admin."
+#~ msgstr ""
+#~ "No hay informes de ventas todavía, puesto que tu solicitud de vendedor no "
+#~ "ha sido aprobada todavía. Por favor, espera la notificación del "
+#~ "administrador."
+
+#~ msgid "Filter"
+#~ msgstr "Filtro"
+
+#~ msgid "Export"
+#~ msgstr "Exportar"
+
+#~ msgid "Transaction ID #"
+#~ msgstr "ID de la transacción #"
+
+#~ msgid "Order IDs are : "
+#~ msgstr "Los IDs de los pedidos son:"
+
+#~ msgid "ID Number"
+#~ msgstr "Identification"
