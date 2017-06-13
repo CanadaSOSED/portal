@@ -277,7 +277,7 @@ class WCMp_Product {
                     $product_ids = $results[0]->product_ids;
                     $product_ids_arr = explode(',', $product_ids);
                     if (is_array($product_ids_arr) && in_array($post_id, $product_ids_arr)) {
-                        
+
                     } else {
                         $product_ids = $product_ids . ',' . $post->ID;
                         $wpdb->query("update {$wpdb->prefix}wcmp_products_map set product_ids = '{$product_ids}' where ID = {$id_of_similar}");
@@ -426,7 +426,7 @@ class WCMp_Product {
                         $product_vendor_obj = get_wcmp_product_vendors($current_post_id);
                         if ($product_vendor_obj->id != $current_user_id) {
                             if (isset($_GET['action']) && $_GET['action'] == 'duplicate_product') {
-                                
+
                             } else {
                                 wp_redirect(admin_url() . 'edit.php?post_type=product');
                                 exit;
@@ -693,19 +693,19 @@ class WCMp_Product {
     }
 
     /**
-     * Add Vendor tab in single product page 
+     * Add Vendor tab in single product page
      *
      * @return void
      */
     function add_vendor_tab() {
         global $WCMp;
         ?>
-        <li class="vendor_icon vendor_icons"><a href="#choose_vendor"><?php _e('Vendor', $WCMp->text_domain); ?></a></li>
+        <li class="vendor_icon vendor_icons"><a href="#choose_vendor"><?php _e('Chapter', $WCMp->text_domain); ?></a></li>
         <?php
     }
 
     /**
-     * Output of Vendor tab in single product page 
+     * Output of Vendor tab in single product page
      *
      * @return void
      */
@@ -848,9 +848,9 @@ class WCMp_Product {
                                     <tr>
                                         <td>
                                             <p><strong><?php echo __('Cancellation/Return/Exchange Policy'); ?> : </strong></p>
-                                            <textarea class="widefat" name="_wcmp_cancallation_policy"  ><?php echo $_wcmp_cancallation_policy; ?></textarea>		 	 	      
-                                        </td>				 	 	  
-                                    </tr>									
+                                            <textarea class="widefat" name="_wcmp_cancallation_policy"  ><?php echo $_wcmp_cancallation_policy; ?></textarea>
+                                        </td>
+                                    </tr>
                                     <?php
                                 }
                             }
@@ -864,8 +864,8 @@ class WCMp_Product {
                                     <tr>
                                         <td>
                                             <p><strong><?php echo __('Refund Policy'); ?> : </strong></p>
-                                            <textarea class="widefat" name="_wcmp_refund_policy"  ><?php echo $_wcmp_refund_policy; ?></textarea>		 	 	      
-                                        </td>				 	 	  
+                                            <textarea class="widefat" name="_wcmp_refund_policy"  ><?php echo $_wcmp_refund_policy; ?></textarea>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
@@ -880,8 +880,8 @@ class WCMp_Product {
                                     <tr>
                                         <td>
                                             <p><strong><?php echo __('Shipping Policy'); ?> : </strong></p>
-                                            <textarea class="widefat" name="_wcmp_shipping_policy"  ><?php echo $_wcmp_shipping_policy; ?></textarea>		 	 	      
-                                        </td>				 	 	  
+                                            <textarea class="widefat" name="_wcmp_shipping_policy"  ><?php echo $_wcmp_shipping_policy; ?></textarea>
+                                        </td>
                                     </tr>
                                     <?php
                                 }
@@ -889,7 +889,7 @@ class WCMp_Product {
                         }
                         ?>
                     </tbody>
-                </table>			
+                </table>
             </div>
         </div>
 
@@ -1321,7 +1321,7 @@ class WCMp_Product {
         if ($is_display) {
             ?>
             <a href="#" id="report_abuse"><?php echo $display_text; ?></a><br>
-            <div id="report_abuse_form" class="simplePopup"> 
+            <div id="report_abuse_form" class="simplePopup">
                 <h3 class="wcmp-abuse-report-title"><?php _e('Report an abuse for product ', $WCMp->text_domain) . ' ' . the_title(); ?> </h3>
                 <form action="#" method="post" id="report-abuse" class="report-abuse-form" name="report-abuse">
                     <table>
@@ -1353,7 +1353,7 @@ class WCMp_Product {
                         </tbody>
                     </table>
                 </form>
-            </div> 							
+            </div>
             <?php
         }
     }
