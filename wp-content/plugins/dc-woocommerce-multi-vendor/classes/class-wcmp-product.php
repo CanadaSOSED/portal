@@ -700,7 +700,7 @@ class WCMp_Product {
     function add_vendor_tab() {
         global $WCMp;
         ?>
-        <li class="vendor_icon vendor_icons"><a href="#choose_vendor"><?php _e('Chapter', $WCMp->text_domain); ?></a></li>
+        <li class="vendor_icon vendor_icons"><a href="#choose_vendor"><?php _e('Vendor', $WCMp->text_domain); ?></a></li>
         <?php
     }
 
