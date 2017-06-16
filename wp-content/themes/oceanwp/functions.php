@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Theme functions and definitions.
  *
@@ -614,7 +615,7 @@ class OCEANWP_Theme_Class {
 	 * Alters the default WordPress tag cloud widget arguments.
 	 * Makes sure all font sizes for the cloud widget are set to 1em.
 	 *
-	 * @since 1.0.0 
+	 * @since 1.0.0
 	 */
 	public static function widget_tag_cloud_args( $args ) {
 		$args['largest']  = '0.923em';
