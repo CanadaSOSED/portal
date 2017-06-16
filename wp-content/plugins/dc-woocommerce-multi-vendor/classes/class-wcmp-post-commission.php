@@ -54,20 +54,20 @@ class WCMp_Commission {
         if (post_type_exists($this->post_type))
             return;
         $labels = array(
-            'name' => _x('Commissions', 'post type general name', $WCMp->text_domain),
-            'singular_name' => _x('Commission', 'post type singular name', $WCMp->text_domain),
-            'add_new' => _x('Add New', $this->post_type, $WCMp->text_domain),
-            'add_new_item' => sprintf(__('Add New %s', $WCMp->text_domain), __('Commission', $WCMp->text_domain)),
-            'edit_item' => sprintf(__('Edit %s', $WCMp->text_domain), __('Commission', $WCMp->text_domain)),
-            'new_item' => sprintf(__('New %s', $WCMp->text_domain), __('Commission', $WCMp->text_domain)),
-            'all_items' => sprintf(__('All %s', $WCMp->text_domain), __('Commissions', $WCMp->text_domain)),
-            'view_item' => sprintf(__('View %s', $WCMp->text_domain), __('Commission', $WCMp->text_domain)),
-            'search_items' => sprintf(__('Search %a', $WCMp->text_domain), __('Commissions', $WCMp->text_domain)),
-            'not_found' => sprintf(__('No %s found', $WCMp->text_domain), __('Commissions', $WCMp->text_domain)),
-            'not_found_in_trash' => sprintf(__('No %s found in trash', $WCMp->text_domain), __('Commissions', $WCMp->text_domain)),
+            'name' => _x('Commissions', 'post type general name', 'dc-woocommerce-multi-vendor'),
+            'singular_name' => _x('Commission', 'post type singular name', 'dc-woocommerce-multi-vendor'),
+            'add_new' => _x('Add New', $this->post_type, 'dc-woocommerce-multi-vendor'),
+            'add_new_item' => sprintf(__('Add New %s', 'dc-woocommerce-multi-vendor'), __('Commission', 'dc-woocommerce-multi-vendor')),
+            'edit_item' => sprintf(__('Edit %s', 'dc-woocommerce-multi-vendor'), __('Commission', 'dc-woocommerce-multi-vendor')),
+            'new_item' => sprintf(__('New %s', 'dc-woocommerce-multi-vendor'), __('Commission', 'dc-woocommerce-multi-vendor')),
+            'all_items' => sprintf(__('All %s', 'dc-woocommerce-multi-vendor'), __('Commissions', 'dc-woocommerce-multi-vendor')),
+            'view_item' => sprintf(__('View %s', 'dc-woocommerce-multi-vendor'), __('Commission', 'dc-woocommerce-multi-vendor')),
+            'search_items' => sprintf(__('Search %a', 'dc-woocommerce-multi-vendor'), __('Commissions', 'dc-woocommerce-multi-vendor')),
+            'not_found' => sprintf(__('No %s found', 'dc-woocommerce-multi-vendor'), __('Commissions', 'dc-woocommerce-multi-vendor')),
+            'not_found_in_trash' => sprintf(__('No %s found in trash', 'dc-woocommerce-multi-vendor'), __('Commissions', 'dc-woocommerce-multi-vendor')),
             'parent_item_colon' => '',
-            'all_items' => __('Commissions', $WCMp->text_domain),
-            'menu_name' => __('Commissions', $WCMp->text_domain)
+            'all_items' => __('Commissions', 'dc-woocommerce-multi-vendor'),
+            'menu_name' => __('Commissions', 'dc-woocommerce-multi-vendor')
         );
 
         $args = array(
@@ -100,7 +100,7 @@ class WCMp_Commission {
      */
     public function meta_box_setup() {
         global $WCMp;
-        add_meta_box('wcmp-commission-data', __('Commission Details', $WCMp->text_domain), array(&$this, 'wcmp_meta_box_content'), $this->post_type, 'normal', 'high');
+        add_meta_box('wcmp-commission-data', __('Commission Details', 'dc-woocommerce-multi-vendor'), array(&$this, 'wcmp_meta_box_content'), $this->post_type, 'normal', 'high');
     }
 
     /**
@@ -212,32 +212,32 @@ class WCMp_Commission {
         $fields = array();
 
         $fields['_commission_order_id'] = array(
-            'name' => __('Order ID:', $WCMp->text_domain),
-            'description' => __('The order ID of Commission (' . get_woocommerce_currency_symbol() . ').', $WCMp->text_domain),
+            'name' => __('Order ID:', 'dc-woocommerce-multi-vendor'),
+            'description' => __('The order ID of Commission (' . get_woocommerce_currency_symbol() . ').', 'dc-woocommerce-multi-vendor'),
             'type' => 'text',
             'default' => '',
             'section' => 'wcmp-commission-data'
         );
 
         $fields['_commission_product'] = array(
-            'name' => __('Product:', $WCMp->text_domain),
-            'description' => __('The product purchased that generated this commission.', $WCMp->text_domain),
+            'name' => __('Product:', 'dc-woocommerce-multi-vendor'),
+            'description' => __('The product purchased that generated this commission.', 'dc-woocommerce-multi-vendor'),
             'type' => 'select',
             'default' => '',
             'section' => 'wcmp-commission-data'
         );
 
         $fields['_commission_vendor'] = array(
-            'name' => __('Vendor:', $WCMp->text_domain),
-            'description' => __('The vendor who receives this commission.', $WCMp->text_domain),
+            'name' => __('Vendor:', 'dc-woocommerce-multi-vendor'),
+            'description' => __('The vendor who receives this commission.', 'dc-woocommerce-multi-vendor'),
             'type' => 'select',
             'default' => '',
             'section' => 'wcmp-commission-data'
         );
 
         $fields['_commission_amount'] = array(
-            'name' => __('Amount:', $WCMp->text_domain),
-            'description' => __('The total value of this commission (' . get_woocommerce_currency_symbol() . ').', $WCMp->text_domain),
+            'name' => __('Amount:', 'dc-woocommerce-multi-vendor'),
+            'description' => __('The total value of this commission (' . get_woocommerce_currency_symbol() . ').', 'dc-woocommerce-multi-vendor'),
             'type' => 'text',
             'default' => 0.00,
             'section' => 'wcmp-commission-data'
@@ -245,20 +245,20 @@ class WCMp_Commission {
         
         if(get_post_meta($post_id, '_paid_status', true) == 'paid'){
             $fields['_commission_amount']['type'] = 'price';
-            $fields['_commission_amount']['description'] = __('The total value of this commission.', $WCMp->text_domain);
+            $fields['_commission_amount']['description'] = __('The total value of this commission.', 'dc-woocommerce-multi-vendor');
         }
 
         $fields['_shipping'] = array(
-            'name' => __('Shipping Amount:', $WCMp->text_domain),
-            'description' => __('The total value of shipping.', $WCMp->text_domain),
+            'name' => __('Shipping Amount:', 'dc-woocommerce-multi-vendor'),
+            'description' => __('The total value of shipping.', 'dc-woocommerce-multi-vendor'),
             'type' => 'price',
             'default' => 0.00,
             'section' => 'wcmp-commission-data'
         );
 
         $fields['_tax'] = array(
-            'name' => __('Tax Amount:', $WCMp->text_domain),
-            'description' => __('The total value of this tax.', $WCMp->text_domain),
+            'name' => __('Tax Amount:', 'dc-woocommerce-multi-vendor'),
+            'description' => __('The total value of this tax.', 'dc-woocommerce-multi-vendor'),
             'type' => 'price',
             'default' => 0.00,
             'section' => 'wcmp-commission-data'
@@ -317,9 +317,9 @@ class WCMp_Commission {
 
             $status = get_post_meta($post->ID, '_paid_status', true) ? get_post_meta($post->ID, '_paid_status', true) : 'unpaid';
 
-            echo '<input type="radio" name="_paid_status" id="_paid_status-unpaid" value="unpaid" ' . checked($status, 'unpaid', false) . ' /> <label for="_paid_status-unpaid" class="select-it">' . __("Unpaid", $WCMp->text_domain) . '</label>&nbsp;&nbsp;&nbsp;&nbsp;';
-            echo '<input type="radio" name="_paid_status" id="_paid_status-paid" value="paid" ' . checked($status, 'paid', false) . '/> <label for="_paid_status-paid" class="select-it">' . __("Paid", $WCMp->text_domain) . '</label>&nbsp;&nbsp;&nbsp;&nbsp;';
-            echo '<input type="radio" name="_paid_status" id="_paid_status-reverse" value="reverse" ' . checked($status, 'reverse', false) . '/> <label for="_paid_status-reverse" class="select-it">' . __("Reverse", $WCMp->text_domain) . '</label>';
+            echo '<input type="radio" name="_paid_status" id="_paid_status-unpaid" value="unpaid" ' . checked($status, 'unpaid', false) . ' /> <label for="_paid_status-unpaid" class="select-it">' . __("Unpaid", 'dc-woocommerce-multi-vendor') . '</label>&nbsp;&nbsp;&nbsp;&nbsp;';
+            echo '<input type="radio" name="_paid_status" id="_paid_status-paid" value="paid" ' . checked($status, 'paid', false) . '/> <label for="_paid_status-paid" class="select-it">' . __("Paid", 'dc-woocommerce-multi-vendor') . '</label>&nbsp;&nbsp;&nbsp;&nbsp;';
+            echo '<input type="radio" name="_paid_status" id="_paid_status-reverse" value="reverse" ' . checked($status, 'reverse', false) . '/> <label for="_paid_status-reverse" class="select-it">' . __("Reverse", 'dc-woocommerce-multi-vendor') . '</label>';
             echo '</div>';
         }
     }
@@ -362,11 +362,11 @@ class WCMp_Commission {
     public function wcmp_register_custom_column_headings($defaults) {
         global $WCMp;
         $new_columns = array(
-            '_commission_order_id' => __('Order ID', $WCMp->text_domain),
-            '_commission_product' => __('Product', $WCMp->text_domain),
-            '_commission_vendor' => __('Vendor', $WCMp->text_domain),
-            '_commission_amount' => __('Amount', $WCMp->text_domain),
-            '_paid_status' => __('Status', $WCMp->text_domain),
+            '_commission_order_id' => __('Order ID', 'dc-woocommerce-multi-vendor'),
+            '_commission_product' => __('Product', 'dc-woocommerce-multi-vendor'),
+            '_commission_vendor' => __('Vendor', 'dc-woocommerce-multi-vendor'),
+            '_commission_amount' => __('Amount', 'dc-woocommerce-multi-vendor'),
+            '_paid_status' => __('Status', 'dc-woocommerce-multi-vendor'),
         );
 
         $last_item = '';
@@ -468,16 +468,16 @@ class WCMp_Commission {
             ?>
             <script type="text/javascript">
                 jQuery(document).ready(function () {
-                    jQuery('<option>').val('export').text('<?php _e('Export Unpaid Commissions (CSV)', $WCMp->text_domain); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('export').text('<?php _e('Export Unpaid Commissions (CSV)', $WCMp->text_domain); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_paid').text('<?php _e('Mark all commissions as paid', $WCMp->text_domain); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_paid').text('<?php _e('Mark all commissions as paid', $WCMp->text_domain); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_unpaid').text('<?php _e('Mark selected commissions as unpaid', $WCMp->text_domain); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_unpaid').text('<?php _e('Mark selected commissions as unpaid', $WCMp->text_domain); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_selected_paid').text('<?php _e('Mark selected commissions as paid', $WCMp->text_domain); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_selected_paid').text('<?php _e('Mark selected commissions as paid', $WCMp->text_domain); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_selected_reverse').text('<?php _e('Mark selected commissions as reverse', $WCMp->text_domain); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_selected_reverse').text('<?php _e('Mark selected commissions as reverse', $WCMp->text_domain); ?>').appendTo("select[name='action2']");
+                    jQuery('<option>').val('export').text('<?php _e('Export Unpaid Commissions (CSV)', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
+                    jQuery('<option>').val('export').text('<?php _e('Export Unpaid Commissions (CSV)', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
+                    jQuery('<option>').val('mark_paid').text('<?php _e('Mark all commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
+                    jQuery('<option>').val('mark_paid').text('<?php _e('Mark all commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
+                    jQuery('<option>').val('mark_unpaid').text('<?php _e('Mark selected commissions as unpaid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
+                    jQuery('<option>').val('mark_unpaid').text('<?php _e('Mark selected commissions as unpaid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
+                    jQuery('<option>').val('mark_selected_paid').text('<?php _e('Mark selected commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
+                    jQuery('<option>').val('mark_selected_paid').text('<?php _e('Mark selected commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
+                    jQuery('<option>').val('mark_selected_reverse').text('<?php _e('Mark selected commissions as reverse', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
+                    jQuery('<option>').val('mark_selected_reverse').text('<?php _e('Mark selected commissions as reverse', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
                 });
             </script>
             <?php
@@ -542,7 +542,7 @@ class WCMp_Commission {
 
             // Set info for all payouts
             $currency = get_woocommerce_currency();
-            $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', $WCMp->text_domain), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
+            $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', 'dc-woocommerce-multi-vendor'), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
             // Set up data for CSV
             $commissions_data = array();
             foreach ($commission_totals as $key => $totals) {
@@ -689,10 +689,10 @@ class WCMp_Commission {
         // Commission Satus
         ?>
         <select name='commission_status' id='dropdown_commission_status'>
-            <option value=""><?php _e('Show Commission Status', $WCMp->text_domain); ?></option>
-            <option value="paid"><?php _e('Paid', $WCMp->text_domain); ?></option>
-            <option value="unpaid"><?php _e('Unpaid', $WCMp->text_domain); ?></option>
-            <option value="reverse"><?php _e('Reverse', $WCMp->text_domain); ?></option>
+            <option value=""><?php _e('Show Commission Status', 'dc-woocommerce-multi-vendor'); ?></option>
+            <option value="paid"><?php _e('Paid', 'dc-woocommerce-multi-vendor'); ?></option>
+            <option value="unpaid"><?php _e('Unpaid', 'dc-woocommerce-multi-vendor'); ?></option>
+            <option value="reverse"><?php _e('Reverse', 'dc-woocommerce-multi-vendor'); ?></option>
         </select>
         <?php
     }

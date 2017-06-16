@@ -28,11 +28,11 @@ class WCMp_Settings_Capabilities_Miscellaneous {
             "ref" => &$this,
             "subsection" => "{$this->subsection}",
             "sections" => array(
-                "vendor_messages" => array("title" => __('', $WCMp->text_domain), // Section one
+                "vendor_messages" => array("title" => __('', 'dc-woocommerce-multi-vendor'), // Section one
                     "fields" => array(
-                        "can_vendor_add_message_on_email_and_thankyou_page" => array('title' => __('Message to buyer', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'can_vendor_add_message_on_email_and_thankyou_page', 'label_for' => 'can_vendor_add_message_on_email_and_thankyou_page', 'name' => 'can_vendor_add_message_on_email_and_thankyou_page', 'value' => 'Enable', 'text' => __('Allow vendors to add vendor shop specific message in "Thank you" page and order mail.', $WCMp->text_domain)), // Checkbox
-                        "is_vendor_add_external_url" => array('title' => __('Enable store url', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_vendor_add_external_url', 'label_for' => 'is_vendor_add_external_url', 'name' => 'is_vendor_add_external_url', 'text' => __('Vendor can add external store url.', $WCMp->text_domain), 'value' => 'Enable'), // Checkbox
-                        "is_hide_option_show" => array('title' => __('Enable hide option for vendor', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_hide_option_show', 'label_for' => 'is_hide_option_show', 'name' => 'is_hide_option_show', 'text' => __('Vendor can hide some details from shop.', $WCMp->text_domain), 'value' => 'Enable'), // Checkbox
+                        "can_vendor_add_message_on_email_and_thankyou_page" => array('title' => __('Message to buyer', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'can_vendor_add_message_on_email_and_thankyou_page', 'label_for' => 'can_vendor_add_message_on_email_and_thankyou_page', 'name' => 'can_vendor_add_message_on_email_and_thankyou_page', 'value' => 'Enable', 'text' => __('Allow vendors to add vendor shop specific message in "Thank you" page and order mail.', 'dc-woocommerce-multi-vendor')), // Checkbox
+                        "is_vendor_add_external_url" => array('title' => __('Enable store url', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_vendor_add_external_url', 'label_for' => 'is_vendor_add_external_url', 'name' => 'is_vendor_add_external_url', 'text' => __('Vendor can add external store url.', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable'), // Checkbox
+                        "is_hide_option_show" => array('title' => __('Enable hide option for vendor', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_hide_option_show', 'label_for' => 'is_hide_option_show', 'name' => 'is_hide_option_show', 'text' => __('Vendor can hide some details from shop.', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable'), // Checkbox
                     )
                 )
             )
@@ -67,7 +67,7 @@ class WCMp_Settings_Capabilities_Miscellaneous {
 
         if (!$hasError) {
             add_settings_error(
-                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Vendor Settings Updated', $WCMp->text_domain), 'updated'
+                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Vendor Settings Updated', 'dc-woocommerce-multi-vendor'), 'updated'
             );
         }
         return apply_filters("settings_{$this->tab}_{$this->subsection}_tab_new_input", $new_input, $input);

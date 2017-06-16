@@ -24,9 +24,9 @@ class DC_Widget_Vendor_Info extends WP_Widget {
 
         // Widget variable settings
         $this->widget_idbase = 'dc_product_vendors_info';
-        $this->widget_title = __("WCMp Product Vendor's Info", $WCMp->text_domain);
+        $this->widget_title = __("WCMp Product Vendor's Info", 'dc-woocommerce-multi-vendor');
         $this->widget_cssclass = 'widget_product_vendor_info';
-        $this->widget_description = __('Display selected or current product vendor info.', $WCMp->text_domain);
+        $this->widget_description = __('Display selected or current product vendor info.', 'dc-woocommerce-multi-vendor');
 
         // Widget settings
         $widget_ops = array('classname' => $this->widget_cssclass, 'description' => $this->widget_description);
@@ -138,10 +138,10 @@ class DC_Widget_Vendor_Info extends WP_Widget {
         $instance = wp_parse_args((array) $instance, $defaults);
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title (optional):', $WCMp->text_domain); ?></label>
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title (optional):', 'dc-woocommerce-multi-vendor'); ?></label>
             <input type="text" name="<?php echo $this->get_field_name('title'); ?>"  value="<?php echo $instance['title']; ?>" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" />
         </p>
-        <span class="description"><?php _e('This widget shows..', $WCMp->text_domain) ?> </span>
+        <span class="description"><?php _e('This widget shows..', 'dc-woocommerce-multi-vendor') ?> </span>
         <?php
     }
 

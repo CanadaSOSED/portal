@@ -23,8 +23,8 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
 
         // Widget variable settings
         $this->widget_idbase = 'dc-vendor-quick-info';
-        $this->widget_title = __('WCMp Vendor Quick Info', $WCMp->text_domain);
-        $this->widget_description = __('Add a quick info contact form in vendor\'s store page.', $WCMp->text_domain);
+        $this->widget_title = __('WCMp Vendor Quick Info', 'dc-woocommerce-multi-vendor');
+        $this->widget_description = __('Add a quick info contact form in vendor\'s store page.', 'dc-woocommerce-multi-vendor');
         $this->widget_cssclass = 'widget_wcmp_quick_info';
 
         // Widget settings
@@ -36,11 +36,11 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
         // Mail Syatem
         $this->response = array(
             0 => array(
-                'message' => __('Unable to send email. Please try again.', $WCMp->text_domain),
+                'message' => __('Unable to send email. Please try again.', 'dc-woocommerce-multi-vendor'),
                 'class' => 'error'
             ),
             1 => array(
-                'message' => __('Email sent successfully.', $WCMp->text_domain),
+                'message' => __('Email sent successfully.', 'dc-woocommerce-multi-vendor'),
                 'class' => 'message'
             ),
         );
@@ -156,31 +156,31 @@ class DC_Widget_Quick_Info_Widget extends WP_Widget {
     function form($instance) {
         global $WCMp;
         $defaults = array(
-            'title' => __('Quick Info', $WCMp->text_domain),
-            'description' => __('Do you need more information? Write to us!', $WCMp->text_domain),
+            'title' => __('Quick Info', 'dc-woocommerce-multi-vendor'),
+            'description' => __('Do you need more information? Write to us!', 'dc-woocommerce-multi-vendor'),
             'hide_from_guests' => '',
-            'submit_label' => __('Submit', $WCMp->text_domain),
+            'submit_label' => __('Submit', 'dc-woocommerce-multi-vendor'),
         );
 
         $instance = wp_parse_args((array) $instance, $defaults);
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', $WCMp->text_domain) ?>:
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', 'dc-woocommerce-multi-vendor') ?>:
                 <input type="text" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $instance['title']; ?>" class="widefat" />
             </label>
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('description'); ?>"><?php _e('Description', $WCMp->text_domain) ?>:
+            <label for="<?php echo $this->get_field_id('description'); ?>"><?php _e('Description', 'dc-woocommerce-multi-vendor') ?>:
                 <input type="text" id="<?php echo $this->get_field_id('description'); ?>" name="<?php echo $this->get_field_name('description'); ?>" value="<?php echo $instance['description']; ?>" class="widefat" />
             </label>
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('submit_label'); ?>"><?php _e('Submit Button Label Text', $WCMp->text_domain) ?>:
+            <label for="<?php echo $this->get_field_id('submit_label'); ?>"><?php _e('Submit Button Label Text', 'dc-woocommerce-multi-vendor') ?>:
                 <input type="text" id="<?php echo $this->get_field_id('submit_label'); ?>" name="<?php echo $this->get_field_name('submit_label'); ?>" value="<?php echo $instance['submit_label']; ?>" class="widefat" />
             </label>
         </p>
         <p>
-            <label for="<?php echo $this->get_field_id('hide_from_guests'); ?>"><?php _e('Hide from guests', $WCMp->text_domain) ?>:
+            <label for="<?php echo $this->get_field_id('hide_from_guests'); ?>"><?php _e('Hide from guests', 'dc-woocommerce-multi-vendor') ?>:
                 <input type="checkbox" id="<?php echo $this->get_field_id('hide_from_guests'); ?>" name="<?php echo $this->get_field_name('hide_from_guests'); ?>" value="1" <?php checked($instance['hide_from_guests'], 1, true) ?> class="widefat" />
             </label>
         </p>

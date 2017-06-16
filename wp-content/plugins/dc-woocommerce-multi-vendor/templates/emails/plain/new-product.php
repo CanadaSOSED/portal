@@ -14,13 +14,13 @@ global  $WCMp;
 
 echo "= " . $email_heading . " =\n\n";
 
-echo sprintf( __( "Hi there! This is to notify that a new product has been submitted in %s.",  $WCMp->text_domain ), get_option( 'blogname' ) ); 
+echo sprintf( __( "Hi there! This is to notify that a new product has been submitted in %s.",  'dc-woocommerce-multi-vendor' ), get_option( 'blogname' ) ); 
 echo '\n'; 
-echo sprintf(  __( "Product title: %s",  $WCMp->text_domain ), $product_name ); 
+echo sprintf(  __( "Product title: %s",  'dc-woocommerce-multi-vendor' ), $product_name ); 
 echo '\n'; 
-echo sprintf(  __( "Submitted by: %s",  $WCMp->text_domain ), $vendor_name ); 
+echo sprintf(  __( "Submitted by: %s",  'dc-woocommerce-multi-vendor' ), $vendor_name ); 
 echo '\n'; 
-echo sprintf(  __( "Edit product: %s",  $WCMp->text_domain ), admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); 
+echo sprintf(  __( "Edit product: %s",  'dc-woocommerce-multi-vendor' ), admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 do_action( 'woocommerce_email_footer' );
 

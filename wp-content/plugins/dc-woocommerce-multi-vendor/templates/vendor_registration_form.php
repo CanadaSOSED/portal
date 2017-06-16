@@ -19,13 +19,13 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
                 <div class="clearboth"></div>
                 </div>
                 <div class="wcmp_regi_form_box">
-                <h3 class="reg_header2"><?php echo __($value['label'],$WCMp->text_domain); ?></h3>
+                <h3 class="reg_header2"><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?></h3>
                 <?php
                 break;
             case 'textbox':
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <input type="text" value="<?php if (!empty($_POST['wcmp_vendor_fields'][$key]["value"])) echo esc_attr($_POST['wcmp_vendor_fields'][$key]["value"]); ?>" name="wcmp_vendor_fields[<?php echo $key; ?>][value]" placeholder="<?php echo $value['placeholder']; ?>" <?php if($value['required']){ echo 'required="required"'; }?> />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][type]" value="textbox" />
@@ -35,7 +35,7 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
             case 'email':
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <input type="email" value="<?php if (!empty($_POST['wcmp_vendor_fields'][$key]["value"])) echo esc_attr($_POST['wcmp_vendor_fields'][$key]["value"]); ?>" name="wcmp_vendor_fields[<?php echo $key; ?>][value]" placeholder="<?php echo $value['placeholder']; ?>" <?php if($value['required']){ echo 'required="required"'; }?> />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][type]" value="email" />
@@ -45,7 +45,7 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
             case 'textarea':
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <textarea <?php if(!empty($value['limit'])){ echo 'maxlength="'.$value['limit'].'"'; } ?> name="wcmp_vendor_fields[<?php echo $key; ?>][value]" placeholder="<?php echo $value['defaultValue']; ?>"><?php if (!empty($_POST['wcmp_vendor_fields'][$key]["value"])){ echo esc_attr($_POST['wcmp_vendor_fields'][$key]["value"]); } ?></textarea>
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][type]" value="textarea" />
@@ -55,7 +55,7 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
             case 'url': 
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <input type="url" value="<?php if (!empty($_POST['wcmp_vendor_fields'][$key]["value"])) echo esc_attr($_POST['wcmp_vendor_fields'][$key]["value"]); ?>" name="wcmp_vendor_fields[<?php echo $key; ?>][value]" placeholder="<?php echo $value['placeholder']; ?>" <?php if($value['required']){ echo 'required="required"'; }?> />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][type]" value="url" />
@@ -65,7 +65,7 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
             case 'selectbox':
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][type]" value="selectbox" />
                     <?php
@@ -128,7 +128,7 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
                     <input type="checkbox" name="wcmp_vendor_fields[<?php echo $key; ?>][value]" <?php if($value['defaultValue'] == 'checked'){ echo 'checked="checked"';} ?>  <?php if($value['required']){ echo 'required="required"'; }?> />
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][type]" value="checkbox" />
                 </div>
@@ -138,7 +138,7 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
                 wp_enqueue_script('google-recaptcha', 'https://www.google.com/recaptcha/api.js');
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <?php echo $value['script']; ?>
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][value]" value="Verified" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
@@ -149,7 +149,7 @@ if (!empty($wcmp_vendor_registration_form_data) && is_array($wcmp_vendor_registr
             case 'file':
                 ?>
                 <div class="<?php if(!empty($value['cssClass'])){ echo $value['cssClass']; } else {  echo 'wcmp-regi-12'; } ?>">
-                    <label><?php echo __($value['label'],$WCMp->text_domain); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
+                    <label><?php echo __($value['label'],'dc-woocommerce-multi-vendor'); ?><?php if($value['required']){ echo ' <span class="required">*</span>'; }?></label>
                     <input type="file" name="wcmp_vendor_fields[<?php echo $key; ?>][]" <?php if($value['required']){ echo 'required="required"'; }?> <?php if($value['muliple']){ echo 'multiple="true"'; }?> />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][label]" value="<?php echo htmlentities($value['label']); ?>" />
                     <input type="hidden" name="wcmp_vendor_fields[<?php echo $key; ?>][type]" value="file" />

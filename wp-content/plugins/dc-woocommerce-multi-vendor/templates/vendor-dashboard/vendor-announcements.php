@@ -15,10 +15,10 @@ global $WCMp;
 <input type="hidden" name="wcmp_msg_tab_to_be_refrash3" id="wcmp_msg_tab_to_be_refrash3" value="" />
 <div id = "tabs-1">
     <ul class="wcmp_msg_tab_nav">
-        <li data-element="_all"><a href = "#wcmp_msg_tab_1"><?php _e('All', $WCMp->text_domain); ?></a></li>
-        <li data-element="_read"><a href = "#wcmp_msg_tab_2"><?php _e('Read', $WCMp->text_domain); ?></a></li>
-        <li data-element="_unread" ><a href = "#wcmp_msg_tab_3"><?php _e('Unread', $WCMp->text_domain); ?></a></li>
-        <li data-element="_archive"><a href = "#wcmp_msg_tab_4"><?php _e('Archive', $WCMp->text_domain); ?></a></li>
+        <li data-element="_all"><a href = "#wcmp_msg_tab_1"><?php _e('All', 'dc-woocommerce-multi-vendor'); ?></a></li>
+        <li data-element="_read"><a href = "#wcmp_msg_tab_2"><?php _e('Read', 'dc-woocommerce-multi-vendor'); ?></a></li>
+        <li data-element="_unread" ><a href = "#wcmp_msg_tab_3"><?php _e('Unread', 'dc-woocommerce-multi-vendor'); ?></a></li>
+        <li data-element="_archive"><a href = "#wcmp_msg_tab_4"><?php _e('Archive', 'dc-woocommerce-multi-vendor'); ?></a></li>
     </ul>
     <!--...................... start tab1 .......................... -->
     <div id = "wcmp_msg_tab_1" data-element="_all">

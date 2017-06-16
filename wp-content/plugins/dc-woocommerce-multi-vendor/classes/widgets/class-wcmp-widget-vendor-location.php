@@ -24,8 +24,8 @@ class DC_Woocommerce_Store_Location_Widget extends WP_Widget {
 
         // Widget variable settings
         $this->widget_idbase = 'dc-vendor-store-location';
-        $this->widget_title = __('WCMp Store Location', $WCMp->text_domain);
-        $this->widget_description = __('Display the vendor\'s store location in Google Maps.', $WCMp->text_domain);
+        $this->widget_title = __('WCMp Store Location', 'dc-woocommerce-multi-vendor');
+        $this->widget_description = __('Display the vendor\'s store location in Google Maps.', 'dc-woocommerce-multi-vendor');
         $this->widget_cssclass = 'widget_wcmp_store_location';
 
         // Widget settings
@@ -154,13 +154,13 @@ class DC_Woocommerce_Store_Location_Widget extends WP_Widget {
     public function form($instance) {
         global $WCMp, $woocommerce;
         $defaults = array(
-            'title' => __('Store Location', $WCMp->text_domain),
+            'title' => __('Store Location', 'dc-woocommerce-multi-vendor'),
         );
 
         $instance = wp_parse_args((array) $instance, $defaults);
         ?>
         <p>
-            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', $WCMp->text_domain) ?>:
+            <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', 'dc-woocommerce-multi-vendor') ?>:
                 <input type="text" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $instance['title']; ?>" class="widefat" />
             </label>
         </p>

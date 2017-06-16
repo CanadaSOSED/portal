@@ -65,12 +65,12 @@ foreach( $posts_array as $post_element) {
 				<div class="msg_stat" style="display:none" >
 					<ul class="wcmp_msg_all_ul" data-element="<?php echo $post_element->ID; ?>">									
 						<?php if(!$is_read) {?>
-						<li class="_wcmp_vendor_message_read"><a href="#"> <?php _e('Mark Read',$WCMp->text_domain);?></a></li>
+						<li class="_wcmp_vendor_message_read"><a href="#"> <?php _e('Mark Read','dc-woocommerce-multi-vendor');?></a></li>
 						<?php } ?>
 						<?php if($is_read) {?>
-						<li class="_wcmp_vendor_message_unread"><a href="#"> <?php _e('Mark Unread',$WCMp->text_domain);?></a></li>
+						<li class="_wcmp_vendor_message_unread"><a href="#"> <?php _e('Mark Unread','dc-woocommerce-multi-vendor');?></a></li>
 						<?php } ?>
-						<li class="_wcmp_vendor_message_delete"><a href="#"> <?php _e('Delete',$WCMp->text_domain);?></a></li>							 
+						<li class="_wcmp_vendor_message_delete"><a href="#"> <?php _e('Delete','dc-woocommerce-multi-vendor');?></a></li>							 
 					</ul>
 				</div>
 			</div>
@@ -80,7 +80,7 @@ foreach( $posts_array as $post_element) {
 		<div <?php if($tab1_counter >= 6) {?> class="wcmp_hide_message" <?php }?> >
 			<?php echo $content = apply_filters('the_content',$post_element->post_content); ?>	
 			<?php $url = get_post_meta($post_element->ID, '_wcmp_vendor_notices_url', true);  if(!empty($url)) { ?>
-			<p style="text-align:right; width:100%;"><a href="<?php echo $url;?>" target="_blank" class="wcmp_black_btn_link"><?php echo __('Read More',$WCMp->text_domain);?></a></p>
+			<p style="text-align:right; width:100%;"><a href="<?php echo $url;?>" target="_blank" class="wcmp_black_btn_link"><?php echo __('Read More','dc-woocommerce-multi-vendor');?></a></p>
 			<?php }?>
 		</div>
 
@@ -94,9 +94,9 @@ foreach( $posts_array as $post_element) {
 	?>			
 </div>
 
-<div class="wcmp_mixed_txt" > <span> <?php _e('Showing Results', $WCMp->text_domain); ?></span>   <span class="first_nav_num" ><?php echo $tab1_counter_show; ?></span> <?php _e('out of',$WCMp->text_domain);?> <span class="second_nav_num"><?php echo  $tab1_counter; ?></span>
+<div class="wcmp_mixed_txt" > <span> <?php _e('Showing Results', 'dc-woocommerce-multi-vendor'); ?></span>   <span class="first_nav_num" ><?php echo $tab1_counter_show; ?></span> <?php _e('out of','dc-woocommerce-multi-vendor');?> <span class="second_nav_num"><?php echo  $tab1_counter; ?></span>
 	<?php if($tab1_counter > 6) {?>	
-	<button class="wcmp_black_btn wcmp_black_btn_msg_for_nav" style="float:right"><?php _e('Show More',$WCMp->text_domain); ?></button>
+	<button class="wcmp_black_btn wcmp_black_btn_msg_for_nav" style="float:right"><?php _e('Show More','dc-woocommerce-multi-vendor'); ?></button>
 	<?php }?>
 
 	<div class="clear"></div>

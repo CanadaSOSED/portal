@@ -26,7 +26,7 @@ class WCMp_Notices {
 		foreach ( $screens as $screen ) {
 			add_meta_box(
 				'wcmp_vendor_notice_addtional_field',
-				__( 'Addtional Fields', $WCMp->text_domain ),
+				__( 'Addtional Fields', 'dc-woocommerce-multi-vendor' ),
 				array($this,'wcmp_vendor_notice_addtional_field_callback'),
 				$screen,
 				'normal',
@@ -66,20 +66,20 @@ class WCMp_Notices {
 		global $WCMp;
 		if ( post_type_exists($this->post_type) ) return;
 		$labels = array(
-			'name' => _x( 'Announcements', 'post type general name' , $WCMp->text_domain ),
-			'singular_name' => _x( 'Announcements', 'post type singular name' , $WCMp->text_domain ),
-			'add_new' => _x( 'Add New', $this->post_type , $WCMp->text_domain ),
-			'add_new_item' => sprintf( __( 'Add New %s' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain ) ),
-			'edit_item' => sprintf( __( 'Edit %s' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain) ),
-			'new_item' => sprintf( __( 'New %s' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain) ),
-			'all_items' => sprintf( __( 'All %s' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain ) ),
-			'view_item' => sprintf( __( 'View %s' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain ) ),
-			'search_items' => sprintf( __( 'Search %a' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain ) ),
-			'not_found' =>  sprintf( __( 'No %s found' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain ) ),
-			'not_found_in_trash' => sprintf( __( 'No %s found in trash' , $WCMp->text_domain ), __( 'Announcements' , $WCMp->text_domain ) ),
+			'name' => _x( 'Announcements', 'post type general name' , 'dc-woocommerce-multi-vendor' ),
+			'singular_name' => _x( 'Announcements', 'post type singular name' , 'dc-woocommerce-multi-vendor' ),
+			'add_new' => _x( 'Add New', $this->post_type , 'dc-woocommerce-multi-vendor' ),
+			'add_new_item' => sprintf( __( 'Add New %s' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor' ) ),
+			'edit_item' => sprintf( __( 'Edit %s' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor') ),
+			'new_item' => sprintf( __( 'New %s' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor') ),
+			'all_items' => sprintf( __( 'All %s' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor' ) ),
+			'view_item' => sprintf( __( 'View %s' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor' ) ),
+			'search_items' => sprintf( __( 'Search %a' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor' ) ),
+			'not_found' =>  sprintf( __( 'No %s found' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor' ) ),
+			'not_found_in_trash' => sprintf( __( 'No %s found in trash' , 'dc-woocommerce-multi-vendor' ), __( 'Announcements' , 'dc-woocommerce-multi-vendor' ) ),
 			'parent_item_colon' => '',
-			'all_items' => __( 'Announcements' , $WCMp->text_domain ),
-			'menu_name' => __( 'Announcements' , $WCMp->text_domain )
+			'all_items' => __( 'Announcements' , 'dc-woocommerce-multi-vendor' ),
+			'menu_name' => __( 'Announcements' , 'dc-woocommerce-multi-vendor' )
 		);
 		
 		$args = array(

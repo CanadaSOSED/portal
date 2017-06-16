@@ -261,7 +261,7 @@ class WCMp_Capabilities {
         if ($this->vendor_frontend_settings('sold_by_cart_and_checkout')) {
             $general_cap = isset($this->frontend_cap['sold_by_text']) ? $this->frontend_cap['sold_by_text'] : '';
             if (!$general_cap)
-                $general_cap = __('Sold By', $WCMp->text_domain);
+                $general_cap = __('Sold By', 'dc-woocommerce-multi-vendor');
             $vendor = get_wcmp_product_vendors($cart_item['product_id']);
             if ($vendor) {
                 $array = array_merge($array, array(array('name' => $general_cap, 'value' => $vendor->user_data->display_name)));
@@ -282,7 +282,7 @@ class WCMp_Capabilities {
             $vendor = get_wcmp_product_vendors($post->ID);
             $general_cap = isset($this->frontend_cap['sold_by_text']) ? $this->frontend_cap['sold_by_text'] : '';
             if (!$general_cap)
-                $general_cap = __('Sold By', $WCMp->text_domain);
+                $general_cap = __('Sold By', 'dc-woocommerce-multi-vendor');
             if ($vendor) {
                 echo '<a class="by-vendor-name-link" style="display: block;" href="' . $vendor->permalink . '">' . $general_cap . ' ' . $vendor->user_data->display_name . '</a>';
                 do_action('after_sold_by_text_shop_page', $vendor);

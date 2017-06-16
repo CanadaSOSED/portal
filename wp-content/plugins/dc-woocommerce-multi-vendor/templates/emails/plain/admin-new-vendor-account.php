@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 echo "= " . $email_heading . " =\n\n";
 
-echo sprintf( __( "A new user has applied to be a vendor on %s. His/her email is <strong>%s</strong>.", $WCMp->text_domain ), esc_html( $blogname ), esc_html( $user_email ) );
+echo sprintf( __( "A new user has applied to be a vendor on %s. His/her email is <strong>%s</strong>.", 'dc-woocommerce-multi-vendor' ), esc_html( $blogname ), esc_html( $user_email ) );
 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 

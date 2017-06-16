@@ -66,56 +66,56 @@ class WCMp_Email {
 		$capability_settings = get_option('wcmp_general_customer_support_details_settings_name');
 		ob_start();
 		echo '<td valign="top" align="left" style=" background:#f4f4f4; padding:0px 40px"><h3 style="color:#557da1;display:block;font-family:Arial,sans-serif; font-size:16px;font-weight:bold;line-height:130%;margin:16px 0 8px;text-align:left">';
-		echo __('Customer Support Details of : ',$WCMp->text_domain);
+		echo __('Customer Support Details of : ','dc-woocommerce-multi-vendor');
 		echo '<span style="color:#555;">';
 		echo $products;
 		echo '</span>';
 		echo '<table style="width:100%;vertical-align:top;color:#a4a4a4; padding:10px 0 20px 0" border="0" cellpadding="2" cellspacing="0" >';
 		echo '<tr>';
 		echo '<td valign="top" align="left" >';
-		echo __('Email : ',$WCMp->text_domain); 
+		echo __('Email : ','dc-woocommerce-multi-vendor'); 
 		echo '</td>';
 		echo '<td valign="top" align="left" >: <a style="color:#505050;" href="mailto:'.$user_meta['_vendor_customer_email'][0].'" target="_blank">';
     echo  $user_meta['_vendor_customer_email'][0];
 		echo '</a></td>';
 		echo '</tr>';		
 		echo '<tr><td valign="top" align="left" >';
-		echo  __('Phone : ',$WCMp->text_domain); 
+		echo  __('Phone : ','dc-woocommerce-multi-vendor'); 
 		echo '</td><td valign="top" align="left" >:';
 		echo $user_meta['_vendor_customer_phone'][0];
 		echo '</td></tr>';		
 		echo '<tr><td valign="top" align="left" >';
-		echo __('Return Address of : ',$WCMp->text_domain);
+		echo __('Return Address of : ','dc-woocommerce-multi-vendor');
 		echo '</td><td valign="top" align="left" >: <b>';
 		echo  $products;
 		echo '</b></td></tr>';		
 		echo '<tr><td valign="top" align="left" >';
-		echo  __('Address Line 1 : ',$WCMp->text_domain); 
+		echo  __('Address Line 1 : ','dc-woocommerce-multi-vendor'); 
 		echo '</td><td valign="top" align="left" >:';
 		echo $user_meta['_vendor_csd_return_address1'][0];
 		echo '</td></tr>';
     echo '<tr><td valign="top" align="left" >';
-    echo  __('Address Line 2 : ',$WCMp->text_domain);
+    echo  __('Address Line 2 : ','dc-woocommerce-multi-vendor');
     echo '</td><td valign="top" align="left" >:';
     echo $user_meta['_vendor_csd_return_address2'][0];
     echo '</td></tr>'; 
     echo '<tr><td valign="top" align="left" >';
-    echo  __('State : ',$WCMp->text_domain); 
+    echo  __('State : ','dc-woocommerce-multi-vendor'); 
     echo '</td><td valign="top" align="left" >:';
     echo $user_meta['_vendor_csd_return_state'][0];
     echo '</td></tr>'; 
     echo '<tr><td valign="top" align="left" >';
-    echo  __('City : ',$WCMp->text_domain);
+    echo  __('City : ','dc-woocommerce-multi-vendor');
     echo '</td><td valign="top" align="left" >:';
     echo $user_meta['_vendor_csd_return_city'][0];
     echo '</td></tr>'; 
     echo '<tr><td valign="top" align="left" >';
-    echo  __('Country : ',$WCMp->text_domain);  
+    echo  __('Country : ','dc-woocommerce-multi-vendor');  
     echo '</td><td valign="top" align="left" >:';
     echo $user_meta['_vendor_csd_return_country'][0];
     echo '</td></tr>'; 
     echo '<tr><td valign="top" align="left" >';
-    echo  __('Zip Code : ',$WCMp->text_domain);
+    echo  __('Zip Code : ','dc-woocommerce-multi-vendor');
     echo '</td><td valign="top" align="left" >:';
     echo $user_meta['_vendor_csd_return_zip'][0];
     echo '</td></tr>';
@@ -134,13 +134,13 @@ class WCMp_Email {
 		<table>
 			<tr>
 				<th colspan="2">
-				<?php echo __('Customer Support Details :',$WCMp->text_domain); ?>
+				<?php echo __('Customer Support Details :','dc-woocommerce-multi-vendor'); ?>
 				</th>				
 			</tr>
 			<?php if(isset($capability_settings['csd_email'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('Email : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('Email : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_email']; ?>
@@ -150,7 +150,7 @@ class WCMp_Email {
 			<?php if(isset($capability_settings['csd_phone'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('Phone : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('Phone : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_phone']; ?>
@@ -159,14 +159,14 @@ class WCMp_Email {
 			<?php }?>
 			<tr>
 				<th colspan="2">
-				<?php echo __('Our Return Address :',$WCMp->text_domain); ?>
+				<?php echo __('Our Return Address :','dc-woocommerce-multi-vendor'); ?>
 				</th>				
 			</tr>
 			
 			<?php if(isset($capability_settings['csd_return_address_1'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('Address Line 1 : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('Address Line 1 : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_return_address_1']; ?>
@@ -176,7 +176,7 @@ class WCMp_Email {
 			<?php if(isset($capability_settings['csd_return_address_2'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('Address Line 2 : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('Address Line 2 : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_return_address_2']; ?>
@@ -186,7 +186,7 @@ class WCMp_Email {
 			<?php if(isset($capability_settings['csd_return_state'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('State : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('State : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_return_state']; ?>
@@ -196,7 +196,7 @@ class WCMp_Email {
 			<?php if(isset($capability_settings['csd_return_city'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('City : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('City : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_return_city']; ?>
@@ -206,7 +206,7 @@ class WCMp_Email {
 			<?php if(isset($capability_settings['csd_return_country'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('Country : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('Country : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_return_country']; ?>
@@ -216,7 +216,7 @@ class WCMp_Email {
 			<?php if(isset($capability_settings['csd_return_zipcode'])) { ?>
 			<tr>
 				<td>
-					<b><?php echo __('Zip Code : ',$WCMp->text_domain); ?></b>
+					<b><?php echo __('Zip Code : ','dc-woocommerce-multi-vendor'); ?></b>
 				</td>
 				<td>
 					<?php echo $capability_settings['csd_return_zipcode']; ?>

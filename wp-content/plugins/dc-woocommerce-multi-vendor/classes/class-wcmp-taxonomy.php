@@ -18,7 +18,7 @@ class WCMp_Taxonomy {
 		global $WCMp;
 		$permalinks = get_option( 'dc_vendors_permalinks' );
 		$this->taxonomy_name = 'dc_vendor_shop';
-		$this->taxonomy_slug = empty( $permalinks['vendor_shop_base'] ) ? _x( 'vendor', 'slug', $WCMp->text_domain ) : $permalinks['vendor_shop_base'];
+		$this->taxonomy_slug = empty( $permalinks['vendor_shop_base'] ) ? _x( 'vendor', 'slug', 'dc-woocommerce-multi-vendor' ) : $permalinks['vendor_shop_base'];
 		$this->register_post_taxonomy();
 		add_action('created_term', array( $this, 'created_term' ), 10, 3);
 	}
@@ -33,23 +33,23 @@ class WCMp_Taxonomy {
   function register_post_taxonomy() {
     global $WCMp;
 		$labels = array(
-		  'name' => __( 'WCMp Vendors' , $WCMp->text_domain ),
-		  'singular_name' => __( 'Vendor', $WCMp->text_domain ),
-		  'menu_name' => __( 'Vendors' , $WCMp->text_domain ),
-		  'search_items' =>  __( 'Search Vendors' , $WCMp->text_domain),
-		  'all_items' => __( 'All Vendors' , $WCMp->text_domain ),
-		  'parent_item' => __( 'Parent Vendor' , $WCMp->text_domain ),
-		  'parent_item_colon' => __( 'Parent Vendor:' , $WCMp->text_domain ),
-		  'view_item' => __( 'View Vendor' , $WCMp->text_domain ),
-		  'edit_item' => __( 'Edit Vendor' , $WCMp->text_domain ),
-		  'update_item' => __( 'Update Vendor' , $WCMp->text_domain ),
-		  'add_new_item' => __( 'Add New Vendor' , $WCMp->text_domain ),
-		  'new_item_name' => __( 'New Vendor Name' , $WCMp->text_domain ),
-		  'popular_items' => __( 'Popular Vendors' , $WCMp->text_domain ),
-		  'separate_items_with_commas' => __( 'Separate vendors with commas' , $WCMp->text_domain ),
-		  'add_or_remove_items' => __( 'Add or remove vendors' , $WCMp->text_domain ),
-		  'choose_from_most_used' => __( 'Choose from most used vendors' , $WCMp->text_domain ),
-		  'not_found' => __( 'No vendors found' , $WCMp->text_domain ),
+		  'name' => __( 'WCMp Vendors' , 'dc-woocommerce-multi-vendor' ),
+		  'singular_name' => __( 'Vendor', 'dc-woocommerce-multi-vendor' ),
+		  'menu_name' => __( 'Vendors' , 'dc-woocommerce-multi-vendor' ),
+		  'search_items' =>  __( 'Search Vendors' , 'dc-woocommerce-multi-vendor'),
+		  'all_items' => __( 'All Vendors' , 'dc-woocommerce-multi-vendor' ),
+		  'parent_item' => __( 'Parent Vendor' , 'dc-woocommerce-multi-vendor' ),
+		  'parent_item_colon' => __( 'Parent Vendor:' , 'dc-woocommerce-multi-vendor' ),
+		  'view_item' => __( 'View Vendor' , 'dc-woocommerce-multi-vendor' ),
+		  'edit_item' => __( 'Edit Vendor' , 'dc-woocommerce-multi-vendor' ),
+		  'update_item' => __( 'Update Vendor' , 'dc-woocommerce-multi-vendor' ),
+		  'add_new_item' => __( 'Add New Vendor' , 'dc-woocommerce-multi-vendor' ),
+		  'new_item_name' => __( 'New Vendor Name' , 'dc-woocommerce-multi-vendor' ),
+		  'popular_items' => __( 'Popular Vendors' , 'dc-woocommerce-multi-vendor' ),
+		  'separate_items_with_commas' => __( 'Separate vendors with commas' , 'dc-woocommerce-multi-vendor' ),
+		  'add_or_remove_items' => __( 'Add or remove vendors' , 'dc-woocommerce-multi-vendor' ),
+		  'choose_from_most_used' => __( 'Choose from most used vendors' , 'dc-woocommerce-multi-vendor' ),
+		  'not_found' => __( 'No vendors found' , 'dc-woocommerce-multi-vendor' ),
 		);
 
 		$vendor_slug = apply_filters( 'wcmp_vendor_slug', $this->taxonomy_slug );

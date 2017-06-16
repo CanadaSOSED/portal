@@ -29,23 +29,23 @@ class WCMp_Settings_Gneral_Customer_support_Details {
             "ref" => &$this,
             "subsection" => "{$this->subsection}",
             "sections" => array(
-                "vendor_return_address" => array("title" => __('Return Address & Customer Support Details ', $WCMp->text_domain), // Section one
+                "vendor_return_address" => array("title" => __('Return Address & Customer Support Details ', 'dc-woocommerce-multi-vendor'), // Section one
                     "fields" => array(
-                        "csd_email" => array('title' => __('Email', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_email', 'label_for' => 'csd_email', 'name' => 'csd_email'), // text 
-                        "csd_phone" => array('title' => __('Phone Number', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_phone', 'label_for' => 'csd_phone', 'name' => 'csd_phone'), // text 
-                        "csd_return_address_1" => array('title' => __('Address Line 1', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_return_address_1', 'label_for' => 'csd_return_address_1', 'name' => 'csd_return_address_1'), // text 
-                        "csd_return_address_2" => array('title' => __('Address Line 2', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_return_address_2', 'label_for' => 'csd_return_address_2', 'name' => 'csd_return_address_2'), // text 
-                        "csd_return_state" => array('title' => __('State', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_return_state', 'label_for' => 'csd_return_state', 'name' => 'csd_return_state'), // text 
-                        "csd_return_city" => array('title' => __('City', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_return_city', 'label_for' => 'csd_return_city', 'name' => 'csd_return_city'), // text 
-                        "csd_return_country" => array('title' => __('Country', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_return_country', 'label_for' => 'csd_return_country', 'name' => 'csd_return_country'), // text 
-                        "csd_return_zipcode" => array('title' => __('ZipCode', $WCMp->text_domain), 'type' => 'text', 'id' => 'csd_return_zipcode', 'label_for' => 'csd_return_zipcode', 'name' => 'csd_return_zipcode'), // text 
+                        "csd_email" => array('title' => __('Email', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_email', 'label_for' => 'csd_email', 'name' => 'csd_email'), // text 
+                        "csd_phone" => array('title' => __('Phone Number', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_phone', 'label_for' => 'csd_phone', 'name' => 'csd_phone'), // text 
+                        "csd_return_address_1" => array('title' => __('Address Line 1', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_return_address_1', 'label_for' => 'csd_return_address_1', 'name' => 'csd_return_address_1'), // text 
+                        "csd_return_address_2" => array('title' => __('Address Line 2', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_return_address_2', 'label_for' => 'csd_return_address_2', 'name' => 'csd_return_address_2'), // text 
+                        "csd_return_state" => array('title' => __('State', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_return_state', 'label_for' => 'csd_return_state', 'name' => 'csd_return_state'), // text 
+                        "csd_return_city" => array('title' => __('City', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_return_city', 'label_for' => 'csd_return_city', 'name' => 'csd_return_city'), // text 
+                        "csd_return_country" => array('title' => __('Country', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_return_country', 'label_for' => 'csd_return_country', 'name' => 'csd_return_country'), // text 
+                        "csd_return_zipcode" => array('title' => __('ZipCode', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'csd_return_zipcode', 'label_for' => 'csd_return_zipcode', 'name' => 'csd_return_zipcode'), // text 
                         
                     )
                 ),
                 "vendor_customer_support" => array(
-                    "title" => __('Vendor customer support', $WCMp->text_domain),
+                    "title" => __('Vendor customer support', 'dc-woocommerce-multi-vendor'),
                     'fields' => array(
-                        "can_vendor_add_customer_support_details" => array('title' => __('Vendor Shop Support', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'can_vendor_add_customer_support_details', 'label_for' => 'can_vendor_add_customer_support_details', 'name' => 'can_vendor_add_customer_support_details', 'value' => 'Enable', 'text' => __('Allow vendors to add vendor shop specific customer support details. If left blank by the vendor, the site wide customer support details would be on display.', $WCMp->text_domain)), // Checkbox
+                        "can_vendor_add_customer_support_details" => array('title' => __('Vendor Shop Support', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'can_vendor_add_customer_support_details', 'label_for' => 'can_vendor_add_customer_support_details', 'name' => 'can_vendor_add_customer_support_details', 'value' => 'Enable', 'text' => __('Allow vendors to add vendor shop specific customer support details. If left blank by the vendor, the site wide customer support details would be on display.', 'dc-woocommerce-multi-vendor')), // Checkbox
                     )
                 )
             ),
@@ -94,7 +94,7 @@ class WCMp_Settings_Gneral_Customer_support_Details {
 
         if (!$hasError) {
             add_settings_error(
-                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Customer Support Details Settings Updated', $WCMp->text_domain), 'updated'
+                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Customer Support Details Settings Updated', 'dc-woocommerce-multi-vendor'), 'updated'
             );
         }
         return apply_filters("settings_{$this->tab}_{$this->subsection}_tab_new_input", $new_input, $input);
@@ -112,7 +112,7 @@ class WCMp_Settings_Gneral_Customer_support_Details {
      */
     public function vendor_return_address_info() {
         global $WCMp;
-        _e('Enter the store wide customer support deails here.', $WCMp->text_domain);
+        _e('Enter the store wide customer support deails here.', 'dc-woocommerce-multi-vendor');
     }
 
 }

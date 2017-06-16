@@ -123,7 +123,7 @@ span.variable_commission_cls {
     font-size: 15px;
 }
 .wcmpsubtabadmin {
-    margin-bottom:20px;
+    margin: 8px 0 0 !important;
 }
 a.wcmp_sub_sction {
     border-right: 1px solid #999 !important;

@@ -30,14 +30,14 @@ class WC_Email_Notify_Shipped extends WC_Email {
 	function __construct() {
 		global $WCMp;
 		$this->id 				= 'notify_shipped';
-		$this->title 			= __( 'Notify as Shipped.', $WCMp->text_domain );
-		$this->description		= __( 'Confirm customer that vendor has shipped the order.', $WCMp->text_domain );
+		$this->title 			= __( 'Notify as Shipped.', 'dc-woocommerce-multi-vendor' );
+		$this->description		= __( 'Confirm customer that vendor has shipped the order.', 'dc-woocommerce-multi-vendor' );
 
 		$this->template_html 	= 'emails/vendor-notify-shipped.php';
 		$this->template_plain 	= 'emails/plain/vendor-notify-shipped.php';
 
-		$this->subject 			= __( 'Your Order on {site_title} has been Shipped', $WCMp->text_domain);
-		$this->heading      	= __( 'Welcome to {site_title}', $WCMp->text_domain);
+		$this->subject 			= __( 'Your Order on {site_title} has been Shipped', 'dc-woocommerce-multi-vendor');
+		$this->heading      	= __( 'Welcome to {site_title}', 'dc-woocommerce-multi-vendor');
 		$this->template_base = $WCMp->plugin_path . 'templates/';
 		// Call parent constuctor
 		parent::__construct();
@@ -131,35 +131,35 @@ class WC_Email_Notify_Shipped extends WC_Email {
     	global $WCMp;
     	$this->form_fields = array(
 			'enabled' => array(
-				'title' 		=> __( 'Enable/Disable', $WCMp->text_domain ),
+				'title' 		=> __( 'Enable/Disable', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'checkbox',
-				'label' 		=> __( 'Enable this email notification.', $WCMp->text_domain ),
+				'label' 		=> __( 'Enable this email notification.', 'dc-woocommerce-multi-vendor' ),
 				'default' 		=> 'yes'
 			),
 			'subject' => array(
-				'title' 		=> __( 'Subject', $WCMp->text_domain ),
+				'title' 		=> __( 'Subject', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'text',
-				'description' 	=> sprintf( __( 'This controls the email subject line. Leave it blank to use the default subject: <code>%s</code>.', $WCMp->text_domain ), $this->subject ),
+				'description' 	=> sprintf( __( 'This controls the email subject line. Leave it blank to use the default subject: <code>%s</code>.', 'dc-woocommerce-multi-vendor' ), $this->subject ),
 				'placeholder' 	=> '',
 				'default' 		=> ''
 			),
 			'heading' => array(
-				'title' 		=> __( 'Email Heading', $WCMp->text_domain ),
+				'title' 		=> __( 'Email Heading', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'text',
-				'description' 	=> sprintf( __( 'This controls the main heading contained within the email notification. Leave it blank to use the default heading: <code>%s</code>.', $WCMp->text_domain ), $this->heading ),
+				'description' 	=> sprintf( __( 'This controls the main heading contained within the email notification. Leave it blank to use the default heading: <code>%s</code>.', 'dc-woocommerce-multi-vendor' ), $this->heading ),
 				'placeholder' 	=> '',
 				'default' 		=> ''
 			),
 			'email_type' => array(
-				'title' 		=> __( 'Email Type', $WCMp->text_domain ),
+				'title' 		=> __( 'Email Type', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'select',
-				'description' 	=> __( 'Choose which format of email to be sent.', $WCMp->text_domain ),
+				'description' 	=> __( 'Choose which format of email to be sent.', 'dc-woocommerce-multi-vendor' ),
 				'default' 		=> 'html',
 				'class'			=> 'email_type',
 				'options'		=> array(
-					'plain'		 	=> __( 'Plain Text', $WCMp->text_domain ),
-					'html' 			=> __( 'HTML', $WCMp->text_domain ),
-					'multipart' 	=> __( 'Multipart', $WCMp->text_domain ),
+					'plain'		 	=> __( 'Plain Text', 'dc-woocommerce-multi-vendor' ),
+					'html' 			=> __( 'HTML', 'dc-woocommerce-multi-vendor' ),
+					'multipart' 	=> __( 'Multipart', 'dc-woocommerce-multi-vendor' ),
 				)
 			)
 		);

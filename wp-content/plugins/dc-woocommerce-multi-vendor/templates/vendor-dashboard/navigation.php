@@ -20,12 +20,12 @@ do_action('wcmp_before_vendor_dashboard_navigation');
 <div class="wcmp_side_menu">
     <div class="wcmp_top_logo_div"> <img src="<?php echo $vendor->image; ?>" alt="vendordavatar">
         <h3>
-            <?php echo get_user_meta(get_current_user_id(), '_vendor_page_title', true) ? get_user_meta(get_current_user_id(), '_vendor_page_title', true) : __('Shop Name', $WCMp->text_domain); ?>
+            <?php echo get_user_meta(get_current_user_id(), '_vendor_page_title', true) ? get_user_meta(get_current_user_id(), '_vendor_page_title', true) : __('Shop Name', 'dc-woocommerce-multi-vendor'); ?>
         </h3>
         <ul>
-            <li><a target="_blank" href="<?php echo apply_filters('wcmp_vendor_shop_permalink', $vendor->permalink); ?>"><?php _e('Shop', $WCMp->text_domain); ?></a> </li>
+            <li><a target="_blank" href="<?php echo apply_filters('wcmp_vendor_shop_permalink', $vendor->permalink); ?>"><?php _e('Shop', 'dc-woocommerce-multi-vendor'); ?></a> </li>
             <?php if (apply_filters('wcmp_show_vendor_announcements', true)) : ?>
-                <li><a target="_self" href="<?php echo wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_announcements_endpoint', 'vendor', 'general', 'vendor-announcements')); ?>"><?php _e('Announcements', $WCMp->text_domain); ?></a></li>
+                <li><a target="_self" href="<?php echo wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_announcements_endpoint', 'vendor', 'general', 'vendor-announcements')); ?>"><?php _e('Announcements', 'dc-woocommerce-multi-vendor'); ?></a></li>
             <?php endif; ?>
         </ul>
     </div>

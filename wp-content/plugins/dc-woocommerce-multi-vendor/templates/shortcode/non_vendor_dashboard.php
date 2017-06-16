@@ -23,7 +23,7 @@ if ($user && in_array('administrator', $user->roles)) {
     ?>
     <div class="vendor_apply">
         <p>
-            <?php _e('You have logged in as Administrator. Please log out and then view this page.', $WCMp->text_domain); ?>
+            <?php _e('You have logged in as Administrator. Please log out and then view this page.', 'dc-woocommerce-multi-vendor'); ?>
         </p>
     </div>
     <?php
@@ -32,7 +32,7 @@ if ($user && in_array('dc_pending_vendor', $user->roles)) {
     ?>
     <div class="vendor_apply">
         <p>
-            <?php _e('Congratulations! You have successfully applied as a Vendor. Please wait for further notifications from the admin.', $WCMp->text_domain); ?>
+            <?php _e('Congratulations! You have successfully applied as a Vendor. Please wait for further notifications from the admin.', 'dc-woocommerce-multi-vendor'); ?>
         </p>
     </div>
     <?php

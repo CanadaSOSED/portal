@@ -15,16 +15,16 @@ global $WCMp;
 
 echo "= " . $email_heading . " =\n\n";
 
-echo sprintf( __( "Hi there! This is to notify that a new product has been submitted in %s.",  $WCMp->text_domain ), get_option( 'blogname' ) );
+echo sprintf( __( "Hi there! This is to notify that a new product has been submitted in %s.",  'dc-woocommerce-multi-vendor' ), get_option( 'blogname' ) );
 echo '\n'; 
-echo sprintf( __( "Product title: %s",  $WCMp->text_domain ), $product_name ); 
+echo sprintf( __( "Product title: %s",  'dc-woocommerce-multi-vendor' ), $product_name ); 
 echo '\n';
-echo sprintf( __( "Submitted by: %s",  $WCMp->text_domain ), 'Site Administrator' ); 
+echo sprintf( __( "Submitted by: %s",  'dc-woocommerce-multi-vendor' ), 'Site Administrator' ); 
 echo '\n';
 if($submit_product) {
-	printf( __( "Edit product: %s",  $WCMp->text_domain ), admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); 
+	printf( __( "Edit product: %s",  'dc-woocommerce-multi-vendor' ), admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); 
 } else {
-	printf( __( "View product: %s",  $WCMp->text_domain ), get_permalink($post_id)); 
+	printf( __( "View product: %s",  'dc-woocommerce-multi-vendor' ), get_permalink($post_id)); 
 }
 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";

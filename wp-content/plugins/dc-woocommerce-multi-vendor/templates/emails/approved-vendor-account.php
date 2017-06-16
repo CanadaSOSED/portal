@@ -13,10 +13,10 @@ global $WCMp;
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
 ?>
 <?php do_action( 'woocommerce_email_header', $email_heading ); ?>
-<p><?php printf( __( "Congratulations! There is a new vendor application on %s.", $WCMp->text_domain ), get_option( 'blogname' ) ); ?></p>
+<p><?php printf( __( "Congratulations! There is a new vendor application on %s.", 'dc-woocommerce-multi-vendor' ), get_option( 'blogname' ) ); ?></p>
 <p>
-	<?php _e( "Application status: Approved",  $WCMp->text_domain ); ?><br/>
-	<?php printf( __( "Applicant Username: %s",  $WCMp->text_domain ), $user_login ); ?>
+	<?php _e( "Application status: Approved",  'dc-woocommerce-multi-vendor' ); ?><br/>
+	<?php printf( __( "Applicant Username: %s",  'dc-woocommerce-multi-vendor' ), $user_login ); ?>
 </p>
-<p><?php _e('You have been cleared for landing! Congratulations and welcome aboard!', $WCMp->text_domain) ?> <p>
+<p><?php _e('You have been cleared for landing! Congratulations and welcome aboard!', 'dc-woocommerce-multi-vendor') ?> <p>
 <?php do_action( 'woocommerce_email_footer' );?>

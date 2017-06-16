@@ -21,9 +21,9 @@ $shipping_policy_user = '';
 $cancellation_policy = isset($wcmp_policy_settings['cancellation_policy']) ? $wcmp_policy_settings['cancellation_policy'] : '';
 $refund_policy = isset($wcmp_policy_settings['refund_policy']) ? $wcmp_policy_settings['refund_policy'] : '';
 $shipping_policy = isset($wcmp_policy_settings['shipping_policy']) ? $wcmp_policy_settings['shipping_policy'] : '';
-$cancellation_policy_label = isset($wcmp_policy_settings['cancellation_policy_label']) ? $wcmp_policy_settings['cancellation_policy_label'] :  __('Cancellation/Return/Exchange Policy',$WCMp->text_domain);
-$refund_policy_label = isset($wcmp_policy_settings['refund_policy_label']) ? $wcmp_policy_settings['refund_policy_label'] :  __('Refund Policy',$WCMp->text_domain);
-$shipping_policy_label = isset($wcmp_policy_settings['shipping_policy_label']) ? $wcmp_policy_settings['shipping_policy_label'] :  __('Shipping Policy',$WCMp->text_domain);
+$cancellation_policy_label = isset($wcmp_policy_settings['cancellation_policy_label']) ? $wcmp_policy_settings['cancellation_policy_label'] :  __('Cancellation/Return/Exchange Policy','dc-woocommerce-multi-vendor');
+$refund_policy_label = isset($wcmp_policy_settings['refund_policy_label']) ? $wcmp_policy_settings['refund_policy_label'] :  __('Refund Policy','dc-woocommerce-multi-vendor');
+$shipping_policy_label = isset($wcmp_policy_settings['shipping_policy_label']) ? $wcmp_policy_settings['shipping_policy_label'] :  __('Shipping Policy','dc-woocommerce-multi-vendor');
 $product_id = $product->get_id();
 
 $author_id = $post->post_author;

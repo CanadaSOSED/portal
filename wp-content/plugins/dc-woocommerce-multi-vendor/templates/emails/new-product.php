@@ -13,19 +13,19 @@
 if ( !defined( 'ABSPATH' ) ) exit; 
 global  $WCMp;
 
-if($post_type == 'shop_coupon') $title = __( 'Coupon', $WCMp->text_domain );
-else  $title = __( 'Product', $WCMp->text_domain );
+if($post_type == 'shop_coupon') $title = __( 'Coupon', 'dc-woocommerce-multi-vendor' );
+else  $title = __( 'Product', 'dc-woocommerce-multi-vendor' );
 	
 ?>
 
 <?php do_action( 'woocommerce_email_header', $email_heading ); ?>
 
-	<p><?php printf( __( "Hi there! This is a notification about a new %s on %s.",  $WCMp->text_domain ), $title, get_option( 'blogname' ) ); ?></p>
+	<p><?php printf( __( "Hi there! This is a notification about a new %s on %s.",  'dc-woocommerce-multi-vendor' ), $title, get_option( 'blogname' ) ); ?></p>
 
 	<p>
-		<?php printf( __( "%s title: %s",  $WCMp->text_domain ), $title, $product_name ); ?><br/>
-		<?php printf( __( "Submitted by: %s",  $WCMp->text_domain ), $vendor_name ); ?><br/>
-		<?php printf( __( "Edit %s: %s",  $WCMp->text_domain ), $title, admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); ?>
+		<?php printf( __( "%s title: %s",  'dc-woocommerce-multi-vendor' ), $title, $product_name ); ?><br/>
+		<?php printf( __( "Submitted by: %s",  'dc-woocommerce-multi-vendor' ), $vendor_name ); ?><br/>
+		<?php printf( __( "Edit %s: %s",  'dc-woocommerce-multi-vendor' ), $title, admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); ?>
 		<br/>
 	</p>
 

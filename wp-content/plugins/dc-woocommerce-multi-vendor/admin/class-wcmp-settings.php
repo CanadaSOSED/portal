@@ -59,18 +59,18 @@ class WCMp_Settings {
         global $WCMp, $submenu;
 
         add_menu_page(
-                __('WCMp', $WCMp->text_domain)
-                , __('WCMp', $WCMp->text_domain)
+                __('WCMp', 'dc-woocommerce-multi-vendor')
+                , __('WCMp', 'dc-woocommerce-multi-vendor')
                 , 'manage_woocommerce'
                 , 'wcmp'
                 , null
                 , $WCMp->plugin_url . 'assets/images/dualcube.png'
                 , 45
         );
-        add_submenu_page('wcmp', __('Reports', $WCMp->text_domain), __('Reports', $WCMp->text_domain), 'manage_woocommerce', 'wc-reports&tab=wcmp_vendors', '__return_false');
-        $wcmp_settings_page = add_submenu_page('wcmp', __('Settings', $WCMp->text_domain), __('Settings', $WCMp->text_domain), 'manage_woocommerce', 'wcmp-setting-admin', array($this, 'create_wcmp_settings'));
-        $wcmp_todo_list = add_submenu_page('wcmp', __('To-do List', $WCMp->text_domain), __('To-do List', $WCMp->text_domain), 'manage_woocommerce', 'wcmp-to-do', array($this, 'wcmp_to_do'));
-        $wcmp_extension_page = add_submenu_page('wcmp', __('Extensions', $WCMp->text_domain), __('Extensions', $WCMp->text_domain), 'manage_woocommerce', 'wcmp-extensions', array($this, 'wcmp_extensions'));
+        add_submenu_page('wcmp', __('Reports', 'dc-woocommerce-multi-vendor'), __('Reports', 'dc-woocommerce-multi-vendor'), 'manage_woocommerce', 'wc-reports&tab=wcmp_vendors', '__return_false');
+        $wcmp_settings_page = add_submenu_page('wcmp', __('Settings', 'dc-woocommerce-multi-vendor'), __('Settings', 'dc-woocommerce-multi-vendor'), 'manage_woocommerce', 'wcmp-setting-admin', array($this, 'create_wcmp_settings'));
+        $wcmp_todo_list = add_submenu_page('wcmp', __('To-do List', 'dc-woocommerce-multi-vendor'), __('To-do List', 'dc-woocommerce-multi-vendor'), 'manage_woocommerce', 'wcmp-to-do', array($this, 'wcmp_to_do'));
+        $wcmp_extension_page = add_submenu_page('wcmp', __('Extensions', 'dc-woocommerce-multi-vendor'), __('Extensions', 'dc-woocommerce-multi-vendor'), 'manage_woocommerce', 'wcmp-extensions', array($this, 'wcmp_extensions'));
 
 
         $this->tabs = $this->get_wcmp_settings_tabs();
@@ -101,47 +101,47 @@ class WCMp_Settings {
 
         $screen->add_help_tab(array(
             'id' => 'wcmp_intro',
-            'title' => __('WC Marketplace', $WCMp->text_domain),
+            'title' => __('WC Marketplace', 'dc-woocommerce-multi-vendor'),
             'content' => '<h2>WC Marketplace ' . WCMp_PLUGIN_VERSION . '</h2>' . '<iframe src="https://player.vimeo.com/video/203286653?title=0&byline=0&portrait=0" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
         ));
         $screen->add_help_tab(array(
             'id' => 'wcmp_help',
-            'title' => __('Help &amp; Support', $WCMp->text_domain),
+            'title' => __('Help &amp; Support', 'dc-woocommerce-multi-vendor'),
             'content' => '<h2>Help &amp; Support</h2>' .
             '<p>Our enrich documentation is suffice to answer all of your queries on WC Marketplace. We have covered all of your questions with snippets, graphics and a complete set-up guide.</p>'
             . '<p>For further assistance in WC Marketplace please contact to our <a target="_blank" href="https://wc-marketplace.com/support-forum/">support forum</a> .</p>',
         ));
         $screen->add_help_tab(array(
             'id' => 'wcmp_found_bug',
-            'title' => __('Found a bug?', $WCMp->text_domain),
+            'title' => __('Found a bug?', 'dc-woocommerce-multi-vendor'),
             'content' => '<h2>Found a bug?</h2>'
             . '<p>If you find a bug within WC Marketplace core you can submit your report by raising a ticket via <a target="_blank" href="https://github.com/dualcube/dc-woocommerce-multi-vendor/issues">Github issues</a>. Prior to submitting the report, please read the contribution guide.</p>'
         ));
         $screen->add_help_tab(array(
             'id' => 'wcmp_knowledgebase',
-            'title' => __('Knowledgebase', $WCMp->text_domain),
+            'title' => __('Knowledgebase', 'dc-woocommerce-multi-vendor'),
             'content' => '<h2>Knowledgebase</h2>'
             . '<p>If you would like to learn more about using WC Marketplace, please follow our <a target="_blank" href="https://wc-marketplace.com/knowledgebase/">knowledgebase</a> section.</p>'
         ));
         $screen->set_help_sidebar(
-                '<p><strong>' . __('For more information:', $WCMp->text_domain) . '</strong></p>' .
-                '<p><a href="' . 'https://wordpress.org/plugins/dc-woocommerce-multi-vendor/' . '" target="_blank">' . __('WordPress.org Project', $WCMp->text_domain) . '</a></p>' .
-                '<p><a href="' . 'https://github.com/dualcube/dc-woocommerce-multi-vendor' . '" target="_blank">' . __('Github Project', $WCMp->text_domain) . '</a></p>' .
-                '<p><a href="' . 'https://demo.wc-marketplace.com/addon/WCMp/' . '" target="_blank">' . __('View Demo', $WCMp->text_domain) . '</a></p>' .
-                '<p><a href="' . 'https://wc-marketplace.com/third-party-themes/' . '" target="_blank">' . __('Supported Themes', $WCMp->text_domain) . '</a></p>' .
-                '<p><a href="' . 'https://wc-marketplace.com/addons/' . '" target="_blank">' . __('Official Extensions', $WCMp->text_domain) . '</a></p>'
+                '<p><strong>' . __('For more information:', 'dc-woocommerce-multi-vendor') . '</strong></p>' .
+                '<p><a href="' . 'https://wordpress.org/plugins/dc-woocommerce-multi-vendor/' . '" target="_blank">' . __('WordPress.org Project', 'dc-woocommerce-multi-vendor') . '</a></p>' .
+                '<p><a href="' . 'https://github.com/dualcube/dc-woocommerce-multi-vendor' . '" target="_blank">' . __('Github Project', 'dc-woocommerce-multi-vendor') . '</a></p>' .
+                '<p><a href="' . 'https://demo.wc-marketplace.com/addon/WCMp/' . '" target="_blank">' . __('View Demo', 'dc-woocommerce-multi-vendor') . '</a></p>' .
+                '<p><a href="' . 'https://wc-marketplace.com/third-party-themes/' . '" target="_blank">' . __('Supported Themes', 'dc-woocommerce-multi-vendor') . '</a></p>' .
+                '<p><a href="' . 'https://wc-marketplace.com/addons/' . '" target="_blank">' . __('Official Extensions', 'dc-woocommerce-multi-vendor') . '</a></p>'
         );
     }
 
     function get_wcmp_settings_tabs() {
         global $WCMp;
         $tabs = apply_filters('wcmp_tabs', array(
-            'general' => __('General', $WCMp->text_domain),
-            'vendor' => __('Vendor', $WCMp->text_domain),
-//            'product' => __('Products', $WCMp->text_domain),
-            'frontend' => __('Frontend', $WCMp->text_domain),
-            'payment' => __('Payment', $WCMp->text_domain),
-            'capabilities' => __('Capabilities', $WCMp->text_domain)
+            'general' => __('General', 'dc-woocommerce-multi-vendor'),
+            'vendor' => __('Vendor', 'dc-woocommerce-multi-vendor'),
+//            'product' => __('Products', 'dc-woocommerce-multi-vendor'),
+            'frontend' => __('Frontend', 'dc-woocommerce-multi-vendor'),
+            'payment' => __('Payment', 'dc-woocommerce-multi-vendor'),
+            'capabilities' => __('Capabilities', 'dc-woocommerce-multi-vendor')
         ));
         return $tabs;
     }
@@ -149,9 +149,9 @@ class WCMp_Settings {
     function get_wcmp_settings_tabsections_general() {
         global $WCMp;
         $tabsection_general = apply_filters('wcmp_tabsection_general', array(
-            'general' => __('General', $WCMp->text_domain),
-            'policies' => __('Policies', $WCMp->text_domain),
-            'customer_support_details' => __('Customer Support', $WCMp->text_domain),
+            'general' => __('General', 'dc-woocommerce-multi-vendor'),
+            'policies' => __('Policies', 'dc-woocommerce-multi-vendor'),
+            'customer_support_details' => __('Customer Support', 'dc-woocommerce-multi-vendor'),
         ));
         return $tabsection_general;
     }
@@ -159,9 +159,9 @@ class WCMp_Settings {
     function get_wcmp_settings_tabsections_payment() {
         global $WCMp;
         $tabsection_payment = apply_filters('wcmp_tabsection_payment', array(
-            'payment' => __('Payment Settings', $WCMp->text_domain),
-            'paypal_masspay' => __('Paypal Masspay', $WCMp->text_domain),
-            'paypal_payout' => __('Paypal Payout', $WCMp->text_domain)
+            'payment' => __('Payment Settings', 'dc-woocommerce-multi-vendor'),
+            'paypal_masspay' => __('Paypal Masspay', 'dc-woocommerce-multi-vendor'),
+            'paypal_payout' => __('Paypal Payout', 'dc-woocommerce-multi-vendor')
         ));
         return $tabsection_payment;
     }
@@ -170,7 +170,7 @@ class WCMp_Settings {
         global $WCMp;
         $tabsection_vendor = apply_filters('wcmp_tabsection_vendor', array(
             'general' => 'Vendor Pages',
-            'registration' => __('Vendor Registration', $WCMp->text_domain)
+            'registration' => __('Vendor Registration', 'dc-woocommerce-multi-vendor')
         ));
         return $tabsection_vendor;
     }
@@ -178,9 +178,9 @@ class WCMp_Settings {
     function get_wcmp_settings_tabsections_capabilities() {
         global $WCMp;
         $tabsection_vendor = apply_filters('wcmp_tabsection_capabilities', array(
-            'product' => __('Product', $WCMp->text_domain),
-            'order' => __('Order', $WCMp->text_domain),
-            'miscellaneous' => __('Miscellaneous', $WCMp->text_domain)
+            'product' => __('Product', 'dc-woocommerce-multi-vendor'),
+            'order' => __('Order', 'dc-woocommerce-multi-vendor'),
+            'miscellaneous' => __('Miscellaneous', 'dc-woocommerce-multi-vendor')
         ));
         return $tabsection_vendor;
     }
@@ -188,9 +188,9 @@ class WCMp_Settings {
     function get_saettings_tab_desc() {
         global $WCMp;
         $tab_desc = apply_filters('wcmp_tabs_desc', array(
-            'product' => __('Configure the "Product Add" page for vendors. Choose the features you want to show to your vendors.', $WCMp->text_domain),
-            'frontend' => __('Configure which vendor details you want to reveal to your users', $WCMp->text_domain),
-//            'capabilities' => __('These are general sets of permissions for vendors. Note that these are global settings, and you may override these settings for an individual vendor from the vendor profile page. ', $WCMp->text_domain),
+            'product' => __('Configure the "Product Add" page for vendors. Choose the features you want to show to your vendors.', 'dc-woocommerce-multi-vendor'),
+            'frontend' => __('Configure which vendor details you want to reveal to your users', 'dc-woocommerce-multi-vendor'),
+//            'capabilities' => __('These are general sets of permissions for vendors. Note that these are global settings, and you may override these settings for an individual vendor from the vendor profile page. ', 'dc-woocommerce-multi-vendor'),
         ));
         return $tab_desc;
     }
@@ -287,7 +287,7 @@ class WCMp_Settings {
 
 //        foreach ($this->tabs as $tab => $name) :
 //            if ($tab == $current && $tab != 'wcmp-addons') :
-//                printf(__("<h2>%s Settings</h2>", $WCMp->text_domain), $name);
+//                printf(__("<h2>%s Settings</h2>", 'dc-woocommerce-multi-vendor'), $name);
 //            endif;
 //        endforeach;
 
@@ -309,7 +309,7 @@ class WCMp_Settings {
         $tab_desc = $this->get_saettings_tab_desc();
         foreach ($this->tabs as $tabd => $named) :
             if ($tabd == $current && !empty($tab_desc[$tabd])) :
-                printf(__("<h4 style=\'border-bottom: 1px solid rgb(215, 211, 211);padding-bottom: 21px;\'>%s</h4>", $WCMp->text_domain), $tab_desc[$tabd]);
+                printf(__("<h4 style=\'border-bottom: 1px solid rgb(215, 211, 211);padding-bottom: 21px;\'>%s</h4>", 'dc-woocommerce-multi-vendor'), $tab_desc[$tabd]);
             endif;
         endforeach;
     }
@@ -424,9 +424,9 @@ class WCMp_Settings {
             <?php
             if (isset($_GET['tab']) && $_GET['tab'] == 'payment') {
                 if (wp_next_scheduled('paypal_masspay_cron_start')) {
-                    _e('<br><b>MassPay Sync</b><br>', $WCMp->text_domain);
-                    printf(__('Next MassPay cron @ %s', $WCMp->text_domain), date('d/m/Y g:i:s A', wp_next_scheduled('paypal_masspay_cron_start')));
-                    printf(__('<br>Now the time is %s', $WCMp->text_domain), date('d/m/Y g:i:s A', time()));
+                    _e('<br><b>MassPay Sync</b><br>', 'dc-woocommerce-multi-vendor');
+                    printf(__('Next MassPay cron @ %s', 'dc-woocommerce-multi-vendor'), date('d/m/Y g:i:s A', wp_next_scheduled('paypal_masspay_cron_start')));
+                    printf(__('<br>Now the time is %s', 'dc-woocommerce-multi-vendor'), date('d/m/Y g:i:s A', time()));
                 }
             }
             ?>

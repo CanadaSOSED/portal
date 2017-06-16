@@ -18,11 +18,11 @@ if($vendor_count > 5 )	{ ?>
 <div style=" height: auto; width: 226px;" >
 <?php }
 if($vendors) {
-	foreach($vendors as $vendors_key => $vendor) { 
+	foreach($vendors as $vendors_key => $vendor) {
 		if(!$vendor->image) $vendor->image = $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
 		?>
 		<div style=" width: 100%; margin-bottom: 5px; clear: both; display: block;">
-			<div style=" width: 25%;  display: inline;">		
+			<div style=" width: 25%;  display: inline;">
 			<img width="50" height="50" class="vendor_img" style="display: inline;" src=<?php echo $vendor->image ?> id="vendor_image_display">
 			</div>
 			<div style=" width: 75%;  display: inline;  padding: 10px;">
@@ -31,6 +31,6 @@ if($vendors) {
 					</a>
 			</div>
 		</div>
-	<?php } 
+	<?php }
 }?>
 </div>

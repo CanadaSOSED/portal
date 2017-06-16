@@ -23,11 +23,11 @@ class WC_Email_Admin_New_Vendor_Account extends WC_Email {
 	function __construct() {
 		global $WCMp;
 		$this->id 				= 'admin_new_vendor';
-		$this->title 			= __( 'Admin New Vendor Account', $WCMp->text_domain );
-		$this->description		= __( 'New emails are sent when a user applies to be a vendor.', $WCMp->text_domain );
+		$this->title 			= __( 'Admin New Vendor Account', 'dc-woocommerce-multi-vendor' );
+		$this->description		= __( 'New emails are sent when a user applies to be a vendor.', 'dc-woocommerce-multi-vendor' );
 
-		$this->heading 			= __( 'New Vendor Account', $WCMp->text_domain );
-		$this->subject      	= __( '[{site_title}] New Vendor Account', $WCMp->text_domain );
+		$this->heading 			= __( 'New Vendor Account', 'dc-woocommerce-multi-vendor' );
+		$this->subject      	= __( '[{site_title}] New Vendor Account', 'dc-woocommerce-multi-vendor' );
 
 		$this->template_html 	= 'emails/admin-new-vendor-account.php';
 		$this->template_plain 	= 'emails/plain/admin-new-vendor-account.php';
@@ -128,42 +128,42 @@ class WC_Email_Admin_New_Vendor_Account extends WC_Email {
 		global $WCMp;
 		$this->form_fields = array(
 			'enabled' => array(
-				'title' 		=> __( 'Enable/Disable', $WCMp->text_domain ),
+				'title' 		=> __( 'Enable/Disable', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'checkbox',
-				'label' 		=> __( 'Enable this email notification.', $WCMp->text_domain ),
+				'label' 		=> __( 'Enable this email notification.', 'dc-woocommerce-multi-vendor' ),
 				'default' 		=> 'yes'
 			),
 			'recipient' => array(
-				'title' 		=> __( 'Recipient(s)', $WCMp->text_domain ),
+				'title' 		=> __( 'Recipient(s)', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'text',
-				'description' 	=> sprintf( __( 'Enter recipient(s) (comma separated) for this email. Defaults to <code>%s</code>.', $WCMp->text_domain ), esc_attr( get_option('admin_email') ) ),
+				'description' 	=> sprintf( __( 'Enter recipient(s) (comma separated) for this email. Defaults to <code>%s</code>.', 'dc-woocommerce-multi-vendor' ), esc_attr( get_option('admin_email') ) ),
 				'placeholder' 	=> '',
 				'default' 		=> ''
 			),
 			'subject' => array(
-				'title' 		=> __( 'Subject', $WCMp->text_domain ),
+				'title' 		=> __( 'Subject', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'text',
-				'description' 	=> sprintf( __( 'This controls the email subject line. Leave it blank to use the default subject: <code>%s</code>.', $WCMp->text_domain ), $this->subject ),
+				'description' 	=> sprintf( __( 'This controls the email subject line. Leave it blank to use the default subject: <code>%s</code>.', 'dc-woocommerce-multi-vendor' ), $this->subject ),
 				'placeholder' 	=> '',
 				'default' 		=> ''
 			),
 			'heading' => array(
-				'title' 		=> __( 'Email Heading', $WCMp->text_domain ),
+				'title' 		=> __( 'Email Heading', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'text',
-				'description' 	=> sprintf( __( 'This controls the main heading contained within the email notification. Leave it blank to use the default heading: <code>%s</code>.', $WCMp->text_domain ), $this->heading ),
+				'description' 	=> sprintf( __( 'This controls the main heading contained within the email notification. Leave it blank to use the default heading: <code>%s</code>.', 'dc-woocommerce-multi-vendor' ), $this->heading ),
 				'placeholder' 	=> '',
 				'default' 		=> ''
 			),
 			'email_type' => array(
-				'title' 		=> __( 'Email Type', $WCMp->text_domain ),
+				'title' 		=> __( 'Email Type', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'select',
-				'description' 	=> __( 'Choose which format of email to be sent.', $WCMp->text_domain ),
+				'description' 	=> __( 'Choose which format of email to be sent.', 'dc-woocommerce-multi-vendor' ),
 				'default' 		=> 'html',
 				'class'			=> 'email_type',
 				'options'		=> array(
-					'plain'		 	=> __( 'Plain Text', $WCMp->text_domain ),
-					'html' 			=> __( 'HTML', $WCMp->text_domain ),
-					'multipart' 	=> __( 'Multipart', $WCMp->text_domain ),
+					'plain'		 	=> __( 'Plain Text', 'dc-woocommerce-multi-vendor' ),
+					'html' 			=> __( 'HTML', 'dc-woocommerce-multi-vendor' ),
+					'multipart' 	=> __( 'Multipart', 'dc-woocommerce-multi-vendor' ),
 				)
 			)
 		);

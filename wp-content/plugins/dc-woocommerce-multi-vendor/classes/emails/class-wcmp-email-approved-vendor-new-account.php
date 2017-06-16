@@ -30,14 +30,14 @@ class WC_Email_Approved_New_Vendor_Account extends WC_Email {
 	function __construct() {
 		global $WCMp;
 		$this->id 				= 'approved_vendor_new_account';
-		$this->title 			= __( 'Approved Vendor Account', $WCMp->text_domain );
-		$this->description		= __( 'Vendor new account emails are sent when site admin approves a pending vendor.', $WCMp->text_domain );
+		$this->title 			= __( 'Approved Vendor Account', 'dc-woocommerce-multi-vendor' );
+		$this->description		= __( 'Vendor new account emails are sent when site admin approves a pending vendor.', 'dc-woocommerce-multi-vendor' );
 
 		$this->template_html 	= 'emails/approved-vendor-account.php';
 		$this->template_plain 	= 'emails/plain/approved-vendor-account.php';
 
-		$this->subject 			= __( 'Your account on {site_title}', $WCMp->text_domain);
-		$this->heading      	= __( 'Welcome to {site_title}', $WCMp->text_domain);
+		$this->subject 			= __( 'Your account on {site_title}', 'dc-woocommerce-multi-vendor');
+		$this->heading      	= __( 'Welcome to {site_title}', 'dc-woocommerce-multi-vendor');
 		$this->template_base = $WCMp->plugin_path . 'templates/';
 		// Call parent constuctor
 		parent::__construct();

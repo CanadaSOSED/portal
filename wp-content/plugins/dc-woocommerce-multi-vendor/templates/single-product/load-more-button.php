@@ -16,5 +16,5 @@
  */ 
 global $WCMp; 
 ?>
-<div class = "wcmp-load-more-button-wrapper" ><button id="wcmp-load-more-button" class = "wcmp-load-more-button button" ><?php echo __(' Load More ',$WCMp->text_domain);?> </button></div>
+<div class = "wcmp-load-more-button-wrapper" ><button id="wcmp-load-more-button" class = "wcmp-load-more-button button" ><?php echo __(' Load More ','dc-woocommerce-multi-vendor');?> </button></div>
 

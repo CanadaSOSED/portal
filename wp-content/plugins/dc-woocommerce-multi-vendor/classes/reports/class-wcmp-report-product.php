@@ -21,10 +21,10 @@ class WCMp_Report_Product extends WC_Admin_Report {
 		global $wpdb, $woocommerce, $WCMp;
 		
 		$ranges = array(
-			'year'         => __( 'Year', $WCMp->text_domain ),
-			'last_month'   => __( 'Last Month', $WCMp->text_domain ),
-			'month'        => __( 'This Month', $WCMp->text_domain ),
-			'7day'         => __( 'Last 7 Days', $WCMp->text_domain )
+			'year'         => __( 'Year', 'dc-woocommerce-multi-vendor' ),
+			'last_month'   => __( 'Last Month', 'dc-woocommerce-multi-vendor' ),
+			'month'        => __( 'This Month', 'dc-woocommerce-multi-vendor' ),
+			'7day'         => __( 'Last 7 Days', 'dc-woocommerce-multi-vendor' )
 		);
 		
 		$current_range = ! empty( $_GET['range'] ) ? sanitize_text_field( $_GET['range'] ) : '7day';
@@ -182,18 +182,18 @@ class WCMp_Report_Product extends WC_Admin_Report {
 				}
 				
 				$report_html = '
-					<h4>' . __( "Sales and Earnings", $WCMp->text_domain ) . '</h4>
+					<h4>' . __( "Sales and Earnings", 'dc-woocommerce-multi-vendor' ) . '</h4>
 					<div class="bar_indecator">
 						<div class="bar1">&nbsp;</div>
-						<span class="">' . __( "Gross Sales", $WCMp->text_domain ) . '</span>
+						<span class="">' . __( "Gross Sales", 'dc-woocommerce-multi-vendor' ) . '</span>
 						<div class="bar2">&nbsp;</div>
-						<span class="">' . __( "My Earnings", $WCMp->text_domain ) . '</span>
+						<span class="">' . __( "My Earnings", 'dc-woocommerce-multi-vendor' ) . '</span>
 					</div>
 					<table class="bar_chart">
 						<thead>
 							<tr>
-								<th>' . __( "Month", $WCMp->text_domain ) . '</th>
-								<th colspan="2">' . __( "Sales Report", $WCMp->text_domain ) . '</th>
+								<th>' . __( "Month", 'dc-woocommerce-multi-vendor' ) . '</th>
+								<th colspan="2">' . __( "Sales Report", 'dc-woocommerce-multi-vendor' ) . '</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -202,11 +202,11 @@ class WCMp_Report_Product extends WC_Admin_Report {
 					</table>
 				';
 			} else {
-				$report_html = '<tr><td colspan="3">' . __( 'No product was sold in the given period.', $WCMp->text_domain ) . '</td></tr>';
+				$report_html = '<tr><td colspan="3">' . __( 'No product was sold in the given period.', 'dc-woocommerce-multi-vendor' ) . '</td></tr>';
 			}
 				
 		}else {
-			$report_html = '<tr><td colspan="3">' . __( 'Your store has no products.', $WCMp->text_domain ) . '</td></tr>';
+			$report_html = '<tr><td colspan="3">' . __( 'Your store has no products.', 'dc-woocommerce-multi-vendor' ) . '</td></tr>';
 		}
 		
 		include( $WCMp->plugin_path . '/classes/reports/views/html-wcmp-report-by-product.php');

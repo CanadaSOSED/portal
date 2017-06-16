@@ -17,7 +17,7 @@ global $WCMp;
 
 do_action( 'woocommerce_email_header', $email_heading ); ?>
 		
-<p><?php echo apply_filters( 'wcmp_thankyou_transaction_received_text', sprintf(__( 'Hello,<br>We have received a new withdrawal request for $%s from you and your request is being processed.The order details are as follows:', $WCMp->text_domain), get_post_meta($transaction_id, 'amount', true)), $transaction_id ); ?></p>
+<p><?php echo apply_filters( 'wcmp_thankyou_transaction_received_text', sprintf(__( 'Hello,<br>We have received a new withdrawal request for $%s from you and your request is being processed.The order details are as follows:', 'dc-woocommerce-multi-vendor'), get_post_meta($transaction_id, 'amount', true)), $transaction_id ); ?></p>
 
 <table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #eee;"  border="1" bordercolor="#eee">
 	<thead>

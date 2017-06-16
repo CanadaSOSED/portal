@@ -44,10 +44,10 @@ class WCMp_Settings_Payment_Paypal_Masspay {
             "sections" => array(
                 "wcmp_payment_paypal_masspay_settings_section" => array("title" => '', // Section one
                     "fields" => array(
-                        "api_username" => array('title' => __('API Username', $WCMp->text_domain), 'type' => 'text', 'id' => 'api_username', 'label_for' => 'api_username', 'dfvalue' => $this->paypal_api_username, 'name' => 'api_username'),
-                        "api_pass" => array('title' => __('API Password', $WCMp->text_domain), 'type' => 'text', 'id' => 'api_pass', 'label_for' => 'api_pass', 'name' => 'api_pass', 'dfvalue' => $this->paypal_api_password),
-                        "api_signature" => array('title' => __('API Signature', $WCMp->text_domain), 'type' => 'text', 'id' => 'api_signature', 'label_for' => 'api_signature', 'name' => 'api_signature', 'dfvalue' => $this->paypal_api_signature),
-                        "is_testmode" => array('title' => __('Enable Test Mode', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_testmode', 'label_for' => 'is_testmode', 'name' => 'is_testmode', 'value' => 'Enable'), // Checkbox
+                        "api_username" => array('title' => __('API Username', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'api_username', 'label_for' => 'api_username', 'dfvalue' => $this->paypal_api_username, 'name' => 'api_username'),
+                        "api_pass" => array('title' => __('API Password', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'api_pass', 'label_for' => 'api_pass', 'name' => 'api_pass', 'dfvalue' => $this->paypal_api_password),
+                        "api_signature" => array('title' => __('API Signature', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'api_signature', 'label_for' => 'api_signature', 'name' => 'api_signature', 'dfvalue' => $this->paypal_api_signature),
+                        "is_testmode" => array('title' => __('Enable Test Mode', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_testmode', 'label_for' => 'is_testmode', 'name' => 'is_testmode', 'value' => 'Enable'), // Checkbox
                     ),
                 )
             ),
@@ -79,7 +79,7 @@ class WCMp_Settings_Payment_Paypal_Masspay {
         }
         if (!$hasError) {
             add_settings_error(
-                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Paypal Masspay Settings Updated', $WCMp->text_domain), 'updated'
+                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Paypal Masspay Settings Updated', 'dc-woocommerce-multi-vendor'), 'updated'
             );
         }
         return apply_filters("settings_{$this->tab}_{$this->subsection}_tab_new_input", $new_input, $input);
@@ -90,7 +90,7 @@ class WCMp_Settings_Payment_Paypal_Masspay {
      */
     public function wcmp_payment_paypal_masspay_settings_section_info() {
         global $WCMp;
-        //printf(__('Please configure the policies section.', $WCMp->text_domain));
+        //printf(__('Please configure the policies section.', 'dc-woocommerce-multi-vendor'));
     }
 
 }

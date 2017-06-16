@@ -36,31 +36,31 @@ class WCMp_Settings_Vendor_Registration {
                         </h3>
                         <div class="inside">
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('textbox', 'Text Box', $event)" class="button-secondary"><?php echo __('Textbox',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('textbox', 'Text Box', $event)" class="button-secondary"><?php echo __('Textbox','dc-woocommerce-multi-vendor'); ?></a>
                             </p>
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('email', 'Email', $event)" class="button-secondary"><?php echo __('Email',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('email', 'Email', $event)" class="button-secondary"><?php echo __('Email','dc-woocommerce-multi-vendor'); ?></a>
                             </p>
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('url', 'Url', $event)" class="button-secondary"><?php echo __('Url',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('url', 'Url', $event)" class="button-secondary"><?php echo __('Url','dc-woocommerce-multi-vendor'); ?></a>
                             </p>
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('textarea', 'Text Area', $event)" class="button-secondary"><?php echo __('Textarea',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('textarea', 'Text Area', $event)" class="button-secondary"><?php echo __('Textarea','dc-woocommerce-multi-vendor'); ?></a>
                             </p>
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('selectbox', 'Select Box', $event)" class="button-secondary"><?php echo __('List',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('selectbox', 'Select Box', $event)" class="button-secondary"><?php echo __('List','dc-woocommerce-multi-vendor'); ?></a>
                             </p>
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('checkbox', 'Checkbox', $event)" class="button-secondary"><?php echo __('Check Box',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('checkbox', 'Checkbox', $event)" class="button-secondary"><?php echo __('Check Box','dc-woocommerce-multi-vendor'); ?></a>
                             </p>
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('recaptcha', 'Recaptcha', $event)" class="button-secondary"><?php echo __('Recaptcha',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('recaptcha', 'Recaptcha', $event)" class="button-secondary"><?php echo __('Recaptcha','dc-woocommerce-multi-vendor'); ?></a>
                             </p>    
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('file', 'Attachment', $event)" class="button-secondary"><?php echo __('Attachment',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('file', 'Attachment', $event)" class="button-secondary"><?php echo __('Attachment','dc-woocommerce-multi-vendor'); ?></a>
                             </p> 
                             <p class="button-controls">
-                                <a href="#" ng-click="addFormField('separator', 'Section', $event)" class="button-secondary"><?php echo __('Section',$WCMp->text_domain); ?></a>
+                                <a href="#" ng-click="addFormField('separator', 'Section', $event)" class="button-secondary"><?php echo __('Section','dc-woocommerce-multi-vendor'); ?></a>
                             </p>
                         </div>
                     </div>

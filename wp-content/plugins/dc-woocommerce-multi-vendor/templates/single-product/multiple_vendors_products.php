@@ -24,15 +24,15 @@ if (count($results) > 1) {
     <div class="ajax_loader_class_msg"><img src="<?php echo $WCMp->plugin_url ?>assets/images/fpd/ajax-loader.gif" alt="ajax-loader" /></div>
     <div class="container">		
         <div class="row rowhead">
-            <div class="rowsub centerclass"><?php echo __('Vendor', $WCMp->text_domain); ?></div>
-            <div class="rowsub"><?php echo __('Rating', $WCMp->text_domain); ?></div>
-            <div class="rowsub"><?php echo __('Price', $WCMp->text_domain); ?></div>
+            <div class="rowsub centerclass"><?php echo __('Vendor', 'dc-woocommerce-multi-vendor'); ?></div>
+            <div class="rowsub"><?php echo __('Rating', 'dc-woocommerce-multi-vendor'); ?></div>
+            <div class="rowsub"><?php echo __('Price', 'dc-woocommerce-multi-vendor'); ?></div>
             <div class="rowsub">
                 <select name="wcmp_multiple_product_sorting" id="wcmp_multiple_product_sorting" class="wcmp_multiple_product_sorting" attrid="<?php echo $post->ID; ?>" >
-                    <option value="price"><?php echo __('Price Low To High', $WCMp->text_domain); ?></option>
-                    <option value="price_high"><?php echo __('Price High To Low', $WCMp->text_domain); ?></option>
-                    <option value="rating"><?php echo __('Rating High To Low', $WCMp->text_domain); ?></option>
-                    <option value="rating_low"><?php echo __('Rating Low To High', $WCMp->text_domain); ?></option>
+                    <option value="price"><?php echo __('Price Low To High', 'dc-woocommerce-multi-vendor'); ?></option>
+                    <option value="price_high"><?php echo __('Price High To Low', 'dc-woocommerce-multi-vendor'); ?></option>
+                    <option value="rating"><?php echo __('Rating High To Low', 'dc-woocommerce-multi-vendor'); ?></option>
+                    <option value="rating_low"><?php echo __('Rating Low To High', 'dc-woocommerce-multi-vendor'); ?></option>
                 </select>
             </div>
             <div style="clear:both;"></div>
@@ -46,7 +46,7 @@ if (count($results) > 1) {
     ?>
     <div class="container">
         <div class="row">
-    <?php echo __('Sorry no more offers available', $WCMp->text_domain); ?>
+    <?php echo __('Sorry no more offers available', 'dc-woocommerce-multi-vendor'); ?>
         </div>
     </div>	
 <?php }

@@ -14,8 +14,8 @@ global $woocommerce, $WCMp;
 ?>
 <tr>	
     <td align="center" >ID</td>
-    <td align="center" ><?php _e('SKU', $WCMp->text_domain); ?></td>
-    <td class="no_display"  align="center" ><?php _e('Sales', $WCMp->text_domain); ?></td>
-    <td class="no_display" align="center" ><?php _e('Discount', $WCMp->text_domain); ?></td>
-    <td align="center" ><?php _e('My Earnings', $WCMp->text_domain); ?></td>
+    <td align="center" ><?php _e('SKU', 'dc-woocommerce-multi-vendor'); ?></td>
+    <td class="no_display"  align="center" ><?php _e('Sales', 'dc-woocommerce-multi-vendor'); ?></td>
+    <td class="no_display" align="center" ><?php _e('Discount', 'dc-woocommerce-multi-vendor'); ?></td>
+    <td align="center" ><?php _e('My Earnings', 'dc-woocommerce-multi-vendor'); ?></td>
 </tr>

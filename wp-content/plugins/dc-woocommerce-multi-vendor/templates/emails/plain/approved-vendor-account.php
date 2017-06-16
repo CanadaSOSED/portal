@@ -16,13 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $WCMp;
 
 echo "= " . $email_heading . " =\n\n";
-echo sprintf( __("Congratulations! There is a new vendor application on %s.", $WCMp->text_domain ), get_option( 'blogname' ) );
+echo sprintf( __("Congratulations! There is a new vendor application on %s.", 'dc-woocommerce-multi-vendor' ), get_option( 'blogname' ) );
 echo '\n';
-echo sprintf( __( "Application Status: %s", $WCMp->text_domain ), 'Approved' );
+echo sprintf( __( "Application Status: %s", 'dc-woocommerce-multi-vendor' ), 'Approved' );
 echo '\n';
-echo sprintf( __( "Applicant Username: %s", $WCMp->text_domain ), $user_login ); 
+echo sprintf( __( "Applicant Username: %s", 'dc-woocommerce-multi-vendor' ), $user_login ); 
 echo '\n';
-echo _e('You have been cleared for landing! Congratulations and welcome aboard!', $WCMp->text_domain);
+echo _e('You have been cleared for landing! Congratulations and welcome aboard!', 'dc-woocommerce-multi-vendor');
 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 do_action( 'woocommerce_email_footer' ); 

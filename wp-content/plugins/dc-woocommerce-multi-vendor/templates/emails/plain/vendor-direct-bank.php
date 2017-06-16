@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 global $WCMp;
 echo $email_heading . "\n\n"; 
 		
-echo apply_filters( 'wcmp_thankyou_transaction_received_text', sprintf(__( 'Hello,<br>We have received a new withdrawal request for $%s from you and your request is being processed.The order details are as follows:', $WCMp->text_domain), get_post_meta($transaction_id, 'amount', true)), $transaction_id );
+echo apply_filters( 'wcmp_thankyou_transaction_received_text', sprintf(__( 'Hello,<br>We have received a new withdrawal request for $%s from you and your request is being processed.The order details are as follows:', 'dc-woocommerce-multi-vendor'), get_post_meta($transaction_id, 'amount', true)), $transaction_id );
 
 echo "****************************************************\n\n";
 

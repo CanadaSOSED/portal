@@ -92,7 +92,7 @@ class WCMp_Seller_Review_Rating {
                 $screens = array('comment');
                 foreach ($screens as $screen) {
                     add_meta_box(
-                            'wcmp_vendor_rating', __('Vendor Rating', $WCMp->text_domain), array($this, 'wcmp_comment_vendor_rating_callback'), $screen, 'normal', 'high'
+                            'wcmp_vendor_rating', __('Vendor Rating', 'dc-woocommerce-multi-vendor'), array($this, 'wcmp_comment_vendor_rating_callback'), $screen, 'normal', 'high'
                     );
                 }
             }
@@ -110,9 +110,9 @@ class WCMp_Seller_Review_Rating {
                 <tr class="vendor_rating_author_wrapper">
                     <th class="vendor_rating_author_label_holder">
                         <p class="vendor_rating_author">
-                            <strong><?php echo __('Vendor Name.', $WCMp->text_domain); ?></strong>
+                            <strong><?php echo __('Vendor Name.', 'dc-woocommerce-multi-vendor'); ?></strong>
                         </p>
-                        <label for="vendor_rating_author" class="screen-reader-text"><?php echo __('Vendor Name.', $WCMp->text_domain); ?></label>
+                        <label for="vendor_rating_author" class="screen-reader-text"><?php echo __('Vendor Name.', 'dc-woocommerce-multi-vendor'); ?></label>
                     </th>
                     <td>
         <?php echo $user->display_name; ?>
@@ -136,10 +136,10 @@ class WCMp_Seller_Review_Rating {
                 $vendor_rating = get_comment_meta($comment->comment_ID, 'vendor_rating', true);
                 $fields = apply_filters('wcmp_vendor_rating_field_filter', array(
                     "vendor_rating" => array(
-                        'label' => __('Vendor Rating.', $WCMp->text_domain),
+                        'label' => __('Vendor Rating.', 'dc-woocommerce-multi-vendor'),
                         'type' => 'select',
-                        'desc' => __('Vendor Rating Star.', $WCMp->text_domain),
-                        'options' => array('' => __('Please Select', $WCMp->text_domain), '1' => __('1 Star', $WCMp->text_domain), '2' => __('2 Star', $WCMp->text_domain), '3' => __('3 Star', $WCMp->text_domain), '4' => __('4 Star', $WCMp->text_domain), '5' => __('5 Star', $WCMp->text_domain)),
+                        'desc' => __('Vendor Rating Star.', 'dc-woocommerce-multi-vendor'),
+                        'options' => array('' => __('Please Select', 'dc-woocommerce-multi-vendor'), '1' => __('1 Star', 'dc-woocommerce-multi-vendor'), '2' => __('2 Star', 'dc-woocommerce-multi-vendor'), '3' => __('3 Star', 'dc-woocommerce-multi-vendor'), '4' => __('4 Star', 'dc-woocommerce-multi-vendor'), '5' => __('5 Star', 'dc-woocommerce-multi-vendor')),
                         'value' => $vendor_rating ? $vendor_rating : '',
                         'class' => 'user-profile-fields'
                     )

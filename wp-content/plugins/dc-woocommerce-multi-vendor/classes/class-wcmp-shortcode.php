@@ -16,10 +16,9 @@ class WCMp_Shortcode {
 
     public function __construct() {
         //new vendor dashboard
-        add_shortcode('wcmp_vendor', array(&$this,'wcmp_vendor_shortcode'));
+        add_shortcode('wcmp_vendor', array(&$this, 'wcmp_vendor_shortcode'));
         // Vendor Order Detail
         //add_shortcode('vendor_order_detail', array(&$this, 'vendor_order_detail_shortcode'));
-
         // Vendor Coupons
         add_shortcode('vendor_coupons', array(&$this, 'vendor_coupons_shortcode'));
 
@@ -45,8 +44,8 @@ class WCMp_Shortcode {
         //Vendor Registration
         add_shortcode('vendor_registration', array(&$this, 'vendor_registration_shortcode'));
     }
-    
-    function wcmp_vendor_shortcode($attr){
+
+    function wcmp_vendor_shortcode($attr) {
         $this->load_class('vendor-dashboard');
         return $this->shortcode_wrapper(array('WCMp_Vendor_Dashboard_Shortcode', 'output'));
     }
@@ -212,11 +211,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 
@@ -315,11 +314,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 
@@ -345,7 +344,7 @@ class WCMp_Shortcode {
         extract(shortcode_atts(array(
             'id' => '',
             'vendor' => '',
-            'count' => get_option( 'posts_per_page' ),
+            'count' => get_option('posts_per_page'),
             'columns' => '4',
             'orderby' => 'date',
             'order' => 'DESC'
@@ -418,11 +417,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 
@@ -495,11 +494,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 
@@ -571,11 +570,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 
@@ -649,11 +648,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 
@@ -724,11 +723,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 
@@ -816,11 +815,11 @@ class WCMp_Shortcode {
 
                 <?php wc_get_template_part('content', 'product'); ?>
 
-            <?php endwhile; // end of the loop. ?>
+            <?php endwhile; // end of the loop.  ?>
 
             <?php woocommerce_product_loop_end(); ?>
 
-        <?php
+            <?php
 
         endif;
 

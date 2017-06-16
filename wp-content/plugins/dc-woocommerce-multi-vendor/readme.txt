@@ -4,7 +4,7 @@ Tags: multi vendor marketplace, woocommerce multivendor marketplace, multi selle
 Donate link: https://wc-marketplace.com/donate
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,14 @@ Ans. This plugin is tested with PHP version 5.5.
 
 
 == Changelog ==
+
+= 2.7.2 =
+* Added: Support for WCMp advanced shipping plugin.
+* Added: Support for Loco Translate plugin.
+* Added: POT file in language folder
+* Updated: Plugin text domain from wcmp to dc-woocommerce-multi-vendor
+* Fixed: Paypal payout response.
+* Updated: Language files.
 
 = 2.7.1 =
 * Fixed: Vendor dashboard product tab issue
@@ -244,5 +252,5 @@ Ans. This plugin is tested with PHP version 5.5.
 
 == Upgrade Notice ==
 
-= 2.7.1 =
+= 2.7.2 =
 2.7 is compatible with WooCommerce 3.0 or later. It is important to test in staging before update.

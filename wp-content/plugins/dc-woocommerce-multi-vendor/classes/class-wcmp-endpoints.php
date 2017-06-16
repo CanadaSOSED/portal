@@ -31,43 +31,43 @@ class WCMp_Endpoints {
         // Query vars to add to WP.
         $this->wcmp_query_vars = apply_filters('wcmp_endpoints_query_vars', array(
             'vendor-announcements' => array(
-                'label' => __('Vendor Announcements', $WCMp->text_domain),
+                'label' => __('Vendor Announcements', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_announcements_endpoint', 'vendor', 'general', 'vendor-announcements')
             )
             , 'shop-front' => array(
-                'label' => __('Shop Front', $WCMp->text_domain),
+                'label' => __('Shop Front', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_store_settings_endpoint', 'vendor', 'general', 'shop-front')
             )
             , 'vendor-billing' => array(
-                'label' => __('Vendor Billing', $WCMp->text_domain),
+                'label' => __('Vendor Billing', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_billing_endpoint', 'vendor', 'general', 'vendor-billing')
             )
             , 'vendor-policies' => array(
-                'label' => __('Vendor Policies', $WCMp->text_domain),
+                'label' => __('Vendor Policies', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_policies_endpoint', 'vendor', 'general', 'vendor-policies')
             )
             , 'vendor-shipping' => array(
-                'label' => __('Vendor Shipping', $WCMp->text_domain),
+                'label' => __('Vendor Shipping', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_shipping_endpoint', 'vendor', 'general', 'vendor-shipping')
             )
             , 'vendor-report' => array(
-                'label' => __('Vendor Report', $WCMp->text_domain),
+                'label' => __('Vendor Report', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_report_endpoint', 'vendor', 'general', 'vendor-report')
             )
             , 'vendor-orders' => array(
-                'label' => __('Vendor Orders', $WCMp->text_domain),
+                'label' => __('Vendor Orders', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_orders_endpoint', 'vendor', 'general', 'vendor-orders')
             )
             , 'vendor-withdrawal' => array(
-                'label' => __('Vendor Withdrawals', $WCMp->text_domain),
+                'label' => __('Vendor Withdrawals', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_withdrawal_endpoint', 'vendor', 'general', 'vendor-withdrawal')
             )
             , 'transaction-details' => array(
-                'label' => __('Transaction Details', $WCMp->text_domain),
+                'label' => __('Transaction Details', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_transaction_details_endpoint', 'vendor', 'general', 'transaction-details')
             )
             , 'vendor-knowledgebase' => array(
-                'label' => __('Vendor Knowledgebase', $WCMp->text_domain),
+                'label' => __('Vendor Knowledgebase', 'dc-woocommerce-multi-vendor'),
                 'endpoint' => get_wcmp_vendor_settings('wcmp_vendor_knowledgebase_endpoint', 'vendor', 'general', 'vendor-knowledgebase')
             )
         ));

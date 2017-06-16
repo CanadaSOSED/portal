@@ -61,10 +61,10 @@ class WCMp_Paypal_Payout {
         $batch_status = $result_array['batch_header']['batch_status'];
         $transaction_status = $result_array['items'][0]['transaction_status'];
         if( $batch_status == 'SUCCESS' && $transaction_status == 'SUCCESS' ) {
-            doProductVendorLOG(json_encode($resArray));
-            return $resArray;
+            doProductVendorLOG(json_encode($result_array));
+            return $result_array;
         } else {
-            doProductVendorLOG(json_encode($resArray));
+            doProductVendorLOG(json_encode($result_array));
             return false;
         }
     }

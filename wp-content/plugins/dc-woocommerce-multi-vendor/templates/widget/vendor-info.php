@@ -25,7 +25,7 @@ global $WCMp;
 ?>
 <p><?php echo $description; ?> </p>
 <p>
-	<a href="<?php echo esc_attr( $vendor->permalink ); ?>" title="'<?php echo sprintf( __( 'More Products from %1$s', $WCMp->text_domain ), $vendor->user_data->display_name ); ?> '">
-		<?php echo sprintf( __( 'More Products from %1$s', $WCMp->text_domain ), $vendor->user_data->display_name );?>
+	<a href="<?php echo esc_attr( $vendor->permalink ); ?>" title="'<?php echo sprintf( __( 'More Products from %1$s', 'dc-woocommerce-multi-vendor' ), $vendor->user_data->display_name ); ?> '">
+		<?php echo sprintf( __( 'More Products from %1$s', 'dc-woocommerce-multi-vendor' ), $vendor->user_data->display_name );?>
 	</a>
 </p>

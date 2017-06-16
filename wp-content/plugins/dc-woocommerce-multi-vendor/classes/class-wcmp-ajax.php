@@ -175,7 +175,7 @@ class WCMp_Ajax {
             }
             echo "</ul>";
         } else {
-            echo "<div>" . __('No Suggestion found', $WCMp->text_domain) . "</div>";
+            echo "<div>" . __('No Suggestion found', 'dc-woocommerce-multi-vendor') . "</div>";
         }
         die;
     }
@@ -236,24 +236,24 @@ class WCMp_Ajax {
             if (is_array($msgs_array) && !empty($msgs_array) && count($msgs_array) > 0) {
                 $msg = $msgs_array[0];
                 ?>
-                <h2><?php echo __('Admin Message:', $WCMp->text_domain); ?> </h2>
+                <h2><?php echo __('Admin Message:', 'dc-woocommerce-multi-vendor'); ?> </h2>
                 <span> <?php echo $msg->post_title; ?> </span><br/>
                 <span class="mormaltext" style="font-weight:normal;"> <?php echo $short_content = substr(stripslashes(strip_tags($msg->post_content)), 0, 155);
                 if (strlen(stripslashes(strip_tags($msg->post_content))) > 155) {
                     echo '...';
                 } ?> </span><br/>
-                <a href="<?php echo get_permalink(get_option('wcmp_product_vendor_messages_page_id')); ?>"><button><?php echo __('DETAILS', $WCMp->text_domain); ?></button></a>
+                <a href="<?php echo get_permalink(get_option('wcmp_product_vendor_messages_page_id')); ?>"><button><?php echo __('DETAILS', 'dc-woocommerce-multi-vendor'); ?></button></a>
                 <div class="clear"></div>
                 <a href="#" id="cross-admin" data-element = "<?php echo $msg->ID; ?>"  class="wcmp_cross wcmp_delate_message_dashboard"><i class="fa fa-times-circle"></i></a>
                     <?php
                 } else {
                     ?>
-                <h2><?php echo __('No Messages Found:', $WCMp->text_domain); ?> </h2>
+                <h2><?php echo __('No Messages Found:', 'dc-woocommerce-multi-vendor'); ?> </h2>
                 <?php
             }
         } else {
             ?>
-            <h2><?php echo __('Error in process:', $WCMp->text_domain); ?> </h2>
+            <h2><?php echo __('Error in process:', 'dc-woocommerce-multi-vendor'); ?> </h2>
             <?php
         }
         die;
@@ -298,7 +298,7 @@ class WCMp_Ajax {
                 $data_str = implode(',', $data_arr);
             }
             if (update_user_meta($current_user_id, '_wcmp_vendor_message_readed', $data_str)) {
-                echo __('Mark Unread', $WCMp->text_domain);
+                echo __('Mark Unread', 'dc-woocommerce-multi-vendor');
             } else {
                 echo 0;
             }
@@ -314,7 +314,7 @@ class WCMp_Ajax {
                 $data_str = implode(',', $data_arr);
             }
             if (update_user_meta($current_user_id, '_wcmp_vendor_message_readed', $data_str)) {
-                echo __('Mark Read', $WCMp->text_domain);
+                echo __('Mark Read', 'dc-woocommerce-multi-vendor');
             } else {
                 echo 0;
             }
@@ -330,7 +330,7 @@ class WCMp_Ajax {
                 $data_str = implode(',', $data_arr);
             }
             if (update_user_meta($current_user_id, '_wcmp_vendor_message_deleted', $data_str)) {
-                echo __('Mark Restore', $WCMp->text_domain);
+                echo __('Mark Restore', 'dc-woocommerce-multi-vendor');
             } else {
                 echo 0;
             }
@@ -353,7 +353,7 @@ class WCMp_Ajax {
                 $WCMp->template->get_template('vendor-dashboard/dashboard/vendor-dashboard-sales-item.php', array('vendor' => $vendor, 'today_or_weekly' => $today_or_weekly, 'start' => $start, 'to' => $perpagedata));
             }
         } else {
-            echo "<tr><td colspan='5'>" . __('no more data found', $WCMp->text_domain) . "</td></tr>";
+            echo "<tr><td colspan='5'>" . __('no more data found', 'dc-woocommerce-multi-vendor') . "</td></tr>";
         }
         die;
     }
@@ -373,7 +373,7 @@ class WCMp_Ajax {
                 $WCMp->template->get_template('vendor-dashboard/dashboard/vendor-dasboard-pending-shipping-items.php', array('vendor' => $vendor, 'today_or_weekly' => $today_or_weekly, 'start' => $start, 'to' => $perpagedata));
             }
         } else {
-            echo "<tr><td colspan='5'>" . __('no more data found', $WCMp->text_domain) . "</td></tr>";
+            echo "<tr><td colspan='5'>" . __('no more data found', 'dc-woocommerce-multi-vendor') . "</td></tr>";
         }
         die;
     }
@@ -560,18 +560,18 @@ class WCMp_Ajax {
             }
 
             $report_html = '
-				<h4>' . __("Sales and Earnings", $WCMp->text_domain) . '</h4>
+				<h4>' . __("Sales and Earnings", 'dc-woocommerce-multi-vendor') . '</h4>
 				<div class="bar_indecator">
 					<div class="bar1">&nbsp;</div>
-					<span class="">' . __("Gross Sales", $WCMp->text_domain) . '</span>
+					<span class="">' . __("Gross Sales", 'dc-woocommerce-multi-vendor') . '</span>
 					<div class="bar2">&nbsp;</div>
-					<span class="">' . __("My Earnings", $WCMp->text_domain) . '</span>
+					<span class="">' . __("My Earnings", 'dc-woocommerce-multi-vendor') . '</span>
 				</div>
 				<table class="bar_chart">
 					<thead>
 						<tr>
-							<th>' . __("Month", $WCMp->text_domain) . '</th>
-							<th colspan="2">' . __("Sales Report", $WCMp->text_domain) . '</th>
+							<th>' . __("Month", 'dc-woocommerce-multi-vendor') . '</th>
+							<th colspan="2">' . __("Sales Report", 'dc-woocommerce-multi-vendor') . '</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -580,7 +580,7 @@ class WCMp_Ajax {
 				</table>
 			';
         } else {
-            $report_html = '<tr><td colspan="3">' . __('No product was sold in the given period.', $WCMp->text_domain) . '</td></tr>';
+            $report_html = '<tr><td colspan="3">' . __('No product was sold in the given period.', 'dc-woocommerce-multi-vendor') . '</td></tr>';
         }
 
         echo $report_html;
@@ -658,18 +658,18 @@ class WCMp_Ajax {
                 }
 
                 $report_html = '
-					<h4>' . __("Sales and Earnings", $WCMp->text_domain) . '</h4>
+					<h4>' . __("Sales and Earnings", 'dc-woocommerce-multi-vendor') . '</h4>
 					<div class="bar_indecator">
 						<div class="bar1">&nbsp;</div>
-						<span class="">' . __("Gross Sales", $WCMp->text_domain) . '</span>
+						<span class="">' . __("Gross Sales", 'dc-woocommerce-multi-vendor') . '</span>
 						<div class="bar2">&nbsp;</div>
-						<span class="">' . __("My Earnings", $WCMp->text_domain) . '</span>
+						<span class="">' . __("My Earnings", 'dc-woocommerce-multi-vendor') . '</span>
 					</div>
 					<table class="bar_chart">
 						<thead>
 							<tr>
-								<th>' . __("Month", $WCMp->text_domain) . '</th>
-								<th colspan="2">' . __("Sales Report", $WCMp->text_domain) . '</th>
+								<th>' . __("Month", 'dc-woocommerce-multi-vendor') . '</th>
+								<th colspan="2">' . __("Sales Report", 'dc-woocommerce-multi-vendor') . '</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -678,12 +678,12 @@ class WCMp_Ajax {
 					</table>
 				';
             } else {
-                $report_html = '<tr><td colspan="3">' . __('This product was not sold in the given period.', $WCMp->text_domain) . '</td></tr>';
+                $report_html = '<tr><td colspan="3">' . __('This product was not sold in the given period.', 'dc-woocommerce-multi-vendor') . '</td></tr>';
             }
 
             echo $report_html;
         } else {
-            echo '<tr><td colspan="3">' . __('Please select a product.', $WCMp->text_domain) . '</td></tr>';
+            echo '<tr><td colspan="3">' . __('Please select a product.', 'dc-woocommerce-multi-vendor') . '</td></tr>';
         }
 
         die;
@@ -714,16 +714,16 @@ class WCMp_Ajax {
         }
 
         if ($vendor_id && empty($products)) {
-            $no_vendor = '<h4>' . __("Sales and Earnings", $WCMp->text_domain) . '</h4>
+            $no_vendor = '<h4>' . __("Sales and Earnings", 'dc-woocommerce-multi-vendor') . '</h4>
 			<table class="bar_chart">
 				<thead>
 					<tr>
-						<th>' . __("Month", $WCMp->text_domain) . '</th>
-						<th colspan="2">' . __("Sales", $WCMp->text_domain) . '</th>
+						<th>' . __("Month", 'dc-woocommerce-multi-vendor') . '</th>
+						<th colspan="2">' . __("Sales", 'dc-woocommerce-multi-vendor') . '</th>
 					</tr>
 				</thead>
 				<tbody> 
-					<tr><td colspan="3">' . __("No Sales :(", $WCMp->text_domain) . '</td></tr>
+					<tr><td colspan="3">' . __("No Sales :(", 'dc-woocommerce-multi-vendor') . '</td></tr>
 				</tbody>
 			</table>';
 
@@ -812,15 +812,15 @@ class WCMp_Ajax {
 					<h4>' . $vendor_title . '</h4>
 					<div class="bar_indecator">
 						<div class="bar1">&nbsp;</div>
-						<span class="">' . __("Gross Sales", $WCMp->text_domain) . '</span>
+						<span class="">' . __("Gross Sales", 'dc-woocommerce-multi-vendor') . '</span>
 						<div class="bar2">&nbsp;</div>
-						<span class="">' . __("My Earnings", $WCMp->text_domain) . '</span>
+						<span class="">' . __("My Earnings", 'dc-woocommerce-multi-vendor') . '</span>
 					</div>
 					<table class="bar_chart">
 						<thead>
 							<tr>
-								<th>' . __("Month", $WCMp->text_domain) . '</th>
-								<th colspan="2">' . __("Vendor Earnings", $WCMp->text_domain) . '</th>
+								<th>' . __("Month", 'dc-woocommerce-multi-vendor') . '</th>
+								<th colspan="2">' . __("Vendor Earnings", 'dc-woocommerce-multi-vendor') . '</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -829,7 +829,7 @@ class WCMp_Ajax {
 					</table>
 				';
             } else {
-                $report_html = '<tr><td colspan="3">' . __('This vendor did not generate any sales in the given period.', $WCMp->text_domain) . '</td></tr>';
+                $report_html = '<tr><td colspan="3">' . __('This vendor did not generate any sales in the given period.', 'dc-woocommerce-multi-vendor') . '</td></tr>';
             }
         }
 
@@ -906,18 +906,18 @@ class WCMp_Ajax {
             }
 
             $html_chart = '
-				<h4>' . __("Sales and Earnings", $WCMp->text_domain) . '</h4>
+				<h4>' . __("Sales and Earnings", 'dc-woocommerce-multi-vendor') . '</h4>
 				<div class="bar_indecator">
 					<div class="bar1">&nbsp;</div>
-					<span class="">' . __("Gross Sales", $WCMp->text_domain) . '</span>
+					<span class="">' . __("Gross Sales", 'dc-woocommerce-multi-vendor') . '</span>
 					<div class="bar2">&nbsp;</div>
-					<span class="">' . __("My Earnings", $WCMp->text_domain) . '</span>
+					<span class="">' . __("My Earnings", 'dc-woocommerce-multi-vendor') . '</span>
 				</div>
 				<table class="bar_chart">
 					<thead>
 						<tr>
-							<th>' . __("Vendors", $WCMp->text_domain) . '</th>
-							<th colspan="2">' . __("Sales Report", $WCMp->text_domain) . '</th>
+							<th>' . __("Vendors", 'dc-woocommerce-multi-vendor') . '</th>
+							<th colspan="2">' . __("Sales Report", 'dc-woocommerce-multi-vendor') . '</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -926,7 +926,7 @@ class WCMp_Ajax {
 				</table>
 			';
         } else {
-            $html_chart = '<tr><td colspan="3">' . __('Any vendor did not generate any sales in the given period.', $WCMp->text_domain) . '</td></tr>';
+            $html_chart = '<tr><td colspan="3">' . __('Any vendor did not generate any sales in the given period.', 'dc-woocommerce-multi-vendor') . '</td></tr>';
         }
 
         echo $html_chart;
@@ -1139,21 +1139,21 @@ class WCMp_Ajax {
             $product = get_post(absint($product_id));
             $vendor = get_wcmp_product_vendors($product_id);
 
-            $subject = __('Report an abuse for product', $WCMp->text_domain) . get_the_title($product_id);
+            $subject = __('Report an abuse for product', 'dc-woocommerce-multi-vendor') . get_the_title($product_id);
 
             $to = sanitize_email(get_option('admin_email'));
             $from_email = sanitize_email($from_email);
             $headers = "From: {$name} <{$from_email}>" . "\r\n";
 
-            $message = sprintf(__("User %s (%s) is reporting an abuse on the following product: \n", $WCMp->text_domain), $name, $from_email);
-            $message .= sprintf(__("Product details: %s (ID: #%s) \n", $WCMp->text_domain), $product->post_title, $product->ID);
+            $message = sprintf(__("User %s (%s) is reporting an abuse on the following product: \n", 'dc-woocommerce-multi-vendor'), $name, $from_email);
+            $message .= sprintf(__("Product details: %s (ID: #%s) \n", 'dc-woocommerce-multi-vendor'), $product->post_title, $product->ID);
 
-            $message .= sprintf(__("Vendor shop: %s \n", $WCMp->text_domain), $vendor->user_data->display_name);
+            $message .= sprintf(__("Vendor shop: %s \n", 'dc-woocommerce-multi-vendor'), $vendor->user_data->display_name);
 
-            $message .= sprintf(__("Message: %s\n", $WCMp->text_domain), $user_message);
+            $message .= sprintf(__("Message: %s\n", 'dc-woocommerce-multi-vendor'), $user_message);
             $message .= "\n\n\n";
 
-            $message .= sprintf(__("Product page:: %s\n", $WCMp->text_domain), get_the_permalink($product->ID));
+            $message .= sprintf(__("Product page:: %s\n", 'dc-woocommerce-multi-vendor'), get_the_permalink($product->ID));
 
             /* === Send Mail === */
             $response = wp_mail($to, $subject, $message, $headers);

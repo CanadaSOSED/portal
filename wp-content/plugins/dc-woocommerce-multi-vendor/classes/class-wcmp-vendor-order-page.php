@@ -73,12 +73,12 @@ class WCMp_Vendor_Order_Page extends WP_List_Table {
         global $WCMp;
         $columns = array(
             'cb' => '<input type="checkbox" />',
-            'order_id' => __('Order ID', $WCMp->text_domain),
-            'customer' => __('Customer', $WCMp->text_domain),
-            'products' => __('Products', $WCMp->text_domain),
-            'total' => __('Total', $WCMp->text_domain),
-            'date' => __('Date', $WCMp->text_domain),
-            'status' => __('Shipped', $WCMp->text_domain),
+            'order_id' => __('Order ID', 'dc-woocommerce-multi-vendor'),
+            'customer' => __('Customer', 'dc-woocommerce-multi-vendor'),
+            'products' => __('Products', 'dc-woocommerce-multi-vendor'),
+            'total' => __('Total', 'dc-woocommerce-multi-vendor'),
+            'date' => __('Date', 'dc-woocommerce-multi-vendor'),
+            'status' => __('Shipped', 'dc-woocommerce-multi-vendor'),
         );
 
         return $columns;
@@ -107,7 +107,7 @@ class WCMp_Vendor_Order_Page extends WP_List_Table {
     function get_bulk_actions() {
         global $WCMp;
         $actions = array(
-            'mark_shipped' => __('Mark as Shipped', $WCMp->text_domain),
+            'mark_shipped' => __('Mark as Shipped', 'dc-woocommerce-multi-vendor'),
         );
 
         return $actions;
@@ -132,7 +132,7 @@ class WCMp_Vendor_Order_Page extends WP_List_Table {
                 $result = $this->mark_shipped($items);
 
                 if ($result)
-                    echo '<div class="updated"><p>' . __('Orders Marked as shipped.', $WCMp->text_domain) . '</p></div>';
+                    echo '<div class="updated"><p>' . __('Orders Marked as shipped.', 'dc-woocommerce-multi-vendor') . '</p></div>';
                 break;
 
             default:
@@ -223,39 +223,39 @@ class WCMp_Vendor_Order_Page extends WP_List_Table {
 
                         // Person type information.
                         if (( 1 == $order->billing_persontype && 1 == $settings['person_type'] ) || 2 == $settings['person_type']) {
-                            $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('CPF', $WCMp->text_domain) . ': </strong>' . esc_html($order->billing_cpf) . '<br />';
+                            $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('CPF', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->billing_cpf) . '<br />';
 
                             if (isset($settings['rg'])) {
-                                $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('RG', $WCMp->text_domain) . ': </strong>' . esc_html($order->billing_rg) . '<br />';
+                                $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('RG', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->billing_rg) . '<br />';
                             }
                         }
 
                         if (( 2 == $order->billing_persontype && 1 == $settings['person_type'] ) || 3 == $settings['person_type']) {
-                            $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Company Name', $WCMp->text_domain) . ': </strong>' . esc_html($order->get_billing_company()) . '<br />';
-                            $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('CNPJ', $WCMp->text_domain) . ': </strong>' . esc_html($order->billing_cnpj) . '<br />';
+                            $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Company Name', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->get_billing_company()) . '<br />';
+                            $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('CNPJ', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->billing_cnpj) . '<br />';
 
                             if (isset($settings['ie'])) {
-                                $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('State Registration', $WCMp->text_domain) . ': </strong>' . esc_html($order->billing_ie) . '<br />';
+                                $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('State Registration', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->billing_ie) . '<br />';
                             }
                         }
                     } else {
-                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Company', $WCMp->text_domain) . ': </strong>' . esc_html($order->get_billing_company()) . '<br />';
+                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Company', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->get_billing_company()) . '<br />';
                     }
 
                     if (isset($settings['birthdate_sex'])) {
 
                         // Birthdate information.
-                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Birthdate', $WCMp->text_domain) . ': </strong>' . esc_html($order->billing_birthdate) . '<br />';
+                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Birthdate', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->billing_birthdate) . '<br />';
 
                         // Sex Information.
-                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Sex', $WCMp->text_domain) . ': </strong>' . esc_html($order->billing_sex) . '<br />';
+                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Sex', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->billing_sex) . '<br />';
                     }
 
-                    $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Phone', $WCMp->text_domain) . ': </strong>' . esc_html($order->get_billing_phone()) . '<br />';
+                    $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Phone', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->get_billing_phone()) . '<br />';
 
                     // Cell Phone Information.
                     if (!empty($order->billing_cellphone)) {
-                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Cell Phone', $WCMp->text_domain) . ': </strong>' . esc_html($order->billing_cellphone) . '<br />';
+                        $extra_checkout_fields_for_brazil_active_datas .= '<strong>' . __('Cell Phone', 'dc-woocommerce-multi-vendor') . ': </strong>' . esc_html($order->billing_cellphone) . '<br />';
                     }
                 }
 

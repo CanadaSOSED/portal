@@ -23,10 +23,10 @@ class WCMp_Report_Vendor extends WC_Admin_Report {
 		$vendor = $vendor_id = $order_items = false;
 		
 		$ranges = array(
-			'year'         => __( 'Year', $WCMp->text_domain ),
-			'last_month'   => __( 'Last Month', $WCMp->text_domain ),
-			'month'        => __( 'This Month', $WCMp->text_domain ),
-			'7day'         => __( 'Last 7 Days', $WCMp->text_domain )
+			'year'         => __( 'Year', 'dc-woocommerce-multi-vendor' ),
+			'last_month'   => __( 'Last Month', 'dc-woocommerce-multi-vendor' ),
+			'month'        => __( 'This Month', 'dc-woocommerce-multi-vendor' ),
+			'7day'         => __( 'Last 7 Days', 'dc-woocommerce-multi-vendor' )
 		);
 		
 		$current_range = ! empty( $_GET['range'] ) ? sanitize_text_field( $_GET['range'] ) : '7day';
@@ -183,18 +183,18 @@ class WCMp_Report_Vendor extends WC_Admin_Report {
 				}
 				
 				$html_chart = '
-					<h4>' . __( "Sales and Earnings", $WCMp->text_domain ) . '</h4>
+					<h4>' . __( "Sales and Earnings", 'dc-woocommerce-multi-vendor' ) . '</h4>
 					<div class="bar_indecator">
 						<div class="bar1">&nbsp;</div>
-						<span class="">' . __( 'Gross Sales', $WCMp->text_domain ) . '</span>
+						<span class="">' . __( 'Gross Sales', 'dc-woocommerce-multi-vendor' ) . '</span>
 						<div class="bar2">&nbsp;</div>
-						<span class="">' . __( 'My Earnings', $WCMp->text_domain ) . '</span>
+						<span class="">' . __( 'My Earnings', 'dc-woocommerce-multi-vendor' ) . '</span>
 					</div>
 					<table class="bar_chart">
 						<thead>
 							<tr>
-								<th>' . __( "Vendors", $WCMp->text_domain ) . '</th>
-								<th colspan="2">' . __( "Sales Report", $WCMp->text_domain ) . '</th>
+								<th>' . __( "Vendors", 'dc-woocommerce-multi-vendor' ) . '</th>
+								<th colspan="2">' . __( "Sales Report", 'dc-woocommerce-multi-vendor' ) . '</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -203,10 +203,10 @@ class WCMp_Report_Vendor extends WC_Admin_Report {
 					</table>
 				';
 			} else {
-				$html_chart = '<tr><td colspan="3">' . __( 'Any vendor did not generate any sales in the given period.', $WCMp->text_domain ) . '</td></tr>';
+				$html_chart = '<tr><td colspan="3">' . __( 'Any vendor did not generate any sales in the given period.', 'dc-woocommerce-multi-vendor' ) . '</td></tr>';
 			}
 		} else {
-			$html_chart = '<tr><td colspan="3">' . __( 'Your store has no vendors.', $WCMp->text_domain ) . '</td></tr>';
+			$html_chart = '<tr><td colspan="3">' . __( 'Your store has no vendors.', 'dc-woocommerce-multi-vendor' ) . '</td></tr>';
 		}
 		
 		include( $WCMp->plugin_path . '/classes/reports/views/html-wcmp-report-by-vendor.php');

@@ -21,7 +21,7 @@ if (is_user_wcmp_vendor($user->ID)) :
                 !isset($user_meta_data['_vendor_state']) || !isset($user_meta_data['_vendor_country']) || !isset($user_meta_data['_vendor_phone']) || !isset($user_meta_data['_vendor_postcode'])) {
             ?>
             <div class="vendor_non_configuration_msg">
-                <?php _e('<h4>You have not configured your store properly missing some required fields!</h4>', $WCMp->text_domain); ?>
+                <?php _e('<h4>You have not configured your store properly missing some required fields!</h4>', 'dc-woocommerce-multi-vendor'); ?>
             </div>
 
             <?php
@@ -51,7 +51,7 @@ if (is_user_wcmp_vendor($user->ID)) :
         ?>
         <div class="ajax_loader_class_msg"><img src="<?php echo $WCMp->plugin_url ?>assets/images/fpd/ajax-loader.gif" alt="ajax-loader" /></div>
         <div class="wcmp_admin_massege" id="admin-massege">
-            <h2><?php echo __('Admin Message:', $WCMp->text_domain); ?> </h2>
+            <h2><?php echo __('Admin Message:', 'dc-woocommerce-multi-vendor'); ?> </h2>
             <span> <?php echo $msg->post_title; ?> </span><br/>
             <span class="mormaltext" style="font-weight:normal;"> <?php
                 echo $short_content = substr(stripslashes(strip_tags($msg->post_content)), 0, 155);
@@ -59,15 +59,15 @@ if (is_user_wcmp_vendor($user->ID)) :
                     echo '...';
                 }
                 ?> </span><br/>
-            <a href="<?php echo wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_announcements_endpoint', 'vendor', 'general', 'vendor-announcements')) ?>"><button><?php echo __('DETAILS', $WCMp->text_domain); ?></button></a>
+            <a href="<?php echo wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_announcements_endpoint', 'vendor', 'general', 'vendor-announcements')) ?>"><button><?php echo __('DETAILS', 'dc-woocommerce-multi-vendor'); ?></button></a>
             <div class="clear"></div>
             <a href="#" id="cross-admin" data-element = "<?php echo $msg->ID; ?>"  class="wcmp_cross wcmp_delate_announcements_dashboard"><i class="fa fa-times-circle"></i></a> 
         </div>		
     <?php } ?>
     <div class="wcmp_tab">
         <ul>
-            <li><a href="#today" id="today_click" class="active"><?php echo __('Today', $WCMp->text_domain); ?></a></li>
-            <li><a href="#theweek" id="theweek_click" ><?php echo __(' This Week', $WCMp->text_domain); ?></a></li>
+            <li><a href="#today" id="today_click" class="active"><?php echo __('Today', 'dc-woocommerce-multi-vendor'); ?></a></li>
+            <li><a href="#theweek" id="theweek_click" ><?php echo __(' This Week', 'dc-woocommerce-multi-vendor'); ?></a></li>
         </ul>
         <div class="wcmp_tabbody"  id="today" >
             <?php
@@ -134,19 +134,19 @@ if (is_user_wcmp_vendor($user->ID)) :
             ?>">
             <input type = "hidden" name="today_sale_total_page" id="today_sale_total_page" value="<?php echo $total_page_sale_today; ?>">
             <div class="wcmp_dashboard_display_box">
-                <h4><?php echo __('Todays Sales', $WCMp->text_domain); ?></h4>
+                <h4><?php echo __('Todays Sales', 'dc-woocommerce-multi-vendor'); ?></h4>
                 <h3><sup><?php list($before, $after) = explode(".", number_format((float)$item_total,2)); echo get_woocommerce_currency_symbol(); ?></sup><?php echo $before; ?><span>.<?php echo $after; ?></span></h3>
             </div>
             <div class="wcmp_dashboard_display_box">
-                <h4><?php echo __('Todays Earnings', $WCMp->text_domain); ?></h4>
+                <h4><?php echo __('Todays Earnings', 'dc-woocommerce-multi-vendor'); ?></h4>
                 <h3><sup><?php list($before, $after) = explode(".", number_format((float)$total_comission,2)); echo get_woocommerce_currency_symbol(); ?></sup><?php echo $before; ?><span>.<?php echo $after; ?></span></h3>
             </div>
             <div class="wcmp_dashboard_display_box">
-                <h4><?php echo __('Net Balance', $WCMp->text_domain); ?></h4>
+                <h4><?php echo __('Net Balance', 'dc-woocommerce-multi-vendor'); ?></h4>
                 <h3><sup><?php list($before, $after) = explode(".", number_format((float)$net_balance_today,2)); echo get_woocommerce_currency_symbol(); ?></sup><?php echo $before; ?><span>.<?php echo $after; ?></span></h3>
             </div>
             <div class="clear"></div>
-            <h3 class="wcmp_black_headding"><?php echo __('Sales', $WCMp->text_domain); ?></h3>
+            <h3 class="wcmp_black_headding"><?php echo __('Sales', 'dc-woocommerce-multi-vendor'); ?></h3>
             <div class="wcmp_table_holder">
                 <table id="wcmp_sale_report_table_today" width="100%" border="0" cellspacing="0" cellpadding="0">
                     <?php
@@ -162,18 +162,18 @@ if (is_user_wcmp_vendor($user->ID)) :
 
             <div class="wcmp_table_loader">
                 <div class="ajax_loader_class_msg"><img src="<?php echo $WCMp->plugin_url ?>assets/images/fpd/ajax-loader.gif" alt="ajax-loader" /></div>
-                <?php echo __('Showing Results', $WCMp->text_domain); ?><span> <span class="wcmp_front_count_first_num_today"><?php echo $displayed_row; ?></span> <?php
-                echo __('  out of  ', $WCMp->text_domain);
+                <?php echo __('Showing Results', 'dc-woocommerce-multi-vendor'); ?><span> <span class="wcmp_front_count_first_num_today"><?php echo $displayed_row; ?></span> <?php
+                echo __('  out of  ', 'dc-woocommerce-multi-vendor');
                 echo $whole_row_today;
                 ?></span>
-                <?php if ($whole_row_today > 6) { ?><button class="wcmp_black_btn wcmp_frontend_sale_show_more_button" element-data="sale_today_more" style="float:right"><?php echo __('Show More', $WCMp->text_domain); ?></button><?php } ?>
+                <?php if ($whole_row_today > 6) { ?><button class="wcmp_black_btn wcmp_frontend_sale_show_more_button" element-data="sale_today_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
             </div>
 
 
 
 
-            <h3 class="wcmp_black_headding"><?php echo __('Pending Shipping', $WCMp->text_domain); ?></h3>
+            <h3 class="wcmp_black_headding"><?php echo __('Pending Shipping', 'dc-woocommerce-multi-vendor'); ?></h3>
             <div class="wcmp_table_holder">
                 <table id="wcmp_pending_shipping_report_table_today" width="100%" border="0" cellspacing="0" cellpadding="0">
                     <?php
@@ -194,8 +194,8 @@ if (is_user_wcmp_vendor($user->ID)) :
             <input type = "hidden" name="today_pending_shipping_total_page" id="today_pending_shipping_total_page" value="<?php echo $total_page_pending_shipping_today; ?>">
             <div class="wcmp_table_loader">
                 <div class="ajax_loader_class_msg"><img src="<?php echo $WCMp->plugin_url ?>assets/images/fpd/ajax-loader.gif" alt="ajax-loader" /></div>
-                <?php echo __('Showing Results', $WCMp->text_domain); ?> <span> <span class="wcmp_front_count_first_num_today_ps"><?php echo $number_of_pending_shipping_show_today; ?></span> <?php echo __(' out of ', $WCMp->text_domain); ?> <?php echo $number_of_pending_shipping_whole_today; ?></span>
-                <?php if ($number_of_pending_shipping_whole_today > 6) { ?><button class="wcmp_black_btn wcmp_frontend_pending_shipping_show_more_button" element-data="pending_shipping_today_more" style="float:right"><?php echo __('Show More', $WCMp->text_domain); ?></button><?php } ?>
+                <?php echo __('Showing Results', 'dc-woocommerce-multi-vendor'); ?> <span> <span class="wcmp_front_count_first_num_today_ps"><?php echo $number_of_pending_shipping_show_today; ?></span> <?php echo __(' out of ', 'dc-woocommerce-multi-vendor'); ?> <?php echo $number_of_pending_shipping_whole_today; ?></span>
+                <?php if ($number_of_pending_shipping_whole_today > 6) { ?><button class="wcmp_black_btn wcmp_frontend_pending_shipping_show_more_button" element-data="pending_shipping_today_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
             </div>
         </div>
@@ -263,19 +263,19 @@ if (is_user_wcmp_vendor($user->ID)) :
             ?>">
             <input type = "hidden" name="week_sale_total_page" id="week_sale_total_page" value="<?php echo $total_page_sale_week; ?>">
             <div class="wcmp_dashboard_display_box">
-                <h4><?php echo __('Weekly Sales', $WCMp->text_domain); ?></h4>
+                <h4><?php echo __('Weekly Sales', 'dc-woocommerce-multi-vendor'); ?></h4>
                 <h3><sup><?php list($before, $after) = explode(".", number_format((float)$item_total_week,2)); echo get_woocommerce_currency_symbol(); ?></sup><?php echo $before; ?><span>.<?php echo $after; ?></span></h3>
             </div>
             <div class="wcmp_dashboard_display_box">
-                <h4><?php echo __('Weekly Earnings', $WCMp->text_domain); ?></h4>
+                <h4><?php echo __('Weekly Earnings', 'dc-woocommerce-multi-vendor'); ?></h4>
                 <h3><sup><?php list($before, $after) = explode(".", number_format((float)$total_comission_week,2)); echo get_woocommerce_currency_symbol(); ?></sup><?php echo $before; ?><span>.<?php echo $after; ?></span></h3>
             </div>
             <div class="wcmp_dashboard_display_box">
-                <h4><?php echo __('Weekly Balance', $WCMp->text_domain); ?></h4>
+                <h4><?php echo __('Weekly Balance', 'dc-woocommerce-multi-vendor'); ?></h4>
                 <h3><sup><?php list($before, $after) = explode(".", number_format((float)$net_balance_week,2)); echo get_woocommerce_currency_symbol(); ?></sup><?php echo $before; ?><span>.<?php echo $after; ?></span></h3>
             </div>
             <div class="clear"></div>
-            <h3 class="wcmp_black_headding"><?php echo __('Sales', $WCMp->text_domain); ?></h3>
+            <h3 class="wcmp_black_headding"><?php echo __('Sales', 'dc-woocommerce-multi-vendor'); ?></h3>
             <div class="wcmp_table_holder">
                 <table id="wcmp_sale_report_table_week" width="100%" border="0" cellspacing="0" cellpadding="0">
                     <?php
@@ -290,14 +290,14 @@ if (is_user_wcmp_vendor($user->ID)) :
             </div>
             <div class="wcmp_table_loader">
                 <div class="ajax_loader_class_msg"><img src="<?php echo $WCMp->plugin_url ?>assets/images/fpd/ajax-loader.gif" alt="ajax-loader" /></div>
-                <?php echo __('Showing Results', $WCMp->text_domain); ?><span> <span class="wcmp_front_count_first_num_week"><?php echo $displayed_row_week; ?></span> <?php
-                echo __('  out of  ', $WCMp->text_domain);
+                <?php echo __('Showing Results', 'dc-woocommerce-multi-vendor'); ?><span> <span class="wcmp_front_count_first_num_week"><?php echo $displayed_row_week; ?></span> <?php
+                echo __('  out of  ', 'dc-woocommerce-multi-vendor');
                 echo $whole_row_week;
                 ?></span>
-                <?php if ($whole_row_week > 6) { ?><button class="wcmp_black_btn wcmp_frontend_sale_show_more_button" element-data="sale_weekly_more" style="float:right"><?php echo __('Show More', $WCMp->text_domain); ?></button><?php } ?>
+                <?php if ($whole_row_week > 6) { ?><button class="wcmp_black_btn wcmp_frontend_sale_show_more_button" element-data="sale_weekly_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
             </div>
-            <h3 class="wcmp_black_headding"><?php echo __('Pending Shipping', $WCMp->text_domain); ?></h3>
+            <h3 class="wcmp_black_headding"><?php echo __('Pending Shipping', 'dc-woocommerce-multi-vendor'); ?></h3>
             <div class="wcmp_table_holder">
                 <table id="wcmp_pending_shipping_report_table_week" width="100%" border="0" cellspacing="0" cellpadding="0">
                     <?php
@@ -316,8 +316,8 @@ if (is_user_wcmp_vendor($user->ID)) :
             <input type = "hidden" name="week_pending_shipping_total_page" id="week_pending_shipping_total_page" value="<?php echo $total_page_pending_shipping_week; ?>">
             <div class="wcmp_table_loader">
                 <div class="ajax_loader_class_msg"><img src="<?php echo $WCMp->plugin_url ?>assets/images/fpd/ajax-loader.gif" alt="ajax-loader" /></div>
-                <?php echo __('Showing Results', $WCMp->text_domain); ?> <span> <span class="wcmp_front_count_first_num_week_ps"><?php echo $week_pending_shipping_show; ?></span> <?php echo __(' out of ', $WCMp->text_domain); ?> <?php echo $week_pending_shipping_whole; ?></span>
-                <?php if ($week_pending_shipping_whole > 6) { ?><button class="wcmp_black_btn wcmp_frontend_pending_shipping_show_more_button" element-data="pending_shipping_weekly_more" style="float:right"><?php echo __('Show More', $WCMp->text_domain); ?></button><?php } ?>
+                <?php echo __('Showing Results', 'dc-woocommerce-multi-vendor'); ?> <span> <span class="wcmp_front_count_first_num_week_ps"><?php echo $week_pending_shipping_show; ?></span> <?php echo __(' out of ', 'dc-woocommerce-multi-vendor'); ?> <?php echo $week_pending_shipping_whole; ?></span>
+                <?php if ($week_pending_shipping_whole > 6) { ?><button class="wcmp_black_btn wcmp_frontend_pending_shipping_show_more_button" element-data="pending_shipping_weekly_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
             </div>		
         </div>

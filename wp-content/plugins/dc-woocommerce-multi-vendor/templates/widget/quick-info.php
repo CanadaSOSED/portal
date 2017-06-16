@@ -10,7 +10,7 @@
  */
 
 global $WCMp;
-$submit_label = ! empty( $instance['submit_label'] ) ? $instance['submit_label'] : __( 'Submit', $WCMp->text_domain );
+$submit_label = ! empty( $instance['submit_label'] ) ? $instance['submit_label'] : __( 'Submit', 'dc-woocommerce-multi-vendor' );
 extract( $instance );
 
 ?>
@@ -26,10 +26,10 @@ extract( $instance );
 		}?>
 
 		<form action="" method="post" id="respond" style=" padding: 0px;">
-				<input type="text" class="input-text " name="quick_info[name]" value="<?php echo $current_user->display_name ?>" placeholder="<?php _e( 'Name', $WCMp->text_domain ) ?>" required/>
-				<input type="text" class="input-text " name="quick_info[subject]" value="" placeholder="<?php _e( 'Subject', $WCMp->text_domain ) ?>" required/>
-				<input type="email" class="input-text " name="quick_info[email]" value="<?php echo $current_user->user_email  ?>" placeholder="<?php _e( 'Email', $WCMp->text_domain ) ?>" required/>
-				<textarea name="quick_info[message]" rows="5" placeholder="<?php _e( 'Message', $WCMp->text_domain ) ?>" required></textarea>
+				<input type="text" class="input-text " name="quick_info[name]" value="<?php echo $current_user->display_name ?>" placeholder="<?php _e( 'Name', 'dc-woocommerce-multi-vendor' ) ?>" required/>
+				<input type="text" class="input-text " name="quick_info[subject]" value="" placeholder="<?php _e( 'Subject', 'dc-woocommerce-multi-vendor' ) ?>" required/>
+				<input type="email" class="input-text " name="quick_info[email]" value="<?php echo $current_user->user_email  ?>" placeholder="<?php _e( 'Email', 'dc-woocommerce-multi-vendor' ) ?>" required/>
+				<textarea name="quick_info[message]" rows="5" placeholder="<?php _e( 'Message', 'dc-woocommerce-multi-vendor' ) ?>" required></textarea>
 				<input type="submit" class="submit" id="submit" name="quick_info[submit]" value="<?php echo $submit_label ?>" />
 				<input type="hidden" name="quick_info[spam]" value="" />
 				<input type="hidden" name="quick_info[vendor_id]" value="<?php echo $vendor->id ?>" />

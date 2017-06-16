@@ -26,7 +26,7 @@ $vendor_hide_email = get_user_meta($vendor_id,'_vendor_hide_email', true);
 					if ( $WCMp->vendor_caps->vendor_capabilities_settings('is_vendor_add_external_url') && $is_vendor_add_external_url_field ) {
 						$external_store_url = get_user_meta( $vendor_id, '_vendor_external_store_url', true );
 						$external_store_label = get_user_meta( $vendor_id, '_vendor_external_store_label', true );
-						if( empty($external_store_label) ) $external_store_label = __('External Store URL', $WCMp->text_domain);
+						if( empty($external_store_label) ) $external_store_label = __('External Store URL', 'dc-woocommerce-multi-vendor');
 						if( isset($external_store_url) && !empty($external_store_url) ) {
 							?><p class="external_store_url"><label><a style="color: white;" target="_blank" href="<?php echo apply_filters( 'vendor_shop_page_external_store', esc_url_raw($external_store_url), $vendor_id ); ?>"><?php echo $external_store_label; ?></a></label></p><?php
 						}
@@ -72,7 +72,7 @@ if(!$vendor_hide_description) { ?>
 		<tbody>
 			<tr>
 				<td>
-					<label><strong><?php _e('Description', $WCMp->text_domain) ?></strong></label>
+					<label><strong><?php _e('Description', 'dc-woocommerce-multi-vendor') ?></strong></label>
 				</td>
 				<td style="padding: 15px;">
 					<?php echo stripslashes($string); ?>

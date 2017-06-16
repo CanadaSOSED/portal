@@ -37,7 +37,7 @@ class WCMp_Vendor_Hooks {
         global $WCMp;
         $vendor_nav = array(
             'dashboard' => array(
-                'label' => __('Dashboard', $WCMp->text_domain)
+                'label' => __('Dashboard', 'dc-woocommerce-multi-vendor')
                 , 'url' => wcmp_get_vendor_dashboard_endpoint_url('dashboard')
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_dashboard_capability', true)
                 , 'position' => 0
@@ -46,34 +46,34 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-dashboard'
             ),
             'store-settings' => array(
-                'label' => __('Store Settings', $WCMp->text_domain)
+                'label' => __('Store Settings', 'dc-woocommerce-multi-vendor')
                 , 'url' => '#'
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_store_settings_capability', true)
                 , 'position' => 10
                 , 'submenu' => array(
                     'shop-front' => array(
-                        'label' => __('Shop Front', $WCMp->text_domain)
+                        'label' => __('Shop Front', 'dc-woocommerce-multi-vendor')
                         , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_store_settings_endpoint', 'vendor', 'general', 'shop-front'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_shop_front_capability', true)
                         , 'position' => 10
                         , 'link_target' => '_self'
                     ),
                     'vendor-policies' => array(
-                        'label' => __('Policies', $WCMp->text_domain)
+                        'label' => __('Policies', 'dc-woocommerce-multi-vendor')
                         , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_policies_endpoint', 'vendor', 'general', 'vendor-policies'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_policies_capability', false)
                         , 'position' => 20
                         , 'link_target' => '_self'
                     ),
                     'vendor-billing' => array(
-                        'label' => __('Billing', $WCMp->text_domain)
+                        'label' => __('Billing', 'dc-woocommerce-multi-vendor')
                         , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_billing_endpoint', 'vendor', 'general', 'vendor-billing'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_billing_capability', true)
                         , 'position' => 30
                         , 'link_target' => '_self'
                     ),
                     'vendor-shipping' => array(
-                        'label' => __('Shipping', $WCMp->text_domain)
+                        'label' => __('Shipping', 'dc-woocommerce-multi-vendor')
                         , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_shipping_endpoint', 'vendor', 'general', 'vendor-shipping'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_shipping_capability', wc_shipping_enabled())
                         , 'position' => 40
@@ -84,7 +84,7 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-admin-generic'
             ),
             'vendor-products' => array(
-                'label' => __('Product Manager', $WCMp->text_domain)
+                'label' => __('Product Manager', 'dc-woocommerce-multi-vendor')
                 , 'url' => apply_filters('wcmp_vendor_submit_product', admin_url('edit.php?post_type=product'))
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_products_capability', 'edit_products')
                 , 'position' => 20
@@ -93,20 +93,20 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-cart'
             ),
             'vendor-promte' => array(
-                'label' => __('Promote', $WCMp->text_domain)
+                'label' => __('Promote', 'dc-woocommerce-multi-vendor')
                 , 'url' => '#'
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_promte_capability', 'edit_shop_coupons')
                 , 'position' => 30
                 , 'submenu' => array(
                     'add-new-coupon' => array(
-                        'label' => __('Add Coupon', $WCMp->text_domain)
+                        'label' => __('Add Coupon', 'dc-woocommerce-multi-vendor')
                         , 'url' => apply_filters('wcmp_vendor_submit_coupon', admin_url('post-new.php?post_type=shop_coupon'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_add_new_coupon_capability', 'edit_shop_coupons')
                         , 'position' => 10
                         , 'link_target' => '_self'
                     ),
                     'coupons' => array(
-                        'label' => __('Coupons', $WCMp->text_domain)
+                        'label' => __('Coupons', 'dc-woocommerce-multi-vendor')
                         , 'url' => apply_filters('wcmp_vendor_coupons', admin_url('edit.php?post_type=shop_coupon'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_coupons_capability', 'edit_shop_coupons')
                         , 'position' => 20
@@ -117,13 +117,13 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-megaphone'
             ),
             'vendor-report' => array(
-                'label' => __('Stats / Reports', $WCMp->text_domain)
+                'label' => __('Stats / Reports', 'dc-woocommerce-multi-vendor')
                 , 'url' => '#'
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_report_capability', true)
                 , 'position' => 40
                 , 'submenu' => array(
                     'vendor-report' => array(
-                        'label' => __('Overview', $WCMp->text_domain)
+                        'label' => __('Overview', 'dc-woocommerce-multi-vendor')
                         , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_report_endpoint', 'vendor', 'general', 'vendor-report'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_report_capability', true)
                         , 'position' => 10
@@ -134,7 +134,7 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-chart-area'
             ),
             'vendor-orders' => array(
-                'label' => __('Orders', $WCMp->text_domain)
+                'label' => __('Orders', 'dc-woocommerce-multi-vendor')
                 , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_orders_endpoint', 'vendor', 'general', 'vendor-orders'))
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_orders_capability', true)
                 , 'position' => 50
@@ -143,20 +143,20 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-store'
             ),
             'vendor-payments' => array(
-                'label' => __('Payments', $WCMp->text_domain)
+                'label' => __('Payments', 'dc-woocommerce-multi-vendor')
                 , 'url' => '#'
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_payments_capability', true)
                 , 'position' => 60
                 , 'submenu' => array(
                     'vendor-withdrawal' => array(
-                        'label' => __('Withdrawal', $WCMp->text_domain)
+                        'label' => __('Withdrawal', 'dc-woocommerce-multi-vendor')
                         , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_withdrawal_endpoint', 'vendor', 'general', 'vendor-withdrawal'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_withdrawal_capability', false)
                         , 'position' => 10
                         , 'link_target' => '_self'
                     ),
                     'transaction-details' => array(
-                        'label' => __('History', $WCMp->text_domain)
+                        'label' => __('History', 'dc-woocommerce-multi-vendor')
                         , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_transaction_details_endpoint', 'vendor', 'general', 'transaction-details'))
                         , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_transaction_details_capability', true)
                         , 'position' => 20
@@ -167,7 +167,7 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-tickets-alt'
             ),
             'vendor-knowledgebase' => array(
-                'label' => __('Knowledgebase', $WCMp->text_domain)
+                'label' => __('Knowledgebase', 'dc-woocommerce-multi-vendor')
                 , 'url' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_knowledgebase_endpoint', 'vendor', 'general', 'vendor-knowledgebase'))
                 , 'capability' => apply_filters('wcmp_vendor_dashboard_menu_vendor_knowledgebase_capability', get_wcmp_vendor_settings('is_university_on', 'general') ? true : false)
                 , 'position' => 70
@@ -176,7 +176,7 @@ class WCMp_Vendor_Hooks {
                 , 'nav_icon' => 'dashicons-welcome-learn-more'
             ),
             'vendor-signout' => array(
-                'label' => __('Sign out', $WCMp->text_domain)
+                'label' => __('Sign out', 'dc-woocommerce-multi-vendor')
                 , 'url' => esc_url(wp_logout_url(get_permalink(wcmp_vendor_dashboard_page_id())) )
                 , 'capability' => true
                 , 'position' => 80
@@ -293,7 +293,7 @@ class WCMp_Vendor_Hooks {
         if (isset($wcmp_payment_settings_name['give_shipping']) && empty($_vendor_give_shipping)) {
             $WCMp->template->get_template('vendor-dashboard/vendor-shipping.php');
         } else {
-            echo '<p class="wcmp_headding3">' . __('Sorry you are not authorized for this pages. Please contact with admin.', $WCMp->text_domain) . '</p>';
+            echo '<p class="wcmp_headding3">' . __('Sorry you are not authorized for this pages. Please contact with admin.', 'dc-woocommerce-multi-vendor') . '</p>';
         }
     }
 
@@ -336,7 +336,7 @@ class WCMp_Vendor_Hooks {
             $frontend_script_path = str_replace(array('http:', 'https:'), '', $frontend_script_path);
             $suffix = defined('WCMP_SCRIPT_DEBUG') && WCMP_SCRIPT_DEBUG ? '' : '.min';
             wp_enqueue_script('vendor_orders_js', $frontend_script_path . 'vendor_orders' . $suffix . '.js', array('jquery'), $WCMp->version, true);
-            wp_localize_script('vendor_orders_js', 'wcmp_mark_shipped_text', array('text' => __('Order is marked as shipped.', $WCMp->text_domain), 'image' => $WCMp->plugin_url . 'assets/images/roket-green.png'));
+            wp_localize_script('vendor_orders_js', 'wcmp_mark_shipped_text', array('text' => __('Order is marked as shipped.', 'dc-woocommerce-multi-vendor'), 'image' => $WCMp->plugin_url . 'assets/images/roket-green.png'));
             $user = wp_get_current_user();
             $vendor = get_wcmp_vendor($user->ID);
             $vendor = apply_filters('wcmp_order_vendor', $vendor);
@@ -490,7 +490,7 @@ class WCMp_Vendor_Hooks {
                 case 'vendor-billing':
                     $error = $WCMp->vendor_dashboard->save_store_settings($vendor->id, $_POST);
                     if (empty($error)) {
-                        wc_add_notice(__('All Options Saved', $WCMp->text_domain), 'success');
+                        wc_add_notice(__('All Options Saved', 'dc-woocommerce-multi-vendor'), 'success');
                     } else {
                         wc_add_notice($error, 'error');
                     }
@@ -532,7 +532,7 @@ class WCMp_Vendor_Hooks {
      * @return Boolean
      */
     public function wcmp_vendor_dashboard_menu_vendor_policies_capability($cap) {
-        if (get_wcmp_vendor_settings('is_policy_on', 'general') && (get_wcmp_vendor_settings('is_cancellation_on', 'general', 'policies') || get_wcmp_vendor_settings('is_refund_on', 'general', 'policies') || get_wcmp_vendor_settings('is_shipping_on', 'general', 'policies')) && (get_wcmp_vendor_settings('can_vendor_edit_policy_tab_label', 'general', 'policies') || get_wcmp_vendor_settings('can_vendor_edit_cancellation_policy', 'general', 'policies') || get_wcmp_vendor_settings('can_vendor_edit_refund_policy', 'general', 'policies') || get_wcmp_vendor_settings('can_vendor_edit_shipping_policy', 'general', 'policies') ) || (get_wcmp_vendor_settings('is_customer_support_details', 'general') && get_wcmp_vendor_settings('can_vendor_add_customer_support_details', 'general', 'customer_support_details'))) {
+        if ((get_wcmp_vendor_settings('is_policy_on', 'general') && (get_wcmp_vendor_settings('is_cancellation_on', 'general', 'policies') || get_wcmp_vendor_settings('is_refund_on', 'general', 'policies') || get_wcmp_vendor_settings('is_shipping_on', 'general', 'policies')) && (get_wcmp_vendor_settings('can_vendor_edit_policy_tab_label', 'general', 'policies') || get_wcmp_vendor_settings('can_vendor_edit_cancellation_policy', 'general', 'policies') || get_wcmp_vendor_settings('can_vendor_edit_refund_policy', 'general', 'policies') || get_wcmp_vendor_settings('can_vendor_edit_shipping_policy', 'general', 'policies') ) )|| (get_wcmp_vendor_settings('is_customer_support_details', 'general') && get_wcmp_vendor_settings('can_vendor_add_customer_support_details', 'general', 'customer_support_details'))) {
             $cap = true;
         }
         return $cap;
@@ -554,75 +554,75 @@ class WCMp_Vendor_Hooks {
         switch ($WCMp->endpoints->get_current_endpoint()) {
             case 'shop-front':
                 echo '<ul>';
-                echo '<li>' . __('Store Settings ', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Store Settings ', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '<li class="next"> < </li>';
-                echo '<li>' . __('Store Front', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Store Front', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
-                echo '<button class="wcmp_ass_btn edit_shop_settings">' . __('Edit', $WCMp->text_domain) . '</button>';
+                echo '<button class="wcmp_ass_btn edit_shop_settings">' . __('Edit', 'dc-woocommerce-multi-vendor') . '</button>';
                 break;
             case 'vendor-policies':
                 echo '<ul>';
-                echo '<li>' . __('Store Settings ', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Store Settings ', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '<li class="next"> < </li>';
-                echo '<li>' . __('Policies', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Policies', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
-                echo '<button class="wcmp_ass_btn edit_policy">' . __('Edit', $WCMp->text_domain) . '</button>';
+                echo '<button class="wcmp_ass_btn edit_policy">' . __('Edit', 'dc-woocommerce-multi-vendor') . '</button>';
                 break;
             case 'vendor-billing':
                 echo '<ul>';
-                echo '<li>' . __('Store Settings ', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Store Settings ', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '<li class="next"> < </li>';
-                echo '<li>' . __('Billing', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Billing', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
-                echo '<button class="wcmp_ass_btn edit_billing">' . __('Edit', $WCMp->text_domain) . '</button>';
+                echo '<button class="wcmp_ass_btn edit_billing">' . __('Edit', 'dc-woocommerce-multi-vendor') . '</button>';
                 break;
             case 'vendor-shipping':
                 echo '<ul>';
-                echo '<li>' . __('Store Settings ', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Store Settings ', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '<li class="next"> < </li>';
-                echo '<li>' . __('Shipping', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Shipping', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
-                echo '<button class="wcmp_ass_btn edit_shipping">' . __('Edit', $WCMp->text_domain) . '</button>';
+                echo '<button class="wcmp_ass_btn edit_shipping">' . __('Edit', 'dc-woocommerce-multi-vendor') . '</button>';
                 break;
             case 'vendor-report':
                 echo '<ul>';
-                echo '<li>' . __('Stats & Reports', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Stats & Reports', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '<li class="next"> > </li>';
-                echo '<li>' . __('Overview', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Overview', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
                 break;
             case 'vendor-orders':
                 echo '<ul>';
-                echo '<li>' . __('Order &amp; Shipping', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Order &amp; Shipping', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
                 break;
             case 'vendor-withdrawal':
                 echo '<ul>';
-                echo '<li>' . __('Payments', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Payments', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '<li class="next"> > </li>';
-                echo '<li>' . __('Withdrawals', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Withdrawals', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
                 break;
             case 'transaction-details':
                 echo '<ul>';
-                echo '<li>' . __('Payments', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Payments', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '<li class="next"> > </li>';
-                echo '<li>' . __('History', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('History', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
                 break;
             case 'vendor-knowledgebase':
                 echo '<ul>';
-                echo '<li>' . __('Knowledgebase', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Knowledgebase', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
                 break;
             case 'vendor-announcements':
                 echo '<ul>';
-                echo '<li>' . __('Announcements', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Announcements', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
                 break;
             case '':
                 echo '<ul>';
-                echo '<li>' . __('Dashboard', $WCMp->text_domain) . '</li>';
+                echo '<li>' . __('Dashboard', 'dc-woocommerce-multi-vendor') . '</li>';
                 echo '</ul>';
                 echo '<span>' . Date('d M Y') . '</span>';
                 break;

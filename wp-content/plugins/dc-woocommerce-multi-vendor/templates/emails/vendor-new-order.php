@@ -14,15 +14,15 @@ global $WCMp;
 do_action('woocommerce_email_header', $email_heading);
 ?>
 
-<p><?php printf(__('A new order was received and marked as processing from %s. Their order is as follows:', $WCMp->text_domain), $order->get_billing_first_name() . ' ' . $order->get_billing_last_name()); ?></p>
+<p><?php printf(__('A new order was received and marked as processing from %s. Their order is as follows:', 'dc-woocommerce-multi-vendor'), $order->get_billing_first_name() . ' ' . $order->get_billing_last_name()); ?></p>
 
 <?php do_action('woocommerce_email_before_order_table', $order, true, false); ?>
 <table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #eee;" border="1" bordercolor="#eee">
     <thead>
         <tr>
-            <th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e('Product', $WCMp->text_domain); ?></th>
-            <th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e('Quantity', $WCMp->text_domain); ?></th>
-            <th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e('Commission', $WCMp->text_domain); ?></th>
+            <th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e('Product', 'dc-woocommerce-multi-vendor'); ?></th>
+            <th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e('Quantity', 'dc-woocommerce-multi-vendor'); ?></th>
+            <th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e('Commission', 'dc-woocommerce-multi-vendor'); ?></th>
         </tr>
     </thead>
     <tbody>
@@ -59,13 +59,13 @@ $show_cust_add_field = apply_filters('show_cust_add_field', true);
 $show_customer_detail = $WCMp->vendor_caps->vendor_capabilities_settings('show_cust_add');
 if ($show_customer_detail && $show_cust_add_field) {
     ?>
-    <h2><?php _e('Customer Details', $WCMp->text_domain); ?></h2>
+    <h2><?php _e('Customer Details', 'dc-woocommerce-multi-vendor'); ?></h2>
     <?php if ($order->get_billing_email()) { ?>
-        <p><strong><?php _e('Customer Name:', $WCMp->text_domain); ?></strong> <?php echo $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(); ?></p>
-        <p><strong><?php _e('Email:', $WCMp->text_domain); ?></strong> <?php echo $order->get_billing_email(); ?></p>
+        <p><strong><?php _e('Customer Name:', 'dc-woocommerce-multi-vendor'); ?></strong> <?php echo $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(); ?></p>
+        <p><strong><?php _e('Email:', 'dc-woocommerce-multi-vendor'); ?></strong> <?php echo $order->get_billing_email(); ?></p>
     <?php } ?>
     <?php if ($order->get_billing_phone()) { ?>
-        <p><strong><?php _e('Telephone:', $WCMp->text_domain); ?></strong> <?php echo $order->get_billing_phone(); ?></p>
+        <p><strong><?php _e('Telephone:', 'dc-woocommerce-multi-vendor'); ?></strong> <?php echo $order->get_billing_phone(); ?></p>
     <?php
     }
 }
@@ -78,7 +78,7 @@ if ($show_cust_billing_add && $show_cust_billing_add_field) {
     <table cellspacing="0" cellpadding="0" style="width: 100%; vertical-align: top;" border="0">
         <tr>
             <td valign="top" width="50%">
-                <h3><?php _e('Billing Address', $WCMp->text_domain); ?></h3>
+                <h3><?php _e('Billing Address', 'dc-woocommerce-multi-vendor'); ?></h3>
                 <p><?php echo $order->get_formatted_billing_address(); ?></p>
             </td>
         </tr>
@@ -91,7 +91,7 @@ if ($show_cust_billing_add && $show_cust_billing_add_field) {
         <table cellspacing="0" cellpadding="0" style="width: 100%; vertical-align: top;" border="0">
             <tr>
                 <td valign="top" width="50%">
-                    <h3><?php _e('Shipping Address', $WCMp->text_domain); ?></h3>
+                    <h3><?php _e('Shipping Address', 'dc-woocommerce-multi-vendor'); ?></h3>
                     <p><?php echo $shipping; ?></p>
                 </td>
             </tr>

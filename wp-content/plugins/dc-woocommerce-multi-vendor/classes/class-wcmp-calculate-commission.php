@@ -85,6 +85,7 @@ class WCMp_Calculate_Commission {
         global $WCMp, $wpdb;
         // Only process commissions once
         $processed = get_post_meta($order_id, '_commissions_processed', true);
+        $commission_ids = get_post_meta($order_id, '_commission_ids', true) ? get_post_meta($order_id, '_commission_ids', true) : array();
         if (!$processed) {
             $order = new WC_Order($order_id);
             $vendor_array = array();
@@ -120,11 +121,14 @@ class WCMp_Calculate_Commission {
                     $item_commission = $this->get_item_commission($product_id, $variation_id, $item, $order_id, $item_id);
 
                     $wpdb->query("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_id = " . $commission[0] . ", commission_amount = '" . $item_commission . "' WHERE order_id =" . $order_id . " AND order_item_id = " . $item_id . " AND product_id = " . $product_id);
-
                 } else {
                     $vendor_id = wc_get_order_item_meta($item_id, '_vendor_id', true);
                     if ($product_id) {
-                        $this->record_commission($product_id, $order_id, $variation_id, $order, $vendor_obj, $item_id, $item);
+                        $commission_id = $this->record_commission($product_id, $order_id, $variation_id, $order, $vendor_obj, $item_id, $item);
+                        if ($commission_id) {
+                            $commission_ids[] = $commission_id;
+                            update_post_meta($order_id, '_commission_ids', $commission_ids);
+                        }
                         $vendor_array[] = $vendor_obj->term_id;
                     }
                 }
@@ -132,6 +136,12 @@ class WCMp_Calculate_Commission {
         }
         // Mark commissions as processed
         update_post_meta($order_id, '_commissions_processed', 'yes');
+        if (!empty($commission_ids) && is_array($commission_ids)) {
+            foreach ($commission_ids as $commission_id) {
+                $commission_amount = get_wcmp_vendor_order_amount(array('commission_id' => $commission_id, 'order_id' => $order_id));
+                update_post_meta($commission_id, '_commission_amount', (float) $commission_amount['commission_amount']);
+            }
+        }
     }
 
     /**
@@ -145,8 +155,12 @@ class WCMp_Calculate_Commission {
         if ($product_id > 0) {
             if ($vendor) {
                 $vendor_due = $vendor->wcmp_get_vendor_part_from_order($order, $vendor->term_id);
-                $this->create_commission($vendor->term_id, $product_id, $vendor_due, $order_id, $variation_id, $item_id, $item, $order);
+                return $this->create_commission($vendor->term_id, $product_id, $vendor_due, $order_id, $variation_id, $item_id, $item, $order);
+            } else {
+                return false;
             }
+        } else {
+            return false;
         }
     }
 
@@ -161,19 +175,11 @@ class WCMp_Calculate_Commission {
     public function create_commission($vendor_id = 0, $product_id = 0, $amount = 0, $order_id = 0, $variation_id = 0, $item_id = 0, $item, $order) {
         global $WCMp, $wpdb;
         if ($vendor_id == 0) {
-            return;
+            return false;
         }
-        $vendor = get_wcmp_vendor_by_term($vendor_id);
-        if (!isset($amount['tax'])) {
-            $amount['tax'] = 0;
-        }
-        if (!isset($amount['commission'])) {
-            $amount['commission'] = 0;
-        }
-
         $commission_data = array(
             'post_type' => 'dc_commission',
-            'post_title' => sprintf(__('Commission - %s', $WCMp->text_domain), strftime(_x('%B %e, %Y @ %I:%M %p', 'Commission date parsed by strftime', $WCMp->text_domain))),
+            'post_title' => sprintf(__('Commission - %s', 'dc-woocommerce-multi-vendor'), strftime(_x('%B %e, %Y @ %I:%M %p', 'Commission date parsed by strftime', 'dc-woocommerce-multi-vendor'))),
             'post_status' => 'private',
             'ping_status' => 'closed',
             'post_excerpt' => '',
@@ -189,46 +195,19 @@ class WCMp_Calculate_Commission {
         } else {
             update_post_meta($commission_id, '_commission_product', array($product_id));
         }
-
-        update_post_meta($commission_id, '_commission_amount', $amount['commission']);
-
-        $shipping_items = $order->get_items('shipping');
-        $vendor_shipping = array();
-        foreach ($shipping_items as $shipping_item_id => $shipping_item) {
-            $order_item_shipping = new WC_Order_Item_Shipping($shipping_item_id);
-            $shipping_vendor_id = $order_item_shipping->get_meta('vendor_id', true);
-            $vendor_shipping[$shipping_vendor_id] = array(
-                'shipping' => $order_item_shipping->get_total()
-                , 'shipping_tax' => $order_item_shipping->get_total_tax()
-                , 'package_qty' => $order_item_shipping->get_meta('package_qty', true)
-            );
-        }
-        $vendor_shipping_amount = $vendor_shipping[$vendor->id]['shipping'];
-        $vendor_shipping_tax_amount = $vendor_shipping[$vendor->id]['shipping_tax'];
-        
-        if($WCMp->vendor_caps->vendor_payment_settings('give_shipping')){
-            update_post_meta($commission_id, '_shipping', $vendor_shipping_amount);
-        } else{
-            update_post_meta($commission_id, '_shipping', 0);
-        }
-        if($WCMp->vendor_caps->vendor_payment_settings('give_tax') && $WCMp->vendor_caps->vendor_payment_settings('give_shipping')){
-            $tax_amount = $amount['tax'] + $vendor_shipping_tax_amount;
-            update_post_meta($commission_id, '_tax', $tax_amount);
-        } else if($WCMp->vendor_caps->vendor_payment_settings('give_tax')){
-            update_post_meta($commission_id, '_tax', $amount['tax']);
-        } else{
-            update_post_meta($commission_id, '_tax', 0);
-        }
-
+        $shipping = (float) $amount['shipping'];
+        $tax = (float) ($amount['tax'] + $amount['shipping_tax']);
+        update_post_meta($commission_id, '_shipping', $shipping);
+        update_post_meta($commission_id, '_tax', $tax);
         if ($order_id > 0) {
             update_post_meta($commission_id, '_commission_order_id', $order_id);
         }
         // Mark commission as unpaid
         update_post_meta($commission_id, '_paid_status', 'unpaid');
-
         $item_commission = $this->get_item_commission($product_id, $variation_id, $item, $order_id, $item_id);
         $wpdb->query("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_id = " . $commission_id . ", commission_amount = '" . $item_commission . "' WHERE order_id =" . $order_id . " AND order_item_id = " . $item_id . " AND product_id = " . $product_id);
         do_action('wcmp_vendor_commission_created', $commission_id);
+        return $commission_id;
     }
 
     /**

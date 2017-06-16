@@ -21,7 +21,7 @@ global $WCMp;
 					}
 				?>
 				<li class="custom <?php echo $current_range == 'custom' ? 'active' : ''; ?>">
-					<?php _e( 'Custom', $WCMp->text_domain ); ?>
+					<?php _e( 'Custom', 'dc-woocommerce-multi-vendor' ); ?>
 					<form method="GET">
 						<div>
 							<?php
@@ -39,7 +39,7 @@ global $WCMp;
 							<input type="hidden" name="range" value="custom" />
 							<input type="text" size="9" placeholder="yyyy-mm-dd" value="<?php if ( ! empty( $_GET['start_date'] ) ) echo esc_attr( $_GET['start_date'] ); ?>" name="start_date" class="range_datepicker from" />
 							<input type="text" size="9" placeholder="yyyy-mm-dd" value="<?php if ( ! empty( $_GET['end_date'] ) ) echo esc_attr( $_GET['end_date'] ); ?>" name="end_date" class="range_datepicker to" />
-							<input type="submit" class="button" value="<?php esc_attr_e( 'Go', $WCMp->text_domain ); ?>" />
+							<input type="submit" class="button" value="<?php esc_attr_e( 'Go', 'dc-woocommerce-multi-vendor' ); ?>" />
 						</div>
 					</form>
 				</li>
@@ -48,10 +48,10 @@ global $WCMp;
 		<div class="left_align pad_left" style="float: left">
 			<form method="post" action="">
 				<p>
-					<select id="vendor" name="vendor" class="ajax_chosen_select_vendor vendor_info" data-placeholder="<?php _e( 'Search for a vendor...', $WCMp->text_domain ); ?>" style="min-width:210px;">
+					<select id="vendor" name="vendor" class="ajax_chosen_select_vendor vendor_info" data-placeholder="<?php _e( 'Search for a vendor...', 'dc-woocommerce-multi-vendor' ); ?>" style="min-width:210px;">
 						<?php echo $option; ?>
 					</select>
-					<input type="button" style="vertical-align: top;" class="vendor_report_search" value="<?php _e( 'Show', $WCMp->text_domain ); ?>" />
+					<input type="button" style="vertical-align: top;" class="vendor_report_search" value="<?php _e( 'Show', 'dc-woocommerce-multi-vendor' ); ?>" />
 				</p>
 			</form>
 		</div>
@@ -59,10 +59,10 @@ global $WCMp;
 	<div class="postbox box_data">
 		<?php if( !empty($report_sort_arr) ) { ?>
 			<div class="sorting_box">
-				<span><b><?php _e( 'Sort By : ', $WCMp->text_domain ); ?></b></span>
+				<span><b><?php _e( 'Sort By : ', 'dc-woocommerce-multi-vendor' ); ?></b></span>
 				<select name="vendor_report_sort" class="vendor_report_sort">
-					<option value="total_sales"><?php _e( 'Total Sales', $WCMp->text_domain ); ?></option>
-					<option value="admin_earning"><?php _e( 'Total Earnings', $WCMp->text_domain ); ?></option>
+					<option value="total_sales"><?php _e( 'Total Sales', 'dc-woocommerce-multi-vendor' ); ?></option>
+					<option value="admin_earning"><?php _e( 'Total Earnings', 'dc-woocommerce-multi-vendor' ); ?></option>
 				</select>
 				<input type="checkbox" class="low_to_high" name="low_to_high" value="checked" />
 				<button class="low_to_high_btn_vendor"><i class="fa fa-arrow-up"></i></button>

@@ -30,39 +30,39 @@ class WCMp_Settings_Gneral_Policies {
             "subsection" => "{$this->subsection}",
             "sections" => array(
                 "wcmp_general_policies_settings_section" => array(
-                    "title" => __('Policy Settings', $WCMp->text_domain),
+                    "title" => __('Policy Settings', 'dc-woocommerce-multi-vendor'),
                     "fields" => array(
-                        "policy_tab_title" => array('title' => __('Policy Tab Title', $WCMp->text_domain), 'type' => 'text', 'id' => 'policy_tab_title', 'label_for' => 'policy_tab_title', 'name' => 'policy_tab_title'), // text
-                        "can_vendor_edit_policy_tab_label" => array('title' => __('Vendor Can Edit', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'can_vendor_edit_policy_tab_label', 'label_for' => 'can_vendor_edit_policy_tab_label', 'name' => 'can_vendor_edit_policy_tab_label', 'value' => 'Enable', 'text' => __('Allow vendors to edit the policy tab label.', $WCMp->text_domain)), // Checkbox
+                        "policy_tab_title" => array('title' => __('Policy Tab Title', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'policy_tab_title', 'label_for' => 'policy_tab_title', 'name' => 'policy_tab_title'), // text
+                        "can_vendor_edit_policy_tab_label" => array('title' => __('Vendor Can Edit', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'can_vendor_edit_policy_tab_label', 'label_for' => 'can_vendor_edit_policy_tab_label', 'name' => 'can_vendor_edit_policy_tab_label', 'value' => 'Enable', 'text' => __('Allow vendors to edit the policy tab label.', 'dc-woocommerce-multi-vendor')), // Checkbox
                     )
                 ),
                 "wcmp_shipping_policies_settings_section" => array(
-                    "title" => __('Shipping Policy', $WCMp->text_domain),
+                    "title" => __('Shipping Policy', 'dc-woocommerce-multi-vendor'),
                     "fields" => array(
-                        "is_shipping_on" => array('title' => __('Enable Shipping Policy', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_shipping_on', 'label_for' => 'is_shipping_on', 'name' => 'is_shipping_on', 'value' => 'Enable'), // Checkbox
-                        "is_shipping_product_level_on" => array('title' => __('Product Wise', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_shipping_product_level_on', 'label_for' => 'is_shipping_product_level_on', 'name' => 'is_shipping_product_level_on', 'value' => 'Enable'), // Checkbox
-                        "can_vendor_edit_shipping_policy" => array('title' => __('Vendor Can Edit', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'can_vendor_edit_shipping_policy', 'label_for' => 'can_vendor_edit_shipping_policy', 'name' => 'can_vendor_edit_shipping_policy', 'value' => 'Enable', 'text' => __('Allow vendors to edit the shipping policy.', $WCMp->text_domain)), // Checkbox
-                        "shipping_policy_label" => array('title' => __('Label', $WCMp->text_domain), 'type' => 'text', 'id' => 'shipping_policy_label', 'label_for' => 'shipping_policy_label', 'name' => 'shipping_policy_label'), // text
-                        "shipping_policy" => array('title' => __('Policy Content', $WCMp->text_domain), 'type' => 'wpeditor', 'id' => 'shipping_policy', 'label_for' => 'shipping_policy', 'name' => 'shipping_policy', 'cols' => 50, 'rows' => 6), // Textarea
+                        "is_shipping_on" => array('title' => __('Enable Shipping Policy', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_shipping_on', 'label_for' => 'is_shipping_on', 'name' => 'is_shipping_on', 'value' => 'Enable'), // Checkbox
+                        "is_shipping_product_level_on" => array('title' => __('Product Wise', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_shipping_product_level_on', 'label_for' => 'is_shipping_product_level_on', 'name' => 'is_shipping_product_level_on', 'value' => 'Enable'), // Checkbox
+                        "can_vendor_edit_shipping_policy" => array('title' => __('Vendor Can Edit', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'can_vendor_edit_shipping_policy', 'label_for' => 'can_vendor_edit_shipping_policy', 'name' => 'can_vendor_edit_shipping_policy', 'value' => 'Enable', 'text' => __('Allow vendors to edit the shipping policy.', 'dc-woocommerce-multi-vendor')), // Checkbox
+                        "shipping_policy_label" => array('title' => __('Label', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'shipping_policy_label', 'label_for' => 'shipping_policy_label', 'name' => 'shipping_policy_label'), // text
+                        "shipping_policy" => array('title' => __('Policy Content', 'dc-woocommerce-multi-vendor'), 'type' => 'wpeditor', 'id' => 'shipping_policy', 'label_for' => 'shipping_policy', 'name' => 'shipping_policy', 'cols' => 50, 'rows' => 6), // Textarea
                     )
                 ),
                 "wcmp_refund_policies_settings_section" => array(
-                    "title" => __('Refund Policy', $WCMp->text_domain),
+                    "title" => __('Refund Policy', 'dc-woocommerce-multi-vendor'),
                     "fields" => array(
-                        "is_refund_on" => array('title' => __('Enable Refund Policy', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_refund_on', 'label_for' => 'is_refund_on', 'name' => 'is_refund_on', 'value' => 'Enable'), // Checkbox
-                        "is_refund_product_level_on" => array('title' => __('Product Wise', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_refund_product_level_on', 'label_for' => 'is_refund_product_level_on', 'name' => 'is_refund_product_level_on', 'value' => 'Enable'), // Checkbox
-                        "can_vendor_edit_refund_policy" => array('title' => __('Vendor Can Edit', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'can_vendor_edit_refund_policy', 'label_for' => 'can_vendor_edit_refund_policy', 'name' => 'can_vendor_edit_refund_policy', 'value' => 'Enable', 'text' => __('Allow vendors to edit the refund policy.', $WCMp->text_domain)), // Checkbox
-                        "refund_policy_label" => array('title' => __('Label', $WCMp->text_domain), 'type' => 'text', 'id' => 'refund_policy_label', 'label_for' => 'refund_policy_label', 'name' => 'refund_policy_label'), // text
-                        "refund_policy" => array('title' => __('Policy Content', $WCMp->text_domain), 'type' => 'wpeditor', 'id' => 'refund_policy', 'label_for' => 'refund_policy', 'name' => 'refund_policy', 'cols' => 50, 'rows' => 6), // Textarea
+                        "is_refund_on" => array('title' => __('Enable Refund Policy', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_refund_on', 'label_for' => 'is_refund_on', 'name' => 'is_refund_on', 'value' => 'Enable'), // Checkbox
+                        "is_refund_product_level_on" => array('title' => __('Product Wise', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_refund_product_level_on', 'label_for' => 'is_refund_product_level_on', 'name' => 'is_refund_product_level_on', 'value' => 'Enable'), // Checkbox
+                        "can_vendor_edit_refund_policy" => array('title' => __('Vendor Can Edit', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'can_vendor_edit_refund_policy', 'label_for' => 'can_vendor_edit_refund_policy', 'name' => 'can_vendor_edit_refund_policy', 'value' => 'Enable', 'text' => __('Allow vendors to edit the refund policy.', 'dc-woocommerce-multi-vendor')), // Checkbox
+                        "refund_policy_label" => array('title' => __('Label', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'refund_policy_label', 'label_for' => 'refund_policy_label', 'name' => 'refund_policy_label'), // text
+                        "refund_policy" => array('title' => __('Policy Content', 'dc-woocommerce-multi-vendor'), 'type' => 'wpeditor', 'id' => 'refund_policy', 'label_for' => 'refund_policy', 'name' => 'refund_policy', 'cols' => 50, 'rows' => 6), // Textarea
                     )
                 ),
-                "wcmp_store_policies_settings_section" => array("title" => __('Cancellation / Return / Exchange Policy', $WCMp->text_domain), // Section one
+                "wcmp_store_policies_settings_section" => array("title" => __('Cancellation / Return / Exchange Policy', 'dc-woocommerce-multi-vendor'), // Section one
                     "fields" => array(
-                        "is_cancellation_on" => array('title' => __('Enable Cancellation / Return / Exchange Policy', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_cancellation_on', 'label_for' => 'is_cancellation_on', 'name' => 'is_cancellation_on', 'value' => 'Enable'), // Checkbox
-                        "is_cancellation_product_level_on" => array('title' => __('Product Wise', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_cancellation_product_level_on', 'label_for' => 'is_cancellation_product_level_on', 'name' => 'is_cancellation_product_level_on', 'value' => 'Enable'), // Checkbox
-                        "can_vendor_edit_cancellation_policy" => array('title' => __('Vendor Can Edit', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'can_vendor_edit_cancellation_policy', 'label_for' => 'can_vendor_edit_cancellation_policy', 'name' => 'can_vendor_edit_cancellation_policy', 'value' => 'Enable', 'text' => __('Allow vendors to edit the cancellation / return / exchange policy.', $WCMp->text_domain)), // Checkbox
-                        "cancellation_policy_label" => array('title' => __('Label', $WCMp->text_domain), 'type' => 'text', 'id' => 'cancellation_policy_label', 'label_for' => 'cancellation_policy_label', 'name' => 'cancellation_policy_label', 'cols' => 50, 'rows' => 6), // text
-                        "cancellation_policy" => array('title' => __('Policy Content', $WCMp->text_domain), 'type' => 'wpeditor', 'id' => 'cancellation_policy', 'label_for' => 'cancellation_policy', 'name' => 'cancellation_policy', 'cols' => 50, 'rows' => 6), // Textarea
+                        "is_cancellation_on" => array('title' => __('Enable Cancellation / Return / Exchange Policy', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_cancellation_on', 'label_for' => 'is_cancellation_on', 'name' => 'is_cancellation_on', 'value' => 'Enable'), // Checkbox
+                        "is_cancellation_product_level_on" => array('title' => __('Product Wise', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_cancellation_product_level_on', 'label_for' => 'is_cancellation_product_level_on', 'name' => 'is_cancellation_product_level_on', 'value' => 'Enable'), // Checkbox
+                        "can_vendor_edit_cancellation_policy" => array('title' => __('Vendor Can Edit', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'can_vendor_edit_cancellation_policy', 'label_for' => 'can_vendor_edit_cancellation_policy', 'name' => 'can_vendor_edit_cancellation_policy', 'value' => 'Enable', 'text' => __('Allow vendors to edit the cancellation / return / exchange policy.', 'dc-woocommerce-multi-vendor')), // Checkbox
+                        "cancellation_policy_label" => array('title' => __('Label', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'cancellation_policy_label', 'label_for' => 'cancellation_policy_label', 'name' => 'cancellation_policy_label', 'cols' => 50, 'rows' => 6), // text
+                        "cancellation_policy" => array('title' => __('Policy Content', 'dc-woocommerce-multi-vendor'), 'type' => 'wpeditor', 'id' => 'cancellation_policy', 'label_for' => 'cancellation_policy', 'name' => 'cancellation_policy', 'cols' => 50, 'rows' => 6), // Textarea
                     ),
                 )
             ),
@@ -120,7 +120,7 @@ class WCMp_Settings_Gneral_Policies {
 
         if (!$hasError) {
             add_settings_error(
-                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Policies Settings Updated', $WCMp->text_domain), 'updated'
+                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Policies Settings Updated', 'dc-woocommerce-multi-vendor'), 'updated'
             );
         }
         return apply_filters("settings_{$this->tab}_{$this->subsection}_tab_new_input", $new_input, $input);
@@ -135,7 +135,7 @@ class WCMp_Settings_Gneral_Policies {
      */
     public function wcmp_store_policies_settings_section_info() {
         global $WCMp;
-        //printf(__('Cancellation / Return / Exchange Policy.', $WCMp->text_domain));
+        //printf(__('Cancellation / Return / Exchange Policy.', 'dc-woocommerce-multi-vendor'));
     }
 
     public function wcmp_refund_policies_settings_section_info() {

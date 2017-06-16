@@ -44,7 +44,7 @@ $count_university = count($university_posts);
 </div>
 <?php
 if ($count_university == 0) {
-    echo '<div style="width:100%; text-align:center;">' . __('Sorry no knowledgebase found', $WCMp->text_domain) . "</div>";
+    echo '<div style="width:100%; text-align:center;">' . __('Sorry no knowledgebase found', 'dc-woocommerce-multi-vendor') . "</div>";
 }
 ?>
 <script type="text/javascript">

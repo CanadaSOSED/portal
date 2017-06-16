@@ -16,18 +16,18 @@ global  $WCMp;
 
 <?php do_action( 'woocommerce_email_header', $email_heading ); ?>
 
-<p><?php _e( 'Some of the items you had ordered have been shipped. The items that have been shipped are as follows:',  $WCMp->text_domain ); ?></p>
+<p><?php _e( 'Some of the items you had ordered have been shipped. The items that have been shipped are as follows:',  'dc-woocommerce-multi-vendor' ); ?></p>
 
 <?php do_action( 'woocommerce_email_before_order_table', $order, true ); ?>
 
-<h2><?php printf( __( 'Order: %s',  $WCMp->text_domain ), $order->get_order_number() ); ?> (<?php printf( '<time datetime="%s">%s</time>', date_i18n( 'c', strtotime( $order->get_date_created() ) ), date_i18n( woocommerce_date_format(), strtotime( $order->get_date_created() ) ) ); ?>)</h2>
+<h2><?php printf( __( 'Order: %s',  'dc-woocommerce-multi-vendor' ), $order->get_order_number() ); ?> (<?php printf( '<time datetime="%s">%s</time>', date_i18n( 'c', strtotime( $order->get_date_created() ) ), date_i18n( woocommerce_date_format(), strtotime( $order->get_date_created() ) ) ); ?>)</h2>
 
 <table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #eee;" border="1" bordercolor="#eee">
 	<thead>
 		<tr>
-			<th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e( 'Product',  $WCMp->text_domain ); ?></th>
-			<th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e( 'Quantity',  $WCMp->text_domain ); ?></th>
-			<th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e( 'Price',  $WCMp->text_domain ); ?></th>
+			<th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e( 'Product',  'dc-woocommerce-multi-vendor' ); ?></th>
+			<th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e( 'Quantity',  'dc-woocommerce-multi-vendor' ); ?></th>
+			<th scope="col" style="text-align:left; border: 1px solid #eee;"><?php _e( 'Price',  'dc-woocommerce-multi-vendor' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -56,18 +56,18 @@ global  $WCMp;
 
 <?php do_action( 'woocommerce_email_order_meta', $order, true ); ?>
 
-<h2><?php _e( 'Customer Details',  $WCMp->text_domain ); ?></h2>
+<h2><?php _e( 'Customer Details',  'dc-woocommerce-multi-vendor' ); ?></h2>
 
 <?php if ( $order->get_billing_email() ) : ?>
-	<p><strong><?php _e( 'Email:',  $WCMp->text_domain ); ?></strong> <?php echo $order->get_billing_email(); ?></p>
+	<p><strong><?php _e( 'Email:',  'dc-woocommerce-multi-vendor' ); ?></strong> <?php echo $order->get_billing_email(); ?></p>
 <?php endif; ?>
 <?php if ( $order->get_billing_phone() ) : ?>
-	<p><strong><?php _e( 'Telephone:',  $WCMp->text_domain ); ?></strong> <?php echo $order->get_billing_phone(); ?></p>
+	<p><strong><?php _e( 'Telephone:',  'dc-woocommerce-multi-vendor' ); ?></strong> <?php echo $order->get_billing_phone(); ?></p>
 <?php endif; ?>
         
-<h2><?php _e( 'Shipment Tracking Details',  $WCMp->text_domain ); ?></h2>
-<p><strong><?php _e( 'Tracking Url:',  $WCMp->text_domain ); ?></strong> <?php echo $tracking_url; ?></p>
-<p><strong><?php _e( 'Tracking Id:',  $WCMp->text_domain ); ?></strong> <?php echo $tracking_id; ?></p>
+<h2><?php _e( 'Shipment Tracking Details',  'dc-woocommerce-multi-vendor' ); ?></h2>
+<p><strong><?php _e( 'Tracking Url:',  'dc-woocommerce-multi-vendor' ); ?></strong> <?php echo $tracking_url; ?></p>
+<p><strong><?php _e( 'Tracking Id:',  'dc-woocommerce-multi-vendor' ); ?></strong> <?php echo $tracking_id; ?></p>
 
 <?php wc_get_template( 'emails/email-addresses.php', array( 'order' => $order ) ); ?>
 

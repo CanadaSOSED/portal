@@ -20,14 +20,14 @@ if ($vendor && $order_id) {
     $order = new WC_Order($order_id);
     if ($order && sizeof($order->get_items()) > 0) {
         ?>
-        <!--        <h2><?php _e('Order Details', $WCMp->text_domain); ?></h2>-->
+        <!--        <h2><?php _e('Order Details', 'dc-woocommerce-multi-vendor'); ?></h2>-->
         <table class="customer_order_dtl"> 
             <tbody>
-            <th><label for="product_name"><?php _e('Product Title', $WCMp->text_domain) ?></label></th>
-            <th><label for="product_qty"><?php _e('Product Quantity', $WCMp->text_domain) ?></label></th>
-            <th><label for="product_total"><?php _e('Line Subtotal', $WCMp->text_domain) ?></label></th>
+            <th><label for="product_name"><?php _e('Product Title', 'dc-woocommerce-multi-vendor') ?></label></th>
+            <th><label for="product_qty"><?php _e('Product Quantity', 'dc-woocommerce-multi-vendor') ?></label></th>
+            <th><label for="product_total"><?php _e('Line Subtotal', 'dc-woocommerce-multi-vendor') ?></label></th>
             <?php if (in_array($order->get_status(), array('processing', 'completed')) && ( $purchase_note = get_post_meta($order_id, '_purchase_note', true) )) { ?>
-                <th><label for="product_note"><?php _e('Purchase Note', $WCMp->text_domain) ?></label></th>
+                <th><label for="product_note"><?php _e('Purchase Note', 'dc-woocommerce-multi-vendor') ?></label></th>
             <?php } ?>
             <?php
             if (sizeof($order->get_items()) > 0) {
@@ -69,7 +69,7 @@ if ($vendor && $order_id) {
         $coupons = $order->get_used_coupons();
         if (!empty($coupons)) {
             ?>
-            <div class="wcmp_headding2"><?php _e('Coupon Used :', $WCMp->text_domain); ?></div>
+            <div class="wcmp_headding2"><?php _e('Coupon Used :', 'dc-woocommerce-multi-vendor'); ?></div>
             <table class="coupon_used"> 
                 <tbody>
                     <tr>
@@ -85,7 +85,7 @@ if ($vendor && $order_id) {
                             }
                         }
                         if (!$coupon_used)
-                            echo '<td>' . __("Sorry No Coupons of yours is used.", $WCMp->text_domain) . '</td>'
+                            echo '<td>' . __("Sorry No Coupons of yours is used.", 'dc-woocommerce-multi-vendor') . '</td>'
                             ?>
                     </tr>
                 </tbody>
@@ -95,9 +95,9 @@ if ($vendor && $order_id) {
         ?>
         <?php $customer_note = $order->get_customer_note();
         ?>
-        <div class="wcmp_headding2"><?php _e('Customer Note', $WCMp->text_domain); ?></div>
+        <div class="wcmp_headding2"><?php _e('Customer Note', 'dc-woocommerce-multi-vendor'); ?></div>
         <p class="wcmp_headding3">
-            <?php echo $customer_note ? $customer_note : __('No customer note.', $WCMp->text_domain); ?>
+            <?php echo $customer_note ? $customer_note : __('No customer note.', 'dc-woocommerce-multi-vendor'); ?>
         </p>
 
         <?php
@@ -106,7 +106,7 @@ if ($vendor && $order_id) {
             $vendor_comments = $order->get_customer_order_notes();
             if ($vendor_comments) {
                 ?>
-                <div class="wcmp_headding2"><?php _e('Comments', $WCMp->text_domain); ?></div>
+                <div class="wcmp_headding2"><?php _e('Comments', 'dc-woocommerce-multi-vendor'); ?></div>
                 <div class="wcmp_headding3">
                     <?php
                     foreach ($vendor_comments as $comment) {
@@ -117,7 +117,7 @@ if ($vendor && $order_id) {
                         $last_added = human_time_diff(strtotime($comment->comment_date_gmt), current_time('timestamp', 1));
                         ?>
                         <p>
-                            <?php printf(__('Added %s ago', $WCMp->text_domain), $last_added); ?>
+                            <?php printf(__('Added %s ago', 'dc-woocommerce-multi-vendor'), $last_added); ?>
                             </br>
                             <?php echo $comment->comment_content; ?>
                         </p>
@@ -132,27 +132,27 @@ if ($vendor && $order_id) {
         $is_vendor_submit_comment_field = apply_filters('is_vendor_submit_comment_field', true);
         if ($WCMp->vendor_caps->vendor_capabilities_settings('is_vendor_submit_comment') && $is_vendor_submit_comment_field) {
             ?>
-            <div class="wcmp_headding2"><?php _e('Add Comment', $WCMp->text_domain); ?></div>
+            <div class="wcmp_headding2"><?php _e('Add Comment', 'dc-woocommerce-multi-vendor'); ?></div>
             <form method="post" name="add_comment" id="add-comment_<?php echo $order_id; ?>">
                 <?php wp_nonce_field('dc-add-comment'); ?>
                 <textarea name="comment_text" style="width:97%; margin-bottom: 10px;"></textarea>
                 <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
-                <input class="btn btn-large btn-block" type="submit" name="wcmp_submit_comment" value="<?php _e('Add comment', $WCMp->text_domain); ?>">
+                <input class="btn btn-large btn-block" type="submit" name="wcmp_submit_comment" value="<?php _e('Add comment', 'dc-woocommerce-multi-vendor'); ?>">
             </form>
         <?php } ?>
 
         <?php if ($WCMp->vendor_caps->vendor_capabilities_settings('show_customer_dtl') && !$is_not_show_customer_dtl_field = apply_filters('is_not_show_customer_dtl_field', false)) { ?>
            
-                <div class="wcmp_headding2"><?php _e('Customer Details', $WCMp->text_domain); ?></div>
+                <div class="wcmp_headding2"><?php _e('Customer Details', 'dc-woocommerce-multi-vendor'); ?></div>
             <div class="wcmp_headding3">
                 <dl class="customer_details">
                     <?php
                     $name = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-                    echo '<dt>' . __('Name:', $WCMp->text_domain) . '</dt><dd>' . $name . '</dd>';
+                    echo '<dt>' . __('Name:', 'dc-woocommerce-multi-vendor') . '</dt><dd>' . $name . '</dd>';
                     if ($order->get_billing_email())
-                        echo '<dt>' . __('Email:', $WCMp->text_domain) . '</dt><dd>' . $order->get_billing_email() . '</dd>';
+                        echo '<dt>' . __('Email:', 'dc-woocommerce-multi-vendor') . '</dt><dd>' . $order->get_billing_email() . '</dd>';
                     if ($order->get_billing_phone())
-                        echo '<dt>' . __('Telephone:', $WCMp->text_domain) . '</dt><dd>' . $order->get_billing_phone() . '</dd>';
+                        echo '<dt>' . __('Telephone:', 'dc-woocommerce-multi-vendor') . '</dt><dd>' . $order->get_billing_phone() . '</dd>';
 
                     // Additional customer details hook
                     do_action('wcmp_order_details_after_customer_details', $order);
@@ -164,12 +164,12 @@ if ($vendor && $order_id) {
 
         <?php if ($WCMp->vendor_caps->vendor_capabilities_settings('show_customer_billing') && !$is_not_show_customer_billing_field = apply_filters('is_not_show_customer_billing_field', false)) { ?>
             <div class="col-1">
-                    <div class="wcmp_headding2"><?php _e('Billing Address', $WCMp->text_domain); ?></div>
+                    <div class="wcmp_headding2"><?php _e('Billing Address', 'dc-woocommerce-multi-vendor'); ?></div>
                 <div class="wcmp_headding3">
                     <address><p>
                             <?php
                             if (!$order->get_formatted_billing_address())
-                                _e('N/A', $WCMp->text_domain);
+                                _e('N/A', 'dc-woocommerce-multi-vendor');
                             else
                                 echo $order->get_formatted_billing_address();
                             ?>
@@ -182,12 +182,12 @@ if ($vendor && $order_id) {
             ?>
             <?php if (!wc_ship_to_billing_address_only() && get_option('woocommerce_calc_shipping') !== 'no') { ?>
                 <div class="col-2">
-                        <div class="wcmp_headding2"><?php _e('Shipping Address', $WCMp->text_domain); ?></div>
+                        <div class="wcmp_headding2"><?php _e('Shipping Address', 'dc-woocommerce-multi-vendor'); ?></div>
                     <div class="wcmp_headding3">
                         <address><p>
                                 <?php
                                 if (!$order->get_formatted_shipping_address())
-                                    _e('N/A', $WCMp->text_domain);
+                                    _e('N/A', 'dc-woocommerce-multi-vendor');
                                 else
                                     echo $order->get_formatted_shipping_address();
                                 ?>
@@ -199,7 +199,7 @@ if ($vendor && $order_id) {
             }
         }
     } else {
-        echo __('<div class="wcmp_headding3">No such order found</div>', $WCMp->text_domain);
+        echo __('<div class="wcmp_headding3">No such order found</div>', 'dc-woocommerce-multi-vendor');
     }
 }
 ?>

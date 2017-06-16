@@ -79,22 +79,22 @@ class WCMp_Report {
 	function wcmp_report_tabs( $reports ) {
 		global $WCMp;		
 		$reports['wcmp_vendors'] = array(
-			'title'  => __( 'WCMp', $WCMp->text_domain ),
+			'title'  => __( 'WCMp', 'dc-woocommerce-multi-vendor' ),
 			'reports' => array(
 				"overview" => array(
-					'title'       => __( 'Overview', $WCMp->text_domain ),
+					'title'       => __( 'Overview', 'dc-woocommerce-multi-vendor' ),
 					'description' => '',
 					'hide_title'  => true,
 					'callback'    => array( __CLASS__, 'wcmp_get_report' )
 				),
 				"vendor" => array(
-					'title'       => __( 'Vendor', $WCMp->text_domain ),
+					'title'       => __( 'Vendor', 'dc-woocommerce-multi-vendor' ),
 					'description' => '',
 					'hide_title'  => true,
 					'callback'    => array( __CLASS__, 'wcmp_get_report' )
 				),
 				"product" => array(
-					'title'       => __( 'Product', $WCMp->text_domain ),
+					'title'       => __( 'Product', 'dc-woocommerce-multi-vendor' ),
 					'description' => '',
 					'hide_title'  => true,
 					'callback'    => array( __CLASS__, 'wcmp_get_report' )

@@ -74,11 +74,10 @@ if ($vendor_data) :
                         }
                     }
                 }
-                ?>					
-                <?php do_action('wcmp_before_shipping_form_end_vendor_dashboard'); ?>
-
+                ?>	
             </tbody>
         </table>
+        <?php do_action('wcmp_before_shipping_form_end_vendor_dashboard'); ?>
         <div class="action_div">
             <button class="wcmp_orange_btn" name="shipping_save">Save Options</button>
         </div>

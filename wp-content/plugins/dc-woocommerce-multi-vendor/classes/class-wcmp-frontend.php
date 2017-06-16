@@ -160,6 +160,7 @@ class WCMp_Frontend {
             }
         }
     }
+
     /**
      * Populate vendor registration form
      * @global object $WCMp
@@ -169,6 +170,7 @@ class WCMp_Frontend {
         $wcmp_vendor_registration_form_data = get_option('wcmp_vendor_registration_form_data');
         $WCMp->template->get_template('vendor_registration_form.php', array('wcmp_vendor_registration_form_data' => $wcmp_vendor_registration_form_data));
     }
+
     /**
      * Display custom message in woocommerce thank you page
      * @global object $wpdb
@@ -283,7 +285,7 @@ class WCMp_Frontend {
         if ($vendor_id && $vendor_id != 0) {
             $vendor = get_wcmp_vendor($vendor_id);
             if ($vendor) {
-                return $vendor->user_data->display_name . __(' Shipping', $WCMp->text_domain);
+                return $vendor->user_data->display_name . __(' Shipping', 'dc-woocommerce-multi-vendor');
             }
             return $package_name;
         }
@@ -314,7 +316,6 @@ class WCMp_Frontend {
                 , 'package_qty' => $order_item_shipping->get_meta('package_qty', true)
             );
         }
-
         foreach ($items as $order_item_id => $item) {
             $line_item = new WC_Order_Item_Product($item);
             $product_id = $item['product_id'];
@@ -327,8 +328,11 @@ class WCMp_Frontend {
                             $mark_ship = 1;
                         }
                     }
-                    $shipping_amount = round(($vendor_shipping[$product_vendors->id]['shipping'] / $vendor_shipping[$product_vendors->id]['package_qty']) * $line_item->get_quantity(), 2);
-                    $shipping_tax_amount = round(($vendor_shipping[$product_vendors->id]['shipping_tax'] / $vendor_shipping[$product_vendors->id]['package_qty']) * $line_item->get_quantity(), 2);
+                    $shipping_amount = $shipping_tax_amount = 0;
+                    if (!empty($vendor_shipping) && isset($vendor_shipping[$product_vendors->id])) {
+                        $shipping_amount = (float) round(($vendor_shipping[$product_vendors->id]['shipping'] / $vendor_shipping[$product_vendors->id]['package_qty']) * $line_item->get_quantity(), 2);
+                        $shipping_tax_amount = (float) round(($vendor_shipping[$product_vendors->id]['shipping_tax'] / $vendor_shipping[$product_vendors->id]['package_qty']) * $line_item->get_quantity(), 2);
+                    }
                     $wpdb->query(
                             $wpdb->prepare(
                                     "INSERT INTO `{$wpdb->prefix}wcmp_vendor_orders` 
@@ -410,7 +414,7 @@ class WCMp_Frontend {
         }
         // Enqueue your frontend javascript from here
         wp_enqueue_script('frontend_js', $frontend_script_path . 'frontend' . $suffix . '.js', array('jquery'), $WCMp->version, true);
-        wp_localize_script('frontend_js', 'front_end_param', array('report_abuse_msg' => __('Report has been sent', $WCMp->text_domain)));
+        wp_localize_script('frontend_js', 'front_end_param', array('report_abuse_msg' => __('Report has been sent', 'dc-woocommerce-multi-vendor')));
         if (is_vendor_order_by_product_page()) {
             wp_enqueue_script('vendor_order_by_product_js', $frontend_script_path . 'vendor_order_by_product' . $suffix . '.js', array('jquery'), $WCMp->version, true);
         }
@@ -439,10 +443,10 @@ class WCMp_Frontend {
 
             wp_enqueue_script('wcmp_seller_review_rating_js', $frontend_script_path . '/vendor_review_rating' . $suffix . '.js', array('jquery'), $WCMp->version, true);
             $vendor_review_rating_msg_array = array(
-                'rating_error_msg_txt' => __('Please rate the vendor', $WCMp->text_domain),
-                'review_error_msg_txt' => __('Please review your vendor and minimum 10 Character required', $WCMp->text_domain),
-                'review_success_msg_txt' => __('Your review submitted successfully', $WCMp->text_domain),
-                'review_failed_msg_txt' => __('Error in system please try again later', $WCMp->text_domain),
+                'rating_error_msg_txt' => __('Please rate the vendor', 'dc-woocommerce-multi-vendor'),
+                'review_error_msg_txt' => __('Please review your vendor and minimum 10 Character required', 'dc-woocommerce-multi-vendor'),
+                'review_success_msg_txt' => __('Your review submitted successfully', 'dc-woocommerce-multi-vendor'),
+                'review_failed_msg_txt' => __('Error in system please try again later', 'dc-woocommerce-multi-vendor'),
                 'ajax_url' => trailingslashit(get_admin_url()) . 'admin-ajax.php',
                 'vendor_id' => $vendor_id ? $vendor_id : ''
             );

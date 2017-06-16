@@ -553,7 +553,7 @@ if (!function_exists('wcmp_action_links')) {
     function wcmp_action_links($links) {
         global $WCMp;
         $plugin_links = array(
-            '<a href="' . admin_url('admin.php?page=wcmp-setting-admin') . '">' . __('Settings', $WCMp->text_domain) . '</a>');
+            '<a href="' . admin_url('admin.php?page=wcmp-setting-admin') . '">' . __('Settings', 'dc-woocommerce-multi-vendor') . '</a>');
         return array_merge($plugin_links, $links);
     }
 
@@ -692,7 +692,7 @@ if (!function_exists('get_wcmp_vendor_order_amount')) {
             $commission_amount = 0;
             $total = 0;
         }
-        if ($check_caps && $WCMp) {
+        if ($check_caps && $WCMp && $vendor_id) {
             $amount = array(
                 'commission_amount' => $commission_amount,
             );
@@ -1621,4 +1621,14 @@ if (!function_exists('do_wcmp_commission_data_migrate')) {
         }
     }
 
+}
+
+if(!function_exists('wcmp_unpaid_commission_count')){
+    /**
+     * Count unpaid commisssion
+     * @return int
+     */
+    function wcmp_unpaid_commission_count(){
+        return count(array_unique(wp_list_pluck(get_wcmp_vendor_orders(array('commission_status' => 'unpaid', 'is_trashed' => '')),'commission_id')));
+    }
 }

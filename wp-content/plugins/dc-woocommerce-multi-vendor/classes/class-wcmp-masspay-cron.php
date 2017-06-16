@@ -78,7 +78,7 @@ class WCMp_MassPay_Cron {
             }
             // Set info for all payouts
             $currency = get_woocommerce_currency();
-            $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', $WCMp->text_domain), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
+            $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', 'dc-woocommerce-multi-vendor'), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
             $commissions_data = array();
             $transactions_data = array();
             foreach ($commission_totals as $vendor_id => $total) {

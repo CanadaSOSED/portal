@@ -39,7 +39,7 @@ if( !empty( $results_str ) ) {
 	);
 	$results = get_posts( $args );
 	if(count($results) > 1){
-		$button_text = apply_filters('wcmp_more_vendors', __('More Vendors',$WCMp->text_domain));
+		$button_text = apply_filters('wcmp_more_vendors', __('More Vendors','dc-woocommerce-multi-vendor'));
 		echo '<a  href="#" class="goto_more_offer_tab button">'.$button_text.'</a>';
 	}
 } 

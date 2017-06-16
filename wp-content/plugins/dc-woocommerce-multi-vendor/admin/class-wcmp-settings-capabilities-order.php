@@ -29,27 +29,27 @@ class WCMp_Settings_Capabilities_Order {
             "subsection" => "{$this->subsection}",
             "sections" => array(
                 "vendor_order" => array(
-                    "title" => __('Order Notes', $WCMp->text_domain),
+                    "title" => __('Order Notes', 'dc-woocommerce-multi-vendor'),
                     "fields" => array(
-                        "is_vendor_view_comment" => array('title' => __('View Order Note', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_vendor_view_comment', 'label_for' => 'is_vendor_view_comment', 'name' => 'is_vendor_view_comment', 'text' => __('Vendor can see order notes.', $WCMp->text_domain), 'value' => 'Enable'), // Checkbox
-                        "is_vendor_submit_comment" => array('title' => __('Add Order Note', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_vendor_submit_comment', 'label_for' => 'is_vendor_submit_comment', 'name' => 'is_vendor_submit_comment', 'text' => __('Vendor can add order notes.', $WCMp->text_domain), 'value' => 'Enable'), // Checkbox
+                        "is_vendor_view_comment" => array('title' => __('View Order Note', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_vendor_view_comment', 'label_for' => 'is_vendor_view_comment', 'name' => 'is_vendor_view_comment', 'text' => __('Vendor can see order notes.', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable'), // Checkbox
+                        "is_vendor_submit_comment" => array('title' => __('Add Order Note', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_vendor_submit_comment', 'label_for' => 'is_vendor_submit_comment', 'name' => 'is_vendor_submit_comment', 'text' => __('Vendor can add order notes.', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable'), // Checkbox
                     )
                 ),
-                "vendor_order_export" => array("title" => __('Order Export Data / Report Export Data', $WCMp->text_domain), // Section one
+                "vendor_order_export" => array("title" => __('Order Export Data / Report Export Data', 'dc-woocommerce-multi-vendor'), // Section one
                     "fields" => array(
-                        "is_order_csv_export" => array('title' => __('Allow vendors to export orders.', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_order_csv_export', 'label_for' => 'is_order_csv_export', 'name' => 'is_order_csv_export', 'value' => 'Enable'), // Checkbox
-                        "is_show_email" => array('title' => __('Customer Name', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_show_email', 'label_for' => 'is_show_email', 'name' => 'is_show_email', 'value' => 'Enable'), // Checkbox
-                        "show_customer_dtl" => array('title' => __('E-mail and Phone Number', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'show_customer_dtl', 'label_for' => 'show_customer_dtl', 'name' => 'show_customer_dtl', 'value' => 'Enable'), // Checkbox
-                        "show_customer_billing" => array('title' => __('Billing Address', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'show_customer_billing', 'label_for' => 'show_customer_billing', 'name' => 'show_customer_billing', 'value' => 'Enable'), // Checkbox
-                        "show_customer_shipping" => array('title' => __('Shipping Address', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'show_customer_shipping', 'label_for' => 'show_customer_shipping', 'name' => 'show_customer_shipping', 'value' => 'Enable'), // Checkbox
+                        "is_order_csv_export" => array('title' => __('Allow vendors to export orders.', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_order_csv_export', 'label_for' => 'is_order_csv_export', 'name' => 'is_order_csv_export', 'value' => 'Enable'), // Checkbox
+                        "is_show_email" => array('title' => __('Customer Name', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_show_email', 'label_for' => 'is_show_email', 'name' => 'is_show_email', 'value' => 'Enable'), // Checkbox
+                        "show_customer_dtl" => array('title' => __('E-mail and Phone Number', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'show_customer_dtl', 'label_for' => 'show_customer_dtl', 'name' => 'show_customer_dtl', 'value' => 'Enable'), // Checkbox
+                        "show_customer_billing" => array('title' => __('Billing Address', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'show_customer_billing', 'label_for' => 'show_customer_billing', 'name' => 'show_customer_billing', 'value' => 'Enable'), // Checkbox
+                        "show_customer_shipping" => array('title' => __('Shipping Address', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'show_customer_shipping', 'label_for' => 'show_customer_shipping', 'name' => 'show_customer_shipping', 'value' => 'Enable'), // Checkbox
                     )
                 ),
-                "vendor_email_settings" => array("title" => __('Order Email Settings for Vendor', $WCMp->text_domain), // Section one
+                "vendor_email_settings" => array("title" => __('Order Email Settings for Vendor', 'dc-woocommerce-multi-vendor'), // Section one
                     "fields" => array(
-                        "show_cust_add" => array('title' => __('Name, Phone no. and Email', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'show_cust_add', 'label_for' => 'show_cust_add', 'name' => 'show_cust_add', 'value' => 'Enable'), // Checkbox
-                        "show_cust_billing_add" => array('title' => __('Billing Address', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'show_cust_billing_add', 'label_for' => 'show_cust_billing_add', 'name' => 'show_cust_billing_add', 'value' => 'Enable'), // Checkbox
-                        "show_cust_shipping_add" => array('title' => __('Shipping Address', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'show_cust_shipping_add', 'label_for' => 'show_cust_shipping_add', 'name' => 'show_cust_shipping_add', 'value' => 'Enable'), // Checkbox
-                        "show_cust_order_calulations" => array('title' => __('Order Calculations', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'show_cust_order_calulations', 'label_for' => 'show_cust_order_calulations', 'name' => 'show_cust_order_calulations', 'value' => 'Enable'), // Checkbox
+                        "show_cust_add" => array('title' => __('Name, Phone no. and Email', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'show_cust_add', 'label_for' => 'show_cust_add', 'name' => 'show_cust_add', 'value' => 'Enable'), // Checkbox
+                        "show_cust_billing_add" => array('title' => __('Billing Address', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'show_cust_billing_add', 'label_for' => 'show_cust_billing_add', 'name' => 'show_cust_billing_add', 'value' => 'Enable'), // Checkbox
+                        "show_cust_shipping_add" => array('title' => __('Shipping Address', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'show_cust_shipping_add', 'label_for' => 'show_cust_shipping_add', 'name' => 'show_cust_shipping_add', 'value' => 'Enable'), // Checkbox
+                        "show_cust_order_calulations" => array('title' => __('Order Calculations', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'show_cust_order_calulations', 'label_for' => 'show_cust_order_calulations', 'name' => 'show_cust_order_calulations', 'value' => 'Enable'), // Checkbox
                     )
                 ),
             )
@@ -115,7 +115,7 @@ class WCMp_Settings_Capabilities_Order {
 
         if (!$hasError) {
             add_settings_error(
-                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Vendor Settings Updated', $WCMp->text_domain), 'updated'
+                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Vendor Settings Updated', 'dc-woocommerce-multi-vendor'), 'updated'
             );
         }
         return apply_filters("settings_{$this->tab}_{$this->subsection}_tab_new_input", $new_input, $input);

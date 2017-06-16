@@ -170,7 +170,7 @@ class WCMp_Vendor {
      */
     public function generate_term() {
         global $WCMp;
-        if (!isset($this->term_id)) {
+        if (!$this->term_id) {
             $term = wp_insert_term($this->user_data->user_login, $WCMp->taxonomy->taxonomy_name);
             if (!is_wp_error($term)) {
                 update_user_meta($this->id, '_vendor_term_id', $term['term_id']);
@@ -548,16 +548,16 @@ class WCMp_Vendor {
             wc_display_item_meta($item);
 
             // Quantity
-            echo "\n" . sprintf(__('Quantity: %s', $WCMp->text_domain), $item['qty']);
+            echo "\n" . sprintf(__('Quantity: %s', 'dc-woocommerce-multi-vendor'), $item['qty']);
             if (isset($item['variation_id']) && !empty($item['variation_id'])) {
                 $variation_id = $item['variation_id'];
             }
             $product_id = $item['product_id'];
 
             if ($is_ship)
-                echo "\n" . sprintf(__('Total: %s', $WCMp->text_domain), $order->get_formatted_line_subtotal($item));
+                echo "\n" . sprintf(__('Total: %s', 'dc-woocommerce-multi-vendor'), $order->get_formatted_line_subtotal($item));
             else
-                echo "\n" . sprintf(__('Commission: %s', $WCMp->text_domain), $commission_obj->get_item_commission($product_id, $variation_id, $item, $order->get_id(), $item_id));
+                echo "\n" . sprintf(__('Commission: %s', 'dc-woocommerce-multi-vendor'), $commission_obj->get_item_commission($product_id, $variation_id, $item, $order->get_id(), $item_id));
 
             echo "\n\n";
         }
@@ -570,55 +570,15 @@ class WCMp_Vendor {
      */
     public function wcmp_get_vendor_part_from_order($order, $vendor_term_id) {
         global $WCMp;
-        require_once ( 'class-wcmp-calculate-commission.php' );
-        $commission_obj = new WCMp_Calculate_Commission();
+        $order_id = $order->get_id();
         $vendor = get_wcmp_vendor_by_term($vendor_term_id);
-        $vendor_items = $this->get_vendor_items_from_order($order->get_id(), $vendor_term_id);
-        $commission_amt = 0;
-        $vendor_due = array();
-        $product_value_total = 0;
-        $line_tax = 0;
-
-        foreach ($vendor_items as $item_id => $item) {
-            $line_item = new WC_Order_Item_Product($item);
-            if (isset($item['variation_id']) && !empty($item['variation_id'])) {
-                $variation_id = $item['variation_id'];
-            } else {
-                $variation_id = 0;
-            }
-            $product_id = $item['product_id'];
-            if ($variation_id == 0) {
-                $product_id_for_value = $product_id;
-            } else {
-                $product_id_for_value = $variation_id;
-            }
-            $product_value = get_post_meta($product_id_for_value, '_price', true);
-            if (empty($product_value)) {
-                $product_value = 0;
-            }
-            $product_value_total += ($product_value * $item['qty']);
-            $commission_amt = (float) $commission_amt + (float) $commission_obj->get_item_commission($product_id, $variation_id, $item, $order->get_id(), $item_id);
-            $vendor_due['commission'] = $commission_amt;
-            if ($vendor_due['commission'] > $product_value_total) {
-                $vendor_due['commission'] = $product_value_total;
-            }
-            $line_tax += $line_item->get_total_tax();
-            $vendor_due['tax'] = $line_tax;
-        }
-        $shipping_items = $order->get_items('shipping');
-        $vendor_shipping = array();
-        foreach ($shipping_items as $shipping_item_id => $shipping_item) {
-            $order_item_shipping = new WC_Order_Item_Shipping($shipping_item_id);
-            $shipping_vendor_id = $order_item_shipping->get_meta('vendor_id', true);
-            $vendor_shipping[$shipping_vendor_id] = array(
-                'shipping' => $order_item_shipping->get_total()
-                , 'shipping_tax' => $order_item_shipping->get_total_tax()
-                , 'package_qty' => $order_item_shipping->get_meta('package_qty', true)
-            );
-        }
-        $vendor_due['shipping'] = $vendor_shipping[$vendor->id]['shipping'];
-        $vendor_due['shipping_tax'] = $vendor_shipping[$vendor->id]['shipping_tax'];
-
+        $vendor_part = get_wcmp_vendor_order_amount(array('order_id' => $order_id, 'vendor_id' => $vendor->id));
+        $vendor_due = array(
+            'commission' => $vendor_part['commission_amount'],
+            'shipping' => $vendor_part['shipping_amount'],
+            'tax' => $vendor_part['tax_amount'],
+            'shipping_tax' => $vendor_part['shipping_tax_amount']
+        );
         return apply_filters('vendor_due_per_order', $vendor_due, $order, $vendor_term_id);
     }
 
@@ -672,19 +632,19 @@ class WCMp_Vendor {
         $vendor_totals = get_wcmp_vendor_order_amount(array('vendor_id' => $vendor->id, 'order_id' => $order));
         return array(
             'commission_subtotal' => array(
-                'label' => __('Commission Subtotal:', $WCMp->text_domain),
+                'label' => __('Commission Subtotal:', 'dc-woocommerce-multi-vendor'),
                 'value' => wc_price($vendor_totals['commission_amount'])
             ),
             'tax_subtotal' => array(
-                'label' => __('Tax Subtotal:', $WCMp->text_domain),
+                'label' => __('Tax Subtotal:', 'dc-woocommerce-multi-vendor'),
                 'value' => wc_price($vendor_totals['tax_amount'] + $vendor_totals['shipping_tax_amount'])
             ),
             'shipping_subtotal' => array(
-                'label' => __('Shipping Subtotal:', $WCMp->text_domain),
+                'label' => __('Shipping Subtotal:', 'dc-woocommerce-multi-vendor'),
                 'value' => wc_price($vendor_totals['shipping_amount'])
             ),
             'total' => array(
-                'label' => __('Total:', $WCMp->text_domain),
+                'label' => __('Total:', 'dc-woocommerce-multi-vendor'),
                 'value' => wc_price($vendor_totals['commission_amount'] + $vendor_totals['tax_amount'] + $vendor_totals['shipping_tax_amount'] + $vendor_totals['shipping_amount'])
             )
         );

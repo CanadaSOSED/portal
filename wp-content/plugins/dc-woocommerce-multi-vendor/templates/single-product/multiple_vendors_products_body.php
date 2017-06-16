@@ -68,9 +68,9 @@ if(isset($more_product_array) && is_array($more_product_array) && count($more_pr
 						elseif($more_product['rating_data']['avg_rating'] < 2.0 ) {
 							$rating_class = 'wcmp_bad_rating';
 						}
-						echo '<span title="'.__(sprintf("Based on %s Rating",$more_product['rating_data']['total_rating']), $WCMp->text_domain).'" class="'.$rating_class.'"> '.number_format($more_product['rating_data']['avg_rating'],2).'/5.0 </span>';										
+						echo '<span title="'.__(sprintf("Based on %s Rating",$more_product['rating_data']['total_rating']), 'dc-woocommerce-multi-vendor').'" class="'.$rating_class.'"> '.number_format($more_product['rating_data']['avg_rating'],2).'/5.0 </span>';										
 					}else {
-						echo "<span class='wcmp_norating'> ".__('no ratings',$WCMp->text_domain )." </span>";
+						echo "<span class='wcmp_norating'> ".__('no ratings','dc-woocommerce-multi-vendor' )." </span>";
 					}
 				?>								
 			</div>
@@ -91,10 +91,10 @@ if(isset($more_product_array) && is_array($more_product_array) && count($more_pr
 			</div>
 			<div class="rowsub">
 				<?php if($more_product['product_type'] == 'simple') {?>
-					<a href="<?php echo '?add-to-cart='.$more_product['product_id']; ?>" class="buttongap button" ><?php echo apply_filters('add_to_cart_text', __('Add to Cart',$WCMp->text_domain)); ?></a>
+					<a href="<?php echo '?add-to-cart='.$more_product['product_id']; ?>" class="buttongap button" ><?php echo apply_filters('add_to_cart_text', __('Add to Cart','dc-woocommerce-multi-vendor')); ?></a>
 					<br/><br/>
 				<?php } ?>
-				<a href="<?php echo get_permalink($more_product['product_id']); ?>" class="buttongap button" ><?php echo __('Details',$WCMp->text_domain); ?></a>
+				<a href="<?php echo get_permalink($more_product['product_id']); ?>" class="buttongap button" ><?php echo __('Details','dc-woocommerce-multi-vendor'); ?></a>
 			</div>
 			<div style="clear:both;"></div>							
 		</div>

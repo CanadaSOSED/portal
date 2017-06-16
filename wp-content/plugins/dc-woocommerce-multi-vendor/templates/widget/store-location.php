@@ -13,7 +13,7 @@ global $WCMp;
 
 ?><div class="wcmp-store-location-wrapper">
 		<div class="store-maps" class="gmap3" style="height: 300px;"></div>
-		<a href="<?php echo $gmaps_link ?>" target="_blank"><?php _e( 'Show in Google Maps', $WCMp->text_domain ) ?></a>
+		<a href="<?php echo $gmaps_link ?>" target="_blank"><?php _e( 'Show in Google Maps', 'dc-woocommerce-multi-vendor' ) ?></a>
 </div>
 
 <script type="text/javascript">

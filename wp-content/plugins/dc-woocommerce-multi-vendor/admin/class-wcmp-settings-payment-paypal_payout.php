@@ -40,9 +40,9 @@ class WCMp_Settings_Payment_Paypal_Payout {
             "sections" => array(
                 "wcmp_payment_paypal_payout_settings_section" => array("title" => '', // Section one
                     "fields" => array(
-                        "client_id" => array('title' => __('Client Id', $WCMp->text_domain), 'type' => 'text', 'id' => 'client_id', 'label_for' => 'client_id', 'name' => 'client_id', 'dfvalue' => $this->paypal_client_id),
-                        "client_secret" => array('title' => __('Client Secret', $WCMp->text_domain), 'type' => 'text', 'id' => 'client_secret', 'label_for' => 'client_secret', 'name' => 'client_secret', 'dfvalue' => $this->paypal_client_secret),
-                        "is_testmode" => array('title' => __('Enable Test Mode', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_testmode', 'label_for' => 'is_testmode', 'name' => 'is_testmode', 'value' => 'Enable'), // Checkbox
+                        "client_id" => array('title' => __('Client Id', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'client_id', 'label_for' => 'client_id', 'name' => 'client_id', 'dfvalue' => $this->paypal_client_id),
+                        "client_secret" => array('title' => __('Client Secret', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'client_secret', 'label_for' => 'client_secret', 'name' => 'client_secret', 'dfvalue' => $this->paypal_client_secret),
+                        "is_testmode" => array('title' => __('Enable Test Mode', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_testmode', 'label_for' => 'is_testmode', 'name' => 'is_testmode', 'value' => 'Enable'), // Checkbox
                     ),
                 )
             ),
@@ -71,7 +71,7 @@ class WCMp_Settings_Payment_Paypal_Payout {
         }
         if (!$hasError) {
             add_settings_error(
-                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Paypal Payout Settings Updated', $WCMp->text_domain), 'updated'
+                    "wcmp_{$this->tab}_{$this->subsection}_settings_name", esc_attr("wcmp_{$this->tab}_{$this->subsection}_settings_admin_updated"), __('Paypal Payout Settings Updated', 'dc-woocommerce-multi-vendor'), 'updated'
             );
         }
         return apply_filters("settings_{$this->tab}_{$this->subsection}_tab_new_input", $new_input, $input);
@@ -82,7 +82,7 @@ class WCMp_Settings_Payment_Paypal_Payout {
      */
     public function wcmp_payment_paypal_payout_settings_section_info() {
         global $WCMp;
-        //printf(__('Please configure the policies section.', $WCMp->text_domain));
+        //printf(__('Please configure the policies section.', 'dc-woocommerce-multi-vendor'));
     }
 
 }

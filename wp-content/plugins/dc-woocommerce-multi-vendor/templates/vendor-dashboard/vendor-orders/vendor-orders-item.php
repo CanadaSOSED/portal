@@ -42,20 +42,20 @@ if (!empty($orders)) {
                 $actions = array();
                 $is_shipped = get_post_meta($order, 'dc_pv_shipped', true);
                 if ($is_shipped) {
-                    $mark_ship_title = __('Shipped', $WCMp->text_domain);
+                    $mark_ship_title = __('Shipped', 'dc-woocommerce-multi-vendor');
                 } else {
-                    $mark_ship_title = __('Mark as shipped', $WCMp->text_domain);
+                    $mark_ship_title = __('Mark as shipped', 'dc-woocommerce-multi-vendor');
                 }
                 $actions['view'] = array(
                     'url' => esc_url(wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_orders_endpoint', 'vendor', 'general', 'vendor-orders'), $order)),
                     'img' => $WCMp->plugin_url . 'assets/images/view.png',
-                    'title' => __('View', $WCMp->text_domain),
+                    'title' => __('View', 'dc-woocommerce-multi-vendor'),
                 );
 
                 $actions['wcmp_vendor_csv_download_per_order'] = array(
                     'url' => admin_url('admin-ajax.php?action=wcmp_vendor_csv_download_per_order&order_id=' . $order . '&nonce=' . wp_create_nonce('wcmp_vendor_csv_download_per_order')),
                     'img' => $WCMp->plugin_url . 'assets/images/download.png',
-                    'title' => __('Download', $WCMp->text_domain),
+                    'title' => __('Download', 'dc-woocommerce-multi-vendor'),
                 );
                 if (get_option('woocommerce_calc_shipping') != 'no') {
                     $actions['mark_ship'] = array(
@@ -84,14 +84,14 @@ if (!empty($orders)) {
                                     <span class="popup-exit"></span>    
                                     <div class="popup-content">
                                         <div class="shipping_msg_<?php echo $order; ?>" style="color: green;"></div>
-                                        <div class="wcmp_headding2"><?php _e('Shipment Tracking Details', $WCMp->text_domain); ?></div>
-                                        <p><?php _e('Enter Tracking Url', $WCMp->text_domain); ?> *</p>
-                                        <input  class="long" onkeyup="geturlvalue(this, '<?php echo $order; ?>')" required type="text" name="shipping_tracking_url" placeholder="<?php _e('http://example.com/tracking/', $WCMp->text_domain); ?>">
-                                        <p><?php _e('Enter Tracking ID', $WCMp->text_domain); ?> *</p>
-                                        <input  class="long" onkeyup="getidvalue(this, '<?php echo $order; ?>')" required type="text" name="shipping_tracking_id" placeholder="<?php _e('XXXXXXXXXXXXX', $WCMp->text_domain); ?>">
+                                        <div class="wcmp_headding2"><?php _e('Shipment Tracking Details', 'dc-woocommerce-multi-vendor'); ?></div>
+                                        <p><?php _e('Enter Tracking Url', 'dc-woocommerce-multi-vendor'); ?> *</p>
+                                        <input  class="long" onkeyup="geturlvalue(this, '<?php echo $order; ?>')" required type="text" name="shipping_tracking_url" placeholder="<?php _e('http://example.com/tracking/', 'dc-woocommerce-multi-vendor'); ?>">
+                                        <p><?php _e('Enter Tracking ID', 'dc-woocommerce-multi-vendor'); ?> *</p>
+                                        <input  class="long" onkeyup="getidvalue(this, '<?php echo $order; ?>')" required type="text" name="shipping_tracking_id" placeholder="<?php _e('XXXXXXXXXXXXX', 'dc-woocommerce-multi-vendor'); ?>">
                                         <div class="action_div_space"> </div>
                                         <div class="action_div">
-                                            <button class="wcmp_orange_btn submit_tracking" name="submit_tracking" data-id="<?php echo $order; ?>" id="submit_tracking"><?php _e('Submit', $WCMp->text_domain); ?></button>
+                                            <button class="wcmp_orange_btn submit_tracking" name="submit_tracking" data-id="<?php echo $order; ?>" id="submit_tracking"><?php _e('Submit', 'dc-woocommerce-multi-vendor'); ?></button>
                                             <div class="clear"></div>
                                         </div>
                                         <div class="clear"></div>

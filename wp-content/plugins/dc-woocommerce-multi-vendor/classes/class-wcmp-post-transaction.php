@@ -33,20 +33,20 @@ class WCMp_Transaction {
         if (post_type_exists($this->post_type))
             return;
         $labels = array(
-            'name' => _x('Transactions', 'post type general name', $WCMp->text_domain),
-            'singular_name' => _x('Transaction', 'post type singular name', $WCMp->text_domain),
-            'add_new' => _x('Add New', $this->post_type, $WCMp->text_domain),
-            'add_new_item' => sprintf(__('Add New %s', $WCMp->text_domain), __('Transaction', $WCMp->text_domain)),
-            'edit_item' => sprintf(__('Edit %s', $WCMp->text_domain), __('Transaction', $WCMp->text_domain)),
-            'new_item' => sprintf(__('New %s', $WCMp->text_domain), __('Transaction', $WCMp->text_domain)),
-            'all_items' => sprintf(__('All %s', $WCMp->text_domain), __('Transaction', $WCMp->text_domain)),
-            'view_item' => sprintf(__('View %s', $WCMp->text_domain), __('Transaction', $WCMp->text_domain)),
-            'search_items' => sprintf(__('Search %a', $WCMp->text_domain), __('Transactions', $WCMp->text_domain)),
-            'not_found' => sprintf(__('No %s found', $WCMp->text_domain), __('Transactions', $WCMp->text_domain)),
-            'not_found_in_trash' => sprintf(__('No %s found In trash', $WCMp->text_domain), __('Transactions', $WCMp->text_domain)),
+            'name' => _x('Transactions', 'post type general name', 'dc-woocommerce-multi-vendor'),
+            'singular_name' => _x('Transaction', 'post type singular name', 'dc-woocommerce-multi-vendor'),
+            'add_new' => _x('Add New', $this->post_type, 'dc-woocommerce-multi-vendor'),
+            'add_new_item' => sprintf(__('Add New %s', 'dc-woocommerce-multi-vendor'), __('Transaction', 'dc-woocommerce-multi-vendor')),
+            'edit_item' => sprintf(__('Edit %s', 'dc-woocommerce-multi-vendor'), __('Transaction', 'dc-woocommerce-multi-vendor')),
+            'new_item' => sprintf(__('New %s', 'dc-woocommerce-multi-vendor'), __('Transaction', 'dc-woocommerce-multi-vendor')),
+            'all_items' => sprintf(__('All %s', 'dc-woocommerce-multi-vendor'), __('Transaction', 'dc-woocommerce-multi-vendor')),
+            'view_item' => sprintf(__('View %s', 'dc-woocommerce-multi-vendor'), __('Transaction', 'dc-woocommerce-multi-vendor')),
+            'search_items' => sprintf(__('Search %a', 'dc-woocommerce-multi-vendor'), __('Transactions', 'dc-woocommerce-multi-vendor')),
+            'not_found' => sprintf(__('No %s found', 'dc-woocommerce-multi-vendor'), __('Transactions', 'dc-woocommerce-multi-vendor')),
+            'not_found_in_trash' => sprintf(__('No %s found In trash', 'dc-woocommerce-multi-vendor'), __('Transactions', 'dc-woocommerce-multi-vendor')),
             'parent_item_colon' => '',
-            'all_items' => __('Transactions', $WCMp->text_domain),
-            'menu_name' => __('Transactions', $WCMp->text_domain)
+            'all_items' => __('Transactions', 'dc-woocommerce-multi-vendor'),
+            'menu_name' => __('Transactions', 'dc-woocommerce-multi-vendor')
         );
 
         $args = array(
@@ -107,7 +107,7 @@ class WCMp_Transaction {
             foreach ($transaction_data as $vendor_id => $transaction_detail) {
                 $trans_details = array(
                     'post_type' => $this->post_type,
-                    'post_title' => sprintf(__('Transaction - %s', $WCMp->text_domain), strftime(_x('%B %e, %Y @ %I:%M %p', 'Transaction date parsed by strftime', $WCMp->text_domain))),
+                    'post_title' => sprintf(__('Transaction - %s', 'dc-woocommerce-multi-vendor'), strftime(_x('%B %e, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'dc-woocommerce-multi-vendor'))),
                     'post_status' => $transaction_status,
                     'ping_status' => 'closed',
                     'post_author' => $vendor_id
@@ -158,27 +158,27 @@ class WCMp_Transaction {
         $transaction_amount = get_post_meta($transaction_id, 'amount', true);
         $transfer_charge = get_post_meta($transaction_id, 'transfer_charge', true);
         $transaction_mode = get_post_meta($transaction_id, 'transaction_mode', true);
-        $item_totals['date'] = array('label' => __('Date of request', $WCMp->text_domain), 'value' => get_the_date('Y-m-d', $transaction_id));
-        $item_totals['amount'] = array('label' => __('Amount', $WCMp->text_domain), 'value' => get_woocommerce_currency_symbol() . $transaction_amount);
+        $item_totals['date'] = array('label' => __('Date of request', 'dc-woocommerce-multi-vendor'), 'value' => get_the_date('Y-m-d', $transaction_id));
+        $item_totals['amount'] = array('label' => __('Amount', 'dc-woocommerce-multi-vendor'), 'value' => get_woocommerce_currency_symbol() . $transaction_amount);
         if ($transfer_charge) {
-            $item_totals['transfer_fee'] = array('label' => __('Transfer Fee', $WCMp->text_domain), 'value' => get_woocommerce_currency_symbol() . $transfer_charge);
+            $item_totals['transfer_fee'] = array('label' => __('Transfer Fee', 'dc-woocommerce-multi-vendor'), 'value' => get_woocommerce_currency_symbol() . $transfer_charge);
         }
 
         if ($transaction_mode == 'direct_bank') {
-            $item_totals['via'] = array('label' => __('Transaction Mode', $WCMp->text_domain), 'value' => __('Direct Bank', $WCMp->text_domain));
-            $item_totals['bank_account_type'] = array('label' => __('Bank Account Type', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_bank_account_type', true));
-            $item_totals['bank_account_name'] = array('label' => __('Bank Account Number', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_bank_account_number', true));
-            $item_totals['bank_name'] = array('label' => __('Bank Name', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_bank_name', true));
-            $item_totals['aba_routing_number'] = array('label' => __('ABA Routing Number', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_aba_routing_number', true));
-            $item_totals['bank_address'] = array('label' => __('Bank Address', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_bank_address', true));
-            $item_totals['destination_currency'] = array('label' => __('Destination Currency', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_destination_currency', true));
-            $item_totals['iban'] = array('label' => __('IBAN', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_iban', true));
-            $item_totals['account_holder_name'] = array('label' => __('Account Holder Name', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_account_holder_name', true));
+            $item_totals['via'] = array('label' => __('Transaction Mode', 'dc-woocommerce-multi-vendor'), 'value' => __('Direct Bank', 'dc-woocommerce-multi-vendor'));
+            $item_totals['bank_account_type'] = array('label' => __('Bank Account Type', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_bank_account_type', true));
+            $item_totals['bank_account_name'] = array('label' => __('Bank Account Number', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_bank_account_number', true));
+            $item_totals['bank_name'] = array('label' => __('Bank Name', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_bank_name', true));
+            $item_totals['aba_routing_number'] = array('label' => __('ABA Routing Number', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_aba_routing_number', true));
+            $item_totals['bank_address'] = array('label' => __('Bank Address', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_bank_address', true));
+            $item_totals['destination_currency'] = array('label' => __('Destination Currency', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_destination_currency', true));
+            $item_totals['iban'] = array('label' => __('IBAN', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_iban', true));
+            $item_totals['account_holder_name'] = array('label' => __('Account Holder Name', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_account_holder_name', true));
         } else if ($transaction_mode == 'paypal_masspay') {
-            $item_totals['via'] = array('label' => __('Transaction Mode', $WCMp->text_domain), 'value' => __('PayPal', $WCMp->text_domain));
-            $item_totals['paypal_email'] = array('label' => __('PayPal Email', $WCMp->text_domain), 'value' => get_user_meta($vendor->id, '_vendor_paypal_email', true));
+            $item_totals['via'] = array('label' => __('Transaction Mode', 'dc-woocommerce-multi-vendor'), 'value' => __('PayPal', 'dc-woocommerce-multi-vendor'));
+            $item_totals['paypal_email'] = array('label' => __('PayPal Email', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_paypal_email', true));
         } else if ($transaction_mode == 'manual') {
-            $item_totals['via'] = array('label' => __('Transaction Mode', $WCMp->text_domain), 'value' => __('Manual', $WCMp->text_domain));
+            $item_totals['via'] = array('label' => __('Transaction Mode', 'dc-woocommerce-multi-vendor'), 'value' => __('Manual', 'dc-woocommerce-multi-vendor'));
         }
         return apply_filters('wcmp_transaction_item_totals', $item_totals);
     }
@@ -221,7 +221,7 @@ class WCMp_Transaction {
                 $commission_details['body'][$commission_id][]['Amount'] = get_woocommerce_currency_symbol() . $amount;
             }
         }
-        $commission_details['header'] = array(__('Order', $WCMp->text_domain), __('Products', $WCMp->text_domain), __('Amount', $WCMp->text_domain));
+        $commission_details['header'] = array(__('Order', 'dc-woocommerce-multi-vendor'), __('Products', 'dc-woocommerce-multi-vendor'), __('Amount', 'dc-woocommerce-multi-vendor'));
         return apply_filters('wcmp_transaction_item_details', $commission_details);
     }
 
@@ -293,9 +293,9 @@ class WCMp_Transaction {
 
                 $transaction_details[$transaction->ID]['post_date'] = $transaction->post_date;
                 if ($transaction->post_status == 'wcmp_completed')
-                    $transaction_details[$transaction->ID]['status'] = __('Completed', $WCMp->text_domain);
+                    $transaction_details[$transaction->ID]['status'] = __('Completed', 'dc-woocommerce-multi-vendor');
                 else if ($transaction->post_status == 'wcmp_processing')
-                    $transaction_details[$transaction->ID]['status'] = __('Processing', $WCMp->text_domain);
+                    $transaction_details[$transaction->ID]['status'] = __('Processing', 'dc-woocommerce-multi-vendor');
                 $transaction_details[$transaction->ID]['vendor_id'] = $transaction->post_author;
                 $transaction_details[$transaction->ID]['commission'] = get_post_meta($transaction->ID, 'amount', true) + get_post_meta($transaction->ID, 'transfer_charge', true);
                 $transaction_details[$transaction->ID]['amount'] = get_post_meta($transaction->ID, 'amount', true);
@@ -303,9 +303,9 @@ class WCMp_Transaction {
                 $transaction_details[$transaction->ID]['commission_details'] = get_post_meta($transaction->ID, 'commission_detail', true);
                 $mode = get_post_meta($transaction->ID, 'transaction_mode', true);
                 if ($mode == 'paypal_masspay')
-                    $transaction_details[$transaction->ID]['mode'] = __('PayPal', $WCMp->text_domain);
+                    $transaction_details[$transaction->ID]['mode'] = __('PayPal', 'dc-woocommerce-multi-vendor');
                 else if ($mode == 'direct_bank')
-                    $transaction_details[$transaction->ID]['mode'] = __('Direct Bank Transfer', $WCMp->text_domain);
+                    $transaction_details[$transaction->ID]['mode'] = __('Direct Bank Transfer', 'dc-woocommerce-multi-vendor');
             }
         }
         return $transaction_details;

@@ -19,9 +19,9 @@ $vendor_sort_type = $_GET['vendor_sort_type'];
 	<form name="vendor_sort" method="get">
 		<div class="vendor_sort">
 			<select class="select short" id="vendor_sort_type" name="vendor_sort_type">
-				<option value="registered" <?php if( $vendor_sort_type == 'registered'){ echo 'selected="selected"'; } ?> ><?php echo __('By date',$WCMp->text_domain);?></option>
-				<option value="name" <?php if( $vendor_sort_type == 'name'){ echo 'selected="selected"'; } ?> ><?php echo __('By Alphabetically',$WCMp->text_domain);?></option>
-				<option value="category" <?php if( $vendor_sort_type == 'category'){ echo 'selected="selected"'; } ?> ><?php echo __('By Category',$WCMp->text_domain);?></option>
+				<option value="registered" <?php if( $vendor_sort_type == 'registered'){ echo 'selected="selected"'; } ?> ><?php echo __('By date','dc-woocommerce-multi-vendor');?></option>
+				<option value="name" <?php if( $vendor_sort_type == 'name'){ echo 'selected="selected"'; } ?> ><?php echo __('By Alphabetically','dc-woocommerce-multi-vendor');?></option>
+				<option value="category" <?php if( $vendor_sort_type == 'category'){ echo 'selected="selected"'; } ?> ><?php echo __('By Category','dc-woocommerce-multi-vendor');?></option>
 			</select>
 			<?php 
 			if(isset($_GET['vendor_sort_type'])) {
@@ -42,7 +42,7 @@ $vendor_sort_type = $_GET['vendor_sort_type'];
 			}
 			?>
 			&nbsp;&nbsp;&nbsp;					
-			<input value="<?php echo __('Sort',$WCMp->text_domain);?>" type="submit">
+			<input value="<?php echo __('Sort','dc-woocommerce-multi-vendor');?>" type="submit">
 		</div>
 	</form>
 	<?php if(isset($vendor_info) && is_array($vendor_info) && !empty($vendor_info)) {

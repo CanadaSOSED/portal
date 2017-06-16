@@ -26,7 +26,7 @@ class WCMp_Settings_Notices {
                                   "sections" => array(
                                                       "default_settings_section" => array("title" =>  '', // Section one
                                                                                          "fields" => array(
-                                                                                                           "is_notices_on" => array('title' => __('Notices Enable/Disable :', $WCMp->text_domain), 'type' => 'checkbox', 'id' => 'is_notices_on', 'label_for' => 'is_notices_on', 'name' => 'is_notices_on', 'value' => 'Enable') // Checkbox
+                                                                                                           "is_notices_on" => array('title' => __('Notices Enable/Disable :', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_notices_on', 'label_for' => 'is_notices_on', 'name' => 'is_notices_on', 'value' => 'Enable') // Checkbox
                                                                                                            
                                                                                          ), 
                                                                                          )
@@ -57,7 +57,7 @@ class WCMp_Settings_Notices {
 			add_settings_error(
 			 "wcmp_{$this->tab}_settings_name",
 			 esc_attr( "wcmp_{$this->tab}_settings_admin_updated" ),
-			 __('Page Settings Updated', $WCMp->text_domain),
+			 __('Page Settings Updated', 'dc-woocommerce-multi-vendor'),
 			 'updated'
 			);
     }

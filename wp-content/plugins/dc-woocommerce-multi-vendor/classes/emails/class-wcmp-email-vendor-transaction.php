@@ -26,11 +26,11 @@ class WC_Email_Vendor_Commission_Transactions extends WC_Email {
 	function __construct() {
 		global $WCMp;
 		$this->id 				= 'vendor_commissions_transaction';
-		$this->title 			= __( 'Transactions (for Vendor)', $WCMp->text_domain );
-		$this->description		= __( 'New commissions have been credited to vendor.', $WCMp->text_domain);
+		$this->title 			= __( 'Transactions (for Vendor)', 'dc-woocommerce-multi-vendor' );
+		$this->description		= __( 'New commissions have been credited to vendor.', 'dc-woocommerce-multi-vendor');
 
-		$this->heading 			= __( 'Vendor\'s New Transaction', $WCMp->text_domain);
-		$this->subject      	= __( '[{site_title}] New Transaction', $WCMp->text_domain);
+		$this->heading 			= __( 'Vendor\'s New Transaction', 'dc-woocommerce-multi-vendor');
+		$this->subject      	= __( '[{site_title}] New Transaction', 'dc-woocommerce-multi-vendor');
 
 		$this->template_base = $WCMp->plugin_path . 'templates/';
 		$this->template_html 	= 'emails/vendor-commissions-transaction.php';
@@ -117,29 +117,29 @@ class WC_Email_Vendor_Commission_Transactions extends WC_Email {
 		global $WCMp;
 		$this->form_fields = array(
 			'enabled' => array(
-				'title' 		=> __( 'Enable/Disable', $WCMp->text_domain ),
+				'title' 		=> __( 'Enable/Disable', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'checkbox',
-				'label' 		=> __( 'Enable notification for this email', $WCMp->text_domain ),
+				'label' 		=> __( 'Enable notification for this email', 'dc-woocommerce-multi-vendor' ),
 				'default' 		=> 'yes'
 			),
 			'subject' => array(
-				'title' 		=> __( 'Subject', $WCMp->text_domain ),
+				'title' 		=> __( 'Subject', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'text',
-				'description' 	=> sprintf( __( 'This controls the email subject line. Leave it blank to use the default subject: <code>%s</code>.', $WCMp->text_domain ), $this->subject ),
+				'description' 	=> sprintf( __( 'This controls the email subject line. Leave it blank to use the default subject: <code>%s</code>.', 'dc-woocommerce-multi-vendor' ), $this->subject ),
 				'placeholder' 	=> '',
 				'default' 		=> ''
 			),
 			'heading' => array(
-				'title' 		=> __( 'Email Heading', $WCMp->text_domain ),
+				'title' 		=> __( 'Email Heading', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'text',
-				'description' 	=> sprintf( __( 'This controls the main heading contained in the email notification. Leave it blank to use the default heading: <code>%s</code>.', $WCMp->text_domain ), $this->heading ),
+				'description' 	=> sprintf( __( 'This controls the main heading contained in the email notification. Leave it blank to use the default heading: <code>%s</code>.', 'dc-woocommerce-multi-vendor' ), $this->heading ),
 				'placeholder' 	=> '',
 				'default' 		=> ''
 			),
 			'email_type' => array(
-				'title' 		=> __( 'Email Type', $WCMp->text_domain ),
+				'title' 		=> __( 'Email Type', 'dc-woocommerce-multi-vendor' ),
 				'type' 			=> 'select',
-				'description' 	=> __( 'Choose format for the email that will be sent.', $WCMp->text_domain ),
+				'description' 	=> __( 'Choose format for the email that will be sent.', 'dc-woocommerce-multi-vendor' ),
 				'default' 		=> 'html',
 				'class'			=> 'email_type wc-enhanced-select',
 				'options'		=> $this->get_email_type_options()

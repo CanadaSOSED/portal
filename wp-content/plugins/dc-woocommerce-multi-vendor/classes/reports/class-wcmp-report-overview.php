@@ -176,17 +176,17 @@ class WCMp_Report_Overview extends WC_Admin_Report {
 
         switch ($this->chart_groupby) {
             case 'day' :
-                $average_sales_title = sprintf(__('%s Average Daily Sales', $WCMp->text_domain), '<strong>' . wc_price($data->average_sales) . '</strong>');
+                $average_sales_title = sprintf(__('%s Average Daily Sales', 'dc-woocommerce-multi-vendor'), '<strong>' . wc_price($data->average_sales) . '</strong>');
                 break;
             case 'month' :
             default :
-                $average_sales_title = sprintf(__('%s Average Monthly Sales', $WCMp->text_domain), '<strong>' . wc_price($data->average_sales) . '</strong>');
+                $average_sales_title = sprintf(__('%s Average Monthly Sales', 'dc-woocommerce-multi-vendor'), '<strong>' . wc_price($data->average_sales) . '</strong>');
                 break;
         }
 
         $legend[] = array(
-            'title' => sprintf(__('%s Gross Sales in this Period', $WCMp->text_domain), '<strong>' . wc_price($data->total_sales) . '</strong>'),
-            'placeholder' => __('This is the sum of the order totals', $WCMp->text_domain),
+            'title' => sprintf(__('%s Gross Sales in this Period', 'dc-woocommerce-multi-vendor'), '<strong>' . wc_price($data->total_sales) . '</strong>'),
+            'placeholder' => __('This is the sum of the order totals', 'dc-woocommerce-multi-vendor'),
             'color' => $this->chart_colours['total_sales'],
             'highlight_series' => 1
         );
@@ -199,20 +199,20 @@ class WCMp_Report_Overview extends WC_Admin_Report {
             );
         }
         $legend[] = array(
-            'title' => sprintf(__('%s Number of Orders Placed', $WCMp->text_domain), '<strong>' . $data->total_orders . '</strong>'),
+            'title' => sprintf(__('%s Number of Orders Placed', 'dc-woocommerce-multi-vendor'), '<strong>' . $data->total_orders . '</strong>'),
             'color' => $this->chart_colours['total_orders'],
             'highlight_series' => 0
         );
 
         $legend[] = array(
-            'title' => sprintf(__('%s Net Earnings in this Period', $WCMp->text_domain), '<strong>' . $data->total_earned . '</strong>'),
+            'title' => sprintf(__('%s Net Earnings in this Period', 'dc-woocommerce-multi-vendor'), '<strong>' . $data->total_earned . '</strong>'),
             'color' => $this->chart_colours['total_earned'],
             'highlight_series' => 3
         );
 
         if (!is_user_wcmp_vendor(get_current_user_id())) {
             $legend[] = array(
-                'title' => sprintf(__('%s Net Vendor Commission', $WCMp->text_domain), '<strong>' . $data->vendor_total_earned . '</strong>'),
+                'title' => sprintf(__('%s Net Vendor Commission', 'dc-woocommerce-multi-vendor'), '<strong>' . $data->vendor_total_earned . '</strong>'),
                 'color' => $this->chart_colours['vendor_total_earned'],
                 'highlight_series' => 4
             );
@@ -228,10 +228,10 @@ class WCMp_Report_Overview extends WC_Admin_Report {
     public function output_report() {
         global $WCMp;
         $ranges = array(
-            'year' => __('Year', $WCMp->text_domain),
-            'last_month' => __('Last Month', $WCMp->text_domain),
-            'month' => __('This Month', $WCMp->text_domain),
-            '7day' => __('Last 7 Days', $WCMp->text_domain)
+            'year' => __('Year', 'dc-woocommerce-multi-vendor'),
+            'last_month' => __('Last Month', 'dc-woocommerce-multi-vendor'),
+            'month' => __('This Month', 'dc-woocommerce-multi-vendor'),
+            '7day' => __('Last 7 Days', 'dc-woocommerce-multi-vendor')
         );
 
         $this->chart_colours = array(
@@ -266,11 +266,11 @@ class WCMp_Report_Overview extends WC_Admin_Report {
             download="report-<?php echo esc_attr($current_range); ?>-<?php echo date_i18n('Y-m-d', current_time('timestamp')); ?>.csv"
             class="export_csv"
             data-export="chart"
-            data-xaxes="<?php esc_attr_e('Date', $WCMp->text_domain); ?>"
+            data-xaxes="<?php esc_attr_e('Date', 'dc-woocommerce-multi-vendor'); ?>"
             data-exclude_series="2"
             data-groupby="<?php echo $this->chart_groupby; ?>"
             >
-                <?php _e('Export CSV', $WCMp->text_domain); ?>
+                <?php _e('Export CSV', 'dc-woocommerce-multi-vendor'); ?>
         </a>
         <?php
     }
@@ -329,14 +329,14 @@ class WCMp_Report_Overview extends WC_Admin_Report {
             var drawGraph = function(highlight) {
             var series = [
             {
-            label: "<?php echo esc_js(__('Number of Orders', $WCMp->text_domain)) ?>",
+            label: "<?php echo esc_js(__('Number of Orders', 'dc-woocommerce-multi-vendor')) ?>",
                     data: order_data.total_orders,
                     color: '<?php echo $this->chart_colours['total_orders']; ?>',
                     bars: { fillColor: '<?php echo $this->chart_colours['total_orders']; ?>', fill: true, show: true, lineWidth: 0, barWidth: <?php echo $this->barwidth; ?> * 0.5, align: 'center' },
                     shadowSize: 0,
             },
             {
-            label: "<?php echo esc_js(__('Total Sales', $WCMp->text_domain)) ?>",
+            label: "<?php echo esc_js(__('Total Sales', 'dc-woocommerce-multi-vendor')) ?>",
                     data: order_data.total_sales,
                     yaxis: 2,
                     color: '<?php echo $this->chart_colours['total_sales']; ?>',
@@ -346,7 +346,7 @@ class WCMp_Report_Overview extends WC_Admin_Report {
         <?php echo $this->get_currency_tooltip(); ?>
             },
             {
-            label: "<?php echo esc_js(__('Average Order Value', $WCMp->text_domain)) ?>",
+            label: "<?php echo esc_js(__('Average Order Value', 'dc-woocommerce-multi-vendor')) ?>",
                     data: order_data.average_sales,
                     yaxis: 2,
                     color: '<?php echo $this->chart_colours['average_sales']; ?>',
@@ -356,7 +356,7 @@ class WCMp_Report_Overview extends WC_Admin_Report {
         <?php echo $this->get_currency_tooltip(); ?>
             },
             {
-            label: "<?php echo esc_js(__('Total Earnings', $WCMp->text_domain)) ?>",
+            label: "<?php echo esc_js(__('Total Earnings', 'dc-woocommerce-multi-vendor')) ?>",
                     data: order_data.total_earned,
                     yaxis: 2,
                     color: '<?php echo $this->chart_colours['total_earned']; ?>',
@@ -367,7 +367,7 @@ class WCMp_Report_Overview extends WC_Admin_Report {
             },
         <?php if(!is_user_wcmp_vendor(get_current_user_id())){ ?>
             {
-            label: "<?php echo esc_js(__('Total Earnings by Vendor', $WCMp->text_domain)) ?>",
+            label: "<?php echo esc_js(__('Total Earnings by Vendor', 'dc-woocommerce-multi-vendor')) ?>",
                     data: order_data.vendor_total_earned,
                     yaxis: 2,
                     color: '<?php echo $this->chart_colours['vendor_total_earned']; ?>',

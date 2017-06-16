@@ -14,13 +14,13 @@ global $woocommerce, $WCMp;
 $user = wp_get_current_user();
 $vendor = get_wcmp_vendor($user->ID);
 if($vendor) {
-	echo  '<h3>'.__('Coupons', $WCMp->text_domain).'</h3>';
+	echo  '<h3>'.__('Coupons', 'dc-woocommerce-multi-vendor').'</h3>';
 	if($WCMp->vendor_caps->vendor_capabilities_settings('is_submit_coupon') && get_user_meta($user->ID, '_vendor_submit_coupon' ,true)) { 
 		if($coupons) {?> 
 			<table>
 				<tbody>
-				<th><?php _e('Coupon Code', $WCMp->text_domain ) ?></th>
-				<th><?php _e('Usage Count', $WCMp->text_domain ) ?></th>
+				<th><?php _e('Coupon Code', 'dc-woocommerce-multi-vendor' ) ?></th>
+				<th><?php _e('Usage Count', 'dc-woocommerce-multi-vendor' ) ?></th>
 				<?php
 				foreach($coupons as $coupon) {
 					$usage_count = get_post_meta($coupon, 'usage_count', true);
@@ -34,13 +34,13 @@ if($vendor) {
 				?>
 				</tbody>
 			</table>
-			<p><?php echo  __('Submit another coupon by', $WCMp->text_domain).'  <a class="shop_url button button-primary" target="_blank" href='.admin_url( 'edit.php?post_type=shop_coupon' ).'><strong>'.__('Submit Coupons', $WCMp->text_domain).'</strong></a></p>' ?>
+			<p><?php echo  __('Submit another coupon by', 'dc-woocommerce-multi-vendor').'  <a class="shop_url button button-primary" target="_blank" href='.admin_url( 'edit.php?post_type=shop_coupon' ).'><strong>'.__('Submit Coupons', 'dc-woocommerce-multi-vendor').'</strong></a></p>' ?>
 		<?php		
 		} else {
-			echo __('Sorry! You have not created any coupon till now.You can create your product specific coupon from -', $WCMp->text_domain).'<a class="shop_url button button-primary" target="_blank" href='.admin_url( 'edit.php?post_type=shop_coupon' ).'><strong>'.__('Submit Coupons', $WCMp->text_domain).'</strong></a>';
+			echo __('Sorry! You have not created any coupon till now.You can create your product specific coupon from -', 'dc-woocommerce-multi-vendor').'<a class="shop_url button button-primary" target="_blank" href='.admin_url( 'edit.php?post_type=shop_coupon' ).'><strong>'.__('Submit Coupons', 'dc-woocommerce-multi-vendor').'</strong></a>';
 		}
 	} else {
-		echo __('Sorry ! You do not have the capability to add coupons.', $WCMp->text_domain);
+		echo __('Sorry ! You do not have the capability to add coupons.', 'dc-woocommerce-multi-vendor');
 	}
 }
 ?>

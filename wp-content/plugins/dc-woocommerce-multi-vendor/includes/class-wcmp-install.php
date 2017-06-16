@@ -99,8 +99,8 @@ class WCMp_Install {
             delete_option('wcmp_product_vendor_vendor_dashboard_page_id');
             delete_option('wcmp_product_vendor_vendor_page_id');
         }
-        $this->wcmp_product_vendor_plugin_create_page(esc_sql(_x('wcmp', 'page_slug', $WCMp->text_domain)), 'wcmp_product_vendor_vendor_page_id', __('Vendor Dashboard', $WCMp->text_domain), '[wcmp_vendor]');
-        $this->wcmp_product_vendor_plugin_create_page(esc_sql(_x('wcmp_vendor_registration', 'page_slug', $WCMp->text_domain)), 'wcmp_product_vendor_registration_page_id', __('Vendor Registration', $WCMp->text_domain), '[vendor_registration]');
+        $this->wcmp_product_vendor_plugin_create_page(esc_sql(_x('wcmp', 'page_slug', 'dc-woocommerce-multi-vendor')), 'wcmp_product_vendor_vendor_page_id', __('Vendor Dashboard', 'dc-woocommerce-multi-vendor'), '[wcmp_vendor]');
+        $this->wcmp_product_vendor_plugin_create_page(esc_sql(_x('wcmp_vendor_registration', 'page_slug', 'dc-woocommerce-multi-vendor')), 'wcmp_product_vendor_registration_page_id', __('Vendor Registration', 'dc-woocommerce-multi-vendor'), '[vendor_registration]');
         $wcmp_product_vendor_vendor_page_id = get_option('wcmp_product_vendor_vendor_page_id');
         $wcmp_product_vendor_registration_page_id = get_option('wcmp_product_vendor_registration_page_id');
         update_wcmp_vendor_settings('wcmp_vendor', $wcmp_product_vendor_vendor_page_id, 'vendor', 'general');

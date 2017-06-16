@@ -16,16 +16,16 @@ global $WCMp;
 
 <?php do_action( 'woocommerce_email_header', $email_heading ); ?>
 
-	<p><?php printf( __( "Hi there! This is to notify that a new product has been submitted in %s.",  $WCMp->text_domain ), get_option( 'blogname' ) ); ?></p>
+	<p><?php printf( __( "Hi there! This is to notify that a new product has been submitted in %s.",  'dc-woocommerce-multi-vendor' ), get_option( 'blogname' ) ); ?></p>
 
 	<p>
-		<?php printf( __( "Product title: %s",  $WCMp->text_domain ), $product_name ); ?><br/>
-		<?php printf( __( "Submitted by: %s",  $WCMp->text_domain ), 'Site Administrator' ); ?><br/>
+		<?php printf( __( "Product title: %s",  'dc-woocommerce-multi-vendor' ), $product_name ); ?><br/>
+		<?php printf( __( "Submitted by: %s",  'dc-woocommerce-multi-vendor' ), 'Site Administrator' ); ?><br/>
 		<?php 
 			if($submit_product) {
-				printf( __( "Edit product: %s",  $WCMp->text_domain ), admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); 
+				printf( __( "Edit product: %s",  'dc-woocommerce-multi-vendor' ), admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); 
 			} else {
-				printf( __( "View product: %s",  $WCMp->text_domain ), get_permalink($post_id)); 
+				printf( __( "View product: %s",  'dc-woocommerce-multi-vendor' ), get_permalink($post_id)); 
 			}
 		?>
 		<br/>

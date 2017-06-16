@@ -34,24 +34,24 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
                             <?php if ($vendor->id != get_current_user_id()) : ?>
                                 <h3 id="reply-title" class="comment-reply-title"><?php
                                     if ($count == 0) {
-                                        echo __(sprintf('Be the first to review “%s”', $shop_name), $WCMp->text_domain);
+                                        echo __(sprintf('Be the first to review “%s”', $shop_name), 'dc-woocommerce-multi-vendor');
                                     } else {
-                                        echo __(sprintf('Add a review “%s”', $shop_name), $WCMp->text_domain);
+                                        echo __(sprintf('Add a review “%s”', $shop_name), 'dc-woocommerce-multi-vendor');
                                     }
                                     ?> </h3>				
                                 <form action="" method="post" id="commentform" class="comment-form" novalidate="">
                                     <p id="wcmp_seller_review_rating"></p>
-                                    <p class="comment-form-rating"><label for="rating"><?php echo __('Your Rating', $WCMp->text_domain); ?></label>					
+                                    <p class="comment-form-rating"><label for="rating"><?php echo __('Your Rating', 'dc-woocommerce-multi-vendor'); ?></label>					
                                         <select name="rating" id="rating">
-                                            <option value=""><?php echo __('Rate...', $WCMp->text_domain); ?></option>
-                                            <option value="5"><?php echo __('Perfect', $WCMp->text_domain); ?></option>
-                                            <option value="4"><?php echo __('Good', $WCMp->text_domain); ?></option>
-                                            <option value="3"><?php echo __('Average', $WCMp->text_domain); ?></option>
-                                            <option value="2"><?php echo __('Not that bad', $WCMp->text_domain); ?></option>
-                                            <option value="1"><?php echo __('Very Poor', $WCMp->text_domain); ?></option>
+                                            <option value=""><?php echo __('Rate...', 'dc-woocommerce-multi-vendor'); ?></option>
+                                            <option value="5"><?php echo __('Perfect', 'dc-woocommerce-multi-vendor'); ?></option>
+                                            <option value="4"><?php echo __('Good', 'dc-woocommerce-multi-vendor'); ?></option>
+                                            <option value="3"><?php echo __('Average', 'dc-woocommerce-multi-vendor'); ?></option>
+                                            <option value="2"><?php echo __('Not that bad', 'dc-woocommerce-multi-vendor'); ?></option>
+                                            <option value="1"><?php echo __('Very Poor', 'dc-woocommerce-multi-vendor'); ?></option>
                                         </select></p>
                                     <p class="comment-form-comment">
-                                        <label for="comment"><?php echo __('Your Review', $WCMp->text_domain); ?> </label>
+                                        <label for="comment"><?php echo __('Your Review', 'dc-woocommerce-multi-vendor'); ?> </label>
                                         <textarea id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
                                     </p>					
                                     <p class="form-submit">
@@ -74,7 +74,7 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
                     $posts_per_page = get_option('posts_per_page');
                     $total_pages = ceil($count / $posts_per_page);
                     ?>
-                    <h2><?php printf(_n('%s review for %s', '%s reviews for %s', $count, $WCMp->text_domain), $count, $shop_name); ?>	</h2>
+                    <h2><?php printf(_n('%s review for %s', '%s reviews for %s', $count, 'dc-woocommerce-multi-vendor'), $count, $shop_name); ?>	</h2>
                     <form id="vendor_review_rating_pagi_form" >
                         <input type="hidden" name="pageno" id="wcmp_review_rating_pageno" value="1" >
                         <input type="hidden" name="postperpage" id="wcmp_review_rating_postperpage" value="<?php echo $posts_per_page; ?>" >
@@ -94,7 +94,7 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
                     }
                 } elseif ($count == 0) {
                     ?>
-                    <p class="woocommerce-noreviews"><?php echo __('There are no reviews yet.', $WCMp->text_domain); ?> </p>
+                    <p class="woocommerce-noreviews"><?php echo __('There are no reviews yet.', 'dc-woocommerce-multi-vendor'); ?> </p>
                 <?php } ?>
             </div>	
             <div class="clear"></div>

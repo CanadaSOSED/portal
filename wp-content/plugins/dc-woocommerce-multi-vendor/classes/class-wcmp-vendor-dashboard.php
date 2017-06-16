@@ -118,7 +118,7 @@ Class WCMp_Admin_Dashboard {
 
                         // Set info for all payouts
                         $currency = get_woocommerce_currency();
-                        $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', $WCMp->text_domain), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
+                        $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', 'dc-woocommerce-multi-vendor'), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
 
                         $commissions_data = array();
                         if (!empty($commission_totals)) {
@@ -226,13 +226,13 @@ Class WCMp_Admin_Dashboard {
                     header("Content-Type: charset=UTF-8");
 
                     $headers = array(
-                        'date' => __('Date', $WCMp->text_domain),
-                        'trans_id' => __('Transaction ID', $WCMp->text_domain),
-                        'order_ids' => __('Order IDs', $WCMp->text_domain),
-                        'mode' => __('Mode', $WCMp->text_domain),
-                        'commission' => __('Commission', $WCMp->text_domain),
-                        'fee' => __('Fee', $WCMp->text_domain),
-                        'credit' => __('Credit', $WCMp->text_domain),
+                        'date' => __('Date', 'dc-woocommerce-multi-vendor'),
+                        'trans_id' => __('Transaction ID', 'dc-woocommerce-multi-vendor'),
+                        'order_ids' => __('Order IDs', 'dc-woocommerce-multi-vendor'),
+                        'mode' => __('Mode', 'dc-woocommerce-multi-vendor'),
+                        'commission' => __('Commission', 'dc-woocommerce-multi-vendor'),
+                        'fee' => __('Fee', 'dc-woocommerce-multi-vendor'),
+                        'credit' => __('Credit', 'dc-woocommerce-multi-vendor'),
                     );
                     if (!empty($_POST['transaction_ids'])) {
                         foreach ($_POST['transaction_ids'] as $transaction_id) {
@@ -254,9 +254,9 @@ Class WCMp_Admin_Dashboard {
 
                             $mode = get_post_meta($transaction_id, 'transaction_mode', true);
                             if ($mode == 'paypal_masspay')
-                                $transaction_mode = __('PayPal', $WCMp->text_domain);
+                                $transaction_mode = __('PayPal', 'dc-woocommerce-multi-vendor');
                             else if ($mode == 'direct_bank')
-                                $transaction_mode = __('Direct Bank Transfer', $WCMp->text_domain);
+                                $transaction_mode = __('Direct Bank Transfer', 'dc-woocommerce-multi-vendor');
 
                             $order_datas[] = array(
                                 'date' => get_the_date('d-m-Y', $transaction_id),
@@ -283,7 +283,7 @@ Class WCMp_Admin_Dashboard {
                             fputcsv($file, $order_data);
                         }
                     } else {
-                        fputcsv($file, array(__('Sorry. no transaction data is available upon your selection', $WCMp->text_domain)));
+                        fputcsv($file, array(__('Sorry. no transaction data is available upon your selection', 'dc-woocommerce-multi-vendor')));
                     }
 
                     // Close file and get data from output buffer
@@ -325,23 +325,23 @@ Class WCMp_Admin_Dashboard {
         header("Content-Transfer-Encoding: binary");
 
         $headers = array(
-            'order' => __('Order', $WCMp->text_domain),
-            'date_of_purchase' => __('Date of Purchase', $WCMp->text_domain),
-            'time_of_purchase' => __('Time Of Purchase', $WCMp->text_domain),
-            'vendor_name' => __('Vendor Name', $WCMp->text_domain),
-            'product' => __('Items bought', $WCMp->text_domain),
-            'qty' => __('Quantity', $WCMp->text_domain),
-            'discount_used' => __('Discount Used', $WCMp->text_domain),
-            'payment_system' => __('Payment System', $WCMp->text_domain),
-            'buyer_name' => __('Customer Name', $WCMp->text_domain),
-            'buyer_email' => __('Customer Email', $WCMp->text_domain),
-            'buyer_contact' => __('Customer Contact', $WCMp->text_domain),
-            'billing_address' => __('Billing Address Details', $WCMp->text_domain),
-            'shipping_address' => __('Shipping Address Details', $WCMp->text_domain),
-            'order_status' => __('Order Status', $WCMp->text_domain),
-            'tax' => __('Tax', $WCMp->text_domain),
-            'shipping' => __('Shipping', $WCMp->text_domain),
-            'commission_share' => __('Commission Share', $WCMp->text_domain),
+            'order' => __('Order', 'dc-woocommerce-multi-vendor'),
+            'date_of_purchase' => __('Date of Purchase', 'dc-woocommerce-multi-vendor'),
+            'time_of_purchase' => __('Time Of Purchase', 'dc-woocommerce-multi-vendor'),
+            'vendor_name' => __('Vendor Name', 'dc-woocommerce-multi-vendor'),
+            'product' => __('Items bought', 'dc-woocommerce-multi-vendor'),
+            'qty' => __('Quantity', 'dc-woocommerce-multi-vendor'),
+            'discount_used' => __('Discount Used', 'dc-woocommerce-multi-vendor'),
+            'payment_system' => __('Payment System', 'dc-woocommerce-multi-vendor'),
+            'buyer_name' => __('Customer Name', 'dc-woocommerce-multi-vendor'),
+            'buyer_email' => __('Customer Email', 'dc-woocommerce-multi-vendor'),
+            'buyer_contact' => __('Customer Contact', 'dc-woocommerce-multi-vendor'),
+            'billing_address' => __('Billing Address Details', 'dc-woocommerce-multi-vendor'),
+            'shipping_address' => __('Shipping Address Details', 'dc-woocommerce-multi-vendor'),
+            'order_status' => __('Order Status', 'dc-woocommerce-multi-vendor'),
+            'tax' => __('Tax', 'dc-woocommerce-multi-vendor'),
+            'shipping' => __('Shipping', 'dc-woocommerce-multi-vendor'),
+            'commission_share' => __('Commission Share', 'dc-woocommerce-multi-vendor'),
         );
 
         if (!$WCMp->vendor_caps->vendor_capabilities_settings('is_show_email') || $is_not_show_email_field = apply_filters('is_not_show_email_field', false)) {
@@ -504,7 +504,7 @@ Class WCMp_Admin_Dashboard {
         if ($vendor) {
             $order_page = apply_filters('wcmp_vendor_view_order_page', true);
             if ($order_page) {
-                $hook = add_menu_page(__('Orders', $WCMp->text_domain), __('Orders', $WCMp->text_domain), 'read', 'dc-vendor-orders', array($this, 'wcmp_vendor_orders_page'));
+                $hook = add_menu_page(__('Orders', 'dc-woocommerce-multi-vendor'), __('Orders', 'dc-woocommerce-multi-vendor'), 'read', 'dc-vendor-orders', array($this, 'wcmp_vendor_orders_page'));
                 add_action("load-$hook", array($this, 'add_order_page_options'));
             }
 
@@ -512,7 +512,7 @@ Class WCMp_Admin_Dashboard {
             if ($WCMp->vendor_caps->vendor_payment_settings('give_shipping') && $shipping_page) {
                 $give_shipping_override = get_user_meta($user->ID, '_vendor_give_shipping', true);
                 if (!$give_shipping_override) {
-                    add_menu_page(__('Shipping', $WCMp->text_domain), __('Shipping', $WCMp->text_domain), 'read', 'dc-vendor-shipping', array($this, 'shipping_page'));
+                    add_menu_page(__('Shipping', 'dc-woocommerce-multi-vendor'), __('Shipping', 'dc-woocommerce-multi-vendor'), 'read', 'dc-vendor-shipping', array($this, 'shipping_page'));
                 }
             }
         }
@@ -544,7 +544,7 @@ Class WCMp_Admin_Dashboard {
         ?>
         <div class="wrap">
             <div id="icon-woocommerce" class="icon32 icon32-woocommerce-reports"><br/></div>
-            <h2><?php _e('Shipping', $WCMp->text_domain); ?></h2>
+            <h2><?php _e('Shipping', 'dc-woocommerce-multi-vendor'); ?></h2>
             <?php
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (isset($_POST['vendor_shipping_data'])) {
@@ -566,7 +566,7 @@ Class WCMp_Admin_Dashboard {
                             }
                         }
                         if (update_user_meta($vendor_user_id, 'vendor_shipping_data', $_POST['vendor_shipping_data'])) {
-                            echo '<div class="updated settings-error notice is-dismissible"><p><strong>' . __("Shipping Data Updated.", $WCMp->text_domain) . '</strong></p></div>';
+                            echo '<div class="updated settings-error notice is-dismissible"><p><strong>' . __("Shipping Data Updated", 'dc-woocommerce-multi-vendor') . '</strong></p></div>';
                         }
                     }
                 }
@@ -613,6 +613,7 @@ Class WCMp_Admin_Dashboard {
                         ?>						
                     </tbody>
                 </table>
+                <?php do_action('wcmp_vendor_shipping_settings'); ?>
                 <?php submit_button(); ?>
             </form>
             <br class="clear"/>
@@ -672,7 +673,7 @@ Class WCMp_Admin_Dashboard {
         <div class="wrap">
 
             <div id="icon-woocommerce" class="icon32 icon32-woocommerce-reports"><br/></div>
-            <h2><?php _e('Orders', $WCMp->text_domain); ?></h2>
+            <h2><?php _e('Orders', 'dc-woocommerce-multi-vendor'); ?></h2>
 
             <form id="posts-filter" method="get">
 
@@ -697,7 +698,7 @@ Class WCMp_Admin_Dashboard {
         }
         $product_shipping_class = get_terms('product_shipping_class', array('hide_empty' => 0));
         $current_user_id = get_current_user_id();
-        $option = '<option value="-1">' . __("No shipping class", $WCMp->text_domain) . '</option>';
+        $option = '<option value="-1">' . __("No shipping class", 'dc-woocommerce-multi-vendor') . '</option>';
 
         if (!empty($product_shipping_class)) {
             $shipping_option_array = array();
@@ -799,9 +800,9 @@ Class WCMp_Admin_Dashboard {
                 if ($fieldkey == "vendor_page_slug" && !empty($post[$fieldkey])) {
                     if ($vendor && !$vendor->update_page_slug(wc_clean($_POST[$fieldkey]))) {
                         if (is_admin()) {
-                            echo _e('Slug already exists', $WCMp->text_domain);
+                            echo _e('Slug already exists', 'dc-woocommerce-multi-vendor');
                         } else {
-                            $err_msg = __('Slug already exists', $WCMp->text_domain);
+                            $err_msg = __('Slug already exists', 'dc-woocommerce-multi-vendor');
                             return $err_msg;
                         }
                     } else {
@@ -811,9 +812,9 @@ Class WCMp_Admin_Dashboard {
                 }
                 if ($fieldkey == "vendor_page_slug" && empty($post[$fieldkey])) {
                     if (is_admin()) {
-                        echo _e('Slug can not be empty', $WCMp->text_domain);
+                        echo _e('Slug can not be empty', 'dc-woocommerce-multi-vendor');
                     } else {
-                        $err_msg = __('Slug can not be empty', $WCMp->text_domain);
+                        $err_msg = __('Slug can not be empty', 'dc-woocommerce-multi-vendor');
                         return $err_msg;
                     }
                 }
@@ -823,18 +824,18 @@ Class WCMp_Admin_Dashboard {
                     update_user_meta($user_id, '_' . $fieldkey, wc_clean($post[$fieldkey]));
                 if ($fieldkey == 'vendor_page_title' && empty($post[$fieldkey])) {
                     if (is_admin()) {
-                        echo _e('Shop Title can not be empty', $WCMp->text_domain);
+                        echo _e('Shop Title can not be empty', 'dc-woocommerce-multi-vendor');
                     } else {
-                        $err_msg = __('Shop Title can not be empty', $WCMp->text_domain);
+                        $err_msg = __('Shop Title can not be empty', 'dc-woocommerce-multi-vendor');
                         return $err_msg;
                     }
                 }
                 if ($fieldkey == 'vendor_page_title') {
                     if (!$vendor->update_page_title(wc_clean($post[$fieldkey]))) {
                         if (is_admin()) {
-                            echo _e('Shop Title Update Error', $WCMp->text_domain);
+                            echo _e('Shop Title Update Error', 'dc-woocommerce-multi-vendor');
                         } else {
-                            $err_msg = __('Shop Title Update Error', $WCMp->text_domain);
+                            $err_msg = __('Shop Title Update Error', 'dc-woocommerce-multi-vendor');
                             return $err_msg;
                         }
                     } else {
@@ -863,7 +864,7 @@ Class WCMp_Admin_Dashboard {
      */
     function save_vendor_shipping($vendor_user_id, $post) {
         global $WCMp;
-        if (version_compare(WC_VERSION, '2.6.0', '>=')) {
+        if (version_compare(WC_VERSION, '2.6.0', '>=') && isset($_POST['vendor_shipping_data'])) {
             $shipping_class_id = get_user_meta($vendor_user_id, 'shipping_class_id', true);
             $raw_zones = WC_Shipping_Zones::get_zones();
             $raw_zones[] = array('id' => 0);
@@ -882,9 +883,9 @@ Class WCMp_Admin_Dashboard {
             }
             $shipping_updt = update_user_meta($vendor_user_id, 'vendor_shipping_data', $_POST['vendor_shipping_data']);
             if ($shipping_updt) {
-                wc_add_notice(__('Shipping Data Updated', $WCMp->text_domain), 'success');
+                wc_add_notice(__('Shipping Data Updated', 'dc-woocommerce-multi-vendor'), 'success');
             } else {
-                wc_add_notice(__('Shipping Data Not Updated', $WCMp->text_domain), 'success');
+                wc_add_notice(__('Shipping Data Not Updated', 'dc-woocommerce-multi-vendor'), 'success');
                 delete_user_meta($vendor_user_id, 'vendor_shipping_data');
             }
         }

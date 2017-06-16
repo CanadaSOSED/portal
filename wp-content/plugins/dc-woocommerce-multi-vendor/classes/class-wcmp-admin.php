@@ -36,14 +36,15 @@ class WCMp_Admin {
         add_filter('bulk_actions-edit-wcmp_vendorrequest', array(&$this, 'wcmp_vendorrequest_bulk_actions'));
         add_action('admin_menu', array(&$this, 'remove_wcmp_vendorrequest_meta_boxes'));
         add_action('add_meta_boxes', array(&$this, 'adding_vendor_application_meta_boxes'), 10, 2);
-        
-        add_action('admin_menu', array(&$this,'wcmp_admin_menu'));
+
+        add_action('admin_menu', array(&$this, 'wcmp_admin_menu'));
+        add_action('admin_head', array($this, 'menu_commission_count'));
     }
 
     function adding_vendor_application_meta_boxes($post_type, $post) {
         global $WCMp;
         add_meta_box(
-                'vendor-form-data', __('Vendor Form Data', $WCMp->text_domain), array(&$this, 'render_vendor_meta_box'), 'wcmp_vendorrequest', 'normal', 'default'
+                'vendor-form-data', __('Vendor Form Data', 'dc-woocommerce-multi-vendor'), array(&$this, 'render_vendor_meta_box'), 'wcmp_vendorrequest', 'normal', 'default'
         );
     }
 
@@ -93,10 +94,10 @@ class WCMp_Admin {
             $user_id = get_post_meta($post->ID, 'user_id', true);
             $user = new WP_User($user_id);
             $user_data = get_userdata($user_id);
-            $actions['view'] = '<a href="' . get_edit_post_link($post->ID, 'display') . '" title="" rel="permalink">' . __('View', $WCMp->text_domain) . '</a>';
+            $actions['view'] = '<a href="' . get_edit_post_link($post->ID, 'display') . '" title="" rel="permalink">' . __('View', 'dc-woocommerce-multi-vendor') . '</a>';
             if (!in_array('dc_vendor', $user->roles) && !in_array('dc_rejected_vendor', $user->roles) && $user_data != false) {
-                $actions['aprove'] = '<a class="activate_vendor" href="#" data-id="' . $user_id . '" title="" rel="permalink">' . __('Approve', $WCMp->text_domain) . '</a>';
-                $actions['reject'] = '<a class="reject_vendor" href="#" data-id="' . $user_id . '" title="" rel="permalink">' . __('Reject', $WCMp->text_domain) . '</a>';
+                $actions['aprove'] = '<a class="activate_vendor" href="#" data-id="' . $user_id . '" title="" rel="permalink">' . __('Approve', 'dc-woocommerce-multi-vendor') . '</a>';
+                $actions['reject'] = '<a class="reject_vendor" href="#" data-id="' . $user_id . '" title="" rel="permalink">' . __('Reject', 'dc-woocommerce-multi-vendor') . '</a>';
             }
         }
         return $actions;
@@ -106,9 +107,9 @@ class WCMp_Admin {
         global $WCMp;
         unset($columns['title'], $columns['date']);
         $new_columns = array(
-            'userid' => __('Username', $WCMp->text_domain),
-            'email' => __('Email', $WCMp->text_domain),
-            'date' => __('Date', $WCMp->text_domain)
+            'userid' => __('Username', 'dc-woocommerce-multi-vendor'),
+            'email' => __('Email', 'dc-woocommerce-multi-vendor'),
+            'date' => __('Date', 'dc-woocommerce-multi-vendor')
         );
         return array_merge($columns, $new_columns);
     }
@@ -250,7 +251,7 @@ class WCMp_Admin {
         // Add our settings
         add_settings_field(
                 'dc_product_vendor_taxonomy_slug', // id
-                __('Vendor Shop Base', $WCMp->text_domain), // setting title
+                __('Vendor Shop Base', 'dc-woocommerce-multi-vendor'), // setting title
                 array(&$this, 'wcmp_taxonomy_slug_input'), // display callback
                 'permalink', // settings page
                 'optional'                                      // settings section
@@ -261,7 +262,7 @@ class WCMp_Admin {
         global $WCMp;
         $permalinks = get_option('dc_vendors_permalinks');
         ?>
-        <input name="dc_product_vendor_taxonomy_slug" type="text" class="regular-text code" value="<?php if (isset($permalinks['vendor_shop_base'])) echo esc_attr($permalinks['vendor_shop_base']); ?>" placeholder="<?php echo _x('vendor', 'slug', $WCMp->text_domain) ?>" />
+        <input name="dc_product_vendor_taxonomy_slug" type="text" class="regular-text code" value="<?php if (isset($permalinks['vendor_shop_base'])) echo esc_attr($permalinks['vendor_shop_base']); ?>" placeholder="<?php echo _x('vendor', 'slug', 'dc-woocommerce-multi-vendor') ?>" />
         <?php
     }
 
@@ -299,10 +300,10 @@ class WCMp_Admin {
             $admin_bar->add_menu(
                     array(
                         'id' => 'vendor_dashboard',
-                        'title' => __('Frontend  Dashboard', $WCMp->text_domain),
+                        'title' => __('Frontend  Dashboard', 'dc-woocommerce-multi-vendor'),
                         'href' => get_permalink(wcmp_vendor_dashboard_page_id()),
                         'meta' => array(
-                            'title' => __('Frontend Dashboard', $WCMp->text_domain),
+                            'title' => __('Frontend Dashboard', 'dc-woocommerce-multi-vendor'),
                             'target' => '_blank',
                             'class' => 'shop-settings'
                         ),
@@ -311,10 +312,10 @@ class WCMp_Admin {
             $admin_bar->add_menu(
                     array(
                         'id' => 'shop_settings',
-                        'title' => __('Shop Settings', $WCMp->text_domain),
+                        'title' => __('Shop Settings', 'dc-woocommerce-multi-vendor'),
                         'href' => wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_store_settings_endpoint', 'vendor', 'general', 'shop-front')),
                         'meta' => array(
-                            'title' => __('Shop Settings', $WCMp->text_domain),
+                            'title' => __('Shop Settings', 'dc-woocommerce-multi-vendor'),
                             'target' => '_blank',
                             'class' => 'shop-settings'
                         ),
@@ -344,7 +345,7 @@ class WCMp_Admin {
         ?>
         <div style="clear: both"></div>
         <div id="dc_admin_footer">
-            <?php _e('Powered by', $WCMp->text_domain); ?> <a href="https://wc-marketplace.com/" target="_blank"><img src="<?php echo $WCMp->plugin_url . 'assets/images/dualcube.png'; ?>"></a><?php _e('WC Marketplace', $WCMp->text_domain); ?> &copy; <?php echo date('Y'); ?>
+            <?php _e('Powered by', 'dc-woocommerce-multi-vendor'); ?> <a href="https://wc-marketplace.com/" target="_blank"><img src="<?php echo $WCMp->plugin_url . 'assets/images/dualcube.png'; ?>"></a><?php _e('WC Marketplace', 'dc-woocommerce-multi-vendor'); ?> &copy; <?php echo date('Y'); ?>
         </div>
         <?php
     }
@@ -368,10 +369,10 @@ class WCMp_Admin {
                         //targethtml = targethtml + '<a href="<?php echo trailingslashit(get_admin_url()) . 'admin.php?page=wcmp-setting-admin'; ?>" class="page-title-action">Back To WCMp Settings</a>';
                         //target_ele.html(targethtml);
                 <?php if (in_array($screen->id, array('edit-wcmp_university'))) { ?>
-                            target_ele.before('<p><b><?php echo __('"Knowledgebase" section is visible only to vendors through the vendor dashboard. You may use this section to onboard your vendors. Share tutorials, best practices, "how to" guides or whatever you feel is appropriate with your vendors.', $WCMp->text_domain); ?></b></p>');
+                            target_ele.before('<p><b><?php echo __('"Knowledgebase" section is visible only to vendors through the vendor dashboard. You may use this section to onboard your vendors. Share tutorials, best practices, "how to" guides or whatever you feel is appropriate with your vendors.', 'dc-woocommerce-multi-vendor'); ?></b></p>');
                 <?php } ?>
                 <?php if (in_array($screen->id, array('edit-wcmp_vendor_notice'))) { ?>
-                            target_ele.before('<p><b><?php echo __('Announcements are visible only to vendors through the vendor dashboard(message section). You may use this section to broadcast your announcements.', $WCMp->text_domain); ?></b></p>');
+                            target_ele.before('<p><b><?php echo __('Announcements are visible only to vendors through the vendor dashboard(message section). You may use this section to broadcast your announcements.', 'dc-woocommerce-multi-vendor'); ?></b></p>');
                 <?php } ?>
                     });
 
@@ -380,13 +381,27 @@ class WCMp_Admin {
             }
         }
     }
-    
-    public function wcmp_admin_menu(){
+
+    public function wcmp_admin_menu() {
         $user = new WP_User(get_current_user_id());
         if (!empty($user->roles) && is_array($user->roles) && in_array('dc_vendor', $user->roles)) {
-            remove_menu_page( 'edit.php' );      
-            remove_menu_page( 'edit-comments.php' );
-            remove_menu_page( 'tools.php' );
+            remove_menu_page('edit.php');
+            remove_menu_page('edit-comments.php');
+            remove_menu_page('tools.php');
+        }
+    }
+
+    public function menu_commission_count() {
+        global $submenu;
+        if (isset($submenu['wcmp'])) {
+            if (apply_filters('woocommerce_include_processing_order_count_in_menu', true) && current_user_can('manage_woocommerce') && ( $order_count = wcmp_unpaid_commission_count() )) {
+                foreach ($submenu['wcmp'] as $key => $menu_item) {
+                    if (0 === strpos($menu_item[0], _x('Commissions', 'Admin menu name', 'wcmp'))) {
+                        $submenu['wcmp'][$key][0] .= ' <span class="awaiting-mod update-plugins count-' . $order_count . '"><span class="processing-count">' . number_format_i18n($order_count) . '</span></span>';
+                        break;
+                    }
+                }
+            }
         }
     }
 
@@ -409,14 +424,14 @@ class WCMp_Admin {
             wp_enqueue_style('wcmp_admin_css', $WCMp->plugin_url . 'assets/admin/css/admin' . $suffix . '.css', array(), $WCMp->version);
 
         endif;
-        if (in_array($screen->id, array('wcmp_page_wcmp-to-do','edit-wcmp_vendorrequest'))) {
+        if (in_array($screen->id, array('wcmp_page_wcmp-to-do', 'edit-wcmp_vendorrequest'))) {
             wp_enqueue_script('dc_to_do_list_js', $WCMp->plugin_url . 'assets/admin/js/to_do_list' . $suffix . '.js', array('jquery'), $WCMp->version, true);
         }
         if (in_array($screen->id, array('wcmp_page_wcmp-to-do'))) {
             wp_enqueue_style('wcmp_admin_todo_list', $WCMp->plugin_url . 'assets/admin/css/admin-to_do_list' . $suffix . '.css', array(), $WCMp->version);
         }
 
-        if (in_array($screen->id, array('dc_commission','woocommerce_page_wc-reports', 'toplevel_page_wc-reports'))) :
+        if (in_array($screen->id, array('dc_commission', 'woocommerce_page_wc-reports', 'toplevel_page_wc-reports'))) :
             $WCMp->library->load_qtip_lib();
             wp_enqueue_script('wcmp_admin_js', $WCMp->plugin_url . 'assets/admin/js/admin' . $suffix . '.js', array('jquery'), $WCMp->version, true);
             wp_enqueue_style('wcmp_admin_css', $WCMp->plugin_url . 'assets/admin/css/admin' . $suffix . '.css', array(), $WCMp->version);

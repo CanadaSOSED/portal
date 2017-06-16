@@ -23,12 +23,12 @@ if ($vendor) :
 
     $is_hide_option_show_enable = apply_filters('is_hide_option_show_enable', true);
     ?>
-    <div class="wcmp_headding2"><?php _e('General', $WCMp->text_domain); ?></div>
+    <div class="wcmp_headding2"><?php _e('General', 'dc-woocommerce-multi-vendor'); ?></div>
     <form method="post" name="shop_settings_form" class="wcmp_shop_settings_form">
         <div class="wcmp_form1">
-            <p><?php _e('Store Name *', $WCMp->text_domain); ?></p>
-            <input class="no_input" readonly type="text" name="vendor_page_title" value="<?php echo isset($vendor_page_title['value']) ? $vendor_page_title['value'] : ''; ?>"  placeholder="<?php _e('Enter your Store Name here', $WCMp->text_domain); ?>">
-            <p><?php _e(' Store Slug *', $WCMp->text_domain); ?></p>
+            <p><?php _e('Store Name *', 'dc-woocommerce-multi-vendor'); ?></p>
+            <input class="no_input" readonly type="text" name="vendor_page_title" value="<?php echo isset($vendor_page_title['value']) ? $vendor_page_title['value'] : ''; ?>"  placeholder="<?php _e('Enter your Store Name here', 'dc-woocommerce-multi-vendor'); ?>">
+            <p><?php _e(' Store Slug *', 'dc-woocommerce-multi-vendor'); ?></p>
             <span style="display:block;" class="txt"><?php
                 $dc_vendors_permalinks_array = get_option('dc_vendors_permalinks');
                 if (isset($dc_vendors_permalinks_array['vendor_shop_base']) && !empty($dc_vendors_permalinks_array['vendor_shop_base'])) {
@@ -37,43 +37,43 @@ if ($vendor) :
                     $store_slug = trailingslashit('vendor');
                 } echo $shop_page_url = trailingslashit(get_home_url());
                 echo $store_slug;
-                ?><input class="small no_input" readonly type="text" name="vendor_page_slug" readonly value="<?php echo isset($vendor_page_slug['value']) ? $vendor_page_slug['value'] : ''; ?>" placeholder="<?php _e('Enter your Store Name here', $WCMp->text_domain); ?>">
+                ?><input class="small no_input" readonly type="text" name="vendor_page_slug" readonly value="<?php echo isset($vendor_page_slug['value']) ? $vendor_page_slug['value'] : ''; ?>" placeholder="<?php _e('Enter your Store Name here', 'dc-woocommerce-multi-vendor'); ?>">
             </span>				
-            <p> <?php _e('Shop Description', $WCMp->text_domain); ?>
+            <p> <?php _e('Shop Description', 'dc-woocommerce-multi-vendor'); ?>
             <?php if (get_wcmp_vendor_settings('is_hide_option_show', 'capabilities', 'miscellaneous') && $is_hide_option_show_enable) { ?>
-                    <span class="input-group-addon beautiful" ><input type="checkbox" name="vendor_hide_description"  value="Enable" <?php if ($vendor_hide_description == 'Enable') echo 'checked=checked'; ?>><span>  <?php _e('Hide from user', $WCMp->text_domain); ?></span></span></p>
+                    <span class="input-group-addon beautiful" ><input type="checkbox" name="vendor_hide_description"  value="Enable" <?php if ($vendor_hide_description == 'Enable') echo 'checked=checked'; ?>><span>  <?php _e('Hide from user', 'dc-woocommerce-multi-vendor'); ?></span></span></p>
             <?php } ?>
             <textarea class="no_input" readonly name="vendor_description" cols="" rows="" placeholder="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "><?php echo isset($vendor_description['value']) ? $vendor_description['value'] : ''; ?></textarea>
             <?php if (isset($vendor_message_to_buyers)) { ?>
-                <p> <?php _e('Message to Buyers', $WCMp->text_domain); ?></p>
+                <p> <?php _e('Message to Buyers', 'dc-woocommerce-multi-vendor'); ?></p>
                 <textarea class="no_input" readonly name="vendor_message_to_buyers" cols="" rows="" placeholder="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. "><?php echo isset($vendor_message_to_buyers['value']) ? $vendor_message_to_buyers['value'] : ''; ?></textarea>
                     <?php } ?>
             <div class="half_part">
-                <p><?php _e('Phone', $WCMp->text_domain); ?>
+                <p><?php _e('Phone', 'dc-woocommerce-multi-vendor'); ?>
     <?php if (get_wcmp_vendor_settings('is_hide_option_show', 'capabilities', 'miscellaneous') && $is_hide_option_show_enable) { ?>
                         <span class="input-group-addon beautiful" >
                             <input type="checkbox" name="vendor_hide_phone"  value="Enable" <?php if ($vendor_hide_phone == 'Enable') echo 'checked=checked'; ?> >
-                            <span> <?php _e('Hide from user', $WCMp->text_domain); ?></span> </span> 
+                            <span> <?php _e('Hide from user', 'dc-woocommerce-multi-vendor'); ?></span> </span> 
     <?php } ?>	
                 </p>
                 <input class="no_input" readonly type="text" name="vendor_phone" placeholder="" value="<?php echo isset($vendor_phone['value']) ? $vendor_phone['value'] : ''; ?>">
             </div>
             <div class="half_part">
-                <p><?php _e('Email *', $WCMp->text_domain); ?> 
+                <p><?php _e('Email *', 'dc-woocommerce-multi-vendor'); ?> 
     <?php if (get_wcmp_vendor_settings('is_hide_option_show', 'capabilities', 'miscellaneous') && $is_hide_option_show_enable) { ?>
                         <span class="input-group-addon beautiful" >
                             <input type="checkbox"  name="vendor_hide_email"  value="Enable" <?php if ($vendor_hide_email == 'Enable') echo 'checked=checked'; ?>>
-                            <span><?php _e('Hide from user', $WCMp->text_domain); ?></span> </span>
+                            <span><?php _e('Hide from user', 'dc-woocommerce-multi-vendor'); ?></span> </span>
     <?php } ?>
                 </p>
                 <input class="no_input vendor_email" readonly type="text" disabled placeholder=""  value="<?php echo isset($vendor->user_data->user_email) ? $vendor->user_data->user_email : ''; ?>">
             </div>
             <div class="clear"></div>
-            <p><?php _e('Address', $WCMp->text_domain); ?> 
+            <p><?php _e('Address', 'dc-woocommerce-multi-vendor'); ?> 
     <?php if (get_wcmp_vendor_settings('is_hide_option_show', 'capabilities', 'miscellaneous') && $is_hide_option_show_enable) { ?>
                     <span class="input-group-addon beautiful" >
                         <input type="checkbox" name="vendor_hide_address"  value="Enable" <?php if ($vendor_hide_address == 'Enable') echo 'checked=checked'; ?>>
-                        <span><?php _e(' Hide from user', $WCMp->text_domain); ?></span> </span> 
+                        <span><?php _e(' Hide from user', 'dc-woocommerce-multi-vendor'); ?></span> </span> 
     <?php } ?>	
             </p>
             <input class="no_input" readonly type="text" placeholder="Address line 1" name="vendor_address_1"  value="<?php echo isset($vendor_address_1['value']) ? $vendor_address_1['value'] : ''; ?>">
@@ -102,14 +102,14 @@ if ($vendor) :
     }
     ?>
         </div>
-        <div class="wcmp_headding2 moregap"><?php _e('Media Files', $WCMp->text_domain); ?></div>
+        <div class="wcmp_headding2 moregap"><?php _e('Media Files', 'dc-woocommerce-multi-vendor'); ?></div>
         <div class="wcmp_media_block">
 
             <span class="dc-wp-fields-uploader">
                 <img class="one_third_part" id="vendor_image_display" width="300" src="<?php echo (isset($vendor_image['value']) && (!empty($vendor_image['value']))) ? $vendor_image['value'] : $WCMp->plugin_url . 'assets/images/logo_placeholder.jpg'; ?>" class="placeHolder" />
                 <input type="text" name="vendor_image" id="vendor_image" style="display: none;" class="user-profile-fields" readonly value="<?php echo (isset($vendor_image['value']) && (!empty($vendor_image['value']))) ? $vendor_image['value'] : $WCMp->plugin_url . 'assets/images/logo_placeholder.jpg'; ?>"  />
-                <input type="button" class="upload_button wcmp_black_btn moregap two_third_part" name="vendor_image_button" id="vendor_image_button" value="<?php _e('Upload', $WCMp->text_domain) ?>" />
-                <input type="button" class="remove_button wcmp_black_btn moregap two_third_part" name="vendor_image_remove_button" id="vendor_image_remove_button" value="<?php _e('Replace', $WCMp->text_domain) ?>" />
+                <input type="button" class="upload_button wcmp_black_btn moregap two_third_part" name="vendor_image_button" id="vendor_image_button" value="<?php _e('Upload', 'dc-woocommerce-multi-vendor') ?>" />
+                <input type="button" class="remove_button wcmp_black_btn moregap two_third_part" name="vendor_image_remove_button" id="vendor_image_remove_button" value="<?php _e('Replace', 'dc-woocommerce-multi-vendor') ?>" />
             </span>
             <div class="clear"></div>
         </div>
@@ -117,14 +117,14 @@ if ($vendor) :
             <span class="dc-wp-fields-uploader">
                 <img class="one_third_part" id="vendor_banner_display" width="300" src="<?php echo (isset($vendor_banner['value']) && (!empty($vendor_banner['value'])) ) ? $vendor_banner['value'] : $WCMp->plugin_url . 'assets/images/banner_placeholder.jpg'; ?>" class="placeHolder" />
                 <input type="text" name="vendor_banner" id="vendor_banner" style="display: none;" class="user-profile-fields" readonly value="<?php echo (isset($vendor_banner['value']) && (!empty($vendor_banner['value'])) ) ? $vendor_banner['value'] : $WCMp->plugin_url . 'assets/images/banner_placeholder.jpg'; ?>"  />
-                <input type="button" class="upload_button wcmp_black_btn moregap two_third_part" name="vendor_banner_button" id="vendor_banner_button" value="<?php _e('Upload', $WCMp->text_domain) ?>" />
-                <input type="button" class="remove_button wcmp_black_btn moregap two_third_part" name="vendor_banner_remove_button" id="vendor_banner_remove_button" value="<?php _e('Replace', $WCMp->text_domain) ?>" />
+                <input type="button" class="upload_button wcmp_black_btn moregap two_third_part" name="vendor_banner_button" id="vendor_banner_button" value="<?php _e('Upload', 'dc-woocommerce-multi-vendor') ?>" />
+                <input type="button" class="remove_button wcmp_black_btn moregap two_third_part" name="vendor_banner_remove_button" id="vendor_banner_remove_button" value="<?php _e('Replace', 'dc-woocommerce-multi-vendor') ?>" />
             </span>
             <div class="clear"></div>
         </div>
-        <div class="wcmp_headding2 moregap"><?php _e('Social Media', $WCMp->text_domain); ?></div>
+        <div class="wcmp_headding2 moregap"><?php _e('Social Media', 'dc-woocommerce-multi-vendor'); ?></div>
         <div class="wcmp_media_block">
-            <p><?php _e('Enter your Social Media profile URL below:', $WCMp->text_domain); ?></p>
+            <p><?php _e('Enter your Social Media profile URL below:', 'dc-woocommerce-multi-vendor'); ?></p>
             <div class="full_part"><img src="<?php echo $WCMp->plugin_url . 'assets/images/facebook.png' ?>" alt="" class="social_icon" >
                 <input class="long no_input" readonly type="text"   name="vendor_fb_profile" value="<?php echo isset($vendor_fb_profile['value']) ? $vendor_fb_profile['value'] : ''; ?>">
             </div>
@@ -147,9 +147,9 @@ if ($vendor) :
         </div>
             <?php do_action('other_exta_field_dcmv'); ?>
         <div class="action_div_space"> </div>
-        <p class="error_wcmp"><?php _e('* This field is required, you must fill some information.', $WCMp->text_domain); ?></p>
+        <p class="error_wcmp"><?php _e('* This field is required, you must fill some information.', 'dc-woocommerce-multi-vendor'); ?></p>
         <div class="action_div">
-            <button class="wcmp_orange_btn" name="store_save"><?php _e('Save Options', $WCMp->text_domain); ?></button>
+            <button class="wcmp_orange_btn" name="store_save"><?php _e('Save Options', 'dc-woocommerce-multi-vendor'); ?></button>
             <div class="clear"></div>
         </div>
     </form>
