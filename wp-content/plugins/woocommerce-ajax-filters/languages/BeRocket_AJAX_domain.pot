@@ -1,0 +1,265 @@
+# Loco Gettext template
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced AJAX Product Filters for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: Thu Feb 11 2016 10:53:27 GMT+0200 (EET)\n"
+"POT-Revision-Date: Thu Jul 07 2016 15:45:32 GMT+0300 (EEST)\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;__ngettext_noop:1,2;"
+"_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;_nx_js:1,2,3c;"
+"esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;esc_attr_x:1,2c;"
+"esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;transChoice:1,2\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#. Name of the plugin
+msgid "Advanced AJAX Product Filters for WooCommerce"
+msgstr ""
+
+#. URI of the plugin
+msgid "http://berocket.com/wp-plugins/product-filters"
+msgstr ""
+
+#. Author of the plugin
+msgid "BeRocket"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://berocket.com"
+msgstr ""
+
+#: ../woocommerce-filters.php:85
+msgid "Activate WooCommerce plugin before"
+msgstr ""
+
+#: ../woocommerce-filters.php:93
+msgid "Update WooCommerce plugin"
+msgstr ""
+
+#: ../woocommerce-filters.php:99
+msgid "Product Filters Settings"
+msgstr ""
+
+#: ../woocommerce-filters.php:99
+msgid "Product Filters"
+msgstr ""
+
+#: ../includes/widget.php:28
+msgid "Add Filters to Products page"
+msgstr ""
+
+#: ../includes/widget.php:35 ../includes/widget.php:37
+msgid "AJAX Product Filters"
+msgstr ""
+
+#: ../templates/checkbox.php:44 ../templates/radio.php:34
+msgid "Show value"
+msgstr ""
+
+#: ../templates/admin.php:2
+msgid "Widget Type:"
+msgstr ""
+
+#: ../templates/admin.php:4
+msgid "Filter"
+msgstr ""
+
+#: ../templates/admin.php:5
+msgid "Update Products button"
+msgstr ""
+
+#: ../templates/admin.php:13
+msgid "Title:"
+msgstr ""
+
+#: ../templates/admin.php:18
+msgid "Attribute:"
+msgstr ""
+
+#: ../templates/admin.php:20
+msgid "Price"
+msgstr ""
+
+#: ../templates/admin.php:28
+msgid "Type:"
+msgstr ""
+
+#: ../templates/admin.php:41
+msgid "Operator:"
+msgstr ""
+
+#: ../templates/admin.php:57
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../templates/admin.php:61
+msgid "CSS Class:"
+msgstr ""
+
+#: ../templates/admin.php:66
+msgid "Product Category:"
+msgstr ""
+
+#: ../templates/admin.php:69
+msgid "include subcats?"
+msgstr ""
+
+#: ../templates/admin.php:96
+msgid "Filter Box Height:"
+msgstr ""
+
+#: ../templates/admin.php:100
+msgid "Scroll Theme:"
+msgstr ""
+
+#: ../templates/select.php:4
+msgid "Any"
+msgstr ""
+
+#: ../templates/admin-settings.php:9
+msgid "General"
+msgstr ""
+
+#: ../templates/admin-settings.php:10
+msgid "Design"
+msgstr ""
+
+#: ../templates/admin-settings.php:11
+msgid "JavaScript"
+msgstr ""
+
+#: ../templates/admin-settings.php:12
+msgid "Custom CSS"
+msgstr ""
+
+#: ../templates/admin-settings.php:17
+msgid "\"No Products\" message"
+msgstr ""
+
+#: ../templates/admin-settings.php:21
+msgid "Text that will be shown if no products found"
+msgstr ""
+
+#: ../templates/admin-settings.php:25
+msgid "\"No Products\" class"
+msgstr ""
+
+#: ../templates/admin-settings.php:29
+msgid "Add class and use it to style \"No Products\" box"
+msgstr ""
+
+#: ../templates/admin-settings.php:33
+msgid "Products selector"
+msgstr ""
+
+#: ../templates/admin-settings.php:37
+msgid ""
+"Selector for tag that is holding products. Don't change this if you don't "
+"know what it is"
+msgstr ""
+
+#: ../templates/admin-settings.php:41
+msgid "Sorting control"
+msgstr ""
+
+#: ../templates/admin-settings.php:44
+msgid "Take control over WooCommerce's sorting selectbox?"
+msgstr ""
+
+#: ../templates/admin-settings.php:48
+msgid "SEO friendly urls"
+msgstr ""
+
+#: ../templates/admin-settings.php:51
+msgid "If this option is on url will be changed when filter is selected/changed"
+msgstr ""
+
+#: ../templates/admin-settings.php:55
+msgid "Turn all filters off"
+msgstr ""
+
+#: ../templates/admin-settings.php:58
+msgid ""
+"If you want to hide filters without losing current configuration just turn "
+"them off"
+msgstr ""
+
+#: ../templates/admin-settings.php:62
+msgid "Show all values"
+msgstr ""
+
+#: ../templates/admin-settings.php:65
+msgid "Check if you want to show not used attribute values too"
+msgstr ""
+
+#: ../templates/admin-settings.php:69
+msgid "Hide values"
+msgstr ""
+
+#: ../templates/admin-settings.php:72
+msgid "Hide values without products"
+msgstr ""
+
+#: ../templates/admin-settings.php:74
+msgid "Hide selected values"
+msgstr ""
+
+#: ../templates/admin-settings.php:79
+msgid "Jump to first page"
+msgstr ""
+
+#: ../templates/admin-settings.php:82
+msgid "Check if you want load first page after filters change"
+msgstr ""
+
+#: ../templates/admin-settings.php:93
+msgid "Template ajax load fix"
+msgstr ""
+
+#: ../templates/admin-settings.php:96
+msgid ""
+"Use all plugins on ajax load (can fix visual issues but slow down products "
+"loading)"
+msgstr ""
+
+#: ../templates/admin-settings.php:109
+msgid "Before Update:"
+msgstr ""
+
+#: ../templates/admin-settings.php:113
+msgid "If you want to add own actions on filter activation, eg: alert('1');"
+msgstr ""
+
+#: ../templates/admin-settings.php:117
+msgid "On Update:"
+msgstr ""
+
+#: ../templates/admin-settings.php:121
+msgid ""
+"If you want to add own actions right on products update. You can manipulate "
+"data here, try: data.products = 'Ha!';"
+msgstr ""
+
+#: ../templates/admin-settings.php:125
+msgid "After Update:"
+msgstr ""
+
+#: ../templates/admin-settings.php:129
+msgid "If you want to add own actions after products updated, eg: alert('1');"
+msgstr ""
+
+#: ../templates/admin-settings.php:141
+msgid "Save Changes"
+msgstr ""

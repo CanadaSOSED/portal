@@ -1,0 +1,267 @@
+ul.products{
+    position: relative;
+    min-height: 500px;
+}
+
+ul.products.hide_products li{
+    visibility: hidden;
+    height: 20px;
+}
+
+.berocket_aapf_widget input[type="checkbox"] {
+    position: absolute;
+    left: -9999px;
+}
+
+.berocket_aapf_widget input[type="checkbox"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url('../images/sprite.png') no-repeat;
+    cursor: pointer;
+}
+
+.berocket_aapf_widget input[type="checkbox"]:checked + label:before {
+    background-position: -14px 0;
+}
+
+.berocket_aapf_widget input[type="radio"] {
+    position: absolute;
+    left: -9999px;
+}
+
+.berocket_aapf_widget input[type="radio"] + label:before {
+    content: "";
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background: url('../images/sprite_radio.png') no-repeat;
+}
+
+.berocket_aapf_widget input[type="radio"]:checked + label:before {
+    background-position: -14px 0;
+}
+
+.berocket_aapf_widget .berocket_label_widgets{
+    display: inline;
+}
+
+.berocket_aapf_widget-title{
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+ul.berocket_aapf_widget{
+    margin-bottom: 30px;
+    margin-right: 1em;
+}
+
+ul.berocket_aapf_widget .berocket_widget_show_values{
+    cursor: pointer;
+    display: block;
+    position: relative;
+    margin-bottom: 10px;
+    top: 10px;
+    font-size: 0.9em;
+}
+
+ul.berocket_aapf_widget .berocket_widget_show_values span{
+    margin-right: 20px;
+    display: inline-block;
+    width: 1.8em;
+    height: 1em;
+    background: transparent url('../images/gray-left-arrow.png') no-repeat center center;
+}
+
+ul.berocket_aapf_widget .berocket_widget_show_values span.show_button
+{
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg); 
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+ul.berocket_aapf_widget .berocket_widget_show_values span.hide_button
+{
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg); 
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+ul.berocket_aapf_widget li.berocket_hide_o_value, ul.berocket_aapf_widget li.berocket_hide_sel_value{
+    display: none !important;
+}
+
+ul.berocket_aapf_widget.show_o_sel_values li.berocket_hide_o_value, ul.berocket_aapf_widget.show_o_sel_values li.berocket_hide_sel_value{
+    display: block !important;
+}
+
+ul.berocket_aapf_widget li{
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul.berocket_aapf_widget li > span{
+    display: block;
+    cursor: pointer;
+    line-height: 1.1em;
+}
+
+ul.berocket_aapf_widget li > span:hover{
+    color: #000000;
+}
+
+.berocket_aapf_widget_loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white url('../images/ajax-loader.gif') no-repeat center center;
+    z-index: 10000;
+}
+.berocket_aapf_widget_loading.transparent {
+    background-color: transparent;
+}
+
+.no-products{
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 6em;
+    text-align: center;
+}
+
+span.product-size{
+    color: #777;
+    display: block;
+    text-align: center;
+}
+
+.berocket_aapf_widget li.slider span.left, .berocket_aapf_widget li.slider span.right{
+    height: 40px;
+    float: left;
+    font-size: 12px;
+    max-width: 50%;
+    text-align: left;
+}
+
+.berocket_aapf_widget li.slider span.left input, .berocket_aapf_widget li.slider span.right input{
+    border: 1px solid #E8E8E8;
+    font-size: 13px;
+    font-style: italic;
+    padding: 4px 9px;
+    text-align: right;
+    width: 60%;
+    background: white;
+    line-height: 1.1em;
+}
+
+.berocket_aapf_widget li.slider span.right{
+    float: right;
+    text-align: right;
+}
+
+.berocket_aapf_widget li.slider div.slide{
+    clear: both;
+    height: auto;
+    text-align: right;
+}
+
+.berocket_filter_slider.ui-widget-content, .berocket_filter_price_slider.ui-widget-content{
+    background: none repeat scroll 0 0 #b0b5b9;
+    border: 0 none;
+    border-radius: 0;
+    height: 4px;
+    padding: 0;
+    display: block;
+    font-size: 10px;
+}
+
+.berocket_filter_slider.ui-widget-content .ui-slider-range, .berocket_filter_price_slider.ui-widget-content .ui-slider-range{
+    background: none repeat scroll 0 0 #000000;
+}
+
+.berocket_filter_slider.ui-widget-content .ui-slider-handle, .berocket_filter_price_slider.ui-widget-content .ui-slider-handle{
+    background: url("../images/handler.png") no-repeat scroll center center / cover  transparent;
+    width: 1.2em;
+    height: 1.2em;
+    border: 0;
+    top: -4px;
+    font-size: inherit;
+}
+
+.berocket_aapf_widget li.slider div.slide{
+    clear: both;
+    height: auto;
+}
+
+.ui-slider {
+    position: relative;
+    text-align: left;
+}
+.ui-slider .ui-slider-handle {
+    position: absolute;
+    z-index: 2;
+    width: 1.2em;
+    height: 1.2em;
+    cursor: pointer;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+.ui-slider .ui-slider-range {
+    position: absolute;
+    z-index: 1;
+    font-size: .7em;
+    display: block;
+    border: 0;
+    background-position: 0 0;
+}
+.ui-slider.ui-state-disabled .ui-slider-handle,
+.ui-slider.ui-state-disabled .ui-slider-range {
+    filter: inherit;
+}
+
+.ui-slider-horizontal {
+    height: .8em;
+}
+.ui-slider-horizontal .ui-slider-handle {
+    top: -.3em;
+    margin-left: -.6em;
+}
+.berocket_filter_slider > a:last-child {
+    margin-left: -12px;
+}
+.ui-slider-horizontal .ui-slider-range {
+    top: 0;
+    height: 100%;
+}
+.ui-slider-horizontal .ui-slider-range-min {
+    left: 0;
+}
+.ui-slider-horizontal .ui-slider-range-max {
+    right: 0;
+}
+
+.ui-slider-vertical {
+    width: .8em;
+    height: 100px;
+}
+.ui-slider-vertical .ui-slider-handle {
+    left: -.3em;
+    margin-left: 0;
+    margin-bottom: -.6em;
+}
+.ui-slider-vertical .ui-slider-range {
+    left: 0;
+    width: 100%;
+}
+.ui-slider-vertical .ui-slider-range-min {
+    bottom: 0;
+}
+.ui-slider-vertical .ui-slider-range-max {
+    top: 0;
+}

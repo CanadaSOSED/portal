@@ -1,0 +1,23 @@
+<wpml-config>  
+    <admin-texts>
+        <key name="br_filters_options">
+            <key name="no_products_message" />
+            <key name="ub_product_text" />
+            <key name="ub_product_button_text" />
+            <key name="ajax_load_text">
+                <key name="top" />
+                <key name="bottom" />
+                <key name="left" />
+                <key name="right" />
+            </key>
+        </key>
+    </admin-texts> 
+    <shortcodes>
+        <shortcode>
+            <tag>br_filters</tag>
+            <attributes>
+                <attribute>title</attribute>
+            </attributes>
+        </shortcode>
+    </shortcodes>
+</wpml-config>

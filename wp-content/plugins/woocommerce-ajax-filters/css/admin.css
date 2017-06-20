@@ -1,0 +1,17 @@
+.berocket_aapf_advanced_settings{display: none;}.berocket_aapf_widget_admin_height_input{width: 43px;}.berocket_aapf_advanced_settings_categories_list{max-height: 200px;overflow:auto;}.berocket_aapf_advanced_settings_subcategory{float: right;position: relative;top: 3px;}
+
+.colorpicker_field{width: 30px; height: 30px; margin: 5px auto; border: 1px solid black;}
+
+.admin-column-color{width: 6%; text-align: center!important;}
+.admin-column-font-family{width: 15%;}
+.admin-column-font-family select{max-width: 100%;}
+.admin-column-font-weight{width: 12%;}
+.admin-column-font-weight select{max-width: 100%;}
+.admin-column-font-size{width: 10%; text-align: center!important;}
+.admin-column-font-size input{max-width: 100%; text-align: center!important;}
+.admin-column-dimensions{width: 10%;}
+.admin-column-dimensions select{max-width: 100%;}
+.admin-column-theme{width: 14%;}
+.admin-column-theme select{max-width: 100%;}
+.tab-item{display: none;}
+.tab-item.current{display: block;}

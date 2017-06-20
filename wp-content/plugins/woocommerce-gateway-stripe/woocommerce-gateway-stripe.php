@@ -5,7 +5,7 @@
  * Description: Take credit card payments on your store using Stripe.
  * Author: WooCommerce
  * Author URI: https://woocommerce.com/
- * Version: 3.1.9
+ * Version: 3.2.0
  * Text Domain: woocommerce-gateway-stripe
  * Domain Path: /languages
  *
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Required minimums and constants
  */
-define( 'WC_STRIPE_VERSION', '3.1.9' );
+define( 'WC_STRIPE_VERSION', '3.2.0' );
 define( 'WC_STRIPE_MIN_PHP_VER', '5.6.0' );
 define( 'WC_STRIPE_MIN_WC_VER', '2.5.0' );
 define( 'WC_STRIPE_MAIN_FILE', __FILE__ );
@@ -472,6 +472,7 @@ if ( ! class_exists( 'WC_Stripe' ) ) :
 
 						// Store other data such as fees
 						update_post_meta( $order_id, 'Stripe Payment ID', $result->id );
+						update_post_meta( $order_id, '_transaction_id', $result->id );
 
 						if ( isset( $result->balance_transaction ) && isset( $result->balance_transaction->fee ) ) {
 							// Fees and Net needs to both come from Stripe to be accurate as the returned
