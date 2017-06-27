@@ -69,7 +69,8 @@ class WC_Shortcode_My_Account {
 			 * Deprecated my-account.php template handling. This code should be
 			 * removed in a future release.
 			 *
-			 * If woocommerce_account_content did not run, this is an old template
+			 * If
+			  did not run, this is an old template
 			 * so we need to render the endpoint content again.
 			 */
 			if ( ! did_action( 'woocommerce_account_content' ) ) {

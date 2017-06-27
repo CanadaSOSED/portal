@@ -23,7 +23,7 @@ class WCMp_Shortcode {
         add_shortcode('vendor_coupons', array(&$this, 'vendor_coupons_shortcode'));
 
 //        add_shortcode('transaction_thankyou', array(&$this, 'vendor_transaction_thankyou'));
-        // Recent Products 
+        // Recent Products
         add_shortcode('wcmp_recent_products', array(&$this, 'wcmp_show_recent_products'));
         // Products by vendor
         add_shortcode('wcmp_products', array(&$this, 'wcmp_show_products'));
@@ -33,13 +33,13 @@ class WCMp_Shortcode {
         add_shortcode('wcmp_featured_products', array(&$this, 'wcmp_show_featured_products'));
         // Sale products by vendor
         add_shortcode('wcmp_sale_products', array(&$this, 'wcmp_show_sale_products'));
-        // Top Rated products by vendor 
+        // Top Rated products by vendor
         add_shortcode('wcmp_top_rated_products', array(&$this, 'wcmp_show_top_rated_products'));
-        // Best Selling product 
+        // Best Selling product
         add_shortcode('wcmp_best_selling_products', array(&$this, 'wcmp_show_best_selling_products'));
         // List products in a category shortcode
         add_shortcode('wcmp_product_category', array(&$this, 'wcmp_show_product_category'));
-        // List of paginated vendors 
+        // List of paginated vendors
         add_shortcode('wcmp_vendorslist', array(&$this, 'wcmp_show_vendorslist'));
         //Vendor Registration
         add_shortcode('vendor_registration', array(&$this, 'vendor_registration_shortcode'));
@@ -835,9 +835,9 @@ class WCMp_Shortcode {
     }
 
     /**
-     * 	list of vendors 
-     * 
-     * 	@param $atts shortcode attributs 
+     * 	list of vendors
+     *
+     * 	@param $atts shortcode attributs
      */
     public function wcmp_show_vendorslist($atts) {
         global $WCMp;
