@@ -39,6 +39,7 @@ final class WCMp {
     public $review_rating;
     public $coupon;
     public $more_product_array = array();
+    public $payment_gateway;
 
     /**
      * Class construct
@@ -57,8 +58,13 @@ final class WCMp {
         }
         // Intialize WCMp Widgets
         $this->init_custom_widgets();
+                
+        // Init payment gateways
+        $this->init_payment_gateway();
+        
         // Intialize Crons
         $this->init_masspay_cron();
+        
         // Intialize WCMp
         add_action('init', array(&$this, 'init'));
 
@@ -86,7 +92,13 @@ final class WCMp {
         $this->endpoints = new WCMp_Endpoints();
         // Init custom capabilities
         $this->init_custom_capabilities();
-        // Init main admin action class 
+        
+        // Init product vendor custom post types
+        $this->init_custom_post();
+        
+        $this->load_class('payment-gateways');
+        $this->payment_gateway = new WCMp_Payment_Gateways();
+        
         $this->load_class('seller-review-rating');
         $this->review_rating = new WCMp_Seller_Review_Rating();
         // Init ajax
@@ -132,14 +144,10 @@ final class WCMp {
 
         // Init user roles
         $this->init_user_roles();
-        // Init product vendor custom post types
-        $this->init_custom_post();
+        
         // Init custom reports
         $this->init_custom_reports();
-        // Init paypal masspay
-        $this->init_paypal_masspay();
-        // Init paypal payout
-        $this->init_paypal_payout();
+        
         // Init vendor dashboard
         $this->init_vendor_dashboard();
         // Init vendor coupon
@@ -181,7 +189,7 @@ final class WCMp {
         $locale = is_admin() && function_exists('get_user_locale') ? get_user_locale() : get_locale();
         $locale = apply_filters('plugin_locale', $locale, 'dc-woocommerce-multi-vendor');
         load_textdomain('dc-woocommerce-multi-vendor', WP_LANG_DIR . '/dc-woocommerce-multi-vendor/dc-woocommerce-multi-vendor-' . $locale . '.mo');
-        load_plugin_textdomain('dc-woocommerce-multi-vendor', false, plugin_basename(dirname(__FILE__)) . '/languages');
+        load_plugin_textdomain('dc-woocommerce-multi-vendor', false, plugin_basename(dirname(dirname(__FILE__))) . '/languages');
     }
 
     /**
@@ -291,28 +299,6 @@ final class WCMp {
     }
 
     /**
-     * Init WCMp vendor MassPay.
-     *
-     * @access public
-     * @return void
-     */
-    function init_paypal_masspay() {
-        $this->load_class('paypal-masspay');
-        $this->paypal_masspay = new WCMp_Paypal_Masspay();
-    }
-
-    /**
-     * Init WCMp vendor MassPay.
-     *
-     * @access public
-     * @return void
-     */
-    function init_paypal_payout() {
-        $this->load_class('paypal-payout');
-        $this->paypal_payout = new WCMp_Paypal_PAyout();
-    }
-
-    /**
      * Init WCMp Dashboard Function
      *
      * @access public
@@ -333,6 +319,10 @@ final class WCMp {
         add_filter('cron_schedules', array($this, 'add_wcmp_corn_schedule'));
         $this->load_class('masspay-cron');
         $this->masspay_cron = new WCMp_MassPay_Cron();
+    }
+    
+    private function init_payment_gateway(){
+        $this->load_class('payment-gateway');
     }
 
     /**

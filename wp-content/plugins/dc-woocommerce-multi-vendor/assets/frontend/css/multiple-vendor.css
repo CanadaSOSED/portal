@@ -41,14 +41,18 @@ a.wcmp_seller_name{
 .centerclass{
 	text-align:center;
 }
-.wcmp_regular_price{
+.wcmp_regular_price, del .woocommerce-Price-amount{
 	text-decoration: line-through;
 	color:#8A0808;
 	font-weight:normal;	
 }
-.wcmp_sale_price{	
+.woocommerce-tabs ins{
+	text-decoration: none;
+}
+.wcmp_sale_price, ins .woocommerce-Price-amount, .woocommerce-Price-amount{	
 	color:#0B3B0B;
 	font-weight:bold;
+	display: block;
 }
 .wcmp_btn_view_details{
 	background: linear-gradient(to bottom, #f78828 0px, #dd771f 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -166,6 +170,12 @@ div.rowhead div.rowsub{
 	}
 	
 }
+.singleproductmultivendor_tab .container, .woocommerce-Tabs-panel--singleproductmultivendor .container{
+	max-width: 100%;
+} 
+.singleproductmultivendor_tab .wc-accordion-content, .woocommerce-Tabs-panel--singleproductmultivendor{
+	position: relative;
+}
 .ajax_loader_class_msg {
     width:100%;
     position:absolute;
@@ -176,6 +186,8 @@ div.rowhead div.rowsub{
     text-align:center;
     display:none;
     height: 100%;
+    top: 0;
+    left: 0;
 }
 .ajax_loader_class_msg img{	
     margin: auto;

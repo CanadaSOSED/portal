@@ -13,10 +13,11 @@ if (!defined('ABSPATH')) {
 }
 global $WCMp;
 $transaction = get_post($transaction_id);
+$amount = (float) get_post_meta($transaction_id, 'amount', true) - (float) get_post_meta($transaction_id, 'transfer_charge', true) - (float) get_post_meta($transaction_id, 'gateway_charge', true);
 if (isset($transaction->post_type) && $transaction->post_type == 'wcmp_transaction') {
-    $vendor = get_wcmp_vendor_by_term($transaction->post_author);
+    $vendor = get_wcmp_vendor_by_term($transaction->post_author) ? get_wcmp_vendor_by_term($transaction->post_author) : get_wcmp_vendor($transaction->post_author);
     ?>
-    <p class="wcmp_headding4"><?php echo apply_filters('wcmp_thankyou_transaction_received_text', sprintf(__('Hello,<br>We have received a new withdrawal request for $%s from you and Your request is being processed.The order details are as follow:', 'dc-woocommerce-multi-vendor'), get_post_meta($transaction_id, 'amount', true)), $transaction_id); ?></p>
+    <h3 class="wcmp_black_headding"><?php echo apply_filters('wcmp_thankyou_transaction_received_text', sprintf(__('Withdrawal #%s details', 'dc-woocommerce-multi-vendor'), $transaction_id), $transaction_id); ?></h3>
     <div class="wcmp_table_holder">
     <table cellspacing="0" cellpadding="6"  border="1" >
         <tbody>
@@ -50,7 +51,7 @@ if (isset($transaction->post_type) && $transaction->post_type == 'wcmp_transacti
             if ($totals = $WCMp->transaction->get_transaction_item_totals($transaction_id, $vendor)) {
                 foreach ($totals as $total) {
                     ?><tr>
-                        <td class="td" scope="col" colspan="2" ><?php echo $total['label']; ?></td>
+                        <td class="td" scope="col" colspan="3" ><?php echo $total['label']; ?></td>
                         <td class="td" scope="col" ><?php echo $total['value']; ?></td>
                     </tr><?php
                 }

@@ -50,148 +50,31 @@ Class WCMp_Admin_Dashboard {
     function vendor_withdrawl() {
         global $WCMp;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (isset($_POST['vendor_get_paid'])) {
-
+            if (isset($_POST['vendor_get_paid']) && isset($_POST['commissions'])) {
                 $vendor = get_wcmp_vendor(get_current_user_id());
-
-                //check unpaid commission threshold
-                $total_vendor_due = $vendor->wcmp_vendor_get_total_amount_due();
-                $get_vendor_thresold = 0;
-                if (isset($WCMp->vendor_caps->payment_cap['commission_threshold']))
-                    $get_vendor_thresold = (float) $WCMp->vendor_caps->payment_cap['commission_threshold'];
-                if ($get_vendor_thresold > $total_vendor_due)
-                    return;
-                $transaction_data = array();
-
-
-                if (!empty($_POST['check_order_number'])) {
-                    foreach ($_POST['check_order_number'] as $commission) {
-                        $commisssion_status = get_post_meta($commission, '_paid_status', true);
-                        if ($commisssion_status == 'paid')
-                            continue;
-                        $WCMp_Commission = new WCMp_Commission();
-                        $commission_data = $WCMp_Commission->get_commission($commission);
-                        $commission_order_id = get_post_meta($commission, '_commission_order_id', true);
-                        $vendor_shipping = get_post_meta($commission, '_shipping', true);
-                        $vendor_tax = get_post_meta($commission, '_tax', true);
-
-                        $order = new WC_Order($commission_order_id);
-                        $due_vendor = get_wcmp_vendor_order_amount(array('vendor_id' => $vendor->id, 'order_id' => $order->get_id()));
-                        $vendor_due = (float) $due_vendor['total'];
-
-                        if ($commission_data->vendor->term_id != $vendor->term_id) {
-                            continue;
-                        }
-
-                        $commission_threshold_time = isset($WCMp->vendor_caps->payment_cap['commission_threshold_time']) && !empty($WCMp->vendor_caps->payment_cap['commission_threshold_time']) ? $WCMp->vendor_caps->payment_cap['commission_threshold_time'] : 0;
-                        $commission_create_date = get_the_date('U', $commission);
-                        $current_date = date('U');
-                        $diff = intval(($current_date - $commission_create_date) / (3600 * 24));
-                        if ($diff < $commission_threshold_time) {
-                            continue;
-                        }
-
-                        if (array_key_exists($commission_data->vendor->term_id, $transaction_data)) {
-                            $commission_totals[$commission_data->vendor->term_id]['amount'] += apply_filters('paypal_masspay_amount', $vendor_due, $commission_order_id, $commission_data->vendor->term_id);
-                        } else {
-                            $commission_totals[$commission_data->vendor->term_id]['amount'] = apply_filters('paypal_masspay_amount', $vendor_due, $commission_order_id, $commission_data->vendor->term_id);
-                        }
-                        $transaction_data[$commission_data->vendor->term_id]['commission_detail'][$commission] = $commission_order_id;
-                        $transaction_data[$commission_data->vendor->term_id]['amount'] = $commission_totals[$commission_data->vendor->term_id]['amount'];
-                    }
-
-                    $transfer_charge = $WCMp->vendor_caps->payment_cap['commission_transfer'];
-                    if (isset($transfer_charge)) {
-                        $no_of_thresold_orders = $WCMp->vendor_caps->payment_cap['no_of_orders'];
-                        if (!$no_of_thresold_orders)
-                            $no_of_thresold_orders = 0;
-                        $no_of_paid_transaction = $no_of_paid_transaction = count($WCMp->transaction->get_transactions($vendor->term_id)); //20;//count($vendor->wcmp_vendor_transaction());
-                        if (((int) $no_of_paid_transaction >= (int) $no_of_thresold_orders)) {
-                            $commission_totals[$vendor->term_id]['transfer_charge'] = $transfer_charge;
-                            $transaction_data[$vendor->term_id]['transfer_charge'] = $transfer_charge;
-                        }
-                    }
-                    $commission_payment_mode = get_user_meta($vendor->id, '_vendor_payment_mode', true);
-                    $commission_totals = apply_filters('wcmp_commission_for_disbursal_mode', $commission_totals);
-                    $transaction_data = apply_filters('wcmp_transaction_for_disbursal_mode', $transaction_data);
-                    if ($commission_payment_mode == 'paypal_masspay' || $commission_payment_mode == 'paypal_payout') {
-
-                        // Set info for all payouts
-                        $currency = get_woocommerce_currency();
-                        $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', 'dc-woocommerce-multi-vendor'), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
-
-                        $commissions_data = array();
-                        if (!empty($commission_totals)) {
-                            foreach ($commission_totals as $vendor_id => $total) {
-
-                                if (!isset($total['amount']))
-                                    $total['amount'] = 0;
-                                if (isset($total['transfer_charge']))
-                                    $total_payable = $total['amount'] - $total['transfer_charge'];
-                                else
-                                    $total_payable = $total['amount'];
-
-                                // Get vendor data
-                                $vendor_paypal_email = get_user_meta($vendor->id, '_vendor_paypal_email', true);
-                                // Set vendor recipient field
-                                if (isset($vendor_paypal_email) && strlen($vendor_paypal_email) > 0) {
-                                    $recipient = $vendor_paypal_email;
-                                    $commissions_data[] = array(
-                                        'recipient' => $recipient,
-                                        'total' => round($total_payable, 2),
-                                        'currency' => $currency,
-                                        'vendor_id' => $vendor_id,
-                                        'payout_note' => $payout_note
-                                    );
+                $commissions = $_POST['commissions'];
+                $payment_method = get_user_meta($vendor->id, '_vendor_payment_mode', true);
+                if($payment_method){
+                    if(array_key_exists($payment_method, $WCMp->payment_gateway->payment_gateways)){
+                        $response = $WCMp->payment_gateway->payment_gateways[$payment_method]->process_payment($vendor, $commissions, 'manual');
+                        if($response){
+                            if(isset($response['transaction_id'])){
+                                $redirect_url = wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_withdrawal_endpoint', 'vendor', 'general', 'vendor-withdrawal'), $response['transaction_id']);
+                                wp_safe_redirect($redirect_url);
+                                exit;
+                            } else{
+                                foreach ($response as $message){
+                                    wc_add_notice($message['message'], $message['type']);
                                 }
                             }
-                            if ($commission_payment_mode == 'paypal_masspay') {
-                                $result = $WCMp->paypal_masspay->call_masspay_api($commissions_data);
-                                if ($result) {
-                                    // create a new transaction by vendor
-                                    if (!empty($transaction_data))
-                                        $transaction_id = $WCMp->transaction->insert_new_transaction($transaction_data, 'wcmp_completed', 'paypal_masspay', $result);
-                                    $email_admin = WC()->mailer()->emails['WC_Email_Admin_Widthdrawal_Request'];
-                                    $email_admin->trigger($transaction_id, $vendor->term_id);
-                                }
-                            } else if ($commission_payment_mode == 'paypal_payout') {
-                                foreach ($commissions_data as $commission_data) {
-                                    $method = 'process_' . $commission_payment_mode;
-                                    $result = $WCMp->paypal_payout->process_paypal_single_payout($commission_data);
-
-                                    if ($result) {
-                                        // create a new transaction by vendor
-                                        if (!empty($transaction_data))
-                                            $transaction_id = $WCMp->transaction->insert_new_transaction($transaction_data, 'wcmp_completed', $commission_payment_mode, $result);
-                                        $email_admin = WC()->mailer()->emails['WC_Email_Admin_Widthdrawal_Request'];
-                                        $email_admin->trigger($transaction_id, $vendor->term_id);
-                                    }
-                                }
-                            }
+                        } else{
+                            wc_add_notice(__('Something went wrong please try again later', 'dc-woocommerce-multi-vendor'), 'error');
                         }
-                    } else if ($commission_payment_mode == 'direct_bank') {
-                        if (!empty($commission_totals)) {
-                            // create a new transaction by vendor
-                            if (!empty($transaction_data)) {
-                                $transaction_id = $WCMp->transaction->insert_new_transaction($transaction_data, 'wcmp_processing', 'direct_bank');
-                                foreach ($commission_totals as $vendor_id => $total) {
-                                    $email_vendor = WC()->mailer()->emails['WC_Email_Vendor_Direct_Bank'];
-                                    $email_vendor->trigger($transaction_id, $vendor_id);
-                                    $email_admin = WC()->mailer()->emails['WC_Email_Admin_Widthdrawal_Request'];
-                                    $email_admin->trigger($transaction_id, $vendor_id);
-                                }
-                            }
-                        }
+                    } else{
+                        wc_add_notice(__('Invalid payment method', 'dc-woocommerce-multi-vendor'), 'error');
                     }
-
-                    do_action('wcmp_vendor_commission_payment_mode');
-                    if (isset($transaction_id)) {
-                        $location = wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_withdrawal_endpoint', 'vendor', 'general', 'vendor-withdrawal'), $transaction_id);
-                    } else {
-                        $location = wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_withdrawal_endpoint', 'vendor', 'general', 'vendor-withdrawal'), 'null');
-                    }
-                    wp_safe_redirect($location);
-                    exit;
+                } else {
+                    wc_add_notice(__('No payment method selected for withdrawal commission', 'dc-woocommerce-multi-vendor'), 'error');
                 }
             }
         }
@@ -228,7 +111,7 @@ Class WCMp_Admin_Dashboard {
                     $headers = array(
                         'date' => __('Date', 'dc-woocommerce-multi-vendor'),
                         'trans_id' => __('Transaction ID', 'dc-woocommerce-multi-vendor'),
-                        'order_ids' => __('Order IDs', 'dc-woocommerce-multi-vendor'),
+                        'commission_ids' => __('Commission IDs', 'dc-woocommerce-multi-vendor'),
                         'mode' => __('Mode', 'dc-woocommerce-multi-vendor'),
                         'commission' => __('Commission', 'dc-woocommerce-multi-vendor'),
                         'fee' => __('Fee', 'dc-woocommerce-multi-vendor'),
@@ -236,32 +119,24 @@ Class WCMp_Admin_Dashboard {
                     );
                     if (!empty($_POST['transaction_ids'])) {
                         foreach ($_POST['transaction_ids'] as $transaction_id) {
-                            $order_ids = '';
                             $commission_details = get_post_meta($transaction_id, 'commission_detail', true);
-                            if (!empty($commission_details)) {
-                                $is_first = false;
-                                foreach ($commission_details as $commission_id => $order_id) {
-                                    if ($is_first)
-                                        $order_ids .= ', ';
-                                    $order_ids .= '#' . $order_id;
-                                    $is_first = true;
-                                }
-                            }
-
-                            $transfer_charge = get_post_meta($transaction_id, 'transfer_charge', true);
-                            $transaction_amt = get_post_meta($transaction_id, 'amount', true);
-                            $transaction_commission = $transfer_charge + $transaction_amt;
+                            $transfer_charge = get_post_meta($transaction_id, 'transfer_charge', true) + get_post_meta($transaction_id, 'gateway_charge', true);
+                            $transaction_amt = get_post_meta($transaction_id, 'amount', true) - get_post_meta($transaction_id, 'transfer_charge', true) - get_post_meta($transaction_id, 'gateway_charge', true);
+                            $transaction_commission = get_post_meta($transaction_id, 'amount', true);
 
                             $mode = get_post_meta($transaction_id, 'transaction_mode', true);
-                            if ($mode == 'paypal_masspay')
+                            if ($mode == 'paypal_masspay') {
                                 $transaction_mode = __('PayPal', 'dc-woocommerce-multi-vendor');
-                            else if ($mode == 'direct_bank')
+                            } else if ($mode == 'direct_bank') {
                                 $transaction_mode = __('Direct Bank Transfer', 'dc-woocommerce-multi-vendor');
+                            } else{
+                                $transaction_mode = $mode;
+                            }
 
                             $order_datas[] = array(
                                 'date' => get_the_date('d-m-Y', $transaction_id),
                                 'trans_id' => '#' . $transaction_id,
-                                'order_ids' => $order_ids,
+                                'order_ids' => '#'.  implode(', #', $commission_details),
                                 'mode' => $transaction_mode,
                                 'commission' => $transaction_commission,
                                 'fee' => $transfer_charge,

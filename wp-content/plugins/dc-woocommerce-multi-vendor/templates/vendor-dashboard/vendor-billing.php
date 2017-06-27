@@ -17,7 +17,6 @@ global $WCMp;
     <div class="wcmp_form1">    	
         <?php
         $payment_admin_settings = get_option('wcmp_payment_settings_name');
-        if (isset($payment_admin_settings['wcmp_disbursal_mode_admin']) && $payment_admin_settings['wcmp_disbursal_mode_admin'] = 'Enable') {
             $payment_mode = array();
             if (isset($payment_admin_settings['payment_method_paypal_masspay']) && $payment_admin_settings['payment_method_paypal_masspay'] = 'Enable') {
                 $payment_mode['paypal_masspay'] = __('PayPal Masspay', 'dc-woocommerce-multi-vendor');
@@ -31,7 +30,7 @@ global $WCMp;
             $vendor_payment_mode_select = apply_filters('wcmp_vendor_payment_mode', $payment_mode);
             if (!empty($vendor_payment_mode_select)) {
                 ?>
-                <div class="wcmp_headding2"><?php _e('Automatic Payment Mode', 'dc-woocommerce-multi-vendor'); ?></div>
+                <div class="wcmp_headding2"><?php _e('Payment Method', 'dc-woocommerce-multi-vendor'); ?></div>
                 <div class="two_third_part">
                     <div class="select_box no_input">						
                         <select id="vendor_payment_mode" disabled name="vendor_payment_mode" class="user-profile-fields">
@@ -43,11 +42,13 @@ global $WCMp;
                 </div>
                 <div class="clear"></div>
             <?php }
-        }
         ?>
+        <?php if($vendor_payment_mode['value'] == 'paypal_masspay' || $vendor_payment_mode['value'] == 'paypal_payout'): ?>    
         <div class="wcmp_headding2"><?php _e('Paypal', 'dc-woocommerce-multi-vendor'); ?></div>
         <p><?php _e('Enter your Paypal ID', 'dc-woocommerce-multi-vendor'); ?></p>
         <input  class="long no_input" readonly type="text" name="vendor_paypal_email" value="<?php echo isset($vendor_paypal_email['value']) ? $vendor_paypal_email['value'] : ''; ?>"  placeholder="<?php _e('Enter your Paypal ID', 'dc-woocommerce-multi-vendor'); ?>">
+        <?php endif; ?>
+        <?php if($vendor_payment_mode['value'] == 'direct_bank'): ?>
         <div class="wcmp_headding2"><?php _e('Bank Transfer', 'dc-woocommerce-multi-vendor'); ?></div>
         <p><?php _e('Enter your Bank Details', 'dc-woocommerce-multi-vendor'); ?></p>
         <div class="two_third_part">
@@ -77,6 +78,7 @@ global $WCMp;
             <input class="long no_input" readonly type="text" placeholder="<?php _e('Account Holder Name', 'dc-woocommerce-multi-vendor'); ?>"  name="vendor_account_holder_name" value="<?php echo isset($vendor_account_holder_name['value']) ? $vendor_account_holder_name['value'] : ''; ?>">
             <div class="clear"></div>
         </div>
+        <?php endif; ?>
         <?php do_action('other_exta_field_dcmv'); ?>
         <div class="action_div_space"> </div>
         <div class="action_div">

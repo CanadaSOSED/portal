@@ -678,16 +678,14 @@ class WCMp_User {
 
         $payment_admin_settings = get_option('wcmp_payment_settings_name');
         $payment_mode = array();
-        if ((isset($payment_admin_settings['wcmp_disbursal_mode_admin']) || isset($payment_admin_settings['wcmp_disbursal_mode_vendor'])) && ($payment_admin_settings['wcmp_disbursal_mode_admin'] = 'Enable' || $payment_admin_settings['wcmp_disbursal_mode_vendor'] == 'Enable')) {
-            if (isset($payment_admin_settings['payment_method_paypal_masspay']) && $payment_admin_settings['payment_method_paypal_masspay'] = 'Enable') {
-                $payment_mode['paypal_masspay'] = __('PayPal Masspay', 'dc-woocommerce-multi-vendor');
-            }
-            if (isset($payment_admin_settings['payment_method_paypal_payout']) && $payment_admin_settings['payment_method_paypal_payout'] = 'Enable') {
-                $payment_mode['paypal_payout'] = __('PayPal Payout', 'dc-woocommerce-multi-vendor');
-            }
-            if (isset($payment_admin_settings['payment_method_direct_bank']) && $payment_admin_settings['payment_method_direct_bank'] = 'Enable') {
-                $payment_mode['direct_bank'] = __('Direct Bank', 'dc-woocommerce-multi-vendor');
-            }
+        if (isset($payment_admin_settings['payment_method_paypal_masspay']) && $payment_admin_settings['payment_method_paypal_masspay'] = 'Enable') {
+            $payment_mode['paypal_masspay'] = __('PayPal Masspay', 'dc-woocommerce-multi-vendor');
+        }
+        if (isset($payment_admin_settings['payment_method_paypal_payout']) && $payment_admin_settings['payment_method_paypal_payout'] = 'Enable') {
+            $payment_mode['paypal_payout'] = __('PayPal Payout', 'dc-woocommerce-multi-vendor');
+        }
+        if (isset($payment_admin_settings['payment_method_direct_bank']) && $payment_admin_settings['payment_method_direct_bank'] = 'Enable') {
+            $payment_mode['direct_bank'] = __('Direct Bank', 'dc-woocommerce-multi-vendor');
         }
 
         $fields["vendor_payment_mode"] = array(

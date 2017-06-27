@@ -50,7 +50,7 @@ if (!isset($_GET['to_date'])) {
                             </td>
                             <td><?php _e('Date', 'dc-woocommerce-multi-vendor'); ?></td>
                             <td><?php _e('Transc.ID', 'dc-woocommerce-multi-vendor'); ?></td>
-                            <td><?php _e('Order IDs', 'dc-woocommerce-multi-vendor'); ?></td>
+                            <td><?php _e('Commission IDs', 'dc-woocommerce-multi-vendor'); ?></td>
                             <td><?php _e('Fee', 'dc-woocommerce-multi-vendor'); ?></td>
                             <td><?php _e('Net Earnings', 'dc-woocommerce-multi-vendor'); ?></td>
                         </tr>

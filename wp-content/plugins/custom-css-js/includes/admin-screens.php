@@ -686,6 +686,10 @@ End of comment */ ', 'custom-css-js') . PHP_EOL . PHP_EOL;
                         'title' => __('In Admin', 'custom-css-js'),
                         'dashicon' => 'id',
                     ),
+                    'login' => array(
+                        'title' => __('On Login Page', 'custom-css-js'),
+                        'dashicon' => 'admin-network',
+                    ),
                 ),
             ),
             'preprocessor' => array(

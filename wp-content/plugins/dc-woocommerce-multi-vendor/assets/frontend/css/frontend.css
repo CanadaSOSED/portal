@@ -6,8 +6,11 @@
 }
 .vendor_description_background {
 	background-color: rgb(255, 255, 255);
+	    background-size: cover;
+    background-position: center center;
 }
 .vendor_description {
+	box-sizing:border-box;
 	width: 100%;
 	clear: both;
 	display: inline-block;
@@ -36,8 +39,8 @@
         text-align: left;
 }
 .img_div img{
-	height: 100px;
-  width: 100px;
+	height: auto;
+  max-width: 100px;
 }
 .vendor_address label {
   font-size: 14px;
@@ -71,3 +74,7 @@
 	color: #D8000C;
 	background-color: #FFBABA;
 }
+.wocommerce #wcmp_vendor_reviews{
+	margin-top: 20px;
+}
+@media screen and (max-width: 640px) {.vendor_description .vendor_img_add{width: auto;}}

@@ -16,7 +16,9 @@ if ($user && !in_array('dc_pending_vendor', $user->roles) && !in_array('administ
     add_filter('wcmp_vendor_registration_submit', function ($text) {
         return 'Apply to become a vendor';
     });
+    echo '<div class="woocommerce">';
     echo do_shortcode('[vendor_registration]');
+    echo '</div>';
 }
 
 if ($user && in_array('administrator', $user->roles)) {

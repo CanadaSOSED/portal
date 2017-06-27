@@ -18,15 +18,12 @@ $vendor_sort_type = $_GET['vendor_sort_type'];
 <div class="vendor_list woocommerce">
 	<form name="vendor_sort" method="get">
 		<div class="vendor_sort">
-
-			<!-- ALL COMMENTED CODE HAS HIDDEN DROPDOWN FILTER FOR CATEGORY AND ALPHABETICALLY -->
-
-			<!-- <select class="select short" id="vendor_sort_type" name="vendor_sort_type"> -->
-				<!-- <option value="registered" <?php //if( $vendor_sort_type == 'registered'){ echo 'selected="selected"'; } ?> ><?php //echo __('By date','dc-woocommerce-multi-vendor');?></option> -->
-				<!-- <option value="name" <?php //if( $vendor_sort_type == 'name'){ echo 'selected="selected"'; } ?> ><?php //echo __(' Alphabetically','dc-woocommerce-multi-vendor');?></option> -->
-				<!-- <option value="category" <?php //if( $vendor_sort_type == 'category'){ echo 'selected="selected"'; } ?> ><?php //echo __('By Category','dc-woocommerce-multi-vendor');?></option> -->
-			<!-- </select> -->
-			<?php
+			<select class="select short" id="vendor_sort_type" name="vendor_sort_type">
+				<option value="registered" <?php if( $vendor_sort_type == 'registered'){ echo 'selected="selected"'; } ?> ><?php echo __('By date','dc-woocommerce-multi-vendor');?></option>
+				<option value="name" <?php if( $vendor_sort_type == 'name'){ echo 'selected="selected"'; } ?> ><?php echo __('By Alphabetically','dc-woocommerce-multi-vendor');?></option>
+				<option value="category" <?php if( $vendor_sort_type == 'category'){ echo 'selected="selected"'; } ?> ><?php echo __('By Category','dc-woocommerce-multi-vendor');?></option>
+			</select>
+			<?php 
 			if(isset($_GET['vendor_sort_type'])) {
 				if($_GET['vendor_sort_type'] == 'category') {
 					$category_terms = get_terms('product_cat');
@@ -40,12 +37,12 @@ $vendor_sort_type = $_GET['vendor_sort_type'];
 							}
 						}
 					}
-					//echo $select_html .= '</select>';
+					echo $select_html .= '</select>';
 				}
 			}
 			?>
-			&nbsp;&nbsp;&nbsp;
-			<!-- <input value="<?php echo __('Sort','dc-woocommerce-multi-vendor');?>" type="submit"> -->
+			&nbsp;&nbsp;&nbsp;					
+			<input value="<?php echo __('Sort','dc-woocommerce-multi-vendor');?>" type="submit">
 		</div>
 	</form>
 	<?php if(isset($vendor_info) && is_array($vendor_info) && !empty($vendor_info)) {

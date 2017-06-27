@@ -14,7 +14,7 @@ $vendor_hide_address = get_user_meta($vendor_id,'_vendor_hide_address', true);
 $vendor_hide_phone = get_user_meta($vendor_id,'_vendor_hide_phone', true);
 $vendor_hide_email = get_user_meta($vendor_id,'_vendor_hide_email', true);
 ?>
-<div class="vendor_description_background" style="background: url(<?php echo $banner; ?>) no-repeat; width: 100%; height: 245px; color: white; margin-bottom: 10px; background-size: 100% 100%;">
+<div class="vendor_description_background" style="background-image: url(<?php echo $banner; ?>); width: 100%; height: 245px; color: white; margin-bottom: 10px; background-size: cover;">
 	<div class="vendor_description">
 		<div class="vendor_img_add">
 			<div class="img_div"><img height="400" width="200" src=<?php echo $profile;?> /></div>

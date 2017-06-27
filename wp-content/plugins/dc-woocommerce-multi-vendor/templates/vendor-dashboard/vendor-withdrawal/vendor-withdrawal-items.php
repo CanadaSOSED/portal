@@ -25,7 +25,7 @@ if (!empty($commissions)) {
         <tr>
             <td align="left"  width="20" class="extra_padding">
                 <span class="input-group-addon beautiful">
-                    <input name="check_order_number[]" value="<?php echo $commission_id; ?>" class="select_withdrawal" type="checkbox" >
+                    <input name="commissions[]" value="<?php echo $commission_id; ?>" class="select_withdrawal" type="checkbox" >
                 </span>
             </td>
             <td align="left"  class="extra_padding">#<?php echo $order_id; ?></td>

@@ -27,7 +27,9 @@ class WCMp_Vendor_Dashboard_Shortcode {
             define('MNDASHBAOARD', true);
         }
         if (!is_user_logged_in()) {
+            echo '<div class="woocommerce">';
             wc_get_template('myaccount/form-login.php');
+            echo '</div>';
         } else if (!is_user_wcmp_vendor(get_current_user_id())) {
             $WCMp->template->get_template('shortcode/non_vendor_dashboard.php');
         } else {

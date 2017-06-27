@@ -238,10 +238,12 @@ class WCMp_Ajax {
                 ?>
                 <h2><?php echo __('Admin Message:', 'dc-woocommerce-multi-vendor'); ?> </h2>
                 <span> <?php echo $msg->post_title; ?> </span><br/>
-                <span class="mormaltext" style="font-weight:normal;"> <?php echo $short_content = substr(stripslashes(strip_tags($msg->post_content)), 0, 155);
-                if (strlen(stripslashes(strip_tags($msg->post_content))) > 155) {
-                    echo '...';
-                } ?> </span><br/>
+                <span class="mormaltext" style="font-weight:normal;"> <?php
+                    echo $short_content = substr(stripslashes(strip_tags($msg->post_content)), 0, 155);
+                    if (strlen(stripslashes(strip_tags($msg->post_content))) > 155) {
+                        echo '...';
+                    }
+                    ?> </span><br/>
                 <a href="<?php echo get_permalink(get_option('wcmp_product_vendor_messages_page_id')); ?>"><button><?php echo __('DETAILS', 'dc-woocommerce-multi-vendor'); ?></button></a>
                 <div class="clear"></div>
                 <a href="#" id="cross-admin" data-element = "<?php echo $msg->ID; ?>"  class="wcmp_cross wcmp_delate_message_dashboard"><i class="fa fa-times-circle"></i></a>
@@ -381,7 +383,7 @@ class WCMp_Ajax {
     function show_more_transaction() {
         global $WCMp;
         $data_to_show = $_POST['data_to_show'];
-        $WCMp->template->get_template('vendor-dashboard/vendor-transaction/vendor-transaction-items.php', array('transactions' => $data_to_show));
+        $WCMp->template->get_template('vendor-dashboard/vendor-transactions/vendor-transaction-items.php', array('transactions' => $data_to_show));
         die;
     }
 
@@ -619,7 +621,7 @@ class WCMp_Ajax {
             if (!empty($product_orders)) {
 
                 $gross_sales = $my_earning = $vendor_earning = 0;
-                foreach ($product_orders as $order_obj) { 
+                foreach ($product_orders as $order_obj) {
                     $order = new WC_Order($order_obj->order_id);
 
                     if (strtotime($order->get_date_created()) > $start_date && strtotime($order->get_date_created()) < $end_date) {
@@ -629,16 +631,16 @@ class WCMp_Ajax {
                         $item = new WC_Order_Item_Product($order_obj->order_item_id);
                         $gross_sales += $item->get_subtotal();
                         $total_sales[$date] = isset($total_sales[$date]) ? ( $total_sales[$date] + $item->get_subtotal() ) : $item->get_subtotal();
-                        $vendors_orders_amount = get_wcmp_vendor_order_amount(array('order_id' => $order->get_id(),'product_id' => $order_obj->product_id));
+                        $vendors_orders_amount = get_wcmp_vendor_order_amount(array('order_id' => $order->get_id(), 'product_id' => $order_obj->product_id));
 
                         $vendor_earning = $vendors_orders_amount['commission_amount'];
-                        if($vendor = get_wcmp_vendor(get_current_user_id()))
-                            $admin_earnings[$date] = isset($admin_earnings[$date]) ? ( $admin_earnings[$date] +  $vendor_earning ) : $vendor_earning;
+                        if ($vendor = get_wcmp_vendor(get_current_user_id()))
+                            $admin_earnings[$date] = isset($admin_earnings[$date]) ? ( $admin_earnings[$date] + $vendor_earning ) : $vendor_earning;
                         else
                             $admin_earnings[$date] = isset($admin_earnings[$date]) ? ( $admin_earnings[$date] + $item->get_subtotal() - $vendor_earning ) : $item->get_subtotal() - $vendor_earning;
 
-                        if ( $total_sales[ $date ] > $max_total_sales )
-                            $max_total_sales = $total_sales[ $date ];
+                        if ($total_sales[$date] > $max_total_sales)
+                            $max_total_sales = $total_sales[$date];
                     }
                 }
             }
@@ -744,23 +746,21 @@ class WCMp_Ajax {
             ),
             'date_query' => array(
                 'inclusive' => true,
-                'after' =>array(
+                'after' => array(
                     'year' => date('Y', $start_date),
                     'month' => date('n', $start_date),
                     'day' => date('j', $start_date),
- 
                 ),
-                'before'=>array(
+                'before' => array(
                     'year' => date('Y', $end_date),
                     'month' => date('n', $end_date),
                     'day' => date('j', $end_date),
-  
                 ),
             )
         );
 
         $qry = new WP_Query($args);
-        
+
         $orders = apply_filters('wcmp_filter_orders_report_vendor', $qry->get_posts());
 
         if (!empty($orders)) {
@@ -768,21 +768,21 @@ class WCMp_Ajax {
             $total_sales = $admin_earning = array();
             $max_total_sales = 0;
 
-            foreach ($orders as $order_obj) { 
+            foreach ($orders as $order_obj) {
                 $order = new WC_Order($order_obj->ID);
                 $vendors_orders = get_wcmp_vendor_orders(array('order_id' => $order->get_id()));
-                $vendors_orders_amount = get_wcmp_vendor_order_amount(array('order_id' => $order->get_id()),$vendor_id);
-                $current_vendor_orders = wp_list_filter($vendors_orders, array('vendor_id'=>$vendor_id));
+                $vendors_orders_amount = get_wcmp_vendor_order_amount(array('order_id' => $order->get_id()), $vendor_id);
+                $current_vendor_orders = wp_list_filter($vendors_orders, array('vendor_id' => $vendor_id));
                 $gross_sales += $vendors_orders_amount['total'] - $vendors_orders_amount['commission_amount'];
                 $vendor_earning += $vendors_orders_amount['total'];
-                
-                foreach ($current_vendor_orders as $key => $vendor_order) { 
+
+                foreach ($current_vendor_orders as $key => $vendor_order) {
                     $item = new WC_Order_Item_Product($vendor_order->order_item_id);
                     $gross_sales += $item->get_subtotal();
                 }
                 // Get date
                 $date = date('Ym', strtotime($order->get_date_created()));
-         
+
                 // Set values
                 $total_sales[$date] = $gross_sales;
                 $admin_earning[$date] = $gross_sales - $vendor_earning;
@@ -973,12 +973,15 @@ class WCMp_Ajax {
         $vendor_id = $_POST['vendor_id'];
         update_post_meta($transaction_id, 'paid_date', date("Y-m-d H:i:s"));
         $commission_detail = get_post_meta($transaction_id, 'commission_detail', true);
-        foreach ($commission_detail as $commission_id => $order_id) {
-            wcmp_paid_commission_status($commission_id);
+        if ($commission_detail && is_array($commission_detail)) {
+            foreach ($commission_detail as $commission_id) {
+                wcmp_paid_commission_status($commission_id);
+            }
+            $email_admin = WC()->mailer()->emails['WC_Email_Vendor_Commission_Transactions'];
+            $email_admin->trigger($transaction_id, $vendor_id);
+            update_post_meta($transaction_id, '_dismiss_to_do_list', 'true');
+            wp_update_post(array('ID' => $transaction_id, 'post_status' => 'wcmp_completed'));
         }
-        $email_admin = WC()->mailer()->emails['WC_Email_Vendor_Commission_Transactions'];
-        $email_admin->trigger($transaction_id, $vendor_id);
-        update_post_meta($transaction_id, '_dismiss_to_do_list', 'true');
         die;
     }
 
@@ -1010,6 +1013,7 @@ class WCMp_Ajax {
             update_post_meta($id, '_dismiss_to_do_list', 'true');
         } else if ($type == 'dc_commission') {
             update_post_meta($id, '_dismiss_to_do_list', 'true');
+            wp_update_post(array('ID' => $id, 'post_status' => 'wcmp_canceled'));
         }
         die();
     }

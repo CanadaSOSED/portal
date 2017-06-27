@@ -31,15 +31,13 @@ class WCMp_Commission {
             add_filter('manage_edit-' . $this->post_type . '_columns', array($this, 'wcmp_register_custom_column_headings'), 10, 1);
             add_action('manage_pages_custom_column', array($this, 'wcmp_register_custom_columns'), 10, 2);
 
-            // Add bulk actions to commissions table
-            add_action('admin_footer-edit.php', array($this, 'wcmp_add_bulk_action_options'));
-            add_action('load-edit.php', array($this, 'wcmp_generate_commissions_csv'));
-            add_action('load-edit.php', array($this, 'wcmp_mark_all_commissions_paid'), 99);
-
             add_action('restrict_manage_posts', array($this, 'wcmp_woocommerce_restrict_manage_orders'));
             add_filter('request', array(&$this, 'wcmp_woocommerce_orders_by_customer_query'));
 
             add_filter('pre_get_posts', array(&$this, 'commission_post_types_admin_order'));
+
+            add_filter('bulk_actions-edit-dc_commission', array(&$this, 'register_commission_bulk_actions'));
+            add_filter('handle_bulk_actions-edit-dc_commission', array(&$this, 'commission_bulk_action_handler'), 10, 3);
         }
     }
 
@@ -148,9 +146,9 @@ class WCMp_Commission {
                             $html .= get_the_post_thumbnail($product->get_id(), array('50', '50')) ? get_the_post_thumbnail($product->get_id(), array('50', '50')) : wc_placeholder_img(array('50', '50'));
                             $html .= '</td>';
                             $html .= '<td>';
-                            if($product->get_type() == 'variation'){
+                            if ($product->get_type() == 'variation') {
                                 $html .= '<a href="' . get_edit_post_link($product->get_parent_id()) . '">' . $product->get_title() . '</a>';
-                            } else{
+                            } else {
                                 $html .= '<a href="' . get_edit_post_link($product->get_id()) . '">' . $product->get_title() . '</a>';
                             }
                             $html .= '</td>';
@@ -170,7 +168,7 @@ class WCMp_Commission {
                     $html .= '<table>';
                     $html .= '<tr>';
                     $html .= '<td style="padding:0">';
-                    $html .= get_avatar($vendor->id, 50);//get_the_post_thumbnail($product->get_id(), array('50', '50'));
+                    $html .= get_avatar($vendor->id, 50); //get_the_post_thumbnail($product->get_id(), array('50', '50'));
                     $html .= '</td>';
                     $html .= '<td>';
                     $html .= '<a href="' . get_edit_user_link($vendor->id) . '">' . $vendor->user_data->display_name . '</a>';
@@ -242,8 +240,8 @@ class WCMp_Commission {
             'default' => 0.00,
             'section' => 'wcmp-commission-data'
         );
-        
-        if(get_post_meta($post_id, '_paid_status', true) == 'paid'){
+
+        if (get_post_meta($post_id, '_paid_status', true) == 'paid') {
             $fields['_commission_amount']['type'] = 'price';
             $fields['_commission_amount']['description'] = __('The total value of this commission.', 'dc-woocommerce-multi-vendor');
         }
@@ -274,7 +272,7 @@ class WCMp_Commission {
      * @return void
      */
     public function meta_box_save($post_id) {
-        global $post, $messages,$wpdb;
+        global $post, $messages, $wpdb;
 
         // Verify nonce
         if (( get_post_type() != $this->post_type ) || !wp_verify_nonce($_POST[$this->post_type . '_nonce'], plugin_basename($this->dir))) {
@@ -287,16 +285,16 @@ class WCMp_Commission {
         }
         $is_updated = false;
         $prev_commission_amount = get_post_meta($post_id, '_commission_amount', true);
-        if(isset($_POST['_commission_amount'])){
+        if (isset($_POST['_commission_amount'])) {
             $is_updated = update_post_meta($post_id, '_commission_amount', $_POST['_commission_amount']);
         }
-        if($is_updated){
+        if ($is_updated) {
             $new_commission_amount = $_POST['_commission_amount'];
             $commission_order = get_wcmp_vendor_orders(array('commission_id' => $post_id));
-            if($commission_order){
+            if ($commission_order) {
                 $total_line_quentity = array_sum(wp_list_pluck($commission_order, 'quantity'));
-                $line_commission_amount = (float)  round(($new_commission_amount / $total_line_quentity),2);
-                foreach ($commission_order as $commission){
+                $line_commission_amount = (float) round(($new_commission_amount / $total_line_quentity), 2);
+                foreach ($commission_order as $commission) {
                     $item_commission = $line_commission_amount * $commission->quantity;
                     $wpdb->query("UPDATE `{$wpdb->prefix}wcmp_vendor_orders` SET commission_amount = '" . $item_commission . "' WHERE commission_id =" . $commission->commission_id . " AND  product_id = " . $commission->product_id);
                 }
@@ -316,10 +314,13 @@ class WCMp_Commission {
             wp_nonce_field(plugin_basename($this->file), 'paid_status_nonce');
 
             $status = get_post_meta($post->ID, '_paid_status', true) ? get_post_meta($post->ID, '_paid_status', true) : 'unpaid';
-
-            echo '<input type="radio" name="_paid_status" id="_paid_status-unpaid" value="unpaid" ' . checked($status, 'unpaid', false) . ' /> <label for="_paid_status-unpaid" class="select-it">' . __("Unpaid", 'dc-woocommerce-multi-vendor') . '</label>&nbsp;&nbsp;&nbsp;&nbsp;';
-            echo '<input type="radio" name="_paid_status" id="_paid_status-paid" value="paid" ' . checked($status, 'paid', false) . '/> <label for="_paid_status-paid" class="select-it">' . __("Paid", 'dc-woocommerce-multi-vendor') . '</label>&nbsp;&nbsp;&nbsp;&nbsp;';
-            echo '<input type="radio" name="_paid_status" id="_paid_status-reverse" value="reverse" ' . checked($status, 'reverse', false) . '/> <label for="_paid_status-reverse" class="select-it">' . __("Reverse", 'dc-woocommerce-multi-vendor') . '</label>';
+            if ($status == 'unpaid') {
+                echo '<input type="checkbox" name="_paid_status" id="_paid_status-paid" value="paid" ' . checked($status, 'paid', false) . '/> <label for="_paid_status-paid" class="select-it">' . __("Mark as Paid", 'dc-woocommerce-multi-vendor') . '</label>&nbsp;&nbsp;&nbsp;&nbsp;';
+            } else if ($status == 'paid') {
+                echo '<input type="checkbox" name="_paid_status" id="_paid_status-reverse" value="reverse" ' . checked($status, 'reverse', false) . '/> <label for="_paid_status-reverse" class="select-it">' . __("Mark as Reverse", 'dc-woocommerce-multi-vendor') . '</label>';
+            } else if ($status == 'reverse') {
+                echo '<label class="select-it">Reversed</label>';
+            }
             echo '</div>';
         }
     }
@@ -332,24 +333,28 @@ class WCMp_Commission {
     public function custom_actions_save($post_id) {
         global $WCMp;
 
-        if (get_post_type($post_id) != $this->post_type)
+        if (get_post_type($post_id) != $this->post_type) {
             return;
+        }
 
         if (isset($_POST['paid_status_nonce'])) {
-            if (!wp_verify_nonce($_POST['paid_status_nonce'], plugin_basename($this->file)))
+            if (!wp_verify_nonce($_POST['paid_status_nonce'], plugin_basename($this->file))) {
                 return $post_id;
-
+            }
             if (isset($_POST['_paid_status'])) {
-
-                if ($paid_status && $paid_status == 'unpaid' && $_POST['_paid_status'] == 'paid') {
-                    $WCMp->transaction->create_transactions(array($post_id));
-                    wcmp_paid_commission_status($post_id);
+                $status = $_POST['_paid_status'];
+                if ($status == 'paid') {
+                    $commission = $this->get_commission($post_id);
+                    $vendor = $commission->vendor;
+                    $payment_method = get_user_meta($vendor->id, '_vendor_payment_mode', true);
+                    if ($payment_method) {
+                        if (array_key_exists($payment_method, $WCMp->payment_gateway->payment_gateways)) {
+                            $WCMp->payment_gateway->payment_gateways[$payment_method]->process_payment($vendor, array($post_id), 'admin');
+                        }
+                    }
+                } else if ($status == 'reverse') {
+                    update_post_meta($post_id, '_paid_status', $status, 'paid');
                 }
-                if (!$paid_status && $_POST['_paid_status'] == 'paid') {
-                    $WCMp->transaction->create_transactions(array($post_id));
-                    wcmp_paid_commission_status($post_id);
-                }
-                update_post_meta($post_id, '_paid_status', $_POST['_paid_status']);
             }
         }
     }
@@ -457,198 +462,110 @@ class WCMp_Commission {
         }
     }
 
-    /**
-     * Add bulk action options to commission list table
-     * @return void
-     */
-    public function wcmp_add_bulk_action_options() {
-        global $post_type, $WCMp;
+    public function register_commission_bulk_actions($bulk_actions) {
+        unset($bulk_actions['edit']);
+        $bulk_actions['mark_paid'] = __('Mark paid', 'dc-woocommerce-multi-vendor');
+        $bulk_actions['export'] = __('Export', 'dc-woocommerce-multi-vendor');
+        return apply_filters('wcmp_commission_bulk_action', $bulk_actions);
+    }
 
-        if ($post_type == $this->post_type) {
-            ?>
-            <script type="text/javascript">
-                jQuery(document).ready(function () {
-                    jQuery('<option>').val('export').text('<?php _e('Export Unpaid Commissions (CSV)', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('export').text('<?php _e('Export Unpaid Commissions (CSV)', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_paid').text('<?php _e('Mark all commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_paid').text('<?php _e('Mark all commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_unpaid').text('<?php _e('Mark selected commissions as unpaid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_unpaid').text('<?php _e('Mark selected commissions as unpaid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_selected_paid').text('<?php _e('Mark selected commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_selected_paid').text('<?php _e('Mark selected commissions as paid', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
-                    jQuery('<option>').val('mark_selected_reverse').text('<?php _e('Mark selected commissions as reverse', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action']");
-                    jQuery('<option>').val('mark_selected_reverse').text('<?php _e('Mark selected commissions as reverse', 'dc-woocommerce-multi-vendor'); ?>').appendTo("select[name='action2']");
-                });
-            </script>
-            <?php
+    public function commission_bulk_action_handler($redirect_to, $doaction, $post_ids) {
+        if ($doaction == 'mark_paid') {
+            $this->wcmp_mark_commission_paid($post_ids);
+        } else if ($doaction == 'export') {
+            $this->wcmp_generate_commissions_csv($post_ids);
         }
+        return apply_filters('wcmp_commission_bulk_action_handler', $redirect_to, $doaction, $post_ids);
     }
 
     /**
      * Create export CSV for unpaid commissions
      * @return void
      */
-    public function wcmp_generate_commissions_csv() {
-        global $WCMp;
-        $screen = get_current_screen();
-        if (in_array($screen->id, array('edit-dc_commission'))) {
-            // Confirm list table action
-            $wp_list_table = _get_list_table('WP_Posts_List_Table');
-            $action = $wp_list_table->current_action();
-            if ($action != 'export')
-                return;
-            // Security check
-            check_admin_referer('bulk-posts');
-            // Set filename
-            $date = date('d-m-Y H:i:s');
-            $filename = 'Commissions ' . $date . '.csv';
-
-            // Set page headers to force download of CSV
-            header("Pragma: public");
-            header("Expires: 0");
-            header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            header("Content-Type: application/force-download");
-            header("Content-Type: application/octet-stream");
-            header("Content-Type: application/download");
-            header("Content-Disposition: attachment;filename={$filename}");
-            header("Content-Transfer-Encoding: binary");
-
-            // Set CSV headers
-            $headers = array(
-                'Recipient',
-                'Payment',
-                'Currency',
-                'Customer ID',
-                'Note'
+    public function wcmp_generate_commissions_csv($post_ids) {
+        // Security check
+        check_admin_referer('bulk-posts');
+        // Set filename
+        $date = date('d-m-Y H:i:s');
+        $filename = 'Commissions ' . $date . '.csv';
+        // Set page headers to force download of CSV
+        header("Pragma: public");
+        header("Expires: 0");
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment;filename={$filename}");
+        header("Content-Transfer-Encoding: binary");
+        // Set CSV headers
+        $headers = array(
+            'Recipient',
+            'Currency',
+            'Commission',
+            'Shipping',
+            'Tax',
+            'Total',
+            'Status'
+        );
+        $commissions_data = array();
+        $currency = get_woocommerce_currency();
+        foreach ($post_ids as $commission) {
+            $commission_data = $this->get_commission($commission);
+            $commission_staus = get_post_meta($commission, '_paid_status', true);
+            $commission_amounts = get_wcmp_vendor_order_amount(array('vendor_id' => $commission_data->vendor->id, 'commission_id' => $commission));
+            $recipient = get_user_meta($commission_data->vendor->id, '_vendor_paypal_email', true) ? get_user_meta($commission_data->vendor->id, '_vendor_paypal_email', true) : $vendor->user_data->display_name;
+            $commissions_data[] = array(
+                $recipient,
+                $currency,
+                $commission_amounts['commission_amount'],
+                $commission_amounts['shipping_amount'],
+                $commission_amounts['tax_amount'] + $commission_amounts['shipping_tax_amount'],
+                $commission_amounts['total'],
+                $commission_staus
             );
-
-            // Get data for CSV
-            $args = array(
-                'post_type' => $this->post_type,
-                'post_status' => array('publish', 'private'),
-                'meta_key' => '_paid_status',
-                'meta_value' => 'unpaid',
-                'posts_per_page' => -1
-            );
-            $commissions = get_posts($args);
-            //print_R($commissions);
-            // Get total commissions for each vendor
-            $commission_totals = array();
-            foreach ($commissions as $commission) {
-                // Get commission data
-                $commission_data = $this->get_commission($commission->ID);
-                $commission_totals[][$commission_data->vendor->term_id] = $commission_data->amount;
-            }
-
-            // Set info for all payouts
-            $currency = get_woocommerce_currency();
-            $payout_note = sprintf(__('Total commissions earned from %1$s as at %2$s on %3$s', 'dc-woocommerce-multi-vendor'), get_bloginfo('name'), date('H:i:s'), date('d-m-Y'));
-            // Set up data for CSV
-            $commissions_data = array();
-            foreach ($commission_totals as $key => $totals) {
-                foreach ($totals as $vendor_id => $total) {
-                    // Get vendor data
-                    $vendor = get_wcmp_vendor_by_term($vendor_id);
-                    $vendor_user_id = get_woocommerce_term_meta($vendor_id, '_vendor_user_id', true);
-                    $vendor_paypal_email = get_user_meta($vendor_user_id, '_vendor_paypal_email', true);
-                    // Set vendor recipient field
-                    if (isset($vendor_paypal_email) && strlen($vendor_paypal_email) > 0) {
-                        $recipient = $vendor_paypal_email;
-                    } else {
-                        $recipient = $vendor->user_data->display_name;
-                    }
-
-                    $commissions_data[] = array(
-                        $recipient,
-                        $total,
-                        $currency,
-                        $vendor_id,
-                        $payout_note
-                    );
-                }
-            }
-            // Initiate output buffer and open file
-            ob_start();
-            $file = fopen("php://output", 'w');
-
-            // Add headers to file
-            fputcsv($file, $headers);
-            // Add data to file
-            foreach ($commissions_data as $commission) {
-                fputcsv($file, $commission);
-            }
-
-            // Close file and get data from output buffer
-            fclose($file);
-            $csv = ob_get_clean();
-
-            // Send CSV to browser for download
-            echo $csv;
-            die();
         }
+        // Initiate output buffer and open file
+        ob_start();
+        $file = fopen("php://output", 'w');
+        // Add headers to file
+        fputcsv($file, $headers);
+        // Add data to file
+        foreach ($commissions_data as $commission) {
+            fputcsv($file, $commission);
+        }
+        // Close file and get data from output buffer
+        fclose($file);
+        $csv = ob_get_clean();
+        // Send CSV to browser for download
+        echo $csv;
+        die();
     }
 
     /**
-     * Mark all unpaid commissions as paid
-     * @return void
+     * Pay commisssion by admin
+     * @param array $post_ids
      */
-    public function wcmp_mark_all_commissions_paid() {
+    public function wcmp_mark_commission_paid($post_ids) {
         global $WCMp;
-        $screen = get_current_screen();
-        if (in_array($screen->id, array('edit-dc_commission'))) {
-            // Confirm list table action
-            $wp_list_table = _get_list_table('WP_Posts_List_Table');
-            $action = $wp_list_table->current_action();
-            // Get all unpaid commissions
-            $args = array(
-                'post_type' => $this->post_type,
-                'post_status' => array('publish', 'private'),
-                'meta_key' => '_paid_status',
-                'meta_value' => 'unpaid',
-                'posts_per_page' => -1
-            );
-            $commissions = get_posts($args);
-            switch ($action) {
-                case 'mark_paid':
-                    $commissions_array = array();
-                    $post_ids = array_map('absint', (array) $_REQUEST['post']);
-                    foreach ($commissions as $commission) {
-                        $commissions_array[] = $commission->ID;
-                        wcmp_paid_commission_status($commission->ID);
-                    }
-                    $WCMp->transaction->create_transactions($commissions_array);
-                    $redirect = add_query_arg('message', 'paid', $_REQUEST['_wp_http_referer']);
-                    break;
-                case 'mark_unpaid':
-                    $post_ids = array_map('absint', (array) $_REQUEST['post']);
-                    foreach ($post_ids as $commission) {
-                        update_post_meta($commission, '_paid_status', 'unpaid', 'paid');
-                    }
-                    $redirect = add_query_arg('message', 'unpaid', $_REQUEST['_wp_http_referer']);
-                    break;
-                case 'mark_selected_paid':
-                    $commissions_array = array();
-                    $post_ids = array_map('absint', (array) $_REQUEST['post']);
-                    foreach ($post_ids as $commission) {
-                        $commissions_array[] = $commission;
-                        wcmp_paid_commission_status($commission);
-                    }
-                    $WCMp->transaction->create_transactions($commissions_array);
-                    $redirect = add_query_arg('message', 'paid', $_REQUEST['_wp_http_referer']);
-                    break;
-                case 'mark_selected_reverse':
-                    $post_ids = array_map('absint', (array) $_REQUEST['post']);
-                    foreach ($post_ids as $commission) {
-                        $vendor_id = get_post_meta($commission, '_commission_vendor', true);
-                        update_post_meta($commission, '_paid_status', 'reverse', 'unpaid');
-                    }
-                    $redirect = add_query_arg('message', 'reverse', $_REQUEST['_wp_http_referer']);
-                    break;
-                default:
-                    return;
+        $commission_to_pay = array();
+        foreach ($post_ids as $post_id) {
+            $commission = $this->get_commission($post_id);
+            $vendor = $commission->vendor;
+            $commission_status = get_post_meta($post_id, '_paid_status', true);
+            if ($commission_status == 'unpaid') {
+                $commission_to_pay[$vendor->term_id][] = $post_id;
             }
-            wp_safe_redirect($redirect);
-            exit;
+        }
+        if ($commission_to_pay) {
+            foreach ($commission_to_pay as $vendor_term_id => $commissions) {
+                $vendor = get_wcmp_vendor_by_term($vendor_term_id);
+                $payment_method = get_user_meta($vendor->id, '_vendor_payment_mode', true);
+                if ($payment_method) {
+                    if (array_key_exists($payment_method, $WCMp->payment_gateway->payment_gateways)) {
+                        $WCMp->payment_gateway->payment_gateways[$payment_method]->process_payment($vendor, $commissions, 'admin');
+                    }
+                }
+            }
         }
     }
 

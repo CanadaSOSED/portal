@@ -15,15 +15,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $WCMp;
 
 
-do_action( 'woocommerce_email_header', $email_heading ); ?>
+do_action( 'woocommerce_email_header', $email_heading ); 
+$amount = get_post_meta($transaction_id, 'amount', true) - get_post_meta($transaction_id, 'transfer_charge', true) - get_post_meta($transaction_id, 'gateway_charge', true);
+?>
 
 <p>
 
 <?php 
 	if($transaction_mode == 'paypal_masspay') {
-		echo apply_filters( 'wcmp_admin_direct_bank_received_text', sprintf(__( 'Hello,<br> %s has successfully completed a withdrawal of $%s on %s through PayPal. The order details are as follows:', 'dc-woocommerce-multi-vendor'), '<a href='.$vendor->permalink.'>'.$vendor->user_data->display_name.'</a>', get_post_meta($transaction_id, 'amount', true), get_the_date( 'd/m/Y', $transaction_id )), $transaction_id ); 
+		echo apply_filters( 'wcmp_admin_direct_bank_received_text', sprintf(__( 'Hello,<br> %s has successfully completed a withdrawal of $%s on %s through PayPal. The order details are as follows:', 'dc-woocommerce-multi-vendor'), '<a href='.$vendor->permalink.'>'.$vendor->user_data->display_name.'</a>', $amount, get_the_date( 'd/m/Y', $transaction_id )), $transaction_id ); 
 	} else if($transaction_mode == 'direct_bank'){
-		echo apply_filters( 'wcmp_admin_paypal_received_text', sprintf(__( 'Hello,<br>There is a new withdrawal request for $%s from a vendor %s at your site. The order details are as following:', 'dc-woocommerce-multi-vendor'), get_post_meta($transaction_id, 'amount', true), '<a href='.$vendor->permalink.'>'.$vendor->user_data->display_name.'</a>'), $transaction_id );
+		echo apply_filters( 'wcmp_admin_paypal_received_text', sprintf(__( 'Hello,<br>There is a new withdrawal request for $%s from a vendor %s at your site. The order details are as following:', 'dc-woocommerce-multi-vendor'), $amount, '<a href='.$vendor->permalink.'>'.$vendor->user_data->display_name.'</a>'), $transaction_id );
 	}
 ?>
 </p>

@@ -3,7 +3,7 @@
  * Plugin Name: Simple Custom CSS and JS 
  * Plugin URI: https://wordpress.org/plugins/custom-css-js/
  * Description: Easily add Custom CSS or JS to your website with an awesome editor.
- * Version: 3.2 
+ * Version: 3.3 
  * Author: Diana Burduja
  * Author URI: https://www.silkypress.com/
  * License: GPL2
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! class_exists( 'CustomCSSandJS' ) ) :
-    define( 'CCJ_VERSION', '3.2' );
+    define( 'CCJ_VERSION', '3.3' );
 /**
  * Main CustomCSSandJS Class
  *
@@ -102,6 +102,9 @@ final class CustomCSSandJS {
             $action = 'wp_';
             if ( strpos( $_key, 'admin' ) !== false ) {
                 $action = 'admin_';
+            }
+            if ( strpos( $_key, 'login' ) !== false ) {
+                $action = 'login_';
             }
             if ( strpos( $_key, 'header' ) !== false ) {
                 $action .= 'head';

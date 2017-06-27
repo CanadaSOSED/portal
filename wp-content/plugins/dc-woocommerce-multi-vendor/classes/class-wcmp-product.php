@@ -67,6 +67,7 @@ class WCMp_Product {
             add_action('save_post', array($this, 'update_data_to_products_map_table'));
             add_filter('woocommerce_product_tabs', array(&$this, 'product_single_product_multivendor_tab'));
             add_action('woocommerce_single_product_summary', array($this, 'product_single_product_multivendor_tab_link'), 60);
+
             add_action('delete_post', array($this, 'remove_product_from_multiple_seller_mapping'), 10);
             add_action('trashed_post', array($this, 'remove_product_from_multiple_seller_mapping'), 10);
             add_action('untrash_post', array($this, 'restore_multiple_seller_mapping'), 10);
@@ -137,7 +138,9 @@ class WCMp_Product {
 
     function product_single_product_multivendor_tab_link() {
         global $WCMp;
-        $WCMp->template->get_template('single-product/multiple_vendors_products_link.php');
+        if (is_product()) {
+            $WCMp->template->get_template('single-product/multiple_vendors_products_link.php');
+        }
     }
 
     /**

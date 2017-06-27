@@ -13,8 +13,6 @@ if (!defined('ABSPATH'))
 class WCMp_Transaction {
 
     private $post_type;
-    public $dir;
-    public $file;
 
     public function __construct() {
         $this->post_type = 'wcmp_transaction';
@@ -25,13 +23,14 @@ class WCMp_Transaction {
     /**
      * Register commission post type
      *
-     * @access public
+     * @access private
      * @return void
      */
-    function register_post_type() {
+    private function register_post_type() {
         global $WCMp;
-        if (post_type_exists($this->post_type))
+        if (post_type_exists($this->post_type)) {
             return;
+        }
         $labels = array(
             'name' => _x('Transactions', 'post type general name', 'dc-woocommerce-multi-vendor'),
             'singular_name' => _x('Transaction', 'post type singular name', 'dc-woocommerce-multi-vendor'),
@@ -70,7 +69,13 @@ class WCMp_Transaction {
         register_post_type($this->post_type, $args);
     }
 
-    function register_post_status() {
+    /**
+     * Register transaction status
+     * 
+     * @access private
+     * @return void
+     */
+    private function register_post_status() {
         register_post_status('wcmp_processing', array(
             'label' => _x('Processing', $this->post_type),
             'public' => true,
@@ -88,6 +93,14 @@ class WCMp_Transaction {
             'show_in_admin_status_list' => true,
             'label_count' => _n_noop('Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>'),
         ));
+        register_post_status('wcmp_canceled', array(
+            'label' => _x('Canceled', $this->post_type),
+            'public' => true,
+            'exclude_from_search' => false,
+            'show_in_admin_all_list' => true,
+            'show_in_admin_status_list' => true,
+            'label_count' => _n_noop('Canceled <span class="count">(%s)</span>', 'Canceled <span class="count">(%s)</span>'),
+        ));
     }
 
     /**
@@ -100,7 +113,7 @@ class WCMp_Transaction {
      * 
      * @return int $transaction_id
      */
-    function insert_new_transaction($transaction_data, $transaction_status, $mode, $paypal_response = false) {
+    public function insert_new_transaction($transaction_data, $transaction_status, $mode, $paypal_response = false) {
         global $WCMp;
         $trans_id = false;
         if (!empty($transaction_data)) {
@@ -152,7 +165,7 @@ class WCMp_Transaction {
      * @param $vendor
      * @return $item_total
      */
-    function get_transaction_item_totals($transaction_id, $vendor) {
+    public function get_transaction_item_totals($transaction_id, $vendor) {
         global $WCMp;
         $item_totals = array();
         $transaction_amount = get_post_meta($transaction_id, 'amount', true);
@@ -175,12 +188,15 @@ class WCMp_Transaction {
             $item_totals['iban'] = array('label' => __('IBAN', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_iban', true));
             $item_totals['account_holder_name'] = array('label' => __('Account Holder Name', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_account_holder_name', true));
         } else if ($transaction_mode == 'paypal_masspay') {
-            $item_totals['via'] = array('label' => __('Transaction Mode', 'dc-woocommerce-multi-vendor'), 'value' => __('PayPal', 'dc-woocommerce-multi-vendor'));
+            $item_totals['via'] = array('label' => __('Transaction Mode', 'dc-woocommerce-multi-vendor'), 'value' => __('PayPal Masspay', 'dc-woocommerce-multi-vendor'));
+            $item_totals['paypal_email'] = array('label' => __('PayPal Email', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_paypal_email', true));
+        } else if ($transaction_mode == 'paypal_payout') {
+            $item_totals['via'] = array('label' => __('Transaction Mode', 'dc-woocommerce-multi-vendor'), 'value' => __('PayPal Payout', 'dc-woocommerce-multi-vendor'));
             $item_totals['paypal_email'] = array('label' => __('PayPal Email', 'dc-woocommerce-multi-vendor'), 'value' => get_user_meta($vendor->id, '_vendor_paypal_email', true));
         } else if ($transaction_mode == 'manual') {
             $item_totals['via'] = array('label' => __('Transaction Mode', 'dc-woocommerce-multi-vendor'), 'value' => __('Manual', 'dc-woocommerce-multi-vendor'));
         }
-        return apply_filters('wcmp_transaction_item_totals', $item_totals);
+        return apply_filters('wcmp_transaction_item_totals', $item_totals, $transaction_id);
     }
 
     /**
@@ -188,17 +204,18 @@ class WCMp_Transaction {
      *
      * @param int $transaction_id
      */
-    function get_transaction_item_details($transaction_id) {
+    public function get_transaction_item_details($transaction_id) {
         global $WCMp;
         $commission_details = array();
         $commissions = get_post_meta($transaction_id, 'commission_detail', true);
+        $title = array();
         if (is_array($commissions)) {
-            foreach ($commissions as $commission_id => $order_id) {
+            foreach ($commissions as $commission_id) {
                 $commission_products = get_post_meta($commission_id, '_commission_product', true);
-                if (!is_array($commission_products))
+                if (!is_array($commission_products)) {
                     $commission_products = array($commission_products);
+                }
                 if (!empty($commission_products)) {
-                    $title = '';
                     foreach ($commission_products as $commission_product) {
                         if (function_exists('wc_get_product')) {
                             $product = wc_get_product($commission_product);
@@ -207,28 +224,37 @@ class WCMp_Transaction {
                         }
                         if (is_object($product)) {
                             if ($product->get_formatted_name()) {
-                                $title .= $product->get_formatted_name() . ',';
+                                $title[] = $product->get_formatted_name();
                             } else {
-                                $title .= $product->get_title() . ',';
+                                $title[] = $product->get_title();
                             }
                         }
                     }
                 }
-                $amount = (float) get_post_meta($commission_id, '_commission_amount', true) + (float) get_post_meta($commission_id, '_shipping', true) + (float) get_post_meta($commission_id, '_tax', true);
-
-                $commission_details['body'][$commission_id][]['Order'] = '<a href="' . esc_url( wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_orders_endpoint', 'vendor', 'general', 'vendor-orders'), $order_id)) . '" target="_blank">#' . $order_id . '</a>';
-                $commission_details['body'][$commission_id][]['Products'] = $title;
-                $commission_details['body'][$commission_id][]['Amount'] = get_woocommerce_currency_symbol() . $amount;
             }
         }
-        $commission_details['header'] = array(__('Order', 'dc-woocommerce-multi-vendor'), __('Products', 'dc-woocommerce-multi-vendor'), __('Amount', 'dc-woocommerce-multi-vendor'));
+        $status = get_post_status($transaction_id);
+        if($status == 'wcmp_completed'){
+            $transaction_status = 'Completed';
+        } else if($status == 'wcmp_processing'){
+            $transaction_status = 'Processing';
+        }else{
+            $transaction_status = 'Cancelled';
+        }
+        
+        $amount = (float) get_post_meta($transaction_id, 'amount', true) - (float) get_post_meta($transaction_id, 'transfer_charge', true) - (float) get_post_meta($transaction_id, 'gateway_charge', true);
+        $commission_details['body'][$commission_id][]['Commission'] = implode(', ', $commissions);
+        $commission_details['body'][$commission_id][]['Products'] = implode(', ', $title);
+        $commission_details['body'][$commission_id][]['Status'] = $transaction_status;
+        $commission_details['body'][$commission_id][]['Amount'] = get_woocommerce_currency_symbol() . $amount;
+        $commission_details['header'] = array(__('Commission ID', 'dc-woocommerce-multi-vendor'), __('Products', 'dc-woocommerce-multi-vendor'), __('Status', 'dc-woocommerce-multi-vendor'), __('Amount', 'dc-woocommerce-multi-vendor'));
         return apply_filters('wcmp_transaction_item_details', $commission_details);
     }
 
     /**
      * Get transactions for a period
      */
-    function get_transactions($vendor_term_id = false, $start_date = false, $end_date = false, $transaction_status = false, $offset = false, $no_of = false) {
+    public function get_transactions($vendor_term_id = false, $start_date = false, $end_date = false, $transaction_status = false, $offset = false, $no_of = false) {
         global $WCMp;
 
         if (!$no_of)
@@ -292,23 +318,27 @@ class WCMp_Transaction {
             foreach ($transactions as $transaction_key => $transaction) {
 
                 $transaction_details[$transaction->ID]['post_date'] = $transaction->post_date;
-                if ($transaction->post_status == 'wcmp_completed')
+                if ($transaction->post_status == 'wcmp_completed') {
                     $transaction_details[$transaction->ID]['status'] = __('Completed', 'dc-woocommerce-multi-vendor');
-                else if ($transaction->post_status == 'wcmp_processing')
+                } else if ($transaction->post_status == 'wcmp_processing') {
                     $transaction_details[$transaction->ID]['status'] = __('Processing', 'dc-woocommerce-multi-vendor');
+                }
                 $transaction_details[$transaction->ID]['vendor_id'] = $transaction->post_author;
                 $transaction_details[$transaction->ID]['commission'] = get_post_meta($transaction->ID, 'amount', true) + get_post_meta($transaction->ID, 'transfer_charge', true);
                 $transaction_details[$transaction->ID]['amount'] = get_post_meta($transaction->ID, 'amount', true);
                 $transaction_details[$transaction->ID]['transfer_charge'] = get_post_meta($transaction->ID, 'transfer_charge', true);
                 $transaction_details[$transaction->ID]['commission_details'] = get_post_meta($transaction->ID, 'commission_detail', true);
+                $transaction_details[$transaction->ID]['total_amount'] = get_post_meta($transaction->ID, 'amount', true) - get_post_meta($transaction->ID, 'transfer_charge', true) - get_post_meta($transaction->ID, 'gateway_charge', true);
+                $transaction_details[$transaction->ID]['id'] = $transaction->ID;
                 $mode = get_post_meta($transaction->ID, 'transaction_mode', true);
-                if ($mode == 'paypal_masspay')
+                if ($mode == 'paypal_masspay') {
                     $transaction_details[$transaction->ID]['mode'] = __('PayPal', 'dc-woocommerce-multi-vendor');
-                else if ($mode == 'direct_bank')
+                } else if ($mode == 'direct_bank') {
                     $transaction_details[$transaction->ID]['mode'] = __('Direct Bank Transfer', 'dc-woocommerce-multi-vendor');
+                }
             }
         }
-        return $transaction_details;
+        return apply_filters('wcmp_get_transaction_details', $transaction_details);
     }
 
     /**
@@ -316,7 +346,7 @@ class WCMp_Transaction {
      *
      * @param array $commission_ids
      */
-    function create_transactions($commission_ids) {
+    public function create_transactions($commission_ids) {
         global $WCMp;
         $transaction_datas = array();
         if (!empty($commission_ids)) {

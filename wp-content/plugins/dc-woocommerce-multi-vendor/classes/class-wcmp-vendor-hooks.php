@@ -27,6 +27,7 @@ class WCMp_Vendor_Hooks {
         add_filter('the_title', array(&$this, 'wcmp_vendor_dashboard_endpoint_title'));
         add_filter('wcmp_vendor_dashboard_menu_vendor_policies_capability', array(&$this, 'wcmp_vendor_dashboard_menu_vendor_policies_capability'));
         add_filter('wcmp_vendor_dashboard_menu_vendor_withdrawal_capability', array(&$this,'wcmp_vendor_dashboard_menu_vendor_withdrawal_capability'));
+        add_filter('wcmp_vendor_dashboard_menu_vendor_shipping_capability', array(&$this, 'wcmp_vendor_dashboard_menu_vendor_shipping_capability'));
     }
 
     /**
@@ -541,6 +542,22 @@ class WCMp_Vendor_Hooks {
     public function wcmp_vendor_dashboard_menu_vendor_withdrawal_capability($cap){
         if(get_wcmp_vendor_settings('wcmp_disbursal_mode_vendor', 'payment')){
             $cap = true;
+        }
+        return $cap;
+    }
+    
+    public function wcmp_vendor_dashboard_menu_vendor_shipping_capability($cap){
+        $cap = false;
+        $raw_zones = WC_Shipping_Zones::get_zones();
+        $raw_zones[] = array('id' => 0);
+        foreach ($raw_zones as $raw_zone) {
+            $zone = new WC_Shipping_Zone($raw_zone['id']);
+            $raw_methods = $zone->get_shipping_methods();
+            foreach ($raw_methods as $raw_method) {
+                if ($raw_method->id == 'flat_rate'){
+                    return true;
+                }
+            }
         }
         return $cap;
     }

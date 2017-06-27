@@ -7,29 +7,19 @@
 }
 *::before, *::after {
     box-sizing: border-box;
-}
-
-body{
+} 
+.wcmp_remove_div *{
 	font-family: 'Lato', sans-serif;
-	margin:0px;
-	padding:0px;
-}
-ul{
+	box-sizing:border-box; 
+} 
+.wcmp_remove_div ul{
 	margin:0px;
 	padding:0px;
 	list-style:none;
 }
-
-div, li, ul, input, textarea{
-	box-sizing:border-box;
-}
-
-input:focus, button:focus, select:focus, textarea:focus, a:focus{
+.wcmp_remove_div input:focus, .wcmp_remove_div button:focus, .wcmp_remove_div select:focus, .wcmp_remove_div textarea:focus, .wcmp_remove_div a:focus{
 	outline:none;
-}
-
-
-
+} 
 .clear{
 	clear:both;
 }
@@ -91,8 +81,8 @@ input:focus, button:focus, select:focus, textarea:focus, a:focus{
 	padding:20px 0px 10px 0;
 }
 .wcmp_top_logo_div ul{
-	padding:0px;
-	margin:0px;
+	padding:0px !important;
+	margin:0px !important;
 	list-style:none;
 	text-align:center;
 }
@@ -112,15 +102,13 @@ input:focus, button:focus, select:focus, textarea:focus, a:focus{
 .wcmp_top_logo_div ul li:first-child{
 	border-right:1px solid #c8c8c8;
 }
-
-
 .wcmp_main_menu{
 	width:100%;
 }
 
 .wcmp_main_menu ul{
-	padding:0px;
-	margin:0px;
+	padding:0px !important;
+	margin:0px !important;
 	list-style:none;
 }
 
@@ -160,6 +148,7 @@ input:focus, button:focus, select:focus, textarea:focus, a:focus{
 	background: -webkit-linear-gradient(top, #e5e5e5 0%,#dcdcdc 100%,#7db9e8 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(to bottom, #e5e5e5 0%,#dcdcdc 100%,#7db9e8 100%);
 	transition:1s;
+	line-height: inherit;
 }
 
 .wcmp_main_menu ul li a:hover, .wcmp_main_menu ul li a.active{
@@ -572,6 +561,7 @@ display:block;
     font-weight: bold;
     padding: 7px 12px;
     margin: 5px 0px;
+    line-height: normal;
 }
 
 
@@ -676,10 +666,12 @@ display:block;
     cursor: pointer;
     font-size: 15px;
     font-weight: bold;
-     padding: 9px 15px;
+    padding: 9px 15px;
 	margin:3px 0px;
 	float:right;
-}
+	line-height: normal;
+} 
+
 
     
    
@@ -706,26 +698,74 @@ display:block;
 
 @media (max-width:640px){
 	.wcmp_remove_div{
-	width:400px;
+		width:400px; 
+	} 
+	.wcmp_top_logo_div{
+		padding:8px 5px;
 	}
-	.wcmp_main_menu ul li .writtings, .wcmp_top_logo_div ul, .wcmp_top_logo_div h3{
+	.wcmp_top_logo_div h3{
+		font-size: 12px;
+		text-align: center;
+		line-height: 15px;
+		padding-top: 10px;
+		padding-bottom: 5px;
+	}
+	.wcmp_top_logo_div ul{
+		line-height: 17px;
+	}
+	.wcmp_top_logo_div ul li{
+		padding: 0; 
+		margin: 0 -12px;
+		display: block;
+	}
+	.wcmp_top_logo_div ul li:first-child{
+		border: none;
+	}
+	.wcmp_top_logo_div ul li a{
+		font-size: 10px;
+		text-align: center;
+		line-height: 12px;
+	}
+	.wcmp_top_logo_div img{
+		max-width: 70px;
+		display: table;
+		margin: 0 auto;
+	}
+	.wcmp_main_menu ul{
+		text-align: center;
+	}
+	.wcmp_main_menu ul li .writtings{
 		display:none;
+	}
+	.wcmp_main_menu ul li .icon_stand{
+		margin: 14px 0 7px;
 	}
 	
 	.wcmp_main_menu ul li ul {
-    left: 63px;
-    position: absolute;
-    top: 0px;
-    width: 200px;
-    z-index: 1000;
-}
+	    left: 63px;
+	    position: absolute;
+	    top: 0px;
+	    width: 200px;
+	    z-index: 1000;
+	}
 	
 	.wcmp_side_menu{
-	width:60px;
+		width:80px;
+		width: 80px;
+	}
+	.wcmp_headding1 ul li{
+		font-size: 14px;
+	}
+	.wcmp_ass_btn{
+		height: auto;
+		padding: 5px 9px;
 	}
 	.half_part, .one_third_part, .two_third_part{
 	padding: 0 ;
     width: 100%;
+	}
+	.wcmp_vendor_dashboard_content .wcmp_tab .ui-widget-header{
+		padding: 0 !important;
 	}
 }
 
@@ -953,6 +993,17 @@ display:block;
 	}
    .wcmp_table_holder{
 	width: 400px;
+   }
+   .wcmp_tab ul{
+   	height: auto;
+   }
+   .wcmp_tab .ui-tabs-nav li{
+   	line-height: 30px;
+   	height: auto;
+   	padding-bottom: 0 !important;
+   }
+   .wcmp_tab .ui-tabs-nav li a{
+   	  font-size: 11px;
    }
 }
 @media (max-width:540px){
@@ -1294,6 +1345,7 @@ p.error_wcmp {
     font-weight: 400;
     padding: 0 6% 7px;
     text-align:right;
+   margin-bottom: 15px;
 }
 .wcmp_form1 p {
     margin: 15px 0 0;

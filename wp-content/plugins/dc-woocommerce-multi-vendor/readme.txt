@@ -4,7 +4,7 @@ Tags: multi vendor marketplace, woocommerce multivendor marketplace, multi selle
 Donate link: https://wc-marketplace.com/donate
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,18 @@ Ans. This plugin is tested with PHP version 5.5.
 
 
 == Changelog ==
+
+= 2.7.3 = 
+* Added: Mark commission as paid and Mark as Reverse option in single commission page.
+* Updated: Vendor dashboard css and js file.
+* Updated: Commission export csv.
+* Fixed: Vendor profile image display in mobile view.
+* Fixed: Navigation display in vendor dashboard page (shop and Announcements link).
+* Modify: Commission payment process.
+* Removed: Bulk action (Edit, Export Unpaid Commissions (CSV), Mark all commissions as paid, Mark selected commissions as unpaid, Mark selected commissions as paid, Mark selected commissions as reverse) from commission post type added (Mark paid, Export) option.
+* Removed: Toggle commission status from single commission page.
+* Dev: New transaction status `wcmp_canceled`
+* Dev: Template Update - `vendor-dashboard/vendor-transaction_detail.php, vendor-dashboard/vendor-withdrawal/vendor-withdrawal-request.php, vendor-dashboard/vendor-transaction/vendor-transaction-items.php`
 
 = 2.7.2 =
 * Added: Support for WCMp advanced shipping plugin.
@@ -252,5 +264,5 @@ Ans. This plugin is tested with PHP version 5.5.
 
 == Upgrade Notice ==
 
-= 2.7.2 =
+= 2.7.3 =
 2.7 is compatible with WooCommerce 3.0 or later. It is important to test in staging before update.

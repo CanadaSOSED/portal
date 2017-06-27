@@ -39,7 +39,8 @@ if(isset($more_product_array) && is_array($more_product_array) && count($more_pr
 			$more_product_array = array_reverse (  $more_product_array);			
 		}
 	}
-	foreach ($more_product_array as $more_product ) {		
+	foreach ($more_product_array as $more_product ) {	
+            $_product = wc_get_product($more_product['product_id']);
 		?>
 		<div class="row rowbody">						
 			<div class="rowsub centerclass">
@@ -75,19 +76,7 @@ if(isset($more_product_array) && is_array($more_product_array) && count($more_pr
 				?>								
 			</div>
 			<div class="rowsub">
-				<?php if($more_product['product_type'] == 'variable') {?>
-					<?php if( (($more_product['_min_variation_regular_price'] - $more_product['_min_variation_sale_price']) > 0) || (($more_product['_max_variation_regular_price'] - $more_product['_max_variation_sale_price']) > 0) ) {?>
-						<span class="wcmp_regular_price"><?php echo get_woocommerce_currency_symbol(); echo number_format(floatval($more_product['_min_variation_regular_price']),2); ?></span> - 
-						<span class="wcmp_regular_price"><?php echo get_woocommerce_currency_symbol(); echo number_format(floatval($more_product['_max_variation_regular_price']),2); ?></span><br/>
-					<?php }?>
-						<span class="wcmp_sale_price"><?php echo get_woocommerce_currency_symbol(); echo number_format(floatval($more_product['_min_variation_sale_price']),2); ?></span> - 
-						<span class="wcmp_sale_price"><?php echo get_woocommerce_currency_symbol(); echo number_format(floatval($more_product['_max_variation_sale_price']),2); ?></span><br/>
-				<?php }else {?>
-					<?php if( ($more_product['regular_price_val']-$more_product['price_val']) > 0) {?>
-						<span class="wcmp_regular_price"><?php echo get_woocommerce_currency_symbol(); echo number_format(floatval($more_product['regular_price_val']),2); ?></span><br/>
-					<?php }?>
-						<span class="wcmp_sale_price"><?php echo get_woocommerce_currency_symbol(); echo number_format(floatval($more_product['price_val']),2); ?></span>
-				<?php }?>	
+                            <?php echo $_product->get_price_html(); ?>
 			</div>
 			<div class="rowsub">
 				<?php if($more_product['product_type'] == 'simple') {?>
