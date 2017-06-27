@@ -1,0 +1,1001 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.9\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr\n"
+
+msgid "%d Comment"
+msgid_plural "%d Comments"
+msgstr[0] "%d Commentaire"
+msgstr[1] "%d Commentaires"
+
+msgid "%d Conflict"
+msgid_plural "%d Conflicts"
+msgstr[0] "%d Conflit"
+msgstr[1] "%d Conflits"
+
+msgid "%d Day In Total"
+msgid_plural "%d Days In Total"
+msgstr[0] "%d jour au total"
+msgstr[1] "%d jours au total"
+
+msgid "%d Day"
+msgid_plural "%d Days"
+msgstr[0] "% d jour"
+msgstr[1] "% d jours"
+
+msgid "%d Hour"
+msgid_plural "%d Hours"
+msgstr[0] "%d heure"
+msgstr[1] "%d heures"
+
+msgid "%d Minute"
+msgid_plural "%d Minutes"
+msgstr[0] "%d minutes"
+msgstr[1] "%d minutes"
+
+msgid "%d Open Shift"
+msgid_plural "%d Open Shifts"
+msgstr[0] "%d période libre"
+msgstr[1] "%d périodes libres"
+
+msgid "%d Shift Release Pending"
+msgid_plural "%d Shift Release Pending"
+msgstr[0] "%d période à libérer en attente"
+msgstr[1] "%d périodes à libérer en attente"
+
+msgid "%d shift added"
+msgid_plural "%d shifts added"
+msgstr[0] "% période ajoutée"
+msgstr[1] "% périodes ajoutées"
+
+msgid "%d shift deleted"
+msgid_plural "%d shifts deleted"
+msgstr[0] "% période supprimée"
+msgstr[1] "% périodes supprimées"
+
+msgid "%d shift updated"
+msgid_plural "%d shifts updated"
+msgstr[0] "%d période mise à jour"
+msgstr[1] "%d périodes mises à jour"
+
+msgid "%d timeoff added"
+msgid_plural "%d timeoffs added"
+msgstr[0] "%d jour libre ajouté"
+msgstr[1] "%d jours libres ajoutés"
+
+msgid "%d timeoff deleted"
+msgid_plural "%d timeoffs deleted"
+msgstr[0] "%d jour libre supprimé"
+msgstr[1] "%d jours libres supprimés"
+
+msgid "%d timeoff updated"
+msgid_plural "%d timeoffs updated"
+msgstr[0] "%d jour libre mis à jour"
+msgstr[1] "%d jours libres mis à jour"
+
+msgid "%d user"
+msgid_plural "%d users"
+msgstr[0] "%d utilisateur"
+msgstr[1] "%d utilisateurs"
+
+msgid "%s Day Off"
+msgid_plural "%s Days Off"
+msgstr[0] "%s jour désactivé"
+msgstr[1] "%s jours désactivés"
+
+msgid "%s Day On"
+msgid_plural "%s Days On"
+msgstr[0] "%s jour actif"
+msgstr[1] "%s jours actifs"
+
+#  short duration format in days, for example 4 d
+msgid "%s d"
+msgstr "% j"
+
+#  short duration format in hours, for example 1.25 hr
+msgid "%s hr"
+msgstr "%s H"
+
+#  short duration format in minutes, for example 25 min
+msgid "%s min"
+msgstr "%s min"
+
+msgid "1st"
+msgstr "1er"
+
+msgid "2nd"
+msgstr "2ème"
+
+msgid "3rd"
+msgstr "3ème"
+
+msgid "4th"
+msgstr "4ème"
+
+msgid "5th"
+msgstr "5ème"
+
+msgid "Access denied"
+msgstr "Accès refusé"
+
+#  status, status
+msgid "Active"
+msgstr "Actif"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Add New Availability"
+msgstr "Ajouter une nouvelle disponibilité"
+
+msgid "Add New Comment"
+msgstr "Ajouter un nouveau commentaire"
+
+msgid "Add New Department"
+msgstr "Ajouter un nouveau département"
+
+msgid "Add New Location"
+msgstr "Ajouter un nouveau lieu"
+
+msgid "Add New Shift Template"
+msgstr "Ajouter un nouveau modèle de période de travail"
+
+msgid "Add New Shift"
+msgid_plural "Add %d New Shifts"
+msgstr[0] "Ajouter une période de travail"
+msgstr[1] "Ajouter %d nouvelles période de travail"
+
+msgid "Add New User"
+msgstr "Ajouter un nouvel utilisateur"
+
+msgid "Add Staff"
+msgstr "Ajouter un nouvel employé"
+
+msgid "Add To Department"
+msgstr "Ajouter au département"
+
+#  User level
+msgid "Admin"
+msgstr "Admin"
+
+msgid "Admin Approval Required"
+msgstr "L’Admin doit approuver la demande"
+
+msgid "Admin Area"
+msgstr "Espace d’administration"
+
+msgid "Alert If Shift In Unavailable Time"
+msgstr ""
+
+msgid "Alert If Shift Not Within Preferred Time"
+msgstr ""
+
+#  duration, during all day
+msgid "All Day"
+msgstr "Toute la journée"
+
+msgid "All Time"
+msgstr ""
+
+msgid "All Users"
+msgstr "Tous les utilisateurs"
+
+msgid "Approve"
+msgstr "Approuver"
+
+#  short April
+msgid "Apr"
+msgstr "Avril"
+
+msgid "Archive User"
+msgstr "Utilisateur archivé"
+
+#  status
+msgid "Archived"
+msgstr "Archivé"
+
+msgid "Assign Selected Staff"
+msgstr "Assigner l’employé selectionné"
+
+msgid "Assign Staff"
+msgstr "Assigner un employé"
+
+msgid "At least %s characters required"
+msgstr ""
+
+#  short August
+msgid "Aug"
+msgstr "Août"
+
+msgid "Availability"
+msgstr "Disponibilité"
+
+msgid "Availability Type"
+msgstr "Type de disponibilité"
+
+msgid "Availability added"
+msgstr "Disponibilité ajoutée"
+
+msgid "Availability deleted"
+msgstr "Disponibilité supprimée"
+
+msgid "Availability updated"
+msgstr "Disponibilité mise à jour"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Back To Start Page"
+msgstr "Retour à la page d’accueil"
+
+msgid "Biweekly"
+msgstr "bi-hebdomadaire"
+
+msgid "Break"
+msgstr "Pause"
+
+#  view type, i.e. Calendar View
+msgid "Calendar"
+msgstr "Calendrier"
+
+#  status
+msgid "Cancelled"
+msgstr "Annulé"
+
+msgid "Change"
+msgstr "Changer"
+
+msgid "Change Password"
+msgstr "Changer de mot de passe"
+
+msgid "Click Here To Pick Up The Shift"
+msgstr "Cliquez ici pour prendre cette période"
+
+msgid "Click Here To Release The Shift"
+msgstr "Cliquez ici pour libérer la période"
+
+msgid "Click one of these links to set it up"
+msgstr "Cliquez sur l’un des liens pour le définir"
+
+msgid "Color"
+msgstr "Couleur"
+
+msgid "Comment Visible To"
+msgstr "Commentaire visible pour"
+
+msgid "Comment added"
+msgstr "Commentaire ajouté"
+
+msgid "Comment deleted"
+msgstr "Commentaire supprimé"
+
+msgctxt "noun"
+msgid "Comment"
+msgstr "Commentaire"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Configure View"
+msgstr "Configurer la vue"
+
+msgid "Confirm Draft Shifts"
+msgstr "Confirmer les périodes en brouillon"
+
+msgid "Confirm Password"
+msgstr "Confirmer le mot de passe"
+
+msgid "Conflict"
+msgstr "Conflit"
+
+msgid "Conflicts"
+msgstr "Conflits"
+
+msgid "Copy"
+msgstr "Copier"
+
+msgid "Copy From Period"
+msgstr "Copier depuis la période"
+
+msgid "Copy To Period"
+msgstr "Copier vers la période"
+
+msgid "Create Active Shifts"
+msgstr "Créer des périodes actives"
+
+msgid "Create Draft Shifts"
+msgstr "Créer des périodes en attente"
+
+msgid "Create Open Shifts"
+msgstr "Créer des périodes ouvertes"
+
+msgid "Custom Range"
+msgstr "Durée personnalisée"
+
+msgid "Daily"
+msgstr "quotidien"
+
+msgid "Date"
+msgstr "date"
+
+msgid "Date Format"
+msgstr "Format de date"
+
+msgid "Date and Time"
+msgstr "Date et Heure"
+
+msgid "Day"
+msgstr "Jour"
+
+msgid "Days Of Week Disabled"
+msgstr "Jours de la semaine désactivés"
+
+#  short December
+msgid "Dec"
+msgstr "Déc"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Demote To Staff"
+msgstr "Revenir au statut employé"
+
+msgid "Department"
+msgstr "Département"
+
+msgid "Department added"
+msgstr "Département ajouté"
+
+msgid "Department deleted"
+msgstr "Département supprimé"
+
+msgid "Department updated"
+msgstr "Département mis à jour"
+
+msgid "Departments"
+msgstr "Départements"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Disable Email"
+msgstr "Désactiver les email"
+
+msgid "Display Open Shifts"
+msgstr "Afficher les périodes ouvertes"
+
+msgid "Do Not Import"
+msgstr "Ne pas importer"
+
+msgid "Download"
+msgstr "Télécharger"
+
+msgid "Draft"
+msgstr "Brouillon"
+
+msgid "Draft Shifts"
+msgstr "Brouillon de période"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "Edit"
+msgstr "Editer"
+
+msgid "Edit My Profile"
+msgstr "Editer mon profil"
+
+msgid "Edit User"
+msgstr "Modifier l’utilisateur"
+
+msgid "Email"
+msgstr "email"
+
+msgid "Employees Can"
+msgstr "Les employés peuvent"
+
+msgid "End Time"
+msgstr "Heure de fin"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Every Weekday"
+msgstr "Chaque jour de la semaine"
+
+msgid "Everyone"
+msgstr "Tout le monde"
+
+#  short February
+msgid "Feb"
+msgstr "Fév"
+
+msgid "Filter"
+msgstr "Filtrer"
+
+msgctxt "noun"
+msgid "Filter"
+msgstr "Filtre"
+
+msgid "First Name"
+msgstr "Prénom"
+
+#  short Friday
+msgid "Fri"
+msgstr "Vendredi"
+
+msgid "From End"
+msgstr "Depuis la fin"
+
+msgid "Full Schedule"
+msgstr "Planning Complet"
+
+msgid "Get New Password"
+msgstr "Recevoir un nouveau de mot de passe"
+
+msgid "Google Calendar Or Similar Online Calendars"
+msgstr "Calendrier en ligne comme Google ou autre"
+
+msgid "Group By"
+msgstr "Grouper par"
+
+msgid "History"
+msgstr "Historique"
+
+msgid "Hours"
+msgstr "Heures"
+
+msgid "Import User Accounts"
+msgstr "Importer les comptes utilisateurs"
+
+msgid ""
+"Inside your Google Calendar open the Other Calendars menu in the left "
+"sidebar and select the Add by URL option. Paste one of these links then "
+"click the Add Calendar button. This will automatically add your shifts to "
+"Google Calendar."
+msgstr ""
+"A l'intérieur de votre Agenda Google, ouvrir le menu Autres calendriers dans "
+"la barre latérale de gauche et sélectionnez : Ajouter par option URL. \n"
+"Coller un de ces liens puis cliquez sur le bouton Ajouter un calendrier. \n"
+"Cela ajoutera automatiquement vos périodes vers Google Agenda."
+
+#  short January
+msgid "Jan"
+msgstr "Jan"
+
+#  short July
+msgid "Jul"
+msgstr "Jui"
+
+#  short June
+msgid "Jun"
+msgstr "Oui"
+
+msgid "Keep Assigned Staff"
+msgstr "Garder les mêmes employés"
+
+msgid "Last Name"
+msgstr "Nom"
+
+#  view type, i.e. List View
+msgid "List"
+msgstr "Liste"
+
+msgid "Local iCalendar Applications"
+msgstr "Applications locales de calendrier électronique"
+
+msgid "Location"
+msgstr "lieu"
+
+msgid "Location added"
+msgstr "lieu ajouté"
+
+msgid "Location deleted"
+msgstr "lieu supprimé"
+
+msgid "Location updated"
+msgstr "lieu mis à jour"
+
+msgid "Locations"
+msgstr "Lieux"
+
+msgid "Log In"
+msgstr "Connexion"
+
+msgid "Log In With"
+msgstr "Se connecter comme"
+
+msgid "Log Out"
+msgstr "Se déconnecter"
+
+msgid "Logged In Users"
+msgstr "Utilisateurs connectés"
+
+msgid "Lost your password?"
+msgstr "Mot de passé oublié?"
+
+#  User level
+msgid "Manager"
+msgstr "Manager"
+
+#  short March
+msgid "Mar"
+msgstr "Mar"
+
+msgid "Max End Time"
+msgstr "Heure de fin maximum"
+
+#  short May
+msgid "May"
+msgstr "Mai"
+
+msgid "Min Start Time"
+msgstr "Heure de début minimum"
+
+#  short Monday
+msgid "Mon"
+msgstr "Lundi"
+
+msgid "Month"
+msgstr "Mois"
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "More Filters"
+msgstr "Plus de filtres"
+
+msgid "Move Down"
+msgstr "Descendre"
+
+msgid "Move Up"
+msgstr "Monter"
+
+msgid "Multiple Days"
+msgstr "Plusieurs jours"
+
+msgid "My Schedule"
+msgstr "Mon planning"
+
+msgid "N/A"
+msgstr "N/A"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "New Password"
+msgstr "Nouveau mot de passe"
+
+msgid "No"
+msgstr "Non"
+
+#  list output without grouping
+msgid "No Grouping"
+msgstr "Pas de groupe"
+
+msgid "No Request"
+msgstr "Pas de demande"
+
+msgid "No action needed"
+msgstr "Pas d’action nécessaire"
+
+msgid "No staff available for this shift"
+msgstr "Il n’y pas d’employé disponible pour cette période"
+
+msgid "Nobody"
+msgstr "Personne"
+
+#  availability type
+msgid "Not Within Preferred Availability"
+msgstr "Pas dans les plages horaires préférées"
+
+msgid "Nothing"
+msgstr "Rien"
+
+#  short November
+msgid "Nov"
+msgstr "Nov"
+
+msgid "OK"
+msgstr "OK"
+
+#  this is an entry in the list of changes history of an object
+msgid "Object Created"
+msgstr "Objet créé"
+
+msgid "Object not found"
+msgstr "Objet non trouvé"
+
+#  short October
+msgid "Oct"
+msgstr "Oct"
+
+msgid "Old Value"
+msgstr "Ancienne valeur"
+
+msgid "Open Shift"
+msgstr "Période ouverte"
+
+msgid "Open Shifts"
+msgstr "Périodes ouvertes"
+
+msgid "Overlapping Conflict"
+msgstr "Conflit se superposant"
+
+msgid "Overview"
+msgstr "Vue générale"
+
+msgid "Owner"
+msgstr "Propriétaire"
+
+msgid "Password"
+msgstr "Mot de passe"
+
+msgid "Password changed"
+msgstr "Mot de passe changé"
+
+msgid "Password reset message has been sent to your email"
+msgstr ""
+"Un message pour obtenir un nouveau mot de passe vous a été envoyé dans votre "
+"boîte email"
+
+#  status
+msgid "Pending"
+msgstr "En attente"
+
+msgid "Pending Timeoff Requests"
+msgstr "Demande de congé en attente"
+
+msgid "Permission Denied"
+msgstr "Permission non-accordée"
+
+msgid "Pick Up Shift"
+msgstr "S’inscrire pour la période"
+
+msgid "Please Select"
+msgstr "Sélectionné un élément"
+
+msgid ""
+"Please note that shifts don't sync immediately. It could take up to 12 hours "
+"for your shifts to show up (according to Google support website)."
+msgstr ""
+"Merci de noter que les changements ne sont pas synchronisés immédiatement. "
+"Il pourrait prendre jusqu'à 12 heures pour que vos périodes apparaissent "
+"(selon le site de support Google)."
+
+#  availability type
+msgid "Preferred"
+msgstr "Préféré"
+
+msgid "Print"
+msgstr "Imprimer"
+
+msgid "Proceed"
+msgstr "Effectuer"
+
+msgid "Promote To Manager"
+msgstr "Donner le rôle de manager"
+
+msgid "Reject"
+msgstr "Rejeter"
+
+msgid "Release Shift"
+msgstr "Libérer la période"
+
+msgid "Remember Me"
+msgstr "Me le rappeler"
+
+msgid "Remove From Department"
+msgstr "Enlever du département"
+
+#  view type, i.e. Report View
+msgid "Report"
+msgstr "Rapport"
+
+msgid "Request New Timeoff"
+msgid_plural "Request %d New Timeoffs"
+msgstr[0] "Nouvelle demande de congé"
+msgstr[1] "%d nouvelles demandes de congé"
+
+msgid "Required field"
+msgstr "Champ requis"
+
+msgid "Restore User"
+msgstr "Réactiver l’utilisateur"
+
+#  short Saturday
+msgid "Sat"
+msgstr "Samedi"
+
+msgid "Save"
+msgstr "Sauver"
+
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+msgid "Select Later"
+msgstr "Sélectionner plus tard"
+
+msgid "Selected Days"
+msgstr "Jours sélectionnés"
+
+msgid "Send Email Notifications From Address"
+msgstr "Envoyer les notifications par email depuis l’adresse"
+
+msgid "Send Email Notifications From Name"
+msgstr "Envoyer les notifications par email avec le nom"
+
+#  short September
+msgid "Sep"
+msgstr "Sep"
+
+msgid "Separator in csv files"
+msgstr "Séparateur des fichiers CSV"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Settings reset to default"
+msgstr "restaurer les paramètres par défaut"
+
+msgid "Settings updated"
+msgstr "Paramètres mis à jour"
+
+msgid "Shift"
+msgstr "Période"
+
+msgid "Shift Pick Up"
+msgstr "S’inscrire à la période"
+
+msgid "Shift Release"
+msgstr "Période libérée"
+
+msgid "Shift Release Pending"
+msgstr "Période en attente libération"
+
+msgid "Shift Series"
+msgstr "Série de période"
+
+msgid "Shift Template"
+msgstr "Modèle de période"
+
+msgid "Shift Templates"
+msgstr "Modèles de période"
+
+msgid "Shift cancelled"
+msgstr "Période annulée"
+
+msgid "Shift changed"
+msgstr "Période changée"
+
+msgid "Shift picked up"
+msgstr "Inscrit à la période "
+
+msgid "Shift pickup request received"
+msgstr "Inscription à la période reçue"
+
+msgid "Shift published"
+msgstr "Période publiée"
+
+msgid "Shift release rejected"
+msgstr "Libération de la période refusée"
+
+msgid "Shift release request received"
+msgstr "Libération de période reçue"
+
+msgid "Shift released"
+msgstr "Période libérée"
+
+msgid "Shifts"
+msgstr "périodes"
+
+msgid "Shifts Available For Pickup"
+msgstr "Période disponible "
+
+msgid "Show Shift End Time"
+msgstr "Voir la fin de la période"
+
+msgid "Single Day"
+msgstr "Jour seul"
+
+msgid "Skip Notification Email"
+msgstr "Ne pas envoyer d’email de notification"
+
+#  User level
+msgid "Staff"
+msgstr "employé"
+
+msgid "Staff Can Edit Own Availability"
+msgstr ""
+
+msgid "Staff Can Pick Up Open Shifts"
+msgstr ""
+
+msgid "Staff Can Release Shifts"
+msgstr ""
+
+msgid "Staff Can See Others Schedule"
+msgstr ""
+
+msgid "Start Time"
+msgstr "Heure de départ"
+
+msgid "Status"
+msgstr "Statut"
+
+#  short Sunday
+msgid "Sun"
+msgstr "Dim"
+
+msgid "Sync Users"
+msgstr "Synchroniser les utilisateurs"
+
+msgid "The %s field does not match the %s field"
+msgstr "Le %s champ ne correspond pas au %s champ"
+
+msgid "The break should not be longer than the shift itself"
+msgstr ""
+"La pause ne doit pas être plus longue que la période de travail elle-même"
+
+msgid "The end date should be after the start date"
+msgstr "La date de fin doit être après la date de début"
+
+msgid "The end time should differ from the start time"
+msgstr "L’heure de fin doit être différente de l’heure de début"
+
+msgid "These values should differ from each other"
+msgstr "Ces valeurs doivent être différentes l’une de l’autre"
+
+msgid "This email address %s was not found"
+msgstr "Cette adresse email n’a pas été trouvée"
+
+msgid "This user account is disabled"
+msgstr "Cet utilisateur est désactivé"
+
+msgid "This value is already used"
+msgstr "Cette valeur existe déjà"
+
+#  short Thursday
+msgid "Thu"
+msgstr "Jeudi"
+
+msgid "Time"
+msgstr "Heure"
+
+msgid "Time Format"
+msgstr "Format de l’heure"
+
+msgid "Timeoff"
+msgstr "Absence"
+
+msgid "Timeoff Requests"
+msgstr "Demande et annonce d’absence"
+
+msgid "Timeoff cancelled"
+msgstr "Absence annulée"
+
+msgid "Timeoff published"
+msgstr "Absence publiée"
+
+msgid "Timeoff request pending"
+msgstr "Demande de validation d’absence en attente"
+
+msgid "Timeoffs"
+msgstr "Absences"
+
+msgid "Timezone"
+msgstr "Zone horaire"
+
+msgid "Todo"
+msgstr "A faire"
+
+#  short Tuesday
+msgid "Tue"
+msgstr "Mardi"
+
+msgid "Type"
+msgstr "Type"
+
+msgctxt "noun"
+msgid "Type"
+msgstr "Type"
+
+#  availability type, availability type
+msgid "Unavailable"
+msgstr "Indisponible"
+
+msgid "Unknown"
+msgstr "Inconnu"
+
+#  it refers to the upcoming time range
+msgid "Upcoming"
+msgstr "A venir"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "User Level"
+msgstr "Fonction de l’utilisateur"
+
+msgid "User added"
+msgstr "Utilisateur ajouté"
+
+msgid "User deleted"
+msgstr "Utilisateur supprimé"
+
+msgid "User updated"
+msgstr "Utilisateur mis-à-jour"
+
+msgid "Username"
+msgstr "Nom d’utilisateur"
+
+msgid "Users"
+msgstr "Utilisateurs"
+
+msgid "Valid email address required"
+msgstr "Une adresse email valide est requise"
+
+msgid "View Active Shifts"
+msgstr "Voir les périodes actives"
+
+msgid "View Draft Shifts"
+msgstr "Voir les périodes en attente"
+
+msgid "View Type"
+msgstr "Voir le type"
+
+#  short Wednesday
+msgid "Wed"
+msgstr "Mercredi"
+
+msgid "Week"
+msgstr "Semaine"
+
+msgid "Week Starts On"
+msgstr "La semaine commence le "
+
+msgid "Weekly"
+msgstr "Hebdomadaire"
+
+msgid "Who Can See Full Schedule"
+msgstr "Qui peut voir le planning complet"
+
+msgid "Who Can Work"
+msgstr "Qui peut travailler"
+
+msgid "With All"
+msgstr "Avec tous les éléments"
+
+msgid "With Selected"
+msgstr "Avec les éléments selectionnés"
+
+msgid "Wrong username or password"
+msgstr "Mauvais utilisateur ou mot de passe"
+
+msgid "Yes"
+msgstr "Oui"
+
+msgid "You have been logged out"
+msgstr "Vous vous êtes déconnecté"
+
+msgid ""
+"Your manager will review your request and approve or deny it. Until "
+"approval, you are still responsible for the shift."
+msgstr ""
+"Votre gestionnaire examinera votre demande. Il va ensuite approuver ou "
+"refuser vo. \n"
+"\n"
+"Jusqu'à l'approbation, vous êtes toujours responsable de la période de "
+"travail."
+
+msgid "iCal Sync"
+msgstr "Synchronisation iCal"
