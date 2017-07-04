@@ -81,6 +81,9 @@ define('WP_DEBUG', false);
 
 /* That's all, stop editing! Happy blogging. */
 
+/* Multisite */
+define( 'WP_ALLOW_MULTISITE', true );
+
 /** Absolute path to the WordPress directory. */
 if ( !defined('ABSPATH') )
 	define('ABSPATH', dirname(__FILE__) . '/');
