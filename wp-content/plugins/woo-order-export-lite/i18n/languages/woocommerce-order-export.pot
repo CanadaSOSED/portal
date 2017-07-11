@@ -1,0 +1,1094 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Advanced Order Export For WooCommerce (Pro) 1.2.3\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce-order-"
+"export\n"
+"POT-Creation-Date: 2017-06-02 09:40+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: woocommerce-order-export.php:44
+msgid ""
+"Please, <a href=\"plugins.php\">deactivate</a> Free version of Advanced "
+"Orders Export For WooCommerce !"
+msgstr ""
+
+#: view/tools.php:16
+msgid "Export settings"
+msgstr ""
+
+#: view/tools.php:19
+msgid ""
+"Copy these settings and use it to migrate plugin to another wordpress install"
+msgstr ""
+
+#: view/tools.php:23
+msgid "Just click inside the textarea and copy (Ctrl+C)"
+msgstr ""
+
+#: view/tools.php:32
+msgid "Import settings"
+msgstr ""
+
+#: view/tools.php:35
+msgid ""
+"Paste text into this field to import settings into the current wordpress "
+"install."
+msgstr ""
+
+#: view/tools.php:39
+msgid "This process will overwrite all your \"Advanced Order Export\" settings"
+msgstr ""
+
+#: view/settings-form.php:35 view/settings-form.php:49
+#: view/settings-form.php:84 classes/class-wc-table-schedules.php:69
+#: classes/class-wc-table-order-actions.php:65
+msgid "Title"
+msgstr ""
+
+#: view/settings-form.php:41
+msgid "Use as bulk action"
+msgstr ""
+
+#: view/settings-form.php:56 classes/class-wc-table-order-actions.php:66
+msgid "From status"
+msgstr ""
+
+#: view/settings-form.php:64 classes/class-wc-table-order-actions.php:67
+msgid "To status"
+msgstr ""
+
+#: view/settings-form.php:75 view/settings-form.php:171
+msgid "Log results"
+msgstr ""
+
+#: view/settings-form.php:75 view/settings-form.php:171
+msgid "View logs"
+msgstr ""
+
+#: view/settings-form.php:89
+msgid "Schedule"
+msgstr ""
+
+#: view/settings-form.php:95
+msgid "Sun"
+msgstr ""
+
+#: view/settings-form.php:99
+msgid "Mon"
+msgstr ""
+
+#: view/settings-form.php:103
+msgid "Tue"
+msgstr ""
+
+#: view/settings-form.php:107
+msgid "Wed"
+msgstr ""
+
+#: view/settings-form.php:111
+msgid "Thu"
+msgstr ""
+
+#: view/settings-form.php:115
+msgid "Fri"
+msgstr ""
+
+#: view/settings-form.php:119
+msgid "Sat"
+msgstr ""
+
+#: view/settings-form.php:124
+msgid "Run at"
+msgstr ""
+
+#: view/settings-form.php:149
+msgid "Choose"
+msgstr ""
+
+#: view/settings-form.php:150
+msgid "Custom"
+msgstr ""
+
+#: view/settings-form.php:159
+msgid "On the 1st day of the month"
+msgstr ""
+
+#: view/settings-form.php:160
+msgid "On the 1st day of the quarter"
+msgstr ""
+
+#: view/settings-form.php:163
+msgid "interval (min)"
+msgstr ""
+
+#: view/settings-form.php:179
+msgid "Export options"
+msgstr ""
+
+#: view/settings-form.php:183
+msgid "Since last Run"
+msgstr ""
+
+#: view/settings-form.php:188
+msgid "Today"
+msgstr ""
+
+#: view/settings-form.php:193
+msgid "Yesterday"
+msgstr ""
+
+#: view/settings-form.php:198
+msgid "Last week"
+msgstr ""
+
+#: view/settings-form.php:203
+msgid "Last month"
+msgstr ""
+
+#: view/settings-form.php:208
+msgid "Last quarter"
+msgstr ""
+
+#: view/settings-form.php:213
+msgid "This year"
+msgstr ""
+
+#: view/settings-form.php:218
+msgid "Last"
+msgstr ""
+
+#: view/settings-form.php:218
+msgid "days"
+msgstr ""
+
+#: view/settings-form.php:221
+msgid "Filter orders by"
+msgstr ""
+
+#: view/settings-form.php:225
+msgid "date created"
+msgstr ""
+
+#: view/settings-form.php:230
+msgid "date modified"
+msgstr ""
+
+#: view/settings-form.php:239
+msgid "Date range"
+msgstr ""
+
+#: view/settings-form.php:241
+msgid "to"
+msgstr ""
+
+#: view/settings-form.php:245
+msgid "Express Export"
+msgstr ""
+
+#: view/settings-form.php:252
+msgid "Export filename"
+msgstr ""
+
+#: view/settings-form.php:262 classes/class-wc-table-schedules.php:70
+#: classes/class-wc-table-profiles.php:68
+#: classes/class-wc-table-order-actions.php:68
+msgid "Format"
+msgstr ""
+
+#: view/settings-form.php:273
+msgid "XLS options"
+msgstr ""
+
+#: view/settings-form.php:279
+msgid "Export as .xls (Binary File Format)"
+msgstr ""
+
+#: view/settings-form.php:280 view/settings-form.php:290
+msgid "Output column titles as first line"
+msgstr ""
+
+#: view/settings-form.php:281
+msgid "Auto column width "
+msgstr ""
+
+#: view/settings-form.php:282 view/settings-form.php:291
+msgid "Populate other columns if products exported as rows"
+msgstr ""
+
+#: view/settings-form.php:283
+msgid "Right-to-Left direction"
+msgstr ""
+
+#: view/settings-form.php:285
+msgid "CSV options"
+msgstr ""
+
+#: view/settings-form.php:289
+msgid "Output utf-8 BOM"
+msgstr ""
+
+#: view/settings-form.php:292
+msgid "Enclosure"
+msgstr ""
+
+#: view/settings-form.php:293
+msgid "Field Delimiter"
+msgstr ""
+
+#: view/settings-form.php:294
+msgid "Line Break"
+msgstr ""
+
+#: view/settings-form.php:296
+msgid "Code Page"
+msgstr ""
+
+#: view/settings-form.php:299
+msgid "XML options"
+msgstr ""
+
+#: view/settings-form.php:300
+msgid "Prepend XML"
+msgstr ""
+
+#: view/settings-form.php:301
+msgid "Root tag"
+msgstr ""
+
+#: view/settings-form.php:302
+msgid "Order tag"
+msgstr ""
+
+#: view/settings-form.php:303
+msgid "Product tag"
+msgstr ""
+
+#: view/settings-form.php:304
+msgid "Coupon tag"
+msgstr ""
+
+#: view/settings-form.php:305
+msgid "Append XML"
+msgstr ""
+
+#: view/settings-form.php:313
+msgid "Date"
+msgstr ""
+
+#: view/settings-form.php:326 view/settings-form.php:344
+msgid "-"
+msgstr ""
+
+#: view/settings-form.php:332
+msgid "Time"
+msgstr ""
+
+#: view/settings-form.php:352
+msgid "Sort orders by \"Order Id\" in  "
+msgstr ""
+
+#: view/settings-form.php:354
+msgid "Descending"
+msgstr ""
+
+#: view/settings-form.php:355
+msgid "Ascending"
+msgstr ""
+
+#: view/settings-form.php:356
+msgid " order"
+msgstr ""
+
+#: view/settings-form.php:363 classes/class-wc-table-schedules.php:72
+#: classes/class-wc-table-order-actions.php:69
+msgid "Destination"
+msgstr ""
+
+#: view/settings-form.php:367
+msgid "EMAIL"
+msgstr ""
+
+#: view/settings-form.php:373
+msgid "FTP"
+msgstr ""
+
+#: view/settings-form.php:379
+msgid "HTTP POST"
+msgstr ""
+
+#: view/settings-form.php:385 classes/class-wc-table-schedules.php:128
+msgid "Folder"
+msgstr ""
+
+#: view/settings-form.php:390
+msgid "Email Settings"
+msgstr ""
+
+#: view/settings-form.php:393
+msgid "From Email"
+msgstr ""
+
+#: view/settings-form.php:400
+msgid "From Name"
+msgstr ""
+
+#: view/settings-form.php:407
+msgid "Recipient(s)"
+msgstr ""
+
+#: view/settings-form.php:414
+msgid "Email Subject"
+msgstr ""
+
+#: view/settings-form.php:422 view/settings-form.php:430
+msgid "Email Body"
+msgstr ""
+
+#: view/settings-form.php:423
+msgid "Edit Email Body"
+msgstr ""
+
+#: view/settings-form.php:439 view/settings-form.php:494
+#: view/settings-form.php:513 view/settings-form.php:532
+msgid "Test"
+msgstr ""
+
+#: view/settings-form.php:446
+msgid "FTP Settings"
+msgstr ""
+
+#: view/settings-form.php:449
+msgid "Server Name"
+msgstr ""
+
+#: view/settings-form.php:454
+msgid "Port"
+msgstr ""
+
+#: view/settings-form.php:462
+msgid "Username"
+msgstr ""
+
+#: view/settings-form.php:467
+msgid "Password"
+msgstr ""
+
+#: view/settings-form.php:474
+msgid "Initial path"
+msgstr ""
+
+#: view/settings-form.php:482
+msgid "Passive mode"
+msgstr ""
+
+#: view/settings-form.php:487
+msgid "Append to existing file(CURL is required!)"
+msgstr ""
+
+#: view/settings-form.php:501
+msgid "HTTP POST Settings"
+msgstr ""
+
+#: view/settings-form.php:505
+msgid "URL"
+msgstr ""
+
+#: view/settings-form.php:520
+msgid "To Folder Settings"
+msgstr ""
+
+#: view/settings-form.php:524
+msgid "Path"
+msgstr ""
+
+#: view/settings-form.php:539
+msgid "Test Results"
+msgstr ""
+
+#: view/settings-form.php:549
+msgid "Make separate file for each order"
+msgstr ""
+
+#: view/settings-form.php:559
+msgid "Filter by order"
+msgstr ""
+
+#: view/settings-form.php:562
+msgid "Don't export child orders"
+msgstr ""
+
+#: view/settings-form.php:563
+msgid "Export refunds"
+msgstr ""
+
+#: view/settings-form.php:564
+msgid "Order Statuses"
+msgstr ""
+
+#: view/settings-form.php:571
+msgid "Custom fields"
+msgstr ""
+
+#: view/settings-form.php:605
+msgid ""
+"The filters won't work correctly.<br>Another plugin(or theme) has loaded "
+"outdated Select2.js"
+msgstr ""
+
+#: view/settings-form.php:606
+msgid "Filter by product"
+msgstr ""
+
+#: view/settings-form.php:609
+msgid "Export all products from a order"
+msgstr ""
+
+#: view/settings-form.php:610
+msgid "Product categories"
+msgstr ""
+
+#: view/settings-form.php:620
+msgid "Vendor/creator"
+msgstr ""
+
+#: view/settings-form.php:633
+msgid "Product"
+msgstr ""
+
+#: view/settings-form.php:645
+msgid "Product Taxonomies"
+msgstr ""
+
+#: view/settings-form.php:664
+msgid "Product custom fields"
+msgstr ""
+
+#: view/settings-form.php:691
+msgid "Variable Product Attributes"
+msgstr ""
+
+#: view/settings-form.php:718
+msgid "Item Meta Data"
+msgstr ""
+
+#: view/settings-form.php:752
+msgid "Filter by customers"
+msgstr ""
+
+#: view/settings-form.php:755
+msgid "User roles"
+msgstr ""
+
+#: view/settings-form.php:764
+msgid "User names"
+msgstr ""
+
+#: view/settings-form.php:781
+msgid "Filter by coupons"
+msgstr ""
+
+#: view/settings-form.php:784
+msgid "Coupons"
+msgstr ""
+
+#: view/settings-form.php:800
+msgid "Filter by payment"
+msgstr ""
+
+#: view/settings-form.php:803
+msgid "Payment Methods"
+msgstr ""
+
+#: view/settings-form.php:816
+msgid "Filter by shipping"
+msgstr ""
+
+#: view/settings-form.php:819
+msgid "Shipping locations"
+msgstr ""
+
+#: view/settings-form.php:843
+msgid "Shipping methods"
+msgstr ""
+
+#: view/settings-form.php:857
+msgid "Set up fields to export "
+msgstr ""
+
+#: view/settings-form.php:863 view/modal-controls.php:3
+#: view/modal-controls.php:35
+msgid "Meta key"
+msgstr ""
+
+#: view/settings-form.php:871 view/settings-form.php:883
+#: view/modal-controls.php:19 view/modal-controls.php:25
+#: view/modal-controls.php:42 view/modal-controls.php:48
+msgid "Column Name"
+msgstr ""
+
+#: view/settings-form.php:875 view/modal-controls.php:6
+#: view/modal-controls.php:38
+msgid "Hide unused"
+msgstr ""
+
+#: view/settings-form.php:884 view/modal-controls.php:26
+#: view/modal-controls.php:49
+msgid "Value"
+msgstr ""
+
+#: view/settings-form.php:886
+msgid "Confirm"
+msgstr ""
+
+#: view/settings-form.php:887
+msgid "Cancel"
+msgstr ""
+
+#: view/settings-form.php:890
+msgid "Use sections"
+msgstr ""
+
+#: view/settings-form.php:897 classes/class-wc-table-schedules.php:76
+#: classes/class-wc-table-profiles.php:72
+#: classes/class-wc-table-order-actions.php:71
+msgid "Actions"
+msgstr ""
+
+#: view/settings-form.php:898 view/modal-controls.php:21
+#: view/modal-controls.php:44
+msgid "Add Field"
+msgstr ""
+
+#: view/settings-form.php:900 view/modal-controls.php:28
+#: view/modal-controls.php:51
+msgid "Add Static Field"
+msgstr ""
+
+#: view/settings-form.php:903
+msgid "Hide Unused"
+msgstr ""
+
+#: view/settings-form.php:904
+msgid "Show Unused"
+msgstr ""
+
+#: view/settings-form.php:912
+msgid "Select All"
+msgstr ""
+
+#: view/settings-form.php:915
+msgid "Drag rows to reorder exported fields"
+msgstr ""
+
+#: view/settings-form.php:926
+#, php-format
+msgid ""
+"If you see this message, user interface won't work correctly!<br>There is a "
+"JS error (<a target=blank href='%s'>read here</a> how to view it). Probably, "
+"it's a conflict with another plugin or active theme."
+msgstr ""
+
+#: view/settings-form.php:928
+msgid "Preview"
+msgstr ""
+
+#: view/settings-form.php:929
+msgid "Save Settings"
+msgstr ""
+
+#: view/settings-form.php:931 view/main.php:11
+#: classes/class-wc-table-schedules.php:182
+#: classes/class-wc-table-profiles.php:90
+msgid "Export"
+msgstr ""
+
+#: view/settings-form.php:932
+msgid "Export [w/o progressbar]"
+msgstr ""
+
+#: view/settings-form.php:935
+msgid "Export total: "
+msgstr ""
+
+#: view/settings-form.php:935
+msgid " orders"
+msgstr ""
+
+#: view/settings-form.php:936
+msgid "Export view"
+msgstr ""
+
+#: view/settings-form.php:944
+msgid "Press 'Esc' to cancel the export"
+msgstr ""
+
+#: view/main.php:8
+msgid "Settings saved"
+msgstr ""
+
+#: view/main.php:12
+msgid "Profiles"
+msgstr ""
+
+#: view/main.php:13
+msgid "Order Change"
+msgstr ""
+
+#: view/main.php:14
+msgid "Scheduled Exports"
+msgstr ""
+
+#: view/main.php:15
+msgid "Tools"
+msgstr ""
+
+#: view/main.php:16
+msgid "Help"
+msgstr ""
+
+#: view/order-actions.php:9 view/profiles.php:10 view/schedules.php:10
+msgid "Buy pro version"
+msgstr ""
+
+#: view/order-actions.php:9
+msgid " to get access to order actions"
+msgstr ""
+
+#: view/modal-controls.php:5 view/modal-controls.php:37
+msgid "All meta"
+msgstr ""
+
+#: view/modal-controls.php:10
+msgid "OR"
+msgstr ""
+
+#: view/modal-controls.php:11
+msgid "Taxonomy"
+msgstr ""
+
+#: view/help.php:9
+msgid "Need help ? Create ticket in"
+msgstr ""
+
+#: view/help.php:9
+msgid "helpdesk system"
+msgstr ""
+
+#: view/help.php:12
+msgid "Don't forget to attach your"
+msgstr ""
+
+#: view/help.php:12
+msgid "settings"
+msgstr ""
+
+#: view/help.php:12
+msgid "or some screenshots. It will significantly reduce reply time :)"
+msgstr ""
+
+#: view/help.php:14
+msgid "Check"
+msgstr ""
+
+#: view/help.php:14
+msgid "code snippets"
+msgstr ""
+
+#: view/help.php:14
+msgid "for popular plugins or review"
+msgstr ""
+
+#: view/help.php:14
+msgid "this page"
+msgstr ""
+
+#: view/help.php:14
+msgid "to study how to extend the plugin."
+msgstr ""
+
+#: view/profiles.php:10
+msgid " to get access to profiles"
+msgstr ""
+
+#: view/profiles.php:26
+msgid "Are you sure you want to DELETE this profile?"
+msgstr ""
+
+#: view/profiles.php:41
+msgid "Are you sure you want to CLONE this profile?"
+msgstr ""
+
+#: view/profiles.php:48
+msgid ""
+"Are you sure you want to COPY this profile and MOVE it to \"Scheduled "
+"Exports\"?"
+msgstr ""
+
+#: view/profiles.php:55
+msgid ""
+"Are you sure you want to COPY this profile and MOVE it to \"Order Change\"?"
+msgstr ""
+
+#: view/export.php:7
+msgid "Export Now"
+msgstr ""
+
+#: view/schedules.php:10
+msgid " to get access to scheduled reports"
+msgstr ""
+
+#: view/schedules.php:26
+msgid "Are you sure you want to DELETE this job?"
+msgstr ""
+
+#: view/schedules.php:41
+msgid "Are you sure you want to CLONE this job?"
+msgstr ""
+
+#: classes/class-wc-order-export-edd.php:39
+#: classes/class-wc-order-export-edd.php:39
+msgid "Advanced Order Export For WooCommerce (Pro) License"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:13
+msgid "job"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:14
+msgid "jobs"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:41
+msgid "Add Schedule"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:68
+#: classes/class-wc-table-order-actions.php:64
+msgid "Active"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:71
+msgid "Recurrence"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:73
+#: classes/class-wc-table-order-actions.php:70
+msgid "Destination Details"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:74
+msgid "Last run"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:75
+msgid "Next event"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:93
+msgid "Run "
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:96
+msgid " on "
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:99
+msgid "  at "
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:103
+msgid "Never"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:106
+msgid "First Day Every Month"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:108
+msgid "First Day Every Quarter"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:110
+#, php-format
+msgid "to run every %s minute(s)"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:125
+msgid "Ftp"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:126
+msgid "Http post"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:127
+msgid "Email"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:140
+#: classes/class-wc-table-order-actions.php:106
+msgid "Subject: "
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:141
+#: classes/class-wc-table-order-actions.php:107
+msgid "To: "
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:154
+#: classes/class-wc-table-schedules.php:167
+msgid "Inactive"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:162
+#: classes/class-wc-table-schedules.php:175
+msgid "Not installed"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:179
+#: classes/class-wc-table-profiles.php:85
+#: classes/class-wc-table-order-actions.php:118
+msgid "Edit"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:180
+#: classes/class-wc-table-profiles.php:86
+#: classes/class-wc-table-order-actions.php:119
+msgid "Copy"
+msgstr ""
+
+#: classes/class-wc-table-schedules.php:181
+#: classes/class-wc-table-profiles.php:89
+#: classes/class-wc-table-order-actions.php:120
+msgid "Delete"
+msgstr ""
+
+#: classes/class-wc-order-export-data-extractor.php:1616
+msgid "[Rest of the World] "
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:13
+msgid "profile"
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:14
+msgid "profiles"
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:41
+msgid "Add Profile"
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:69
+msgid "Profile"
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:70
+msgid "From Date"
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:71
+msgid "To Date"
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:87
+msgid "Copy to Actions"
+msgstr ""
+
+#: classes/class-wc-table-profiles.php:88
+msgid "Copy to Scheduled"
+msgstr ""
+
+#: classes/class-wc-order-export-engine.php:15
+msgid "No format selected"
+msgstr ""
+
+#: classes/class-wc-order-export-engine.php:19
+msgid "Wrong format"
+msgstr ""
+
+#: classes/class-wc-order-export-engine.php:508
+msgid "Nothing to export. Please, adjust your filters"
+msgstr ""
+
+#: classes/class-wc-table-order-actions.php:13
+msgid "action"
+msgstr ""
+
+#: classes/class-wc-table-order-actions.php:14
+msgid "actions"
+msgstr ""
+
+#: classes/class-wc-table-order-actions.php:43
+msgid "Add Action"
+msgstr ""
+
+#: classes/class-wc-table-order-actions.php:89
+msgid "Any"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:79
+msgid ""
+"Advanced Orders Export For WooCommerce  is available <a href=\"admin.php?"
+"page=wc-order-export\">on this page</a>."
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:87
+msgid "Settings"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:88
+msgid "Docs"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:89
+msgid "Support"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:110
+#: classes/class-wc-order-export-admin.php:110
+#: classes/class-wc-order-export-admin.php:112
+#: classes/class-wc-order-export-admin.php:112
+msgid "Export Orders"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:445
+msgid "Copied from \"Export Now\""
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:1076
+msgid "Can not create temporary file"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:1094
+msgid "Can not find exported file"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:1210
+#, php-format
+msgid "Order change rule # %s. Result: %s"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:1266
+#, php-format
+msgid "Scheduled job # %s. Result: %s"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:1362
+#, php-format
+msgid "Export as %s"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:1371
+#, php-format
+msgid "Export as profile '%s'"
+msgstr ""
+
+#: classes/class-wc-order-export-admin.php:1455
+msgid "Orders exported."
+msgstr ""
+
+#: classes/formats/abstract-class-woe-formatter.php:21
+msgid "can not open for output"
+msgstr ""
+
+#: classes/formats/class-woe-formatter-csv.php:93
+#: classes/formats/class-woe-formatter-xls.php:98
+msgid "<td colspan=10><b>No results</b></td>"
+msgstr ""
+
+#: classes/formats/class-woe-formatter-xls.php:62
+msgid "Orders"
+msgstr ""
+
+#: classes/exports/class-woe-export-email.php:17
+msgid "Can not rename temporary file"
+msgstr ""
+
+#: classes/exports/class-woe-export-email.php:27
+msgid "Please, review the attachment"
+msgstr ""
+
+#: classes/exports/class-woe-export-email.php:63
+#, php-format
+msgid "We have sent file '%s' to '%s'"
+msgstr ""
+
+#: classes/exports/class-woe-export-folder.php:16
+#, php-format
+msgid "Can't create folder '%s'. Check premissions."
+msgstr ""
+
+#: classes/exports/class-woe-export-folder.php:20
+#, php-format
+msgid "Folder '%s' is not writable. Check premissions."
+msgstr ""
+
+#: classes/exports/class-woe-export-folder.php:24
+#, php-format
+msgid "Can't export file to '%s'. Check premissions."
+msgstr ""
+
+#: classes/exports/class-woe-export-folder.php:27
+#, php-format
+msgid "We have created file '%s' in folder '%s'"
+msgstr ""
+
+#: classes/exports/class-woe-export-ftp.php:20
+#, php-format
+msgid "Can not connect to %s using port %s"
+msgstr ""
+
+#: classes/exports/class-woe-export-ftp.php:26
+#, php-format
+msgid "Can not login to FTP as user '%s' using password '%s'"
+msgstr ""
+
+#: classes/exports/class-woe-export-ftp.php:32
+msgid "Can not switch to Passive Mode"
+msgstr ""
+
+#: classes/exports/class-woe-export-ftp.php:40
+#, php-format
+msgid "Can not change FTP directory to '%s'"
+msgstr ""
+
+#: classes/exports/class-woe-export-ftp.php:52
+#, php-format
+msgid "Can not download file '%s'"
+msgstr ""
+
+#: classes/exports/class-woe-export-ftp.php:63
+#, php-format
+msgid "Can not upload file '%s'"
+msgstr ""
+
+#: classes/exports/class-woe-export-ftp.php:68
+#, php-format
+msgid "We have uploaded file '%s' to '%s'"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Advanced Order Export For WooCommerce (Pro)"
+msgstr ""
+
+#. Description of the plugin
+msgid "Export WooCommerce orders with ease ( Excel/CSV/XML/Json supported )"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "AlgolPlus"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://algolplus.com/"
+msgstr ""
