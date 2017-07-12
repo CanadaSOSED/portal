@@ -262,7 +262,7 @@ input.date{
 
 .xml-title{
     display: inline-block;
-    width: 75px;
+    width: 125px;
 }
 
 .my-block{
@@ -306,7 +306,7 @@ input.date{
     margin-left: 10px !important;
 }
 
-#add_attributes,#add_locations,#add_custom_fields,#add_product_custom_fields{
+#add_attributes,#add_taxonomies,#add_shipping_locations,#add_billing_locations,#add_custom_fields,#add_product_custom_fields{
     font-size: large;
 }
 
@@ -314,7 +314,7 @@ input.date{
     margin-bottom: 5px;
 }
 
-#select_attributes, #text_locations,#select_custom_fields,#select_product_custom_fields, #select_itemmeta{
+#select_attributes,#select_taxonomies,#text_shipping_locations,#text_billing_locations,#select_custom_fields,#select_product_custom_fields, #select_itemmeta{
     width: 120px;
 }
 .dashicons{

@@ -14,7 +14,10 @@ class WOE_Formatter_Xls extends WOE_Formatter {
 	public function __construct( $mode, $filename, $settings, $format, $labels ) {
 		parent::__construct( $mode, $filename, $settings, $format, $labels );
 
+
 		if ( $mode != 'preview' ) {
+			//try speedup and reduce memory usage, it works only if sqlite3 was installed 
+			PHPExcel_Settings::setCacheStorageMethod( PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3 );
 			//fallback to PCLZip
 			if( !class_exists('ZipArchive') )
 				PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
@@ -32,6 +35,13 @@ class WOE_Formatter_Xls extends WOE_Formatter {
 			//fix bug,  row=1  if we have 0 records
 			if( $this->last_row == 1  AND $this->objPHPExcel->getActiveSheet()->getHighestColumn() == "A" )
 				$this->last_row = 0;
+			// String format for cells
+			$this->string_format_force = apply_filters( 'woe_xls_string_format_force', false );
+			$this->string_format_fields = apply_filters( 'woe_xls_string_format_fields', array(
+				'customer_note',
+				'order_notes',
+				'billing_phone'
+			) );
 		}
 	}
 
@@ -84,8 +94,14 @@ class WOE_Formatter_Xls extends WOE_Formatter {
 			$this->rows[] = $rec;
 		} else {
 			$this->last_row ++;
-			foreach ( array_values( $rec ) as $pos => $text ) {
-				$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
+			$pos = 0;
+			foreach ( $rec as $field => $text ) {
+				if( $this->string_format_force OR in_array("$field", $this->string_format_fields) ) {
+					$this->objPHPExcel->getActiveSheet()->setCellValueExplicitByColumnAndRow( $pos, $this->last_row, $text );
+				} else {
+					$this->objPHPExcel->getActiveSheet()->setCellValueByColumnAndRow( $pos, $this->last_row, $text );
+				}
+				$pos++;
 			}
 		}
 	}
@@ -135,4 +151,5 @@ class WOE_Formatter_Xls extends WOE_Formatter {
 		$this->objPHPExcel->createSheet();
 		$this->last_row = 0;
 	}
+
 }

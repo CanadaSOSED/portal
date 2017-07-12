@@ -67,8 +67,9 @@ function bind_events() {
             jQuery( "#text_custom_fields" ).css( 'display', 'none' ).attr( 'disabled', 'disabled' );
         }
     });
-	//end of change 
-	
+	//end of change
+
+    //PRODUCT ATTRIBUTES BEGIN
     jQuery( '#attributes' ).change( function() {
 
         jQuery( '#select_attributes' ).attr( 'disabled', 'disabled' );
@@ -135,6 +136,7 @@ function bind_events() {
             jQuery( "#text_attributes" ).css( 'display', 'none' ).attr( 'disabled', 'disabled' );
         }
     });
+    //PRODUCT ATTRIBUTES END
 
     jQuery( '#itemmeta' ).change( function() {
 
@@ -202,13 +204,39 @@ function bind_events() {
             jQuery( "#text_itemmeta" ).css( 'display', 'none' ).attr( 'disabled', 'disabled' );
         }
     });
-    
+
+    //PRODUCT TAXONOMIES BEGIN
+    jQuery( '#taxonomies' ).change( function() {
+
+        jQuery( '#select_taxonomies' ).attr( 'disabled', 'disabled' );
+        var data = {
+            'tax': jQuery( this ).val(),
+            method: "get_products_taxonomies_values",
+            action: "order_exporter"
+        };
+
+        jQuery.post( ajaxurl, data, function( response ) {
+            jQuery( '#select_taxonomies' ).remove();
+            if ( response ) {
+                var options = '';
+                jQuery.each( response, function( index, value ) {
+                    options += '<option>' + value + '</option>';
+                } );
+                jQuery( '<select id="select_taxonomies" style="margin-top: 0px;margin-right: 6px;">' + options + '</select>' ).insertBefore( jQuery( '#add_taxonomies' ) );
+            }
+            else {
+                jQuery( '<input type="text" id="select_taxonomies" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_taxonomies' ) );
+            }
+        }, 'json' );
+    } );
+
     jQuery( '#add_taxonomies' ).click( function() {
 
-        var val = jQuery( "#text_taxonomies" ).val();
+        var val = !jQuery( "#select_taxonomies" ).is(':disabled') ? jQuery( "#select_taxonomies" ).val() : jQuery( "#text_taxonomies" ).val();
         var val2 = jQuery( '#taxonomies' ).val();
+        var val_op = jQuery( '#taxonomies_compare' ).val();
         if ( val != null && val2 != null && val.length && val2.length ) {
-            val = val2 + '=' + val;
+            val = val2 + ' ' + val_op + ' ' + val;
 
             var f = true;
             jQuery( '#taxonomies_check' ).next().find( 'ul li' ).each( function() {
@@ -226,15 +254,26 @@ function bind_events() {
                     jQuery( '#taxonomies_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
                 } );
 
-                jQuery( "#text_taxonomies" ).val( '' );
+                jQuery( "input#select_taxonomies" ).val( '' );
             }
         }
 
         return false;
     } );
-	
-	
-	
+
+    jQuery( '#taxonomies_compare').change(function() {
+        var val_op = jQuery( '#taxonomies_compare' ).val();
+        if ( 'LIKE' === val_op ) {
+            jQuery( "#select_taxonomies" ).css( 'display', 'none' ).attr( 'disabled', 'disabled' );
+            jQuery( "#text_taxonomies" ).css('display', 'inline' ).attr( 'disabled', false );
+        }
+        else {
+            jQuery( "#select_taxonomies" ).css( 'display', 'inline-block' ).attr( 'disabled', false );
+            jQuery( "#text_taxonomies" ).css( 'display', 'none' ).attr( 'disabled', 'disabled' );
+        }
+    });
+    //PRODUCT TAXONOMIES END
+
 	// for filter by PRODUCT custom fields
     jQuery( '#product_custom_fields' ).change( function() {
 
@@ -445,9 +484,10 @@ function bind_events() {
 
 /////////////END CUSTOM FIELDS BINDS
 
+    // SHIPPING LOCATIONS
     jQuery( '#shipping_locations' ).change( function() {
 
-        jQuery( '#text_locations' ).attr( 'disabled', 'disabled' );
+        jQuery( '#text_shipping_locations' ).attr( 'disabled', 'disabled' );
         var data = {
             'item': jQuery( this ).val(),
             method: "get_products_shipping_values",
@@ -455,30 +495,30 @@ function bind_events() {
         };
 
         jQuery.post( ajaxurl, data, function( response ) {
-            jQuery( '#text_locations' ).remove();
+            jQuery( '#text_shipping_locations' ).remove();
             if ( response ) {
                 var options = '';
                 jQuery.each( response, function( index, value ) {
                     options += '<option>' + value + '</option>';
                 } );
-                jQuery( '<select id="text_locations" style="margin-top: 0px;margin-right: 6px;">' + options + '</select>' ).insertBefore( jQuery( '#add_locations' ) );
+                jQuery( '<select id="text_shipping_locations" style="margin-top: 0px;margin-right: 6px;">' + options + '</select>' ).insertBefore( jQuery( '#add_shipping_locations' ) );
             }
             else {
-                jQuery( '<input type="text" id="text_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_locations' ) );
+                jQuery( '<input type="text" id="text_shipping_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_shipping_locations' ) );
             }
         }, 'json' );
     } );
 
-    jQuery( '#add_locations' ).click( function() {
+    jQuery( '#add_shipping_locations' ).click( function() {
 
-        var val = jQuery( "#text_locations" ).val();
+        var val = jQuery( "#text_shipping_locations" ).val();
         var val2 = jQuery( '#shipping_locations' ).val();
         var val_op = jQuery( '#shipping_compare' ).val();
         if ( val != null && val2 != null && val.length && val2.length ) {
             val = val2 + val_op + val;
 
             var f = true;
-            jQuery( '#locations_check' ).next().find( 'ul li' ).each( function() {
+            jQuery( '#shipping_locations_check' ).next().find( 'ul li' ).each( function() {
                 if ( jQuery( this ).attr( 'title' ) == val ) {
                     f = false;
                 }
@@ -486,18 +526,73 @@ function bind_events() {
 
             if ( f ) {
 
-                jQuery( '#locations_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
-                jQuery( '#locations_check' ).select2();
+                jQuery( '#shipping_locations_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
+                jQuery( '#shipping_locations_check' ).select2();
 
-                jQuery( '#locations_check option' ).each( function() {
-                    jQuery( '#locations_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
+                jQuery( '#shipping_locations_check option' ).each( function() {
+                    jQuery( '#shipping_locations_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
                 } );
 
-                jQuery( "input#text_locations" ).val( '' );
+                jQuery( "input#text_shipping_locations" ).val( '' );
             }
         }
         return false;
     } );
+
+    // BILLING LOCATIONS
+    jQuery( '#billing_locations' ).change( function() {
+
+        jQuery( '#text_billing_locations' ).attr( 'disabled', 'disabled' );
+        var data = {
+            'item': jQuery( this ).val(),
+            method: "get_products_billing_values",
+            action: "order_exporter"
+        };
+
+        jQuery.post( ajaxurl, data, function( response ) {
+            jQuery( '#text_billing_locations' ).remove();
+            if ( response ) {
+                var options = '';
+                jQuery.each( response, function( index, value ) {
+                    options += '<option>' + value + '</option>';
+                } );
+                jQuery( '<select id="text_billing_locations" style="margin-top: 0px;margin-right: 6px;">' + options + '</select>' ).insertBefore( jQuery( '#add_billing_locations' ) );
+            }
+            else {
+                jQuery( '<input type="text" id="text_billing_locations" style="margin-right: 8px;">' ).insertBefore( jQuery( '#add_billing_locations' ) );
+            }
+        }, 'json' );
+    } );
+
+    jQuery( '#add_billing_locations' ).click( function() {
+
+        var val = jQuery( "#text_billing_locations" ).val();
+        var val2 = jQuery( '#billing_locations' ).val();
+        var val_op = jQuery( '#billing_compare' ).val();
+        if ( val != null && val2 != null && val.length && val2.length ) {
+            val = val2 + val_op + val;
+
+            var f = true;
+            jQuery( '#billing_locations_check' ).next().find( 'ul li' ).each( function() {
+                if ( jQuery( this ).attr( 'title' ) == val ) {
+                    f = false;
+                }
+            } );
+
+            if ( f ) {
+
+                jQuery( '#billing_locations_check' ).append( '<option selected="selected" value="' + val + '">' + val + '</option>' );
+                jQuery( '#billing_locations_check' ).select2();
+
+                jQuery( '#billing_locations_check option' ).each( function() {
+                    jQuery( '#billing_locations_check option[value=\"' + jQuery( this ).val() + '\"]:not(:last)' ).remove();
+                } );
+
+                jQuery( "input#text_billing_locations" ).val( '' );
+            }
+        }
+        return false;
+    } )
 }
 
 function add_bind_for_custom_fields( prefix, output_format, $to ) {
@@ -656,7 +751,12 @@ function select2_inits()
     jQuery( "#shipping_locations" ).select2( {
         width: 150
     } );
-    jQuery( "#locations_check" ).select2();
+    jQuery( "#shipping_locations_check" ).select2();
+
+    jQuery( "#billing_locations" ).select2( {
+        width: 150
+    } );
+    jQuery( "#billing_locations_check" ).select2();
 
 
 

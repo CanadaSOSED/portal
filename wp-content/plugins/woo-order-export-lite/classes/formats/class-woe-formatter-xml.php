@@ -64,7 +64,8 @@ class WOE_Formatter_Xml extends WOE_Formatter {
 		//format it!
 		$dom                              = dom_import_simplexml( $xml );
 		$dom->ownerDocument->formatOutput = ( $this->mode == 'preview' );
-		$xml                              = $dom->ownerDocument->saveXML( $dom->ownerDocument->documentElement );
+		$output_flags  = !empty($this->settings['self_closing_tags']) ? NULL : LIBXML_NOEMPTYTAG;
+		$xml                              = $dom->ownerDocument->saveXML( $dom->ownerDocument->documentElement, $output_flags );
 
 		if ( $this->has_output_filter ) {
 			$xml = apply_filters( "woe_xml_output_filter", $xml, $rec );
