@@ -1,0 +1,3 @@
+[submodule "wp-content/themes"]
+	path = wp-content/themes
+	url = https://github.com/briancaicco/themes.git
