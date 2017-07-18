@@ -66,7 +66,7 @@
 				'label'          => __( 'Product Status', 'woocommerce' ),
 				'options'        => wc_get_product_stock_status_options(),
 				'desc_tip'       => true,
-				'description'    => __( 'Controls whether product is still "for sale" or "out of stock".', 'woocommerce' ),
+				'description'    => __( 'Controls whether product is still "For Sale" or "No Longer Available".', 'woocommerce' ),
 			) );
 
 			do_action( 'woocommerce_product_options_stock_status' );
