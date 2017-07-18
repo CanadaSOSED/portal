@@ -77,12 +77,12 @@ class WC_Meta_Box_Product_Data {
 	private static function get_product_data_tabs() {
 		return apply_filters( 'woocommerce_product_data_tabs', array(
 			'general' => array(
-				'label'  => __( 'General', 'woocommerce' ),
+				'label'  => __( 'Pricing', 'woocommerce' ),
 				'target' => 'general_product_data',
 				'class'  => array( 'hide_if_grouped' ),
 			),
 			'inventory' => array(
-				'label'  => __( 'Inventory', 'woocommerce' ),
+				'label'  => __( 'Logistics', 'woocommerce' ),
 				'target' => 'inventory_product_data',
 				'class'  => array( 'show_if_simple', 'show_if_variable', 'show_if_grouped', 'show_if_external' ),
 			)
