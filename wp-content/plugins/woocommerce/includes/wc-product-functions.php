@@ -525,10 +525,12 @@ add_action( 'template_redirect', 'wc_track_product_view', 20 );
  */
 function wc_get_product_types() {
 	return (array) apply_filters( 'product_type_selector', array(
-		'simple'   => __( 'Simple product', 'woocommerce' ),
-		'grouped'  => __( 'Grouped product', 'woocommerce' ),
+		'simple'   => __( 'EA/DEA/Take-Home', 'woocommerce' )
+
+		// --- COMMENTED OUT ALL OTHER OPTIONS - Ryan Woo
+		/* 'grouped'  => __( 'Grouped product', 'woocommerce' ),
 		'external' => __( 'External/Affiliate product', 'woocommerce' ),
-		'variable' => __( 'Variable product', 'woocommerce' ),
+		'variable' => __( 'Variable product', 'woocommerce' ), */
 	) );
 }
 
@@ -811,8 +813,8 @@ function wc_get_product_tax_class_options() {
  */
 function wc_get_product_stock_status_options() {
 	return array(
-		'instock'    => __( 'In stock', 'woocommerce' ),
-		'outofstock' => __( 'Out of stock', 'woocommerce' ),
+		'instock'    => __( 'For Sale', 'woocommerce' ),
+		'outofstock' => __( 'No Longer Available', 'woocommerce' ),
 	);
 }
 

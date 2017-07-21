@@ -77,40 +77,15 @@ class WC_Meta_Box_Product_Data {
 	private static function get_product_data_tabs() {
 		return apply_filters( 'woocommerce_product_data_tabs', array(
 			'general' => array(
-				'label'  => __( 'General', 'woocommerce' ),
+				'label'  => __( 'Pricing', 'woocommerce' ),
 				'target' => 'general_product_data',
 				'class'  => array( 'hide_if_grouped' ),
 			),
 			'inventory' => array(
-				'label'  => __( 'Inventory', 'woocommerce' ),
+				'label'  => __( 'Logistics', 'woocommerce' ),
 				'target' => 'inventory_product_data',
 				'class'  => array( 'show_if_simple', 'show_if_variable', 'show_if_grouped', 'show_if_external' ),
-			),
-			'shipping' => array(
-				'label'  => __( 'Shipping', 'woocommerce' ),
-				'target' => 'shipping_product_data',
-				'class'  => array( 'hide_if_virtual', 'hide_if_grouped', 'hide_if_external' ),
-			),
-			'linked_product' => array(
-				'label'  => __( 'Linked Products', 'woocommerce' ),
-				'target' => 'linked_product_data',
-				'class'  => array(),
-			),
-			'attribute' => array(
-				'label'  => __( 'Attributes', 'woocommerce' ),
-				'target' => 'product_attributes',
-				'class'  => array(),
-			),
-			'variations' => array(
-				'label'  => __( 'Variations', 'woocommerce' ),
-				'target' => 'variable_product_options',
-				'class'  => array( 'variations_tab', 'show_if_variable' ),
-			),
-			'advanced' => array(
-				'label'  => __( 'Advanced', 'woocommerce' ),
-				'target' => 'advanced_product_data',
-				'class'  => array(),
-			),
+			)
 		) );
 	}
 
