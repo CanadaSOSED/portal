@@ -6,7 +6,7 @@
 			/* --- COMMENTED OUT SKU OPTION - Ryan Woo --- */
 			/* if ( wc_product_sku_enabled() ) {
 				woocommerce_wp_text_input( array(
-					'id'          => '_sku',
+						'id'          => '_sku`',`
 					'value'       => $product_object->get_sku( 'edit' ),
 					'label'       => '<abbr title="' . __( 'Stock Keeping Unit', 'woocommerce' ) . '">' . __( 'SKU', 'woocommerce' ) . '</abbr>',
 					'desc_tip'    => true,
