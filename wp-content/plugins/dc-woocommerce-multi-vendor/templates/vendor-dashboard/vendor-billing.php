@@ -17,7 +17,7 @@ global $WCMp;
     <div class="wcmp_form1">    	
         <?php
         $payment_admin_settings = get_option('wcmp_payment_settings_name');
-            $payment_mode = array();
+            $payment_mode = array('' => __('Payment Mode', 'dc-woocommerce-multi-vendor'));
             if (isset($payment_admin_settings['payment_method_paypal_masspay']) && $payment_admin_settings['payment_method_paypal_masspay'] = 'Enable') {
                 $payment_mode['paypal_masspay'] = __('PayPal Masspay', 'dc-woocommerce-multi-vendor');
             }

@@ -20,7 +20,7 @@ global  $WCMp;
 
 <?php do_action( 'woocommerce_email_before_order_table', $order, true ); ?>
 
-<h2><?php printf( __( 'Order: %s',  'dc-woocommerce-multi-vendor' ), $order->get_order_number() ); ?> (<?php printf( '<time datetime="%s">%s</time>', date_i18n( 'c', strtotime( $order->get_date_created() ) ), date_i18n( woocommerce_date_format(), strtotime( $order->get_date_created() ) ) ); ?>)</h2>
+<h2><?php printf( __( 'Order: %s',  'dc-woocommerce-multi-vendor' ), $order->get_order_number() ); ?> (<?php printf( '<time datetime="%s">%s</time>', date_i18n( 'c', strtotime( $order->get_date_created() ) ), date_i18n( wc_date_format(), strtotime( $order->get_date_created() ) ) ); ?>)</h2>
 
 <table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #eee;" border="1" bordercolor="#eee">
 	<thead>
@@ -45,8 +45,8 @@ global  $WCMp;
 			foreach ( $totals as $total ) {
 				$i++;
 				?><tr>
-					<th scope="row" colspan="2" style="text-align:left; border: 1px solid #eee; <?php if ( $i == 1 ) echo 'border-top-width: 4px;'; ?>"><?php echo $total['label']; ?></th>
-					<td style="text-align:left; border: 1px solid #eee; <?php if ( $i == 1 ) echo 'border-top-width: 4px;'; ?>"><?php echo $total['value']; ?></td>
+					<th scope="row" colspan="2" style="text-align:left; border: 1px solid #eee; <?php if ( $i == 1 ) echo 'border-top-width: 1px;'; ?>"><?php echo $total['label']; ?></th>
+					<td style="text-align:left; border: 1px solid #eee; <?php if ( $i == 1 ) echo 'border-top-width: 1px;'; ?>"><?php echo $total['value']; ?></td>
 				</tr><?php
 			}
 		}
@@ -71,4 +71,4 @@ global  $WCMp;
 
 <?php wc_get_template( 'emails/email-addresses.php', array( 'order' => $order ) ); ?>
 
-<?php do_action( 'woocommerce_email_footer' ); ?>
+<?php do_action( 'wcmp_email_footer' ); ?>

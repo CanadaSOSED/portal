@@ -54,23 +54,23 @@ Class WCMp_Admin_Dashboard {
                 $vendor = get_wcmp_vendor(get_current_user_id());
                 $commissions = $_POST['commissions'];
                 $payment_method = get_user_meta($vendor->id, '_vendor_payment_mode', true);
-                if($payment_method){
-                    if(array_key_exists($payment_method, $WCMp->payment_gateway->payment_gateways)){
+                if ($payment_method) {
+                    if (array_key_exists($payment_method, $WCMp->payment_gateway->payment_gateways)) {
                         $response = $WCMp->payment_gateway->payment_gateways[$payment_method]->process_payment($vendor, $commissions, 'manual');
-                        if($response){
-                            if(isset($response['transaction_id'])){
+                        if ($response) {
+                            if (isset($response['transaction_id'])) {
                                 $redirect_url = wcmp_get_vendor_dashboard_endpoint_url(get_wcmp_vendor_settings('wcmp_vendor_withdrawal_endpoint', 'vendor', 'general', 'vendor-withdrawal'), $response['transaction_id']);
                                 wp_safe_redirect($redirect_url);
                                 exit;
-                            } else{
-                                foreach ($response as $message){
+                            } else {
+                                foreach ($response as $message) {
                                     wc_add_notice($message['message'], $message['type']);
                                 }
                             }
-                        } else{
+                        } else {
                             wc_add_notice(__('Something went wrong please try again later', 'dc-woocommerce-multi-vendor'), 'error');
                         }
-                    } else{
+                    } else {
                         wc_add_notice(__('Invalid payment method', 'dc-woocommerce-multi-vendor'), 'error');
                     }
                 } else {
@@ -129,14 +129,14 @@ Class WCMp_Admin_Dashboard {
                                 $transaction_mode = __('PayPal', 'dc-woocommerce-multi-vendor');
                             } else if ($mode == 'direct_bank') {
                                 $transaction_mode = __('Direct Bank Transfer', 'dc-woocommerce-multi-vendor');
-                            } else{
+                            } else {
                                 $transaction_mode = $mode;
                             }
 
                             $order_datas[] = array(
                                 'date' => get_the_date('d-m-Y', $transaction_id),
                                 'trans_id' => '#' . $transaction_id,
-                                'order_ids' => '#'.  implode(', #', $commission_details),
+                                'order_ids' => '#' . implode(', #', $commission_details),
                                 'mode' => $transaction_mode,
                                 'commission' => $transaction_commission,
                                 'fee' => $transfer_charge,
@@ -384,11 +384,8 @@ Class WCMp_Admin_Dashboard {
             }
 
             $shipping_page = apply_filters('wcmp_vendor_view_shipping_page', true);
-            if ($WCMp->vendor_caps->vendor_payment_settings('give_shipping') && $shipping_page) {
-                $give_shipping_override = get_user_meta($user->ID, '_vendor_give_shipping', true);
-                if (!$give_shipping_override) {
-                    add_menu_page(__('Shipping', 'dc-woocommerce-multi-vendor'), __('Shipping', 'dc-woocommerce-multi-vendor'), 'read', 'dc-vendor-shipping', array($this, 'shipping_page'));
-                }
+            if ($vendor->is_shipping_enable() && $shipping_page) {
+                add_menu_page(__('Shipping', 'dc-woocommerce-multi-vendor'), __('Shipping', 'dc-woocommerce-multi-vendor'), 'read', 'dc-vendor-shipping', array($this, 'shipping_page'));
             }
         }
     }
@@ -468,7 +465,7 @@ Class WCMp_Admin_Dashboard {
                                         ?>
                                         <tr>
                                             <td>
-                                                <label><?php echo $instance_field['title']; ?></label>
+                                                <label><?php echo $instance_field['title'] . ' - ' . $raw_method->title; ?></label>
                                             </td>
                                             <td>
                                                 <input name="vendor_shipping_data[<?php echo $option_name; ?>]" type="text" value='<?php echo $instance_settings; ?>' placeholder="<?php echo $instance_field['placeholder']; ?>" />

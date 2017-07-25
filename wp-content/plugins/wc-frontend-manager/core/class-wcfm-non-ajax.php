@@ -50,7 +50,7 @@ class WCFM_Non_Ajax {
 		$top_sellers = $wpdb->get_results( implode( ' ', apply_filters( 'woocommerce_dashboard_status_widget_top_seller_query', $query ) ) );
 		$top_sellers_array = '';
 		//$colors_arr = array( '#00A36A', '#005CDE', '#7D0096', '#992B00', '#DE000F', '#ED7B00' );
-		$colors_arr = array( '#00897b', '#D15600', '#356AA0', '#C79810', '#B02B2C', '#D01F3C' );
+		$colors_arr = apply_filters( 'wcfm_sales_by_product_pie_chart_colors', array( '#00897b', '#D15600', '#356AA0', '#C79810', '#B02B2C', '#D01F3C' ) );
 		$top_seller_pro = '';
 		if( !empty($top_sellers) ) {
 			foreach( $top_sellers as $index => $top_seller ) {
@@ -119,8 +119,9 @@ class WCFM_Non_Ajax {
 		global $WCFM;
 		if ( $WCFM->plugin_base_name == $file ) {
 			$row_meta = array(
-				'docs'    => '<a href="' . esc_url( apply_filters( 'wcfm_docs_url', 'http://wclovers.com/documentation/' ) ) . '" aria-label="' . esc_attr__( 'View WCFM documentation', 'wc-frontend-manager' ) . '">' . esc_html__( 'Documentation', 'wc-frontend-manager' ) . '</a>',
-				'support' => '<a href="' . esc_url( apply_filters( 'wcfm_support_url', 'http://wclovers.com/forums' ) ) . '" aria-label="' . esc_attr__( 'Visit premium customer support', 'woocommerce' ) . '">' . esc_html__( 'Support', 'woocommerce' ) . '</a>',
+				'docs'      => '<a href="' . esc_url( apply_filters( 'wcfm_docs_url', 'http://wclovers.com/documentation/' ) ) . '" aria-label="' . esc_attr__( 'View WCFM documentation', 'wc-frontend-manager' ) . '">' . esc_html__( 'Documentation', 'wc-frontend-manager' ) . '</a>',
+				//'guide'     => '<a href="' . esc_url( apply_filters( 'wcfm_guide_url', 'http://wclovers.com/documentation/developers-guide/' ) ) . '" aria-label="' . esc_attr__( 'View WCFM Developer Guide', 'wc-frontend-manager' ) . '">' . esc_html__( 'Developer Guide', 'wc-frontend-manager' ) . '</a>',
+				'support'   => '<a href="' . esc_url( apply_filters( 'wcfm_support_url', 'http://wclovers.com/forums' ) ) . '" aria-label="' . esc_attr__( 'Visit premium customer support', 'woocommerce' ) . '">' . esc_html__( 'Support', 'woocommerce' ) . '</a>',
 				'contactus' => '<a href="' . esc_url( apply_filters( 'wcfm_contactus_url', 'http://wclovers.com/contact-us/' ) ) . '" aria-label="' . esc_attr__( 'Any WC help feel free to contact us', 'wc-frontend-manager' ) . '">' . esc_html__( 'Contact US', 'wc-frontend-manager' ) . '</a>'
 			);
 			

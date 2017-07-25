@@ -55,7 +55,7 @@ abstract class WCMp_Payment_Gateway {
                 $transaction_total += (float) $commission_amount['total'];
             }
         }
-        return apply_filters('wcmp_commission_transaction_amount', $transaction_total, $this->vendor->id);
+        return apply_filters('wcmp_commission_transaction_amount', $transaction_total, $this->vendor->id, $this->commissions,$this->payment_gateway);
     }
 
     public function transfer_charge() {
@@ -67,7 +67,7 @@ abstract class WCMp_Payment_Gateway {
                 $transfer_charge = (float) get_wcmp_vendor_settings('commission_transfer', 'payment', '', 0);
             }
         }
-        return apply_filters('wcmp_commission_transfer_charge_amount', $transfer_charge, $this->payment_gateway, $this->vendor, $this->commissions);
+        return apply_filters('wcmp_commission_transfer_charge_amount', $transfer_charge, $this->get_transaction_total(), $this->vendor, $this->commissions, $this->payment_gateway);
     }
 
     public function gateway_charge() {
@@ -86,7 +86,7 @@ abstract class WCMp_Payment_Gateway {
                 $gateway_charge = 0;
                 break;
         }
-        return apply_filters('wcmp_commission_gateway_charge_amount', $gateway_charge, $this->payment_gateway, $this->vendor, $this->commissions);
+        return apply_filters('wcmp_commission_gateway_charge_amount', $gateway_charge, $this->get_transaction_total(), $this->vendor, $this->commissions, $this->payment_gateway);
     }
 
     public function update_meta_data($commission_status = 'wcmp_processing') {

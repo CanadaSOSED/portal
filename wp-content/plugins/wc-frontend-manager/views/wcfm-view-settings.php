@@ -19,6 +19,7 @@ if( !current_user_can( 'manage_options' ) ) {
 $wcfm_options = (array) get_option( 'wcfm_options' );
 
 $is_menu_disabled = isset( $wcfm_options['menu_disabled'] ) ? $wcfm_options['menu_disabled'] : 'no';
+$is_headpanel_disabled = isset( $wcfm_options['headpanel_disabled'] ) ? $wcfm_options['headpanel_disabled'] : 'no';
 $ultimate_notice_disabled = isset( $wcfm_options['ultimate_notice_disabled'] ) ? $wcfm_options['ultimate_notice_disabled'] : 'no';
 $noloader = isset( $wcfm_options['noloader'] ) ? $wcfm_options['noloader'] : 'no';
 $logo = ! empty( get_option( 'wcfm_site_logo' ) ) ? get_option( 'wcfm_site_logo' ) : '';
@@ -28,7 +29,7 @@ if ( !empty( $logo_image_url ) ) {
 	$logo_image_url = $logo_image_url[0];
 }
 
-$wcfm_capability_options = (array) get_option( 'wcfm_capability_options' );
+$wcfm_capability_options = apply_filters( 'wcfm_capability_options', (array) get_option( 'wcfm_capability_options' ) );
 
 // Product Capabilities
 $submit_products = ( isset( $wcfm_capability_options['submit_products'] ) ) ? $wcfm_capability_options['submit_products'] : 'no';
@@ -40,15 +41,6 @@ $simple = ( isset( $wcfm_capability_options['simple'] ) ) ? $wcfm_capability_opt
 $variable = ( isset( $wcfm_capability_options['variable'] ) ) ? $wcfm_capability_options['variable'] : 'no';
 $grouped = ( isset( $wcfm_capability_options['grouped'] ) ) ? $wcfm_capability_options['grouped'] : 'no';
 $external = ( isset( $wcfm_capability_options['external'] ) ) ? $wcfm_capability_options['external'] : 'no';
-$virtual = ( isset( $wcfm_capability_options['virtual'] ) ) ? $wcfm_capability_options['virtual'] : 'no';
-$downloadable = ( isset( $wcfm_capability_options['downloadable'] ) ) ? $wcfm_capability_options['downloadable'] : 'no';
-$booking = ( isset( $wcfm_capability_options['booking'] ) ) ? $wcfm_capability_options['booking'] : 'no';
-$job_package = ( isset( $wcfm_capability_options['job_package'] ) ) ? $wcfm_capability_options['job_package'] : 'no';
-$resume_package = ( isset( $wcfm_capability_options['resume_package'] ) ) ? $wcfm_capability_options['resume_package'] : 'no';
-$auction = ( isset( $wcfm_capability_options['auction'] ) ) ? $wcfm_capability_options['auction'] : 'no';
-$rental = ( isset( $wcfm_capability_options['rental'] ) ) ? $wcfm_capability_options['rental'] : 'no';
-$subscription = ( isset( $wcfm_capability_options['subscription'] ) ) ? $wcfm_capability_options['subscription'] : 'no';
-$variable_subscription = ( isset( $wcfm_capability_options['variable-subscription'] ) ) ? $wcfm_capability_options['variable-subscription'] : 'no';
 
 $inventory = ( isset( $wcfm_capability_options['inventory'] ) ) ? $wcfm_capability_options['inventory'] : 'no';
 $shipping = ( isset( $wcfm_capability_options['shipping'] ) ) ? $wcfm_capability_options['shipping'] : 'no';
@@ -59,6 +51,7 @@ $advanced = ( isset( $wcfm_capability_options['advanced'] ) ) ? $wcfm_capability
 
 // Miscellaneous Capabilities
 $manage_booking = ( isset( $wcfm_capability_options['manage_booking'] ) ) ? $wcfm_capability_options['manage_booking'] : 'no';
+$manage_appointment = ( isset( $wcfm_capability_options['manage_appointment'] ) ) ? $wcfm_capability_options['manage_appointment'] : 'no';
 $manage_subscription = ( isset( $wcfm_capability_options['manage_subscription'] ) ) ? $wcfm_capability_options['manage_subscription'] : 'no';
 $associate_listings = ( isset( $wcfm_capability_options['associate_listings'] ) ) ? $wcfm_capability_options['associate_listings'] : 'no';
 
@@ -69,9 +62,11 @@ $delete_coupons = ( isset( $wcfm_capability_options['delete_coupons'] ) ) ? $wcf
 
 $view_orders  = ( isset( $wcfm_capability_options['view_orders'] ) ) ? $wcfm_capability_options['view_orders'] : 'no';
 $view_order_details = ( isset( $wcfm_capability_options['view_order_details'] ) ) ? $wcfm_capability_options['view_order_details'] : 'no';
+$view_billing_details = ( isset( $wcfm_capability_options['view_billing_details'] ) ) ? $wcfm_capability_options['view_billing_details'] : 'no';
+$view_shipping_details =  ( isset( $wcfm_capability_options['view_shipping_details'] ) ) ? $wcfm_capability_options['view_shipping_details'] : 'no';
+$view_email  = ( isset( $wcfm_capability_options['view_email'] ) ) ? $wcfm_capability_options['view_email'] : 'no';
 $view_comments  = ( isset( $wcfm_capability_options['view_comments'] ) ) ? $wcfm_capability_options['view_comments'] : 'no';
 $submit_comments  = ( isset( $wcfm_capability_options['submit_comments'] ) ) ? $wcfm_capability_options['submit_comments'] : 'no';
-$view_email  = ( isset( $wcfm_capability_options['view_email'] ) ) ? $wcfm_capability_options['view_email'] : 'no';
 $export_csv  = ( isset( $wcfm_capability_options['export_csv'] ) ) ? $wcfm_capability_options['export_csv'] : 'no';
 $pdf_invoice = ( isset( $wcfm_capability_options['pdf_invoice'] ) ) ? $wcfm_capability_options['pdf_invoice'] : 'no';
 
@@ -127,15 +122,6 @@ $is_marketplece = wcfm_is_marketplace();
 																																																												        "variable" => array('label' => __('Variable', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[variable]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $variable),
 																																																												        "grouped" => array('label' => __('Grouped', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[grouped]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $grouped),
 																																																												        "external" => array('label' => __('External / Affiliate', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[external]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $external),
-																																																												        "virtual" => array('label' => __('Virtual', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[virtual]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $virtual),
-																																																												        "downloadable" => array('label' => __('Downloadable', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[downloadable]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $downloadable),
-																																																												        "booking" => array('label' => __('Bookable', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[booking]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $booking),
-																																																												        "job_package" => array('label' => __('Job Package', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[job_package]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $job_package),
-																																																												        "resume_package" => array('label' => __('Resume Package', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[resume_package]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $resume_package),
-																																																												        "auction" => array('label' => __('Auction', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[auction]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $auction),
-																																																												        "rental" => array('label' => __('Rental', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[rental]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $rental),
-																																																												        "subscription" => array('label' => __('Subscriptions', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[subscription]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $subscription),
-																																																												        "variable-subscription" => array('label' => __('Variable Subscriptions', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[variable-subscription]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $variable_subscription)
 																													) ) );
 								?>
 								
@@ -165,6 +151,16 @@ $is_marketplece = wcfm_is_marketplace();
 								} else {
 									$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_settings_fields_vendor_booking', array(  "manage_booking" => array('label' => __('Manage Bookings', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[manage_booking]', 'type' => 'checkbox', 'custom_tags' => array( 'disabled' => 'disabled' ), 'desc' => __( 'Install WC Bookings to enable this feature.', 'wc-frontend-manager' ), 'class' => 'wcfm-checkbox wcfm-checkbox-disabled wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $manage_booking),
 																															) ) );
+								}
+								
+								if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
+									if( WCFMu_Dependencies::wcfm_wc_appointments_active_check() ) {
+										$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_settings_fields_vendor_appointment', array(  "manage_appointment" => array('label' => __('Manage Appointments', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[manage_appointment]', 'type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $manage_appointment),
+																																) ) );
+									} else {
+										$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_settings_fields_vendor_appointment', array(  "manage_appointment" => array('label' => __('Manage Appointments', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[manage_appointment]', 'type' => 'checkbox', 'custom_tags' => array( 'disabled' => 'disabled' ), 'desc' => __( 'Install WC Appointments to enable this feature.', 'wc-frontend-manager' ), 'class' => 'wcfm-checkbox wcfm-checkbox-disabled wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $manage_appointment),
+																																) ) );
+									}
 								}
 								
 								if( wcfm_is_subscription() ) {
@@ -201,9 +197,11 @@ $is_marketplece = wcfm_is_marketplace();
 								<?php
 								$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_settings_fields_vendor_orders', array(  "view_orders" => array('label' => __('View Orders', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[view_orders]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $view_orders),
 																																																													 "view_order_details" => array('label' => __('View Order Details', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[view_order_details]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $view_order_details),
-																																																												   "view_comments" => array('label' => __('View Comments', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[view_comments]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $view_comments),
-																																																												   "submit_comments" => array('label' => __('Submit Comments', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[submit_comments]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $submit_comments),
+																																																													 "view_billing_details" => array('label' => __('Billing Address', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[view_billing_details]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $view_billing_details),
+																																																													 "view_shipping_details" => array('label' => __('Shipping Address', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[view_shipping_details]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $view_shipping_details),
 																																																												   "view_email" => array('label' => __('Customer Email', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[view_email]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $view_email),
+																																																													 "view_comments" => array('label' => __('View Comments', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[view_comments]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $view_comments),
+																																																												   "submit_comments" => array('label' => __('Submit Comments', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[submit_comments]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $submit_comments),
 																																																												   "export_csv" => array('label' => __('Export CSV', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[export_csv]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $export_csv),
 																														 ) ) );
 								if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
@@ -273,6 +271,7 @@ $is_marketplece = wcfm_is_marketplace();
 						$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_settings_fields_style', array(
 																																															"wcfm_logo" => array('label' => __('Logo', 'wc-frontend-manager') , 'type' => 'upload', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title', 'prwidth' => 150, 'value' => $logo_image_url ),
 																																															"menu_disabled" => array('label' => __('Disabled WCFM Menu', 'wc-frontend-manager') , 'name' => 'menu_disabled','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $is_menu_disabled),
+																																															"headpanel_disabled" => array('label' => __('Disabled WCFM Header Panel', 'wc-frontend-manager') , 'name' => 'headpanel_disabled','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $is_headpanel_disabled),
 																																															"ultimate_notice_disabled" => array('label' => __('Disabled Ultimate Notice', 'wc-frontend-manager') , 'name' => 'ultimate_notice_disabled','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $ultimate_notice_disabled),
 																																															//"noloader" => array('label' => __('Disabled WCFM Loader', 'wc-frontend-manager') , 'name' => 'noloader','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $noloader),
 																																															) ) );

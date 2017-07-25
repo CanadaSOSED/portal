@@ -22,4 +22,4 @@ global  $WCMp;
 <?php endif; ?>
 <p><?php printf( __( 'You can access your account area here: %s.',  'dc-woocommerce-multi-vendor' ), get_permalink( wc_get_page_id( 'myaccount' ) ) ); ?></p>
 
-<?php do_action( 'woocommerce_email_footer' ); ?>
+<?php do_action( 'wcmp_email_footer' ); ?>

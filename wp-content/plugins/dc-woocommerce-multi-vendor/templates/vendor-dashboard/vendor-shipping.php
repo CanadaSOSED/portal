@@ -53,7 +53,7 @@ if ($vendor_data) :
                                 ?>
                                 <tr>
                                     <td>
-                                        <label><?php echo $instance_field['title']; ?></label>
+                                        <label><?php echo $instance_field['title'] . ' - ' . $raw_method->title; ?></label>
                                     </td>
                                 </tr>
                                 <tr>

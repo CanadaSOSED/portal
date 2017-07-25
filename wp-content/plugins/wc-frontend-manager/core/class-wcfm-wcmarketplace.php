@@ -44,6 +44,7 @@ class WCFM_WCMarketplace {
 			
 			// Manage Vendor Product Permissions
 			add_filter( 'wcfm_product_types', array( &$this, 'wcmarketplace_is_allow_product_types'), 100 );
+			add_filter( 'wcfm_product_shipping_class', array( &$this, 'wcmarketplace_product_shipping_class'), 100 );
 			add_filter( 'wcfm_product_manage_fields_general', array( &$this, 'wcmarketplace_is_allow_fields_general' ), 100 );
 			add_filter( 'wcfm_is_allow_inventory', array( &$this, 'wcmarketplace_is_allow_inventory' ) );
 			add_filter( 'wcfm_is_allow_shipping', array( &$this, 'wcmarketplace_is_allow_shipping' ) );
@@ -52,6 +53,9 @@ class WCFM_WCMarketplace {
 			add_filter( 'wcfm_is_allow_variable', array( &$this, 'wcmarketplace_is_allow_variable' ) );
 			add_filter( 'wcfm_is_allow_linked', array( &$this, 'wcmarketplace_is_allow_linked' ) );
 			add_action( 'after_wcfm_products_manage_meta_save', array( &$this, 'wcmarketplace_product_manage_vendor_association' ), 10, 2 ); 
+			
+			// Manage Vendor Product Export Permissions - 2.4.2
+			add_filter( 'woocommerce_product_export_row_data', array( &$this, 'wcmarketplace_product_export_row_data' ), 100, 2 );
 			
 			// Filter Vendor Coupons
 			add_filter( 'wcfm_coupons_args', array( &$this, 'wcmarketplace_coupons_args' ) );
@@ -89,7 +93,7 @@ class WCFM_WCMarketplace {
   
   // WCFM WCMp Store Logo
   function wcmarketplace_store_logo( $store_logo ) {
-  	$vendor = get_wcmp_vendor(get_current_user_id());
+  	$vendor = get_wcmp_vendor($this->vendor_id);
   	if ( $vendor->image ) {
 			$store_logo = $vendor->image;
 		}
@@ -215,7 +219,7 @@ class WCFM_WCMarketplace {
   
   // Product args
   function wcmarketplace_products_args( $args ) {
-  	if( wcfm_is_vendor() ) $args['author'] = get_current_user_id();
+  	if( wcfm_is_vendor() ) $args['author'] = $this->vendor_id;
   	return $args;
   }
   
@@ -229,12 +233,25 @@ class WCFM_WCMarketplace {
   	
   	if( !$WCMp->vendor_caps->vendor_can('attribute') ) unset( $product_types['variable'] );
   	
-  	$wcfm_options = get_option( 'wcfm_options' );
-  	$wc_frontend_manager_manage_subscription = ( isset( $wcfm_options['wc_frontend_manager_manage_subscription'] ) ) ? $wcfm_options['wc_frontend_manager_manage_subscription'] : 'no';
-  	if( $wc_frontend_manager_manage_subscription == 'no' ) unset( $product_types[ 'subscription' ] );
-  	if( $wc_frontend_manager_manage_subscription == 'no' ) unset( $product_types[ 'variable-subscription' ] );
+  	$wcfm_capability_options = get_option( 'wcfm_capability_options' );
+  	$wc_frontend_manager_manage_subscription = ( isset( $wcfm_capability_options['manage_subscription'] ) ) ? $wcfm_capability_options['manage_subscription'] : 'no';
+  	if( $wc_frontend_manager_manage_subscription == 'yes' ) unset( $product_types[ 'subscription' ] );
+  	if( $wc_frontend_manager_manage_subscription == 'yes' ) unset( $product_types[ 'variable-subscription' ] );
   	
 		return $product_types;
+  }
+  
+  // Shipping Class filtering as Per vendor
+  function wcmarketplace_product_shipping_class( $product_shipping_class ) {
+  	$vendor_shipping_class_id = get_user_meta( $this->vendor_id, 'shipping_class_id', true );
+  	$filtered_product_shipping_class = array();
+  	
+  	foreach($product_shipping_class as $product_shipping) {
+			if( $vendor_shipping_class_id != $product_shipping->term_id ) continue;
+			$filtered_product_shipping_class[$product_shipping->term_id] = $product_shipping;
+		}
+  	
+  	return $filtered_product_shipping_class;
   }
   
   // General Fields
@@ -292,15 +309,34 @@ class WCFM_WCMarketplace {
   function wcmarketplace_product_manage_vendor_association( $new_product_id, $wcfm_products_manage_form_data ) {
   	global $WCFM, $WCMp;
   	
-  	$vendor_term = get_user_meta( get_current_user_id(), '_vendor_term_id', true );
+  	$vendor_term = get_user_meta( $this->vendor_id, '_vendor_term_id', true );
 		$term = get_term( $vendor_term , 'dc_vendor_shop' );
 		wp_delete_object_term_relationships( $new_product_id, 'dc_vendor_shop' );
 		wp_set_post_terms( $new_product_id, $term->name , 'dc_vendor_shop', true );
   }
   
+  // Product Export Data Filter - 2.4.2
+  function wcmarketplace_product_export_row_data( $row, $product ) {
+  	global $WCFM, $WCMp;
+  	
+  	$user_id = $this->vendor_id;
+  	
+  	$vendor = get_wcmp_vendor($user_id);
+    $vendor_products = $vendor->get_products();
+  	$products = array();
+		foreach ($vendor_products as $vendor_product) {
+			$products[] = $vendor_product->ID;
+			if( $vendor_product->post_type == 'product_variation' ) $products[] = $vendor_product->post_parent;
+		}
+		
+		if( !in_array( $product->get_ID(), $products ) ) return array();
+		
+		return $row;
+  }
+  
   // Coupons Args
   function wcmarketplace_coupons_args( $args ) {
-  	if( wcfm_is_vendor() ) $args['author'] = get_current_user_id();
+  	if( wcfm_is_vendor() ) $args['author'] = $this->vendor_id;
   	return $args;
   }
   
@@ -541,7 +577,7 @@ class WCFM_WCMarketplace {
   function wcmarketplace_report_out_of_stock_query_from( $query_from, $stock ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	
   	$query_from = "FROM {$wpdb->posts} as posts
 			INNER JOIN {$wpdb->postmeta} AS postmeta ON posts.ID = postmeta.post_id
@@ -567,7 +603,7 @@ class WCFM_WCMarketplace {
   function wcmarketplace_dashboard_status_widget_top_seller_query( $query ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	
     $vendor = get_wcmp_vendor($user_id);
     $vendor_products = $vendor->get_products();
@@ -586,7 +622,7 @@ class WCFM_WCMarketplace {
   function wcmarketplace_reports_get_order_report_data( $result ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	
   	$vendor = get_wcmp_vendor($user_id);
     $vendor_products = $vendor->get_products();

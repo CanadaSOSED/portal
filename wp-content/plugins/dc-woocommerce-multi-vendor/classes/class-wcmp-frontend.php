@@ -231,7 +231,7 @@ class WCMp_Frontend {
             if ($item['data']->needs_shipping()) {
                 $product_id = $item['product_id'];
                 $vendor = get_wcmp_product_vendors($product_id);
-                if ($vendor) {
+                if ($vendor && $vendor->is_shipping_enable()) {
                     $split_packages[$vendor->id][] = $item;
                 } else {
                     $split_packages[0][] = $item;

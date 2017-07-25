@@ -63,6 +63,9 @@ class WCFM_WCVendors {
 			add_filter( 'wcfm_is_allow_variable', array( &$this, 'wcvendors_is_allow_variable' ) );
 			add_filter( 'wcfm_is_allow_linked', array( &$this, 'wcvendors_is_allow_linked' ) );
 			
+			// Manage Vendor Product Export Permissions - 2.4.2
+			add_filter( 'woocommerce_product_export_row_data', array( &$this, 'wcvendors_product_export_row_data' ), 100, 2 );
+			
 			// Filter Vendor Coupons
 			add_filter( 'wcfm_coupons_args', array( &$this, 'wcvendors_coupons_args' ) );
 			
@@ -111,7 +114,7 @@ class WCFM_WCVendors {
   function wcvendors_store_logo( $store_logo ) {
   	$user_id = get_current_user_id();
   	$logo = get_user_meta( $user_id, '_wcv_store_icon_id', true );
-  	$logo_image_url = wp_get_attachment_image_src( $logo, 'full' );
+  	$logo_image_url = wp_get_attachment_image_src( $logo, 'thumbnail' );
 
 		if ( !empty( $logo_image_url ) ) {
 			$store_logo = $logo_image_url[0];
@@ -276,9 +279,22 @@ class WCFM_WCVendors {
   	return $allow;
   }
   
+  // Product Export Data Filter
+  function wcvendors_product_export_row_data( $row, $product ) {
+  	global $WCFM;
+  	
+  	$user_id = $this->vendor_id;
+  	
+  	$products = $this->wcv_get_vendor_products();
+		
+		if( !in_array( $product->get_ID(), $products ) ) return array();
+		
+		return $row;
+  }
+  
   // Coupons Args
   function wcvendors_coupons_args( $args ) {
-  	if( wcfm_is_vendor() ) $args['author'] = get_current_user_id();
+  	if( wcfm_is_vendor() ) $args['author'] = $this->vendor_id;
   	return $args;
   }
   
@@ -543,7 +559,7 @@ class WCFM_WCVendors {
   function wcvendors_dashboard_status_widget_top_seller_query( $query ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	
   	$products = $this->wcv_get_vendor_products();
 		

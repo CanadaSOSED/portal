@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WC_Product_Customer_List
- * @version 2.5.0
+ * @version 2.5.1
  */
 
 // Load metabox at bottom of product admin screen
@@ -104,7 +104,7 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 		<div class="wpcl-init"></div>
 		<div id="postcustomstuff" class="wpcl">
 			<?php if($item_sales) {
-				$emaillist = array();
+				$email_list = array();
 				$productcount = array();
 				?>
 				<table id="list-table" style="width:100%">
@@ -275,7 +275,7 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 										<p>
 											<?php 
 											if($order->get_customer_id()) {
-												echo '<a href="' . get_admin_url() . 'user-edit.php?user_id=' . $order->get_customer_id() . '">' . $order->get_customer_id() . '</a>';
+												echo '<a href="' . get_admin_url() . 'user-edit.php?user_id=' . $order->get_customer_id() . '" target="_blank">' . $order->get_customer_id() . '</a>';
 											}
 											?>
 										</p>
@@ -299,16 +299,17 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 									</td>
 									<?php } ?>
 									<?php if( 'variable' == $product->get_type() ) {
-										$variation = wc_get_product( wc_get_order_item_meta( $sale->order_item_id, '_variation_id', true) );
 										?>
 										<td>
 											<p>
-												<?php 
-												if($variation) {
-													echo wc_get_formatted_variation($variation, true); 
-												} else {
-													_e('Variation no longer exists', 'wc-product-customer-list');
-												} ?>
+												<?php
+													$item = $order->get_item($sale->order_item_id);
+													if($item) {
+														foreach($item->get_formatted_meta_data() as $itemvariation) {
+															echo $itemvariation->display_value;
+														}
+													} 
+												?>
 											</p>
 										</td>
 									<?php } ?>
@@ -333,10 +334,10 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 									</tr>
 
 									<?php if ( $order->get_billing_email() ) {
-										$emaillist[] = $order->get_billing_email();
+										$email_list[] = $order->get_billing_email();
 									}
 								} // End foreach
-								$emaillist = implode( ',', array_unique( $emaillist ) );
+								$email_list = implode( ',', array_unique( $email_list ) );
 								?>
 					</tbody>
 				</table>
@@ -345,7 +346,8 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 						<?php echo '<strong>' . __('Total', 'wc-product-customer-list') . ' : </strong>' . array_sum($productcount); ?>
 					</p>
 				<?php } ?>
-					<a href="mailto:?bcc=<?php echo $emaillist; ?>" class="button"><?php _e('Email all customers', 'wc-product-customer-list'); ?></a>
+					<a href="mailto:?bcc=<?php echo $email_list; ?>" class="button"><?php _e('Email all customers', 'wc-product-customer-list'); ?></a>
+					<?php do_action('wpcl_after_email_button', $email_list); ?>
 						<?php
 				} else {
 					_e('This product currently has no customers', 'wc-product-customer-list');

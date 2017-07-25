@@ -16,6 +16,13 @@ if( isset( $wp->query_vars['wcfm-products-manage'] ) && !empty( $wp->query_vars[
 	$product_id = $wp->query_vars['wcfm-products-manage'];
 }
 
+/*if( class_exists( 'Types_Post_Type' ) ) {
+	 $Types_Post_Type = new Types_Post_Type( 'product' );
+	 $field_groups = $Types_Post_Type->get_field_groups();
+	 print_r($field_groups);
+	 die;
+}*/
+
 ?>
 
 <!-- Start Product Custom Fields -->
@@ -24,7 +31,7 @@ $wcfm_product_custom_fields = (array) get_option( 'wcfm_product_custom_fields' )
 $wpcf_icons = array( 'snowflake-o', 'ravelry', 'eercast', 'bullseye', 'cloud', 'certificate', 'crosshairs');
 if( $wcfm_product_custom_fields && is_array( $wcfm_product_custom_fields ) && !empty( $wcfm_product_custom_fields ) ) {
 	foreach( $wcfm_product_custom_fields as $wpcf_index => $wcfm_product_custom_field ) {
-		if( !$wcfm_product_custom_field['enable'] ) continue;
+		if( !isset( $wcfm_product_custom_field['enable'] ) ) continue;
 		?>
 		<div class="page_collapsible products_manage_<?php echo sanitize_title( $wcfm_product_custom_field['block_name'] ); ?> simple variable external grouped booking" id="wcfm_products_manage_form_<?php echo sanitize_title( $wcfm_product_custom_field['block_name'] ); ?>_head"><label class="fa fa-<?php echo ($wpcf_icons[$wpcf_index]) ? $wpcf_icons[$wpcf_index] : 'snowflake-o'; ?>"></label><?php echo $wcfm_product_custom_field['block_name']; ?><span></span></div>
 		<div class="wcfm-container simple variable external grouped booking">
@@ -71,6 +78,10 @@ if( $wcfm_product_custom_fields && is_array( $wcfm_product_custom_fields ) && !e
 								$WCFM->wcfm_fields->wcfm_generate_form_field(  array( $wcfm_product_custom_block_field['name'] => array( 'label' => $wcfm_product_custom_block_field['label'] , 'name' => $field_name, 'type' => 'number', 'class' => 'wcfm-text wcfm_ele simple variable external grouped booking', 'label_class' => 'wcfm_title', 'value' => $field_value ) ) );
 							break;
 							
+							case 'textarea':
+								$WCFM->wcfm_fields->wcfm_generate_form_field(  array( $wcfm_product_custom_block_field['name'] => array( 'label' => $wcfm_product_custom_block_field['label'] , 'name' => $field_name, 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele simple variable external grouped booking', 'label_class' => 'wcfm_title', 'value' => $field_value ) ) );
+							break;
+							
 							case 'datepicker':
 								$WCFM->wcfm_fields->wcfm_generate_form_field(  array( $wcfm_product_custom_block_field['name'] => array( 'label' => $wcfm_product_custom_block_field['label'] , 'name' => $field_name, 'type' => 'text', 'placeholder' => 'YYYY-MM-DD', 'class' => 'wcfm-text wcfm_ele wcfm_datepicker simple variable external grouped booking', 'label_class' => 'wcfm_title', 'value' => $field_value ) ) );
 							break;
@@ -84,7 +95,16 @@ if( $wcfm_product_custom_fields && is_array( $wcfm_product_custom_fields ) && !e
 							break;
 							
 							case 'select':
-								$WCFM->wcfm_fields->wcfm_generate_form_field(  array( $wcfm_product_custom_block_field['name'] => array( 'label' => $wcfm_product_custom_block_field['label'] , 'name' => $field_name, 'type' => 'select', 'class' => 'wcfm-select wcfm_ele simple variable external grouped booking', 'label_class' => 'wcfm_title', 'options' => explode('|', $wcfm_product_custom_block_field['options']), 'value' => $field_value ) ) );
+								$select_opt_vals = array();
+								$select_options = explode( '|', $wcfm_product_custom_block_field['options'] );
+								if( !empty ( $select_options ) ) {
+									foreach( $select_options as $select_option ) {
+										if( $select_option ) {
+											$select_opt_vals[$select_option] = ucfirst( str_replace( "-", " " , $select_option ) );
+										}
+									}
+								}
+								$WCFM->wcfm_fields->wcfm_generate_form_field(  array( $wcfm_product_custom_block_field['name'] => array( 'label' => $wcfm_product_custom_block_field['label'] , 'name' => $field_name, 'type' => 'select', 'class' => 'wcfm-select wcfm_ele simple variable external grouped booking', 'label_class' => 'wcfm_title', 'options' => $select_opt_vals, 'value' => $field_value ) ) );
 							break;
 						}
 					}

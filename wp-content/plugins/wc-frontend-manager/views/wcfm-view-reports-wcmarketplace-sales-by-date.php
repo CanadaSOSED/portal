@@ -16,13 +16,13 @@ $ranges = array(
 	'7day'         => __( 'Last 7 Days', 'wc-frontend-manager' )
 );
 
-$wcfm_report_sales_by_date->chart_colors = array(
+$wcfm_report_sales_by_date->chart_colors = apply_filters( 'wcfm_vendor_sales_by_date_chart_colors', array(
 			'average'          => '#95a5a6',
 			'order_count'      => '#dbe1e3',
 			'shipping_amount'  => '#FF7400',
 			'earned'           => '#4096EE',
 			'commission'       => '#00897b',
-		);
+		) );
 
 $current_range = ! empty( $_GET['range'] ) ? sanitize_text_field( $_GET['range'] ) : '7day';
 

@@ -28,7 +28,7 @@ class WCFM_Custom_Field_Support {
    */
   function wcfm_customfield_settings() {
   	global $WCFM;
-  	$field_types = apply_filters( 'wcfm_product_custom_filed_types', array( 'text' => 'Text', 'number' => 'Number', 'datepicker' => 'Date Picker', 'timepicker' => 'Time Picker', 'checkbox' => 'Check Box', 'select' => 'Select' ) );
+  	$field_types = apply_filters( 'wcfm_product_custom_filed_types', array( 'text' => 'Text', 'number' => 'Number', 'textarea' => 'textarea', 'datepicker' => 'Date Picker', 'timepicker' => 'Time Picker', 'checkbox' => 'Check Box', 'select' => 'Select' ) );
 		$wcfm_product_custom_fields = (array) get_option( 'wcfm_product_custom_fields' );
   	?>
   	<!-- collapsible -->
@@ -45,7 +45,7 @@ class WCFM_Custom_Field_Support {
 																																																	"block_name"   => array('label' => __('Block Name', 'wc-frontend-manager'), 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title'),
 																																																	"is_group"     => array('label' => __('Fields as Group?', 'wc-frontend-manager'), 'type' => 'checkbox', 'value' => 'yes', 'class' => 'wcfm-checkbox wcfm_ele custom_field_is_group', 'label_class' => 'wcfm_title checkbox_title'),
 																																																	"group_name"   => array('type' => 'text', 'class' => 'wcfm-text wcfm_ele custom_field_is_group_name', 'placeholder' => __('Group name', 'wc-frontend-manager'), 'label_class' => 'wcfm_title'),
-																																																	"wcfm_product_custom_block_fields" => array('label' => __('Fields', 'wc-frontend-manager') . '<span class="fields_collapser fa fa-arrow-circle-o-down"></span>' , 'type' => 'multiinput', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title', 'options' => array(
+																																																	"wcfm_product_custom_block_fields" => array('label' => __('Fields', 'wc-frontend-manager') . '<span class="fields_collapser fa fa-arrow-circle-o-down"></span>', 'type' => 'multiinput', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title', 'options' => array(
 																																																									"type" => array( 'label' => __('Field Type', 'wc-frontend-manager'), 'type' => 'select', 'options' => $field_types, 'class' => 'wcfm-select wcfm_ele field_type_options', 'label_class' => 'wcfm_title'),           
 																																																									"label" => array( 'label' => __('Label', 'wc-frontend-manager'), 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title'),
 																																																									"name" => array( 'label' => __('Name', 'wc-frontend-manager'), 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title'),
@@ -56,7 +56,7 @@ class WCFM_Custom_Field_Support {
 				?>
 				<?php if( !WCFM_Dependencies::wcfmu_plugin_active_check() ) { ?>
 					<script>
-						jQuery(document).ready(function(t){t(".field_type_options").each(function(){t(this).find("option").each(function(){-1==t.inArray(t(this).attr("value"),["number","text"])&&(t(this).attr("disabled","disabled"),t(this).text(t(this).text()+" (Ultimate)"))})})});
+						jQuery(document).ready(function(t){t(".field_type_options").each(function(){t(this).find("option").each(function(){-1==t.inArray(t(this).attr("value"),["number","text","textarea"])&&(t(this).attr("disabled","disabled"),t(this).text(t(this).text()+" (Ultimate)"))})})});
 					</script>
 				<?php } ?>
 			</div>

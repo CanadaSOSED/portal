@@ -43,12 +43,6 @@ table.dataTable.display tr th:nth-child(6) {
 	text-align: center;
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-	padding: 0em 0.2em;
-}
-
-.wcfm_coupons_filter_wrap { margin-top: 4px !important; display: inline-block; margin-bottom: 10px; text-align: center; }
-
 @media only screen and (max-width: 780px) {
   .wcfm_coupons_filter_wrap { width: 100%; }
 }

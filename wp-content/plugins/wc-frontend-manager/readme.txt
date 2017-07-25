@@ -4,14 +4,14 @@ Tags: multivendor marketplace, multi vendor, woocommerce marketplace, product ve
 Donate link: http://wclovers.com
 Requires at least: 4.4
 Tested up to: 4.8
-Stable tag: 2.3.9
+Stable tag: 2.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Vendor frontend product/store manager for WC Vendors, WC Marketplace and WC Product Vendors with Subscriptions & Bookings integrated. Best Frontend Product Manager for WooCommerce with Orders, Coupons, Bookings, Reports - view and manage from your live site front end.
 
 == Description ==
-WooCommerce Frontend Manager is the smartest woocommerce frontend vendor store/shop manager. Experience the best ever WooCommerce Frontend Product Manager. Most featured Vendor Dashboard for <strong>WC Marketplace</strong>, <strong>WC Vendors</strong>, <strong>WooCommerce Product Vendors</strong> - most popular woocommerce multi vendor marketplace plugins along with <strong>WooCommerce Bookings</strong>, <strong>WooCommerce Subscription</strong> and <strong>WP Job Manager</strong> integration. Knowledgebase, Notification, Direct Messaging and <strong>PDF Invoice</strong> are some of the many colorful feathers of the wings. 
+WooCommerce Frontend Manager is the smartest woocommerce frontend vendor store/shop manager. Experience the best ever WooCommerce Frontend Product Manager. Most featured Vendor Dashboard for <strong>WC Marketplace</strong>, <strong>WC Vendors</strong>, <strong>WooCommerce Product Vendors</strong> - most popular woocommerce multi vendor marketplace plugins along with <strong>WooCommerce Bookings</strong>, <strong>WooCommerce Appointments</strong>, <strong>WooCommerce Rental & Bookings System</strong>, <strong>WooCommerce Subscriptions</strong> and <strong>WP Job Manager</strong> integration. <strong>Import / Export</strong>, Knowledgebase, Notification, Direct Messaging and <strong>PDF Invoice</strong> are some of the many colorful feathers of the wings. We offer you a panoply of cutting-edge solution. 
 
 > Experience the most featured frontend product/store manager -
 > [WCFM Demo](http://demo.wclovers.com/my-account/) - [Overview](https://www.youtube.com/watch?v=Nozi3VHVD6U) - [Documentation](http://wclovers.com/documentation/wcfm-product-manager/)
@@ -45,14 +45,16 @@ WCFM is now fully integrated with -
 - WooCommerce Bookings
 - WC Marketplace
 - WC Vendors
+- WooCommerce Appointments - [WCFM Demo](http://wcappointment.wclovers.com/my-account/)
 - WooCommerce Subscriptions
 - WooCommerce Product Vendors
-- WooCommerce Rental & Bookings System
+- WooCommerce Product Addons
+- WooCommerce Rental & Bookings System - [WCFM Demo](http://wcrental.wclovers.com/my-account/)
+- WooCommerce Bookings Accommodation
 - YITH Auctions
-- WooCommerce Simple Auctions
+- WooCommerce Simple Auctions - [WCFM Demo](http://wcauction.wclovers.com/my-account/)
 - WP Job Manager - WC Paid Listing
 - WP Job Manager - Resume Manager
-- WooCommerce Booking & Rental
 - Yoast SEO
 - WooCommerce Bulk Discount
 - WooCommerce Barcode & ISBN
@@ -63,6 +65,9 @@ WCFM is now fully integrated with -
 - Quantities and Units for WooCommerce
 - WooCommerce PDF Invoices & Packing Slips
 - GEO my WordPress
+- WP Hide & Security Enhancer
+
+... You will also have support of <strong>Custom Fields</strong> and full flexibility to enhance WCfM in your own way. Check our [Developer's Guide](http://wclovers.com/documentation/developers-guide/).
 
 = Exclusive Theme Support =
 
@@ -182,11 +187,48 @@ Fully compatible with multivendor marketplace <strong>WC Marketplace</storng> an
 15. WCFM Profile Manager
 16. WCFM Order Details
 17. WCFM Reports by Product
-18. WCFM Message Board
-19. WCFM Knowledgebase
-20. WCFM Bookings Dashboard
+18. WCFM Importer / Exporter
+19. WCFM Bookings / Appointments Dashboard
+20. WCFM Message Board
+21. WCFM Knowledgebase
 
 == Changelog ==
+
+= 2.4.5 =
+* Feature - RTL support added
+* Fixed   - Knowledgebase video embed issue resolved 
+* Enhance - Vednor Dashboard Hooks added
+* Fixed   - Vendor Order Price filter
+* Fixed   - Admin Dashboard Notice controller
+
+= 2.4.4 =
+* Feature - WC Booking Accommodation integrated
+* Fixed   - Deleted order handling
+* Fixed   - Product excerpt or description disable JS issue resolved
+
+= 2.4.3 =
+* Feature - Product Importer integrated
+* Enhance - Short code support "menu=false" option
+* Feature - Header Panel disable option
+* Feature - Bookings Global Availability settings
+* Feature - Appointment Global Availability settings
+* Feature - Rental product Inventory Management
+* Enhance - Pie chart color midifier filter added - wcfm_sales_by_product_pie_chart_colors
+* Enhance - Bar chart color midifier filter added - wcfm_sales_by_product_bar_chart_colors
+* Enhance - Bar Chart color midifier filer for Admin - wcfm_admin_sales_by_date_chart_colors
+* Enhance - Bar Chart color midifier filer for Vendor - wcfm_vendor_sales_by_date_chart_colors
+
+= 2.4.2 =
+* Feature - Product Exporter integrated
+
+= 2.4.1 =
+* Feature - WooCommerce Product Addons compatible
+* Feature - WCFM endpoints as short code
+* Feature - WP Hide & Security Enhancer compatible
+
+= 2.4.0 =
+* Feature - WooCommerce Appointments integrated
+* Feature - Auctions Dashboard
 
 = 2.3.9 =
 * Feature - Manual Booking for Vendor
@@ -398,7 +440,9 @@ Fully compatible with multivendor marketplace <strong>WC Marketplace</storng> an
 
 == Upgrade Notice ==
 
-= 2.3.9 =
-* Feature - Manual Booking for Vendor
-* Feature - WooCommerce Simple Auction integrated
-* Feature - WooCommerce Rental & Bookings System integrated
+= 2.4.5 =
+* Feature - RTL support added
+* Fixed   - Knowledgebase video embed issue resolved
+* Enhance - Vednor Dashboard Hooks added
+* Fixed   - Vendor Order Price filter
+* Fixed   - Admin Dashboard Notice controller

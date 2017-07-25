@@ -269,7 +269,7 @@ class WCMp_Install {
 		`is_trashed` varchar(10) NOT NULL,				
 		`created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,				
 		PRIMARY KEY (`ID`),
-		CONSTRAINT vendor_orders UNIQUE (order_id, vendor_id, commission_id, product_id)
+		CONSTRAINT vendor_orders UNIQUE (order_id, vendor_id, commission_id, order_item_id)
 		) $collate;";
 
         $create_tables_query[] = "CREATE TABLE IF NOT EXISTS `" . $wpdb->prefix . "wcmp_products_map` (

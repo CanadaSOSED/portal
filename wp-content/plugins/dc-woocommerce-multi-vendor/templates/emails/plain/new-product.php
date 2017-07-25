@@ -22,6 +22,6 @@ echo sprintf(  __( "Submitted by: %s",  'dc-woocommerce-multi-vendor' ), $vendor
 echo '\n'; 
 echo sprintf(  __( "Edit product: %s",  'dc-woocommerce-multi-vendor' ), admin_url( 'post.php?post=' . $post_id . '&action=edit' ) ); 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
-do_action( 'woocommerce_email_footer' );
+echo apply_filters( 'wcmp_email_footer_text', get_option( 'wcmp_email_footer_text' ) );
 
 ?>

@@ -154,4 +154,3 @@ if (!class_exists('WC_Email_Admin_Widthdrawal_Request')) :
 
     endif;
 
-return new WC_Email_Admin_Widthdrawal_Request();

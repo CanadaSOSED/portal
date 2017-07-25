@@ -462,15 +462,36 @@ class WP_Job_Manager_Form_Submit_Job extends WP_Job_Manager_Form {
 						if ( ! job_manager_generate_username_from_email() && empty( $_POST['create_account_username'] ) ) {
 							throw new Exception( __( 'Please enter a username.', 'wp-job-manager' ) );
 						}
+						if ( ! wpjm_use_standard_password_setup_email() ) {
+							if ( empty( $_POST['create_account_password'] ) ) {
+								throw new Exception( __( 'Please enter a password.', 'wp-job-manager' ) );
+							}
+						}
 						if ( empty( $_POST['create_account_email'] ) ) {
 							throw new Exception( __( 'Please enter your email address.', 'wp-job-manager' ) );
 						}
 					}
+
+					if ( ! wpjm_use_standard_password_setup_email() && ! empty( $_POST['create_account_password'] ) ) {
+						if ( empty( $_POST['create_account_password_verify'] ) || $_POST['create_account_password_verify'] !== $_POST['create_account_password'] ) {
+							throw new Exception( __( 'Passwords must match.', 'wp-job-manager' ) );
+						}
+						if ( ! wpjm_validate_new_password( $_POST['create_account_password'] ) ) {
+							$password_hint = wpjm_get_password_rules_hint();
+							if ( $password_hint ) {
+								throw new Exception( sprintf( __( 'Invalid Password: %s', 'wp-job-manager' ), $password_hint ) );
+							} else {
+								throw new Exception( __( 'Password is not valid.', 'wp-job-manager' ) );
+							}
+						}
+					}
+
 					if ( ! empty( $_POST['create_account_email'] ) ) {
 						$create_account = wp_job_manager_create_account( array(
-							'username' => empty( $_POST['create_account_username'] ) ? '' : $_POST['create_account_username'],
+							'username' => ( job_manager_generate_username_from_email() || empty( $_POST['create_account_username'] ) ) ? '' : $_POST['create_account_username'],
+							'password' => ( wpjm_use_standard_password_setup_email() || empty( $_POST['create_account_password'] ) ) ? '' : $_POST['create_account_password'],
 							'email'    => $_POST['create_account_email'],
-							'role'     => get_option( 'job_manager_registration_role' )
+							'role'     => get_option( 'job_manager_registration_role' ),
 						) );
 					}
 				}
@@ -529,7 +550,19 @@ class WP_Job_Manager_Form_Submit_Job extends WP_Job_Manager_Form {
 
 			// Prepend with job type
 			if ( apply_filters( 'submit_job_form_prefix_post_name_with_job_type', true ) && ! empty( $values['job']['job_type'] ) ) {
-				$job_slug[] = $values['job']['job_type'];
+				if ( ! job_manager_multi_job_type() ) {
+					$job_slug[] = $values['job']['job_type'];
+				} else {
+					$terms = $values['job']['job_type'];
+
+					foreach ( $terms as $term ) {
+						$term = get_term_by( 'id', intval( $term ), 'job_listing_type' );
+
+						if ( $term ) {
+							$job_slug[] = $term->slug;
+						}
+					}
+				}
 			}
 
 			$job_slug[]            = $post_title;
@@ -577,7 +610,7 @@ class WP_Job_Manager_Form_Submit_Job extends WP_Job_Manager_Form {
 		}
 
 		$attachment     = array(
-			'post_title'   => get_the_title( $this->job_id ),
+			'post_title'   => wpjm_get_the_job_title( $this->job_id ),
 			'post_content' => '',
 			'post_status'  => 'inherit',
 			'post_parent'  => $this->job_id,
@@ -624,7 +657,11 @@ class WP_Job_Manager_Form_Submit_Job extends WP_Job_Manager_Form {
 				// Company logo is a featured image
 				} elseif ( 'company_logo' === $key ) {
 					$attachment_id = is_numeric( $values[ $group_key ][ $key ] ) ? absint( $values[ $group_key ][ $key ] ) : $this->create_attachment( $values[ $group_key ][ $key ] );
-					set_post_thumbnail( $this->job_id, $attachment_id );
+					if ( empty( $attachment_id ) ) {
+						delete_post_thumbnail( $this->job_id );
+					} else {
+						set_post_thumbnail( $this->job_id, $attachment_id );
+					}
 					update_user_meta( get_current_user_id(), '_company_logo', $attachment_id );
 
 				// Save meta data

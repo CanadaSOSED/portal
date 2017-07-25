@@ -35,6 +35,9 @@ class WCFM_WCPVendors {
 			// Manage Vendor Product Permissions
 			add_action( 'after_wcfm_products_manage_meta_save', array( &$this, 'wcpvendors_product_manage_vendor_association' ), 10, 2 );
 			
+			// Manage Vendor Product Export Permissions - 2.4.2
+			add_filter( 'woocommerce_product_export_row_data', array( &$this, 'wcpvendors_product_export_row_data' ), 100, 2 );
+			
 			// Filter Vendor Coupons
 			add_filter( 'wcfm_coupons_args', array( &$this, 'wcpvendors_coupons_args' ) );
 			
@@ -71,7 +74,7 @@ class WCFM_WCPVendors {
   function wcpvendors_store_logo( $store_logo ) {
   	$vendor_data = WC_Product_Vendors_Utils::get_vendor_data_from_user();
 		$logo = ! empty( $vendor_data['logo'] ) ? $vendor_data['logo'] : '';
-		$logo_image_url = wp_get_attachment_image_src( $logo, 'full' );
+		$logo_image_url = wp_get_attachment_image_src( $logo, 'thumbnail' );
 		
 		if ( !empty( $logo_image_url ) ) {
 			$store_logo = $logo_image_url[0];
@@ -136,7 +139,7 @@ class WCFM_WCPVendors {
   
   // Product Vendor association on Product save
   function wcpvendors_product_manage_vendor_association( $new_product_id, $wcfm_products_manage_form_data ) {
-  	global $WCFM, $WCMp;
+  	global $WCFM;
   	
   	if ( WC_Product_Vendors_Utils::auth_vendor_user() ) {
 
@@ -150,6 +153,19 @@ class WCFM_WCPVendors {
 				update_post_meta( $new_product_id, '_visibility', 'visible' );
 			}
 		}
+  }
+  
+  // Product Export Data Filter - 2.4.2
+  function wcpvendors_product_export_row_data( $row, $product ) {
+  	global $WCFM;
+  	
+  	$user_id = $this->vendor_id;
+  	
+  	$products = $this->WCPV_get_vendor_products();
+		
+		if( !in_array( $product->get_ID(), $products ) ) return array();
+		
+		return $row;
   }
   
   // Coupons Args

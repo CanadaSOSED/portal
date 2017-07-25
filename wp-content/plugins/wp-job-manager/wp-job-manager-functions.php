@@ -15,6 +15,7 @@ function get_job_listings( $args = array() ) {
 		'search_keywords'   => '',
 		'search_categories' => array(),
 		'job_types'         => array(),
+		'post_status'       => array(),
 		'offset'            => 0,
 		'posts_per_page'    => 20,
 		'orderby'           => 'date',
@@ -33,7 +34,9 @@ function get_job_listings( $args = array() ) {
 	 */
 	do_action( 'get_job_listings_init', $args );
 
-	if ( false == get_option( 'job_manager_hide_expired', get_option( 'job_manager_hide_expired_content', 1 ) ) ) {
+	if ( ! empty( $args['post_status'] ) ) {
+		$post_status = $args['post_status'];
+	} elseif ( false == get_option( 'job_manager_hide_expired', get_option( 'job_manager_hide_expired_content', 1 ) ) ) {
 		$post_status = array( 'publish', 'expired' );
 	} else {
 		$post_status = 'publish';
@@ -240,21 +243,6 @@ if ( ! function_exists( 'get_job_listings_keyword_search' ) ) :
 	}
 endif;
 
-if ( ! function_exists( 'order_featured_job_listing' ) ) :
-	/**
-	 * Was used for sorting.
-	 *
-	 * @deprecated 1.22.4
-	 * @param array $args
-	 * @return array
-	 */
-	function order_featured_job_listing( $args ) {
-		global $wpdb;
-		$args['orderby'] = "$wpdb->posts.menu_order ASC, $wpdb->posts.post_date DESC";
-		return $args;
-	}
-endif;
-
 if ( ! function_exists( 'get_job_listing_post_statuses' ) ) :
 /**
  * Gets post statuses used for jobs.
@@ -417,8 +405,8 @@ if ( ! function_exists( 'wp_job_manager_notify_new_user' ) ) :
 	 * Handles notification of new users.
 	 *
 	 * @since 1.23.10
-	 * @param  int    $user_id
-	 * @param  string $password
+	 * @param  int         $user_id
+	 * @param  string|bool $password
 	 */
 	function wp_job_manager_notify_new_user( $user_id, $password ) {
 		global $wp_version;
@@ -426,7 +414,11 @@ if ( ! function_exists( 'wp_job_manager_notify_new_user' ) ) :
 		if ( version_compare( $wp_version, '4.3.1', '<' ) ) {
 			wp_new_user_notification( $user_id, $password );
 		} else {
-			wp_new_user_notification( $user_id, null, 'both' );
+			$notify = 'admin';
+			if ( empty( $password ) ) {
+				$notify = 'both';
+			}
+			wp_new_user_notification( $user_id, null, $notify );
 		}
 	}
 endif;
@@ -446,14 +438,14 @@ function wp_job_manager_create_account( $args, $deprecated = '' ) {
 	// Soft Deprecated in 1.20.0
 	if ( ! is_array( $args ) ) {
 		$username = '';
-		$password = wp_generate_password();
+		$password = false;
 		$email    = $args;
 		$role     = $deprecated;
 	} else {
 		$defaults = array(
 			'username' => '',
 			'email'    => '',
-			'password' => wp_generate_password(),
+			'password' => false,
 			'role'     => get_option( 'default_role' )
 		);
 
@@ -504,8 +496,13 @@ function wp_job_manager_create_account( $args, $deprecated = '' ) {
 		'user_login' => $username,
 		'user_pass'  => $password,
 		'user_email' => $email,
-		'role'       => $role
+		'role'       => $role,
 	);
+
+	// User is forced to set up account with email sent to them. This password will remain a secret.
+	if ( empty( $new_user['user_pass'] ) ) {
+		$new_user['user_pass'] = wp_generate_password();
+	}
 
 	$user_id = wp_insert_user( apply_filters( 'job_manager_create_account_data', $new_user ) );
 
@@ -515,6 +512,7 @@ function wp_job_manager_create_account( $args, $deprecated = '' ) {
 
 	// Notify
 	wp_job_manager_notify_new_user( $user_id, $password, $new_user );
+
 	// Login
 	wp_set_auth_cookie( $user_id, true, is_ssl() );
 	$current_user = get_user_by( 'id', $user_id );
@@ -522,6 +520,38 @@ function wp_job_manager_create_account( $args, $deprecated = '' ) {
 	return true;
 }
 endif;
+
+
+/**
+ * Retrieves permalink settings.
+ *
+ * @see https://github.com/woocommerce/woocommerce/blob/3.0.8/includes/wc-core-functions.php#L1573
+ * @since 2.7.3
+ * @return array
+ */
+function wpjm_get_permalink_structure() {
+	// Switch to the site's default locale, bypassing the active user's locale.
+	if ( function_exists( 'switch_to_locale' ) && did_action( 'admin_init' ) ) {
+		switch_to_locale( get_locale() );
+	}
+
+	$permalinks = wp_parse_args( (array) get_option( 'wpjm_permalinks', array() ), array(
+		'job_base'           => '',
+		'category_base'          => '',
+		'type_base'               => '',
+	) );
+
+	// Ensure rewrite slugs are set.
+	$permalinks['job_rewrite_slug']      = untrailingslashit( empty( $permalinks['job_base'] ) ? _x( 'job', 'Job permalink - resave permalinks after changing this', 'wp-job-manager' )                   : $permalinks['job_base'] );
+	$permalinks['category_rewrite_slug'] = untrailingslashit( empty( $permalinks['category_base'] ) ? _x( 'job-category', 'Job category slug - resave permalinks after changing this', 'wp-job-manager' ) : $permalinks['category_base'] );
+	$permalinks['type_rewrite_slug']     = untrailingslashit( empty( $permalinks['type_base'] ) ? _x( 'job-type', 'Job type slug - resave permalinks after changing this', 'wp-job-manager' )             : $permalinks['type_base'] );
+
+	// Restore the original locale.
+	if ( function_exists( 'restore_current_locale' ) && did_action( 'admin_init' ) ) {
+		restore_current_locale();
+	}
+	return $permalinks;
+}
 
 /**
  * Checks if the user can upload a file via the Ajax endpoint.
@@ -580,6 +610,70 @@ function job_manager_user_can_edit_job( $job_id ) {
 	}
 
 	return apply_filters( 'job_manager_user_can_edit_job', $can_edit, $job_id );
+}
+
+/**
+ * Checks to see if the standard password setup email should be used.
+ *
+ * @since 1.27.0
+ *
+ * @return bool True if they are to use standard email, false to allow user to set password at first job creation.
+ */
+function wpjm_use_standard_password_setup_email() {
+	$use_standard_password_setup_email = true;
+
+	// If username is being automatically generated, force them to send password setup email.
+	if ( ! job_manager_generate_username_from_email() ) {
+		$use_standard_password_setup_email = get_option( 'job_manager_use_standard_password_setup_email' ) == 1 ? true : false;
+	}
+
+	/**
+	 * Allows an override of the setting for if a password should be auto-generated for new users.
+	 *
+	 * @since 1.27.0
+	 *
+	 * @param bool $use_standard_password_setup_email True if a standard account setup email should be sent.
+	 */
+	return apply_filters( 'wpjm_use_standard_password_setup_email', $use_standard_password_setup_email );
+}
+
+/**
+ * Checks if a password should be auto-generated for new users.
+ *
+ * @since 1.27.0
+ *
+ * @param string $password Password to validate.
+ * @return bool True if password meets rules.
+ */
+function wpjm_validate_new_password( $password ) {
+	// Password must be at least 8 characters long. Trimming here because `wp_hash_password()` will later on.
+	$is_valid_password = strlen( trim ( $password ) ) >= 8;
+
+	/**
+	 * Allows overriding default WPJM password validation rules.
+	 *
+	 * @since 1.27.0
+	 *
+	 * @param bool   $is_valid_password True if new password is validated.
+	 * @param string $password          Password to validate.
+	 */
+	return apply_filters( 'wpjm_validate_new_password', $is_valid_password, $password );
+}
+
+/**
+ * Returns the password rules hint.
+ *
+ * @return string
+ */
+function wpjm_get_password_rules_hint() {
+	/**
+	 * Allows overriding the hint shown below the new password input field. Describes rules set in `wpjm_validate_new_password`.
+	 *
+	 * @since 1.27.0
+	 *
+	 * @param string $password_rules Password rules description.
+	 */
+	return apply_filters( 'wpjm_password_rules_hint', __( 'Passwords must be at least 8 characters long.', 'wp-job-manager') );
 }
 
 /**

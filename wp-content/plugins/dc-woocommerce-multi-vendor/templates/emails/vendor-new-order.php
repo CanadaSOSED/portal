@@ -34,7 +34,6 @@ do_action('woocommerce_email_header', $email_heading);
     </tbody>
 </table>
 <?php
-global $WCMp;
 $vendor = new WCMp_Vendor(absint($vendor_id));
 $show_cust_order_calulations_field = apply_filters('show_cust_order_calulations_field', true);
 if ($WCMp->vendor_caps->vendor_capabilities_settings('show_cust_order_calulations') && $show_cust_order_calulations_field) {
@@ -42,12 +41,10 @@ if ($WCMp->vendor_caps->vendor_capabilities_settings('show_cust_order_calulation
     <table cellspacing="0" cellpadding="6" style="width: 100%; border: 1px solid #eee;" border="1" bordercolor="#eee">
         <?php
         if ($totals = $vendor->wcmp_vendor_get_order_item_totals($order, $vendor_id)) {
-            $i = 0;
             foreach ($totals as $total_key => $total) {
-                $i++;
                 ?><tr>
-                    <th scope="row" colspan="2" style="text-align:left; border: 1px solid #eee; <?php if ($i == 1) echo 'border-top-width: 4px;'; ?>"><?php echo $total['label']; ?></th>
-                    <td style="text-align:left; border: 1px solid #eee; <?php if ($i == 1) echo 'border-top-width: 4px;'; ?>"><?php echo $total['value']; ?></td>
+                    <th scope="row" colspan="2" style="text-align:left; border: 1px solid #eee;"><?php echo $total['label']; ?></th>
+                    <td style="text-align:left; border: 1px solid #eee;"><?php echo $total['value']; ?></td>
                 </tr><?php
             }
         }
@@ -103,4 +100,4 @@ if ($show_cust_billing_add && $show_cust_billing_add_field) {
 
 
 
-<?php do_action('woocommerce_email_footer'); ?>
+<?php do_action('wcmp_email_footer'); ?>

@@ -57,6 +57,8 @@ jQuery( document ).ready( function( $ ) {
 			} );
 		} );
 	} );
+	
+	
 } );
 
 var audio = new Audio(wcfm_notification_sound);

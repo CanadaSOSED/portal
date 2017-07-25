@@ -1,8 +1,16 @@
 jQuery(document).ready(function ($) {
-    var total_div = $('#tab-singleproductmultivendor .rowbody').length;
+    /** for add xtore support **/
+    var SingleProductMultivendor;
+    if(typeof themeSingleProductMultivendor != 'undefined'){
+        SingleProductMultivendor = themeSingleProductMultivendor
+    } else{
+        SingleProductMultivendor = '#tab-singleproductmultivendor';
+    }
+    /** End support **/
+    var total_div = $(SingleProductMultivendor+' .rowbody').length;
     if (parseInt(total_div) > 4) {
         var counter = 0;
-        $("#tab-singleproductmultivendor .rowbody").each(function () {
+        $(SingleProductMultivendor+" .rowbody").each(function () {
             if (parseInt(counter) >= 4) {
                 $(this).hide();
             }
@@ -12,43 +20,43 @@ jQuery(document).ready(function ($) {
             action: 'get_loadmorebutton_single_product_multiple_vendors'
         }
         $.post(woocommerce_params.ajax_url, data, function (response) {
-            $("#tab-singleproductmultivendor").append(response);
+            $(SingleProductMultivendor).append(response);
         });
     }
     $('body').on('click', 'button#wcmp-load-more-button', function (e) {
-        $("#tab-singleproductmultivendor .rowbody").each(function () {
+        $(SingleProductMultivendor+" .rowbody").each(function () {
             $(this).show('slow');
         });
         $(this).hide('slow');
     });
-    $('#wcmp_multiple_product_sorting').change(function (e) {
-        $('#tab-singleproductmultivendor .ajax_loader_class_msg').show();
-        var sorting_value = $(this).val();
-        var attrid = $(this).attr('attrid');
-        if (sorting_value != '') {
-            var sorting_data = {
-                action: 'single_product_multiple_vendors_sorting',
-                sorting_value: sorting_value,
-                attrid: attrid
-            }
-            $.post(woocommerce_params.ajax_url, sorting_data, function (response) {
-                $('#tab-singleproductmultivendor .rowbody').each(function () {
-                    $(this).remove();
-                });
-                $('#tab-singleproductmultivendor .rowhead').append(response);
-                var counter2 = 0;
-                var total_div2 = $('#tab-singleproductmultivendor .rowbody').length;
-                if (parseInt(total_div2) > 4) {
-                    if ($('#tab-singleproductmultivendor #wcmp-load-more-button').css('display') != 'none') {
-                        $("#tab-singleproductmultivendor .rowbody").each(function () {
-                            if (parseInt(counter2) >= 4) {
-                                $(this).hide();
-                            }
-                            counter2 = parseInt(counter2) + 1;
-                        });
+        $('#wcmp_multiple_product_sorting').change(function (e) { 
+            $(SingleProductMultivendor+ ' .ajax_loader_class_msg').show();
+            var sorting_value = $(this).val();
+            var attrid = $(this).attr('attrid'); 
+            if (sorting_value != '') {
+                var sorting_data = {
+                    action: 'single_product_multiple_vendors_sorting',
+                    sorting_value: sorting_value,
+                    attrid: attrid
+                }
+                $.post(woocommerce_params.ajax_url, sorting_data, function (response) {
+                    $(SingleProductMultivendor+ ' .rowbody').each(function () {
+                        $(this).remove();
+                    });
+                    $(SingleProductMultivendor+' .rowhead').append(response);
+                    var counter2 = 0;
+                    var total_div2 = $(SingleProductMultivendor+ ' .rowbody').length;
+                    if (parseInt(total_div2) > 4) {
+                        if ($(SingleProductMultivendor+ ' #wcmp-load-more-button').css('display') != 'none') {
+                            $(SingleProductMultivendor+ " .rowbody").each(function () {
+                                if (parseInt(counter2) >= 4) {
+                                    $(this).hide();
+                                }
+                                counter2 = parseInt(counter2) + 1;
+                            });
                     }
                 }
-                $('#tab-singleproductmultivendor .ajax_loader_class_msg').hide();
+                $(SingleProductMultivendor+ ' .ajax_loader_class_msg').hide();
             });
         }
     });
@@ -56,10 +64,10 @@ jQuery(document).ready(function ($) {
     $('.goto_more_offer_tab').click(function (e) {
         e.preventDefault();
         if (!$('.singleproductmultivendor_tab').hasClass('active')) {
-            $('.singleproductmultivendor_tab a').click();
+            $('.singleproductmultivendor_tab a, #tab_singleproductmultivendor').click();
         }
         $('html, body').animate({
-            scrollTop: $(".woocommerce-tabs").offset().top
+            scrollTop: $(".woocommerce-tabs").offset().top -120
         }, 1500);
     });
 

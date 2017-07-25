@@ -19,4 +19,4 @@ echo sprintf( __( "A new user has applied to be a vendor on %s. His/her email is
 
 echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
 
-do_action( 'woocommerce_email_footer' ); ?>
+echo apply_filters( 'wcmp_email_footer_text', get_option( 'wcmp_email_footer_text' ) );

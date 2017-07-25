@@ -55,4 +55,4 @@ if ( get_option( 'woocommerce_ship_to_billing_address_only' ) == 'no' && ( $ship
 
 echo "\n****************************************************\n\n";
 
-echo apply_filters( 'woocommerce_email_footer_text', get_option( 'woocommerce_email_footer_text' ) );
+echo apply_filters( 'wcmp_email_footer_text', get_option( 'wcmp_email_footer_text' ) );

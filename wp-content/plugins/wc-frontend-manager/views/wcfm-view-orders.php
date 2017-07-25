@@ -19,7 +19,7 @@ global $WCFM;
 			<?php
 			if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
 				?>
-				<div class="wcfm_orders_filter_wrap">
+				<div class="wcfm_orders_filter_wrap wcfm_filters_wrap">
 					<select name="m" id="dummy-filter-by-date" disabled="disabled" title="<?php wcfmu_feature_help_text_show( 'Order Filter', false, true ); ?>">
 						<option value='0'><?php esc_html_e( 'Show all dates', 'wc-frontend-manager' ); ?></option>
 					</select>

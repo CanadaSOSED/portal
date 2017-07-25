@@ -394,7 +394,7 @@ class WCMp_Admin {
     public function menu_commission_count() {
         global $submenu;
         if (isset($submenu['wcmp'])) {
-            if (apply_filters('woocommerce_include_processing_order_count_in_menu', true) && current_user_can('manage_woocommerce') && ( $order_count = wcmp_unpaid_commission_count() )) {
+            if (apply_filters('wcmp_include_unpaid_commission_count_in_menu', true) && current_user_can('manage_woocommerce') && ( $order_count = wcmp_count_commission()->unpaid )) {
                 foreach ($submenu['wcmp'] as $key => $menu_item) {
                     if (0 === strpos($menu_item[0], _x('Commissions', 'Admin menu name', 'wcmp'))) {
                         $submenu['wcmp'][$key][0] .= ' <span class="awaiting-mod update-plugins count-' . $order_count . '"><span class="processing-count">' . number_format_i18n($order_count) . '</span></span>';

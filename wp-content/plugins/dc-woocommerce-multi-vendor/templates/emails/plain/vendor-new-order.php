@@ -76,4 +76,4 @@ if($show_cust_shipping_add && $show_cust_shipping_add_field) {
 
 echo "\n****************************************************\n\n";
 
-echo apply_filters( 'woocommerce_email_footer_text', get_option( 'woocommerce_email_footer_text' ) );
+echo apply_filters( 'wcmp_email_footer_text', get_option( 'wcmp_email_footer_text' ) );

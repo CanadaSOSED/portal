@@ -101,6 +101,9 @@ $vendor_orders = $wpdb->get_results( $wpdb->prepare( $sql, $user_id ) );
 if( !empty($vendor_orders) ) {
 	$order_count = count( $vendor_orders );
 	foreach( $vendor_orders as $vendor_order ) {
+		// Order exists check
+		$order_post_title = get_the_title( $vendor_order->order_id );
+		if( !$order_post_title ) continue;
 		if( $vendor_order->order_id ) {
 			$vendor_order_data = new WC_Order( $vendor_order->order_id );
 			if( $vendor_order_data->get_status() == 'processing' ) $processing_count++;
@@ -124,14 +127,14 @@ if( !empty($vendor_orders) ) {
 
 include_once( $WCFM->plugin_path . 'includes/reports/class-wcvendors-report-sales-by-date.php' );
 $wcfm_report_sales_by_date = new WC_Vendors_Report_Sales_By_Date();
-$wcfm_report_sales_by_date->chart_colors = array(
+$wcfm_report_sales_by_date->chart_colors = apply_filters( 'wcfm_vendor_sales_by_date_chart_colors', array(
 			'average'          => '#95a5a6',
 			'order_count'      => '#dbe1e3',
 			'item_count'       => '#ecf0f1',
 			'shipping_amount'  => '#FF7400',
 			'earned'           => '#4096EE',
 			'commission'       => '#00897b',
-		);
+		) );
 
 $wcfm_report_sales_by_date->calculate_current_range( '7day' );
 $report_data   = $wcfm_report_sales_by_date->get_report_data();
@@ -199,6 +202,9 @@ do_action( 'before_wcfm_dashboard' );
 								}
 								?>
 							<?php } ?>
+							
+							<?php do_action( 'after_wcfm_dashboard_sales_reports' ); ?>
+							
 							<?php if( $can_view_orders && ( $wcfm_is_allow_orders = apply_filters( 'wcfm_is_allow_orders', true ) ) ) { ?>
 								<li class="total-orders">
 									<span class="fa fa-cart-plus"></span>
@@ -219,6 +225,9 @@ do_action( 'before_wcfm_dashboard' );
 									</a>
 								</li>
 							<?php } ?>	
+							
+							<?php do_action( 'after_wcfm_dashboard_orders' ); ?>
+							
 							<?php if( $can_view_sales && ( $wcfm_is_allow_reports = apply_filters( 'wcfm_is_allow_reports', true ) ) ) { ?>
 								<li class="low-in-stock">
 									<span class="fa fa-sort-amount-desc"></span>
@@ -233,6 +242,9 @@ do_action( 'before_wcfm_dashboard' );
 									</a>
 								</li>
 							<?php } ?>
+							
+							<?php do_action( 'after_wcfm_dashboard_stock_reports' ); ?>
+							
 						</ul>
 					</div>
 				</div>

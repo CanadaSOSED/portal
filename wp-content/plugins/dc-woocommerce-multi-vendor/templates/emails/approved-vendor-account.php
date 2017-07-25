@@ -19,4 +19,4 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 	<?php printf( __( "Applicant Username: %s",  'dc-woocommerce-multi-vendor' ), $user_login ); ?>
 </p>
 <p><?php _e('You have been cleared for landing! Congratulations and welcome aboard!', 'dc-woocommerce-multi-vendor') ?> <p>
-<?php do_action( 'woocommerce_email_footer' );?>
+<?php do_action( 'wcmp_email_footer' );?>

@@ -147,6 +147,19 @@ class WCFM_Vendor_Support {
 					}
 				}
 				
+				// Appointment Capability
+				if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
+					if( WCFMu_Dependencies::wcfm_wc_appointments_active_check() ) {
+						if( isset( $options['manage_appointment'] ) && $options[ 'manage_appointment' ] == 'yes' ) {
+							$vendor_role->remove_cap( 'manage_appointments' );
+							if( $is_marketplece == 'wcmarketplace' ) remove_wcmp_users_caps('manage_appointments');
+						} else {
+							$vendor_role->add_cap( 'manage_appointments' );
+							if( $is_marketplece == 'wcmarketplace' ) add_wcmp_users_caps('manage_appointments');
+						}
+					}
+				}
+				
 				// Submit Products
 				if( isset( $options[ 'submit_products' ] ) && $options[ 'submit_products' ] == 'yes' ) {
 					$vendor_role->remove_cap( 'edit_products' );

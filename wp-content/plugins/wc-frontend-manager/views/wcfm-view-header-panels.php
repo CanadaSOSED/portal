@@ -11,6 +11,11 @@
 
 global $WCFM, $wpdb, $wp;
 
+$wcfm_options = get_option('wcfm_options');
+
+$is_headpanel_disabled = isset( $wcfm_options['headpanel_disabled'] ) ? $wcfm_options['headpanel_disabled'] : 'no';
+if( $is_headpanel_disabled == 'yes' ) return;
+
 $unread_notice = $WCFM->frontend->unreadMessageCount( 'notice' );
 $unread_message = $WCFM->frontend->unreadMessageCount( 'message' ); 
 

@@ -24,4 +24,4 @@ echo sprintf( __( 'You can access your account area here: %s.',  'dc-woocommerce
 
 echo "\n****************************************************\n\n";
 
-echo apply_filters( 'woocommerce_email_footer_text', get_option( 'woocommerce_email_footer_text' ) );
+echo apply_filters( 'wcmp_email_footer_text', get_option( 'wcmp_email_footer_text' ) );

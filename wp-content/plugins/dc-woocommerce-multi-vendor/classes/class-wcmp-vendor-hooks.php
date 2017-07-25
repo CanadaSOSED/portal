@@ -547,19 +547,8 @@ class WCMp_Vendor_Hooks {
     }
     
     public function wcmp_vendor_dashboard_menu_vendor_shipping_capability($cap){
-        $cap = false;
-        $raw_zones = WC_Shipping_Zones::get_zones();
-        $raw_zones[] = array('id' => 0);
-        foreach ($raw_zones as $raw_zone) {
-            $zone = new WC_Shipping_Zone($raw_zone['id']);
-            $raw_methods = $zone->get_shipping_methods();
-            foreach ($raw_methods as $raw_method) {
-                if ($raw_method->id == 'flat_rate'){
-                    return true;
-                }
-            }
-        }
-        return $cap;
+        $vendor = get_wcmp_vendor(get_current_user_id());
+        return $vendor->is_shipping_enable();
     }
 
     /**

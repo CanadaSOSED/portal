@@ -25,7 +25,7 @@ if( !current_user_can( 'edit_products' ) ) {
 			<?php
 			if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
 				?>
-				<div class="wcfm_products_filter_wrap">
+				<div class="wcfm_products_filter_wrap wcfm_filters_wrap">
 					<select name="dummu_dropdown_product_cat" id="dummu_dropdown_product_cat" disabled="disabled" title="<?php wcfmu_feature_help_text_show( 'Product Filter', false, true ); ?>">
 						<option value='0'><?php esc_html_e( 'Choose Category', 'wc-frontend-manager' ); ?></option>
 					</select>
@@ -55,6 +55,27 @@ if( !current_user_can( 'edit_products' ) ) {
 			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=product'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-user-secret"></span></a>
 			<?php
 		}
+		
+		if( $is_allow_products_export = apply_filters( 'wcfm_is_allow_products_export', true ) ) {
+			?>
+			<a class="wcfm_import_export text_tip" href="<?php echo get_wcfm_export_product_url(); ?>" data-screen="product" data-tip="<?php _e( 'Products Export', 'wc-frontend-manager' ); ?>"><span class="fa fa-download"></span></a>
+			<?php
+		}
+		
+		if( $is_allow_products_import = apply_filters( 'wcfm_is_allow_products_import', true ) ) {
+			if( !WCFM_Dependencies::wcfmu_plugin_active_check() ) {
+				if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
+					?>
+					<a class="wcfm_import_export text_tip" href="#" onclick="return false;" data-tip="<?php wcfmu_feature_help_text_show( 'Products Import', false, true ); ?>"><span class="fa fa-upload"></span></a>
+					<?php
+				}
+			} else {
+				?>
+				<a class="wcfm_import_export text_tip" href="<?php echo get_wcfm_import_product_url(); ?>" data-tip="<?php _e( 'Products Import', 'wc-frontend-manager' ); ?>"><span class="fa fa-upload"></span></a>
+				<?php
+			}
+		}
+		
 		if( $has_new = apply_filters( 'wcfm_add_new_product_sub_menu', true ) ) {
 			echo '<a id="add_new_product_dashboard" class="add_new_wcfm_ele_dashboard text_tip" href="'.get_wcfm_edit_product_url().'" data-tip="' . __('Add New Product', 'wc-frontend-manager') . '"><span class="fa fa-cube"></span><span class="text">' . __( 'Add New', 'wc-frontend-manager') . '</span></a>';
 		}

@@ -60,6 +60,10 @@ class WCFM_Query {
 			'wcfm-products'                 => ! empty( $wcfm_modified_endpoints['wcfm-products'] ) ? $wcfm_modified_endpoints['wcfm-products'] : 'wcfm-products',
 			'wcfm-products-manage'          => ! empty( $wcfm_modified_endpoints['wcfm-products-manage'] ) ? $wcfm_modified_endpoints['wcfm-products-manage'] : 'wcfm-products-manage',
 			
+			// Import / Export
+			'wcfm-products-import'          => ! empty( $wcfm_modified_endpoints['wcfm-products-import'] ) ? $wcfm_modified_endpoints['wcfm-products-import'] : 'wcfm-products-import',
+			'wcfm-products-export'          => ! empty( $wcfm_modified_endpoints['wcfm-products-export'] ) ? $wcfm_modified_endpoints['wcfm-products-export'] : 'wcfm-products-export',
+			
 			// Coupon
 			'wcfm-coupons'                  => ! empty( $wcfm_modified_endpoints['wcfm-coupons'] ) ? $wcfm_modified_endpoints['wcfm-coupons'] : 'wcfm-coupons',
 			'wcfm-coupons-manage'           => ! empty( $wcfm_modified_endpoints['wcfm-coupons-manage'] ) ? $wcfm_modified_endpoints['wcfm-coupons-manage'] : 'wcfm-coupons-manage',
@@ -111,6 +115,12 @@ class WCFM_Query {
 				if( !empty($wp->query_vars['wcfm-products-manage']) ) $product = get_post( absint($wp->query_vars['wcfm-products-manage']) );
 				$title = ( $product ) ? sprintf( __( 'Product Manager -%s', 'wc-frontend-manager' ), $product->post_title ) : __( 'Product Manager', 'wc-frontend-manager' );
 			break;
+			case 'wcfm-products-import' :
+				$title = __( 'Products Import', 'wc-frontend-manager' );
+			break;
+			case 'wcfm-products-export' :
+				$title = __( 'Products Export', 'wc-frontend-manager' );
+			break;
 			case 'wcfm-coupons' :
 				$title = __( 'Coupons Dashboard', 'wc-frontend-manager' );
 			break;
@@ -161,7 +171,7 @@ class WCFM_Query {
 			break;
 		}
 		
-		$title = apply_filters( 'wcfm_endpoint_title', '', $endpoint );
+		$title = apply_filters( 'wcfm_endpoint_title', $title, $endpoint );
 
 		return $title;
 	}

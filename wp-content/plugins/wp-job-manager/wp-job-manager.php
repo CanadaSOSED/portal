@@ -3,7 +3,7 @@
  * Plugin Name: WP Job Manager
  * Plugin URI: https://wpjobmanager.com/
  * Description: Manage job listings from the WordPress admin panel, and allow users to post jobs directly to your site.
- * Version: 1.26.2
+ * Version: 1.27.0
  * Author: Automattic
  * Author URI: https://wpjobmanager.com/
  * Requires at least: 4.1
@@ -27,7 +27,7 @@ class WP_Job_Manager {
 	 * The single instance of the class.
 	 *
 	 * @var self
-	 * @since  1.26
+	 * @since  1.26.0
 	 */
 	private static $_instance = null;
 
@@ -36,7 +36,7 @@ class WP_Job_Manager {
 	 *
 	 * Ensures only one instance of WP Job Manager is loaded or can be loaded.
 	 *
-	 * @since  1.26
+	 * @since  1.26.0
 	 * @static
 	 * @see WPJM()
 	 * @return self Main instance.
@@ -53,30 +53,35 @@ class WP_Job_Manager {
 	 */
 	public function __construct() {
 		// Define constants
-		define( 'JOB_MANAGER_VERSION', '1.26.2' );
+		define( 'JOB_MANAGER_VERSION', '1.27.0' );
 		define( 'JOB_MANAGER_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'JOB_MANAGER_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 
 		// Includes
-		include( 'includes/class-wp-job-manager-install.php' );
-		include( 'includes/class-wp-job-manager-post-types.php' );
-		include( 'includes/class-wp-job-manager-ajax.php' );
-		include( 'includes/class-wp-job-manager-shortcodes.php' );
-		include( 'includes/class-wp-job-manager-api.php' );
-		include( 'includes/class-wp-job-manager-forms.php' );
-		include( 'includes/class-wp-job-manager-geocode.php' );
-		include( 'includes/class-wp-job-manager-cache-helper.php' );
+		include_once( 'wp-job-manager-functions.php' );
+		include_once( 'wp-job-manager-deprecated.php' );
+		include_once( 'includes/class-wp-job-manager-install.php' );
+		include_once( 'includes/class-wp-job-manager-post-types.php' );
+		include_once( 'includes/class-wp-job-manager-ajax.php' );
+		include_once( 'includes/class-wp-job-manager-shortcodes.php' );
+		include_once( 'includes/class-wp-job-manager-api.php' );
+		include_once( 'includes/class-wp-job-manager-forms.php' );
+		include_once( 'includes/class-wp-job-manager-geocode.php' );
+		include_once( 'includes/class-wp-job-manager-cache-helper.php' );
 
 		if ( is_admin() ) {
-			include( 'includes/admin/class-wp-job-manager-admin.php' );
+			include_once( 'includes/admin/class-wp-job-manager-admin.php' );
 		}
 
 		// Load 3rd party customizations
-		require_once( 'includes/3rd-party/3rd-party.php' );
+		include_once( 'includes/3rd-party/3rd-party.php' );
 
 		// Init classes
 		$this->forms      = WP_Job_Manager_Forms::instance();
 		$this->post_types = WP_Job_Manager_Post_Types::instance();
+
+		// Schedule cron jobs
+		self::maybe_schedule_cron_jobs();
 
 		// Activation - works with symlinks
 		register_activation_hook( basename( dirname( __FILE__ ) ) . '/' . basename( __FILE__ ), array( $this, 'activate' ) );
@@ -92,6 +97,7 @@ class WP_Job_Manager {
 		add_action( 'widgets_init', array( $this, 'widgets_init' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'frontend_scripts' ) );
 		add_action( 'admin_init', array( $this, 'updater' ) );
+		add_action( 'wp_logout', array( $this, 'cleanup_job_posting_cookies' ) );
 	}
 
 	/**
@@ -123,11 +129,10 @@ class WP_Job_Manager {
 	}
 
 	/**
-	 * Loads plugin's core helper functions.
+	 * Loads plugin's core helper template functions.
 	 */
 	public function include_template_functions() {
-		include( 'wp-job-manager-functions.php' );
-		include( 'wp-job-manager-template.php' );
+		include_once( 'wp-job-manager-template.php' );
 	}
 
 	/**
@@ -137,6 +142,33 @@ class WP_Job_Manager {
 		include_once( 'includes/class-wp-job-manager-widget.php' );
 		include_once( 'includes/widgets/class-wp-job-manager-widget-recent-jobs.php' );
 		include_once( 'includes/widgets/class-wp-job-manager-widget-featured-jobs.php' );
+	}
+
+	/**
+	 * Schedule cron jobs for WPJM events.
+	 */
+	public static function maybe_schedule_cron_jobs() {
+		if ( ! wp_next_scheduled( 'job_manager_check_for_expired_jobs' ) ) {
+			wp_schedule_event( time(), 'hourly', 'job_manager_check_for_expired_jobs' );
+		}
+		if ( ! wp_next_scheduled( 'job_manager_delete_old_previews' ) ) {
+			wp_schedule_event( time(), 'daily', 'job_manager_delete_old_previews' );
+		}
+		if ( ! wp_next_scheduled( 'job_manager_clear_expired_transients' ) ) {
+			wp_schedule_event( time(), 'twicedaily', 'job_manager_clear_expired_transients' );
+		}
+	}
+
+	/**
+	 * Cleanup job posting cookies.
+	 */
+	public function cleanup_job_posting_cookies() {
+		if ( isset( $_COOKIE['wp-job-manager-submitting-job-id'] ) ) {
+			setcookie( 'wp-job-manager-submitting-job-id', '', 0, COOKIEPATH, COOKIE_DOMAIN, false );
+		}
+		if ( isset( $_COOKIE['wp-job-manager-submitting-job-key'] ) ) {
+			setcookie( 'wp-job-manager-submitting-job-key', '', 0, COOKIEPATH, COOKIE_DOMAIN, false );
+		}
 	}
 
 	/**

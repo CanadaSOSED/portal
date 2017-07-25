@@ -1159,6 +1159,12 @@ if (!function_exists('do_wcmp_data_migrate')) {
      */
     function do_wcmp_data_migrate($previous_plugin_version = '', $new_plugin_version = '') {
         global $WCMp, $wpdb;
+        if ($previous_plugin_version && $previous_plugin_version <= '2.7.3') {
+            if ($wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}wcmp_vendor_orders';")) {
+                $wpdb->query("ALTER TABLE `{$wpdb->prefix}wcmp_vendor_orders` DROP INDEX `vendor_orders`;");
+                $wpdb->query("ALTER TABLE `{$wpdb->prefix}wcmp_vendor_orders` ADD CONSTRAINT `vendor_orders` UNIQUE (order_id, vendor_id, commission_id, order_item_id);");
+            }
+        }
         if ($previous_plugin_version && $previous_plugin_version <= '2.6.5') {
             if ($wpdb->get_var("SHOW TABLES LIKE '{$wpdb->prefix}wcmp_vendor_orders';")) {
                 if (!$wpdb->get_var("SHOW COLUMNS FROM `{$wpdb->prefix}wcmp_vendor_orders` LIKE 'commission_status';")) {
@@ -1623,12 +1629,46 @@ if (!function_exists('do_wcmp_commission_data_migrate')) {
 
 }
 
-if(!function_exists('wcmp_unpaid_commission_count')){
+if (!function_exists('wcmp_unpaid_commission_count')) {
+
     /**
      * Count unpaid commisssion
      * @return int
      */
-    function wcmp_unpaid_commission_count(){
-        return count(array_unique(wp_list_pluck(get_wcmp_vendor_orders(array('commission_status' => 'unpaid', 'is_trashed' => '')),'commission_id')));
+    function wcmp_unpaid_commission_count() {
+        return count(array_unique(wp_list_pluck(get_wcmp_vendor_orders(array('commission_status' => 'unpaid', 'is_trashed' => '')), 'commission_id')));
     }
+
+}
+
+if (!function_exists('wcmp_count_commission')) {
+
+    function wcmp_count_commission() {
+        $args = array(
+            'posts_per_page' => -1,
+            'post_type' => 'dc_commission',
+            'post_status' => array('private', 'publish')
+        );
+        $commission_id = wp_list_pluck(get_posts($args), 'ID');
+        $commission_count = new stdClass();
+        $commission_count->paid = $commission_count->unpaid = $commission_count->reverse = 0;
+        foreach ($commission_id as $id) {
+            $commission_status = get_post_meta($id, '_paid_status', true);
+            if ($commission_status) {
+                switch ($commission_status) {
+                    case 'paid':
+                        $commission_count->paid += count($commission_count->paid);
+                        break;
+                    case 'unpaid':
+                        $commission_count->unpaid += count($commission_count->unpaid);
+                        break;
+                    case 'reverse':
+                        $commission_count->reverse += count($commission_count->reverse);
+                        break;
+                }
+            }
+        }
+        return $commission_count;
+    }
+
 }

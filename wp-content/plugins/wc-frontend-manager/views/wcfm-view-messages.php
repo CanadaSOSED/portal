@@ -94,7 +94,7 @@ if( isset( $_GET['type'] ) ) $message_type =  $_GET['type'];
 		<?php do_action( 'before_wcfm_messages' ); ?>
 		<h2><?php _e('Messages', 'wc-frontend-manager' ); ?></h2>
 		
-		<div class="wcfm_messages_filter_wrap">
+		<div class="wcfm_messages_filter_wrap wcfm_filters_wrap">
 		  <select name="filter-by-status" id="filter-by-status">
 				<option value='unread' <?php echo selected( $message_status, 'unread', false ); ?>><?php esc_html_e( 'Only Unread', 'wc-frontend-manager' ); ?></option>
 				<option value='read' <?php echo selected( $message_status, 'read', false ); ?>><?php esc_html_e( 'Only Read', 'wc-frontend-manager' ); ?></option>

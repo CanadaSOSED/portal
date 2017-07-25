@@ -4,7 +4,7 @@ Tags: multi vendor marketplace, woocommerce multivendor marketplace, multi selle
 Donate link: https://wc-marketplace.com/donate
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 2.7.3
+Stable tag: 2.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,6 +110,13 @@ Ans. This plugin is tested with PHP version 5.5.
 
 
 == Changelog ==
+
+= 2.7.4 =
+* Added: Filter `wcmp_vendor_taxonomy_name` to change breadcrumbs default WCMp vendor text.
+* Updated: Language files.
+* Fixed: Vendor email template.
+* Fixed: Wordpress default `Recent Comments` widgets number of comment to display.
+* Fixed: CSS and JS issue.
 
 = 2.7.3 = 
 * Added: Mark commission as paid and Mark as Reverse option in single commission page.
@@ -264,5 +271,5 @@ Ans. This plugin is tested with PHP version 5.5.
 
 == Upgrade Notice ==
 
-= 2.7.3 =
+= 2.7.4 =
 2.7 is compatible with WooCommerce 3.0 or later. It is important to test in staging before update.

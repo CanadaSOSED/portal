@@ -14,14 +14,14 @@ class WP_Job_Manager_Settings {
 	 * The single instance of the class.
 	 *
 	 * @var self
-	 * @since  1.26
+	 * @since  1.26.0
 	 */
 	private static $_instance = null;
 
 	/**
 	 * Allows for accessing single instance of class. Class should only be constructed once per call.
 	 *
-	 * @since  1.26
+	 * @since  1.26.0
 	 * @static
 	 * @return self Main instance.
 	 */
@@ -134,7 +134,7 @@ class WP_Job_Manager_Settings {
 							'type'       => 'select',
 							'options'    => array(
 								'relative' => __( 'Relative to the current date (e.g., 1 day, 1 week, 1 month ago)', 'wp-job-manager' ),
-								'default'   => __( 'Default date format as defined in Setttings', 'wp-job-manager' ),
+								'default'   => __( 'Default date format as defined in Settings', 'wp-job-manager' ),
 							)
 						),
 						array(
@@ -191,6 +191,15 @@ class WP_Job_Manager_Settings {
 							'label'      => __( 'Account Username', 'wp-job-manager' ),
 							'cb_label'   => __( 'Automatically Generate Username from Email Address', 'wp-job-manager' ),
 							'desc'       => __( 'If enabled, a username will be generated from the first part of the user email address. Otherwise, a username field will be shown.', 'wp-job-manager' ),
+							'type'       => 'checkbox',
+							'attributes' => array()
+						),
+						array(
+							'name'       => 'job_manager_use_standard_password_setup_email',
+							'std'        => '1',
+							'label'      => __( 'Account Password', 'wp-job-manager' ),
+							'cb_label'   => __( 'Use WordPress\' default behavior and email new users link to set a password', 'wp-job-manager' ),
+							'desc'       => __( 'If enabled, an email will be sent to the user with their username and a link to set their password. Otherwise, a password field will be shown and their email address won\'t be verified.', 'wp-job-manager' ),
 							'type'       => 'checkbox',
 							'attributes' => array()
 						),
@@ -431,14 +440,47 @@ class WP_Job_Manager_Settings {
 				jQuery(this).addClass('nav-tab-active');
 				return false;
 			});
-			jQuery('.nav-tab-wrapper a:first').click();
+			var goto_hash = window.location.hash;
+			if ( goto_hash ) {
+				var the_tab = jQuery( 'a[href="' + goto_hash + '"]' );
+				if ( the_tab.length > 0 ) {
+					the_tab.click();
+				} else {
+					jQuery( '.nav-tab-wrapper a:first' ).click();
+				}
+			} else {
+				jQuery( '.nav-tab-wrapper a:first' ).click();
+			}
+			var $use_standard_password_setup_email = jQuery('#setting-job_manager_use_standard_password_setup_email');
+			var $generate_username_from_email = jQuery('#setting-job_manager_generate_username_from_email');
+			var $job_manager_registration_role = jQuery('#setting-job_manager_registration_role');
+
 			jQuery('#setting-job_manager_enable_registration').change(function(){
 				if ( jQuery( this ).is(':checked') ) {
-					jQuery('#setting-job_manager_registration_role').closest('tr').show();
-					jQuery('#setting-job_manager_registration_username_from_email').closest('tr').show();
+					$job_manager_registration_role.closest('tr').show();
+					$use_standard_password_setup_email.closest('tr').show();
+					$generate_username_from_email.closest('tr').show();
 				} else {
-					jQuery('#setting-job_manager_registration_role').closest('tr').hide();
-					jQuery('#setting-job_manager_registration_username_from_email').closest('tr').hide();
+					$job_manager_registration_role.closest('tr').hide();
+					$use_standard_password_setup_email.closest('tr').hide();
+					$generate_username_from_email.closest('tr').hide();
+				}
+			}).change();
+
+			// If generate username is enabled on page load, assume use_standard_password_setup_email has been cleared.
+			// Default is true, so let's sneakily set it to that before it gets cleared and disabled.
+			if ( $generate_username_from_email.is(':checked') ) {
+				$use_standard_password_setup_email.prop('checked', true);
+			}
+
+			$generate_username_from_email.change(function() {
+				if ( jQuery( this ).is(':checked') ) {
+				    $use_standard_password_setup_email.data('original-state', $use_standard_password_setup_email.is(':checked')).prop('checked', true).prop('disabled', true);
+				} else {
+					$use_standard_password_setup_email.prop('disabled', false);
+					if ( undefined !== $use_standard_password_setup_email.data('original-state') ) {
+						$use_standard_password_setup_email.prop('checked', $use_standard_password_setup_email.data('original-state'));
+					}
 				}
 			}).change();
 		</script>

@@ -38,6 +38,7 @@ class WCMp_Commission {
 
             add_filter('bulk_actions-edit-dc_commission', array(&$this, 'register_commission_bulk_actions'));
             add_filter('handle_bulk_actions-edit-dc_commission', array(&$this, 'commission_bulk_action_handler'), 10, 3);
+            add_action('admin_notices', array(&$this, 'wcmp_commission_update_notice'));
         }
     }
 
@@ -140,43 +141,43 @@ class WCMp_Commission {
                     if (!empty($fields[$k])) {
                         foreach ($fields[$k] as $dat) {
                             $product = wc_get_product($dat);
-                            $html .= '<table>';
-                            $html .= '<tr>';
-                            $html .= '<td style="padding:0">';
-                            $html .= get_the_post_thumbnail($product->get_id(), array('50', '50')) ? get_the_post_thumbnail($product->get_id(), array('50', '50')) : wc_placeholder_img(array('50', '50'));
-                            $html .= '</td>';
-                            $html .= '<td>';
-                            if ($product->get_type() == 'variation') {
-                                $html .= '<a href="' . get_edit_post_link($product->get_parent_id()) . '">' . $product->get_title() . '</a>';
-                            } else {
-                                $html .= '<a href="' . get_edit_post_link($product->get_id()) . '">' . $product->get_title() . '</a>';
+                            if ($product) {
+                                $html .= '<table>';
+                                $html .= '<tr>';
+                                $html .= '<td style="padding:0">';
+                                $html .= get_the_post_thumbnail($product->get_id(), array('50', '50')) ? get_the_post_thumbnail($product->get_id(), array('50', '50')) : wc_placeholder_img(array('50', '50'));
+                                $html .= '</td>';
+                                $html .= '<td>';
+                                if ($product->get_type() == 'variation') {
+                                    $html .= '<a href="' . get_edit_post_link($product->get_parent_id()) . '">' . $product->get_title() . '</a>';
+                                } else {
+                                    $html .= '<a href="' . get_edit_post_link($product->get_id()) . '">' . $product->get_title() . '</a>';
+                                }
+                                $html .= '</td>';
+                                $html .= '</tr>';
+                                $html .= '</table>';
                             }
-                            $html .= '</td>';
-                            $html .= '</tr>';
-                            $html .= '</table>';
                         }
                     }
                     $html .= '<p class="description">' . $v['description'] . '</p>' . "\n";
                     $html .= '</td><tr/>' . "\n";
                 } elseif ($k == '_commission_vendor') {
                     $vendor = get_wcmp_vendor_by_term($data);
-                    $option = '<option value=""></option>';
-                    if ($data && strlen($data) > 0 && !empty($vendor)) {
-                        $option = '<option value="' . $vendor->term_id . '" selected="selected">' . $vendor->user_data->user_login . '</option>';
+                    if ($data && strlen($data) > 0 && $vendor) {
+                        $html .= '<tr valign="top"><th scope="row"><label for="' . esc_attr($k) . '">' . $v['name'] . '</label></th><td>';
+                        $html .= '<table>';
+                        $html .= '<tr>';
+                        $html .= '<td style="padding:0">';
+                        $html .= get_avatar($vendor->id, 50); //get_the_post_thumbnail($product->get_id(), array('50', '50'));
+                        $html .= '</td>';
+                        $html .= '<td>';
+                        $html .= '<a href="' . get_edit_user_link($vendor->id) . '">' . $vendor->user_data->display_name . '</a>';
+                        $html .= '</td>';
+                        $html .= '</tr>';
+                        $html .= '</table>';
+                        $html .= '<p class="description">' . $v['description'] . '</p>' . "\n";
+                        $html .= '</td><tr/>' . "\n";
                     }
-                    $html .= '<tr valign="top"><th scope="row"><label for="' . esc_attr($k) . '">' . $v['name'] . '</label></th><td>';
-                    $html .= '<table>';
-                    $html .= '<tr>';
-                    $html .= '<td style="padding:0">';
-                    $html .= get_avatar($vendor->id, 50); //get_the_post_thumbnail($product->get_id(), array('50', '50'));
-                    $html .= '</td>';
-                    $html .= '<td>';
-                    $html .= '<a href="' . get_edit_user_link($vendor->id) . '">' . $vendor->user_data->display_name . '</a>';
-                    $html .= '</td>';
-                    $html .= '</tr>';
-                    $html .= '</table>';
-                    $html .= '<p class="description">' . $v['description'] . '</p>' . "\n";
-                    $html .= '</td><tr/>' . "\n";
                 } else {
                     if ($v['type'] == 'checkbox') {
                         $html .= '<tr valign="top"><th scope="row">' . $v['name'] . '</th><td><input name="' . esc_attr($k) . '" type="checkbox" id="' . esc_attr($k) . '" ' . checked('on', $data, false) . ' /> <label for="' . esc_attr($k) . '"><span class="description">' . $v['description'] . '</span></label>' . "\n";
@@ -350,12 +351,26 @@ class WCMp_Commission {
                     if ($payment_method) {
                         if (array_key_exists($payment_method, $WCMp->payment_gateway->payment_gateways)) {
                             $WCMp->payment_gateway->payment_gateways[$payment_method]->process_payment($vendor, array($post_id), 'admin');
+                        } else {
+                            set_transient("wcmp_commission_save_{$post_id}", array('message' => __('Invalid payment method', 'dc-woocommerce-multi-vendor'), 'type' => 'error'), 120);
                         }
+                    } else {
+                        set_transient("wcmp_commission_save_{$post_id}", array('message' => __('Please set payment method for this commission vendor', 'dc-woocommerce-multi-vendor'), 'type' => 'error'), 120);
                     }
                 } else if ($status == 'reverse') {
                     update_post_meta($post_id, '_paid_status', $status, 'paid');
                 }
             }
+        }
+    }
+
+    public function wcmp_commission_update_notice() {
+        global $post;
+        if ($post && $message = get_transient("wcmp_commission_save_{$post->ID}")) {
+            echo '<div class="' . $message['type'] . '">';
+            echo '<p>' . $message['message'] . '</p>';
+            echo '</div>';
+            delete_transient("wcmp_commission_save_{$post->ID}");
         }
     }
 

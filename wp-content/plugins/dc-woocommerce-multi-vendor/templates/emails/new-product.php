@@ -29,4 +29,4 @@ else  $title = __( 'Product', 'dc-woocommerce-multi-vendor' );
 		<br/>
 	</p>
 
-<?php do_action( 'woocommerce_email_footer' ); ?>
+<?php do_action( 'wcmp_email_footer' ); ?>

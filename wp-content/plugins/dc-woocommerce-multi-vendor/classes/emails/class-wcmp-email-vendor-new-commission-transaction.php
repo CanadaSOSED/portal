@@ -144,4 +144,3 @@ if (!class_exists('WC_Email_Vendor_Commission_Transactions')) :
 
     endif;
 
-return new WC_Email_Vendor_Commission_Transactions();

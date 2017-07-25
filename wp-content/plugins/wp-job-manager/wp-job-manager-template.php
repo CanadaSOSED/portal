@@ -244,46 +244,158 @@ function get_the_job_application_method( $post = null ) {
 
 	return apply_filters( 'the_job_application_method', $method, $post );
 }
+
 /**
- * Displays the job type for the listing.
+ * Displays the job title for the listing.
  *
- * @since 1.0.0
+ * @since 1.27.0
  * @param int|WP_Post $post
  * @return string
  */
-function the_job_type( $post = null ) {
-	if ( ! get_option( 'job_manager_enable_types' ) ) {
-		return '';
+function wpjm_the_job_title( $post = null ) {
+	if ( $job_title = wpjm_get_the_job_title( $post ) ) {
+		echo $job_title;
 	}
-	if ( $job_type = get_the_job_type( $post ) ) {
-		echo $job_type->name;
+}
+
+/**
+ * Gets the job title for the listing.
+ *
+ * @since 1.27.0
+ * @param int|WP_Post $post (default: null)
+ * @return string|bool|null
+ */
+function wpjm_get_the_job_title( $post = null ) {
+	$post = get_post( $post );
+	if ( $post->post_type !== 'job_listing' ) {
+		return;
+	}
+
+	$title = esc_html( get_the_title( $post ) );
+
+	/**
+	 * Filter for the job title.
+	 *
+	 * @since 1.27.0
+	 * @param string      $title Title to be filtered.
+	 * @param int|WP_Post $post
+	 */
+	return apply_filters( 'wpjm_the_job_title', $title, $post );
+}
+
+/**
+ * Displays multiple job types for the listing.
+ *
+ * @since 1.27.0
+ *
+ * @param int|WP_Post $post Current post object.
+ * @param string      $separator String to join the term names with.
+ */
+function wpjm_the_job_types( $post = null, $separator = ', ' ) {
+	if ( ! get_option( 'job_manager_enable_types' ) ) {
+		return;
+	}
+
+	$job_types = wpjm_get_the_job_types( $post );
+
+	if ( $job_types ) {
+		$names = wp_list_pluck( $job_types, 'name' );
+
+		echo esc_html( implode( $separator, $names ) );
 	}
 }
 
 /**
  * Gets the job type for the listing.
  *
- * @since 1.0.0
- * @param int|WP_Post $post (default: null)
- * @return string|bool|null
+ * @since 1.27.0
+ *
+ * @param int|WP_Post $post (default: null).
+ * @return bool|array
  */
-function get_the_job_type( $post = null ) {
+function wpjm_get_the_job_types( $post = null ) {
 	$post = get_post( $post );
-	if ( $post->post_type !== 'job_listing' ) {
-		return;
+
+	if ( 'job_listing' !== $post->post_type ) {
+		return false;
 	}
 
-	$types = wp_get_post_terms( $post->ID, 'job_listing_type' );
+	$types = get_the_terms( $post->ID, 'job_listing_type' );
 
-	if ( $types ) {
-		$type = current( $types );
-	} else {
-		$type = false;
+	// Return single if not enabled.
+	if ( ! empty( $types ) && ! job_manager_multi_job_type() ) {
+		$types = array( current( $types ) );
 	}
 
-	return apply_filters( 'the_job_type', $type, $post );
+	/**
+	 * Filter the returned job types for a post.
+	 *
+	 * @since 1.27.0
+	 *
+	 * @param array   $types
+	 * @param WP_Post $post
+	 */
+	return apply_filters( 'wpjm_the_job_types', $types, $post );
 }
 
+/**
+ * Returns the registration fields used when an account is required.
+ *
+ * @since 1.27.0
+ *
+ * @return array $registration_fields
+ */
+function wpjm_get_registration_fields() {
+	$generate_username_from_email      = job_manager_generate_username_from_email();
+	$use_standard_password_setup_email = wpjm_use_standard_password_setup_email();
+	$account_required  = job_manager_user_requires_account();
+
+	$registration_fields = array();
+	if ( job_manager_enable_registration() ) {
+		if ( ! $generate_username_from_email ) {
+			$registration_fields['create_account_username'] = array(
+				'type'     => 'text',
+				'label'    => __( 'Username', 'wp-job-manager' ),
+				'required' => $account_required,
+				'value'    => isset( $_POST['create_account_username'] ) ? $_POST['create_account_username'] : '',
+			);
+		}
+		if ( ! $use_standard_password_setup_email ) {
+			$registration_fields['create_account_password'] = array(
+				'type'         => 'password',
+				'label'        => __( 'Password', 'wp-job-manager' ),
+				'autocomplete' => false,
+				'required'     => $account_required,
+			);
+			$password_hint = wpjm_get_password_rules_hint();
+			if ( $password_hint ) {
+				$registration_fields['create_account_password']['description'] = $password_hint;
+			}
+			$registration_fields['create_account_password_verify'] = array(
+				'type'         => 'password',
+				'label'        => __( 'Verify Password', 'wp-job-manager' ),
+				'autocomplete' => false,
+				'required'     => $account_required,
+			);
+		}
+		$registration_fields['create_account_email'] = array(
+			'type'        => 'text',
+			'label'       => __( 'Your email', 'wp-job-manager' ),
+			'placeholder' => __( 'you@yourdomain.com', 'wp-job-manager' ),
+			'required'    => $account_required,
+			'value'       => isset( $_POST['create_account_email'] ) ? $_POST['create_account_email'] : '',
+		);
+	}
+
+	/**
+	 * Filters the fields used at registration.
+	 *
+	 * @since 1.27.0
+	 *
+	 * @param array $registration_fields
+	 */
+	return apply_filters( 'wpjm_get_registration_fields', $registration_fields );
+}
 
 /**
  * Displays the published date of the job listing.
@@ -688,34 +800,13 @@ function job_listing_class( $class = '', $post_id = null ) {
  * @return array
  */
 function get_job_listing_class( $class = '', $post_id = null ) {
-	if ( ! get_option( 'job_manager_enable_types' ) ) {
-		return get_post_class( array( 'job_classes' ), $post_id );
-	}
-
 	$post = get_post( $post_id );
 
-	if ( $post->post_type !== 'job_listing' ) {
+	if (  empty( $post ) || 'job_listing' !== $post->post_type ) {
 		return array();
 	}
 
 	$classes = array();
-
-	if ( empty( $post ) ) {
-		return $classes;
-	}
-
-	$classes[] = 'job_listing';
-	if ( $job_type = get_the_job_type() ) {
-		$classes[] = 'job-type-' . sanitize_title( $job_type->name );
-	}
-
-	if ( is_position_filled( $post ) ) {
-		$classes[] = 'job_position_filled';
-	}
-
-	if ( is_position_featured( $post ) ) {
-		$classes[] = 'job_position_featured';
-	}
 
 	if ( ! empty( $class ) ) {
 		if ( ! is_array( $class ) ) {
@@ -726,6 +817,46 @@ function get_job_listing_class( $class = '', $post_id = null ) {
 
 	return get_post_class( $classes, $post->ID );
 }
+
+/**
+ * Adds post classes with meta info and the status of the job listing.
+ *
+ * @since 1.27.0
+ *
+ * @param array $classes An array of post classes.
+ * @param array $class   An array of additional classes added to the post.
+ * @param int   $post_id The post ID.
+ * @return array
+ */
+function wpjm_add_post_class( $classes, $class, $post_id ) {
+	$post = get_post( $post_id );
+
+	if (  empty( $post ) || 'job_listing' !== $post->post_type ) {
+		return $classes;
+	}
+
+	$classes[] = 'job_listing';
+
+	if ( get_option( 'job_manager_enable_types' ) ) {
+		$job_types = wpjm_get_the_job_types( $post );
+		if ( ! empty( $job_types ) ) {
+			foreach ( $job_types as $job_type ) {
+				$classes[] = 'job-type-' . sanitize_title( $job_type->name );
+			}
+		}
+	}
+
+	if ( is_position_filled( $post ) ) {
+		$classes[] = 'job_position_filled';
+	}
+
+	if ( is_position_featured( $post ) ) {
+		$classes[] = 'job_position_featured';
+	}
+
+	return $classes;
+}
+add_action( 'post_class', 'wpjm_add_post_class', 10, 3 );
 
 /**
  * Displays job meta data on the single job page.

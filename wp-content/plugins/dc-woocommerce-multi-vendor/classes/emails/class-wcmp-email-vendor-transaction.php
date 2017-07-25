@@ -149,5 +149,3 @@ class WC_Email_Vendor_Commission_Transactions extends WC_Email {
 }
 
 endif;
-
-return new WC_Email_Vendor_Commission_Transactions();

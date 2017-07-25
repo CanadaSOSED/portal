@@ -115,6 +115,10 @@ input[type="number"].wcfm-text {
 			right: 0;
 			top: 0;
 	}
+	html[dir="rtl"] .page_collapsible + .wcfm-container {
+		left: 0;
+		right: auto;
+	}
 	#wcfm_products_simple_submit {
 		overflow:hidden;
 	}

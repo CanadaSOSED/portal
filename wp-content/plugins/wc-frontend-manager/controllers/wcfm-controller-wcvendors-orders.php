@@ -119,7 +119,10 @@ class WCFM_Orders_WCVendors_Controller {
 			$wcfm_orders_json_arr = array();
 			
 			foreach ( $order_summary as $order ) {
-	
+				// Order exists check
+				$order_post_title = get_the_title( $order->order_id );
+				if( !$order_post_title ) continue;
+				
 				$the_order = new WC_Order( $order->order_id );
 				//$the_order = wc_get_order( $order );
 				$valid_items = WCV_Queries::get_products_for_order( $the_order->id );
@@ -208,7 +211,7 @@ class WCFM_Orders_WCVendors_Controller {
 				if ( WC_Vendors::$pv_options->get_option( 'give_tax' ) ) {
 					$total += $order->tax;
 				}
-				$wcfm_orders_json_arr[$index][] =  wc_price( $total ) . '<br />' . $status;
+				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( $total ) . '<br />' . $status, $order->product_id, $total, $status );
 				
 				// Date
 				$wcfm_orders_json_arr[$index][] = date_i18n( wc_date_format(), strtotime( $order_date ) );

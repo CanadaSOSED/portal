@@ -3,7 +3,7 @@
  * Plugin Name: WooCommerce
  * Plugin URI: https://woocommerce.com/
  * Description: An e-commerce toolkit that helps you sell anything. Beautifully.
- * Version: 3.0.9
+ * Version: 3.1.1
  * Author: Automattic
  * Author URI: https://woocommerce.com
  * Requires at least: 4.4
@@ -26,7 +26,7 @@ if ( ! class_exists( 'WooCommerce' ) ) :
  * Main WooCommerce Class.
  *
  * @class WooCommerce
- * @version	3.0.0
+ * @version	3.1.0
  */
 final class WooCommerce {
 
@@ -35,7 +35,7 @@ final class WooCommerce {
 	 *
 	 * @var string
 	 */
-	public $version = '3.0.9';
+	public $version = '3.1.1';
 
 	/**
 	 * The single instance of the class.
@@ -280,6 +280,7 @@ final class WooCommerce {
 		 * Abstract classes.
 		 */
 		include_once( WC_ABSPATH . 'includes/abstracts/abstract-wc-data.php' ); // WC_Data for CRUD
+		include_once( WC_ABSPATH . 'includes/abstracts/abstract-wc-object-query.php' ); // WC_Object_Query for CRUD
 		include_once( WC_ABSPATH . 'includes/abstracts/abstract-wc-payment-token.php' ); // Payment Tokens
 		include_once( WC_ABSPATH . 'includes/abstracts/abstract-wc-product.php' ); // Products
 		include_once( WC_ABSPATH . 'includes/abstracts/abstract-wc-order.php' ); // Orders
@@ -307,6 +308,7 @@ final class WooCommerce {
 		include_once( WC_ABSPATH . 'includes/class-wc-data-exception.php' );
 		include_once( WC_ABSPATH . 'includes/class-wc-query.php' );
 		include_once( WC_ABSPATH . 'includes/class-wc-order-factory.php' ); // Order factory
+		include_once( WC_ABSPATH . 'includes/class-wc-order-query.php' ); // Order query
 		include_once( WC_ABSPATH . 'includes/class-wc-product-factory.php' ); // Product factory
 		include_once( WC_ABSPATH . 'includes/class-wc-payment-tokens.php' ); // Payment tokens controller
 		include_once( WC_ABSPATH . 'includes/class-wc-shipping-zone.php' );
@@ -459,6 +461,7 @@ final class WooCommerce {
 		$locale = is_admin() && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
 		$locale = apply_filters( 'plugin_locale', $locale, 'woocommerce' );
 
+		unload_textdomain( 'woocommerce' );
 		load_textdomain( 'woocommerce', WP_LANG_DIR . '/woocommerce/woocommerce-' . $locale . '.mo' );
 		load_plugin_textdomain( 'woocommerce', false, plugin_basename( dirname( __FILE__ ) ) . '/i18n/languages' );
 	}

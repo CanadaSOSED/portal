@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WC Marketplace\n"
-"POT-Creation-Date: 2017-06-24 06:39+0000\n"
-"PO-Revision-Date: 2017-06-24 06:39+0000\n"
+"POT-Creation-Date: 2017-07-17 10:07+0000\n"
+"PO-Revision-Date: 2017-07-17 10:07+0000\n"
 "Last-Translator: dualcube <subrata@dualcube.com>\n"
 "Language-Team: Chinese (China)\n"
 "Language: zh-CN\n"
@@ -30,7 +30,7 @@ msgstr ""
 #: classes/class-wcmp-post-transaction.php:37
 #: classes/class-wcmp-post-notices.php:71
 #: classes/class-wcmp-post-vendorapplication.php:38
-#: classes/class-wcmp-post-commission.php:57
+#: classes/class-wcmp-post-commission.php:58
 #: classes/class-wcmp-post-university.php:32
 msgid "Add New"
 msgstr ""
@@ -46,11 +46,30 @@ msgstr ""
 msgid "PayPal Payout"
 msgstr ""
 
+#: classes/class-wcmp-post-transaction.php:250
+msgid "Commission ID"
+msgstr ""
+
+#: classes/class-wcmp-email.php:31
+msgid "WCMp Footer text"
+msgstr ""
+
+#: classes/class-wcmp-email.php:32
+msgid "The text to appear in the footer of WCMp emails."
+msgstr ""
+
+#. %s: site name
+#: classes/class-wcmp-email.php:38
+#, php-format
+msgid "%s - Powered by WC Marketplace"
+msgstr ""
+
 #: classes/class-wcmp-vendor-dashboard.php:71
 msgid "Something went wrong please try again later"
 msgstr ""
 
 #: classes/class-wcmp-vendor-dashboard.php:74
+#: classes/class-wcmp-post-commission.php:357
 #: classes/gateways/class-wcmp-gateway-paypal-masspay.php:56
 #: classes/gateways/class-wcmp-gateway-paypal-payout.php:60
 #: classes/gateways/class-wcmp-gateway-bank-transfer.php:36
@@ -66,12 +85,12 @@ msgstr ""
 msgid "Commission IDs"
 msgstr ""
 
-#: classes/class-wcmp-vendor-dashboard.php:442
-#: classes/class-wcmp-vendor-dashboard.php:759
+#: classes/class-wcmp-vendor-dashboard.php:441
+#: classes/class-wcmp-vendor-dashboard.php:758
 msgid "Shipping Data Updated"
 msgstr ""
 
-#: classes/class-wcmp-vendor-dashboard.php:761
+#: classes/class-wcmp-vendor-dashboard.php:760
 msgid "Shipping Data Not Updated"
 msgstr ""
 
@@ -101,50 +120,54 @@ msgstr ""
 msgid "Vendor Application"
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:55
+#: classes/class-wcmp-post-commission.php:56
 msgctxt "post type general name"
 msgid "Commissions"
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:56
+#: classes/class-wcmp-post-commission.php:57
 msgctxt "post type singular name"
 msgid "Commission"
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:61
-#: classes/class-wcmp-post-commission.php:63
+#: classes/class-wcmp-post-commission.php:62
 #: classes/class-wcmp-post-commission.php:64
 #: classes/class-wcmp-post-commission.php:65
-#: classes/class-wcmp-post-commission.php:67
+#: classes/class-wcmp-post-commission.php:66
 #: classes/class-wcmp-post-commission.php:68
+#: classes/class-wcmp-post-commission.php:69
 msgid "Commissions"
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:246
+#: classes/class-wcmp-post-commission.php:249
 msgid "The total value of this commission."
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:251
+#: classes/class-wcmp-post-commission.php:254
 msgid "The total value of shipping."
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:259
+#: classes/class-wcmp-post-commission.php:262
 msgid "The total value of this tax."
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:318
+#: classes/class-wcmp-post-commission.php:321
 msgid "Mark as Paid"
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:320
+#: classes/class-wcmp-post-commission.php:323
 msgid "Mark as Reverse"
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:467
+#: classes/class-wcmp-post-commission.php:360
+msgid "Please set payment method for this commission vendor"
+msgstr ""
+
+#: classes/class-wcmp-post-commission.php:484
 msgid "Mark paid"
 msgstr ""
 
-#: classes/class-wcmp-post-commission.php:468
+#: classes/class-wcmp-post-commission.php:485
 msgid "Export"
 msgstr ""
 
@@ -168,12 +191,12 @@ msgstr ""
 #: classes/class-wcmp-post-university.php:40
 #: classes/class-wcmp-post-university.php:42
 #: classes/class-wcmp-post-university.php:43
-#: classes/class-wcmp-vendor-hooks.php:170
-#: classes/class-wcmp-vendor-hooks.php:616 admin/class-wcmp-settings.php:122
+#: classes/class-wcmp-vendor-hooks.php:171
+#: classes/class-wcmp-vendor-hooks.php:621 admin/class-wcmp-settings.php:122
 msgid "Knowledgebase"
 msgstr ""
 
-#: classes/class-wcmp-endpoints.php:38 classes/class-wcmp-vendor-hooks.php:55
+#: classes/class-wcmp-endpoints.php:38 classes/class-wcmp-vendor-hooks.php:56
 #: admin/class-wcmp-settings-vendor-general.php:48
 msgid "Shop Front"
 msgstr ""
@@ -209,7 +232,7 @@ msgid ""
 "your vendors."
 msgstr ""
 
-#: classes/class-wcmp-calculate-commission.php:182
+#: classes/class-wcmp-calculate-commission.php:184
 msgctxt "Commission date parsed by strftime"
 msgid "%B %e, %Y @ %I:%M %p"
 msgstr ""
@@ -218,19 +241,19 @@ msgstr ""
 msgid "No Suggestion found"
 msgstr ""
 
-#: classes/class-wcmp-vendor-hooks.php:102
+#: classes/class-wcmp-vendor-hooks.php:103
 msgid "Add Coupon"
 msgstr ""
 
-#: classes/class-wcmp-vendor-hooks.php:120
+#: classes/class-wcmp-vendor-hooks.php:121
 msgid "Stats / Reports"
 msgstr ""
 
-#: classes/class-wcmp-vendor-hooks.php:152
+#: classes/class-wcmp-vendor-hooks.php:153
 msgid "Withdrawal"
 msgstr ""
 
-#: classes/class-wcmp-vendor-hooks.php:179
+#: classes/class-wcmp-vendor-hooks.php:180
 msgid "Sign out"
 msgstr ""
 
@@ -713,6 +736,15 @@ msgid ""
 "administrator"
 msgstr ""
 
+#: classes/emails/class-wcmp-email-vendor-new-order.php:31
+#: classes/emails/class-wcmp-email-vendor-new-order.php:48
+msgid "[{site_title}] New vendor order ({order_number}) - {order_date}"
+msgstr ""
+
+#: classes/emails/class-wcmp-email-vendor-new-order.php:58
+msgid "New vendor order"
+msgstr ""
+
 #: templates/shortcode/vendor_registration.php:10
 msgid "Account Details"
 msgstr ""
@@ -729,15 +761,15 @@ msgstr ""
 msgid "Sorry no knowledgebase found"
 msgstr ""
 
-#: templates/single-product/multiple_vendors_products_body.php:73
+#: templates/single-product/multiple_vendors_products_body.php:74
 msgid "no ratings"
 msgstr ""
 
-#: templates/single-product/multiple_vendors_products_body.php:94
+#: templates/single-product/multiple_vendors_products_body.php:83
 msgid "Add to Cart"
 msgstr ""
 
-#: templates/single-product/multiple_vendors_products_body.php:97
+#: templates/single-product/multiple_vendors_products_body.php:86
 msgid "Details"
 msgstr ""
 
@@ -800,6 +832,11 @@ msgstr ""
 msgid "Search for a product..."
 msgstr ""
 
+#: templates/vendor-dashboard/vendor-withdrawal/vendor-withdrawal-request.php:20
+#, php-format
+msgid "Withdrawal #%s details"
+msgstr ""
+
 #: templates/vendor-dashboard/dashboard/vendor-dashboard-sales-item-header.php:19
 msgid "Discount"
 msgstr ""
@@ -849,7 +886,7 @@ msgstr ""
 #: classes/class-wcmp-post-transaction.php:38
 #: classes/class-wcmp-post-notices.php:72
 #: classes/class-wcmp-post-vendorapplication.php:39
-#: classes/class-wcmp-post-commission.php:58
+#: classes/class-wcmp-post-commission.php:59
 #: classes/class-wcmp-post-university.php:33
 #, php-format
 msgid "Add New %s"
@@ -865,7 +902,7 @@ msgstr "交易"
 
 #: classes/class-wcmp-post-transaction.php:39
 #: classes/class-wcmp-post-notices.php:73
-#: classes/class-wcmp-post-commission.php:59
+#: classes/class-wcmp-post-commission.php:60
 #: classes/class-wcmp-post-university.php:34
 #, php-format
 msgid "Edit %s"
@@ -874,7 +911,7 @@ msgstr "编辑 %s"
 #: classes/class-wcmp-post-transaction.php:40
 #: classes/class-wcmp-post-notices.php:74
 #: classes/class-wcmp-post-vendorapplication.php:41
-#: classes/class-wcmp-post-commission.php:60
+#: classes/class-wcmp-post-commission.php:61
 #: classes/class-wcmp-post-university.php:35
 #, php-format
 msgid "New %s"
@@ -883,7 +920,7 @@ msgstr "新建 %s"
 #: classes/class-wcmp-post-transaction.php:41
 #: classes/class-wcmp-post-notices.php:75
 #: classes/class-wcmp-post-vendorapplication.php:42
-#: classes/class-wcmp-post-commission.php:61
+#: classes/class-wcmp-post-commission.php:62
 #: classes/class-wcmp-post-university.php:36
 #, php-format
 msgid "All %s"
@@ -893,7 +930,7 @@ msgstr "全部 %s"
 #: classes/class-wcmp-post-notices.php:76
 #: classes/class-wcmp-post-vendorapplication.php:40
 #: classes/class-wcmp-post-vendorapplication.php:43
-#: classes/class-wcmp-post-commission.php:62
+#: classes/class-wcmp-post-commission.php:63
 #: classes/class-wcmp-post-university.php:37
 #, php-format
 msgid "View %s"
@@ -902,7 +939,7 @@ msgstr "查看 %s"
 #: classes/class-wcmp-post-transaction.php:43
 #: classes/class-wcmp-post-notices.php:77
 #: classes/class-wcmp-post-vendorapplication.php:44
-#: classes/class-wcmp-post-commission.php:63
+#: classes/class-wcmp-post-commission.php:64
 #: classes/class-wcmp-post-university.php:38
 msgid "Search %a"
 msgstr "搜索 %a"
@@ -918,7 +955,7 @@ msgstr "交易"
 #: classes/class-wcmp-post-transaction.php:44
 #: classes/class-wcmp-post-notices.php:78
 #: classes/class-wcmp-post-vendorapplication.php:45
-#: classes/class-wcmp-post-commission.php:64
+#: classes/class-wcmp-post-commission.php:65
 #: classes/class-wcmp-post-university.php:39
 #, php-format
 msgid "No %s found"
@@ -940,8 +977,8 @@ msgid "Date of request"
 msgstr "申请日期"
 
 #: classes/class-wcmp-post-transaction.php:175
-#: classes/class-wcmp-post-transaction.php:240
-#: classes/class-wcmp-post-commission.php:373
+#: classes/class-wcmp-post-transaction.php:250
+#: classes/class-wcmp-post-commission.php:390
 #: admin/class-wcmp-settings-to_do_list.php:162
 msgid "Amount"
 msgstr "数量"
@@ -1014,50 +1051,51 @@ msgstr "PayPal 邮箱"
 msgid "Manual"
 msgstr "手动"
 
-#: classes/class-wcmp-post-transaction.php:240
-#: classes/class-wcmp-vendor-dashboard.php:116
-#: classes/class-wcmp-post-commission.php:58
-#: classes/class-wcmp-post-commission.php:59
-#: classes/class-wcmp-post-commission.php:60
-#: classes/class-wcmp-post-commission.php:62 classes/class-wcmp-product.php:795
-#: classes/class-wcmp-product.php:799 classes/class-wcmp-product.php:1143
-#: classes/class-wcmp-product.php:1153
-#: admin/class-wcmp-settings-to_do_list.php:161
-#: templates/emails/vendor-new-order.php:25
-msgid "Commission"
-msgstr "回扣"
-
-#: classes/class-wcmp-post-transaction.php:240
+#: classes/class-wcmp-post-transaction.php:250
 #: classes/class-wcmp-vendor-order-page.php:78 classes/class-wcmp-user.php:961
 msgid "Products"
 msgstr "货品"
 
-#: classes/class-wcmp-post-transaction.php:312
+#: classes/class-wcmp-post-transaction.php:250
+#: classes/class-wcmp-post-commission.php:391
+#: templates/vendor-dashboard/vendor-orders.php:72
+#: templates/vendor-dashboard/vendor-orders.php:126
+#: templates/vendor-dashboard/vendor-orders.php:179
+msgid "Status"
+msgstr "状态"
+
+#: classes/class-wcmp-post-transaction.php:322
 #: templates/vendor-dashboard/vendor-orders.php:43
 msgid "Completed"
 msgstr "已完成"
 
-#: classes/class-wcmp-post-transaction.php:314
+#: classes/class-wcmp-post-transaction.php:324
 #: templates/vendor-dashboard/vendor-orders.php:42
 msgid "Processing"
 msgstr "处理中"
 
-#: classes/class-wcmp-post-transaction.php:325
+#: classes/class-wcmp-post-transaction.php:335
 #: classes/class-wcmp-vendor-dashboard.php:129
 msgid "PayPal"
 msgstr "PayPal"
 
-#: classes/class-wcmp-post-transaction.php:327
+#: classes/class-wcmp-post-transaction.php:337
 #: classes/class-wcmp-vendor-dashboard.php:131
 #: admin/class-wcmp-settings-payment.php:33
 msgid "Direct Bank Transfer"
 msgstr "直接银行转账"
 
-#: classes/class-wcmp-email.php:69
+#: classes/class-wcmp-email.php:35
+#: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:172
+#: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:190
+msgid "N/A"
+msgstr "无"
+
+#: classes/class-wcmp-email.php:107
 msgid "Customer Support Details of : "
 msgstr "客服详情："
 
-#: classes/class-wcmp-email.php:76 classes/class-wcmp-email.php:143
+#: classes/class-wcmp-email.php:114 classes/class-wcmp-email.php:181
 #: templates/customer_support_details_to_buyer.php:47
 #: templates/customer_support_details_to_buyer.php:83
 #: templates/vendor_message_to_buyer.php:43
@@ -1065,7 +1103,7 @@ msgstr "客服详情："
 msgid "Email : "
 msgstr "邮箱："
 
-#: classes/class-wcmp-email.php:83 classes/class-wcmp-email.php:153
+#: classes/class-wcmp-email.php:121 classes/class-wcmp-email.php:191
 #: templates/customer_support_details_to_buyer.php:52
 #: templates/customer_support_details_to_buyer.php:88
 #: templates/vendor_message_to_buyer.php:48
@@ -1073,80 +1111,80 @@ msgstr "邮箱："
 msgid "Phone : "
 msgstr "电话："
 
-#: classes/class-wcmp-email.php:88
+#: classes/class-wcmp-email.php:126
 msgid "Return Address of : "
 msgstr "退货地址："
 
-#: classes/class-wcmp-email.php:93 classes/class-wcmp-email.php:169
+#: classes/class-wcmp-email.php:131 classes/class-wcmp-email.php:207
 msgid "Address Line 1 : "
 msgstr "地址行一："
 
-#: classes/class-wcmp-email.php:98 classes/class-wcmp-email.php:179
+#: classes/class-wcmp-email.php:136 classes/class-wcmp-email.php:217
 msgid "Address Line 2 : "
 msgstr "地址行二："
 
-#: classes/class-wcmp-email.php:103 classes/class-wcmp-email.php:189
+#: classes/class-wcmp-email.php:141 classes/class-wcmp-email.php:227
 msgid "State : "
 msgstr "省："
 
-#: classes/class-wcmp-email.php:108 classes/class-wcmp-email.php:199
+#: classes/class-wcmp-email.php:146 classes/class-wcmp-email.php:237
 msgid "City : "
 msgstr "市："
 
-#: classes/class-wcmp-email.php:113 classes/class-wcmp-email.php:209
+#: classes/class-wcmp-email.php:151 classes/class-wcmp-email.php:247
 msgid "Country : "
 msgstr "国家："
 
-#: classes/class-wcmp-email.php:118 classes/class-wcmp-email.php:219
+#: classes/class-wcmp-email.php:156 classes/class-wcmp-email.php:257
 msgid "Zip Code : "
 msgstr "邮编："
 
-#: classes/class-wcmp-email.php:137
+#: classes/class-wcmp-email.php:175
 msgid "Customer Support Details :"
 msgstr "客服详情："
 
-#: classes/class-wcmp-email.php:162
+#: classes/class-wcmp-email.php:200
 msgid "Our Return Address :"
 msgstr "我们的退货地址："
 
-#: classes/class-wcmp-seller-review-rating.php:95
+#: classes/class-wcmp-seller-review-rating.php:96
 msgid "Vendor Rating"
 msgstr "卖家打分"
 
-#: classes/class-wcmp-seller-review-rating.php:113
-#: classes/class-wcmp-seller-review-rating.php:115
+#: classes/class-wcmp-seller-review-rating.php:114
+#: classes/class-wcmp-seller-review-rating.php:116
 msgid "Vendor Name."
 msgstr "卖家名。"
 
-#: classes/class-wcmp-seller-review-rating.php:139
+#: classes/class-wcmp-seller-review-rating.php:140
 msgid "Vendor Rating."
 msgstr "卖家打分。"
 
-#: classes/class-wcmp-seller-review-rating.php:141
+#: classes/class-wcmp-seller-review-rating.php:142
 msgid "Vendor Rating Star."
 msgstr "卖家打分星级。"
 
-#: classes/class-wcmp-seller-review-rating.php:142
+#: classes/class-wcmp-seller-review-rating.php:143
 msgid "Please Select"
 msgstr "请选择"
 
-#: classes/class-wcmp-seller-review-rating.php:142
+#: classes/class-wcmp-seller-review-rating.php:143
 msgid "1 Star"
 msgstr "1星"
 
-#: classes/class-wcmp-seller-review-rating.php:142
+#: classes/class-wcmp-seller-review-rating.php:143
 msgid "2 Star"
 msgstr "2星"
 
-#: classes/class-wcmp-seller-review-rating.php:142
+#: classes/class-wcmp-seller-review-rating.php:143
 msgid "3 Star"
 msgstr "3星"
 
-#: classes/class-wcmp-seller-review-rating.php:142
+#: classes/class-wcmp-seller-review-rating.php:143
 msgid "4 Star"
 msgstr "4星"
 
-#: classes/class-wcmp-seller-review-rating.php:142
+#: classes/class-wcmp-seller-review-rating.php:143
 msgid "5 Star"
 msgstr "5星"
 
@@ -1168,6 +1206,18 @@ msgstr "交易编号"
 msgid "Mode"
 msgstr "模式"
 
+#: classes/class-wcmp-vendor-dashboard.php:116
+#: classes/class-wcmp-post-commission.php:59
+#: classes/class-wcmp-post-commission.php:60
+#: classes/class-wcmp-post-commission.php:61
+#: classes/class-wcmp-post-commission.php:63 classes/class-wcmp-product.php:795
+#: classes/class-wcmp-product.php:799 classes/class-wcmp-product.php:1143
+#: classes/class-wcmp-product.php:1153
+#: admin/class-wcmp-settings-to_do_list.php:161
+#: templates/emails/vendor-new-order.php:25
+msgid "Commission"
+msgstr "回扣"
+
 #: classes/class-wcmp-vendor-dashboard.php:117
 #: templates/vendor-dashboard/vendor-transactions.php:54
 msgid "Fee"
@@ -1177,24 +1227,24 @@ msgstr "费用"
 msgid "Credit"
 msgstr "信用卡"
 
-#: classes/class-wcmp-vendor-dashboard.php:159
+#: classes/class-wcmp-vendor-dashboard.php:161
 msgid "Sorry. no transaction data is available upon your selection"
 msgstr "对不起，在您的选项中没有交易数据"
 
-#: classes/class-wcmp-vendor-dashboard.php:201
+#: classes/class-wcmp-vendor-dashboard.php:203
 #: admin/class-wcmp-settings.php:182
 msgid "Order"
 msgstr "订单"
 
-#: classes/class-wcmp-vendor-dashboard.php:202
+#: classes/class-wcmp-vendor-dashboard.php:204
 msgid "Date of Purchase"
 msgstr "购买日期"
 
-#: classes/class-wcmp-vendor-dashboard.php:203
+#: classes/class-wcmp-vendor-dashboard.php:205
 msgid "Time Of Purchase"
 msgstr "购买时间"
 
-#: classes/class-wcmp-vendor-dashboard.php:204
+#: classes/class-wcmp-vendor-dashboard.php:206
 #: admin/class-wcmp-settings-to_do_list.php:80
 #: admin/class-wcmp-settings-to_do_list.php:119
 #: templates/customer_support_details_to_buyer.php:40
@@ -1202,98 +1252,98 @@ msgstr "购买时间"
 msgid "Vendor Name"
 msgstr "卖家名"
 
-#: classes/class-wcmp-vendor-dashboard.php:205
+#: classes/class-wcmp-vendor-dashboard.php:207
 msgid "Items bought"
 msgstr "购买项目"
 
-#: classes/class-wcmp-vendor-dashboard.php:206
+#: classes/class-wcmp-vendor-dashboard.php:208
 #: templates/emails/vendor-notify-shipped.php:29
 #: templates/emails/vendor-new-order.php:24
 msgid "Quantity"
 msgstr "数量"
 
-#: classes/class-wcmp-vendor-dashboard.php:207
+#: classes/class-wcmp-vendor-dashboard.php:209
 msgid "Discount Used"
 msgstr "使用折扣"
 
-#: classes/class-wcmp-vendor-dashboard.php:208
+#: classes/class-wcmp-vendor-dashboard.php:210
 msgid "Payment System"
 msgstr "支付系统"
 
-#: classes/class-wcmp-vendor-dashboard.php:209
+#: classes/class-wcmp-vendor-dashboard.php:211
 #: admin/class-wcmp-settings-capabilities-order.php:41
 msgid "Customer Name"
 msgstr "买家姓名"
 
-#: classes/class-wcmp-vendor-dashboard.php:210 classes/class-wcmp-user.php:666
+#: classes/class-wcmp-vendor-dashboard.php:212 classes/class-wcmp-user.php:666
 msgid "Customer Email"
 msgstr "买家邮箱"
 
-#: classes/class-wcmp-vendor-dashboard.php:211
+#: classes/class-wcmp-vendor-dashboard.php:213
 msgid "Customer Contact"
 msgstr "买家联系方式"
 
-#: classes/class-wcmp-vendor-dashboard.php:212
+#: classes/class-wcmp-vendor-dashboard.php:214
 msgid "Billing Address Details"
 msgstr "账单地址详细"
 
-#: classes/class-wcmp-vendor-dashboard.php:213
+#: classes/class-wcmp-vendor-dashboard.php:215
 msgid "Shipping Address Details"
 msgstr "送货地址详细"
 
-#: classes/class-wcmp-vendor-dashboard.php:214
+#: classes/class-wcmp-vendor-dashboard.php:216
 msgid "Order Status"
 msgstr "订单状态"
 
-#: classes/class-wcmp-vendor-dashboard.php:215
+#: classes/class-wcmp-vendor-dashboard.php:217
 #: admin/class-wcmp-settings-payment.php:63
 msgid "Tax"
 msgstr "税金"
 
-#: classes/class-wcmp-vendor-dashboard.php:216
+#: classes/class-wcmp-vendor-dashboard.php:218
 #: classes/class-wcmp-vendor-dashboard.php:388
 #: classes/class-wcmp-vendor-dashboard.php:388
-#: classes/class-wcmp-vendor-dashboard.php:420
-#: classes/class-wcmp-vendor-hooks.php:76
-#: classes/class-wcmp-vendor-hooks.php:584
+#: classes/class-wcmp-vendor-dashboard.php:419
+#: classes/class-wcmp-vendor-hooks.php:77
+#: classes/class-wcmp-vendor-hooks.php:589
 #: admin/class-wcmp-settings-capabilities-product.php:46
 #: admin/class-wcmp-settings-payment.php:64
 msgid "Shipping"
 msgstr "发货"
 
-#: classes/class-wcmp-vendor-dashboard.php:217
+#: classes/class-wcmp-vendor-dashboard.php:219
 msgid "Commission Share"
 msgstr "回扣共享"
 
-#: classes/class-wcmp-vendor-dashboard.php:380
-#: classes/class-wcmp-vendor-dashboard.php:380
-#: classes/class-wcmp-vendor-dashboard.php:549
-#: classes/class-wcmp-vendor-hooks.php:137
+#: classes/class-wcmp-vendor-dashboard.php:382
+#: classes/class-wcmp-vendor-dashboard.php:382
+#: classes/class-wcmp-vendor-dashboard.php:548
+#: classes/class-wcmp-vendor-hooks.php:138
 msgid "Orders"
 msgstr "订单"
 
-#: classes/class-wcmp-vendor-dashboard.php:574
+#: classes/class-wcmp-vendor-dashboard.php:573
 msgid "No shipping class"
 msgstr "没有送货类"
 
-#: classes/class-wcmp-vendor-dashboard.php:676
-#: classes/class-wcmp-vendor-dashboard.php:678 classes/class-wcmp-user.php:1059
+#: classes/class-wcmp-vendor-dashboard.php:675
+#: classes/class-wcmp-vendor-dashboard.php:677 classes/class-wcmp-user.php:1059
 #: classes/class-wcmp-user.php:1106
 msgid "Slug already exists"
 msgstr "标识符已存在"
 
-#: classes/class-wcmp-vendor-dashboard.php:688
-#: classes/class-wcmp-vendor-dashboard.php:690
+#: classes/class-wcmp-vendor-dashboard.php:687
+#: classes/class-wcmp-vendor-dashboard.php:689
 msgid "Slug can not be empty"
 msgstr "标识符不能为空"
 
-#: classes/class-wcmp-vendor-dashboard.php:700
-#: classes/class-wcmp-vendor-dashboard.php:702
+#: classes/class-wcmp-vendor-dashboard.php:699
+#: classes/class-wcmp-vendor-dashboard.php:701
 msgid "Shop Title can not be empty"
 msgstr "店铺标题不能为空"
 
-#: classes/class-wcmp-vendor-dashboard.php:709
-#: classes/class-wcmp-vendor-dashboard.php:711
+#: classes/class-wcmp-vendor-dashboard.php:708
+#: classes/class-wcmp-vendor-dashboard.php:710
 msgid "Shop Title Update Error"
 msgstr "店铺标题更新错误"
 
@@ -1316,100 +1366,100 @@ msgstr "附加字段"
 #: classes/class-wcmp-post-notices.php:79
 #: classes/class-wcmp-post-notices.php:81
 #: classes/class-wcmp-post-notices.php:82
-#: classes/class-wcmp-vendor-hooks.php:621
+#: classes/class-wcmp-vendor-hooks.php:626
 #: templates/vendor-dashboard/navigation.php:28
 msgid "Announcements"
 msgstr "公告"
 
 #: classes/class-wcmp-post-notices.php:79
 #: classes/class-wcmp-post-vendorapplication.php:46
-#: classes/class-wcmp-post-commission.php:65
+#: classes/class-wcmp-post-commission.php:66
 #: classes/class-wcmp-post-university.php:40
 #, php-format
 msgid "No %s found in trash"
 msgstr "没有在回收站找到 %s"
 
-#: classes/class-wcmp-vendor-details.php:551
+#: classes/class-wcmp-vendor-details.php:553
 #, php-format
 msgid "Quantity: %s"
 msgstr "数量： %s"
 
-#: classes/class-wcmp-vendor-details.php:558
+#: classes/class-wcmp-vendor-details.php:561
 #, php-format
 msgid "Total: %s"
 msgstr "总计： %s"
 
-#: classes/class-wcmp-vendor-details.php:560
+#: classes/class-wcmp-vendor-details.php:563
 #, php-format
 msgid "Commission: %s"
 msgstr "回扣： %s"
 
-#: classes/class-wcmp-vendor-details.php:635
+#: classes/class-wcmp-vendor-details.php:638
 msgid "Commission Subtotal:"
 msgstr "回扣小计："
 
-#: classes/class-wcmp-vendor-details.php:639
+#: classes/class-wcmp-vendor-details.php:642
 msgid "Tax Subtotal:"
 msgstr "税金小计："
 
-#: classes/class-wcmp-vendor-details.php:643
+#: classes/class-wcmp-vendor-details.php:646
 msgid "Shipping Subtotal:"
 msgstr "运费小计："
 
-#: classes/class-wcmp-vendor-details.php:647
+#: classes/class-wcmp-vendor-details.php:650
 msgid "Total:"
 msgstr "总计："
 
-#: classes/class-wcmp-post-commission.php:101
+#: classes/class-wcmp-post-commission.php:102
 msgid "Commission Details"
 msgstr "回扣详情"
 
-#: classes/class-wcmp-post-commission.php:213
+#: classes/class-wcmp-post-commission.php:216
 msgid "Order ID:"
 msgstr "订单编号："
 
-#: classes/class-wcmp-post-commission.php:221
+#: classes/class-wcmp-post-commission.php:224
 msgid "Product:"
 msgstr "货品："
 
-#: classes/class-wcmp-post-commission.php:222
+#: classes/class-wcmp-post-commission.php:225
 msgid "The product purchased that generated this commission."
 msgstr "货品交易产生了这项回扣。"
 
-#: classes/class-wcmp-post-commission.php:229
+#: classes/class-wcmp-post-commission.php:232
 msgid "Vendor:"
 msgstr "卖家："
 
-#: classes/class-wcmp-post-commission.php:230
+#: classes/class-wcmp-post-commission.php:233
 msgid "The vendor who receives this commission."
 msgstr "指定收到该回扣的卖家。"
 
-#: classes/class-wcmp-post-commission.php:237
+#: classes/class-wcmp-post-commission.php:240
 msgid "Amount:"
 msgstr "数量："
 
-#: classes/class-wcmp-post-commission.php:250
+#: classes/class-wcmp-post-commission.php:253
 msgid "Shipping Amount:"
 msgstr "运费金额："
 
-#: classes/class-wcmp-post-commission.php:258
+#: classes/class-wcmp-post-commission.php:261
 msgid "Tax Amount:"
 msgstr "税金总额："
 
-#: classes/class-wcmp-post-commission.php:370
+#: classes/class-wcmp-post-commission.php:387
 #: classes/class-wcmp-vendor-order-page.php:76
 #: templates/vendor-dashboard/vendor-withdrawal.php:48
 msgid "Order ID"
 msgstr "订单编号"
 
-#: classes/class-wcmp-post-commission.php:371 classes/class-wcmp-report.php:97
+#: classes/class-wcmp-post-commission.php:388 classes/class-wcmp-report.php:97
 #: admin/class-wcmp-settings.php:181
 #: templates/emails/vendor-notify-shipped.php:28
 #: templates/emails/vendor-new-order.php:23 templates/emails/new-product.php:17
 msgid "Product"
 msgstr "货品"
 
-#: classes/class-wcmp-post-commission.php:372 classes/class-wcmp-report.php:91
+#: classes/class-wcmp-post-commission.php:389 classes/class-wcmp-report.php:91
 #: classes/class-wcmp-taxonomy.php:37 classes/class-wcmp-product.php:543
 #: classes/class-wcmp-product.php:706 classes/class-wcmp-product.php:733
 #: classes/class-wcmp-product.php:1174 classes/class-wcmp-user.php:348
@@ -1419,26 +1469,19 @@ msgstr "货品"
 msgid "Vendor"
 msgstr "卖家"
 
-#: classes/class-wcmp-post-commission.php:374
-#: templates/vendor-dashboard/vendor-orders.php:72
-#: templates/vendor-dashboard/vendor-orders.php:126
-#: templates/vendor-dashboard/vendor-orders.php:179
-msgid "Status"
-msgstr "状态"
-
-#: classes/class-wcmp-post-commission.php:613
+#: classes/class-wcmp-post-commission.php:626
 msgid "Show Commission Status"
 msgstr "显示回扣状态"
 
-#: classes/class-wcmp-post-commission.php:614
+#: classes/class-wcmp-post-commission.php:627
 msgid "Paid"
 msgstr "已支付"
 
-#: classes/class-wcmp-post-commission.php:615
+#: classes/class-wcmp-post-commission.php:628
 msgid "Unpaid"
 msgstr "未支付"
 
-#: classes/class-wcmp-post-commission.php:616
+#: classes/class-wcmp-post-commission.php:629
 msgid "Reverse"
 msgstr "已恢复"
 
@@ -1592,7 +1635,7 @@ msgid ""
 "announcements."
 msgstr "公告仅能由卖家在卖家控制面板访问(消息部分)。您可以使用这个部分来广播您的公告。"
 
-#: classes/class-wcmp-calculate-commission.php:182
+#: classes/class-wcmp-calculate-commission.php:184
 #, php-format
 msgid "Commission - %s"
 msgstr "回扣 - %s"
@@ -1755,60 +1798,60 @@ msgstr ""
 msgid "WCMp"
 msgstr "WCMp"
 
-#: classes/class-wcmp-report.php:85 classes/class-wcmp-vendor-hooks.php:126
-#: classes/class-wcmp-vendor-hooks.php:592
+#: classes/class-wcmp-report.php:85 classes/class-wcmp-vendor-hooks.php:127
+#: classes/class-wcmp-vendor-hooks.php:597
 msgid "Overview"
 msgstr "概要"
 
-#: classes/class-wcmp-vendor-hooks.php:40
-#: classes/class-wcmp-vendor-hooks.php:626
+#: classes/class-wcmp-vendor-hooks.php:41
+#: classes/class-wcmp-vendor-hooks.php:631
 msgid "Dashboard"
 msgstr "管理面板"
 
-#: classes/class-wcmp-vendor-hooks.php:49
+#: classes/class-wcmp-vendor-hooks.php:50
 msgid "Store Settings"
 msgstr "店铺设定"
 
-#: classes/class-wcmp-vendor-hooks.php:62
-#: classes/class-wcmp-vendor-hooks.php:568 classes/class-wcmp-product.php:829
+#: classes/class-wcmp-vendor-hooks.php:63
+#: classes/class-wcmp-vendor-hooks.php:573 classes/class-wcmp-product.php:829
 #: classes/class-wcmp-product.php:1210 admin/class-wcmp-settings.php:153
 msgid "Policies"
 msgstr "条款"
 
-#: classes/class-wcmp-vendor-hooks.php:69
-#: classes/class-wcmp-vendor-hooks.php:576
+#: classes/class-wcmp-vendor-hooks.php:70
+#: classes/class-wcmp-vendor-hooks.php:581
 msgid "Billing"
 msgstr "账单"
 
-#: classes/class-wcmp-vendor-hooks.php:87
+#: classes/class-wcmp-vendor-hooks.php:88
 msgid "Product Manager"
 msgstr "货品管理"
 
-#: classes/class-wcmp-vendor-hooks.php:96
+#: classes/class-wcmp-vendor-hooks.php:97
 msgid "Promote"
 msgstr "促销"
 
-#: classes/class-wcmp-vendor-hooks.php:109
+#: classes/class-wcmp-vendor-hooks.php:110
 #: templates/shortcode/vendor_coupon.php:17
 msgid "Coupons"
 msgstr "赠券"
 
-#: classes/class-wcmp-vendor-hooks.php:146
-#: classes/class-wcmp-vendor-hooks.php:602
-#: classes/class-wcmp-vendor-hooks.php:609
+#: classes/class-wcmp-vendor-hooks.php:147
+#: classes/class-wcmp-vendor-hooks.php:607
+#: classes/class-wcmp-vendor-hooks.php:614
 msgid "Payments"
 msgstr "支付"
 
-#: classes/class-wcmp-vendor-hooks.php:159
-#: classes/class-wcmp-vendor-hooks.php:611
+#: classes/class-wcmp-vendor-hooks.php:160
+#: classes/class-wcmp-vendor-hooks.php:616
 msgid "History"
 msgstr "历史"
 
-#: classes/class-wcmp-vendor-hooks.php:296
+#: classes/class-wcmp-vendor-hooks.php:297
 msgid "Sorry you are not authorized for this pages. Please contact with admin."
 msgstr "对不起，您未被授权访问此页面。请联系管理员。"
 
-#: classes/class-wcmp-vendor-hooks.php:339
+#: classes/class-wcmp-vendor-hooks.php:340
 msgid "Order is marked as shipped."
 msgstr "订单标记为已发货。"
 
@@ -1816,36 +1859,36 @@ msgstr "订单标记为已发货。"
 msgid "All Options Saved"
 msgstr "所有选项已保存"
 
-#: classes/class-wcmp-vendor-hooks.php:558
-#: classes/class-wcmp-vendor-hooks.php:566
-#: classes/class-wcmp-vendor-hooks.php:574
-#: classes/class-wcmp-vendor-hooks.php:582
+#: classes/class-wcmp-vendor-hooks.php:563
+#: classes/class-wcmp-vendor-hooks.php:571
+#: classes/class-wcmp-vendor-hooks.php:579
+#: classes/class-wcmp-vendor-hooks.php:587
 msgid "Store Settings "
 msgstr "店铺设定"
 
-#: classes/class-wcmp-vendor-hooks.php:560
+#: classes/class-wcmp-vendor-hooks.php:565
 msgid "Store Front"
 msgstr "店铺门面"
 
-#: classes/class-wcmp-vendor-hooks.php:562
-#: classes/class-wcmp-vendor-hooks.php:570
-#: classes/class-wcmp-vendor-hooks.php:578
-#: classes/class-wcmp-vendor-hooks.php:586
+#: classes/class-wcmp-vendor-hooks.php:567
+#: classes/class-wcmp-vendor-hooks.php:575
+#: classes/class-wcmp-vendor-hooks.php:583
+#: classes/class-wcmp-vendor-hooks.php:591
 #: admin/class-wcmp-settings-to_do_list.php:35
 #: admin/class-wcmp-settings-to_do_list.php:82
 #: admin/class-wcmp-settings-to_do_list.php:121
 msgid "Edit"
 msgstr "编辑"
 
-#: classes/class-wcmp-vendor-hooks.php:590
+#: classes/class-wcmp-vendor-hooks.php:595
 msgid "Stats & Reports"
 msgstr "统计 & 报表"
 
-#: classes/class-wcmp-vendor-hooks.php:597
+#: classes/class-wcmp-vendor-hooks.php:602
 msgid "Order &amp; Shipping"
 msgstr "订单 &amp;  发货"
 
-#: classes/class-wcmp-vendor-hooks.php:604
+#: classes/class-wcmp-vendor-hooks.php:609
 msgid "Withdrawals"
 msgstr "充值"
 
@@ -2120,7 +2163,8 @@ msgstr "买家退货邮编"
 msgid "Customer Phone"
 msgstr "买家电话"
 
-#: classes/class-wcmp-user.php:692
+#: classes/class-wcmp-user.php:680 classes/class-wcmp-user.php:692
+#: templates/vendor-dashboard/vendor-billing.php:20
 msgid "Payment Mode"
 msgstr "支付方法"
 
@@ -2268,7 +2312,7 @@ msgstr "邮箱和电话"
 
 #: admin/class-wcmp-settings-capabilities-order.php:43
 #: admin/class-wcmp-settings-capabilities-order.php:50
-#: templates/emails/vendor-new-order.php:81
+#: templates/emails/vendor-new-order.php:78
 #: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:167
 #: templates/emails/plain/vendor-notify-shipped.php:49
 #: templates/emails/plain/vendor-new-order.php:64
@@ -2277,7 +2321,7 @@ msgstr "账单地址"
 
 #: admin/class-wcmp-settings-capabilities-order.php:44
 #: admin/class-wcmp-settings-capabilities-order.php:51
-#: templates/emails/vendor-new-order.php:94
+#: templates/emails/vendor-new-order.php:91
 #: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:185
 #: templates/emails/plain/vendor-notify-shipped.php:52
 #: templates/emails/plain/vendor-new-order.php:70
@@ -3159,7 +3203,7 @@ msgstr "[{site_title}] 新交易"
 #: classes/emails/class-wcmp-email-vendor-transaction.php:120
 #: classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:113
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:131
-#: classes/emails/class-wcmp-email-vendor-new-order.php:128
+#: classes/emails/class-wcmp-email-vendor-new-order.php:143
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:134
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:144
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:140
@@ -3178,7 +3222,7 @@ msgstr "启用该邮件的通知"
 #: classes/emails/class-wcmp-email-vendor-transaction.php:126
 #: classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:119
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:144
-#: classes/emails/class-wcmp-email-vendor-new-order.php:134
+#: classes/emails/class-wcmp-email-vendor-new-order.php:149
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:140
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:157
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:146
@@ -3191,7 +3235,7 @@ msgstr "标题"
 #: classes/emails/class-wcmp-email-vendor-transaction.php:128
 #: classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:121
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:146
-#: classes/emails/class-wcmp-email-vendor-new-order.php:136
+#: classes/emails/class-wcmp-email-vendor-new-order.php:151
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:142
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:159
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:148
@@ -3206,7 +3250,7 @@ msgstr "此处控制邮件的标题行。保持为空来使用默认标题： <c
 #: classes/emails/class-wcmp-email-vendor-transaction.php:133
 #: classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:126
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:151
-#: classes/emails/class-wcmp-email-vendor-new-order.php:141
+#: classes/emails/class-wcmp-email-vendor-new-order.php:156
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:147
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:164
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:153
@@ -3228,7 +3272,7 @@ msgstr "此处控制邮件通知中的大标题。保持为空来使用默认标
 #: classes/emails/class-wcmp-email-vendor-transaction.php:140
 #: classes/emails/class-wcmp-email-vendor-new-commission-transaction.php:133
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:158
-#: classes/emails/class-wcmp-email-vendor-new-order.php:148
+#: classes/emails/class-wcmp-email-vendor-new-order.php:163
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:154
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:171
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:160
@@ -3275,7 +3319,7 @@ msgid "[{site_title}] New Vendor Account"
 msgstr "[{site_title}] 新卖家账户"
 
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:133
-#: classes/emails/class-wcmp-email-vendor-new-order.php:130
+#: classes/emails/class-wcmp-email-vendor-new-order.php:145
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:136
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:146
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:142
@@ -3296,7 +3340,7 @@ msgid ""
 msgstr "输入本邮件的收件人(多人时用英文逗号分隔)。默认为 <code>%s</code> 。"
 
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:153
-#: classes/emails/class-wcmp-email-vendor-new-order.php:143
+#: classes/emails/class-wcmp-email-vendor-new-order.php:158
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:149
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:166
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:155
@@ -3307,7 +3351,7 @@ msgid ""
 msgstr "此处控制邮件通知中的大标题。保持为空来使用默认标题： <code>%s</code> 。"
 
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:160
-#: classes/emails/class-wcmp-email-vendor-new-order.php:150
+#: classes/emails/class-wcmp-email-vendor-new-order.php:165
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:156
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:173
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:162
@@ -3315,7 +3359,7 @@ msgid "Choose which format of email to be sent."
 msgstr "选择要发送的邮件格式。"
 
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:164
-#: classes/emails/class-wcmp-email-vendor-new-order.php:154
+#: classes/emails/class-wcmp-email-vendor-new-order.php:169
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:160
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:177
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:166
@@ -3323,7 +3367,7 @@ msgid "Plain Text"
 msgstr "纯文本"
 
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:165
-#: classes/emails/class-wcmp-email-vendor-new-order.php:155
+#: classes/emails/class-wcmp-email-vendor-new-order.php:170
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:161
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:178
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:167
@@ -3331,28 +3375,24 @@ msgid "HTML"
 msgstr "HTML"
 
 #: classes/emails/class-wcmp-email-admin-new-vendor-account.php:166
-#: classes/emails/class-wcmp-email-vendor-new-order.php:156
+#: classes/emails/class-wcmp-email-vendor-new-order.php:171
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:162
 #: classes/emails/class-wcmp-email-vendor-new-product-added.php:179
 #: classes/emails/class-wcmp-email-admin-added-new-product-to-vendor.php:168
 msgid "Multipart"
 msgstr "多部分"
 
-#: classes/emails/class-wcmp-email-vendor-new-order.php:26
+#: classes/emails/class-wcmp-email-vendor-new-order.php:27
 msgid "Vendor New order"
 msgstr "店家新订单"
 
-#: classes/emails/class-wcmp-email-vendor-new-order.php:27
+#: classes/emails/class-wcmp-email-vendor-new-order.php:28
 msgid "New order notification emails are sent when order is processing."
 msgstr "当订单被处理时，会发送新订单通知邮件。"
 
-#: classes/emails/class-wcmp-email-vendor-new-order.php:29
+#: classes/emails/class-wcmp-email-vendor-new-order.php:30
 msgid "New Vendor Order"
 msgstr "新卖家订单"
-
-#: classes/emails/class-wcmp-email-vendor-new-order.php:30
-msgid "[{site_title}] New customer order ({order_number}) - {order_date}"
-msgstr "[{site_title}] 新买家订单 ({order_number}) - {order_date}"
 
 #: classes/emails/class-wcmp-email-vendor-notify-shipped.php:33
 msgid "Notify as Shipped."
@@ -3929,7 +3969,7 @@ msgid "Order: %s"
 msgstr "订单： %s"
 
 #: templates/emails/vendor-notify-shipped.php:59
-#: templates/emails/vendor-new-order.php:62
+#: templates/emails/vendor-new-order.php:59
 #: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:146
 #: templates/emails/plain/vendor-notify-shipped.php:41
 #: templates/emails/plain/vendor-new-order.php:50
@@ -3937,7 +3977,7 @@ msgid "Customer Details"
 msgstr "买家详情"
 
 #: templates/emails/vendor-notify-shipped.php:62
-#: templates/emails/vendor-new-order.php:65
+#: templates/emails/vendor-new-order.php:62
 #: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:153
 #: templates/emails/plain/vendor-notify-shipped.php:44
 #: templates/emails/plain/vendor-new-order.php:53
@@ -3945,7 +3985,7 @@ msgid "Email:"
 msgstr "邮箱："
 
 #: templates/emails/vendor-notify-shipped.php:65
-#: templates/emails/vendor-new-order.php:68
+#: templates/emails/vendor-new-order.php:65
 #: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:155
 #: templates/emails/plain/vendor-notify-shipped.php:47
 #: templates/emails/plain/vendor-new-order.php:56
@@ -3959,7 +3999,7 @@ msgid ""
 "follows:"
 msgstr "收到 %s 的新订单并标记为处理中。订单详情如下："
 
-#: templates/emails/vendor-new-order.php:64
+#: templates/emails/vendor-new-order.php:61
 msgid "Customer Name:"
 msgstr "买家姓名："
 
@@ -4130,13 +4170,6 @@ msgstr "自定义"
 msgid "Sort By : "
 msgstr "按 %s ："
 
-#: templates/vendor-dashboard/vendor-withdrawal/vendor-withdrawal-request.php:20
-#, php-format
-msgid ""
-"Hello,<br>We have received a new withdrawal request for $%s from you and "
-"Your request is being processed.The order details are as follow:"
-msgstr "您好，<br>我们收到了您的一份  $%s 的提现申请，您的申请正在处理，订单详情如下："
-
 #: templates/vendor-dashboard/vendor-withdrawal/vendor-withdrawal-request.php:64
 #, php-format
 msgid ""
@@ -4234,11 +4267,6 @@ msgstr "添加评论"
 #: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:151
 msgid "Name:"
 msgstr "名称："
-
-#: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:172
-#: templates/vendor-dashboard/vendor-orders/vendor-order-details.php:190
-msgid "N/A"
-msgstr "无"
 
 #: templates/vendor-dashboard/vendor-orders/vendor-orders-item.php:47
 msgid "Mark as shipped"

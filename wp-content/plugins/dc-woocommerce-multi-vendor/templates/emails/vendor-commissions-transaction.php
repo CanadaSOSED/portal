@@ -68,4 +68,4 @@ if($transaction_mode == 'paypal_masspay') {
 		?>
 	</tbody>
 </table>
-<?php do_action( 'woocommerce_email_footer' ); ?>
+<?php do_action( 'wcmp_email_footer' ); ?>

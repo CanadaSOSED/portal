@@ -21,11 +21,15 @@ if(!function_exists('wcfm_woocommerce_version_notice')) {
 
 if(!function_exists('wcfm_wcfmu_inactive_notice')) {
 	function wcfm_wcfmu_inactive_notice() {
-		?>
-		<div id="message" class="notice notice-warning">
-		<p><?php printf( __( 'You didn\'t get your %sWCFM Ultimate%s yet ..!!! Then quickly install %sWCFM Ultimate%s now to add more Power to your WooCommerce Frontend Manager.', 'wc-frontend-manager' ), '<strong>', '</strong>', '<a target="_blank" href="http://wclovers.com/product/woocommerce-frontend-manager-ultimate/">', '</a>' ); ?></p>
-		</div>
-		<?php
+		$wcfm_options = get_option('wcfm_options');
+	  $is_ultimate_notice_disabled = isset( $wcfm_options['ultimate_notice_disabled'] ) ? $wcfm_options['ultimate_notice_disabled'] : 'no';
+		if( $is_ultimate_notice_disabled == 'no' ) {
+			?>
+			<div id="wcfmu_message" class="notice wcfm_admin_message">
+			<p><?php printf( __( 'Are you missing anything in your front-end Dashboard !!! Then why not go for %sWCfM U >>%s', 'wc-frontend-manager' ), '<a class="primary" target="_blank" href="http://wclovers.com/product/woocommerce-frontend-manager-ultimate/">', '</a>' ); ?></p>
+			</div>
+			<?php
+		}
 	}
 }
 
@@ -212,6 +216,25 @@ if(!function_exists('get_wcfm_edit_product_url')) {
 	}
 }
 
+if(!function_exists('get_wcfm_import_product_url')) {
+	function get_wcfm_import_product_url( $step = '' ) {
+		global $WCFM;
+		$wcfm_page = get_wcfm_page();
+		$wcfm_import_product_url = wcfm_get_endpoint_url( 'wcfm-products-import', '', $wcfm_page );
+		if($step) $wcfm_import_product_url = add_query_arg( 'step', $step, $wcfm_import_product_url );
+		return $wcfm_import_product_url;
+	}
+}
+
+if(!function_exists('get_wcfm_export_product_url')) {
+	function get_wcfm_export_product_url( ) {
+		global $WCFM;
+		$wcfm_page = get_wcfm_page();
+		$wcfm_export_product_url = wcfm_get_endpoint_url( 'wcfm-products-export', '', $wcfm_page );
+		return $wcfm_export_product_url;
+	}
+}
+
 if(!function_exists('get_wcfm_coupons_url')) {
 	function get_wcfm_coupons_url() {
 		global $WCFM;
@@ -377,9 +400,5 @@ function wcfm_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	}
 
 	return apply_filters( 'wcfm_get_endpoint_url', $url, $endpoint, $value, $permalink );
-}
-
-function wcfm_supported_themes() {
-	return apply_filters( 'wcfm_supported_themes', array( 'twenty-seventeen', 'twenty-fifteen', 'customizr', 'storefront' ) );
 }
 ?>

@@ -24,14 +24,14 @@ class WCFM_WCBookings_Products_Manage_Controller {
 	function wcb_wcfm_products_manage_meta_save( $new_product_id, $wcfm_products_manage_form_data ) {
 		global $wpdb, $WCFM, $_POST;
 		
-		$product_type = empty( $wcfm_products_manage_form_data['product_type'] ) ? WC_Product_Factory::get_product_type( $new_product_id ) : sanitize_title( stripslashes( $wcfm_products_manage_form_data['product_type'] ) );
-		$classname    = WC_Product_Factory::get_product_classname( $new_product_id, $product_type ? $product_type : 'simple' );
-		$product      = new $classname( $new_product_id );
-		
 		// Only set props if the product is a bookable product.
-		if ( ! is_a( $product, 'WC_Product_Booking' ) ) {
+		$product_type = empty( $wcfm_products_manage_form_data['product_type'] ) ? WC_Product_Factory::get_product_type( $new_product_id ) : sanitize_title( stripslashes( $wcfm_products_manage_form_data['product_type'] ) );
+		if ( 'booking' != $product_type && 'accommodation-booking' != $product_type ) {
 			return;
 		}
+		
+		$classname    = WC_Product_Factory::get_product_classname( $new_product_id, 'booking' );
+		$product      = new $classname( $new_product_id );
 		
 		$errors = $product->set_props( apply_filters( 'wcfm_booking_data_factory', array(
 			'apply_adjacent_buffer'      => isset( $wcfm_products_manage_form_data['_wc_booking_apply_adjacent_buffer'] ),
@@ -53,7 +53,6 @@ class WCFM_WCBookings_Products_Manage_Controller {
 			'min_date_unit'              => wc_clean( $wcfm_products_manage_form_data['_wc_booking_min_date_unit'] ),
 			'min_date_value'             => wc_clean( $wcfm_products_manage_form_data['_wc_booking_min_date'] ),
 			'min_duration'               => wc_clean( $wcfm_products_manage_form_data['_wc_booking_min_duration'] ),
-			//'pricing'                    => $this->get_posted_pricing(),
 			'qty'                        => wc_clean( $wcfm_products_manage_form_data['_wc_booking_qty'] ),
 			'requires_confirmation'      => isset( $wcfm_products_manage_form_data['_wc_booking_requires_confirmation'] ),
 			'user_can_cancel'            => isset( $wcfm_products_manage_form_data['_wc_booking_user_can_cancel'] ),

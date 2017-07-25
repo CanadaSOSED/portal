@@ -86,9 +86,9 @@ jQuery(document).ready(function($) {
 		});
 	}
 	
-	// Product FIlter
-	if( $('.wcfm_products_filter_wrap').length > 0 ) {
-		$('#wcfm-products').before( $('.wcfm_products_filter_wrap') );
+	// Dashboard FIlter
+	if( $('.wcfm_filters_wrap').length > 0 ) {
+		$('.dataTable').before( $('.wcfm_filters_wrap') );
 	}
 	
 } );

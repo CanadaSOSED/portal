@@ -3,7 +3,7 @@ Contributors: kokomoweb
 Tags: woocommerce, customer list, who bought, admin order list, product-specific, export customers to csv, email customers, customer list, customer, list, print
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 2.5.0
+Stable tag: 2.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,12 +77,20 @@ You can access the settings page in WooCommerce / Settings / Products / Produ
 
 You can reorder the columns by dragging them and dropping them in the order you want. The browser will remember your selection.
 
+= What are the available hooks? = 
+
+There is currently only one hook, that enables you to add content after the “email all customers” button. To use it: add_action( 'wpcl_after_email_button' , ‘your_function_here’, 10 , 1 );
+
 == Screenshots ==
 
 1. The customer list in the product edit page.
 2. The settings page.
 
 == Changelog ==
+
+= 2.5.1 =
+* Added hook “wpcl_after_email_button” to display content after the email button.
+* Fixed variation display.
 
 = 2.5.0 =
 * Fixed issue where the email list would be incomplete.

@@ -14,14 +14,14 @@ class WP_Job_Manager_Admin {
 	 * The single instance of the class.
 	 *
 	 * @var self
-	 * @since  1.26
+	 * @since  1.26.0
 	 */
 	private static $_instance = null;
 
 	/**
 	 * Allows for accessing single instance of class. Class should only be constructed once per call.
 	 *
-	 * @since  1.26
+	 * @since  1.26.0
 	 * @static
 	 * @return self Main instance.
 	 */
@@ -36,15 +36,38 @@ class WP_Job_Manager_Admin {
 	 * Constructor.
 	 */
 	public function __construct() {
+		global $wp_version;
+
 		include_once( 'class-wp-job-manager-cpt.php' );
+		if ( version_compare( $wp_version, '4.7.0', '<' ) ) {
+			include_once( 'class-wp-job-manager-cpt-legacy.php' );
+			WP_Job_Manager_CPT_Legacy::instance();
+		} else {
+			WP_Job_Manager_CPT::instance();
+		}
 		include_once( 'class-wp-job-manager-settings.php' );
 		include_once( 'class-wp-job-manager-writepanels.php' );
 		include_once( 'class-wp-job-manager-setup.php' );
 
 		$this->settings_page = WP_Job_Manager_Settings::instance();
 
+		add_action( 'current_screen', array( $this, 'conditional_includes' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ), 12 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+	}
+
+	/**
+	 * Include admin files conditionally.
+	 */
+	public function conditional_includes() {
+		if ( ! $screen = get_current_screen() ) {
+			return;
+		}
+		switch ( $screen->id ) {
+			case 'options-permalink' :
+				include( 'class-wp-job-manager-permalink-settings.php' );
+				break;
+		}
 	}
 
 	/**

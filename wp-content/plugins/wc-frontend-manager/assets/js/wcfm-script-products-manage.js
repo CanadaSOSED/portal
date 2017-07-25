@@ -84,6 +84,8 @@ jQuery( document ).ready( function( $ ) {
 				}
 			});  
 			resetCollapsHeight($('#sku'));
+			
+			$( document.body ).trigger( 'wcfm_product_type_changed' );
 		}).change();
 		
 		// Downloadable
@@ -243,7 +245,10 @@ jQuery( document ).ready( function( $ ) {
       var multi_input_blockEle = multi_input_holder.children('.multi_input_block:first').clone(false);
       
       multi_input_blockEle.find('textarea,input:not(input[type=button],input[type=submit],input[type=checkbox],input[type=radio])').val('');
-       multi_input_blockEle.find('input[type=checkbox]').attr('checked', false);
+      multi_input_blockEle.find('input[type=checkbox]').attr('checked', false);
+      multi_input_blockEle.find('.select2-container').remove();
+      multi_input_blockEle.find('select').select2();
+      multi_input_blockEle.find('select').select2('destroy');
       multi_input_blockEle.children('.wcfm-wp-fields-uploader,.multi_input_block_element:not(.multi_input_holder)').each(function() {
         var ele = $(this);
         var ele_name = ele.data('name');
@@ -626,11 +631,11 @@ jQuery( document ).ready( function( $ ) {
 																	height: 75,
 																	menubar: false,
 																	plugins: [
-																		'advlist autolink lists link image charmap print preview anchor',
+																		'advlist autolink lists link charmap print preview anchor',
 																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime media table contextmenu paste code geomywp'
+																		'insertdatetime table contextmenu paste code geomywp'
 																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link image | geomywp',
+																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link | geomywp',
 																	content_css: '//www.tinymce.com/css/codepen.min.css',
 																	statusbar: false
 																});
@@ -641,11 +646,11 @@ jQuery( document ).ready( function( $ ) {
 																	height: 120,
 																	menubar: false,
 																	plugins: [
-																		'advlist autolink lists link image charmap print preview anchor',
+																		'advlist autolink lists link charmap print preview anchor',
 																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime media table contextmenu paste code geomywp'
+																		'insertdatetime table contextmenu paste code geomywp'
 																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link image | geomywp',
+																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link | geomywp',
 																	content_css: '//www.tinymce.com/css/codepen.min.css',
 																	statusbar: false
 																});
@@ -656,11 +661,11 @@ jQuery( document ).ready( function( $ ) {
 																	height: 75,
 																	menubar: false,
 																	plugins: [
-																		'advlist autolink lists link image charmap print preview anchor',
+																		'advlist autolink lists link charmap print preview anchor',
 																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime media table contextmenu paste code'
+																		'insertdatetime table contextmenu paste code'
 																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link image',
+																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
 																	content_css: '//www.tinymce.com/css/codepen.min.css',
 																	statusbar: false
 																});
@@ -671,11 +676,11 @@ jQuery( document ).ready( function( $ ) {
 																	height: 120,
 																	menubar: false,
 																	plugins: [
-																		'advlist autolink lists link image charmap print preview anchor',
+																		'advlist autolink lists link charmap print preview anchor',
 																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime media table contextmenu paste code'
+																		'insertdatetime table contextmenu paste code'
 																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link image',
+																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
 																	content_css: '//www.tinymce.com/css/codepen.min.css',
 																	statusbar: false
 																});
@@ -708,8 +713,10 @@ jQuery( document ).ready( function( $ ) {
 					opacity: 0.6
 				}
 			});
-			var excerpt = tinymce.get('excerpt').getContent();
-			var description = tinymce.get('description').getContent();
+			var excerpt = '';
+			if( tinymce.get('excerpt') != null ) excerpt = tinymce.get('excerpt').getContent();
+			var description = '';
+			if( tinymce.get('description') != null ) description = tinymce.get('description').getContent();
 			var data = {
 				action : 'wcfm_ajax_controller',
 				controller : 'wcfm-products-manage', 
@@ -755,8 +762,10 @@ jQuery( document ).ready( function( $ ) {
 					opacity: 0.6
 				}
 			});
-			var excerpt = tinymce.get('excerpt').getContent();
-			var description = tinymce.get('description').getContent();
+			var excerpt = '';
+			if( tinymce.get('excerpt') != null ) excerpt = tinymce.get('excerpt').getContent();
+			var description = '';
+			if( tinymce.get('description') != null ) description = tinymce.get('description').getContent();
 			var data = {
 				action : 'wcfm_ajax_controller',
 				controller : 'wcfm-products-manage',

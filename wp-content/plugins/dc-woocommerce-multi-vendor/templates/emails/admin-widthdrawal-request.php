@@ -75,4 +75,4 @@ $amount = get_post_meta($transaction_id, 'amount', true) - get_post_meta($transa
 		?>
 	</tbody>
 </table>
-<?php do_action( 'woocommerce_email_footer' ); ?>
+<?php do_action( 'wcmp_email_footer' ); ?>

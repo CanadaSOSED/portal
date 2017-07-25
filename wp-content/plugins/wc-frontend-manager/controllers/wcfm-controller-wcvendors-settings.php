@@ -39,12 +39,9 @@ class WCFM_Settings_WCVendors_Controller {
 		update_user_meta( $user_id, '_wcv_company_url', $wcfm_settings_form['_wcv_company_url'] );
 		update_user_meta( $user_id, '_wcv_store_phone', $wcfm_settings_form['_wcv_store_phone'] );
 		
-		$wp_upload_dir = wp_upload_dir();
-		
 		// Set Vendor Store Logo
 		if(isset($wcfm_settings_form['wcfm_logo']) && !empty($wcfm_settings_form['wcfm_logo'])) {
-			$featured_img = str_replace($wp_upload_dir['baseurl'], $wp_upload_dir['basedir'], $wcfm_settings_form['wcfm_logo']);
-			$wcfm_settings_form['wcfm_logo'] = $this->wcfm_get_image_id($wcfm_settings_form['wcfm_logo']);
+			$wcfm_settings_form['wcfm_logo'] = $WCFM->wcfm_get_attachment_id($wcfm_settings_form['wcfm_logo']);
 		} else {
 			$wcfm_settings_form['wcfm_logo'] = '';
 		}
@@ -55,11 +52,5 @@ class WCFM_Settings_WCVendors_Controller {
 		echo '{"status": true, "message": "' . __( 'Settings saved successfully', 'wc-frontend-manager' ) . '"}';
 		 
 		die;
-	}
-	
-	function wcfm_get_image_id($image_url) {
-		global $wpdb;
-		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )); 
-		return $attachment[0]; 
 	}
 }

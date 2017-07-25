@@ -407,7 +407,7 @@ class WC_Stripe_Apple_Pay extends WC_Gateway_Stripe {
 
 		?>
 		<div class="apple-pay-button-wrapper">
-			<button class="apple-pay-button" lang="<?php echo esc_attr( $this->apple_pay_button_lang ); ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; -apple-pay-button-style: <?php echo esc_attr( $this->apple_pay_button ); ?>;" alt="<?php esc_attr_e( 'Buy with Apple Pay', 'woocommerce-gateway-stripe' ); ?>"></button>
+			<button class="apple-pay-button" lang="<?php echo esc_attr( $this->apple_pay_button_lang ); ?>" style="-webkit-appearance: -apple-pay-button; -apple-pay-button-type: buy; -apple-pay-button-style: <?php echo esc_attr( $this->apple_pay_button ); ?>;display:none;" alt="<?php esc_attr_e( 'Buy with Apple Pay', 'woocommerce-gateway-stripe' ); ?>"></button>
 		</div>
 		<?php
 	}
@@ -880,7 +880,7 @@ class WC_Stripe_Apple_Pay extends WC_Gateway_Stripe {
 	 * Create order programatically.
 	 *
 	 * @since 3.1.0
-	 * @version 3.1.0
+	 * @version 3.2.3
 	 * @param array $data
 	 * @return object $order
 	 */
@@ -1114,7 +1114,7 @@ class WC_Stripe_Apple_Pay extends WC_Gateway_Stripe {
 			$tax         = wc_format_decimal( WC()->cart->tax_total + WC()->cart->shipping_tax_total, $this->dp );
 			$shipping    = wc_format_decimal( WC()->cart->shipping_total, $this->dp );
 			$item_total  = wc_format_decimal( WC()->cart->cart_contents_total, $this->dp ) + $discounts;
-			$order_total = wc_format_decimal( $item_total + $tax + $shipping, $this->dp );
+			$order_total = wc_format_decimal( $item_total + $tax + $shipping - $discounts, $this->dp );
 
 			$order->set_total( $order_total );
 			$order->save();

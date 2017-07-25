@@ -129,5 +129,3 @@ class WC_Email_Rejected_New_Vendor_Account extends WC_Email {
 }
 
 endif;
-
-return new WC_Email_Rejected_New_Vendor_Account();

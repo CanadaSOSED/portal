@@ -184,5 +184,3 @@ class WC_Email_Vendor_New_Product_Added extends WC_Email {
 }
 
 endif;
-
-return new WC_Email_Vendor_New_Product_Added();

@@ -33,7 +33,7 @@ $wcfm_knowledgebase = get_option( 'wcfm_knowledgebase' );
 					<?php
 					if( wcfm_is_vendor() ) {
 						?>
-						<div><?php echo $wcfm_knowledgebase; ?></div>
+						<div><?php echo htmlspecialchars_decode($wcfm_knowledgebase); ?></div>
 						<?php
 					} else {
 						$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_knowledgebase_fields', array(

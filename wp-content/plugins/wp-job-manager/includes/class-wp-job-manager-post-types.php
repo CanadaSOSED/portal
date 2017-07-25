@@ -11,14 +11,14 @@ class WP_Job_Manager_Post_Types {
 	 * The single instance of the class.
 	 *
 	 * @var self
-	 * @since  1.26
+	 * @since  1.26.0
 	 */
 	private static $_instance = null;
 
 	/**
 	 * Allows for accessing single instance of class. Class should only be constructed once per call.
 	 *
-	 * @since  1.26
+	 * @since  1.26.0
 	 * @static
 	 * @return self Main instance.
 	 */
@@ -86,6 +86,7 @@ class WP_Job_Manager_Post_Types {
 
 		$admin_capability = 'manage_job_listings';
 
+		$permalink_structure = wpjm_get_permalink_structure();
 		/**
 		 * Taxonomies
 		 */
@@ -95,7 +96,7 @@ class WP_Job_Manager_Post_Types {
 
 			if ( current_theme_supports( 'job-manager-templates' ) ) {
 				$rewrite   = array(
-					'slug'         => _x( 'job-category', 'Job category slug - resave permalinks after changing this', 'wp-job-manager' ),
+					'slug'         => $permalink_structure['category_rewrite_slug'],
 					'with_front'   => false,
 					'hierarchical' => false
 				);
@@ -107,11 +108,11 @@ class WP_Job_Manager_Post_Types {
 
 			register_taxonomy( "job_listing_category",
 				apply_filters( 'register_taxonomy_job_listing_category_object_type', array( 'job_listing' ) ),
-	       	 	apply_filters( 'register_taxonomy_job_listing_category_args', array(
-		            'hierarchical' 			=> true,
-		            'update_count_callback' => '_update_post_term_count',
-		            'label' 				=> $plural,
-		            'labels' => array(
+				apply_filters( 'register_taxonomy_job_listing_category_args', array(
+					'hierarchical' 			=> true,
+					'update_count_callback' => '_update_post_term_count',
+					'label' 				=> $plural,
+					'labels' => array(
 						'name'              => $plural,
 						'singular_name'     => $singular,
 						'menu_name'         => ucwords( $plural ),
@@ -123,19 +124,19 @@ class WP_Job_Manager_Post_Types {
 						'update_item'       => sprintf( __( 'Update %s', 'wp-job-manager' ), $singular ),
 						'add_new_item'      => sprintf( __( 'Add New %s', 'wp-job-manager' ), $singular ),
 						'new_item_name'     => sprintf( __( 'New %s Name', 'wp-job-manager' ),  $singular )
-	            	),
-		            'show_ui' 				=> true,
-		            'show_tagcloud'			=> false,
-		            'public' 	     		=> $public,
-		            'capabilities'			=> array(
-		            	'manage_terms' 		=> $admin_capability,
-		            	'edit_terms' 		=> $admin_capability,
-		            	'delete_terms' 		=> $admin_capability,
-		            	'assign_terms' 		=> $admin_capability,
-		            ),
-		            'rewrite' 				=> $rewrite,
-		        ) )
-		    );
+					),
+					'show_ui' 				=> true,
+					'show_tagcloud'			=> false,
+					'public' 	     		=> $public,
+					'capabilities'			=> array(
+						'manage_terms' 		=> $admin_capability,
+						'edit_terms' 		=> $admin_capability,
+						'delete_terms' 		=> $admin_capability,
+						'assign_terms' 		=> $admin_capability,
+					),
+					'rewrite' 				=> $rewrite,
+				) )
+			);
 		}
 
 		if ( get_option( 'job_manager_enable_types' ) ) {
@@ -144,7 +145,7 @@ class WP_Job_Manager_Post_Types {
 
 			if ( current_theme_supports( 'job-manager-templates' ) ) {
 				$rewrite   = array(
-					'slug'         => _x( 'job-type', 'Job type slug - resave permalinks after changing this', 'wp-job-manager' ),
+					'slug'         => $permalink_structure['type_rewrite_slug'],
 					'with_front'   => false,
 					'hierarchical' => false
 				);
@@ -186,7 +187,7 @@ class WP_Job_Manager_Post_Types {
 			);
 		}
 
-	    /**
+		/**
 		 * Post types
 		 */
 		$singular  = __( 'Job', 'wp-job-manager' );
@@ -199,7 +200,7 @@ class WP_Job_Manager_Post_Types {
 		}
 
 		$rewrite     = array(
-			'slug'       => _x( 'job', 'Job permalink - resave permalinks after changing this', 'wp-job-manager' ),
+			'slug'       => $permalink_structure['job_rewrite_slug'],
 			'with_front' => false,
 			'feeds'      => true,
 			'pages'      => false
@@ -277,17 +278,21 @@ class WP_Job_Manager_Post_Types {
 	public function admin_head() {
 		global $menu;
 
-		$plural     = __( 'Job Listings', 'wp-job-manager' );
-		$count_jobs = wp_count_posts( 'job_listing', 'readable' );
+		$pending_jobs = WP_Job_Manager_Cache_Helper::get_listings_count();
 
-		if ( ! empty( $menu ) && is_array( $menu ) ) {
-			foreach ( $menu as $key => $menu_item ) {
-				if ( strpos( $menu_item[0], $plural ) === 0 ) {
-					if ( $order_count = $count_jobs->pending ) {
-						$menu[ $key ][0] .= " <span class='awaiting-mod update-plugins count-$order_count'><span class='pending-count'>" . number_format_i18n( $count_jobs->pending ) . "</span></span>" ;
-					}
-					break;
-				}
+		// No need to go further if no pending jobs, menu is not set, or is not an array
+		if( empty( $pending_jobs ) || empty( $menu ) || ! is_array( $menu ) ){
+			return;
+		}
+
+		// Try to pull menu_name from post type object to support themes/plugins that change the menu string
+		$post_type = get_post_type_object( 'job_listing' );
+		$plural = isset( $post_type->labels, $post_type->labels->menu_name ) ? $post_type->labels->menu_name : __( 'Job Listings', 'wp-job-manager' );
+
+		foreach ( $menu as $key => $menu_item ) {
+			if ( strpos( $menu_item[0], $plural ) === 0 ) {
+				$menu[ $key ][0] .= " <span class='awaiting-mod update-plugins count-{$pending_jobs}'><span class='pending-count'>" . number_format_i18n( $pending_jobs ) . "</span></span>" ;
+				break;
 			}
 		}
 	}
@@ -437,16 +442,17 @@ class WP_Job_Manager_Post_Types {
 	 * Adds custom data to the job feed.
 	 */
 	public function job_feed_item() {
-		$post_id  = get_the_ID();
-		$location = get_the_job_location( $post_id );
-		$job_type = get_the_job_type( $post_id );
-		$company  = get_the_company_name( $post_id );
+		$post_id         = get_the_ID();
+		$location        = get_the_job_location( $post_id );
+		$company         = get_the_company_name( $post_id );
+		$job_types       = wpjm_get_the_job_types( $post_id );
 
 		if ( $location ) {
 			echo "<job_listing:location><![CDATA[" . esc_html( $location ) . "]]></job_listing:location>\n";
 		}
-		if ( $job_type ) {
-			echo "<job_listing:job_type><![CDATA[" . esc_html( $job_type->name ) . "]]></job_listing:job_type>\n";
+		if ( ! empty( $job_types ) ) {
+			$job_types_names = implode( ', ', wp_list_pluck( $job_types, 'name' ) );
+			echo "<job_listing:job_type><![CDATA[" . esc_html( $job_types_names ) . "]]></job_listing:job_type>\n";
 		}
 		if ( $company ) {
 			echo "<job_listing:company><![CDATA[" . esc_html( $company ) . "]]></job_listing:company>\n";
@@ -594,7 +600,7 @@ class WP_Job_Manager_Post_Types {
 	 * @return array
 	 */
 	public function fix_post_name( $data, $postarr ) {
-		 if ( 'job_listing' === $data['post_type'] && 'pending' === $data['post_status'] && ! current_user_can( 'publish_posts' ) ) {
+		 if ( 'job_listing' === $data['post_type'] && 'pending' === $data['post_status'] && ! current_user_can( 'publish_posts' ) && isset( $postarr['post_name'] ) ) {
 				$data['post_name'] = $postarr['post_name'];
 		 }
 		 return $data;

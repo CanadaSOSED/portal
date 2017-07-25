@@ -2,7 +2,12 @@
 
 <a href="<?php the_permalink(); ?>">
 	<?php if ( get_option( 'job_manager_enable_types' ) ) { ?>
-	<div class="job-type <?php echo get_the_job_type() ? sanitize_title( get_the_job_type()->slug ) : ''; ?>"><?php the_job_type(); ?></div>
+		<?php $types = wpjm_get_the_job_types(); ?>
+		<?php if ( ! empty( $types ) ) : foreach ( $types as $type ) : ?>
+
+			<div class="job-type <?php echo esc_attr( sanitize_title( $type->slug ) ); ?>"><?php echo esc_html( $type->name ); ?></div>
+
+		<?php endforeach; endif; ?>
 	<?php } ?>
 
 	<?php if ( $logo = get_the_company_logo() ) : ?>
@@ -11,7 +16,7 @@
 
 	<div class="job_summary_content">
 
-		<h1><?php echo esc_html( get_the_title() ); ?></h1>
+		<h1><?php wpjm_the_job_title(); ?></h1>
 
 		<p class="meta"><?php the_job_location( false ); ?> &mdash; <?php the_job_publish_date(); ?></p>
 

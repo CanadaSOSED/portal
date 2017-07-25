@@ -94,9 +94,9 @@ jQuery(document).ready(function($) {
 		}
 	} );
 	
-	// Orders Filter
-	if( $('.wcfm_orders_filter_wrap').length > 0 ) {
-		$('#wcfm-orders').before( $('.wcfm_orders_filter_wrap') );
+	// Dashboard FIlter
+	if( $('.wcfm_filters_wrap').length > 0 ) {
+		$('.dataTable').before( $('.wcfm_filters_wrap') );
 	}
 	
 } );

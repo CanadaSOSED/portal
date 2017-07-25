@@ -59,6 +59,11 @@ jQuery(function($) {
 
 				data.context.remove();
 
+				// Handle JSON errors when success is false
+				if( typeof data.result.success !== 'undefined' && ! data.result.success ){
+					window.alert( data.result.data );
+				}
+
 				$.each(data.result.files, function(index, file) {
 					if ( file.error ) {
 						window.alert( file.error );

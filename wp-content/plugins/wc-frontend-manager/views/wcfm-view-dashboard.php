@@ -59,7 +59,7 @@ include_once( WC()->plugin_path() . '/includes/admin/reports/class-wc-report-sal
 
 $wcfm_report_sales_by_date = new WC_Report_Sales_By_Date();
 
-$wcfm_report_sales_by_date->chart_colours = array(
+$wcfm_report_sales_by_date->chart_colours = apply_filters( 'wcfm_admin_sales_by_date_chart_colors', array(
 	'sales_amount'     => '#b1d4ea',
 	'net_sales_amount' => '#3498db',
 	'average'          => '#b1d4ea',
@@ -69,7 +69,7 @@ $wcfm_report_sales_by_date->chart_colours = array(
 	'shipping_amount'  => '#5cc488',
 	'coupon_amount'    => '#f1c40f',
 	'refund_amount'    => '#e74c3c'
-);
+) );
 
 $wcfm_report_sales_by_date->calculate_current_range( '7day' );
 $report_data   = $wcfm_report_sales_by_date->get_report_data();
@@ -140,6 +140,9 @@ do_action( 'before_wcfm_dashboard' );
 								<?php
 							}
 							?>
+							
+							<?php do_action( 'after_wcfm_dashboard_sales_reports' ); ?>
+							
 							<?php if ( current_user_can( 'edit_shop_orders' ) ) { ?>
 							<li class="processing-orders">
 								<span class="fa fa-cart-plus"></span>
@@ -161,6 +164,8 @@ do_action( 'before_wcfm_dashboard' );
 							</li>
 							<?php } ?>
 							
+							<?php do_action( 'after_wcfm_dashboard_orders' ); ?>
+							
 							<li class="low-in-stock">
 								<span class="fa fa-sort-amount-desc"></span>
 								<a href="<?php echo apply_filters( 'low_in_stock_report_url',  get_wcfm_reports_url( ) ); ?>">
@@ -173,6 +178,9 @@ do_action( 'before_wcfm_dashboard' );
 									<?php printf( _n( "<strong>%s product</strong><br /> out of stock", "<strong>%s products</strong><br /> out of stock", $outofstock_count, 'wc-frontend-manager' ), $outofstock_count ); ?>
 								</a>
 							</li>
+							
+							<?php do_action( 'after_wcfm_dashboard_stock_reports' ); ?>
+							
 						</ul>
 					</div>
 				</div>

@@ -173,5 +173,3 @@ class WC_Email_Admin_Added_New_Product_to_Vendor extends WC_Email {
 }
 
 endif;
-
-return new WC_Email_Admin_Added_New_Product_to_Vendor();

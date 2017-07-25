@@ -57,7 +57,7 @@ if (!empty($orders)) {
                     'img' => $WCMp->plugin_url . 'assets/images/download.png',
                     'title' => __('Download', 'dc-woocommerce-multi-vendor'),
                 );
-                if (get_option('woocommerce_calc_shipping') != 'no') {
+                if ($vendor->is_shipping_enable()) {
                     $actions['mark_ship'] = array(
                         'url' => '#',
                         'title' => $mark_ship_title,

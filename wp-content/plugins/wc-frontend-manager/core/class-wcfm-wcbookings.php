@@ -28,6 +28,9 @@ class WCFM_WCBookings {
 				// Bookable Product Type
 				add_filter( 'wcfm_product_types', array( &$this, 'wcb_product_types' ), 20 );
 				
+				// Bookable Product Type Capability
+				add_filter( 'wcfm_settings_fields_vendor_product_types', array( &$this, 'wcfmcap_vendor_product_types' ), 20 );
+				
 				// Booking General Block
 				add_action( 'after_wcfm_products_manage_general', array( &$this, 'wcb_product_manage_general' ), 10, 2 );
 				
@@ -51,6 +54,7 @@ class WCFM_WCBookings {
 			'wcfm-bookings-manual'          => ! empty( $wcfm_modified_endpoints['wcfm-bookings-manual'] ) ? $wcfm_modified_endpoints['wcfm-bookings-manual'] : 'wcfm-bookings-manual',
 			'wcfm-bookings-calendar'        => ! empty( $wcfm_modified_endpoints['wcfm-bookings-calendar'] ) ? $wcfm_modified_endpoints['wcfm-bookings-calendar'] : 'wcfm-bookings-calendar',
 			'wcfm-bookings-details'         => ! empty( $wcfm_modified_endpoints['wcfm-bookings-details'] ) ? $wcfm_modified_endpoints['wcfm-bookings-details'] : 'wcfm-bookings-details',
+			'wcfm-bookings-settings'        => ! empty( $wcfm_modified_endpoints['wcfm-bookings-settings'] ) ? $wcfm_modified_endpoints['wcfm-bookings-settings'] : 'wcfm-bookings-settings',
 		);
 		
 		$query_vars = array_merge( $query_vars, $query_booking_vars );
@@ -84,6 +88,9 @@ class WCFM_WCBookings {
 			break;
 			case 'wcfm-bookings-details' :
 				$title = sprintf( __( 'Booking Details #%s', 'wc-frontend-manager' ), $wp->query_vars['wcfm-bookings-details'] );
+			break;
+			case 'wcfm-bookings-settings' :
+				$title = __( 'Bookings settings', 'wc-frontend-manager' );
 			break;
   	}
   	
@@ -138,6 +145,20 @@ class WCFM_WCBookings {
   }
   
   /**
+	 * WCFM Capability Vendor Product Types
+	 */
+	function wcfmcap_vendor_product_types( $product_types ) {
+		global $WCFM;
+		
+		$wcfm_capability_options = apply_filters( 'wcfm_capability_options', (array) get_option( 'wcfm_capability_options' ) );
+		$booking = ( isset( $wcfm_capability_options['booking'] ) ) ? $wcfm_capability_options['booking'] : 'no';
+		
+		$product_types["booking"] = array('label' => __('Bookable', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[booking]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $booking);
+		
+		return $product_types;
+	}
+  
+  /**
    * WC Booking Product General Options
    */
   function wcb_product_manage_general( $product_id, $product_type ) {
@@ -177,7 +198,7 @@ class WCFM_WCBookings {
 						"_wc_booking_requires_confirmation" => array('label' => __('Requires confirmation?', 'woocommerce-bookings') , 'type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele booking', 'label_class' => 'wcfm_title checkbox_title booking', 'value' => 'yes', 'dfvalue' => $requires_confirmation, 'hints' => __( 'Check this box if the booking requires admin approval/confirmation. Payment will not be taken during checkout.', 'woocommerce-bookings' ) ),
 						"_wc_booking_user_can_cancel" => array('label' => __('Can be cancelled?', 'woocommerce-bookings') , 'type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele booking', 'label_class' => 'wcfm_title checkbox_title booking', 'value' => 'yes', 'dfvalue' => $user_can_cancel, 'hints' => __( 'Check this box if the booking can be cancelled by the customer after it has been purchased. A refund will not be sent automatically.', 'woocommerce-bookings' ) ),
 						"_wc_booking_cancel_limit" => array('label' => __('Booking can be cancelled until', 'woocommerce-bookings') , 'type' => 'number', 'class' => 'wcfm-text wcfm_ele can_cancel_ele booking', 'label_class' => 'wcfm_title can_cancel_ele booking', 'value' => $cancel_limit ),
-						"_wc_booking_cancel_limit_unit" => array('type' => 'select', 'options' => array( 'month' => __( 'Month(s)', 'woocommerce-bookings'), 'day' => __( 'Day(s)', 'woocommerce-bookings' ), 'hour' => __( 'Hour(s)', 'woocommerce-bookings' ), 'minute' => __( 'Minute(s)', 'woocommerce-bookings' ) ), 'class' => 'wcfm-select wcfm_ele can_cancel_ele booking', 'label_class' => 'wcfm_title can_cancel_ele booking', 'desc_class' => 'can_cancel_ele booking', 'value' => $cancel_limit_unit, 'desc' => __( 'before the start date.', 'woocommerce-bookings' ) )
+						"_wc_booking_cancel_limit_unit" => array('type' => 'select', 'options' => array( 'month' => __( 'Month(s)', 'woocommerce-bookings'), 'day' => __( 'Day(s)', 'woocommerce-bookings' ), 'hour' => __( 'Hour(s)', 'woocommerce-bookings' ), 'minute' => __( 'Minute(s)', 'woocommerce-bookings' ) ), 'class' => 'wcfm-select wcfm_ele can_cancel_ele booking', 'label_class' => 'wcfm_title can_cancel_ele booking', 'desc_class' => 'can_cancel_ele in_the_future booking', 'value' => $cancel_limit_unit, 'desc' => __( 'before the start date.', 'woocommerce-bookings' ) )
 						
 																															) );
 			  

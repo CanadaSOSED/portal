@@ -127,7 +127,7 @@ class WCMp_Settings {
                 '<p><strong>' . __('For more information:', 'dc-woocommerce-multi-vendor') . '</strong></p>' .
                 '<p><a href="' . 'https://wordpress.org/plugins/dc-woocommerce-multi-vendor/' . '" target="_blank">' . __('WordPress.org Project', 'dc-woocommerce-multi-vendor') . '</a></p>' .
                 '<p><a href="' . 'https://github.com/dualcube/dc-woocommerce-multi-vendor' . '" target="_blank">' . __('Github Project', 'dc-woocommerce-multi-vendor') . '</a></p>' .
-                '<p><a href="' . 'https://demo.wc-marketplace.com/addon/WCMp/' . '" target="_blank">' . __('View Demo', 'dc-woocommerce-multi-vendor') . '</a></p>' .
+                '<p><a href="' . 'http://wcmpdemos.com/addon/WCMp/' . '" target="_blank">' . __('View Demo', 'dc-woocommerce-multi-vendor') . '</a></p>' .
                 '<p><a href="' . 'https://wc-marketplace.com/third-party-themes/' . '" target="_blank">' . __('Supported Themes', 'dc-woocommerce-multi-vendor') . '</a></p>' .
                 '<p><a href="' . 'https://wc-marketplace.com/addons/' . '" target="_blank">' . __('Official Extensions', 'dc-woocommerce-multi-vendor') . '</a></p>'
         );

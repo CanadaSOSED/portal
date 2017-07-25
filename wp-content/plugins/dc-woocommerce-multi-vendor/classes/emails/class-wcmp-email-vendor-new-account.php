@@ -130,4 +130,3 @@ class WC_Email_Vendor_New_Account extends WC_Email {
 
 endif;
 
-return new WC_Email_Vendor_New_Account();

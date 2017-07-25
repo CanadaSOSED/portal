@@ -478,6 +478,10 @@ display:block;
 	color:#555;
 	font-weight:400;
 }
+.wcmp_order_all_table td .input-group-addon.beautiful:first-child{
+	background: transparent;
+    border: 0;
+}
 .input-group-addon.beautiful input[type="checkbox"],
 .input-group-addon.beautiful input[type="radio"] {
     display: none;
@@ -562,6 +566,7 @@ display:block;
     padding: 7px 12px;
     margin: 5px 0px;
     line-height: normal;
+    vertical-align: middle;
 }
 
 
@@ -1906,4 +1911,10 @@ float:none;
 
 .wcmp_form1 textarea {
    display: inline;
+}
+table.customer_order_dtl th, table.customer_order_dtl td, table.customer_order_dtl th:first-child, table.customer_order_dtl td:first-child, table.customer_order_dtl th:last-child, table.customer_order_dtl td:last-child{
+	padding: 1.07em 0.71em;
+}
+table.customer_order_dtl label{
+	margin: 0;
 }

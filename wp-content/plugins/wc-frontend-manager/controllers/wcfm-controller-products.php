@@ -138,6 +138,8 @@ class WCFM_Products_Controller {
 					$pro_type = '<span class="product-type tips fa fa-gavel text_tip" data-tip="' . esc_attr__( 'Auction', 'wc-frontend-manager' ) . '"></span>';
 				} elseif ( 'redq_rental' == $the_product->product_type ) {
 					$pro_type = '<span class="product-type tips fa fa-cab text_tip" data-tip="' . esc_attr__( 'Rental', 'wc-frontend-manager' ) . '"></span>';
+				} elseif ( 'accommodation-booking' == $the_product->product_type ) {
+					$pro_type = '<span class="product-type tips fa fa-calendar text_tip" data-tip="' . esc_attr__( 'Accommodation', 'wc-frontend-manager' ) . '"></span>';
 				} else {
 					// Assuming that we have other types in future
 					$pro_type = '<span class="product-type tips wcicon-' . $the_product->product_type . ' text_tip ' . $the_product->product_type . '" data-tip="' . ucfirst( $the_product->product_type ) . '"></span>';

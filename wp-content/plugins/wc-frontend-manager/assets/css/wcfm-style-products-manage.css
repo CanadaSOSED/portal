@@ -268,6 +268,13 @@ input.upload_button, input.remove_button {
 #length, #width, #height, .variation_dimension { width: 18% !important; }
 #length, #width, .variation_dimension_lw { margin-right: 3% !important; }
 
+.fields_collapser {
+	font-size: 20px;
+	margin-left: 10px;
+	cursor: pointer;
+	color: #00897b;
+}
+
 .wcfm_ele_hide, .wcfm_head_hide, .wcfm_block_hide, .non_stock_ele_hide, .non_virtual_ele_hide, .downloadable_ele_hide {
 	display: none !important;
 }
@@ -363,6 +370,10 @@ input.upload_button, input.remove_button {
 			position: absolute;
 			right: 0;
 			top: 0;
+	}
+	html[dir="rtl"] .page_collapsible + .wcfm-container {
+		left: 0;
+		right: auto;
 	}
 	#wcfm_products_simple_submit {
 		overflow:hidden;

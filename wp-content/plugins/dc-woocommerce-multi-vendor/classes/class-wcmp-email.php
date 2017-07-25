@@ -10,8 +10,46 @@
 class WCMp_Email {
 	
 	public function __construct() {		
-	  global $WCMp;
-	  add_action( 'woocommerce_email_customer_details', array( $this, 'wcmp_vendor_messages_customer_support' ), 30, 3 );	 
+	  	global $WCMp;
+	  	add_action( 'woocommerce_email_customer_details', array( $this, 'wcmp_vendor_messages_customer_support' ), 30, 3 );	
+	  	// Intialize WCMp Email Footer text settings
+        add_filter('woocommerce_get_settings_email', array($this, 'wcmp_settings_email'));
+        // WCMp Email Footer hook
+        add_action( 'wcmp_email_footer', array( $this, 'wcmp_email_footer' ) );
+	}
+
+	/**
+     * Register WCMp emails footer text settings
+     *
+     * @access public
+     * @return array
+     */
+    public function wcmp_settings_email($settings) {
+    	global $WCMp;
+        $wcmp_footer_settings = array(
+	        array(
+	            'title'       => __( 'WCMp Footer text', 'dc-woocommerce-multi-vendor' ),
+	            'desc'        => __( 'The text to appear in the footer of WCMp emails.', 'dc-woocommerce-multi-vendor' ),
+	            'id'          => 'wcmp_email_footer_text',
+	            'css'         => 'width:300px; height: 75px;',
+	            'placeholder' => __( 'N/A', 'dc-woocommerce-multi-vendor' ),
+	            'type'        => 'textarea',
+	            /* translators: %s: site name */
+	            'default'     => sprintf( __( '%s - Powered by WC Marketplace', 'dc-woocommerce-multi-vendor' ), get_bloginfo( 'name', 'display' ) ),
+	            'autoload'    => false,
+	            'desc_tip'    => true,
+	        )
+        );
+        array_splice($settings, 11, 0, $wcmp_footer_settings);
+        return $settings;
+    }
+
+    /**
+	 * Get the WCMp email footer.
+	 */
+	public function wcmp_email_footer() {
+		global $WCMp;
+		$WCMp->template->get_template('emails/email-footer.php');
 	}
 	
 	public function wcmp_vendor_messages_customer_support( $order, $sent_to_admin = false, $plain_text = false ) {

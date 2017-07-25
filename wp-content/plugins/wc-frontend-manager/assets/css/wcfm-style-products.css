@@ -3,18 +3,6 @@
 	max-width: 40px;
 }
 
-.dataTables_wrapper .dataTables_filter input {
-	width: 120px;
-	height: 30px;
-}
-
-.dataTables_wrapper select {
-	font-size: 13px;
-	max-width: 150px;
-	height: 27px; 
-	margin: 0px 5px 0px 5px;
-}
-
 #wcfm-products_length { margin-top: 4px !important; }
 #wcfm-products_filter input { margin-bottom: 10px; }
 
@@ -64,14 +52,6 @@ table.dataTable.display tr th:nth-child(9),
 	table.dataTable.display tr th:nth-child(10) {
 	text-align: center;
 }
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-	padding: 0em 0.2em;
-}
-
-.wcfm_products_filter_wrap { margin-top: 4px !important; opacity: .5; display: inline-block; text-align: center; }
-
-.wcfm_products_filter_wrap select { margin-bottom: 10px; }
 
 @media only screen and (max-width: 980px) {
   .wcfm_products_filter_wrap { width: 100%; }

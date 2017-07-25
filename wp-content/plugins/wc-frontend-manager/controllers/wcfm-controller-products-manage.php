@@ -257,10 +257,8 @@ class WCFM_Products_Manage_Controller {
 				}*/
 				
 				// Set Product Featured Image
-				$wp_upload_dir = wp_upload_dir();
 				if(isset($wcfm_products_manage_form_data['featured_img']) && !empty($wcfm_products_manage_form_data['featured_img'])) {
-					$featured_img = str_replace($wp_upload_dir['baseurl'], $wp_upload_dir['basedir'], $wcfm_products_manage_form_data['featured_img']);
-					$featured_img_id = $this->wcfm_get_image_id($wcfm_products_manage_form_data['featured_img']); //asociatingProductImage($featured_img, $new_product_id);
+					$featured_img_id = $WCFM->wcfm_get_attachment_id($wcfm_products_manage_form_data['featured_img']);
 					set_post_thumbnail( $new_product_id, $featured_img_id );
 				} else {
 					delete_post_thumbnail( $new_product_id );
@@ -298,8 +296,7 @@ class WCFM_Products_Manage_Controller {
 							// Set Variation Thumbnail
 							$variation_img_id = 0;
 							if(isset($variations['image']) && !empty($variations['image'])) {
-								$variation_img = str_replace($wp_upload_dir['baseurl'], $wp_upload_dir['basedir'], $variations['image']);
-								$variation_img_id = $this->asociatingProductImage($variation_img, $variation_id);
+								$variation_img_id = $WCFM->wcfm_get_attachment_id($variations['image']);
 							}
 							
 							// Update Attributes
@@ -365,7 +362,7 @@ class WCFM_Products_Manage_Controller {
 				
 				if(!$has_error) {
 					if( get_post_status( $new_product_id ) == 'publish' ) {
-						if(!$has_error) echo '{"status": true, "message": "' . $wcfm_products_manage_messages['product_published'] . '", "redirect": "' . get_permalink( $new_product_id ) . '"}';	
+						if(!$has_error) echo '{"status": true, "message": "' . $wcfm_products_manage_messages['product_published'] . '", "redirect": "' . get_permalink( $new_product_id ) . '", "id": "' . $new_product_id . '", "title": "' . get_the_title( $new_product_id ) . '"}';	
 					} elseif( get_post_status( $new_product_id ) == 'pending' ) {
 						if(!$has_error) echo '{"status": true, "message": "' . $wcfm_products_manage_messages['product_saved'] . '", "redirect": "' . get_wcfm_products_url( 'pending' ) . '"}';
 					} else {
@@ -378,43 +375,5 @@ class WCFM_Products_Manage_Controller {
 			echo '{"status": false, "message": "' . $wcfm_products_manage_messages['no_title'] . '"}';
 		}
 	  die;
-	}
-	
-	function wcfm_get_image_id($image_url) {
-		global $wpdb;
-		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )); 
-		return $attachment[0]; 
-	}
-	
-	function asociatingProductImage($filename, $woo_pro_ID) {
-		if(file_exists($filename)) {
-			// Check the type of file. We'll use this as the 'post_mime_type'.
-			$filetype = wp_check_filetype( basename( $filename ), null );
-			
-			// Upload the file
-			$upload = wp_upload_bits( basename( $filename ), '', file_get_contents( $filename ) );
-		
-			if ( !$upload['error'] ) {
-			
-				// Prepare an array of post data for the attachment.
-				$attachment = array(
-					'guid'           => $upload['url'], 
-					'post_mime_type' => $filetype['type'],
-					'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
-					'post_content'   => '',
-					'post_status'    => 'inherit',
-					'post_parent'    => $woo_pro_ID
-				);
-				
-				// Insert the attachment.
-				$single_image_id = wp_insert_attachment( $attachment, $upload['file'] );
-				
-				if ( ! is_wp_error( $single_image_id ) ) {
-					wp_update_attachment_metadata( $single_image_id, wp_generate_attachment_metadata( $single_image_id, $upload['file'] ) );
-					return $single_image_id;
-				}
-			}
-		}
-		return 0;
 	}
 }

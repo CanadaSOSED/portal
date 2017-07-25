@@ -167,5 +167,3 @@ class WC_Email_Notify_Shipped extends WC_Email {
 }
 
 endif;
-
-return new WC_Email_Notify_Shipped();

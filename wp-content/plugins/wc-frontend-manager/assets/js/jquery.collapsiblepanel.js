@@ -498,8 +498,10 @@ jQuery( document ).ready( function( $ ) {
 			var wrapHeight = $( this ).next('.wcfm-container').height();
 			if(collapsHeight > wrapHeight) {
 				$('.wcfm-tabWrap').css('height', ( collapsHeight + 10 ) );
+				$(document.body).trigger('wcfm_product_tabwrap_changed', ( collapsHeight + 10 ) );
 			} else { 
 				$('.wcfm-tabWrap').css('height', wrapHeight );
+				$(document.body).trigger('wcfm_product_tabwrap_changed', wrapHeight );
 			}
 		});
 	}
@@ -512,8 +514,10 @@ function resetCollapsHeight(multi_input_holder) {
 			var wrapHeight = multi_input_holder.parent().height();
 			if(collapsHeight > wrapHeight) {
 				jQuery('.wcfm-tabWrap').css('height', collapsHeight );
+				jQuery(document.body).trigger('wcfm_product_tabwrap_changed', collapsHeight );
 			} else { 
 				jQuery('.wcfm-tabWrap').css('height', ( wrapHeight + 50 ) );
+				jQuery(document.body).trigger('wcfm_product_tabwrap_changed', ( wrapHeight + 50 ) );
 			}
 		}
 	}

@@ -52,10 +52,11 @@
   line-height: 24px;
 }
 
-.wcfm_dashboard_wc_status_data strong {
+.wcfm_dashboard_wc_status_data strong, .wcfm_dashboard_wc_status_data strong .woocommerce-Price-amount {
 	font-weight: 600;
 	font-size: 18px;
 	color: #21759b;
+	display: inline-block;
 }
 
 .wcfm_dashboard_wc_status_data .wcfm-container { padding-bottom: 10px; }
@@ -121,5 +122,3 @@
 		font-size: 15px;
 	}
 }
-
-

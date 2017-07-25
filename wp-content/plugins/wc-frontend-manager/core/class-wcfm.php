@@ -12,6 +12,7 @@
  
 class WCFM {
 
+	public $plugin_base_name;
 	public $plugin_url;
 	public $plugin_path;
 	public $version;
@@ -93,16 +94,20 @@ class WCFM {
 		
 		// Check WC Booking
 		if( wcfm_is_booking() ) {
-			$this->load_class('wcbookings');
-			$this->wcfm_wcbooking = new WCFM_WCBookings();
+			if (!is_admin() || defined('DOING_AJAX')) {
+				$this->load_class('wcbookings');
+				$this->wcfm_wcbooking = new WCFM_WCBookings();
+			}
 		} else {
 			delete_option( 'wcfm_updated_end_point_wc_bookings' );
 		}
 		
 		// Check WC Subscription
 		if( wcfm_is_subscription() ) {
-			$this->load_class('wcsubscriptions');
-			$this->wcfm_wcsubscriptions = new WCFM_WCSubscriptions();
+			if (!is_admin() || defined('DOING_AJAX')) {
+				$this->load_class('wcsubscriptions');
+				$this->wcfm_wcsubscriptions = new WCFM_WCSubscriptions();
+			}
 		}
 		
 		// Init library
@@ -201,20 +206,13 @@ class WCFM {
 	static function update_wcfm() {
 		global $WCFM, $WCFM_Query;
 
-		if( !get_option( 'wcfm_updated_2_3_8' ) ) {
-			
-			//$array_pages = array();
-			//$array_pages['wc_frontend_manager_page_id'] = get_option( 'wc_frontend_manager_page_id' );
-			//update_option( 'wcfm_page_options', $array_pages );
+		if( !get_option( 'wcfm_updated_2_4_2' ) ) {
 			
 			require_once ( $WCFM->plugin_path . 'helpers/class-wcfm-install.php' );
 			$WCFM_Install = new WCFM_Install();
 			
-			// Init WCFM Custom CSS file
-			//$WCFM->wcfm_create_custom_css();
-
-			delete_option( 'wcfm_updated_2_3_6' );
-			update_option( 'wcfm_updated_2_3_8', 1 );
+			delete_option( 'wcfm_updated_2_3_8' );
+			update_option( 'wcfm_updated_2_4_2', 1 );
 		}
 	}
 
@@ -327,6 +325,30 @@ class WCFM {
 			}
 		}
 		return $wcfm_style_custom;
+	}
+	
+	function wcfm_get_attachment_id($attachment_url) {
+		global $wpdb;
+		$upload_dir_paths = wp_upload_dir();
+		
+		if( class_exists('WPH') ) {
+			global $wph;
+			$new_upload_path = $wph->functions->get_module_item_setting('new_upload_path');
+			$new_content_path = $wph->functions->get_module_item_setting('new_content_path');
+			$attachment_url = str_replace( $new_content_path, 'wp-content', str_replace( $new_upload_path, 'uploads', $attachment_url ) );
+		}
+		
+		// If this is the URL of an auto-generated thumbnail, get the URL of the original image
+		if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
+			$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
+		
+			// Remove the upload path base directory from the attachment URL
+			$attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
+			
+			// Finally, run a custom database query to get the attachment ID from the modified attachment URL
+			$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
+		}
+		return $attachment_id; 
 	}
 	
 	/** Cache Helpers ******************************************************** */

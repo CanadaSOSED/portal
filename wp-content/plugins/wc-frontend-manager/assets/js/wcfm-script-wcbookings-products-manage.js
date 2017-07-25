@@ -8,8 +8,12 @@ jQuery(document).ready(function($) {
   }).change();
   
   $('#_wc_booking_user_can_cancel').change(function() {
-    if( $(this).is(':checked')) $('.can_cancel_ele').show();
-    else $('.can_cancel_ele').hide();
+    if( $(this).is(':checked')) {
+    	$('.can_cancel_ele').show();
+    	resetCollapsHeight($('#_wc_booking_user_can_cancel'));
+    } else {
+    	$('.can_cancel_ele').hide();
+    }
   } ).change();
   
   $('#_wc_booking_duration_unit').change(function() {

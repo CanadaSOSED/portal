@@ -208,11 +208,13 @@ do_action( 'before_wcfm_orders_details' );
 								<?php
 									// Display values
 									echo '<div class="address">';
-		
-									if ( $order->get_formatted_billing_address() ) {
-										echo '<p><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong>' . wp_kses( $order->get_formatted_billing_address(), array( 'br' => array() ) ) . '</p>';
-									} else {
-										echo '<p class="none_set"><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong> ' . __( 'No billing address set.', 'wc-frontend-manager' ) . '</p>';
+									
+									if( $is_allow_customer_billing_details = apply_filters( 'wcfm_allow_customer_billing_details', true ) ) {
+										if ( $order->get_formatted_billing_address() ) {
+											echo '<p><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong>' . wp_kses( $order->get_formatted_billing_address(), array( 'br' => array() ) ) . '</p>';
+										} else {
+											echo '<p class="none_set"><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong> ' . __( 'No billing address set.', 'wc-frontend-manager' ) . '</p>';
+										}
 									}
 		
 									if( $is_allow_order_customer_details = apply_filters( 'wcfm_allow_order_customer_details', true ) ) {
@@ -242,11 +244,13 @@ do_action( 'before_wcfm_orders_details' );
 								<?php
 									// Display values
 									echo '<div class="address">';
-		
-										if ( $order->get_formatted_shipping_address() ) {
-											echo '<p><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong>' . wp_kses( $order->get_formatted_shipping_address(), array( 'br' => array() ) ) . '</p>';
-										} else {
-											echo '<p class="none_set"><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong> ' . __( 'No shipping address set.', 'wc-frontend-manager' ) . '</p>';
+									
+										if( $is_allow_customer_shipping_details = apply_filters( 'wcfm_allow_customer_shipping_details', true ) ) {
+											if ( $order->get_formatted_shipping_address() ) {
+												echo '<p><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong>' . wp_kses( $order->get_formatted_shipping_address(), array( 'br' => array() ) ) . '</p>';
+											} else {
+												echo '<p class="none_set"><strong>' . __( 'Address', 'wc-frontend-manager' ) . ':</strong> ' . __( 'No shipping address set.', 'wc-frontend-manager' ) . '</p>';
+											}
 										}
 		
 										if( $is_allow_order_customer_details = apply_filters( 'wcfm_allow_order_customer_details', true ) ) {

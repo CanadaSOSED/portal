@@ -75,6 +75,7 @@ class WCMp_Seller_Review_Rating {
 
     function remove_vendor_rating_from_recent_comment($args) {
         $args['post__not_in'] = wcmp_vendor_dashboard_page_id();
+        return $args;
     }
 
     function wcmp_seller_review_rating_form() {

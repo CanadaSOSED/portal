@@ -36,7 +36,7 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
                                     if ($count == 0) {
                                         echo __(sprintf('Be the first to review “%s”', $shop_name), 'dc-woocommerce-multi-vendor');
                                     } else {
-                                        echo __(sprintf('Add a review “%s”', $shop_name), 'dc-woocommerce-multi-vendor');
+                                        echo __(sprintf('Add a review to “%s”', $shop_name), 'dc-woocommerce-multi-vendor');
                                     }
                                     ?> </h3>				
                                 <form action="" method="post" id="commentform" class="comment-form" novalidate="">

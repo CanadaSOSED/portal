@@ -133,6 +133,8 @@ class WCMp_Calculate_Commission {
                     }
                 }
             }
+            $email_admin = WC()->mailer()->emails['WC_Email_Vendor_New_Order'];
+            $email_admin->trigger($order_id);
         }
         // Mark commissions as processed
         update_post_meta($order_id, '_commissions_processed', 'yes');

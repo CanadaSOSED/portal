@@ -17,7 +17,7 @@ class WCFM_Vendor_Capability {
 		global $WCFM;
 		
 		if( wcfm_is_vendor() ) {
-			$this->wcfm_capability_options = (array) get_option( 'wcfm_capability_options' );
+			$this->wcfm_capability_options = apply_filters( 'wcfm_capability_options', (array) get_option( 'wcfm_capability_options' ) );
 			
 			// Menu Filter
 			add_filter( 'wcfm_menus', array( &$this, 'wcfmcap_wcfm_menus' ), 50 );
@@ -26,6 +26,7 @@ class WCFM_Vendor_Capability {
 			
 			// Manage Product Permission
 			add_filter( 'wcfm_product_types', array( &$this, 'wcfmcap_is_allow_product_types'), 500 );
+			add_filter( 'product_type_selector', array( &$this, 'wcfmcap_is_allow_product_types'), 500 ); // WC Product Types
 			add_filter( 'wcfm_is_allow_job_package', array( &$this, 'wcfmcap_is_allow_job_package'), 500 );
 			add_filter( 'wcfm_product_manage_fields_general', array( &$this, 'wcfmcap_is_allow_fields_general' ), 500 );
 			add_filter( 'wcfm_is_allow_inventory', array( &$this, 'wcfmcap_is_allow_inventory' ), 500 );
@@ -35,9 +36,17 @@ class WCFM_Vendor_Capability {
 			add_filter( 'wcfm_is_allow_variable', array( &$this, 'wcfmcap_is_allow_variable' ), 500 );
 			add_filter( 'wcfm_is_allow_linked', array( &$this, 'wcfmcap_is_allow_linked' ), 500 );
 			
+			// Manage Product Export Permission - 2.4.2
+			add_filter( 'woocommerce_product_export_product_default_columns', array( &$this, 'wcfmcap_is_allow_product_columns'), 500 ); // WC Product Columns
+			
+			// Manage Product Import Permission - 2.4.2
+			//add_filter( 'woocommerce_csv_product_import_mapping_options', array( &$this, 'wcfmcap_is_allow_product_columns'), 500 ); // WC Product Columns
+			
 			// Manage Order Permission
 			add_filter( 'wcfm_is_allow_orders', array( &$this, 'wcfmcap_is_allow_orders' ), 500 );
 			add_filter( 'wcfm_is_allow_order_details', array( &$this, 'wcfm_is_allow_order_details' ), 500 );
+			add_filter( 'wcfm_allow_customer_billing_details', array( &$this, 'wcfmcap_is_allow_customer_billing_details' ), 500 );
+			add_filter( 'wcfm_allow_customer_shipping_details', array( &$this, 'wcfmcap_is_allow_customer_shipping_details' ), 500 );
 			add_filter( 'wcfm_allow_order_customer_details', array( &$this, 'wcfmcap_is_allow_order_customer_details' ), 500 );
 			add_filter( 'wcfm_is_allow_export_csv', array( &$this, 'wcfmcap_is_allow_export_csv' ), 500 );
 			add_filter( 'wcfm_is_allow_pdf_invoice', array( &$this, 'wcfmcap_is_allow_pdf_invoice' ), 500 );
@@ -84,6 +93,7 @@ class WCFM_Vendor_Capability {
 		$grouped = ( isset( $this->wcfm_capability_options['grouped'] ) ) ? $this->wcfm_capability_options['grouped'] : 'no';
 		$external = ( isset( $this->wcfm_capability_options['external'] ) ) ? $this->wcfm_capability_options['external'] : 'no';
 		$booking = ( isset( $this->wcfm_capability_options['booking'] ) ) ? $this->wcfm_capability_options['booking'] : 'no';
+		$appointment = ( isset( $this->wcfm_capability_options['appointment'] ) ) ? $this->wcfm_capability_options['appointment'] : 'no';
 		$job_package = ( isset( $this->wcfm_capability_options['job_package'] ) ) ? $this->wcfm_capability_options['job_package'] : 'no';
 		$resume_package = ( isset( $this->wcfm_capability_options['resume_package'] ) ) ? $this->wcfm_capability_options['resume_package'] : 'no';
 		$auction = ( isset( $this->wcfm_capability_options['auction'] ) ) ? $this->wcfm_capability_options['auction'] : 'no';
@@ -97,6 +107,7 @@ class WCFM_Vendor_Capability {
 		if( $grouped == 'yes' ) unset( $product_types[ 'grouped' ] );
 		if( $external == 'yes' ) unset( $product_types[ 'external' ] );
 		if( $booking == 'yes' ) unset( $product_types[ 'booking' ] );
+		if( $appointment == 'yes' ) unset( $product_types[ 'appointment' ] );
 		if( $job_package == 'yes' ) unset( $product_types[ 'job_package' ] );
 		if( $resume_package == 'yes' ) unset( $product_types[ 'resume_package' ] );
 		if( $auction == 'yes' ) unset( $product_types[ 'auction' ] );
@@ -169,6 +180,60 @@ class WCFM_Vendor_Capability {
   	return $allow;
   }
   
+  // Product Columns
+  function wcfmcap_is_allow_product_columns( $product_columns ) {
+  	
+  	$inventory = ( isset( $this->wcfm_capability_options['inventory'] ) ) ? $this->wcfm_capability_options['inventory'] : 'no';
+  	$shipping = ( isset( $this->wcfm_capability_options['shipping'] ) ) ? $this->wcfm_capability_options['shipping'] : 'no';
+  	$taxes = ( isset( $this->wcfm_capability_options['taxes'] ) ) ? $this->wcfm_capability_options['taxes'] : 'no';
+  	//$attributes = ( isset( $this->wcfm_capability_options['attributes'] ) ) ? $this->wcfm_capability_options['attributes'] : 'no';
+  	$advanced = ( isset( $this->wcfm_capability_options['advanced'] ) ) ? $this->wcfm_capability_options['advanced'] : 'no';
+  	$linked = ( isset( $this->wcfm_capability_options['linked'] ) ) ? $this->wcfm_capability_options['linked'] : 'no';
+  	$downloadable = ( isset( $this->wcfm_capability_options['downloadable'] ) ) ? $this->wcfm_capability_options['downloadable'] : 'no';
+  	$grouped = ( isset( $this->wcfm_capability_options['grouped'] ) ) ? $this->wcfm_capability_options['grouped'] : 'no';
+		$external = ( isset( $this->wcfm_capability_options['external'] ) ) ? $this->wcfm_capability_options['external'] : 'no';
+		$gallery = ( isset( $this->wcfm_capability_options['gallery'] ) ) ? $this->wcfm_capability_options['gallery'] : 'no';
+		$category = ( isset( $this->wcfm_capability_options['category'] ) ) ? $this->wcfm_capability_options['category'] : 'no';
+		$tags = ( isset( $this->wcfm_capability_options['tags'] ) ) ? $this->wcfm_capability_options['tags'] : 'no';
+		
+  	
+  	if( $inventory == 'yes' ) unset( $product_columns[ 'stock_status' ] );
+		if( $inventory == 'yes' ) unset( $product_columns[ 'stock' ] );
+		if( $inventory == 'yes' ) unset( $product_columns[ 'backorders' ] );
+		if( $inventory == 'yes' ) unset( $product_columns[ 'sold_individually' ] );
+		
+		if( $shipping == 'yes' ) unset( $product_columns[ 'weight' ] );
+		if( $shipping == 'yes' ) unset( $product_columns[ 'length' ] );
+		if( $shipping == 'yes' ) unset( $product_columns[ 'width' ] );
+		if( $shipping == 'yes' ) unset( $product_columns[ 'height' ] );
+		if( $shipping == 'yes' ) unset( $product_columns[ 'shipping_class_id' ] );
+		
+		if( $taxes == 'yes' ) unset( $product_columns[ 'tax_status' ] );
+		if( $taxes == 'yes' ) unset( $product_columns[ 'tax_class' ] );
+		
+		//if( $attributes == 'yes' ) unset( $product_columns[ 'subscription' ] );
+		
+  	if( $advanced == 'yes' ) unset( $product_columns[ 'reviews_allowed' ] );
+  	if( $advanced == 'yes' ) unset( $product_columns[ 'purchase_note' ] );
+  	
+  	if( $linked == 'yes' ) unset( $product_columns[ 'upsell_ids' ] );
+  	if( $linked == 'yes' ) unset( $product_columns[ 'cross_sell_ids' ] );
+  	
+  	if( $downloadable == 'yes' ) unset( $product_columns[ 'download_limit' ] );
+  	if( $downloadable == 'yes' ) unset( $product_columns[ 'download_expiry' ] );
+  	
+  	if( $grouped == 'yes' ) unset( $product_columns[ 'grouped_products' ] );
+  	if( $external == 'yes' ) unset( $product_columns[ 'product_url' ] );
+  	if( $external == 'yes' ) unset( $product_columns[ 'button_text' ] );
+  	
+  	if( $gallery == 'yes' ) unset( $product_columns[ 'images' ] );
+  	
+  	if( $category == 'yes' ) unset( $product_columns[ 'category_ids' ] );
+  	if( $tags == 'yes' ) unset( $product_columns[ 'tag_ids' ] );
+		
+		return $product_columns;
+  }
+  
   // Allow View Orders
   function wcfmcap_is_allow_orders( $allow ) {
   	$view_orders = ( isset( $this->wcfm_capability_options['view_orders'] ) ) ? $this->wcfm_capability_options['view_orders'] : 'no';
@@ -180,6 +245,20 @@ class WCFM_Vendor_Capability {
   function wcfm_is_allow_order_details( $allow ) {
   	$view_order_details = ( isset( $this->wcfm_capability_options['view_order_details'] ) ) ? $this->wcfm_capability_options['view_order_details'] : 'no';
   	if( $view_order_details == 'yes' ) return false;
+  	return $allow;
+  }
+  
+  // Custome Billing Address
+  function wcfmcap_is_allow_customer_billing_details( $allow ) {
+  	$view_billing_details = ( isset( $this->wcfm_capability_options['view_billing_details'] ) ) ? $this->wcfm_capability_options['view_billing_details'] : 'no';
+  	if( $view_billing_details == 'yes' ) return false;
+  	return $allow;
+  }
+  
+  // Custome Shipping Address
+  function wcfmcap_is_allow_customer_shipping_details( $allow ) {
+  	$view_shipping_details = ( isset( $this->wcfm_capability_options['view_shipping_details'] ) ) ? $this->wcfm_capability_options['view_shipping_details'] : 'no';
+  	if( $view_shipping_details == 'yes' ) return false;
   	return $allow;
   }
   

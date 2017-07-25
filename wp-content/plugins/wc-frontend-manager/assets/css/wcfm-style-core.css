@@ -81,7 +81,7 @@ th .wcicon-status-processing { color: #43454b !important; }
 	text-decoration: none;
 }
 
-.wcfm_product_title, .wcfm_coupon_title, .wcfm_order_title, .wcfm_booking_title { font-weight: bold; color: #21759b; }
+.wcfm_product_title, .wcfm_coupon_title, .wcfm_order_title, .wcfm_booking_title, .wcfm_appointment_title, .wcfm_auctions_title { font-weight: bold; color: #21759b; }
 
 .img_tip {
 	background: url("../images/question_mark.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);

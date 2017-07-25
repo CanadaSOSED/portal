@@ -33,10 +33,8 @@ class WCFM_Settings_WCPVendors_Controller {
 		$wcfm_settings_form['profile'] = ! empty( $_POST['profile'] ) ? wp_kses_post( stripslashes( $_POST['profile'] ) ) : '';
 		
 		// Set Product Featured Image
-		$wp_upload_dir = wp_upload_dir();
 		if(isset($wcfm_settings_form['wcfm_logo']) && !empty($wcfm_settings_form['wcfm_logo'])) {
-			$featured_img = str_replace($wp_upload_dir['baseurl'], $wp_upload_dir['basedir'], $wcfm_settings_form['wcfm_logo']);
-			$wcfm_settings_form['logo'] = $this->wcfm_get_image_id($wcfm_settings_form['wcfm_logo']);
+			$wcfm_settings_form['logo'] = $WCFM->wcfm_get_attachment_id($wcfm_settings_form['wcfm_logo']);
 		}
 		
 		if( !isset( $wcfm_settings_form['wcfm_vacation_mode'] ) ) $wcfm_settings_form['wcfm_vacation_mode'] = 'no';
@@ -53,11 +51,5 @@ class WCFM_Settings_WCPVendors_Controller {
 		}
 		 
 		die;
-	}
-	
-	function wcfm_get_image_id($image_url) {
-		global $wpdb;
-		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )); 
-		return $attachment[0]; 
 	}
 }

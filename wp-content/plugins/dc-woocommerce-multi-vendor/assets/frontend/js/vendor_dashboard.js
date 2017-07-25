@@ -56,14 +56,14 @@ function checkbox_custome_design() {
 				if($input.prop("checked") == true) {
 					jQuery('.select_all').each(function () {
 						jQuery(this).prop('checked', true);
-						jQuery(this).parent().find('.fa').removeClass('fa-square-o');
-						jQuery(this).parent().find('.fa').addClass('fa-check-square-o');
+						jQuery(this).parents('.input-group-addon').find('.fa').removeClass('fa-square-o');
+						jQuery(this).parents('.input-group-addon').find('.fa').addClass('fa-check-square-o');
 					});
 				} else {
 					jQuery('.select_all').each(function () {
 						jQuery(this).prop('checked', false);
-						jQuery(this).parent().find('.fa').removeClass('fa-check-square-o');
-						jQuery(this).parent().find('.fa').addClass('fa-square-o');
+						jQuery(this).parents('.input-group-addon').find('.fa').removeClass('fa-check-square-o');
+						jQuery(this).parents('.input-group-addon').find('.fa').addClass('fa-square-o');
 					});
 				}
 			}         

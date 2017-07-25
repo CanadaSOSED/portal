@@ -266,7 +266,7 @@ div.wcfm-collapse-content h2 {
 	z-index: 100000; /* Above WP toolbar */
 }
 
-a.add_new_wcfm_ele_dashboard {
+a.add_new_wcfm_ele_dashboard, a.wcfm_import_export {
 	background: #555;
 	padding: 3px;         
 	-moz-border-radius: 3px;
@@ -282,8 +282,8 @@ a.add_new_wcfm_ele_dashboard {
 	box-shadow: 0 1px 0 #ccc;
 	display: table-cell;
 }
-a.add_new_wcfm_ele_dashboard span { margin-right: 3px; margin-left: 3px; }
-a.add_new_wcfm_ele_dashboard:hover { background-color: #00897b; }
+a.add_new_wcfm_ele_dashboard span, a.wcfm_import_export span { margin-right: 3px; margin-left: 3px; }
+a.add_new_wcfm_ele_dashboard:hover, a.wcfm_import_export:hover { background-color: #00897b; }
 
 .wcfm_wp_admin_view {
 	float: right;
@@ -311,12 +311,13 @@ a.add_new_wcfm_ele_dashboard:hover { background-color: #00897b; }
 	margin-left: 10px;
 	margin-top: -2px;
 	font-size: 25px;
-	color: #73880A;
+	color: #00897b;
 	text-decoration: none;
 	border: 0px;
 	display: table-cell;
 	cursor: pointer;
 }
+.wcfm_screen_manager_dummy:hover, .wcfm_screen_manager:hover { color: #000000; }
 
 input.wcfm_submit_button, .wcfm_add_attribute, input.upload_button, input.remove_button {
 	float: right;
@@ -339,6 +340,26 @@ input.wcfm_submit_button:hover, .wcfm_add_attribute:hover, input.upload_button:h
 	background: #00897b none repeat scroll 0 0;
 	color: #ffffff !important;
 }
+
+.dataTables_wrapper .dataTables_filter input {
+	width: 120px;
+	height: 30px;
+}
+
+.dataTables_wrapper select {
+	font-size: 13px;
+	max-width: 150px;
+	height: 27px; 
+	margin: 0px 5px 10px 5px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0em 0.2em;
+}
+
+.dataTables_length { margin-top: 4px !important; }
+.wcfm_filters_wrap { margin-top: 4px !important; opacity: .5; display: inline-block; text-align: center; }
+.wcfm_filters_wrap select { margin-bottom: 10px; }
 
 .wcfm_clearfix {
 	clear: both;

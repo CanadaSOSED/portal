@@ -16,4 +16,4 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 <p><?php printf( __( "A new user has applied to be a vendor on %s. His/her email is <strong>%s</strong>.", 'dc-woocommerce-multi-vendor' ), esc_html( $blogname ), esc_html( $user_email ) ); ?></p>
 
-<?php do_action( 'woocommerce_email_footer' ); ?>
+<?php do_action( 'wcmp_email_footer' ); ?>

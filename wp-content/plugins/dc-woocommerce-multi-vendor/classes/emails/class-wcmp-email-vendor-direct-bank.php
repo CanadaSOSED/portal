@@ -150,5 +150,3 @@ if (!class_exists('WC_Email_Vendor_Direct_Bank')) :
     }
 
     endif;
-
-return new WC_Email_Vendor_Direct_Bank();

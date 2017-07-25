@@ -120,6 +120,9 @@ class WCFM_Orders_WCPVendors_Controller {
 			$wcfm_orders_json_arr = array();
 			
 			foreach ( $the_order_summary as $order ) {
+				// Order exists check
+				$order_post_title = get_the_title( $order->order_id );
+				if( !$order_post_title ) continue;
 	
 				$the_order = new WC_Order( $order->order_id );
 				//$the_order = wc_get_order( $the_order );
@@ -230,7 +233,7 @@ class WCFM_Orders_WCPVendors_Controller {
 				if ( 'void' === $order->commission_status ) {
 					$status = '<span class="wcpv-void-status">' . esc_html__( 'VOID', 'woocommerce-product-vendors' ) . '</span>';
 				}
-				$wcfm_orders_json_arr[$index][] =  wc_price( sanitize_text_field( $order->total_commission_amount ) ) . '<br />' . $status;
+				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( sanitize_text_field( $order->total_commission_amount ) ) . '<br />' . $status, $order->product_id, $order->total_commission_amount, $status  );
 				
 				// Date
 				$wcfm_orders_json_arr[$index][] = date_i18n( wc_date_format(), strtotime( $the_order_date ) );

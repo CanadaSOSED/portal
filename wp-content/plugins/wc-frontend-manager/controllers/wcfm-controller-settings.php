@@ -29,6 +29,10 @@ class WCFM_Settings_Controller {
 	  if( !isset($wcfm_settings_form['menu_disabled']) ) $options['menu_disabled'] = 'no';
 	  else $options['menu_disabled'] = 'yes';
 	  
+	  // Header Panel Disabled
+	  if( !isset($wcfm_settings_form['headpanel_disabled']) ) $options['headpanel_disabled'] = 'no';
+	  else $options['headpanel_disabled'] = 'yes';
+	  
 	  // Ultimate Notice Disabled
 	  if( !isset($wcfm_settings_form['ultimate_notice_disabled']) ) $options['ultimate_notice_disabled'] = 'no';
 	  else $options['ultimate_notice_disabled'] = 'yes';
@@ -38,10 +42,8 @@ class WCFM_Settings_Controller {
 	  else $options['noloader'] = 'yes';
 	  
 	  // Set Site Logo
-		$wp_upload_dir = wp_upload_dir();
 		if(isset($wcfm_settings_form['wcfm_logo']) && !empty($wcfm_settings_form['wcfm_logo'])) {
-			$featured_img = str_replace($wp_upload_dir['baseurl'], $wp_upload_dir['basedir'], $wcfm_settings_form['wcfm_logo']);
-			$options['site_logo'] = $this->wcfm_get_image_id($wcfm_settings_form['wcfm_logo']);
+			$options['site_logo'] = $WCFM->wcfm_get_attachment_id($wcfm_settings_form['wcfm_logo']);
 			update_option( 'wcfm_site_logo', $options['site_logo'] );
 		} else {
 			update_option( 'wcfm_site_logo', '' );
@@ -81,11 +83,5 @@ class WCFM_Settings_Controller {
 		do_action( 'wcfm_settings_update', $wcfm_settings_form );
 		 
 		die;
-	}
-	
-	function wcfm_get_image_id($image_url) {
-		global $wpdb;
-		$attachment = $wpdb->get_col($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url )); 
-		return $attachment[0]; 
 	}
 }

@@ -10,25 +10,35 @@ $wcfm_menus = $WCFM->get_wcfm_menus();
 
 $current_endpoint = $WCFM_Query->get_current_endpoint();
 
-$menu_active_dependent_list = array(
-																		'wcfm-products-manage'     => 'wcfm-products',
-																		'wcfm-coupons-manage'      => 'wcfm-coupons',
-																		'wcfm-orders-details'      => 'wcfm-orders',
-																		'wcfm-bookings'                    => 'wcfm-bookings-dashboard',
-																		'wcfm-bookings-resources'          => 'wcfm-bookings-dashboard',
-																		'wcfm-bookings-resources-manage'   => 'wcfm-bookings-dashboard',
-																		'wcfm-bookings-manual'             => 'wcfm-bookings-dashboard',
-																		'wcfm-bookings-calendar'           => 'wcfm-bookings-dashboard',
-																		'wcfm-bookings-details'            => 'wcfm-bookings-dashboard',
-																		'wcfm-reports-sales-by-date'    => 'wcfm-reports',
-																		'wcfm-reports-out-of-stock'     => 'wcfm-reports',
-																		'wcfm-reports-sales-by-product' => 'wcfm-reports',
-																		'wcfm-reports-coupons-by-date'  => 'wcfm-reports',
-																		'wcfm-reports-low-in-stock'     => 'wcfm-reports',
-																		);
+$menu_active_dependent_list = apply_filters( 'wcfm_menu_dependancy_map', array(
+																																			'wcfm-products-manage'     => 'wcfm-products',
+																																			'wcfm-products-export'     => 'wcfm-products',
+																																			'wcfm-products-import'     => 'wcfm-products',
+																																			'wcfm-coupons-manage'      => 'wcfm-coupons',
+																																			'wcfm-orders-details'      => 'wcfm-orders',
+																																			'wcfm-bookings'                    => 'wcfm-bookings-dashboard',
+																																			'wcfm-bookings-resources'          => 'wcfm-bookings-dashboard',
+																																			'wcfm-bookings-resources-manage'   => 'wcfm-bookings-dashboard',
+																																			'wcfm-bookings-manual'             => 'wcfm-bookings-dashboard',
+																																			'wcfm-bookings-calendar'           => 'wcfm-bookings-dashboard',
+																																			'wcfm-bookings-details'            => 'wcfm-bookings-dashboard',
+																																			'wcfm-bookings-settings'           => 'wcfm-bookings-dashboard',
+																																			'wcfm-appointments'                => 'wcfm-appointments-dashboard',
+																																			'wcfm-appointments-staffs'         => 'wcfm-appointments-dashboard',
+																																			'wcfm-appointments-staffs-manage'  => 'wcfm-appointments-dashboard',
+																																			'wcfm-appointments-manual'         => 'wcfm-appointments-dashboard',
+																																			'wcfm-appointments-calendar'       => 'wcfm-appointments-dashboard',
+																																			'wcfm-appointments-details'        => 'wcfm-appointments-dashboard',
+																																			'wcfm-appointments-settings'       => 'wcfm-appointments-dashboard',
+																																			'wcfm-reports-sales-by-date'    => 'wcfm-reports',
+																																			'wcfm-reports-out-of-stock'     => 'wcfm-reports',
+																																			'wcfm-reports-sales-by-product' => 'wcfm-reports',
+																																			'wcfm-reports-coupons-by-date'  => 'wcfm-reports',
+																																			'wcfm-reports-low-in-stock'     => 'wcfm-reports',
+																																			) );
 
 $logo = ( get_option( 'wcfm_site_logo' ) ) ? get_option( 'wcfm_site_logo' ) : '';
-$logo_image_url = wp_get_attachment_image_src( $logo, 'full' );
+$logo_image_url = wp_get_attachment_image_src( $logo, 'thumbnail' );
 
 if ( !empty( $logo_image_url ) ) {
 	$logo_image_url = $logo_image_url[0];
@@ -47,7 +57,7 @@ $store_name = apply_filters( 'wcfm_store_name', get_bloginfo() );
   </div>
 
   <div class="wcfm_menu_items wcfm_menu_home">
-    <a class="wcfm_menu_item <?php if( !$current_endpoint ) echo 'active'; ?>" href="<?php echo get_wcfm_page(); ?>">
+    <a class="wcfm_menu_item <?php if( !$current_endpoint ) echo 'active'; ?>" href="<?php echo apply_filters( 'wcfm_dashboard_home', get_wcfm_page() ); ?>">
       <span class="fa fa-home"></span>
       <span class="text"><?php _e( 'Home', 'wc-frontend-manager' ); ?></span>
     </a>

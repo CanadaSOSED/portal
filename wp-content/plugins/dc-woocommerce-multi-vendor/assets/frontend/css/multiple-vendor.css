@@ -1,28 +1,35 @@
 div.rowhead {
 	background-color: #CCC;
-	margin:0;
+	margin:0 !important;
 	width:100%;
+	box-sizing: border-box;
 }
-div.rowhead div.rowsub{
-	width:23%;
+div.row.rowhead div.rowsub{
 	padding:1%;
 	float:left;
 	padding-top:15px;
 	padding-bottom:15px;	
 }
-div.rowbody div.rowsub{
-    width:23%;
+div.row.rowbody div.rowsub{ 
     padding:1%;
     float:left;
     padding-top:5px;
     padding-bottom:5px;	
 }
-
+@media screen and (min-width: 1099px) {
+	div.row.rowhead div.rowsub, div.row.rowbody div.rowsub{
+		width:23% !important;
+	}
+}
+#wcmp_multiple_product_sorting{
+	margin: 0;
+}
 div.rowbody{
     width:100%;	
     border:1px solid #eee;
     padding:5px;
-    margin: 0;
+    margin: 0 !important;
+    box-sizing: border-box;
 	
 }
 div.rowbody:nth-child(odd){	
@@ -35,13 +42,10 @@ div.rowbody:nth-child(even){
 	margin-bottom:5px !important;
 	margin-top:5px !important;
 }
-a.wcmp_seller_name{
-	
-}
 .centerclass{
 	text-align:center;
 }
-.wcmp_regular_price, del .woocommerce-Price-amount{
+.wcmp_regular_price, .woocommerce-Tabs-panel del .woocommerce-Price-amount{
 	text-decoration: line-through;
 	color:#8A0808;
 	font-weight:normal;	
@@ -49,7 +53,7 @@ a.wcmp_seller_name{
 .woocommerce-tabs ins{
 	text-decoration: none;
 }
-.wcmp_sale_price, ins .woocommerce-Price-amount, .woocommerce-Price-amount{	
+.wcmp_sale_price, .woocommerce-Tabs-panel ins .woocommerce-Price-amount{	
 	color:#0B3B0B;
 	font-weight:bold;
 	display: block;
@@ -173,9 +177,9 @@ div.rowhead div.rowsub{
 .singleproductmultivendor_tab .container, .woocommerce-Tabs-panel--singleproductmultivendor .container{
 	max-width: 100%;
 } 
-.singleproductmultivendor_tab .wc-accordion-content, .woocommerce-Tabs-panel--singleproductmultivendor{
+.singleproductmultivendor_tab .wc-accordion-content, .woocommerce-Tabs-panel--singleproductmultivendor, .woocommerce-tabs .tab-panels, #content_tab_singleproductmultivendor{
 	position: relative;
-}
+} 
 .ajax_loader_class_msg {
     width:100%;
     position:absolute;
@@ -198,7 +202,7 @@ div.rowhead div.rowsub{
     bottom: 0;	
 }
 .goto_more_offer_tab.button{
-    margin: 15px 0 0;
+    margin: 15px 0 10px 0;
 }
 @media screen and (max-width: 400px) {
 	

@@ -120,6 +120,9 @@ class WCFM_Orders_WCMarketplace_Controller {
 			$wcfm_orders_json_arr = array();
 			
 			foreach ( $order_summary as $order ) {
+				// Order exists check
+				$order_post_title = get_the_title( $order->order_id );
+				if( !$order_post_title ) continue;
 	
 				$the_order = new WC_Order( $order->order_id );
 				//$the_order = wc_get_order( $order );
@@ -209,7 +212,7 @@ class WCFM_Orders_WCMarketplace_Controller {
 				if ( $WCMp->vendor_caps->vendor_payment_settings('give_tax') ) {
 					$total += ( $order->tax == 'NAN' ) ? 0 : $order->tax;
 				}
-				$wcfm_orders_json_arr[$index][] =  wc_price( $total ) . '<br />' . $status;
+				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( $total ) . $status, $order->product_id, $total, $status );
 				
 				// Date
 				$wcfm_orders_json_arr[$index][] = date_i18n( wc_date_format(), strtotime( $order_date ) );

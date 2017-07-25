@@ -18,4 +18,4 @@ echo sprintf( __( "Thanks for creating an account as Pending Vendor on %s. But y
 
 echo "\n****************************************************\n\n";
 
-echo apply_filters( 'woocommerce_email_footer_text', get_option( 'woocommerce_email_footer_text' ) );
+echo apply_filters( 'wcmp_email_footer_text', get_option( 'wcmp_email_footer_text' ) );

@@ -20,6 +20,9 @@ class WCFM_ThirdParty_Support {
     // WCFM Menu Filter
     add_filter( 'wcfm_menus', array( &$this, 'wcfm_thirdparty_menus' ), 100 );
     
+    // Third Party Product Type Capability
+		add_filter( 'wcfm_settings_fields_vendor_product_types', array( &$this, 'wcfmcap_vendor_product_types' ), 50 );
+    
     // WC Paid Listing Support - 2.3.4
     if( $wcfm_allow_job_package = apply_filters( 'wcfm_is_allow_job_package', true ) ) {
 			if ( WCFM_Dependencies::wcfm_wc_paid_listing_active_check() ) {
@@ -83,6 +86,29 @@ class WCFM_ThirdParty_Support {
 		
   	return $menus;
   }
+  
+  /**
+	 * WCFM Capability Vendor Product Types
+	 */
+	function wcfmcap_vendor_product_types( $product_types ) {
+		global $WCFM, $WCFMu;
+		
+		$wcfm_capability_options = apply_filters( 'wcfm_capability_options', (array) get_option( 'wcfm_capability_options' ) );
+		
+		if ( WCFM_Dependencies::wcfm_wc_paid_listing_active_check() ) {
+			$job_package = ( isset( $wcfm_capability_options['job_package'] ) ) ? $wcfm_capability_options['job_package'] : 'no';
+		
+			$product_types["job_package"] = array('label' => __('Job Package', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[job_package]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $job_package);
+		}
+		
+		if( WCFM_Dependencies::wcfm_wc_rental_active_check() ) {
+			$rental = ( isset( $wcfm_capability_options['rental'] ) ) ? $wcfm_capability_options['rental'] : 'no';
+			
+			$product_types["rental"] = array('label' => __('Rental', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[rental]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $rental);
+		}
+		
+		return $product_types;
+	}
   
   /**
    * WC Paid Listing Product Type

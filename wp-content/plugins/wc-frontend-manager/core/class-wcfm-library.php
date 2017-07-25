@@ -87,7 +87,6 @@ class WCFM_Library {
         wp_enqueue_script( 'wcfm_dashboard_js', $this->js_lib_url . 'wcfm-script-dashboard.js', array('jquery'), $WCFM->version, true );
       break;
       
-	    case 'wc-products':
 	    case 'wcfm-products':
         $this->load_datatable_lib();
         wp_enqueue_script( 'wcfm_products_js', $this->js_lib_url . 'wcfm-script-products.js', array('jquery', 'dataTables_js'), $WCFM->version, true );
@@ -114,6 +113,16 @@ class WCFM_Library {
         // Localized Script
         $wcfm_messages = get_wcfm_products_manager_messages();
 			  wp_localize_script( 'wcfm_products_manage_js', 'wcfm_products_manage_messages', $wcfm_messages );
+      break;
+      
+      case 'wcfm-products-export':
+      	//wp_register_script( 'wc-product-export', WC()->plugin_url() . '/assets/js/admin/wc-product-export.js', array( 'jquery' ), WC_VERSION );
+				//wp_enqueue_script( 'wc-product-export' );
+				$this->load_select2_lib();
+        wp_enqueue_script( 'wc-product-export', $this->js_lib_url . 'wcfm-script-products-export.js', array('jquery'), $WCFM->version, true );
+        wp_localize_script( 'wc-product-export', 'wc_product_export_params', array(
+					'export_nonce' => wp_create_nonce( 'wc-product-export' ),
+				) );
       break;
         
         
@@ -222,7 +231,6 @@ class WCFM_Library {
 		    wp_enqueue_style( 'wcfm_dashboard_css',  $this->css_lib_url . 'wcfm-style-dashboard.css', array(), $WCFM->version );
 		  break;
 	  	
-	    case 'wc-products':
 	    case 'wcfm-products':
 		    wp_enqueue_style( 'wcfm_products_css',  $this->css_lib_url . 'wcfm-style-products.css', array(), $WCFM->version );
 		  break;
@@ -239,6 +247,11 @@ class WCFM_Library {
 		    if( wcfm_is_subscription() ) {
 		  		wp_enqueue_style( 'wcfm_wcsubscriptions_products_manage_css',  $this->css_lib_url . 'wcfm-style-wcsubscriptions-products-manage.css', array(), $WCFM->version );
 		  	}
+		  break;
+		  
+		  case 'wcfm-products-export':
+		  	wp_enqueue_style( 'collapsible_css',  $this->css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
+		    wp_enqueue_style( 'wcfm_products_export_css',  $this->css_lib_url . 'wcfm-style-products-export.css', array(), $WCFM->version );
 		  break;
 		    
 		  case 'wcfm-coupons':
@@ -306,11 +319,12 @@ class WCFM_Library {
 		do_action( 'after_wcfm_load_styles', $end_point );
 	}
 	
-	public function load_views( $end_point ) {
+	public function load_views( $end_point, $menu = true ) {
 	  global $WCFM;
 	  
 	  // WCFM Menu
-	  require_once( $this->views_path . 'wcfm-view-menu.php' );
+	  if( $menu )
+	  	require_once( $this->views_path . 'wcfm-view-menu.php' );
 	  
 	  do_action( 'before_wcfm_load_views', $end_point );
     
@@ -324,13 +338,16 @@ class WCFM_Library {
 				}
       break;
 	  	
-	    case 'wc-products':
 	    case 'wcfm-products':
         require_once( $this->views_path . 'wcfm-view-products.php' );
       break;
       
       case 'wcfm-products-manage':
         require_once( $this->views_path . 'wcfm-view-products-manage.php' );
+      break;
+      
+      case 'wcfm-products-export':
+        require_once( $this->views_path . 'wcfm-view-products-export.php' );
       break;
         
       case 'wcfm-coupons':
