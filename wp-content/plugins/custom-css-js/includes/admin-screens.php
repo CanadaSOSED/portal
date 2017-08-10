@@ -375,7 +375,6 @@ class CustomCSSandJS_Admin {
     }
 
 
-
     /**
      * Reformat the `post` screen
      */
@@ -385,12 +384,12 @@ class CustomCSSandJS_Admin {
     
         if ( isset( $_GET['post'] ) ) {
             $action = 'Edit';
-            $language = $this->get_options( $_GET['post'] );
-            $language = $language['language'];
+            $post_id = esc_attr($_GET['post']);
         } else {
             $action = 'Add';
-            $language = isset( $_GET['language'] ) ? $_GET['language'] : 'css';
+            $post_id = false;
         }
+        $language = $this->get_language($post_id);
 
         $title = $action . ' ' . strtoupper( $language ) . ' code';
 
@@ -477,13 +476,13 @@ class CustomCSSandJS_Admin {
 
         if ( empty( $post->title ) && empty( $post->post_content ) ) {
             $new_post = true;
-            $language = isset( $_GET['language'] ) ? $_GET['language'] : 'css';
+            $post_id = false;
         } else {
             $new_post = false;
             if ( ! isset( $_GET['post'] ) ) $_GET['post'] = $post->id;
-            $language = $this->get_options( $_GET['post'] );
-            $language = $language['language'];
+            $post_id = esc_attr($_GET['post']);
         }
+        $language = $this->get_language($post_id);
 
         switch ( $language ) {
             case 'js' :
@@ -574,7 +573,7 @@ End of comment */ ', 'custom-css-js') . PHP_EOL . PHP_EOL;
 
 
             if ( isset( $_GET['language'] ) ) {
-                $options['language'] = $_GET['language'];
+                $options['language'] = $this->get_language();
             }
 
             $meta = $this->get_options_meta();
@@ -865,7 +864,7 @@ End of comment */ ', 'custom-css-js') . PHP_EOL . PHP_EOL;
         }
 
         foreach( $defaults as $_field => $_default ) {
-            $options[ $_field ] = isset( $_POST['custom_code_'.$_field] ) ? $_POST['custom_code_'.$_field] : $_default;
+            $options[ $_field ] = isset( $_POST['custom_code_'.$_field] ) ? esc_attr($_POST['custom_code_'.$_field]) : $_default;
         }
 
         update_post_meta( $post_id, 'options', $options );
@@ -1070,6 +1069,20 @@ End of comment */ ', 'custom-css-js') . PHP_EOL . PHP_EOL;
     }
 
 
+    /**
+     * Get the language for the current post
+     */
+    function get_language( $post_id = false ) {
+        if( $post_id !== false ) {
+            $options = $this->get_options( $post_id );
+            $language = $options['language'];
+        } else {
+            $language = isset( $_GET['language'] ) ? esc_attr(strtolower($_GET['language'])) : 'css';
+        }
+        if ( !in_array($language, array('css', 'js', 'html'))) $language = 'css';
+
+        return $language;
+    }
 }
 
 return new CustomCSSandJS_Admin();

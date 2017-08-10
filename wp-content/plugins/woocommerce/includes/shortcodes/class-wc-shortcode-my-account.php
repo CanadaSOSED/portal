@@ -1,4 +1,9 @@
 <?php
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * My Account Shortcodes
  *
@@ -69,8 +74,7 @@ class WC_Shortcode_My_Account {
 			 * Deprecated my-account.php template handling. This code should be
 			 * removed in a future release.
 			 *
-			 * If
-			  did not run, this is an old template
+			 * If woocommerce_account_content did not run, this is an old template
 			 * so we need to render the endpoint content again.
 			 */
 			if ( ! did_action( 'woocommerce_account_content' ) ) {
@@ -233,8 +237,6 @@ class WC_Shortcode_My_Account {
 	 * @return bool True: when finish. False: on error
 	 */
 	public static function retrieve_password() {
-		global $wpdb, $wp_hasher;
-
 		$login = trim( $_POST['user_login'] );
 
 		if ( empty( $login ) ) {
@@ -338,6 +340,8 @@ class WC_Shortcode_My_Account {
 
 	/**
 	 * Set or unset the cookie.
+	 *
+	 * @param string $value
 	 */
 	public static function set_reset_password_cookie( $value = '' ) {
 		$rp_cookie = 'wp-resetpass-' . COOKIEHASH;

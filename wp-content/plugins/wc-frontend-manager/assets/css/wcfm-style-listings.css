@@ -1,0 +1,49 @@
+.dataTables_wrapper .dataTables_filter input {
+	width: 120px;
+	height: 30px;
+}
+
+.dataTables_wrapper select {
+	font-size: 13px;
+	max-width: 150px;
+	height: 27px; 
+	margin: 0px 5px 0px 5px;
+}
+
+#wcfm-listings_length { margin-top: 4px !important; }
+#wcfm-listings_filter input { margin-bottom: 10px; }
+
+#wcfm-listings_length select {
+	max-width: 75px;
+	width: 60px;
+}
+
+.listing-types {
+	padding: 2px 4px;
+	color: #fff;
+	border-radius: 2px;
+	font-size: 12px;
+	line-height: 10px;
+}
+
+.listing-status-publish { background-color: #73a724; }
+.listing-status-pending { background-color: #FF7400; }
+.listing-status-pending_payment { background-color: #B02B2C; }
+.listing-status-expired { background-color: #CC0000; }
+
+table.dataTable.display tr td:nth-child(2),
+table.dataTable.display tr td:nth-child(3), 
+table.dataTable.display tr td:nth-child(4), 
+table.dataTable.display tr td:nth-child(5),
+table.dataTable.display tr td:nth-child(6),
+table.dataTable.display tr th:nth-child(2),
+table.dataTable.display tr th:nth-child(3),
+table.dataTable.display tr th:nth-child(4),
+table.dataTable.display tr th:nth-child(5),
+table.dataTable.display tr th:nth-child(6) {
+	text-align: center;
+}
+
+@media only screen and (max-width: 780px) {
+  .wcfm_listings_filter_wrap { width: 100%; }
+}
