@@ -103,7 +103,7 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 		// Enable big selects for reports
 		$wpdb->query( 'SET SESSION SQL_BIG_SELECTS=1' );
 
-		$results = $wpdb->get_results( $wpdb->prepare( $sql, get_current_user_id() ) );
+		$results = $wpdb->get_results( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', get_current_user_id() ) ) );
 
 		$total_shipping_amount          = 0.00;
 		$total_tax_amount               = 0.00;
@@ -120,7 +120,14 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 			$total_tax_amount               += (float) sanitize_text_field( ($data->tax == 'NAN') ? 0 : $data->tax );
 			$total_shipping_amount          += (float) sanitize_text_field( ($data->shipping == 'NAN') ? 0 : $data->shipping );
 			$total_earned_commission_amount += (float) sanitize_text_field( $data->commission_amount );
-
+			$total_items                    += (int)   sanitize_text_field( $data->quantity );
+			
+			// show only paid commissions
+			if ( 'paid' === $data->commission_status ) {
+				$total_commission_amount   += (float) sanitize_text_field( $data->commission_amount );
+				if ( $WCMp->vendor_caps->vendor_payment_settings('give_tax') ) { $total_commission_amount += (float) sanitize_text_field( $data->tax ); } 
+				if ( $WCMp->vendor_caps->vendor_payment_settings('give_shipping') ) { $total_commission_amount += (float) sanitize_text_field( $data->shipping ); }
+			}
 		}
 
 		$total_orders = count( array_unique( $total_orders ) );
@@ -128,55 +135,12 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 		if($WCMp->vendor_caps->vendor_payment_settings('give_tax')) { $total_sales += $total_tax_amount; } 
 		if($WCMp->vendor_caps->vendor_payment_settings('give_shipping')) { $total_sales += $total_shipping_amount; }
 		
-		// Total Paid Commission
-		$vendor_term = get_user_meta( get_current_user_id(), '_vendor_term_id', true );
-		$query            = array();
-		$query['fields']  = "SELECT SUM( post_meta.meta_value ) as commission
-			FROM {$wpdb->posts} as posts";
-		$query['join']    = "INNER JOIN {$wpdb->postmeta} AS post_meta ON posts.ID = post_meta.post_id ";
-		$query['join']   .= "INNER JOIN {$wpdb->postmeta} AS post_meta_2 ON posts.ID = post_meta_2.post_id ";
-		$query['join']   .= "INNER JOIN {$wpdb->postmeta} AS post_meta_3 ON posts.ID = post_meta_3.post_id ";
-		$query['where']   = "WHERE posts.post_type = 'dc_commission' ";
-		$query['where']  .= "AND post_meta.meta_key = '_commission_amount' ";
-		$query['where']  .= "AND post_meta_2.meta_key = '_commission_vendor' ";
-		$query['where']  .= "AND post_meta_2.meta_value = {$vendor_term} ";
-		$query['where']  .= "AND post_meta_3.meta_key = '_paid_status' ";
-		$query['where']  .= "AND post_meta_3.meta_value = 'paid' ";
-		
-		switch( $this->current_range ) {
-			case 'year' :
-				$query['where'] .= " AND YEAR( posts.post_date ) = YEAR( CURDATE() )";
-				break;
-
-			case 'last_month' :
-				$query['where'] .= " AND MONTH( posts.post_date ) = MONTH( NOW() ) - 1";
-				break;
-
-			case 'month' :
-				$query['where'] .= " AND MONTH( posts.post_date ) = MONTH( NOW() )";
-				break;
-
-			case 'custom' :
-				$start_date = ! empty( $_GET['start_date'] ) ? sanitize_text_field( $_GET['start_date'] ) : '';
-				$end_date = ! empty( $_GET['end_date'] ) ? sanitize_text_field( $_GET['end_date'] ) : '';
-
-				$query['where'] .= " AND DATE( posts.post_date ) BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
-				break;
-
-			case 'default' :
-			case '7day' :
-				$query['where'] .= " AND DATE( posts.post_date ) BETWEEN DATE_SUB( NOW(), INTERVAL 7 DAY ) AND NOW()";
-				break;
-		}
-		
-		$commission = $wpdb->get_var( implode( ' ', apply_filters( 'wcmp_dashboard_paid_commission_query', $query ) ) );
-		if( !$commission ) $commission = 0;
-
 		$this->report_data->average_sales         = wc_format_decimal( $total_sales / ( $this->chart_interval + 1 ), 2 );
 		$this->report_data->total_orders          = $total_orders;
+		$this->report_data->total_items           = $total_items;
 		$this->report_data->total_shipping        = wc_format_decimal( $total_shipping_amount );
 		$this->report_data->total_earned          = wc_format_decimal( $total_sales );
-		$this->report_data->total_commission          = wc_format_decimal( $commission );
+		$this->report_data->total_commission      = wc_format_decimal( $total_commission_amount );
 		$this->report_data->total_tax             = wc_format_decimal( $total_tax_amount );
 	}
 
@@ -226,6 +190,12 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 			'color'            => $this->chart_colors['order_count'],
 			'highlight_series' => 0
 		);
+		
+		$legend[] = array(
+			'title'            => sprintf( __( '%s items purchased', 'wc-frontend-manager' ), '<strong>' . $data->total_items . '</strong>' ),
+			'color'            => $this->chart_colors['item_count'],
+			'highlight_series' => 1
+		);
 
 		$legend[] = array(
 			'title'            => sprintf( __( '%s charged for shipping', 'wc-frontend-manager' ), '<strong>' . wc_price( $data->total_shipping ) . '</strong>' ),
@@ -251,6 +221,7 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 		$this->chart_colors = array(
 			'average'          => '#95a5a6',
 			'order_count'      => '#dbe1e3',
+			'item_count'       => '#ecf0f1',
 			'shipping_amount'  => '#FF7400',
 			'earned'           => '#4096EE',
 			'commission'       => '#008C00',
@@ -308,7 +279,7 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 	public function get_main_chart() {
 		global $wp_locale, $wpdb, $WCFM, $WCMp;
 		
-		$select = "SELECT COUNT( DISTINCT commission.order_id ) AS count, COALESCE( SUM( commission.shipping ), 0 ) AS total_shipping, COALESCE( SUM( commission.tax ), 0 ) AS total_tax, COALESCE( SUM( commission.commission_amount ), 0 ) AS total_commission, commission.created AS time";
+		$select = "SELECT COUNT( DISTINCT commission.order_id ) AS count, SUM( commission.quantity ) AS order_item_count, COALESCE( SUM( commission.shipping ), 0 ) AS total_shipping, COALESCE( SUM( commission.tax ), 0 ) AS total_tax, COALESCE( SUM( commission.commission_amount ), 0 ) AS total_commission, commission.created AS time";
 
 		$sql = $select;
 		$sql .= " FROM {$wpdb->prefix}wcmp_vendor_orders AS commission";
@@ -347,10 +318,12 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 		// Enable big selects for reports
 		$wpdb->query( 'SET SESSION SQL_BIG_SELECTS=1' );
 		
-		$results = $wpdb->get_results( $wpdb->prepare( $sql, get_current_user_id() ) );
+		$results = $wpdb->get_results( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', get_current_user_id() ) ) );
 
 		// Prepare data for report
 		$order_counts         = $this->prepare_chart_data( $results, 'time', 'count', $this->chart_interval, $this->start_date, $this->chart_groupby );
+		
+		$order_item_counts    = $this->prepare_chart_data( $results, 'time', 'order_item_count', $this->chart_interval, $this->start_date, $this->chart_groupby );
 		
 		$shipping_amounts     = $this->prepare_chart_data( $results, 'time', 'total_shipping', $this->chart_interval, $this->start_date, $this->chart_groupby );
 		
@@ -370,57 +343,69 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 		}
 		
 		// Total Paid Commission
-		$vendor_term = get_user_meta( get_current_user_id(), '_vendor_term_id', true );
-		$query            = array();
-		$query['fields']  = "SELECT SUM( post_meta.meta_value ) as commission, posts.post_date AS time
-			FROM {$wpdb->posts} as posts";
-		$query['join']    = "INNER JOIN {$wpdb->postmeta} AS post_meta ON posts.ID = post_meta.post_id ";
-		$query['join']   .= "INNER JOIN {$wpdb->postmeta} AS post_meta_2 ON posts.ID = post_meta_2.post_id ";
-		$query['join']   .= "INNER JOIN {$wpdb->postmeta} AS post_meta_3 ON posts.ID = post_meta_3.post_id ";
-		$query['where']   = "WHERE posts.post_type = 'dc_commission' ";
-		$query['where']  .= "AND post_meta.meta_key = '_commission_amount' ";
-		$query['where']  .= "AND post_meta_2.meta_key = '_commission_vendor' ";
-		$query['where']  .= "AND post_meta_2.meta_value = {$vendor_term} ";
-		$query['where']  .= "AND post_meta_3.meta_key = '_paid_status' ";
-		$query['where']  .= "AND post_meta_3.meta_value = 'paid' ";
+		$select = "SELECT COUNT( DISTINCT commission.order_id ) AS count, SUM( commission.quantity ) AS order_item_count, COALESCE( SUM( commission.shipping ), 0 ) AS total_shipping, COALESCE( SUM( commission.tax ), 0 ) AS total_tax, COALESCE( SUM( commission.commission_amount ), 0 ) AS total_commission, commission.created AS time";
+
+		$sql = $select;
+		$sql .= " FROM {$wpdb->prefix}wcmp_vendor_orders AS commission";
+		$sql .= " WHERE 1=1";
+		$sql .= " AND commission.vendor_id = %d";
+		$sql .= " AND commission.is_trashed != -1";
+		$sql .= " AND commission.commission_status = 'paid'";
 		
 		switch( $this->current_range ) {
 			case 'year' :
-				$query['where'] .= " AND YEAR( posts.post_date ) = YEAR( CURDATE() )";
+				$sql .= " AND YEAR( commission.created ) = YEAR( CURDATE() )";
 				break;
 
 			case 'last_month' :
-				$query['where'] .= " AND MONTH( posts.post_date ) = MONTH( NOW() ) - 1";
+				$sql .= " AND MONTH( commission.created ) = MONTH( NOW() ) - 1";
 				break;
 
 			case 'month' :
-				$query['where'] .= " AND MONTH( posts.post_date ) = MONTH( NOW() )";
+				$sql .= " AND MONTH( commission.created ) = MONTH( NOW() )";
 				break;
 
 			case 'custom' :
 				$start_date = ! empty( $_GET['start_date'] ) ? sanitize_text_field( $_GET['start_date'] ) : '';
 				$end_date = ! empty( $_GET['end_date'] ) ? sanitize_text_field( $_GET['end_date'] ) : '';
 
-				$query['where'] .= " AND DATE( posts.post_date ) BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
+				$sql .= " AND DATE( commission.created ) BETWEEN '" . $start_date . "' AND '" . $end_date . "'";
 				break;
 
 			case 'default' :
 			case '7day' :
-				$query['where'] .= " AND DATE( posts.post_date ) BETWEEN DATE_SUB( NOW(), INTERVAL 7 DAY ) AND NOW()";
+				$sql .= " AND DATE( commission.created ) BETWEEN DATE_SUB( NOW(), INTERVAL 7 DAY ) AND NOW()";
 				break;
 		}
 		
-		$query['where'] .= " GROUP BY DATE( posts.post_date )";
+		$sql .= " GROUP BY DATE( commission.created )";
 		
-		$results = $wpdb->get_results( implode( ' ', apply_filters( 'wcmp_dashboard_paid_commission_query', $query ) ) );
-
-		// Prepare data for report
-		$total_paid_commission         = $this->prepare_chart_data( $results, 'time', 'commission', $this->chart_interval, $this->start_date, $this->chart_groupby );
+		// Enable big selects for reports
+		$wpdb->query( 'SET SESSION SQL_BIG_SELECTS=1' );
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', get_current_user_id() ) ) );
+		
+		$shipping_amounts     = $this->prepare_chart_data( $results, 'time', 'total_shipping', $this->chart_interval, $this->start_date, $this->chart_groupby );
+		
+		$tax_amounts          = $this->prepare_chart_data( $results, 'time', 'total_tax', $this->chart_interval, $this->start_date, $this->chart_groupby );
+		
+		$total_commission     = $this->prepare_chart_data( $results, 'time', 'total_commission', $this->chart_interval, $this->start_date, $this->chart_groupby );
+		
+		$total_paid_commission = array();
+		foreach ( $total_commission as $order_amount_key => $order_amount_value ) {
+			$total_paid_commission[ $order_amount_key ] = $order_amount_value;
+			if ( $WCMp->vendor_caps->vendor_payment_settings('give_tax') ) { 
+				$total_paid_commission[ $order_amount_key ][1] += $tax_amounts[ $order_amount_key ][1];
+			} 
+			if ( $WCMp->vendor_caps->vendor_payment_settings('give_shipping') ) { 
+				$total_paid_commission[ $order_amount_key ][1] += $shipping_amounts[ $order_amount_key ][1];
+			}
+		}
 		
 		// Encode in json format
 		$chart_data = json_encode( array(
 			'order_counts'              => array_values( $order_counts ),
-			//'order_item_counts'       => array_values( $order_item_counts ),
+			'order_item_counts'       => array_values( $order_item_counts ),
 			'shipping_amounts'          => array_map( array( $this, 'round_chart_totals' ), array_values( $shipping_amounts ) ),
 			'total_earned_commission'   => array_map( array( $this, 'round_chart_totals' ), array_values( $total_earned_commission ) ),
 			'total_paid_commission'     => array_map( array( $this, 'round_chart_totals' ), array_values( $total_paid_commission ) ),
@@ -443,6 +428,14 @@ class WC_Marketplace_Report_Sales_By_Date extends WC_Admin_Report {
 							data: order_data.order_counts,
 							color: '<?php echo $this->chart_colors['order_count']; ?>',
 							bars: { fillColor: '<?php echo $this->chart_colors['order_count']; ?>', fill: true, show: true, lineWidth: 0, barWidth: <?php echo $this->barwidth; ?> * 0.5, align: 'left' },
+							shadowSize: 0,
+							hoverable: false
+						},
+						{
+							label: "<?php echo esc_js( __( 'Number of items sold', 'wc-frontend-manager' ) ) ?>",
+							data: order_data.order_item_counts,
+							color: '<?php echo $this->chart_colors['item_count']; ?>',
+							bars: { fillColor: '<?php echo $this->chart_colors['item_count']; ?>', fill: true, show: true, lineWidth: 0, barWidth: <?php echo $this->barwidth; ?> * 0.5, align: 'center' },
 							shadowSize: 0,
 							hoverable: false
 						},

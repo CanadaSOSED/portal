@@ -21,7 +21,7 @@ class WCFM_WCSubscriptions {
     	add_filter( 'wcfm_product_types', array( &$this, 'wcs_product_types' ), 30 );
     	
     	// Subscriptions Product Type Capability
-			add_filter( 'wcfm_settings_fields_vendor_product_types', array( &$this, 'wcfmcap_vendor_product_types' ), 30 );
+			add_filter( 'wcfm_settings_fields_product_types', array( &$this, 'wcfmcap_product_types' ), 30, 3 );
     	
     	// Subscriptions Product options
     	add_filter( 'wcfm_product_manage_fields_pricing', array( &$this, 'wcs_product_manage_fields_pricing' ), 30, 2 );
@@ -46,19 +46,18 @@ class WCFM_WCSubscriptions {
   /**
 	 * WCFM Capability Vendor Product Types
 	 */
-	function wcfmcap_vendor_product_types( $product_types ) {
+	function wcfmcap_product_types( $product_types, $handler = 'wcfm_capability_options', $wcfm_capability_options = array() ) {
 		global $WCFM;
 		
-		$wcfm_capability_options = apply_filters( 'wcfm_capability_options', (array) get_option( 'wcfm_capability_options' ) );
 		$subscription = ( isset( $wcfm_capability_options['subscription'] ) ) ? $wcfm_capability_options['subscription'] : 'no';
 		$variable_subscription = ( isset( $wcfm_capability_options['variable-subscription'] ) ) ? $wcfm_capability_options['variable-subscription'] : 'no';
 		
-		$product_types["subscription"]          = array('label' => __('Subscriptions', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[subscription]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $subscription);
-		$product_types["variable-subscription"] = array('label' => __('Variable Subscriptions', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[variable-subscription]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $variable_subscription);
+		$product_types["subscription"]          = array('label' => __('Subscriptions', 'wc-frontend-manager') , 'name' => $handler . '[subscription]','type' => 'checkboxoffon', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $subscription);
+		$product_types["variable-subscription"] = array('label' => __('Variable Subscriptions', 'wc-frontend-manager') , 'name' => $handler . '[variable-subscription]','type' => 'checkboxoffon', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $variable_subscription);
 		
 		return $product_types;
 	}
-  
+	
   /**
 	 * WC Subscriptions Product General options
 	 */

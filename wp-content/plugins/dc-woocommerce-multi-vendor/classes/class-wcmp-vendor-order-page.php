@@ -13,11 +13,13 @@ if (!class_exists('WP_List_Table'))
 class WCMp_Vendor_Order_Page extends WP_List_Table {
 
     public $index;
+    public $vendor;
 
     function __construct() {
         global $status, $page;
 
         $this->index = 0;
+        $this->vendor = get_wcmp_vendor(get_current_user_id());
 
         //Set parent defaults
         parent::__construct(array(
@@ -78,8 +80,10 @@ class WCMp_Vendor_Order_Page extends WP_List_Table {
             'products' => __('Products', 'dc-woocommerce-multi-vendor'),
             'total' => __('Total', 'dc-woocommerce-multi-vendor'),
             'date' => __('Date', 'dc-woocommerce-multi-vendor'),
-            'status' => __('Shipped', 'dc-woocommerce-multi-vendor'),
         );
+        if ($this->vendor->is_shipping_enable()) {
+            $columns['status'] = __('Shipped', 'dc-woocommerce-multi-vendor');
+        }
 
         return $columns;
     }
@@ -106,10 +110,10 @@ class WCMp_Vendor_Order_Page extends WP_List_Table {
      */
     function get_bulk_actions() {
         global $WCMp;
-        $actions = array(
-            'mark_shipped' => __('Mark as Shipped', 'dc-woocommerce-multi-vendor'),
-        );
-
+        $actions = array();
+        if ($this->vendor->is_shipping_enable()) {
+            $actions['mark_shipped'] = __('Mark as Shipped', 'dc-woocommerce-multi-vendor');
+        }
         return $actions;
     }
 

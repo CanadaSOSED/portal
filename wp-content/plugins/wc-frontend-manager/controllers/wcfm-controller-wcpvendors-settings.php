@@ -29,6 +29,11 @@ class WCFM_Settings_WCPVendors_Controller {
 		$wcfm_settings_form = array_map( 'sanitize_text_field', $wcfm_settings_form );
 		$wcfm_settings_form = array_map( 'stripslashes', $wcfm_settings_form );
 		
+		// Change Shop Name
+		if( isset($wcfm_settings_form['shop_name']) && !empty($wcfm_settings_form['shop_name']) ) {
+			wp_update_term( WC_Product_Vendors_Utils::get_logged_in_vendor(), WC_PRODUCT_VENDORS_TAXONOMY, array( 'name' => $wcfm_settings_form['shop_name'] ) );
+		}
+		
 		// sanitize html editor content
 		$wcfm_settings_form['profile'] = ! empty( $_POST['profile'] ) ? wp_kses_post( stripslashes( $_POST['profile'] ) ) : '';
 		

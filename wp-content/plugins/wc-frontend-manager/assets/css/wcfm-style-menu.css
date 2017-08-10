@@ -288,7 +288,6 @@ a.add_new_wcfm_ele_dashboard:hover, a.wcfm_import_export:hover { background-colo
 .wcfm_wp_admin_view {
 	float: right;
 	margin-left: 10px;
-	margin-top: 3px;
 	font-size: 25px;
 	color: #e66345;
 	text-decoration: none;
@@ -343,13 +342,14 @@ input.wcfm_submit_button:hover, .wcfm_add_attribute:hover, input.upload_button:h
 
 .dataTables_wrapper .dataTables_filter input {
 	width: 120px;
-	height: 30px;
+	height: 35px;
+	margin-top: 4px;
 }
 
 .dataTables_wrapper select {
-	font-size: 13px;
+	font-size: 14px;
 	max-width: 150px;
-	height: 27px; 
+	height: 35px; 
 	margin: 0px 5px 10px 5px;
 }
 
@@ -364,6 +364,8 @@ input.wcfm_submit_button:hover, .wcfm_add_attribute:hover, input.upload_button:h
 .wcfm_clearfix {
 	clear: both;
 }
+
+.fa-currency { font-weight: 700; }
 
 @media only screen and (max-width: 768px) {
 	.wcfm-collapse .wcfm-container { 
@@ -425,6 +427,11 @@ input.wcfm_submit_button:hover, .wcfm_add_attribute:hover, input.upload_button:h
 	#wcfm_menu .wcfm_menu_item span.text {
 		font-weight: 400;
 		display: none;
+	}
+	
+	div.wcfm-collapse-content h2 {
+		width: 100%;
+		display: block;
 	}
 	
 	.wcfm_header_panel {

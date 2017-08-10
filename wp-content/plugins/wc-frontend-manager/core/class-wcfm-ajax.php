@@ -19,23 +19,18 @@ class WCFM_Ajax {
 		$this->controllers_path = $WCFM->plugin_path . 'controllers/';
 		
 		add_action( 'wp_ajax_wcfm_ajax_controller', array( &$this, 'wcfm_ajax_controller' ) );
-    add_action( 'wp_ajax_nopriv_wcfm_ajax_controller', array( &$this, 'wcfm_ajax_controller' ) );
     
     // Generate Variation Attributes
     add_action('wp_ajax_wcfm_generate_variation_attributes', array( &$this, 'wcfm_generate_variation_attributes' ) );
-    add_action('wp_ajax_nopriv_wcfm_generate_variation_attributes', array( &$this, 'wcfm_generate_variation_attributes' ) );
     
     // Product Delete
 		add_action( 'wp_ajax_delete_wcfm_product', array( &$this, 'delete_wcfm_product' ) );
-    add_action( 'wp_ajax_nopriv_delete_wcfm_product', array( &$this, 'delete_wcfm_product' ) );
     
     // Message Mark as Read
 		add_action( 'wp_ajax_wcfm_messages_mark_read', array( &$this, 'wcfm_messages_mark_read' ) );
-    add_action( 'wp_ajax_nopriv_wcfm_messages_mark_read', array( &$this, 'wcfm_messages_mark_read' ) );
     
      // Message Auto Refresh Counter
 		add_action( 'wp_ajax_wcfm_message_count', array( &$this, 'wcfm_message_count' ) );
-    add_action( 'wp_ajax_nopriv_wcfm_message_count', array( &$this, 'wcfm_message_count' ) );
     
   }
   
@@ -96,6 +91,11 @@ class WCFM_Ajax {
 					}
 				break;
 				
+				case 'wcfm-listings':
+					require_once( $this->controllers_path . 'wcfm-controller-listings.php' );
+					new WCFM_Listings_Controller();
+				break;
+				
 				case 'wcfm-reports-out-of-stock':
 					require_once( $this->controllers_path . 'wcfm-controller-reports-out-of-stock.php' );
 					new WCFM_Reports_Out_Of_Stock_Controller();
@@ -116,6 +116,11 @@ class WCFM_Ajax {
 						require_once( $this->controllers_path . 'wcfm-controller-settings.php' );
 						new WCFM_Settings_Controller();
 					}
+				break;
+				
+				case 'wcfm-capability':
+					require_once( $this->controllers_path . 'wcfm-controller-capability.php' );
+					new WCFM_Capability_Controller();
 				break;
 				
 				case 'wcfm-knowledgebase':

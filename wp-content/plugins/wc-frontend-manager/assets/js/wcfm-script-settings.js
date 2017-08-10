@@ -1,7 +1,7 @@
 jQuery(document).ready( function($) {
 	// Collapsible
   $('.page_collapsible').collapsible({
-		defaultOpen: 'wcfm_settings_form_vendor_head',
+		defaultOpen: 'wcfm_settings_form_style_head',
 		speed: 'slow',
 		loadOpen: function (elem) { //replace the standard open state with custom function
 		  elem.next().show();
@@ -19,27 +19,34 @@ jQuery(document).ready( function($) {
 	
 	// TinyMCE intialize - Description
 	if( $('#shop_description').length > 0 ) {
-		var descTinyMCE = tinymce.init({
-																	selector: '#shop_description',
-																	height: 120,
-																	menubar: false,
-																	plugins: [
-																		'advlist autolink lists link charmap print preview anchor',
-																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime table contextmenu paste code'
-																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
-																	content_css: '//www.tinymce.com/css/codepen.min.css',
-																	statusbar: false
-																});
+		if( $('#shop_description').hasClass('rich_editor') ) {
+			var descTinyMCE = tinymce.init({
+																		selector: '#shop_description',
+																		height: 120,
+																		menubar: false,
+																		plugins: [
+																			'advlist autolink lists link charmap print preview anchor',
+																			'searchreplace visualblocks code fullscreen',
+																			'insertdatetime table contextmenu paste code'
+																		],
+																		toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
+																		content_css: '//www.tinymce.com/css/codepen.min.css',
+																		statusbar: false,
+																		entity_encoding: "raw"
+																	});
+		}
 	}
 	
 	// Save Settings
-	$('#wcfmsettings_save_button').click(function(event) {
+	$('#wcfm_settings_save_button').click(function(event) {
 	  event.preventDefault();
 	  
 	  var profile = '';
-	  if( typeof tinymce != 'undefined' ) profile = tinymce.get('shop_description').getContent();
+	  if( $('#shop_description').hasClass('rich_editor') ) {
+			if( typeof tinymce != 'undefined' ) profile = tinymce.get('shop_description').getContent({format: 'raw'});
+		} else {
+			profile = $('#shop_description').val();
+		}
   
 	  // Validations
 	  $is_valid = true; //wcfm_coupons_manage_form_validate();

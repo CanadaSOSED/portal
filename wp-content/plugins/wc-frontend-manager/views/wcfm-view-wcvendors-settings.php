@@ -11,7 +11,13 @@
 
 global $WCFM;
 
-$user_id = get_current_user_id();
+$wcfm_is_allow_manage_settings = apply_filters( 'wcfm_is_allow_manage_settings', true );
+if( !$wcfm_is_allow_manage_settings ) {
+	wcfm_restriction_message_show( "Settings" );
+	return;
+}
+
+$user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 
 $shop_name = get_user_meta( $user_id, 'pv_shop_name', true );
 $logo = get_user_meta( $user_id, '_wcv_store_icon_id', true );
@@ -92,12 +98,13 @@ $is_marketplece = wcfm_is_marketplace();
 				<div class="wcfm-container">
 					<div id="wcfm_settings_form_store_expander" class="wcfm-content">
 						<?php
+						  $rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
 							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_wcvendors_settings_fields_general', array(
 																																																"wcfm_logo" => array('label' => __('Logo', 'wc-frontend-manager') , 'type' => 'upload', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title', 'prwidth' => 150, 'value' => $logo_image_url ),
 																																																"shop_name" => array('label' => __('Shop Name', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $shop_name, 'hints' => __( 'Your shop name is public and must be unique.', 'wc-frontend-manager' ) ),
 																																																"paypal" => array('label' => __('Paypal Email', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $paypal, 'hints' => __( 'Your PayPal address is used to send you your commission.', 'wc-frontend-manager' ) ),
 																																																"seller_info" => array('label' => __('Seller Info', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele', 'label_class' => 'wcfm_title', 'value' => $seller_info, 'hints' => __( 'This is displayed on each of your products.', 'wc-frontend-manager' ) ),
-																																																"shop_description" => array('label' => __('Shop Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele', 'label_class' => 'wcfm_title', 'value' => $shop_description, 'hints' => __( 'This is displayed on your shop page.', 'wc-frontend-manager' ) ),
+																																																"shop_description" => array('label' => __('Shop Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele ' . $rich_editor, 'label_class' => 'wcfm_title', 'value' => $shop_description, 'hints' => __( 'This is displayed on your shop page.', 'wc-frontend-manager' ) ),
 																																																) ) );
 						?>
 					</div>
@@ -230,7 +237,7 @@ $is_marketplece = wcfm_is_marketplace();
 			<div class="wcfm-message" tabindex="-1"></div>
 			
 			<div id="wcfm_settings_submit">
-				<input type="submit" name="save-data" value="<?php _e( 'Save', 'wc-frontend-manager' ); ?>" id="wcfmsettings_save_button" class="wcfm_submit_button" />
+				<input type="submit" name="save-data" value="<?php _e( 'Save', 'wc-frontend-manager' ); ?>" id="wcfm_settings_save_button" class="wcfm_submit_button" />
 			</div>
 			
 		</form>

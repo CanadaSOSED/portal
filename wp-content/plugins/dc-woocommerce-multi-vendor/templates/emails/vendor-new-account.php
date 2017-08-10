@@ -16,7 +16,6 @@ global  $WCMp;
 <?php do_action( 'woocommerce_email_header', $email_heading ); ?>
 
 <p><?php printf( __( "Thanks for creating an account on %s. We will process your application and revert shortly.",  'dc-woocommerce-multi-vendor' ), esc_html( $blogname ), esc_html( $user_login ) ); ?></p>
-<p><?php printf( __( "We have received your application and will revert shortly.",   'dc-woocommerce-multi-vendor' )); ?> </p>
 <?php if ( get_option( 'woocommerce_registration_generate_password' ) == 'yes' && $password_generated ) : ?>
 <p><?php printf( __( "Your password has been automatically generated: <strong>%s</strong>",  'dc-woocommerce-multi-vendor' ), esc_html( $user_pass ) ); ?></p>
 <?php endif; ?>

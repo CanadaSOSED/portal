@@ -29,7 +29,7 @@ class WCFM {
 	public $wcfm_fields;
 	public $is_marketplece;
 	public $wcfm_marketplace;
-	public $wcfm_vendor_capability;
+	public $wcfm_capability;
 	public $wcfm_vendor_support;
 	public $wcfm_wcbooking;
 	public $wcfm_wccsubscriptions;
@@ -38,21 +38,24 @@ class WCFM {
 
 	public function __construct($file) {
 
-			$this->file = $file;
-			$this->plugin_base_name = plugin_basename( $file );
-			$this->plugin_url = trailingslashit(plugins_url('', $plugin = $file));
-			$this->plugin_path = trailingslashit(dirname($file));
-			$this->token = WCFM_TOKEN;
-			$this->text_domain = WCFM_TEXT_DOMAIN;
-			$this->version = WCFM_VERSION;
-			
-			// Updation Hook
-			add_action( 'init', array( &$this, 'update_wcfm' ) );
+		$this->file = $file;
+		$this->plugin_base_name = plugin_basename( $file );
+		$this->plugin_url = trailingslashit(plugins_url('', $plugin = $file));
+		$this->plugin_path = trailingslashit(dirname($file));
+		$this->token = WCFM_TOKEN;
+		$this->text_domain = WCFM_TEXT_DOMAIN;
+		$this->version = WCFM_VERSION;
+		
+		// Updation Hook
+		add_action( 'init', array( &$this, 'update_wcfm' ) );
 
-			add_action( 'init', array(&$this, 'init' ) );
-			
-			// WC Vendors shop_order_vendor - register post type fix - since 2.0.4
-			add_filter( 'woocommerce_register_post_type_shop_order_vendor', array( &$this, 'wcvendors_register_post_type_shop_order_vendor' ) );
+		add_action( 'init', array(&$this, 'init' ) );
+		
+		// WC Vendors shop_order_vendor - register post type fix - since 2.0.4
+		add_filter( 'woocommerce_register_post_type_shop_order_vendor', array( &$this, 'wcvendors_register_post_type_shop_order_vendor' ) );
+		
+		// WCFM User Capability Load
+		add_filter( 'wcfm_capability_options_rules', array( &$this, 'wcfm_capability_options_rules' ) );
 	}
 	
 	/**
@@ -70,6 +73,11 @@ class WCFM {
 			add_action( 'admin_notices', 'wcfm_woocommerce_version_notice' );
 			return;
 		}
+		
+		if (!is_admin() || defined('DOING_AJAX')) {
+			$this->load_class( 'capability' );
+			$this->wcfm_capability = new WCFM_Capability();
+		}
 
 		// Check Marketplace
 		$this->is_marketplece = wcfm_is_marketplace();
@@ -80,10 +88,7 @@ class WCFM {
 		
 		if (!is_admin() || defined('DOING_AJAX')) {
 			if( $this->is_marketplece ) {
-				if( wcfm_is_vendor()) {
-					$this->load_class( 'vendor-capability' );
-					$this->wcfm_vendor_capability = new WCFM_Vendor_Capability();
-					
+				if( wcfm_is_vendor() ) {
 					$this->load_class( $this->is_marketplece );
 					if( $this->is_marketplece == 'wcvendors' ) $this->wcfm_marketplace = new WCFM_WCVendors();
 					elseif( $this->is_marketplece == 'wcmarketplace' ) $this->wcfm_marketplace = new WCFM_WCMarketplace();
@@ -152,6 +157,35 @@ class WCFM {
 		// WCFM Fields Lib
 		$this->wcfm_fields = $this->library->load_wcfm_fields();
 	}
+	
+	/**
+	 * WCFM Capability Load as per User Role
+	 */
+	function wcfm_capability_options_rules( $wcfm_capability_options ) {
+		$user = wp_get_current_user();
+		
+		if ( in_array( 'vendor', $user->roles ) ) {
+			$wcfm_capability_options =(array) get_option( 'wcfm_capability_options' );
+			$wcfm_capability_options['manage_commission'] = 'yes';
+			$wcfm_capability_options['wp_admin_view'] = 'yes';
+		} elseif ( in_array( 'dc_vendor', $user->roles ) ) {
+			$wcfm_capability_options = (array) get_option( 'wcfm_capability_options' );
+			$wcfm_capability_options['manage_commission'] = 'yes';
+			$wcfm_capability_options['wp_admin_view'] = 'yes';
+		} elseif ( in_array( 'wc_product_vendors_admin_vendor', $user->roles ) ) {
+			$wcfm_capability_options = (array) get_option( 'wcfm_capability_options' );
+			$wcfm_capability_options['manage_commission'] = 'yes';
+			$wcfm_capability_options['wp_admin_view'] = 'yes';
+		} elseif ( in_array( 'wc_product_vendors_manager_vendor', $user->roles ) ) {
+			$wcfm_capability_options = (array) get_option( 'wcfm_capability_options' );
+			$wcfm_capability_options['manage_commission'] = 'yes';
+			$wcfm_capability_options['wp_admin_view'] = 'yes';
+		} else {
+			$wcfm_capability_options = array();
+		}
+		
+		return $wcfm_capability_options;
+	}
 
 	/**
 	 * Load Localisation files.
@@ -206,13 +240,13 @@ class WCFM {
 	static function update_wcfm() {
 		global $WCFM, $WCFM_Query;
 
-		if( !get_option( 'wcfm_updated_2_4_2' ) ) {
+		if( !get_option( 'wcfm_updated_2_4_7' ) ) {
 			
 			require_once ( $WCFM->plugin_path . 'helpers/class-wcfm-install.php' );
 			$WCFM_Install = new WCFM_Install();
 			
-			delete_option( 'wcfm_updated_2_3_8' );
-			update_option( 'wcfm_updated_2_4_2', 1 );
+			delete_option( 'wcfm_updated_2_4_2' );
+			update_option( 'wcfm_updated_2_4_7', 1 );
 		}
 	}
 
@@ -330,7 +364,7 @@ class WCFM {
 	function wcfm_get_attachment_id($attachment_url) {
 		global $wpdb;
 		$upload_dir_paths = wp_upload_dir();
-		
+		$attachment_id = 0;
 		if( class_exists('WPH') ) {
 			global $wph;
 			$new_upload_path = $wph->functions->get_module_item_setting('new_upload_path');
@@ -341,13 +375,29 @@ class WCFM {
 		// If this is the URL of an auto-generated thumbnail, get the URL of the original image
 		if ( false !== strpos( $attachment_url, $upload_dir_paths['baseurl'] ) ) {
 			$attachment_url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $attachment_url );
-		
+			
 			// Remove the upload path base directory from the attachment URL
 			$attachment_url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $attachment_url );
 			
 			// Finally, run a custom database query to get the attachment ID from the modified attachment URL
 			$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $attachment_url ) );
+		} elseif( class_exists( 'Amazon_Web_Services' ) ) {
+			global $as3cf;
+			$scheme = $as3cf->get_s3_url_scheme();
+			$bucket = $as3cf->get_setting( 'bucket' );
+			$region = $as3cf->get_setting( 'region' );
+			if ( is_wp_error( $region ) ) {
+				$region = '';
+			}
+	
+			$domain = $as3cf->get_s3_url_domain( $bucket, $region, null, array(), true );
+			$amazon_s3_url_domain = $scheme . '://' . $domain . '/';
+			
+			$attachment_url = str_replace( $amazon_s3_url_domain, '', $attachment_url );
+		
+			$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = 'amazonS3_info' AND wpostmeta.meta_value LIKE '%s' AND wposts.post_type = 'attachment'", '%' . $attachment_url . '%' ) );
 		}
+		
 		return $attachment_id; 
 	}
 	

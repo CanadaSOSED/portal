@@ -24,6 +24,8 @@ if( isset( $_GET['type'] ) ) $message_type =  $_GET['type'];
 ?>
 
 <div class="wcfm_header_panel">
+  <?php do_action( 'wcfm_before_header_panel_item' ); ?>
+  
   <?php if( $wcfm_is_allow_notice = apply_filters( 'wcfm_is_allow_notice', true ) ) { ?>
     <a href="<?php echo get_wcfm_messages_url( 'notice' ); ?>" class="fa fa-bell text_tip <?php if( isset( $wp->query_vars['wcfm-messages'] ) && ( $message_type == 'notice' ) ) echo 'active'; ?>" data-tip="<?php _e( 'Notice', 'wc-frontend-manager' ); ?>"><?php if( wcfm_is_vendor() ) { ?><span class="unread_notification_count notice_count"><?php echo $unread_notice; ?></span><?php } ?></a>
   <?php } ?>
@@ -49,8 +51,10 @@ if( isset( $_GET['type'] ) ) $message_type =  $_GET['type'];
   <?php } ?>
   
   <?php if( $wcfm_is_allow_profile = apply_filters( 'wcfm_is_allow_profile', true ) ) { ?>
-    <a href="<?php echo get_wcfm_profile_url(); ?>" class="fa fa-user-circle-o text_tip <?php if( isset( $wp->query_vars['wcfm-profile'] ) ) echo 'active'; ?>" data-tip="<?php _e( 'Profile', 'wc-frontend-manager' ); ?>"></a>
+    <a href="<?php echo get_wcfm_profile_url(); ?>" class="fa fa-user fa-user-circle-o text_tip <?php if( isset( $wp->query_vars['wcfm-profile'] ) ) echo 'active'; ?>" data-tip="<?php _e( 'Profile', 'wc-frontend-manager' ); ?>"></a>
   <?php } ?>
+  
+  <?php do_action( 'wcfm_after_header_panel_item' ); ?>
   
   <a href="<?php echo esc_url(wp_logout_url( get_wcfm_url() ) ); ?>" class="fa fa-power-off text_tip" data-tip="<?php _e( 'Logout', 'wc-frontend-manager' ); ?>"></a>
 </div>

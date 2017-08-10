@@ -17,19 +17,19 @@ class WCFM_WCBookings {
     
     if( wcfm_is_booking() ) {
     	if ( current_user_can( 'manage_bookings' ) ) {
-    		// WCFM Query Var Filter
+    		// WC Booking Query Var Filter
     		add_filter( 'wcfm_query_vars', array( &$this, 'wcb_wcfm_query_vars' ), 20 );
     		add_filter( 'wcfm_endpoint_title', array( &$this, 'wcb_wcfm_endpoint_title' ), 20, 2 );
     		add_action( 'init', array( &$this, 'wcb_wcfm_init' ), 20 );
     		
-    		// WCFM Menu Filter
+    		// WC Booking Menu Filter
 				add_filter( 'wcfm_menus', array( &$this, 'wcb_wcfm_menus' ), 20 );
 				
 				// Bookable Product Type
 				add_filter( 'wcfm_product_types', array( &$this, 'wcb_product_types' ), 20 );
 				
 				// Bookable Product Type Capability
-				add_filter( 'wcfm_settings_fields_vendor_product_types', array( &$this, 'wcfmcap_vendor_product_types' ), 20 );
+				add_filter( 'wcfm_settings_fields_product_types', array( &$this, 'wcfmcap_product_types' ), 20, 3 );
 				
 				// Booking General Block
 				add_action( 'after_wcfm_products_manage_general', array( &$this, 'wcb_product_manage_general' ), 10, 2 );
@@ -147,17 +147,16 @@ class WCFM_WCBookings {
   /**
 	 * WCFM Capability Vendor Product Types
 	 */
-	function wcfmcap_vendor_product_types( $product_types ) {
+	function wcfmcap_product_types( $product_types, $handler = 'wcfm_capability_options', $wcfm_capability_options = array() ) {
 		global $WCFM;
 		
-		$wcfm_capability_options = apply_filters( 'wcfm_capability_options', (array) get_option( 'wcfm_capability_options' ) );
 		$booking = ( isset( $wcfm_capability_options['booking'] ) ) ? $wcfm_capability_options['booking'] : 'no';
 		
-		$product_types["booking"] = array('label' => __('Bookable', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[booking]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $booking);
+		$product_types["booking"] = array('label' => __('Bookable', 'wc-frontend-manager') , 'name' => $handler . '[booking]','type' => 'checkboxoffon', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $booking);
 		
 		return $product_types;
 	}
-  
+	
   /**
    * WC Booking Product General Options
    */

@@ -152,7 +152,7 @@ function get_job_listings( $args = array() ) {
 
 		if ( false === ( $result = get_transient( $query_args_hash ) ) ) {
 			$result = new WP_Query( $query_args );
-			set_transient( $query_args_hash, $result, DAY_IN_SECONDS * 30 );
+			set_transient( $query_args_hash, $result, DAY_IN_SECONDS );
 		}
 
 		// random order is cached so shuffle them
@@ -287,7 +287,7 @@ if ( ! function_exists( 'get_job_listing_types' ) ) :
  *
  * @since 1.0.0
  * @param string|array $fields
- * @return array
+ * @return WP_Term[]
  */
 function get_job_listing_types( $fields = 'all' ) {
 	if ( ! get_option( 'job_manager_enable_types' ) ) {
@@ -510,8 +510,23 @@ function wp_job_manager_create_account( $args, $deprecated = '' ) {
 		return $user_id;
 	}
 
-	// Notify
-	wp_job_manager_notify_new_user( $user_id, $password, $new_user );
+	/**
+	 * Send notification to new users.
+	 *
+	 * @since 1.28.0
+	 *
+	 * @param  int         $user_id
+	 * @param  string|bool $password
+	 * @param  array       $new_user {
+	 *     Information about the new user.
+	 *
+	 *     @type string $user_login Username for the user.
+	 *     @type string $user_pass  Password for the user (may be blank).
+	 *     @type string $user_email Email for the new user account.
+	 *     @type string $role       New user's role.
+	 * }
+	 */
+	do_action( 'wpjm_notify_new_user', $user_id, $password, $new_user );
 
 	// Login
 	wp_set_auth_cookie( $user_id, true, is_ssl() );
@@ -520,38 +535,6 @@ function wp_job_manager_create_account( $args, $deprecated = '' ) {
 	return true;
 }
 endif;
-
-
-/**
- * Retrieves permalink settings.
- *
- * @see https://github.com/woocommerce/woocommerce/blob/3.0.8/includes/wc-core-functions.php#L1573
- * @since 2.7.3
- * @return array
- */
-function wpjm_get_permalink_structure() {
-	// Switch to the site's default locale, bypassing the active user's locale.
-	if ( function_exists( 'switch_to_locale' ) && did_action( 'admin_init' ) ) {
-		switch_to_locale( get_locale() );
-	}
-
-	$permalinks = wp_parse_args( (array) get_option( 'wpjm_permalinks', array() ), array(
-		'job_base'           => '',
-		'category_base'          => '',
-		'type_base'               => '',
-	) );
-
-	// Ensure rewrite slugs are set.
-	$permalinks['job_rewrite_slug']      = untrailingslashit( empty( $permalinks['job_base'] ) ? _x( 'job', 'Job permalink - resave permalinks after changing this', 'wp-job-manager' )                   : $permalinks['job_base'] );
-	$permalinks['category_rewrite_slug'] = untrailingslashit( empty( $permalinks['category_base'] ) ? _x( 'job-category', 'Job category slug - resave permalinks after changing this', 'wp-job-manager' ) : $permalinks['category_base'] );
-	$permalinks['type_rewrite_slug']     = untrailingslashit( empty( $permalinks['type_base'] ) ? _x( 'job-type', 'Job type slug - resave permalinks after changing this', 'wp-job-manager' )             : $permalinks['type_base'] );
-
-	// Restore the original locale.
-	if ( function_exists( 'restore_current_locale' ) && did_action( 'admin_init' ) ) {
-		restore_current_locale();
-	}
-	return $permalinks;
-}
 
 /**
  * Checks if the user can upload a file via the Ajax endpoint.
@@ -635,6 +618,54 @@ function wpjm_use_standard_password_setup_email() {
 	 * @param bool $use_standard_password_setup_email True if a standard account setup email should be sent.
 	 */
 	return apply_filters( 'wpjm_use_standard_password_setup_email', $use_standard_password_setup_email );
+}
+
+/**
+ * Returns the list of employment types from Google's modification of schema.org's employmentType.
+ *
+ * @since 1.28.0
+ * @see https://developers.google.com/search/docs/data-types/job-postings#definitions
+ *
+ * @return array
+ */
+function wpjm_job_listing_employment_type_options() {
+	$employment_types = array();
+	$employment_types['FULL_TIME'] = __( 'Full Time', 'wp-job-manager' );
+	$employment_types['PART_TIME'] = __( 'Part Time', 'wp-job-manager' );
+	$employment_types['CONTRACTOR'] = __( 'Contractor', 'wp-job-manager' );
+	$employment_types['TEMPORARY'] = __( 'Temporary', 'wp-job-manager' );
+	$employment_types['INTERN'] = __( 'Intern', 'wp-job-manager' );
+	$employment_types['VOLUNTEER'] = __( 'Volunteer', 'wp-job-manager' );
+	$employment_types['PER_DIEM'] = __( 'Per Diem', 'wp-job-manager' );
+	$employment_types['OTHER'] = __( 'Other', 'wp-job-manager' );
+
+	/**
+	 * Filter the list of employment types.
+	 *
+	 * @since 1.28.0
+	 *
+	 * @param array List of employment types { string $key => string $label }.
+	 */
+	return apply_filters( 'wpjm_job_listing_employment_type_options', $employment_types );
+}
+
+
+/**
+ * Check if employment type meta fields are enabled on job type terms.
+ *
+ * @since 1.28.0
+ *
+ * @return bool
+ */
+function wpjm_job_listing_employment_type_enabled() {
+	/**
+	 * Filter whether employment types are enabled for job type terms.
+	 *
+	 * @since 1.28.0
+	 *
+	 * @param bool True if employment type meta field is enabled on job type terms.
+	 */
+	return apply_filters( 'wpjm_job_listing_employment_type_enabled', get_option( 'job_manager_enable_types' ) ? true : false );
 }
 
 /**
@@ -784,7 +815,7 @@ function job_manager_dropdown_categories( $args = '' ) {
 			'exclude'         => $r['exclude'],
 			'hierarchical'    => $r['hierarchical']
 		) );
-		set_transient( $categories_hash, $categories, DAY_IN_SECONDS * 30 );
+		set_transient( $categories_hash, $categories, DAY_IN_SECONDS * 7 );
 	}
 
 	$name       = esc_attr( $name );

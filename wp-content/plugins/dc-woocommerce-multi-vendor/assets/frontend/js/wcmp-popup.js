@@ -2,7 +2,7 @@ jQuery(window).load(function(){
     jQuery(document).ready(function ($) {
 
         $('[data-popup-target]').click(function () {
-            $('html').addClass('overlay');
+            $('html').addClass('wcmp-overlay');
             var activePopup = $(this).attr('data-popup-target');
             var timeOut = $(this).data('time_out');
             $(activePopup).addClass('visible');
@@ -14,7 +14,7 @@ jQuery(window).load(function(){
         });
 
         $(document).keyup(function (e) {
-            if (e.keyCode == 27 && $('html').hasClass('overlay')) {
+            if (e.keyCode == 27 && $('html').hasClass('wcmp-overlay')) {
                 clearPopup();
             }
         });
@@ -30,7 +30,7 @@ jQuery(window).load(function(){
 
         function clearPopup() {
             $('.popup.visible').addClass('transitioning').removeClass('visible');
-            $('html').removeClass('overlay');
+            $('html').removeClass('wcmp-overlay');
 
             setTimeout(function () {
                 $('.popup').removeClass('transitioning');

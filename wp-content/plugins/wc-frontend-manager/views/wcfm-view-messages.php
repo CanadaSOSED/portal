@@ -11,6 +11,13 @@
  
 global $WCFM;
 
+$wcfm_is_allow_notice = apply_filters( 'wcfm_is_allow_notice', true );
+$wcfm_is_allow_direct_message = apply_filters( 'wcfm_is_allow_direct_message', true );
+if( !$wcfm_is_allow_direct_message && !$wcfm_is_allow_notice ) {
+	wcfm_restriction_message_show( "Messages" );
+	return;
+}
+
 $wcfm_messages = '';
 
 $user_arr = array( 0 => __('All', 'wc-frontend-manager' ) );

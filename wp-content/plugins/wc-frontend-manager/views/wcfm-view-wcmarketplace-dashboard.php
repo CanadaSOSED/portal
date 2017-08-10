@@ -11,7 +11,7 @@
  
 global $WCMp, $WCFM, $wpdb;
 
-$user_id = $current_user_id = get_current_user_id();
+$user_id = $current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 $vendor_term = get_user_meta( $user_id, '_vendor_term_id', true );
 
 // Get products using a query - this is too advanced for get_posts :(
@@ -72,25 +72,20 @@ if( isset($sale_results_whole_week[0]) && !empty( $sale_results_whole_week[0] ) 
 }
 
 // Total Paid Commission
-$query            = array();
-$query['fields']  = "SELECT SUM( post_meta.meta_value ) as commission
-	FROM {$wpdb->posts} as posts";
-$query['join']    = "INNER JOIN {$wpdb->postmeta} AS post_meta ON posts.ID = post_meta.post_id ";
-$query['join']   .= "INNER JOIN {$wpdb->postmeta} AS post_meta_2 ON posts.ID = post_meta_2.post_id ";
-$query['join']   .= "INNER JOIN {$wpdb->postmeta} AS post_meta_3 ON posts.ID = post_meta_3.post_id ";
-$query['where']   = "WHERE posts.post_type = 'dc_commission' ";
-$query['where']  .= "AND post_meta.meta_key = '_commission_amount' ";
-$query['where']  .= "AND MONTH( posts.post_date ) = MONTH( NOW() ) ";
-$query['where']  .= "AND post_meta_2.meta_key = '_commission_vendor' ";
-$query['where']  .= "AND post_meta_2.meta_value = {$vendor_term} ";
-$query['where']  .= "AND post_meta_3.meta_key = '_paid_status' ";
-$query['where']  .= "AND post_meta_3.meta_value = 'paid' ";
-
-$commission = $wpdb->get_var( implode( ' ', apply_filters( 'wcmp_dashboard_paid_commission_query', $query ) ) );
-if( !$commission ) $commission = 0;
+$commission_results_whole_week = $wpdb->get_results("SELECT COALESCE( SUM(`commission_amount`), 0 ) as commission, COALESCE( SUM(`shipping`), 0 ) as shipping, COALESCE( SUM(`tax`), 0 ) as tax FROM " . $wpdb->prefix . "wcmp_vendor_orders WHERE vendor_id = " . $current_user_id . " AND MONTH( created ) = MONTH( NOW() ) and `commission_status` = 'paid' AND `commission_id` != 0 and `commission_id` != '' and `is_trashed` != 1", OBJECT);
+$commission = 0;
+if( isset($commission_results_whole_week[0]) && !empty( $commission_results_whole_week[0] ) ) {
+	$commission = $commission_results_whole_week[0]->commission;
+	if($WCMp->vendor_caps->vendor_payment_settings('give_shipping')) {
+		$commission += $commission_results_whole_week[0]->shipping;
+	}
+	if($WCMp->vendor_caps->vendor_payment_settings('give_tax')) {
+		$commission += $commission_results_whole_week[0]->tax;
+	}
+}
 
 // Total item sold
-$sql = "SELECT COUNT( commission.product_id ) FROM {$wpdb->prefix}wcmp_vendor_orders AS commission";
+$sql = "SELECT SUM( commission.quantity ) FROM {$wpdb->prefix}wcmp_vendor_orders AS commission";
 $sql .= " WHERE 1=1";
 $sql .= " AND commission.vendor_id = %d";
 $sql .= " AND MONTH( commission.created ) = MONTH( NOW() )";
@@ -140,6 +135,7 @@ $wcfm_report_sales_by_date = new WC_Marketplace_Report_Sales_By_Date();
 $wcfm_report_sales_by_date->chart_colors = apply_filters( 'wcfm_vendor_sales_by_date_chart_colors', array(
 			'average'          => '#95a5a6',
 			'order_count'      => '#dbe1e3',
+			'item_count'       => '#ecf0f1',
 			'shipping_amount'  => '#FF7400',
 			'earned'           => '#4096EE',
 			'commission'       => '#00897b',
@@ -175,7 +171,7 @@ do_action( 'before_wcfm_dashboard' );
 						<ul class="wc_status_list">
 						  <?php if( $wcfm_is_allow_reports = apply_filters( 'wcfm_is_allow_reports', true ) ) { ?>
 								<li class="sales-this-month">
-									<span class="fa fa-dollar"></span>
+									<span class="fa fa-currency"><?php echo get_woocommerce_currency_symbol() ; ?></span>
 									<a href="<?php echo get_wcfm_reports_url( ); ?>">
 										<?php printf( __( '<strong>%s</strong><br /> net commission in this month', 'wc-frontend-manager' ), wc_price( $earned ) ); ?>
 									</a>

@@ -16,13 +16,6 @@ if( isset( $wp->query_vars['wcfm-products-manage'] ) && !empty( $wp->query_vars[
 	$product_id = $wp->query_vars['wcfm-products-manage'];
 }
 
-/*if( class_exists( 'Types_Post_Type' ) ) {
-	 $Types_Post_Type = new Types_Post_Type( 'product' );
-	 $field_groups = $Types_Post_Type->get_field_groups();
-	 print_r($field_groups);
-	 die;
-}*/
-
 ?>
 
 <!-- Start Product Custom Fields -->
@@ -33,9 +26,11 @@ if( $wcfm_product_custom_fields && is_array( $wcfm_product_custom_fields ) && !e
 	foreach( $wcfm_product_custom_fields as $wpcf_index => $wcfm_product_custom_field ) {
 		if( !isset( $wcfm_product_custom_field['enable'] ) ) continue;
 		?>
-		<div class="page_collapsible products_manage_<?php echo sanitize_title( $wcfm_product_custom_field['block_name'] ); ?> simple variable external grouped booking" id="wcfm_products_manage_form_<?php echo sanitize_title( $wcfm_product_custom_field['block_name'] ); ?>_head"><label class="fa fa-<?php echo ($wpcf_icons[$wpcf_index]) ? $wpcf_icons[$wpcf_index] : 'snowflake-o'; ?>"></label><?php echo $wcfm_product_custom_field['block_name']; ?><span></span></div>
+		<div class="page_collapsible products_manage_<?php echo sanitize_title( $wcfm_product_custom_field['block_name'] ); ?> simple variable external grouped booking" id="wcfm_products_manage_form_<?php echo sanitize_title( $wcfm_product_custom_field['block_name'] ); ?>_head"><label class="fa fa-<?php echo ($wpcf_icons[$wpcf_index]) ? $wpcf_icons[$wpcf_index] : 'snowflake-o'; ?>"></label><?php echo $wcfm_product_custom_field['block_name']; ?></div>
 		<div class="wcfm-container simple variable external grouped booking">
 			<div id="wcfm_products_manage_form_<?php echo sanitize_title( $wcfm_product_custom_field['block_name'] ); ?>_expander" class="wcfm-content">
+			  <h2><?php echo $wcfm_product_custom_field['block_name']; ?></h2>
+				<div class="wcfm_clearfix"></div>
 				<?php
 				$is_group = !empty( $wcfm_product_custom_field['group_name'] ) ? 'yes' : 'no';
 				$is_group = !empty( $wcfm_product_custom_field['is_group'] ) ? 'yes' : 'no';

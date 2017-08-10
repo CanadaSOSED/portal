@@ -66,9 +66,11 @@ jQuery(document).ready(function ($) {
         if (!$('.singleproductmultivendor_tab').hasClass('active')) {
             $('.singleproductmultivendor_tab a, #tab_singleproductmultivendor').click();
         }
-        $('html, body').animate({
-            scrollTop: $(".woocommerce-tabs").offset().top -120
-        }, 1500);
+        if ($('.woocommerce-tabs').length > 0) {
+            $('html, body').animate({
+                scrollTop: $(".woocommerce-tabs").offset().top -120
+            }, 1500);
+        }
     });
 
 });

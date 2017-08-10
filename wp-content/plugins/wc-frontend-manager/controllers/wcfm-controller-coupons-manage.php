@@ -29,7 +29,7 @@ class WCFM_Coupons_Manage_Controller {
 	  if(isset($wcfm_coupon_manager_form_data['title']) && !empty($wcfm_coupon_manager_form_data['title'])) {
 	  	$is_update = false;
 	  	$is_publish = false;
-	  	$current_user_id = get_current_user_id();
+	  	$current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 	  	
 	  	if(isset($wcfm_coupon_manager_form_data['status']) && ($wcfm_coupon_manager_form_data['status'] == 'draft')) {
 	  		$coupon_status = 'draft';

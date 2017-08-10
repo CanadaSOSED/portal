@@ -44,6 +44,9 @@ class WP_Job_Manager_Post_Types {
 		add_action( 'auto-draft_to_publish', array( $this, 'set_expiry' ) );
 		add_action( 'expired_to_publish', array( $this, 'set_expiry' ) );
 
+		add_action( 'wp_head', array( $this, 'noindex_expired_filled_job_listings' ) );
+		add_action( 'wp_footer', array( $this, 'output_structured_data' ) );
+
 		add_filter( 'the_job_description', 'wptexturize'        );
 		add_filter( 'the_job_description', 'convert_smilies'    );
 		add_filter( 'the_job_description', 'convert_chars'      );
@@ -86,7 +89,8 @@ class WP_Job_Manager_Post_Types {
 
 		$admin_capability = 'manage_job_listings';
 
-		$permalink_structure = wpjm_get_permalink_structure();
+		$permalink_structure = WP_Job_Manager_Post_Types::get_permalink_structure();
+
 		/**
 		 * Taxonomies
 		 */
@@ -342,6 +346,8 @@ class WP_Job_Manager_Post_Types {
 	 * Generates the RSS feed for Job Listings.
 	 */
 	public function job_feed() {
+		global $job_manager_keyword;
+
 		$query_args = array(
 			'post_type'           => 'job_listing',
 			'post_status'         => 'publish',
@@ -386,7 +392,7 @@ class WP_Job_Manager_Post_Types {
 		}
 
 		$job_manager_keyword = isset( $_GET['search_keywords'] ) ? sanitize_text_field( $_GET['search_keywords'] ) : '';
-		if ( !empty( $job_manager_keyword ) ) {
+		if ( ! empty( $job_manager_keyword ) ) {
 			$query_args['s'] = $job_manager_keyword;
 			add_filter( 'posts_search', 'get_job_listings_keyword_search' );
 		}
@@ -534,9 +540,11 @@ class WP_Job_Manager_Post_Types {
 	 * Typo wrapper for `set_expiry` method.
 	 *
 	 * @param WP_Post $post
-	 * @deprecated
+	 * @since 1.0.0
+	 * @deprecated 1.0.1
 	 */
 	public function set_expirey( $post ) {
+		_deprecated_function( __METHOD__, '1.0.1', 'WP_Job_Manager_Post_Types::set_expiry' );
 		$this->set_expiry( $post );
 	}
 
@@ -600,10 +608,45 @@ class WP_Job_Manager_Post_Types {
 	 * @return array
 	 */
 	public function fix_post_name( $data, $postarr ) {
-		 if ( 'job_listing' === $data['post_type'] && 'pending' === $data['post_status'] && ! current_user_can( 'publish_posts' ) && isset( $postarr['post_name'] ) ) {
-				$data['post_name'] = $postarr['post_name'];
-		 }
-		 return $data;
+		if ( 'job_listing' === $data['post_type']
+			&& 'pending' === $data['post_status']
+			&& ! current_user_can( 'publish_posts' )
+			&& isset( $postarr['post_name'] )
+		) {
+			$data['post_name'] = $postarr['post_name'];
+		}
+		return $data;
+	}
+
+	/**
+	 * Retrieves permalink settings.
+	 *
+	 * @see https://github.com/woocommerce/woocommerce/blob/3.0.8/includes/wc-core-functions.php#L1573
+	 * @since 1.28.0
+	 * @return array
+	 */
+	public static function get_permalink_structure() {
+		// Switch to the site's default locale, bypassing the active user's locale.
+		if ( function_exists( 'switch_to_locale' ) && did_action( 'admin_init' ) ) {
+			switch_to_locale( get_locale() );
+		}
+
+		$permalinks = wp_parse_args( (array) get_option( 'wpjm_permalinks', array() ), array(
+			'job_base'        => '',
+			'category_base'   => '',
+			'type_base'       => '',
+		) );
+
+		// Ensure rewrite slugs are set.
+		$permalinks['job_rewrite_slug']      = untrailingslashit( empty( $permalinks['job_base'] ) ? _x( 'job', 'Job permalink - resave permalinks after changing this', 'wp-job-manager' )                   : $permalinks['job_base'] );
+		$permalinks['category_rewrite_slug'] = untrailingslashit( empty( $permalinks['category_base'] ) ? _x( 'job-category', 'Job category slug - resave permalinks after changing this', 'wp-job-manager' ) : $permalinks['category_base'] );
+		$permalinks['type_rewrite_slug']     = untrailingslashit( empty( $permalinks['type_base'] ) ? _x( 'job-type', 'Job type slug - resave permalinks after changing this', 'wp-job-manager' )             : $permalinks['type_base'] );
+
+		// Restore the original locale.
+		if ( function_exists( 'restore_current_locale' ) && did_action( 'admin_init' ) ) {
+			restore_current_locale();
+		}
+		return $permalinks;
 	}
 
 	/**
@@ -683,6 +726,7 @@ class WP_Job_Manager_Post_Types {
 	 * @deprecated 1.19.1
 	 */
 	public function maybe_generate_geolocation_data( $meta_id, $object_id, $meta_key, $meta_value ) {
+		_deprecated_function( __METHOD__, '1.19.1', 'WP_Job_Manager_Post_Types::maybe_update_geolocation_data' );
 		$this->maybe_update_geolocation_data( $meta_id, $object_id, $meta_key, $meta_value );
 	}
 
@@ -696,6 +740,44 @@ class WP_Job_Manager_Post_Types {
 		if ( empty( $post ) || 'job_listing' === $post->post_type ) {
 			add_post_meta( $post_id, '_filled', 0, true );
 			add_post_meta( $post_id, '_featured', 0, true );
+		}
+	}
+
+	/**
+	 * Add noindex for expired and filled job listings.
+	 */
+	public function noindex_expired_filled_job_listings() {
+		if ( ! is_single() ) {
+			return;
+		}
+
+		$post = get_post();
+		if ( ! $post || 'job_listing' !== $post->post_type ) {
+			return;
+		}
+
+		if ( wpjm_allow_indexing_job_listing() ) {
+			return;
+		}
+
+		wp_no_robots();
+	}
+
+	/**
+	 * Add structured data to the footer of job listing pages.
+	 */
+	public function output_structured_data() {
+		if ( ! is_single() ) {
+			return;
+		}
+
+		if ( ! wpjm_output_job_listing_structured_data() ) {
+			return;
+		}
+
+		$structured_data = wpjm_get_job_listing_structured_data();
+		if ( ! empty( $structured_data ) ) {
+			echo '<script type="application/ld+json">' . wp_json_encode( $structured_data ) . '</script>';
 		}
 	}
 

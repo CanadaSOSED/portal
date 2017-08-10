@@ -12,19 +12,21 @@
  
 class WCFM_WCPVendors {
 	
+	public $vendor_id;
+	
 	public function __construct() {
     global $WCFM;
     
     if( wcfm_is_vendor() ) {
+    	
+    	$this->vendor_id   = apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() );
+    	
     	// Store Identity
     	add_filter( 'wcfm_store_logo', array( &$this, 'wcpvendors_store_logo' ) );
     	add_filter( 'wcfm_store_name', array( &$this, 'wcpvendors_store_name' ) );
     	
     	// Myaccount Vendor Dashboard URL
     	add_action( 'woocommerce_before_my_account', array( &$this, 'wcpvendors_add_section' ), 0 );
-    	
-    	// WP Admin View
-    	add_filter( 'wcfm_allow_wp_admin_view', array( &$this, 'wcpvendors_allow_wp_admin_view' ) );
     	
 			// Allow Vendor user to manage product from catalog
 			add_filter( 'wcfm_allwoed_user_rols', array( &$this, 'allow_wcpvendors_vendor_role' ) );
@@ -34,6 +36,7 @@ class WCFM_WCPVendors {
 			
 			// Manage Vendor Product Permissions
 			add_action( 'after_wcfm_products_manage_meta_save', array( &$this, 'wcpvendors_product_manage_vendor_association' ), 10, 2 );
+			add_action( 'after_wcfm_product_duplicate', array( &$this, 'wcpvendors_product_manage_vendor_association' ), 10, 2 );
 			
 			// Manage Vendor Product Export Permissions - 2.4.2
 			add_filter( 'woocommerce_product_export_row_data', array( &$this, 'wcpvendors_product_export_row_data' ), 100, 2 );
@@ -86,7 +89,7 @@ class WCFM_WCPVendors {
   function wcpvendors_store_name( $store_name ) {
   	$vendor_data = WC_Product_Vendors_Utils::get_vendor_data_from_user();
   	$store_name = ! empty( $vendor_data['shop_name'] ) ? $vendor_data['shop_name'] : '';
-  	$shop_link = get_term_link( WC_Product_Vendors_Utils::get_logged_in_vendor(), WC_PRODUCT_VENDORS_TAXONOMY );
+  	$shop_link = get_term_link( apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() ), WC_PRODUCT_VENDORS_TAXONOMY );
   	if( $store_name ) { $store_name = '<a target="_blank" href="' . apply_filters('wcpv_vendor_shop_permalink', $shop_link) . '">' . $store_name . '</a>'; }
   	else { $store_name = '<a target="_blank" href="' . apply_filters('wcpv_vendor_shop_permalink', $shop_link) . '">' . __('Shop', 'wc-frontend-manager') . '</a>'; }
   	return $store_name;
@@ -103,18 +106,12 @@ class WCFM_WCPVendors {
 			printf( '<a href="%s" title="%s" class="button wcfm-vendor-dashboard-link">%s</a>', esc_url( get_wcfm_page() ), esc_attr( __( 'Vendor Dashboard', 'woocommerce-product-vendors' ) ), __( 'Vendor Dashboard', 'woocommerce-product-vendors' ) );
 			
 			?>
-			<style> .vendor-dashboard-link { display: none; } </style>
+			<style> .vendor-dashboard-link { display: none !important; } </style>
 			<?php
 		}
 
 		return true;
 	}
-  
-  // WCPV Wp-admin view
-  function wcpvendors_allow_wp_admin_view( $allow ) {
-  	$allow = false;
-  	return $allow;
-  }
   
   function allow_wcpvendors_vendor_role( $allowed_roles ) {
   	if( wcfm_is_vendor() ) {
@@ -126,11 +123,10 @@ class WCFM_WCPVendors {
   
   function wcpvendors_products_args( $args ) {
   	if( wcfm_is_vendor() ) {
-  		//$args['author'] = get_current_user_id();
   		$args['tax_query'][] = array(
 																		'taxonomy' => WC_PRODUCT_VENDORS_TAXONOMY,
 																		'field' => 'id',
-																		'terms' => array(WC_Product_Vendors_Utils::get_logged_in_vendor()),
+																		'terms' => array(apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() )),
 																		'operator' => 'IN'
 																	);
 		}
@@ -147,7 +143,7 @@ class WCFM_WCPVendors {
 			if ( 'product' === get_post_type( $new_product_id ) ) {
 
 				// automatically set the vendor term for this product
-				wp_set_object_terms( $new_product_id, WC_Product_Vendors_Utils::get_logged_in_vendor(), WC_PRODUCT_VENDORS_TAXONOMY );
+				wp_set_object_terms( $new_product_id, apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() ), WC_PRODUCT_VENDORS_TAXONOMY );
 
 				// set visibility to catalog/search
 				update_post_meta( $new_product_id, '_visibility', 'visible' );
@@ -286,7 +282,7 @@ class WCFM_WCPVendors {
   // wcpvendors after Order total Line item
   function wcpvendors_after_line_total( $item, $order ) {
   	global $WCFM, $wpdb;
-  	$vendor_id   = WC_Product_Vendors_Utils::get_logged_in_vendor();
+  	$vendor_id   = $this->vendor_id;
   	$qty = ( isset( $item['qty'] ) ? esc_html( $item['qty'] ) : '1' );
 		
 		$sql = "
@@ -326,7 +322,7 @@ class WCFM_WCPVendors {
   // wcpvendors Order Total Commission
   function wcpvendors_order_total_commission( $order_id ) {
   	global $WCFM, $wpdb;
-  	$vendor_id   = WC_Product_Vendors_Utils::get_logged_in_vendor();
+  	$vendor_id   = $this->vendor_id;
   	$sql = "
   	SELECT SUM(total_commission_amount) as line_total,
   	   SUM(	product_commission_amount) as product_commission_amount,
@@ -381,7 +377,7 @@ class WCFM_WCPVendors {
   function wcpvendors_report_out_of_stock_query_from( $query_from, $stock ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
+  	$user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
   	
   	$query_from = "FROM {$wpdb->posts} as posts
 			INNER JOIN {$wpdb->postmeta} AS postmeta ON posts.ID = postmeta.post_id
@@ -407,8 +403,6 @@ class WCFM_WCPVendors {
   function wcpvendors_dashboard_status_widget_top_seller_query( $query ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
-  	
   	$products = $this->WCPV_get_vendor_products();
 		
 		if( !empty($products) )
@@ -421,7 +415,7 @@ class WCFM_WCPVendors {
    * WC Vendors current venndor products
    */
   function WCPV_get_vendor_products( $vendor_id = 0 ) {
-  	if( !$vendor_id ) $vendor_id = get_current_user_id();
+  	if( !$vendor_id ) $vendor_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
   	
   	$args = array(
 							'posts_per_page'   => -1,
@@ -456,7 +450,7 @@ class WCFM_WCPVendors {
   
   // Message authoe filter
   function wcpvendors_message_author( $author ) {
-  	$author = WC_Product_Vendors_Utils::get_logged_in_vendor();
+  	 $author = WC_Product_Vendors_Utils::get_logged_in_vendor();
   	 return $author;
   }
 }

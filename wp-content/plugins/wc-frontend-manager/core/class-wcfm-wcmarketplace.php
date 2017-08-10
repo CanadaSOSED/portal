@@ -20,8 +20,11 @@ class WCFM_WCMarketplace {
     
     if( wcfm_is_vendor() ) {
     	
-    	$this->vendor_id   = get_current_user_id();
+    	$this->vendor_id   = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
     	$this->vendor_term = get_user_meta( $this->vendor_id, '_vendor_term_id', true );
+    	
+    	// My Account Dashboard Link
+    	add_filter( 'wcmp_vendor_goto_dashboard', array( &$this, 'wcmarketplace_vendor_goto_dashboard' ) );
 		
     	// Store Identity
     	add_filter( 'wcfm_store_logo', array( &$this, 'wcmarketplace_store_logo' ) );
@@ -32,9 +35,6 @@ class WCFM_WCMarketplace {
     	add_filter( 'wcfm_add_new_product_sub_menu', array( &$this, 'wcmarketplace_add_new_product_sub_menu' ) );
     	add_filter( 'wcfm_add_new_coupon_sub_menu', array( &$this, 'wcmarketplace_add_new_coupon_sub_menu' ) );
     	add_filter( 'wcmp_vendor_dashboard_nav', array( &$this, 'wcmarketplace_wcfm_vendor_dashboard_nav' ) );
-    	
-    	// WP Admin View
-    	add_filter( 'wcfm_allow_wp_admin_view', array( &$this, 'wcmarketplace_allow_wp_admin_view' ) );
     	
 			// Allow Vendor user to manage product from catalog
 			add_filter( 'wcfm_allwoed_user_rols', array( &$this, 'allow_wcmarketplace_vendor_role' ) );
@@ -52,7 +52,8 @@ class WCFM_WCMarketplace {
 			add_filter( 'wcfm_is_allow_attribute', array( &$this, 'wcmarketplace_is_allow_attribute' ) );
 			add_filter( 'wcfm_is_allow_variable', array( &$this, 'wcmarketplace_is_allow_variable' ) );
 			add_filter( 'wcfm_is_allow_linked', array( &$this, 'wcmarketplace_is_allow_linked' ) );
-			add_action( 'after_wcfm_products_manage_meta_save', array( &$this, 'wcmarketplace_product_manage_vendor_association' ), 10, 2 ); 
+			add_action( 'after_wcfm_products_manage_meta_save', array( &$this, 'wcmarketplace_product_manage_vendor_association' ), 10, 2 );
+			add_action( 'after_wcfm_product_duplicate', array( &$this, 'wcmarketplace_product_manage_vendor_association' ), 10, 2 );
 			
 			// Manage Vendor Product Export Permissions - 2.4.2
 			add_filter( 'woocommerce_product_export_row_data', array( &$this, 'wcmarketplace_product_export_row_data' ), 100, 2 );
@@ -89,6 +90,11 @@ class WCFM_WCMarketplace {
 			// Knowledgebase
 			add_action( 'before_wcfm_knowledgebase' , array( &$this, 'wcmarketplace_wcfm_knowledgebase' ) );
 		}
+  }
+  
+  // WCFM WCMp May Account Dashboard Link
+  function wcmarketplace_vendor_goto_dashboard() {
+  	return '<a href="' . get_wcfm_url() . '">' . __('Dashboard - manage your account here', 'dc-woocommerce-multi-vendor') . '</a>';
   }
   
   // WCFM WCMp Store Logo
@@ -203,12 +209,6 @@ class WCFM_WCMarketplace {
 																																							);
   	
   	return $vendor_nav;
-  }
-  
-  // WCMp WP-admin view
-  function wcmarketplace_allow_wp_admin_view( $allow ) {
-  	$allow = false;
-  	return $allow;
   }
   
   // WCMp user roles

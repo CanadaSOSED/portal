@@ -43,22 +43,22 @@ if( !current_user_can( 'edit_products' ) ) {
 			if( !WCFM_Dependencies::wcfmu_plugin_active_check() ) {
 				if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
 					?>
-					<span class="wcfm_screen_manager_dummy text_tip" data-tip="<?php wcfmu_feature_help_text_show( 'Screen Manager', false, true ); ?>"><span class="fa fa-cog"></span></span>
+					<span class="wcfm_screen_manager_dummy text_tip" data-tip="<?php wcfmu_feature_help_text_show( 'Screen Manager', false, true ); ?>"><span class="fa fa-television"></span></span>
 					<?php
 				}
 			} else {
 				?>
-				<a class="wcfm_screen_manager text_tip" href="#" data-screen="product" data-tip="<?php _e( 'Screen Manager', 'wc-frontend-manager' ); ?>"><span class="fa fa-cog"></span></a>
+				<a class="wcfm_screen_manager text_tip" href="#" data-screen="product" data-tip="<?php _e( 'Screen Manager', 'wc-frontend-manager' ); ?>"><span class="fa fa-television"></span></a>
 				<?php
 			}
 			?>
-			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=product'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-user-secret"></span></a>
+			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=product'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-wordpress"></span></a>
 			<?php
 		}
 		
 		if( $is_allow_products_export = apply_filters( 'wcfm_is_allow_products_export', true ) ) {
 			?>
-			<a class="wcfm_import_export text_tip" href="<?php echo get_wcfm_export_product_url(); ?>" data-screen="product" data-tip="<?php _e( 'Products Export', 'wc-frontend-manager' ); ?>"><span class="fa fa-download"></span></a>
+			<a class="add_new_wcfm_ele_dashboard text_tip" href="<?php echo get_wcfm_export_product_url(); ?>" data-screen="product" data-tip="<?php _e( 'Products Export', 'wc-frontend-manager' ); ?>"><span class="fa fa-download"></span></a>
 			<?php
 		}
 		
@@ -66,7 +66,7 @@ if( !current_user_can( 'edit_products' ) ) {
 			if( !WCFM_Dependencies::wcfmu_plugin_active_check() ) {
 				if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
 					?>
-					<a class="wcfm_import_export text_tip" href="#" onclick="return false;" data-tip="<?php wcfmu_feature_help_text_show( 'Products Import', false, true ); ?>"><span class="fa fa-upload"></span></a>
+					<a class="add_new_wcfm_ele_dashboard text_tip" href="#" onclick="return false;" data-tip="<?php wcfmu_feature_help_text_show( 'Products Import', false, true ); ?>"><span class="fa fa-upload"></span></a>
 					<?php
 				}
 			} else {

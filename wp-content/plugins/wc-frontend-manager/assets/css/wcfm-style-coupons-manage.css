@@ -1,4 +1,4 @@
-.page_collapsible { cursor: pointer: }
+.page_collapsible { cursor: pointer; }
 .page_collapsible .fa { margin-right: 5px; }
 
 .coupon-types {
@@ -100,6 +100,7 @@ input[type="number"].wcfm-text {
 	.page_collapsible {
 		width: 20%;
 		display: block; 
+		overflow: hidden;
 	}
 	.wcfm-tabWrap {
 			position: relative; 

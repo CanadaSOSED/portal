@@ -22,7 +22,7 @@ class WCFM_Vendor_Support {
 			add_filter( 'wcfm_orders_total_heading', array( &$this, 'wcfm_vendors_orders_total_heading' ) );
 		}
 		
-		if( !wcfm_is_vendor()) {
+		if( $is_allow_commission_manage = apply_filters( 'wcfm_is_allow_commission_manage', true ) ) {
 			if( $WCFM->is_marketplece == 'wcvendors' ) {
 		  	add_action( 'end_wcfm_products_manage', array( &$this, 'wcvendors_product_commission' ), 500 );
 		  	add_action( 'after_wcfm_products_manage_meta_save', array( &$this, 'wcvendors_product_commission_save' ), 500, 2 );
@@ -38,7 +38,7 @@ class WCFM_Vendor_Support {
 		}
 	}
 	
-		/**
+	/**
 	 * WCFM WC Vendor Login redirect
 	 */
 	function wcfm_wc_vendor_login_redirect( $redirect_to, $user ) {
@@ -50,6 +50,10 @@ class WCFM_Vendor_Support {
 			} elseif ( in_array( 'wc_product_vendors_admin_vendor', $user->roles ) ) {
 				$redirect_to = get_wcfm_url();
 			} elseif ( in_array( 'wc_product_vendors_manager_vendor', $user->roles ) ) {
+				$redirect_to = get_wcfm_url();
+			} elseif ( in_array( 'shop_manager', $user->roles ) ) {
+				$redirect_to = get_wcfm_url();
+			} elseif ( in_array( 'shop_staff', $user->roles ) ) {
 				$redirect_to = get_wcfm_url();
 			}
 		}
@@ -69,6 +73,10 @@ class WCFM_Vendor_Support {
 			} elseif ( in_array( 'wc_product_vendors_admin_vendor', $user->roles ) ) {
 				$redirect_to = get_wcfm_url();
 			} elseif ( in_array( 'wc_product_vendors_manager_vendor', $user->roles ) ) {
+				$redirect_to = get_wcfm_url();
+			} elseif ( in_array( 'shop_manager', $user->roles ) ) {
+				$redirect_to = get_wcfm_url();
+			} elseif ( in_array( 'shop_staff', $user->roles ) ) {
 				$redirect_to = get_wcfm_url();
 			}
 		}
@@ -152,10 +160,18 @@ class WCFM_Vendor_Support {
 					if( WCFMu_Dependencies::wcfm_wc_appointments_active_check() ) {
 						if( isset( $options['manage_appointment'] ) && $options[ 'manage_appointment' ] == 'yes' ) {
 							$vendor_role->remove_cap( 'manage_appointments' );
-							if( $is_marketplece == 'wcmarketplace' ) remove_wcmp_users_caps('manage_appointments');
+							$vendor_role->remove_cap( 'manage_others_appointments' );
+							if( $is_marketplece == 'wcmarketplace' ) {
+								remove_wcmp_users_caps('manage_appointments');
+								remove_wcmp_users_caps('manage_others_appointments');
+							}
 						} else {
 							$vendor_role->add_cap( 'manage_appointments' );
-							if( $is_marketplece == 'wcmarketplace' ) add_wcmp_users_caps('manage_appointments');
+							$vendor_role->add_cap( 'manage_others_appointments' );
+							if( $is_marketplece == 'wcmarketplace' ) {
+								add_wcmp_users_caps('manage_appointments');
+								add_wcmp_users_caps('manage_others_appointments');
+							}
 						}
 					}
 				}

@@ -21,7 +21,7 @@ $sql .= " WHERE 1=1";
 $sql .= " AND commission.vendor_id = %d";
 $sql .= " AND MONTH( commission.order_date ) = MONTH( NOW() )";
 
-$total_product_amount = $wpdb->get_var( $wpdb->prepare( $sql, WC_Product_Vendors_Utils::get_logged_in_vendor() ) );
+$total_product_amount = $wpdb->get_var( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() ) ) );
 if( !$total_product_amount ) $total_product_amount = 0;
 
 // Get top seller
@@ -53,7 +53,7 @@ if ( WC_Product_Vendors_Utils::commission_table_exists() ) {
 	$sql .= " AND commission.commission_status = 'paid'";
 	$sql .= " AND MONTH( commission.order_date ) = MONTH( NOW() )";
 
-	$commission = $wpdb->get_var( $wpdb->prepare( $sql, WC_Product_Vendors_Utils::get_logged_in_vendor() ) );
+	$commission = $wpdb->get_var( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() ) ) );
 	if( !$commission ) $commission = 0;
 }
 
@@ -65,7 +65,7 @@ if ( WC_Product_Vendors_Utils::commission_table_exists() ) {
 	$sql .= " AND commission.vendor_id = %d";
 	$sql .= " AND MONTH( commission.order_date ) = MONTH( NOW() )";
 
-	$total_sell = $wpdb->get_var( $wpdb->prepare( $sql, WC_Product_Vendors_Utils::get_logged_in_vendor() ) );
+	$total_sell = $wpdb->get_var( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() ) ) );
 	if( !$total_sell ) $total_sell = 0;
 }
 
@@ -79,7 +79,7 @@ if ( WC_Product_Vendors_Utils::commission_table_exists() ) {
 	$sql .= " AND order_item_meta.meta_key = '_fulfillment_status'";
 	$sql .= " AND order_item_meta.meta_value = 'unfulfilled'";
 
-	$unfulfilled_products = $wpdb->get_var( $wpdb->prepare( $sql, WC_Product_Vendors_Utils::get_logged_in_vendor() ) );
+	$unfulfilled_products = $wpdb->get_var( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() ) ) );
 	if( !$unfulfilled_products ) $unfulfilled_products = 0;
 }
 
@@ -94,7 +94,7 @@ $sql .= " AND commission.vendor_id = %d";
 $sql .= " AND MONTH( commission.order_date ) = MONTH( NOW() )";
 $sql .= " GROUP BY commission.order_id";
 
-$vendor_orders = $wpdb->get_results( $wpdb->prepare( $sql, WC_Product_Vendors_Utils::get_logged_in_vendor() ) );
+$vendor_orders = $wpdb->get_results( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() ) ) );
 if( !empty($vendor_orders) ) {
 	$order_count = count( $vendor_orders );
 	foreach( $vendor_orders as $vendor_order ) {
@@ -188,7 +188,7 @@ do_action( 'before_wcfm_dashboard' );
 						  <?php if( $wcfm_is_allow_reports = apply_filters( 'wcfm_is_allow_reports', true ) ) { ?>
 								<?php if ( WC_Product_Vendors_Utils::is_admin_vendor() ) { ?>
 								<li class="sales-count-this-month">
-									<span class="fa fa-dollar"></span>
+									<span class="fa fa-currency"><?php echo get_woocommerce_currency_symbol() ; ?></span>
 									<a href="<?php echo get_wcfm_reports_url( ); ?>">
 										<?php printf( __( '<strong>%s</strong><br /> net sales in this month', 'wc-frontend-manager' ),wc_price( $total_product_amount ) ); ?>
 									</a>

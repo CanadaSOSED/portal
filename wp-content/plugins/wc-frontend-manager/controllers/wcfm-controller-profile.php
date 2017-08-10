@@ -54,7 +54,7 @@ class WCFM_Profile_Controller {
 		$wcfm_profile_form = array_map( 'sanitize_text_field', $wcfm_profile_form );
 		$wcfm_profile_form = array_map( 'stripslashes', $wcfm_profile_form );
 		
-		$description = ! empty( $_POST['about'] ) ? wp_kses_post( stripslashes( $_POST['about'] ) ) : '';
+		$description = ! empty( $_POST['about'] ) ? stripslashes( html_entity_decode( $_POST['about'], ENT_QUOTES, 'UTF-8' ) ) : '';
 		update_user_meta( $user_id, 'description', $description );
 		
 		foreach( $wcfm_profile_default_fields as $wcfm_profile_default_key => $wcfm_profile_default_field ) {

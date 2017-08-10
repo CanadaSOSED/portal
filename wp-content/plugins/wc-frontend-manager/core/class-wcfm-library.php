@@ -78,6 +78,8 @@ class WCFM_Library {
 	  $noloader = isset( $wcfm_options['noloader'] ) ? $wcfm_options['noloader'] : 'no';
 	  wp_localize_script( 'wcfm_menu_js', 'wcfm_noloader', $noloader );
 	  
+	  $this->load_blockui_lib();
+	  
 	  do_action( 'before_wcfm_load_scripts', $end_point );
 	  
 	  switch( $end_point ) {
@@ -149,8 +151,19 @@ class WCFM_Library {
         wp_enqueue_script( 'wcfm_orders_details_js', $this->js_lib_url . 'wcfm-script-orders-details.js', array('jquery'), $WCFM->version, true );
       break;
       
+      case 'wcfm-listings':
+      	$this->load_datatable_lib();
+	    	wp_enqueue_script( 'wcfm_listings_js', $this->js_lib_url . 'wcfm-script-listings.js', array('jquery'), $WCFM->version, true );
+	    	
+	    	// Screen manager
+	    	$wcfm_screen_manager = (array) get_option( 'wcfm_screen_manager' );
+	    	$wcfm_screen_manager_data = array();
+	    	if( isset( $wcfm_screen_manager['listing'] ) ) $wcfm_screen_manager_data = $wcfm_screen_manager['listing'];
+	    	wp_localize_script( 'wcfm_listings_js', 'wcfm_listings_screen_manage', $wcfm_screen_manager_data );
+      break;
+      
       case 'wcfm-bookings-dashboard':
-	    	wp_enqueue_script( 'wcfmu_bookings_dashboard_js', $this->js_lib_url . 'wcfm-script-wcbookings-dashboard.js', array('jquery'), $WCFM->version, true );
+	    	wp_enqueue_script( 'wcfm_bookings_dashboard_js', $this->js_lib_url . 'wcfm-script-wcbookings-dashboard.js', array('jquery'), $WCFM->version, true );
       break;
       
       case 'wcfm-reports-sales-by-date':
@@ -187,12 +200,17 @@ class WCFM_Library {
 				wp_localize_script( 'wp-color-picker', 'wpColorPickerL10n', $colorpicker_l10n );
       break;
       
-       case 'wcfm-knowledgebase':
+      case 'wcfm-capability':
+      	$this->load_collapsible_lib();
+      	wp_enqueue_script( 'wcfm_capability_js', $this->js_lib_url . 'wcfm-script-capability.js', array('jquery'), $WCFM->version, true );
+      break;
+      
+      case 'wcfm-knowledgebase':
       	$this->load_tinymce_lib();
       	wp_enqueue_script( 'wcfm_knowledgebase_js', $this->js_lib_url . 'wcfm-script-knowledgebase.js', array('jquery'), $WCFM->version, true );
       break;
       
-       case 'wcfm-messages':
+      case 'wcfm-messages':
       	$this->load_tinymce_lib();
       	$this->load_datatable_lib();
       	$this->load_select2_lib();
@@ -271,8 +289,12 @@ class WCFM_Library {
 		    wp_enqueue_style( 'wcfm_orders_details_css',  $this->css_lib_url . 'wcfm-style-orders-details.css', array(), $WCFM->version );
 		  break;
 		  
+		  case 'wcfm-listings':
+	    	wp_enqueue_style( 'wcfm_listings_css',  $this->css_lib_url . 'wcfm-style-listings.css', array(), $WCFM->version );
+		  break;
+		  
 		  case 'wcfm-bookings-dashboard':
-	    	wp_enqueue_style( 'wcfmu_bookings_dashboard_css',  $this->css_lib_url . 'wcfm-style-wcbookings-dashboard.css', array(), $WCFM->version );
+	    	wp_enqueue_style( 'wcfm_bookings_dashboard_css',  $this->css_lib_url . 'wcfm-style-wcbookings-dashboard.css', array(), $WCFM->version );
 		  break;
 		  
 		  case 'wcfm-reports-sales-by-date':
@@ -291,9 +313,13 @@ class WCFM_Library {
 		  break;
 		  
 		  case 'wcfm-settings':
-		  	wp_enqueue_style( 'collapsible_css',  $this->css_lib_url . 'wcfm-style-collapsible.css', array(), $WCFM->version );
 		    wp_enqueue_style( 'wcfm_settings_css',  $this->css_lib_url . 'wcfm-style-settings.css', array(), $WCFM->version );
 		  break;
+		  
+		  case 'wcfm-capability':
+		  	$this->load_checkbox_offon_lib();
+		    wp_enqueue_style( 'wcfm_capability_css',  $this->css_lib_url . 'wcfm-style-capability.css', array(), $WCFM->version );
+      break;
 		  
 		  case 'wcfm-knowledgebase':
 		    wp_enqueue_style( 'wcfm_knowledgebase_css',  $this->css_lib_url . 'wcfm-style-knowledgebase.css', array(), $WCFM->version );
@@ -366,6 +392,10 @@ class WCFM_Library {
         require_once( $this->views_path . 'wcfm-view-orders-details.php' );
       break;
       
+      case 'wcfm-listings':
+        require_once( $this->views_path . 'wcfm-view-listings.php' );
+      break;
+      
       case 'wcfm-bookings-dashboard':
         require_once( $this->views_path . 'wcfm-view-wcbookings-dashboard.php' );
       break;
@@ -392,6 +422,10 @@ class WCFM_Library {
 				} else {
 					require_once( $this->views_path . 'wcfm-view-settings.php' );
 				}
+      break;
+      
+      case 'wcfm-capability':
+      	require_once( $this->views_path . 'wcfm-view-capability.php' );
       break;
       
       case 'wcfm-knowledgebase':
@@ -525,6 +559,23 @@ class WCFM_Library {
 	  global $WCFM;
 	  
 	  wp_enqueue_script( 'jquery-tip_js', $WCFM->plugin_url . 'includes/libs/jquery-tiptip/jquery.tipTip.min.js', array('jquery'), $WCFM->version, true );
+	}
+	
+	/**
+	 * Jquery blockUI library
+	*/
+	public function load_blockui_lib() {
+	  global $WCFM;
+	  
+	  wp_enqueue_script( 'jquery-blockui_js', $WCFM->plugin_url . 'includes/libs/jquery-blockui/jquery.blockUI.min.js', array('jquery'), $WCFM->version, true );
+	}
+	
+	/**
+	 * CSS Checkbox OFF-ON library
+	*/
+	public function load_checkbox_offon_lib() {
+	  global $WCFM;
+	  wp_enqueue_style( 'checkbox-offon-style', $WCFM->plugin_url . 'includes/libs/checkbox-offon/checkbox_offon.css', array(), $WCFM->version );
 	}
 	
 	public static function init_address_fields() {

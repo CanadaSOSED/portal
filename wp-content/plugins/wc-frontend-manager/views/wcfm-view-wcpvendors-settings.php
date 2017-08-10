@@ -11,6 +11,12 @@
 
 global $WCFM;
 
+$wcfm_is_allow_manage_settings = apply_filters( 'wcfm_is_allow_manage_settings', true );
+if( !$wcfm_is_allow_manage_settings ) {
+	wcfm_restriction_message_show( "Settings" );
+	return;
+}
+
 $vendor_data = WC_Product_Vendors_Utils::get_vendor_data_from_user();
 
 // logo image
@@ -31,7 +37,7 @@ $tzstring          = ! empty( $vendor_data['timezone'] ) ? $vendor_data['timezon
 $wcfm_vacation_mode = isset( $vendor_data['wcfm_vacation_mode'] ) ? $vendor_data['wcfm_vacation_mode'] : 'no';
 $wcfm_vacation_mode_msg = ! empty( $vendor_data['wcfm_vacation_mode_msg'] ) ? $vendor_data['wcfm_vacation_mode_msg'] : '';
 
-$user_id = get_current_user_id();
+$user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 
 if ( empty( $tzstring ) ) {
 	$tzstring = WC_Product_Vendors_Utils::get_default_timezone_string();
@@ -61,18 +67,19 @@ $is_marketplece = wcfm_is_marketplace();
 				<div class="wcfm-container">
 					<div id="wcfm_settings_form_style_expander" class="wcfm-content">
 						<?php
+						  $rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
 							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_wcpvendors_settings_fields_store', array(
 																																																"wcfm_logo" => array('label' => __('Logo', 'wc-frontend-manager') , 'type' => 'upload', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title', 'prwidth' => 150, 'value' => $logo_image_url),
 																																																"shop_name" => array('label' => __('Shop Name', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $shop_name, 'hints' => __( 'Your shop name is public and must be unique.', 'wc-frontend-manager' ) ),
 																																																"email" => array('label' => __('Vendor Email', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $email, 'hints' => __( 'Enter the email for this vendor. This is the email where all notifications are sent such as new orders and customer inquiries. You may enter more than one email separating each with a comma.', 'wc-frontend-manager' ) ),
-																																																"shop_description" => array('label' => __('Profile', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele', 'label_class' => 'wcfm_title', 'value' => $profile, 'hints' => __( 'Enter the profile information you would like for customer to see.', 'wc-frontend-manager' ) ),
+																																																"shop_description" => array('label' => __('Profile', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele ' . $rich_editor, 'label_class' => 'wcfm_title', 'value' => $profile, 'hints' => __( 'Enter the profile information you would like for customer to see.', 'wc-frontend-manager' ) ),
 																																																) ) );
 							
 						?>
 						<br />
 						<p class="tzstring wcfm_title wcfm_ele"><strong><?php _e('Timezone', 'wc-frontend-manager'); ?></strong><span class="img_tip" data-tip="<?php _e('Set the local timezone.', 'wc-frontend-manager'); ?>" data-hasqtip="4"></span></p>
 						<label class="screen-reader-text" for="tzstring"><?php _e('Timezone', 'wc-frontend-manager'); ?></label>
-						<select id="timezone" name="timezone" class="wcfm-select wcfm_ele">
+						<select id="timezone" name="timezone" class="wcfm-select wcfm_ele" style="width: 60%;">
 							<?php echo wp_timezone_choice( $tzstring ); ?>
 						</select>
 					</div>
@@ -138,7 +145,7 @@ $is_marketplece = wcfm_is_marketplace();
 			<div class="wcfm-message" tabindex="-1"></div>
 			
 			<div id="wcfm_settings_submit">
-				<input type="submit" name="save-data" value="<?php _e( 'Save', 'wc-frontend-manager' ); ?>" id="wcfmsettings_save_button" class="wcfm_submit_button" />
+				<input type="submit" name="save-data" value="<?php _e( 'Save', 'wc-frontend-manager' ); ?>" id="wcfm_settings_save_button" class="wcfm_submit_button" />
 			</div>
 			
 		

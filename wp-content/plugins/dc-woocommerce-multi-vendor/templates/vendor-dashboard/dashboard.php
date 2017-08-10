@@ -169,10 +169,8 @@ if (is_user_wcmp_vendor($user->ID)) :
                 <?php if ($whole_row_today > 6) { ?><button class="wcmp_black_btn wcmp_frontend_sale_show_more_button" element-data="sale_today_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
             </div>
-
-
-
-
+            
+            <?php if($vendor->is_shipping_enable()): ?>
             <h3 class="wcmp_black_headding"><?php echo __('Pending Shipping', 'dc-woocommerce-multi-vendor'); ?></h3>
             <div class="wcmp_table_holder">
                 <table id="wcmp_pending_shipping_report_table_today" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -198,9 +196,8 @@ if (is_user_wcmp_vendor($user->ID)) :
                 <?php if ($number_of_pending_shipping_whole_today > 6) { ?><button class="wcmp_black_btn wcmp_frontend_pending_shipping_show_more_button" element-data="pending_shipping_today_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
             </div>
+            <?php endif; ?>
         </div>
-
-
 
         <div class="wcmp_tabbody" id="theweek" >
             <?php
@@ -297,6 +294,7 @@ if (is_user_wcmp_vendor($user->ID)) :
                 <?php if ($whole_row_week > 6) { ?><button class="wcmp_black_btn wcmp_frontend_sale_show_more_button" element-data="sale_weekly_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
             </div>
+            <?php if($vendor->is_shipping_enable()): ?>
             <h3 class="wcmp_black_headding"><?php echo __('Pending Shipping', 'dc-woocommerce-multi-vendor'); ?></h3>
             <div class="wcmp_table_holder">
                 <table id="wcmp_pending_shipping_report_table_week" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -319,7 +317,8 @@ if (is_user_wcmp_vendor($user->ID)) :
                 <?php echo __('Showing Results', 'dc-woocommerce-multi-vendor'); ?> <span> <span class="wcmp_front_count_first_num_week_ps"><?php echo $week_pending_shipping_show; ?></span> <?php echo __(' out of ', 'dc-woocommerce-multi-vendor'); ?> <?php echo $week_pending_shipping_whole; ?></span>
                 <?php if ($week_pending_shipping_whole > 6) { ?><button class="wcmp_black_btn wcmp_frontend_pending_shipping_show_more_button" element-data="pending_shipping_weekly_more" style="float:right"><?php echo __('Show More', 'dc-woocommerce-multi-vendor'); ?></button><?php } ?>
                 <div class="clear"></div>
-            </div>		
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 <?php endif; ?>

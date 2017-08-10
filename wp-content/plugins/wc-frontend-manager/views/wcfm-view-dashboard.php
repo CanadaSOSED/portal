@@ -103,7 +103,7 @@ do_action( 'before_wcfm_dashboard' );
 							if ( current_user_can( 'view_woocommerce_reports' ) && ( $report_data ) ) {
 								?>
 								<li class="sales-this-month">
-									<span class="fa fa-dollar"></span>
+									<span class="fa fa-currency"><?php echo get_woocommerce_currency_symbol() ; ?></span>
 									<a href="<?php echo get_wcfm_reports_url( 'month' ); ?>">
 										<?php printf( __( '<strong>%s</strong><br /> net sales in last 7 days', 'wc-frontend-manager' ), wc_price( $report_data->net_sales ) ); ?>
 									</a>

@@ -19,7 +19,7 @@ class WCFM_WCVendors {
     
     if( wcfm_is_vendor() ) {
     	
-    	$this->vendor_id   = get_current_user_id();
+    	$this->vendor_id   = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
     	
     	// Remove Date Range
     	add_filter( 'wcvendors_orders_date_range', array( &$this, 'wcvendors_orders_date_range' ) );
@@ -32,9 +32,6 @@ class WCFM_WCVendors {
     	add_filter( 'wcfm_menus', array( &$this, 'wcvendors_wcfm_menus' ), 30 );
     	add_filter( 'wcfm_add_new_product_sub_menu', array( &$this, 'wcvendors_add_new_product_sub_menu' ) );
     	add_filter( 'wcfm_add_new_coupon_sub_menu', array( &$this, 'wcvendors_add_new_coupon_sub_menu' ) );
-    	
-    	// WP Admin View
-    	add_filter( 'wcfm_allow_wp_admin_view', array( &$this, 'wcvendors_allow_wp_admin_view' ) );
     	
     	// WCFM Home Menu at WCV Dashboard
     	add_action( 'wcvendors_before_links', array( &$this, 'wcfm_home' ), 5 );
@@ -112,7 +109,7 @@ class WCFM_WCVendors {
   
   // WCFM WCV Store Logo
   function wcvendors_store_logo( $store_logo ) {
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	$logo = get_user_meta( $user_id, '_wcv_store_icon_id', true );
   	$logo_image_url = wp_get_attachment_image_src( $logo, 'thumbnail' );
 
@@ -124,7 +121,7 @@ class WCFM_WCVendors {
   
   // WCFM WCV Store Name
   function wcvendors_store_name( $store_name ) {
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	$shop_name = get_user_meta( $user_id, 'pv_shop_name', true );
   	if( $shop_name ) $store_name = $shop_name;
   	$shop_link       = WCV_Vendors::get_vendor_shop_page( wp_get_current_user()->user_login );
@@ -158,12 +155,6 @@ class WCFM_WCVendors {
   function wcvendors_add_new_coupon_sub_menu( $has_new ) {
   	if( !current_user_can( 'edit_shop_coupons' ) ) $has_new = false;
   	return $has_new;
-  }
-  
-  // WCVWp-admin view
-  function wcvendors_allow_wp_admin_view( $allow ) {
-  	$allow = false;
-  	return $allow;
   }
   
   // WCFM Home Menu at WCV Dashboard
@@ -209,7 +200,7 @@ class WCFM_WCVendors {
   }
   
   function wcvendors_products_args( $args ) {
-  	if( wcfm_is_vendor() ) $args['author'] = get_current_user_id();
+  	$args['author'] = $this->vendor_id;
   	return $args;
   }
   
@@ -533,7 +524,7 @@ class WCFM_WCVendors {
   function wcvendors_report_out_of_stock_query_from( $query_from, $stock ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	
   	$query_from = "FROM {$wpdb->posts} as posts
 			INNER JOIN {$wpdb->postmeta} AS postmeta ON posts.ID = postmeta.post_id
@@ -573,7 +564,7 @@ class WCFM_WCVendors {
   function wcvendors_reports_get_order_report_data( $result ) {
   	global $WCFM, $wpdb, $_POST;
   	
-  	$user_id = get_current_user_id();
+  	$user_id = $this->vendor_id;
   	
   	$vendor_products = WCV_Queries::get_commission_products( $user_id );
   	$products = array();
@@ -595,7 +586,7 @@ class WCFM_WCVendors {
    * WC Vendors current venndor products
    */
   function wcv_get_vendor_products( $vendor_id = 0 ) {
-  	if( !$vendor_id ) $vendor_id = get_current_user_id();
+  	if( !$vendor_id ) $vendor_id = $this->vendor_id;
   	
   	$args = array(
 							'posts_per_page'   => -1,

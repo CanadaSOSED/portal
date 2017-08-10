@@ -1,5 +1,6 @@
-.page_collapsible { cursor: pointer: }
+.page_collapsible { cursor: pointer; }
 .page_collapsible .fa { margin-right: 5px; } 
+.page_collapsible .fa-currency { font-weight: 700; } 
 .page_collapsible span { display: none; }
 
 .view_count { color: #FF1A00; font-weight: 600; }
@@ -357,6 +358,7 @@ input.upload_button, input.remove_button {
 	.page_collapsible {
 		width: 20%;
 		display: block; 
+		overflow: hidden;
 	}
 	.wcfm-tabWrap {
 			position: relative; 

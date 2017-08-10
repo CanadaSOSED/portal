@@ -89,9 +89,10 @@ class WCFM_Query {
 			
 			// Settings
 			'wcfm-settings'                 => ! empty( $wcfm_modified_endpoints['wcfm-settings'] ) ? $wcfm_modified_endpoints['wcfm-settings'] : 'wcfm-settings',
+			'wcfm-capability'               => ! empty( $wcfm_modified_endpoints['wcfm-capability'] ) ? $wcfm_modified_endpoints['wcfm-capability'] : 'wcfm-capability',
 			
 			// Knowledgebase
-			'wcfm-knowledgebase'                 => ! empty( $wcfm_modified_endpoints['wcfm-knowledgebase'] ) ? $wcfm_modified_endpoints['wcfm-knowledgebase'] : 'wcfm-knowledgebase',
+			'wcfm-knowledgebase'            => ! empty( $wcfm_modified_endpoints['wcfm-knowledgebase'] ) ? $wcfm_modified_endpoints['wcfm-knowledgebase'] : 'wcfm-knowledgebase',
 			
 			// Messages
 			'wcfm-messages'                 => ! empty( $wcfm_modified_endpoints['wcfm-messages'] ) ? $wcfm_modified_endpoints['wcfm-messages'] : 'wcfm-messages'

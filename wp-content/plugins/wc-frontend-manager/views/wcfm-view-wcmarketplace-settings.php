@@ -11,8 +11,14 @@
 
 global $WCFM;
 
-$user_id = get_current_user_id();
+$wcfm_is_allow_manage_settings = apply_filters( 'wcfm_is_allow_manage_settings', true );
+if( !$wcfm_is_allow_manage_settings ) {
+	wcfm_restriction_message_show( "Settings" );
+	return;
+}
 
+$user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+$vendor = new WCMp_Vendor( $user_id );
 $shop_name = get_user_meta( $user_id, '_vendor_page_title', true );
 $logo_image_url = get_user_meta( $user_id, '_vendor_image', true );
 $shop_description = get_user_meta( $user_id, '_vendor_description', true );
@@ -43,6 +49,8 @@ $can_vendor_edit_cancellation_policy_field = apply_filters('can_vendor_edit_canc
 $can_vendor_edit_refund_policy_field = apply_filters('can_vendor_edit_refund_policy_field', true);
 $can_vendor_edit_shipping_policy_field = apply_filters('can_vendor_edit_shipping_policy_field', true);
 
+$wcmp_payment_settings_name = get_option('wcmp_payment_settings_name');
+
 ?>
 
 <div class="collapse wcfm-collapse" id="">
@@ -66,10 +74,12 @@ $can_vendor_edit_shipping_policy_field = apply_filters('can_vendor_edit_shipping
 				<div class="wcfm-container">
 					<div id="wcfm_settings_form_vendor_expander" class="wcfm-content">
 						<?php
+						  $rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
 							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_wcmarketplace_settings_fields_general', array(
 																																																"wcfm_logo" => array('label' => __('Logo', 'wc-frontend-manager') , 'type' => 'upload', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title', 'prwidth' => 150, 'value' => $logo_image_url ),
-																																																"shop_name" => array('label' => __('Shop Name', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $shop_name, 'hints' => __( 'Your shop name is public and must be unique.', 'wc-frontend-manager' ) ),
-																																																"shop_description" => array('label' => __('Shop Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele', 'label_class' => 'wcfm_title', 'value' => $shop_description, 'hints' => __( 'This is displayed on your shop page.', 'wc-frontend-manager' ) ),
+																																																"shop_name" => array('label' => __('Shop Name', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $vendor->page_title, 'hints' => __( 'Your shop name is public and must be unique.', 'wc-frontend-manager' ) ),
+																																																"shop_slug" => array('label' => __('Shop Slug', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $vendor->page_slug, 'hints' => __( 'Your shop slug is public and must be unique.', 'wc-frontend-manager' ) ),
+																																																"shop_description" => array('label' => __('Shop Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele ' . $rich_editor, 'label_class' => 'wcfm_title', 'value' => $shop_description, 'hints' => __( 'This is displayed on your shop page.', 'wc-frontend-manager' ) ),
 																																																) ) );
 						?>
 					</div>
@@ -136,7 +146,7 @@ $can_vendor_edit_shipping_policy_field = apply_filters('can_vendor_edit_shipping
 										wcfmu_feature_help_text_show( __( 'Billing Details', 'wc-frontend-manager' ) );
 									}
 								} else {
-									do_action( 'wcfm_wcmarketplace_settings_fields', $user_id );
+									do_action( 'wcfm_wcmarketplace_billing_settings_fields', $user_id );
 								}
 							?>
 						</div>
@@ -145,9 +155,34 @@ $can_vendor_edit_shipping_policy_field = apply_filters('can_vendor_edit_shipping
 				<?php } ?>
 				<!-- end collapsible -->
 				
+				<!-- collapsible - Shipping -->
+				<?php if( $allow_shipping = apply_filters( 'wcfm_is_allow_shipping', true ) ) { ?>
+					<?php if (isset($wcmp_payment_settings_name['give_shipping']) ) { ?>
+						<div class="page_collapsible" id="wcfm_settings_form_shipping_head">
+							<label class="fa fa-truck"></label>
+							<?php _e('Shipping', 'wc-frontend-manager'); ?><span></span>
+						</div>
+						<div class="wcfm-container">
+							<div id="wcfm_settings_form_shipping_expander" class="wcfm-content">
+								<?php
+									if( !WCFM_Dependencies::wcfmu_plugin_active_check() ) {
+										if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
+											wcfmu_feature_help_text_show( __( 'Shipping Details', 'wc-frontend-manager' ) );
+										}
+									} else {
+										do_action( 'wcfm_wcmarketplace_shipping_settings_fields', $user_id );
+									}
+								?>
+							</div>
+						</div>
+						<div class="wcfm_clearfix"></div>
+					<?php } ?>
+				<?php } ?>
+				<!-- end collapsible -->
+				
 				<!-- collapsible - Policies -->
 				<?php if( $wcfm_is_allow_policy_settings = apply_filters( 'wcfm_is_allow_policy_settings', true ) ) { ?>
-					<?php if (get_wcmp_vendor_settings('is_policy_on', 'general') == 'Enable' && isset($wcmp_capabilities_settings_name['can_vendor_edit_policy_tab_label']) && $can_vendor_edit_policy_tab_label_field && (isset($wcmp_capabilities_settings_name['can_vendor_edit_policy_tab_label']) || isset($wcmp_capabilities_settings_name['can_vendor_edit_cancellation_policy']) || isset($wcmp_capabilities_settings_name['can_vendor_edit_refund_policy']) || isset($wcmp_capabilities_settings_name['can_vendor_edit_shipping_policy']) )) { ?>
+					<?php if (get_wcmp_vendor_settings('is_policy_on', 'general') == 'Enable' && (isset($wcmp_capabilities_settings_name['can_vendor_edit_policy_tab_label']) || isset($wcmp_capabilities_settings_name['can_vendor_edit_cancellation_policy']) || isset($wcmp_capabilities_settings_name['can_vendor_edit_refund_policy']) || isset($wcmp_capabilities_settings_name['can_vendor_edit_shipping_policy']) )) { ?>
 						<div class="page_collapsible" id="wcfm_settings_form_policies_head">
 							<label class="fa fa-ambulance"></label>
 							<?php _e('Policies', 'wc-frontend-manager'); ?><span></span>
@@ -155,10 +190,12 @@ $can_vendor_edit_shipping_policy_field = apply_filters('can_vendor_edit_shipping
 						<div class="wcfm-container">
 							<div id="wcfm_settings_form_policies_expander" class="wcfm-content">
 								<?php
-								  $vendor_policy_tab_title = get_user_meta( $user_id, '_vendor_policy_tab_title', true ); 
-									$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_wcmp_settings_fields_policies', array(
-																																																														"vendor_policy_tab_title" => array('label' => __('Policy Tab Label', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $vendor_policy_tab_title )
-																																																													 ) ) );
+								  if( isset($wcmp_capabilities_settings_name['can_vendor_edit_policy_tab_label']) && $can_vendor_edit_policy_tab_label_field  ) {
+										$vendor_policy_tab_title = get_user_meta( $user_id, '_vendor_policy_tab_title', true ); 
+										$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_wcmp_settings_fields_policies', array(
+																																																															"vendor_policy_tab_title" => array('label' => __('Policy Tab Label', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $vendor_policy_tab_title )
+																																																														 ) ) );
+									}
 									
 									if ( isset($wcmp_policy_settings['is_shipping_on']) && isset($wcmp_capabilities_settings_name['can_vendor_edit_shipping_policy']) && $can_vendor_edit_shipping_policy_field) {
 										$vendor_shipping_policy = get_user_meta( $user_id, '_vendor_shipping_policy', true ); 
@@ -257,7 +294,7 @@ $can_vendor_edit_shipping_policy_field = apply_filters('can_vendor_edit_shipping
 			<div class="wcfm-message" tabindex="-1"></div>
 			
 			<div id="wcfm_settings_submit">
-				<input type="submit" name="save-data" value="<?php _e( 'Save', 'wc-frontend-manager' ); ?>" id="wcfmsettings_save_button" class="wcfm_submit_button" />
+				<input type="submit" name="save-data" value="<?php _e( 'Save', 'wc-frontend-manager' ); ?>" id="wcfm_settings_save_button" class="wcfm_submit_button" />
 			</div>
 			
 		</form>

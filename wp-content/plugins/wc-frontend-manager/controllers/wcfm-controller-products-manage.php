@@ -29,7 +29,7 @@ class WCFM_Products_Manage_Controller {
 	  if(isset($wcfm_products_manage_form_data['title']) && !empty($wcfm_products_manage_form_data['title'])) {
 	  	$is_update = false;
 	  	$is_publish = false;
-	  	$current_user_id = get_current_user_id();
+	  	$current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 	  	                  
 	  	if(isset($_POST['status']) && ($_POST['status'] == 'draft')) {
 	  		$product_status = 'draft';
@@ -45,8 +45,8 @@ class WCFM_Products_Manage_Controller {
 				'post_title'   => wc_clean( $wcfm_products_manage_form_data['title'] ),
 				'post_status'  => $product_status,
 				'post_type'    => 'product',
-				'post_excerpt' => $_POST['excerpt'],
-				'post_content' => $_POST['description'],
+				'post_excerpt' => stripslashes( html_entity_decode( $_POST['excerpt'], ENT_QUOTES, 'UTF-8' ) ),
+				'post_content' => stripslashes( html_entity_decode( $_POST['description'], ENT_QUOTES, 'UTF-8' ) ),
 				'post_author'  => $current_user_id
 				//'post_name' => sanitize_title($wcfm_products_manage_form_data['title'])
 			);

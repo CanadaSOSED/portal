@@ -69,30 +69,30 @@ class WCMp_User {
         add_filter('login_redirect', array($this, 'wp_wcmp_vendor_login'), 10, 3);
     }
 
-    function wp_wcmp_vendor_login($redirect_to, $request, $user) {
+    function wp_wcmp_vendor_login($redirect_to, $requested_redirect_to, $user) {
         global $WCMp;
         //is there a user to check?
-        if (isset($user->roles) && is_array($user->roles)) {
-            //check for admins
-            if (in_array('dc_vendor', $user->roles)) {
-                // redirect them to the default place
-                $redirect_to = get_permalink(wcmp_vendor_dashboard_page_id());
-                return $redirect_to;
-            } else {
-                return $redirect_to;
+        if ($requested_redirect_to == admin_url()) {
+            if (isset($user->roles) && is_array($user->roles)) {
+                //check for admins
+                if (in_array('dc_vendor', $user->roles)) {
+                    // redirect them to the default place
+                    $redirect_to = get_permalink(wcmp_vendor_dashboard_page_id());
+                }
             }
-        } else {
-            return $redirect_to;
         }
+        return $redirect_to;
     }
 
     function wcmp_vendor_login($redirect, $user) {
-        if (is_array($user->roles)) {
-            if (in_array('dc_vendor', $user->roles)) {
+        if (!isset($_POST['wcmp-login-vendor'])) {
+            if (is_array($user->roles)) {
+                if (in_array('dc_vendor', $user->roles)) {
+                    $redirect = get_permalink(wcmp_vendor_dashboard_page_id());
+                }
+            } else if ($user->roles == 'dc_vendor') {
                 $redirect = get_permalink(wcmp_vendor_dashboard_page_id());
             }
-        } else if ($user->roles == 'dc_vendor') {
-            $redirect = get_permalink(wcmp_vendor_dashboard_page_id());
         }
         return $redirect;
     }

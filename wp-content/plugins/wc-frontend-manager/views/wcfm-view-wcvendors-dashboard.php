@@ -11,7 +11,7 @@
  
 global $WCFM, $wpdb, $start_date, $end_date;
 
-$user_id = get_current_user_id();
+$user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 
 // Get products using a query - this is too advanced for get_posts :(
 $stock          = absint( max( get_option( 'woocommerce_notify_low_stock_amount' ), 1 ) );
@@ -170,7 +170,7 @@ do_action( 'before_wcfm_dashboard' );
 						<ul class="wc_status_list">
 						  <?php if( $can_view_sales && ( $wcfm_is_allow_reports = apply_filters( 'wcfm_is_allow_reports', true ) ) ) { ?>
 								<li class="sales-this-month">
-									<span class="fa fa-dollar"></span>
+									<span class="fa fa-currency"><?php echo get_woocommerce_currency_symbol() ; ?></span>
 									<a href="<?php echo get_wcfm_reports_url( ); ?>">
 										<?php printf( __( '<strong>%s</strong><br /> net commission in this month', 'wc-frontend-manager' ), wc_price( $earned ) ); ?>
 									</a>

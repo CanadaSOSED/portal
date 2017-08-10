@@ -13,19 +13,22 @@ jQuery(document).ready( function($) {
 	
 	// TinyMCE intialize - About
 	if( $('#about').length > 0 ) {
-		var descTinyMCE = tinymce.init({
-																	selector: '#about',
-																	height: 120,
-																	menubar: false,
-																	plugins: [
-																		'advlist autolink lists link charmap print preview anchor',
-																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime table contextmenu paste code'
-																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
-																	content_css: '//www.tinymce.com/css/codepen.min.css',
-																	statusbar: false
-																});
+		if( $('#about').hasClass('rich_editor') ) {
+			var descTinyMCE = tinymce.init({
+																		selector: '#about',
+																		height: 120,
+																		menubar: false,
+																		plugins: [
+																			'advlist autolink lists link charmap print preview anchor',
+																			'searchreplace visualblocks code fullscreen',
+																			'insertdatetime table contextmenu paste code'
+																		],
+																		toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
+																		content_css: '//www.tinymce.com/css/codepen.min.css',
+																		statusbar: false,
+																		entity_encoding: "raw"
+																	});
+		}
 	}
 		
 	if( $(".country_select").length > 0 ) {
@@ -39,7 +42,11 @@ jQuery(document).ready( function($) {
 	  event.preventDefault();
 	  
 	  var about = '';
-		if( typeof tinymce != 'undefined' ) about = tinymce.get('about').getContent();
+	  if( $('#about').hasClass('rich_editor') ) {
+			if( typeof tinymce != 'undefined' ) about = tinymce.get('about').getContent({format: 'raw'});
+		} else {
+			about = $('#about').val();
+		}
   
 	  // Validations
 	  $is_valid = true; //wcfm_coupons_manage_form_validate();

@@ -4,7 +4,7 @@ Tags: multi vendor marketplace, woocommerce multivendor marketplace, multi selle
 Donate link: https://wc-marketplace.com/donate
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 2.7.4
+Stable tag: 2.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ WC Marketplace - The most user recommended multivendor marketplace plugin for Wo
 
 <strong>You:</strong> [In your mind- "There should be a catch or a hidden cost. Let me dig more." ] Well your plugin looks promising. But, I wonder, why this charity?
 
-<strong>Riley:</strong> No question of charity. We provide [paid customization](https://wc-marketplace.com/contact-us/) services for marketplace owners to meet their specific business goals. Also, we have categorized our bouquet of features under necessity and extras. So if marketplaces need these nice-to-have extras, we have add-ons for them. But you will always have your fully functional multi vendor store with or without them. [Check out our add-ons](https://wc-marketplace.com/addons).
+<strong>Riley:</strong> No question of charity. We provide [paid customization](https://wc-marketplace.com/custom-development/) services for marketplace owners to meet their specific business goals. Also, we have categorized our bouquet of features under necessity and extras. So if marketplaces need these nice-to-have extras, we have add-ons for them. But you will always have your fully functional multi vendor store with or without them. [Check out our add-ons](https://wc-marketplace.com/addons).
 
 <strong>You:</strong> [Got ya!] So, you have just tweaked the game in your favor. Others offer "pro" and you have your own bagful of paid "add-ons". Right?
 
@@ -110,6 +110,16 @@ Ans. This plugin is tested with PHP version 5.5.
 
 
 == Changelog ==
+
+= 2.7.5 =
+* Added: Search vendor field in WCMp Product Vendors List Widget.
+* Added: Shipping method title after vendor shipping.
+* Added: Provision to delete vendor application form.
+* Added: Payment gateway charge.
+* Updated: Language files.
+* Fixed: Remove pending shipping from Vendor dashboard if admin has shipping capability.
+* Removed: WP dashboard Widget from vendor dashboard (At a Glance, Quick Draft, Activity, WordPress Events and News).
+* Dev: Template Update - `shortcode/vendor_lists.php`.
 
 = 2.7.4 =
 * Added: Filter `wcmp_vendor_taxonomy_name` to change breadcrumbs default WCMp vendor text.
@@ -271,5 +281,5 @@ Ans. This plugin is tested with PHP version 5.5.
 
 == Upgrade Notice ==
 
-= 2.7.4 =
+= 2.7.5 =
 2.7 is compatible with WooCommerce 3.0 or later. It is important to test in staging before update.

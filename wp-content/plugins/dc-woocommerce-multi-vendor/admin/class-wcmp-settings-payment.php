@@ -7,11 +7,6 @@ class WCMp_Settings_Payment {
      */
     private $options;
     private $tab;
-//  private $paypal_api_username;
-//  private $paypal_api_password;
-//  private $paypal_api_signature;
-//  private $paypal_client_id;
-//  private $paypal_client_secret;
     private $automatic_payment_method;
     private $withdrawal_payment_method;
 
@@ -32,6 +27,7 @@ class WCMp_Settings_Payment {
 
         $this->automatic_payment_method = apply_filters('automatic_payment_method', array('paypal_masspay' => __('Paypal Masspay', 'dc-woocommerce-multi-vendor'), 'paypal_payout' => __('Paypal Payout', 'dc-woocommerce-multi-vendor'), 'direct_bank' => __('Direct Bank Transfer', 'dc-woocommerce-multi-vendor')));
         $automatic_method = array();
+        $gateway_charge = array();
         $i = 0;
         foreach ($this->automatic_payment_method as $key => $val) {
             if ($i == 0) {
@@ -41,6 +37,7 @@ class WCMp_Settings_Payment {
             } else {
                 $automatic_method['payment_method_' . $key] = array('title' => __('', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'payment_method_' . $key, 'class' => 'automatic_payment_method', 'label_for' => 'payment_method_' . $key, 'text' => $val, 'name' => 'payment_method_' . $key, 'value' => 'Enable', 'data-display-label' => $val);
             }
+            $gateway_charge['gateway_charge_' . $key] = array('title' => __('', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'gateway_charge_' . $key, 'class' => 'payment_gateway_charge regular-text', 'label_for' => 'gateway_charge_' . $key, 'name' => 'gateway_charge_' . $key, 'placeholder' => __('For ', 'dc-woocommerce-multi-vendor') . $val, 'desc' => __('Gateway Charge For ', 'dc-woocommerce-multi-vendor') . $val);
             $i++;
         }
 
@@ -49,7 +46,7 @@ class WCMp_Settings_Payment {
             "sections" => array(
                 "revenue_sharing_mode_section" => array("title" => __('Revenue Sharing Mode', 'dc-woocommerce-multi-vendor'), // Section one
                     "fields" => array(
-                        "revenue_sharing_mode" => array('title' => __('Mode ', 'dc-woocommerce-multi-vendor'), 'type' => 'radio', 'id' => 'revenue_sharing_mode', 'label_for' => 'revenue_sharing_mode', 'name' => 'revenue_sharing_mode', 'dfvalue' => 'vendor', 'options' => array('admin' => __('Admin fees', 'dc-woocommerce-multi-vendor'), 'vendor' => __('Vendor Commissions', 'dc-woocommerce-multi-vendor')), 'desc' => sprintf(__('To know more about these two modes, please visit [%s]', 'dc-woocommerce-multi-vendor'), '<a target="_blank" href="https://wc-marketplace.com/knowledgebase/setting-up-commission-and-other-payments-for-wcmp/">View</a>')), // Radio
+                        "revenue_sharing_mode" => array('title' => __('Mode ', 'dc-woocommerce-multi-vendor'), 'type' => 'radio', 'id' => 'revenue_sharing_mode', 'label_for' => 'revenue_sharing_mode', 'name' => 'revenue_sharing_mode', 'dfvalue' => 'vendor', 'options' => array('admin' => __('Admin fees', 'dc-woocommerce-multi-vendor'), 'vendor' => __('Vendor Commissions', 'dc-woocommerce-multi-vendor')), 'desc' => ''), // Radio
                     ),
                 ),
                 "what_to_pay_section" => array("title" => __('What to Pay', 'dc-woocommerce-multi-vendor'), // Section one
@@ -67,7 +64,10 @@ class WCMp_Settings_Payment {
                     ),
                 ),
                 "wcmp_default_settings_section" => array("title" => __('How/When to Pay ', 'dc-woocommerce-multi-vendor'), // Section one
-                    "fields" => array_merge($automatic_method, array("choose_payment_mode_automatic_disbursal" => array('title' => __('Disbursal Schedule', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'wcmp_disbursal_mode_admin', 'label_for' => 'wcmp_disbursal_mode_admin', 'name' => 'wcmp_disbursal_mode_admin', 'text' => __('If checked, automatically vendors commission will disburse. ', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable'), // Checkbox
+                    "fields" => array_merge($automatic_method, array(
+                        "payment_gateway_charge" => array('title' => __('Payment Gateway Charge', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'payment_gateway_charge', 'label_for' => 'payment_gateway_charge', 'name' => 'payment_gateway_charge', 'text' => __('If checked, you can set payment gateway charge to vendor for commission disbursement. ', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable')
+                            ), $gateway_charge, array(
+                        "choose_payment_mode_automatic_disbursal" => array('title' => __('Disbursal Schedule', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'wcmp_disbursal_mode_admin', 'label_for' => 'wcmp_disbursal_mode_admin', 'name' => 'wcmp_disbursal_mode_admin', 'text' => __('If checked, automatically vendors commission will disburse. ', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable'), // Checkbox
                         "payment_schedule" => array('title' => __('Set Schedule', 'dc-woocommerce-multi-vendor'), 'type' => 'radio', 'id' => 'payment_schedule', 'label_for' => 'payment_schedule', 'name' => 'payment_schedule', 'dfvalue' => 'daily', 'options' => array('weekly' => __('Weekly', 'dc-woocommerce-multi-vendor'), 'daily' => __('Daily', 'dc-woocommerce-multi-vendor'), 'monthly' => __('Monthly', 'dc-woocommerce-multi-vendor'), 'fortnightly' => __('Fortnightly', 'dc-woocommerce-multi-vendor'), 'hourly' => __('Hourly', 'dc-woocommerce-multi-vendor'))), // Radio
                             ), array("choose_payment_mode_request_disbursal" => array('title' => __('Withdrawl Request', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'wcmp_disbursal_mode_vendor', 'label_for' => 'wcmp_disbursal_mode_vendor', 'name' => 'wcmp_disbursal_mode_vendor', 'text' => __('Vendors can request for commission withdrawal. ', 'dc-woocommerce-multi-vendor'), 'value' => 'Enable'), // Checkbox                                                                            
                         "commission_transfer" => array('title' => __('Withdrawal Charges', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'commission_transfer', 'label_for' => 'commission_transfer', 'name' => 'commission_transfer', 'desc' => __('Vendor will be charged this amount per withdrawal after the quota of free withdrawals is over.', 'dc-woocommerce-multi-vendor')), // Text
@@ -75,15 +75,6 @@ class WCMp_Settings_Payment {
                             )
                     ),
                 ),
-//                                                      "wcmp_paypal_settings" => array("title" =>  __('WCMp Paypal Settings ', 'dc-woocommerce-multi-vendor'), // Section one
-//                                                                                         "fields" => array("api_username" => array('title' => __('API Username', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'api_username', 'label_for' => 'api_username', 'dfvalue'=>$this->paypal_api_username, 'name' => 'api_username', 'desc' => __('Give your PayPal API Username.', 'dc-woocommerce-multi-vendor')),
-//                                                                                                          "api_pass" => array('title' => __('API Password', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'api_pass', 'label_for' => 'api_pass', 'name' => 'api_pass', 'dfvalue'=>$this->paypal_api_password, 'desc' => __('Give your PayPal API Password.', 'dc-woocommerce-multi-vendor')),
-//                                                                                                          "api_signature" => array('title' => __('API Signature', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'api_signature', 'label_for' => 'api_signature', 'name' => 'api_signature', 'dfvalue'=>$this->paypal_api_signature,  'desc' => __('Give your PayPal API Signature.', 'dc-woocommerce-multi-vendor')),
-//                                                                                                          "client_id" => array('title' => __('Client Id', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'client_id', 'label_for' => 'client_id', 'name' => 'client_id', 'dfvalue'=>$this->paypal_client_id, 'desc' => __('Give your PayPal APP Client Id for <a href="https://developer.paypal.com/developer/applications/">Paypal Payout</a>.', 'dc-woocommerce-multi-vendor')),
-//                                                                                                          "client_secret" => array('title' => __('Client Secret', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'client_secret', 'label_for' => 'client_secret', 'name' => 'client_secret', 'dfvalue'=>$this->paypal_client_secret,  'desc' => __('Give your PayPal APP Client Secret for <a href="https://developer.paypal.com/developer/applications/">Paypal Payout</a>.', 'dc-woocommerce-multi-vendor')),
-//                                                                                                          "is_testmode" => array('title' => __('Enable Test Mode', 'dc-woocommerce-multi-vendor'), 'type' => 'checkbox', 'id' => 'is_testmode', 'label_for' => 'is_testmode', 'name' => 'is_testmode', 'value' => 'Enable'), // Checkbox
-//                                                                                                          ),              
-//                                                                                         )
             ),
         );
 
@@ -99,49 +90,48 @@ class WCMp_Settings_Payment {
         global $WCMp;
         $new_input = array();
         $hasError = false;
-
-        if (isset($input['revenue_sharing_mode']))
+        if (isset($input['revenue_sharing_mode'])) {
             $new_input['revenue_sharing_mode'] = sanitize_text_field($input['revenue_sharing_mode']);
-
-        if (isset($input['is_mass_pay']))
-            $new_input['is_mass_pay'] = sanitize_text_field($input['is_mass_pay']);
-
-        if (isset($input['default_commission']))
-            $new_input['default_commission'] = sanitize_text_field($input['default_commission']);
-
-
-        if (isset($input['default_percentage']))
-            $new_input['default_percentage'] = sanitize_text_field($input['default_percentage']);
-
-        if (isset($input['fixed_with_percentage_qty']))
-            $new_input['fixed_with_percentage_qty'] = sanitize_text_field($input['fixed_with_percentage_qty']);
-
-        if (isset($input['fixed_with_percentage']))
-            $new_input['fixed_with_percentage'] = sanitize_text_field($input['fixed_with_percentage']);
-
-
-        if (isset($input['commission_threshold']))
-            $new_input['commission_threshold'] = sanitize_text_field($input['commission_threshold']);
-        if(isset($input['commission_threshold_time'])){
-            $new_input['commission_threshold_time'] = sanitize_text_field($input['commission_threshold_time']);
         }
-        if (isset($input['commission_transfer']))
-            $new_input['commission_transfer'] = sanitize_text_field($input['commission_transfer']);
-
-        if (isset($input['no_of_orders']))
-            $new_input['no_of_orders'] = sanitize_text_field($input['no_of_orders']);
-
-
-
-        if (isset($input['commission_type']))
+        if (isset($input['is_mass_pay'])) {
+            $new_input['is_mass_pay'] = sanitize_text_field($input['is_mass_pay']);
+        }
+        if (isset($input['default_commission'])) {
+            $new_input['default_commission'] = floatval(sanitize_text_field($input['default_commission']));
+        }
+        if (isset($input['default_percentage'])) {
+            $new_input['default_percentage'] = floatval(sanitize_text_field($input['default_percentage']));
+        }
+        if (isset($input['fixed_with_percentage_qty'])) {
+            $new_input['fixed_with_percentage_qty'] = floatval(sanitize_text_field($input['fixed_with_percentage_qty']));
+        }
+        if (isset($input['fixed_with_percentage'])) {
+            $new_input['fixed_with_percentage'] = floatval(sanitize_text_field($input['fixed_with_percentage']));
+        }
+        if (isset($input['commission_threshold'])) {
+            $new_input['commission_threshold'] = floatval(sanitize_text_field($input['commission_threshold']));
+        }
+        if (isset($input['commission_threshold_time'])) {
+            $new_input['commission_threshold_time'] = intval(sanitize_text_field($input['commission_threshold_time']));
+        }
+        if (isset($input['commission_transfer'])) {
+            $new_input['commission_transfer'] = floatval(sanitize_text_field($input['commission_transfer']));
+        }
+        if (isset($input['no_of_orders'])) {
+            $new_input['no_of_orders'] = intval(sanitize_text_field($input['no_of_orders']));
+        }
+        if (isset($input['commission_type'])) {
             $new_input['commission_type'] = sanitize_text_field($input['commission_type']);
-        if (isset($input['commission_include_coupon']))
+        }
+        if (isset($input['commission_include_coupon'])) {
             $new_input['commission_include_coupon'] = sanitize_text_field($input['commission_include_coupon']);
-        if (isset($input['give_tax']))
+        }
+        if (isset($input['give_tax'])) {
             $new_input['give_tax'] = sanitize_text_field($input['give_tax']);
-        if (isset($input['give_shipping']))
+        }
+        if (isset($input['give_shipping'])) {
             $new_input['give_shipping'] = sanitize_text_field($input['give_shipping']);
-
+        }
         if (isset($input['wcmp_disbursal_mode_admin'])) {
             $new_input['wcmp_disbursal_mode_admin'] = sanitize_text_field($input['wcmp_disbursal_mode_admin']);
         }
@@ -152,17 +142,18 @@ class WCMp_Settings_Payment {
             if (isset($input['payment_method_' . $key])) {
                 $new_input['payment_method_' . $key] = sanitize_text_field($input['payment_method_' . $key]);
             }
+            if (isset($input['gateway_charge_' . $key])) {
+                $new_input['gateway_charge_' . $key] = floatval(sanitize_text_field($input['gateway_charge_' . $key]));
+            }
         }
-
         foreach ($this->withdrawal_payment_method as $key => $val) {
             if (isset($input['payment_method_' . $key])) {
                 $new_input['payment_method_' . $key] = sanitize_text_field($input['payment_method_' . $key]);
             }
         }
-
-        if (isset($input['payment_schedule']))
+        if (isset($input['payment_schedule'])) {
             $new_input['payment_schedule'] = $input['payment_schedule'];
-
+        }
         if (isset($input['wcmp_disbursal_mode_admin'])) {
             $schedule = wp_get_schedule('masspay_cron_start');
             if ($schedule != $input['payment_schedule']) {
@@ -178,7 +169,9 @@ class WCMp_Settings_Payment {
                 wp_unschedule_event($timestamp, 'masspay_cron_start');
             }
         }
-
+        if (isset($input['payment_gateway_charge'])) {
+            $new_input['payment_gateway_charge'] = sanitize_text_field($input['payment_gateway_charge']);
+        }
         if (!$hasError) {
             add_settings_error(
                     "wcmp_{$this->tab}_settings_name", esc_attr("wcmp_{$this->tab}_settings_admin_updated"), __('Payment Settings Updated', 'dc-woocommerce-multi-vendor'), 'updated'
@@ -207,6 +200,31 @@ class WCMp_Settings_Payment {
      */
     public function revenue_sharing_mode_section_info() {
         global $WCMp;
+        echo '<div class="wcmp_payment_help">';
+        _e("If you are not sure about how to setup commissions and payment options in your marketplace, kindly read this <a href='https://wc-marketplace.com/knowledgebase/setting-up-commission-and-other-payments-for-wcmp/' terget='_blank'>article</a> before proceeding.", 'dc-woocommerce-multi-vendor');
+        echo '</div>';
+        ?>
+        <style type="text/css">
+             .wcmp_payment_help {
+                display: inline-block;
+                padding: 10px;
+                background: #ffffff;
+                color: #333;
+                font-style: italic;
+                max-width: 300px;
+                position: absolute;
+                right: 20px;
+                z-index: 9;
+            }
+            @media (max-width: 960px){
+                .wcmp_payment_help {
+                    position: relative;
+                    right: auto;
+                }
+            }
+        </style>
+        <?php
+
     }
 
     /**

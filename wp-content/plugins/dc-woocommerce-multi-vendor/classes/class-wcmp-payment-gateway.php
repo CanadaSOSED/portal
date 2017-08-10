@@ -28,9 +28,9 @@ abstract class WCMp_Payment_Gateway {
     }
 
     public function record_transaction() {
-        if($this->transaction_mode == 'manual' && $this->payment_gateway == 'direct_bank'){
+        if ($this->transaction_mode == 'manual' && $this->payment_gateway == 'direct_bank') {
             $commission_status = 'wcmp_processing';
-        } else{
+        } else {
             $commission_status = 'wcmp_completed';
         }
         $transaction_args = array(
@@ -41,7 +41,7 @@ abstract class WCMp_Payment_Gateway {
             'post_author' => $this->vendor->term_id
         );
         $this->transaction_id = wp_insert_post($transaction_args);
-        if ($this->transaction_id) {
+        if (!is_wp_error($this->transaction_id) && $this->transaction_id) {
             $this->update_meta_data($commission_status);
             $this->email_notify($commission_status);
         }
@@ -55,7 +55,7 @@ abstract class WCMp_Payment_Gateway {
                 $transaction_total += (float) $commission_amount['total'];
             }
         }
-        return apply_filters('wcmp_commission_transaction_amount', $transaction_total, $this->vendor->id, $this->commissions,$this->payment_gateway);
+        return apply_filters('wcmp_commission_transaction_amount', $transaction_total, $this->vendor->id, $this->commissions, $this->payment_gateway);
     }
 
     public function transfer_charge() {
@@ -72,19 +72,12 @@ abstract class WCMp_Payment_Gateway {
 
     public function gateway_charge() {
         $gateway_charge = 0;
-        switch ($this->payment_gateway) {
-            case 'paypal-masspay':
-                $gateway_charge = 0;
-                break;
-            case 'paypal-payout':
-                $gateway_charge = 0;
-                break;
-            case 'direct_bank':
-                $gateway_charge = 0;
-                break;
-            default :
-                $gateway_charge = 0;
-                break;
+        $is_enable_gateway_charge = get_wcmp_vendor_settings('payment_gateway_charge', 'payment');
+        if ($is_enable_gateway_charge == 'Enable') {
+            if(get_wcmp_vendor_settings("gateway_charge_{$this->payment_gateway}", "payment")){
+                $gateway_charge_percent = floatval(get_wcmp_vendor_settings("gateway_charge_{$this->payment_gateway}", "payment"));
+                $gateway_charge = ($this->get_transaction_total() * $gateway_charge_percent) / 100;
+            }
         }
         return apply_filters('wcmp_commission_gateway_charge_amount', $gateway_charge, $this->get_transaction_total(), $this->vendor, $this->commissions, $this->payment_gateway);
     }
@@ -128,7 +121,7 @@ abstract class WCMp_Payment_Gateway {
             default :
                 break;
         }
-        do_action('wcmp_transaction_email_notification', $commission_status, $this->transaction_id, $this->vendor);
+        do_action('wcmp_transaction_email_notification', $this->payment_gateway, $commission_status, $this->transaction_id, $this->vendor);
     }
 
 }

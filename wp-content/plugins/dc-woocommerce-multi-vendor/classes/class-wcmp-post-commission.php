@@ -80,7 +80,7 @@ class WCMp_Commission {
             'query_var' => false,
             'rewrite' => true,
             'capability_type' => 'post',
-            'capabilities' => array('create_posts' => false, 'delete_posts' => false,),
+            'capabilities' => array('create_posts' => false, 'delete_posts' => false),
             'map_meta_cap' => true,
             'has_archive' => true,
             'hierarchical' => true,
@@ -287,10 +287,10 @@ class WCMp_Commission {
         $is_updated = false;
         $prev_commission_amount = get_post_meta($post_id, '_commission_amount', true);
         if (isset($_POST['_commission_amount'])) {
-            $is_updated = update_post_meta($post_id, '_commission_amount', $_POST['_commission_amount']);
+            $is_updated = update_post_meta($post_id, '_commission_amount', floatval($_POST['_commission_amount']));
         }
         if ($is_updated) {
-            $new_commission_amount = $_POST['_commission_amount'];
+            $new_commission_amount = floatval($_POST['_commission_amount']);
             $commission_order = get_wcmp_vendor_orders(array('commission_id' => $post_id));
             if ($commission_order) {
                 $total_line_quentity = array_sum(wp_list_pluck($commission_order, 'quantity'));

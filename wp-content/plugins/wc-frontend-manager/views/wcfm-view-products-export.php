@@ -11,7 +11,8 @@
  
 global $WCFM;
 
-if( !current_user_can( 'edit_products' ) ) {
+$wcfm_is_allow_products_export = apply_filters( 'wcfm_is_allow_products_export', true );
+if( !current_user_can( 'edit_products' ) || !$wcfm_is_allow_products_export ) {
 	wcfm_restriction_message_show( "Products Export" );
 	return;
 }
@@ -39,7 +40,7 @@ $total_rows      = $product_count->publish + $product_count->private + $variatio
 		<?php
 		if( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
 			?>
-			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=product&page=product_exporter'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-user-secret"></span></a>
+			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=product&page=product_exporter'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-wordpress"></span></a>
 			<?php
 		}
 		

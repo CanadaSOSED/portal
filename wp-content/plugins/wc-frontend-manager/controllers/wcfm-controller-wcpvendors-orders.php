@@ -17,7 +17,7 @@ class WCFM_Orders_WCPVendors_Controller {
 	public function __construct() {
 		global $WCFM;
 		
-		$this->vendor_id   = WC_Product_Vendors_Utils::get_logged_in_vendor();
+		$this->vendor_id   = apply_filters( 'wcfm_current_vendor_id', WC_Product_Vendors_Utils::get_logged_in_vendor() );
 		$this->vendor_data = WC_Product_Vendors_Utils::get_vendor_data_from_user();
 		
 		$this->processing();
@@ -134,6 +134,7 @@ class WCFM_Orders_WCPVendors_Controller {
 				$wcfm_orders_json_arr[$index][] =  '<span class="order-status tips wcicon-status-' . sanitize_title( $the_order->get_status() ) . ' text_tip" data-tip="' . wc_get_order_status_name( $the_order->get_status() ) . '"></span>';
 				
 				// Order
+				$user_info = array();
 				if ( $the_order->user_id ) {
 					$user_info = get_userdata( $the_order->user_id );
 				}
@@ -233,7 +234,7 @@ class WCFM_Orders_WCPVendors_Controller {
 				if ( 'void' === $order->commission_status ) {
 					$status = '<span class="wcpv-void-status">' . esc_html__( 'VOID', 'woocommerce-product-vendors' ) . '</span>';
 				}
-				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( sanitize_text_field( $order->total_commission_amount ) ) . '<br />' . $status, $order->product_id, $order->total_commission_amount, $status  );
+				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( sanitize_text_field( $order->total_commission_amount ) ) . '<br />' . $status, $order->order_id, $order->product_id, $order->total_commission_amount, $status  );
 				
 				// Date
 				$wcfm_orders_json_arr[$index][] = date_i18n( wc_date_format(), strtotime( $the_order_date ) );

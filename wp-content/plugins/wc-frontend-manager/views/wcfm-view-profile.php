@@ -11,6 +11,12 @@
 
 global $WCFM;
 
+$wcfm_is_allow_profile = apply_filters( 'wcfm_is_allow_profile', true );
+if( !$wcfm_is_allow_profile ) {
+	wcfm_restriction_message_show( "Profile" );
+	return;
+}
+
 $user_id = get_current_user_id();
 
 $first_name = get_user_meta( $user_id, 'first_name', true );
@@ -19,47 +25,60 @@ $email  = get_user_meta( $user_id, 'billing_email_address', true );
 $phone  = get_user_meta( $user_id, 'billing_phone', true );
 $about  = get_user_meta( $user_id, 'description', true );
 
-$bfirst_name = get_user_meta( $user_id, 'billing_first_name', true );
-$blast_name  = get_user_meta( $user_id, 'billing_last_name', true );
-$baddr_1  = get_user_meta( $user_id, 'billing_address_1', true );
-$baddr_2  = get_user_meta( $user_id, 'billing_address_2', true );
-$bcountry  = get_user_meta( $user_id, 'billing_country', true );
-$bcity  = get_user_meta( $user_id, 'billing_city', true );
-$bstate  = get_user_meta( $user_id, 'billing_state', true );
-$bzip  = get_user_meta( $user_id, 'billing_postcode', true );
-
-$sfirst_name = get_user_meta( $user_id, 'shipping_first_name', true );
-$slast_name  = get_user_meta( $user_id, 'shipping_last_name', true );
-$saddr_1  = get_user_meta( $user_id, 'shipping_address_1', true );
-$saddr_2  = get_user_meta( $user_id, 'shipping_address_2', true );
-$scountry  = get_user_meta( $user_id, 'shipping_country', true );
-$scity  = get_user_meta( $user_id, 'shipping_city', true );
-$sstate  = get_user_meta( $user_id, 'shipping_state', true );
-$szip  = get_user_meta( $user_id, 'shipping_postcode', true );
+if( $wcfm_is_allow_address_profile = apply_filters( 'wcfm_is_allow_address_profile', true ) ) {
+	$bfirst_name = get_user_meta( $user_id, 'billing_first_name', true );
+	$blast_name  = get_user_meta( $user_id, 'billing_last_name', true );
+	$baddr_1  = get_user_meta( $user_id, 'billing_address_1', true );
+	$baddr_2  = get_user_meta( $user_id, 'billing_address_2', true );
+	$bcountry  = get_user_meta( $user_id, 'billing_country', true );
+	$bcity  = get_user_meta( $user_id, 'billing_city', true );
+	$bstate  = get_user_meta( $user_id, 'billing_state', true );
+	$bzip  = get_user_meta( $user_id, 'billing_postcode', true );
+	
+	$sfirst_name = get_user_meta( $user_id, 'shipping_first_name', true );
+	$slast_name  = get_user_meta( $user_id, 'shipping_last_name', true );
+	$saddr_1  = get_user_meta( $user_id, 'shipping_address_1', true );
+	$saddr_2  = get_user_meta( $user_id, 'shipping_address_2', true );
+	$scountry  = get_user_meta( $user_id, 'shipping_country', true );
+	$scity  = get_user_meta( $user_id, 'shipping_city', true );
+	$sstate  = get_user_meta( $user_id, 'shipping_state', true );
+	$szip  = get_user_meta( $user_id, 'shipping_postcode', true );
+}
 
 
 $is_marketplece = wcfm_is_marketplace();
 
-if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
-	if( wcfm_is_vendor() ) {
-		if( $is_marketplece == 'wcvendors' )  {
-			$twitter = get_user_meta( $user_id, '_wcv_twitter_username', true );
-			$facebook = get_user_meta( $user_id, '_wcv_facebook_url', true );
-			$instagram = get_user_meta( $user_id, '_wcv_instagram_username', true );
-			$youtube = get_user_meta( $user_id, '_wcv_youtube_url', true );
-			$linkdin = get_user_meta( $user_id, '_wcv_linkedin_url', true );
-			$google_plus = get_user_meta( $user_id, '_wcv_googleplus_url', true );
-			$snapchat = get_user_meta( $user_id, '_wcv_snapchat_username', true );
-			$pinterest = get_user_meta( $user_id, '_wcv_pinterest_url', true );
-		} elseif( $is_marketplece == 'wcmarketplace' )  {
-			$twitter = get_user_meta( $user_id, '_vendor_twitter_profile', true );
-			$facebook = get_user_meta( $user_id, '_vendor_fb_profile', true );
-			$instagram = get_user_meta( $user_id, '_vendor_instagram', true );
-			$youtube = get_user_meta( $user_id, '_vendor_youtube', true );
-			$linkdin = get_user_meta( $user_id, '_vendor_linkdin_profile', true );
-			$google_plus = get_user_meta( $user_id, '_vendor_google_plus_profile', true );
-			$snapchat = get_user_meta( $user_id, '_vendor_snapchat', true );
-			$pinterest = get_user_meta( $user_id, '_vendor_pinterest', true );
+if( $wcfm_is_allow_social_profile = apply_filters( 'wcfm_is_allow_social_profile', true ) ) {
+	if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
+		if( wcfm_is_vendor() ) {
+			if( $is_marketplece == 'wcvendors' )  {
+				$twitter = get_user_meta( $user_id, '_wcv_twitter_username', true );
+				$facebook = get_user_meta( $user_id, '_wcv_facebook_url', true );
+				$instagram = get_user_meta( $user_id, '_wcv_instagram_username', true );
+				$youtube = get_user_meta( $user_id, '_wcv_youtube_url', true );
+				$linkdin = get_user_meta( $user_id, '_wcv_linkedin_url', true );
+				$google_plus = get_user_meta( $user_id, '_wcv_googleplus_url', true );
+				$snapchat = get_user_meta( $user_id, '_wcv_snapchat_username', true );
+				$pinterest = get_user_meta( $user_id, '_wcv_pinterest_url', true );
+			} elseif( $is_marketplece == 'wcmarketplace' )  {
+				$twitter = get_user_meta( $user_id, '_vendor_twitter_profile', true );
+				$facebook = get_user_meta( $user_id, '_vendor_fb_profile', true );
+				$instagram = get_user_meta( $user_id, '_vendor_instagram', true );
+				$youtube = get_user_meta( $user_id, '_vendor_youtube', true );
+				$linkdin = get_user_meta( $user_id, '_vendor_linkdin_profile', true );
+				$google_plus = get_user_meta( $user_id, '_vendor_google_plus_profile', true );
+				$snapchat = get_user_meta( $user_id, '_vendor_snapchat', true );
+				$pinterest = get_user_meta( $user_id, '_vendor_pinterest', true );
+			} else {	
+				$twitter = get_user_meta( $user_id, '_twitter_profile', true );
+				$facebook = get_user_meta( $user_id, '_fb_profile', true );
+				$instagram = get_user_meta( $user_id, '_instagram', true );
+				$youtube = get_user_meta( $user_id, '_youtube', true );
+				$linkdin = get_user_meta( $user_id, '_linkdin_profile', true );
+				$google_plus = get_user_meta( $user_id, '_google_plus_profile', true );
+				$snapchat = get_user_meta( $user_id, '_snapchat', true );
+				$pinterest = get_user_meta( $user_id, '_pinterest', true );
+			}
 		} else {	
 			$twitter = get_user_meta( $user_id, '_twitter_profile', true );
 			$facebook = get_user_meta( $user_id, '_fb_profile', true );
@@ -70,15 +89,6 @@ if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
 			$snapchat = get_user_meta( $user_id, '_snapchat', true );
 			$pinterest = get_user_meta( $user_id, '_pinterest', true );
 		}
-	} else {	
-		$twitter = get_user_meta( $user_id, '_twitter_profile', true );
-		$facebook = get_user_meta( $user_id, '_fb_profile', true );
-		$instagram = get_user_meta( $user_id, '_instagram', true );
-		$youtube = get_user_meta( $user_id, '_youtube', true );
-		$linkdin = get_user_meta( $user_id, '_linkdin_profile', true );
-		$google_plus = get_user_meta( $user_id, '_google_plus_profile', true );
-		$snapchat = get_user_meta( $user_id, '_snapchat', true );
-		$pinterest = get_user_meta( $user_id, '_pinterest', true );
 	}
 }
 
@@ -105,12 +115,13 @@ if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
 				<div class="wcfm-container">
 					<div id="wcfm_profile_personal_expander" class="wcfm-content">
 					  <?php
+					    $rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
 							$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_profile_fields_billing', array(
 																																																"first_name" => array('label' => __('First Name', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $first_name ),
 																																																"last_name" => array('label' => __('Last Name', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $last_name ),
 																																																"email" => array('label' => __('Email', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $email ),
 																																																"phone" => array('label' => __('Phone', 'wc-frontend-manager') , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele', 'label_class' => 'wcfm_title wcfm_ele', 'value' => $phone ),
-																																																"about" => array('label' => __('About', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele', 'label_class' => 'wcfm_title', 'value' => $about ),
+																																																"about" => array('label' => __('About', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele ' . $rich_editor, 'label_class' => 'wcfm_title', 'value' => $about ),
 																																																) ) );
 						?>
 					</div>

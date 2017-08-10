@@ -1,4 +1,21 @@
 <?php
+/**
+ * WCFM plugin view
+ *
+ * WCFM Order Details View
+ *
+ * @author 		WC Lovers
+ * @package 	wcfm/view
+ * @version   1.0.0
+ */
+
+$wcfm_is_allow_orders = apply_filters( 'wcfm_is_allow_orders', true );
+if( !$wcfm_is_allow_orders ) {
+	wcfm_restriction_message_show( "Orders" );
+	return;
+}
+
+
 global $wp, $WCFM, $theorder, $wpdb;
 
 if ( ! is_object( $theorder ) ) {
@@ -82,7 +99,7 @@ do_action( 'before_wcfm_orders_details' );
 		<?php
 		if( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
 			?>
-			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('post.php?post='.$order_id.'&action=edit'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-user-secret"></span></a>
+			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('post.php?post='.$order_id.'&action=edit'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-wordpress"></span></a>
 			<?php
 		}
 		?>
@@ -119,7 +136,7 @@ do_action( 'before_wcfm_orders_details' );
 					<?php echo date_i18n( 'Y-m-d', strtotime( $post->post_date ) ); ?> @<?php echo date_i18n( 'H', strtotime( $post->post_date ) ); ?>:<?php echo date_i18n( 'i', strtotime( $post->post_date ) ); ?>
 				</p>
 				
-				<?php if( $is_allow_order_status_details = apply_filters( 'wcfm_allow_order_details', true ) ) { ?>
+				<?php if( $wcfm_is_allow_order_details = apply_filters( 'wcfm_allow_order_details', true ) ) { ?>
 					<p class="form-field form-field-wide wc-order-status"><label for="order_status"><?php _e( 'Order status:', 'wc-frontend-manager' ) ?> <?php
 							if ( $order->needs_payment() ) {
 								printf( '<a target="_blank" href="%s">%s &rarr;</a>',
@@ -833,7 +850,7 @@ do_action( 'before_wcfm_orders_details' );
 						<?php do_action( 'woocommerce_admin_order_totals_after_refunded', $order->get_id() ); ?>
 				
 					</table>
-					<div class="clear"></div>
+					<div class="wcfm-clearfix"></div>
 				</div>
 			</div>
 		</div>

@@ -73,9 +73,9 @@ class WCFM_Coupons_Controller {
 				$wc_coupon = new WC_Coupon( $wcfm_coupons_single->ID );
 				// Code
 				if( $wcfm_coupons_single->post_status != 'publish' ) {
-					$wcfm_coupons_json_arr[$index][] =  '<a href="' . get_wcfm_coupons_manage_url($wcfm_coupons_single->ID) . '" class="wcfm_coupon_title">' . $wcfm_coupons_single->post_title . '</a>' . ' -- ' . ucfirst( $wcfm_coupons_single->post_status );
+					$wcfm_coupons_json_arr[$index][] =  '<a href="' . get_wcfm_coupons_manage_url($wcfm_coupons_single->ID) . '" class="wcfm_dashboard_item_title">' . $wcfm_coupons_single->post_title . '</a>' . ' -- ' . ucfirst( $wcfm_coupons_single->post_status );
 				} elseif( current_user_can( 'edit_published_shop_coupons' ) ) {
-					$wcfm_coupons_json_arr[$index][] =  '<a href="' . get_wcfm_coupons_manage_url($wcfm_coupons_single->ID) . '" class="wcfm_coupon_title">' . $wcfm_coupons_single->post_title . '</a>';
+					$wcfm_coupons_json_arr[$index][] =  '<a href="' . get_wcfm_coupons_manage_url($wcfm_coupons_single->ID) . '" class="wcfm_dashboard_item_title">' . $wcfm_coupons_single->post_title . '</a>';
 				} else {
 					$wcfm_coupons_json_arr[$index][] =  $wcfm_coupons_single->post_title;
 				}

@@ -27,13 +27,13 @@ function wpcl_all_settings( $settings, $current_section ) {
 			'desc'    => __( 'Select one or multiple order statuses for which you will display the customers.', 'wc-product-customer-list' ),
 			'id'      => 'wpcl_order_status_select',
 			'css'     => 'min-width:300px;',
-			'default' => array('wc-completed','wc-processing'),
+			'default' => array('wc-completed'),
 			'type'    => 'multiselect',
 			'options' => $statuses,
 			'desc_tip' =>  true,
 		);
 		$settings_wpcl[] = array(
-			'name'		=> __( 'Columns', 'wc-product-customer-list' ),
+			'name'		=> __( 'Order number column', 'wc-product-customer-list' ),
 			'id'		=> 'wpcl_order_number',
 			'default'	=> 'yes',
 			'type'		=> 'checkbox',
@@ -80,6 +80,14 @@ function wpcl_all_settings( $settings, $current_section ) {
 			'type'		=> 'checkbox',
 			'css' 		=> 'min-width:300px;',
 			'desc'		=> __( 'Enable payment method column', 'wc-product-customer-list' ),
+		);
+		$settings_wpcl[] = array(
+			'name'		=> __( 'Shipping method column', 'wc-product-customer-list' ),
+			'id'		=> 'wpcl_order_shipping',
+			'default'	=> 'no',
+			'type'		=> 'checkbox',
+			'css' 		=> 'min-width:300px;',
+			'desc'		=> __( 'Enable shipping method column', 'wc-product-customer-list' ),
 		);
 		$settings_wpcl[] = array(
 			'name'		=> __( 'Customer message column', 'wc-product-customer-list' ),

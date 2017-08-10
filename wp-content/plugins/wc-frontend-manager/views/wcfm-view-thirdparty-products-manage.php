@@ -107,11 +107,14 @@ if(WCFM_Dependencies::wcfm_geo_my_wp_plugin_active_check()) {
   if ( empty( $forms ) || ! is_array( $forms ) ) {
   	$forms = array();
 	}
-	$forms_json = "[";		
+	$forms_json = "";		
 	foreach( $forms as $form ) {
 		$form['name'] = ( !empty( $form['name'] ) ) ? $form['name'] : 'form_id_'.$form['ID'];
+		if( $forms_json == '' ) $forms_json = "[";
+		else $forms_json .= ',';
 		$forms_json .= "{value: '" . absint( $form['ID'] ) . "', text: '" . esc_html( $form['name'] ) . "'}";
 	}
+	if( $forms_json == '' ) $forms_json = "[";
 	$forms_json .= "]";
 	?>
 	<script>

@@ -1,4 +1,20 @@
 <?php
+/**
+ * WCFM plugin view
+ *
+ * WCFM Reports - Sales by Date View
+ *
+ * @author 		WC Lovers
+ * @package 	wcfm/view
+ * @version   1.0.0
+ */
+ 
+$wcfm_is_allow_reports = apply_filters( 'wcfm_is_allow_reports', true );
+if( !$wcfm_is_allow_reports ) {
+	wcfm_restriction_message_show( "Reports" );
+	return;
+}
+
 global $wp, $WCFM, $wpdb;
 
 if( isset( $wp->query_vars['wcfm-reports-sales-by-date'] ) && !empty( $wp->query_vars['wcfm-reports-sales-by-date'] ) ) {

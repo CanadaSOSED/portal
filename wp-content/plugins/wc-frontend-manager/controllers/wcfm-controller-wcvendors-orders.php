@@ -16,7 +16,7 @@ class WCFM_Orders_WCVendors_Controller {
 	public function __construct() {
 		global $WCFM;
 		
-		$this->vendor_id   = get_current_user_id();
+		$this->vendor_id   = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 		
 		$this->processing();
 	}
@@ -145,6 +145,7 @@ class WCFM_Orders_WCVendors_Controller {
 				$wcfm_orders_json_arr[$index][] =  '<span class="order-status tips wcicon-status-' . sanitize_title( $the_order->get_status() ) . ' text_tip" data-tip="' . wc_get_order_status_name( $the_order->get_status() ) . '"></span>';
 				
 				// Order
+				$user_info = array();
 				if ( $the_order->user_id ) {
 					$user_info = get_userdata( $the_order->user_id );
 				}
@@ -211,7 +212,7 @@ class WCFM_Orders_WCVendors_Controller {
 				if ( WC_Vendors::$pv_options->get_option( 'give_tax' ) ) {
 					$total += $order->tax;
 				}
-				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( $total ) . '<br />' . $status, $order->product_id, $total, $status );
+				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( $total ) . '<br />' . $status, $order->order_id, $order->product_id, $total, $status );
 				
 				// Date
 				$wcfm_orders_json_arr[$index][] = date_i18n( wc_date_format(), strtotime( $order_date ) );

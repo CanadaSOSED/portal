@@ -160,8 +160,8 @@ if( isset( $wp->query_vars['wcfm-products-manage'] ) && !empty( $wp->query_vars[
 						$attributes[$acnt]['value'] = esc_attr( implode( ' ' . WC_DELIMITER . ' ', wp_get_post_terms( $product_id, $att_taxonomy, array( 'fields' => 'names' ) ) ) );
 					}
 				} else {
-					$attributes[$acnt]['term_name'] = apply_filters( 'woocommerce_attribute_label', $wcfm_attribute['name'], $wcfm_attribute['name'], true );
-					$attributes[$acnt]['name'] = apply_filters( 'woocommerce_attribute_label', $wcfm_attribute['name'], $wcfm_attribute['name'], true );
+					$attributes[$acnt]['term_name'] = apply_filters( 'woocommerce_attribute_label', $wcfm_attribute['name'], $wcfm_attribute['name'], $product );
+					$attributes[$acnt]['name'] = apply_filters( 'woocommerce_attribute_label', $wcfm_attribute['name'], $wcfm_attribute['name'], $product );
 					$attributes[$acnt]['value'] = $wcfm_attribute['value'];
 					$attributes[$acnt]['tax_name'] = '';
 					$attributes[$acnt]['is_taxonomy'] = 0;
@@ -249,7 +249,7 @@ if( isset( $wp->query_vars['wcfm-products-manage'] ) && !empty( $wp->query_vars[
 	}
 }
 
-$current_user_id = get_current_user_id();
+$current_user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 
 // Shipping Class List
 $product_shipping_class = get_terms( 'product_shipping_class', array('hide_empty' => 0));
@@ -306,7 +306,7 @@ if( !empty($products_objs) ) {
 	}
 }
 $product_types = apply_filters( 'wcfm_product_types', array('simple' => __('Simple Product', 'wc-frontend-manager'), 'variable' => __('Variable Product', 'wc-frontend-manager'), 'grouped' => __('Grouped Product', 'wc-frontend-manager'), 'external' => __('External/Affiliate Product', 'wc-frontend-manager') ) );
-$product_categories   = get_terms( 'product_cat', 'orderby=name&hide_empty=0&parent=0' );
+$product_categories   = apply_filters( 'wcfm_vendor_allowed_categories', get_terms( 'product_cat', 'orderby=name&hide_empty=0&parent=0' ) );
 
 ?>
 
@@ -336,7 +336,7 @@ $product_categories   = get_terms( 'product_cat', 'orderby=name&hide_empty=0&par
 		
 		if( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
 			?>
-			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('post-new.php?post_type=product'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-user-secret"></span></a>
+			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('post-new.php?post_type=product'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-wordpress"></span></a>
 			<?php
 		}
 		
@@ -381,7 +381,7 @@ $product_categories   = get_terms( 'product_cat', 'orderby=name&hide_empty=0&par
 						?>
 						<div class="wcfm_clearfix"></div>
 						
-						<?php if( $wcfm_is_allow_tags = apply_filters( 'wcfm_is_allow_tags', true ) ) { $catlimit = apply_filters( 'wcfm_catlimit', -1 ); ?>
+						<?php if( $wcfm_is_allow_category = apply_filters( 'wcfm_is_allow_category', true ) ) { $catlimit = apply_filters( 'wcfm_catlimit', -1 ); ?>
 							<p class="wcfm_title"><strong><?php _e( 'Categories', 'wc-frontend-manager' ); ?></strong></p><label class="screen-reader-text" for="product_cats"><?php _e( 'Categories', 'wc-frontend-manager' ); ?></label>
 							<select id="product_cats" name="product_cats[]" class="wcfm-select wcfm_ele simple variable external grouped booking" multiple="multiple" data-catlimit="<?php echo $catlimit; ?>" style="width: 100%; margin-bottom: 10px;">
 								<?php
@@ -391,33 +391,34 @@ $product_categories   = get_terms( 'product_cat', 'orderby=name&hide_empty=0&par
 								?>
 							</select>
 							<?php
-							
-							$product_taxonomies = get_object_taxonomies( 'product', 'objects' );
-							if( !empty( $product_taxonomies ) ) {
-								foreach( $product_taxonomies as $product_taxonomy ) {
-									if( !in_array( $product_taxonomy->name, array( 'product_cat', 'product_tag', 'wcpv_product_vendors' ) ) ) {
-										if( $product_taxonomy->public && $product_taxonomy->show_ui ) {
-											// Fetching Saved Values
-											$taxonomy_values_arr = array();
-											if($product && !empty($product)) {
-												$taxonomy_values = get_the_terms( $product_id, $product_taxonomy->name );
-												if( !empty($taxonomy_values) ) {
-													foreach($taxonomy_values as $pkey => $ptaxonomy) {
-														$taxonomy_values_arr[] = $ptaxonomy->term_id;
+							if( $wcfm_is_allow_custom_taxonomy = apply_filters( 'wcfm_is_allow_custom_taxonomy', true ) ) {
+								$product_taxonomies = get_object_taxonomies( 'product', 'objects' );
+								if( !empty( $product_taxonomies ) ) {
+									foreach( $product_taxonomies as $product_taxonomy ) {
+										if( !in_array( $product_taxonomy->name, array( 'product_cat', 'product_tag', 'wcpv_product_vendors' ) ) ) {
+											if( $product_taxonomy->public && $product_taxonomy->show_ui ) {
+												// Fetching Saved Values
+												$taxonomy_values_arr = array();
+												if($product && !empty($product)) {
+													$taxonomy_values = get_the_terms( $product_id, $product_taxonomy->name );
+													if( !empty($taxonomy_values) ) {
+														foreach($taxonomy_values as $pkey => $ptaxonomy) {
+															$taxonomy_values_arr[] = $ptaxonomy->term_id;
+														}
 													}
 												}
-											}
-											?>
-											<p class="wcfm_title"><strong><?php _e( $product_taxonomy->label, 'wc-frontend-manager' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $product_taxonomy->name; ?>"><?php _e( $product_taxonomy->label, 'wc-frontend-manager' ); ?></label>
-											<select id="<?php echo $product_taxonomy->name; ?>" name="product_custom_taxonomies[<?php echo $product_taxonomy->name; ?>][]" class="wcfm-select product_taxonomies wcfm_ele simple variable external grouped booking" multiple="multiple" style="width: 100%; margin-bottom: 10px;">
-												<?php
-													$product_taxonomy_terms   = get_terms( $product_taxonomy->name, 'orderby=name&hide_empty=0&parent=0' );
-													if ( $product_taxonomy_terms ) {
-														$this->generateTaxonomyHTML( $product_taxonomy->name, $product_taxonomy_terms, $taxonomy_values_arr );
-													}
 												?>
-											</select>
-											<?php
+												<p class="wcfm_title"><strong><?php _e( $product_taxonomy->label, 'wc-frontend-manager' ); ?></strong></p><label class="screen-reader-text" for="<?php echo $product_taxonomy->name; ?>"><?php _e( $product_taxonomy->label, 'wc-frontend-manager' ); ?></label>
+												<select id="<?php echo $product_taxonomy->name; ?>" name="product_custom_taxonomies[<?php echo $product_taxonomy->name; ?>][]" class="wcfm-select product_taxonomies wcfm_ele simple variable external grouped booking" multiple="multiple" style="width: 100%; margin-bottom: 10px;">
+													<?php
+														$product_taxonomy_terms   = get_terms( $product_taxonomy->name, 'orderby=name&hide_empty=0&parent=0' );
+														if ( $product_taxonomy_terms ) {
+															$this->generateTaxonomyHTML( $product_taxonomy->name, $product_taxonomy_terms, $taxonomy_values_arr );
+														}
+													?>
+												</select>
+												<?php
+											}
 										}
 									}
 								}
@@ -450,9 +451,10 @@ $product_categories   = get_terms( 'product_cat', 'orderby=name&hide_empty=0&par
 				<div class="wcfm-content">
 					<div class="wcfm_product_manager_content_fields">
 						<?php
+						$rich_editor = apply_filters( 'wcfm_is_allow_rich_editor', 'rich_editor' );
 						$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_product_manage_fields_content', array(
-																																																	"excerpt" => array('label' => __('Short Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele wcfm_full_ele simple variable external grouped booking' , 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $excerpt),
-																																																	"description" => array('label' => __('Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele wcfm_full_ele simple variable external grouped booking', 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $description),
+																																																	"excerpt" => array('label' => __('Short Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele wcfm_full_ele simple variable external grouped booking ' . $rich_editor , 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $excerpt),
+																																																	"description" => array('label' => __('Description', 'wc-frontend-manager') , 'type' => 'textarea', 'class' => 'wcfm-textarea wcfm_ele wcfm_full_ele simple variable external grouped booking ' . $rich_editor, 'label_class' => 'wcfm_title wcfm_full_ele', 'value' => $description),
 																																																	"pro_id" => array('type' => 'hidden', 'value' => $product_id)
 																																													), $product_id, $product_type ) );
 						?>
@@ -503,8 +505,8 @@ $product_categories   = get_terms( 'product_cat', 'orderby=name&hide_empty=0&par
 				
 				<?php if( $allow_shipping = apply_filters( 'wcfm_is_allow_shipping', true ) ) { ?>
 				<!-- collapsible 4 -->
-				<div class="page_collapsible products_manage_shipping simple variable nonvirtual booking non-appointment non-accommodation-booking" id="wcfm_products_manage_form_shipping_head"><label class="fa fa-truck"></label><?php _e('Shipping', 'wc-frontend-manager'); ?><span></span></div>
-				<div class="wcfm-container simple variable nonvirtual booking non-appointment non-accommodation-booking">
+				<div class="page_collapsible products_manage_shipping simple variable nonvirtual booking non-accommodation-booking" id="wcfm_products_manage_form_shipping_head"><label class="fa fa-truck"></label><?php _e('Shipping', 'wc-frontend-manager'); ?><span></span></div>
+				<div class="wcfm-container simple variable nonvirtual booking non-accommodation-booking">
 					<div id="wcfm_products_manage_form_shipping_expander" class="wcfm-content">
 						<?php
 						$WCFM->wcfm_fields->wcfm_generate_form_field( apply_filters( 'wcfm_product_manage_fields_shipping', array(  "weight" => array( 'label' => __('Weight', 'wc-frontend-manager') . ' ('.get_option( 'woocommerce_weight_unit', 'kg' ).')' , 'type' => 'text', 'class' => 'wcfm-text wcfm_ele simple variable booking', 'label_class' => 'wcfm_title', 'value' => $weight),
@@ -588,6 +590,27 @@ $product_categories   = get_terms( 'product_cat', 'orderby=name&hide_empty=0&par
 							  <p class="wcfm_title selectbox_title"><strong><?php _e( 'Default Form Values:', 'wc-frontend-manager' ); ?></strong></p>
 								<input type="hidden" name="default_attributes_hidden" data-name="default_attributes_hidden" value="<?php echo esc_attr( $default_attributes ); ?>" />
 							</div>
+						</p>
+						<p>
+						  <p class="variations_options wcfm_title"><strong><?php _e('Variations Bulk Options', 'wc-frontend-manager'); ?></strong></p>
+						  <label class="screen-reader-text" for="variations_options"><?php _e('Variations Bulk Options', 'wc-frontend-manager'); ?></label>
+						  <select id="variations_options" name="variations_options" class="wcfm-select wcfm_ele variable-subscription variable">
+						    <option value="" selected="selected"><?php _e( 'Choose option', 'wc-frontend-manager' ); ?></option>
+						    <optgroup label="<?php _e( 'Pricing', 'wc-frontend-manager' ); ?>">
+									<option value="set_regular_price"><?php _e( 'Regular prices', 'wc-frontend-manager' ); ?></option>
+									<option value="regular_price_increase"><?php _e( 'Regular price increase', 'wc-frontend-manager' ); ?></option>
+									<option value="regular_price_decrease"><?php _e( 'Regular price decrease', 'wc-frontend-manager' ); ?></option>
+									<option value="set_sale_price"><?php _e( 'Sale prices', 'wc-frontend-manager' ); ?></option>
+									<option value="sale_price_increase"><?php _e( 'Sale price increase', 'wc-frontend-manager' ); ?></option>
+									<option value="sale_price_decrease"><?php _e( 'Sale price decrease', 'wc-frontend-manager' ); ?></option>
+								</optgroup>
+								<optgroup label="<?php _e( 'Shipping', 'wc-frontend-manager' ); ?>">
+								  <option value="set_length"><?php _e( 'Length', 'wc-frontend-manager' ); ?></option>
+								  <option value="set_width"><?php _e( 'Width', 'wc-frontend-manager' ); ?></option>
+								  <option value="set_height"><?php _e( 'Height', 'wc-frontend-manager' ); ?></option>
+								  <option value="set_weight"><?php _e( 'Weight', 'wc-frontend-manager' ); ?></option>
+								</optgroup>
+						  </select>
 						</p>
 						<?php
 						 $WCFM->wcfm_fields->wcfm_generate_form_field( array(  

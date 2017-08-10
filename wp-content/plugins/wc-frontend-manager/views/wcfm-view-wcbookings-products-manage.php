@@ -77,7 +77,7 @@ if( isset( $wp->query_vars['wcfm-products-manage'] ) && !empty( $wp->query_vars[
 <div class="wcfm_clearfix"></div>
 
 <!-- Collapsible Booking 3  -->
-<div class="page_collapsible products_manage_costs booking" id="wcfm_products_manage_form_costs_head"><label class="fa fa-dollar"></label><?php _e('Costs', 'woocommerce-bookings'); ?><span></span></div>
+<div class="page_collapsible products_manage_costs booking" id="wcfm_products_manage_form_costs_head"><label class="fa fa-currency"><?php echo get_woocommerce_currency_symbol() ; ?></label><?php _e('Costs', 'woocommerce-bookings'); ?><span></span></div>
 <div class="wcfm-container booking">
 	<div id="wcfm_products_manage_form_costs_expander" class="wcfm-content">
 		<?php

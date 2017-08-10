@@ -1,7 +1,7 @@
 <?php
 /**
  * @package WC_Product_Customer_List
- * @version 2.5.1
+ * @version 2.5.4
  */
 
 // Load metabox at bottom of product admin screen
@@ -72,6 +72,7 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 
 		$product = WC()->product_factory->get_product( $post );
 		$columns = array();
+		$columns[] = __('Email', 'wc-product-customer-list');
 		if(get_option( 'wpcl_order_number', 'yes' ) == 'yes') { $columns[] = __('Order', 'wc-product-customer-list'); }
 		if(get_option( 'wpcl_order_date', 'no' ) == 'yes') {$columns[] = __('Date', 'wc-product-customer-list'); }
 		if(get_option( 'wpcl_billing_first_name', 'yes' ) == 'yes') { $columns[] = __('Billing First name', 'wc-product-customer-list'); }
@@ -96,8 +97,9 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 		if(get_option( 'wpcl_customer_id','no' ) == 'yes') { $columns[] = __('Customer ID', 'wc-product-customer-list'); }
 		if(get_option( 'wpcl_order_status','no' ) == 'yes') { $columns[] = __('Order Status', 'wc-product-customer-list'); }
 		if(get_option( 'wpcl_order_payment', 'no' ) == 'yes') { $columns[] = __('Payment method', 'wc-product-customer-list'); }
+		if(get_option( 'wpcl_order_shipping', 'no' ) == 'yes') { $columns[] = __('Shipping method', 'wc-product-customer-list'); }
 		if( $product->get_type() == 'variable' ) { $columns[] = __('Variation', 'wc-product-customer-list'); }
-		if(get_option( 'wpcl_order_total', 'yes' ) == 'yes') { $columns[] = __('Order total', 'wc-product-customer-list'); }
+		if(get_option( 'wpcl_order_total', 'no' ) == 'yes') { $columns[] = __('Order total', 'wc-product-customer-list'); }
 		if(get_option( 'wpcl_order_qty', 'yes' ) == 'yes') { $columns[] = __('Qty', 'wc-product-customer-list'); }
 		?>
 
@@ -123,10 +125,13 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 							$order = wc_get_order( $sale->order_id );
 								?>
 								<tr>
+									<td class="email">
+										<?php echo $order->get_billing_email(); ?>
+									</td>
 									<?php if(get_option( 'wpcl_order_number', 'yes' ) == 'yes') { ?>
 									<td>
 										<p>
-											<?php echo '<a href="' . admin_url( 'post.php' ) . '?post=' . $order->get_order_number() . '&action=edit" target="_blank">' . $order->get_order_number() . '</a>'; ?>
+											<?php echo '<a href="' . admin_url( 'post.php' ) . '?post=' . $sale->order_id . '&action=edit" target="_blank">' . $sale->order_id . '</a>'; ?>
 										</p>
 									</td>
 									<?php } ?>
@@ -298,18 +303,25 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 										</p>
 									</td>
 									<?php } ?>
+									<?php if(get_option( 'wpcl_order_shipping','no' ) == 'yes') { ?>
+									<td>
+										<p>
+											<?php echo $order->get_shipping_method() ; ?>
+										</p>
+									</td>
+									<?php } ?>
+									
 									<?php if( 'variable' == $product->get_type() ) {
+										$item = $order->get_item($sale->order_item_id);
 										?>
 										<td>
 											<p>
-												<?php
-													$item = $order->get_item($sale->order_item_id);
-													if($item) {
-														foreach($item->get_formatted_meta_data() as $itemvariation) {
-															echo $itemvariation->display_value;
-														}
-													} 
-												?>
+												<?php 
+
+													foreach($item->get_meta_data() as $itemvariation) {
+														echo '<strong>' . wc_attribute_label($itemvariation->key) . '</strong>: &nbsp;' . wc_attribute_label($itemvariation->value) . '<br />';
+													}
+												 ?>
 											</p>
 										</td>
 									<?php } ?>
@@ -347,6 +359,7 @@ if( ! function_exists('wpcl_post_class_meta_box') ) {
 					</p>
 				<?php } ?>
 					<a href="mailto:?bcc=<?php echo $email_list; ?>" class="button"><?php _e('Email all customers', 'wc-product-customer-list'); ?></a>
+					<a href="#" class="button" id="email-selected" disabled><?php _e('Email selected customers', 'wc-product-customer-list'); ?></a>
 					<?php do_action('wpcl_after_email_button', $email_list); ?>
 						<?php
 				} else {

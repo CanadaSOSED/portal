@@ -16,110 +16,75 @@ class WCMp_Shortcode {
 
     public function __construct() {
         //new vendor dashboard
-        add_shortcode('wcmp_vendor', array(&$this, 'wcmp_vendor_shortcode'));
-        // Vendor Order Detail
-        //add_shortcode('vendor_order_detail', array(&$this, 'vendor_order_detail_shortcode'));
+        add_shortcode('wcmp_vendor', array(&$this, 'wcmp_vendor_dashboard_shortcode'));
+        
+        //Vendor Registration
+        add_shortcode('vendor_registration', array(&$this, 'wcmp_vendor_registration_shortcode'));
+        
         // Vendor Coupons
         add_shortcode('vendor_coupons', array(&$this, 'vendor_coupons_shortcode'));
-
-//        add_shortcode('transaction_thankyou', array(&$this, 'vendor_transaction_thankyou'));
+        
         // Recent Products 
         add_shortcode('wcmp_recent_products', array(&$this, 'wcmp_show_recent_products'));
+        
         // Products by vendor
         add_shortcode('wcmp_products', array(&$this, 'wcmp_show_products'));
-
-        //add_shortcode('wcmp_recent_products', array(&$this, 'wcmp_recent_products'));
+        
         //Featured products by vendor
         add_shortcode('wcmp_featured_products', array(&$this, 'wcmp_show_featured_products'));
+        
         // Sale products by vendor
         add_shortcode('wcmp_sale_products', array(&$this, 'wcmp_show_sale_products'));
+        
         // Top Rated products by vendor 
         add_shortcode('wcmp_top_rated_products', array(&$this, 'wcmp_show_top_rated_products'));
+        
         // Best Selling product 
         add_shortcode('wcmp_best_selling_products', array(&$this, 'wcmp_show_best_selling_products'));
+        
         // List products in a category shortcode
         add_shortcode('wcmp_product_category', array(&$this, 'wcmp_show_product_category'));
+        
         // List of paginated vendors 
         add_shortcode('wcmp_vendorslist', array(&$this, 'wcmp_show_vendorslist'));
-        //Vendor Registration
-        add_shortcode('vendor_registration', array(&$this, 'vendor_registration_shortcode'));
     }
-
-    function wcmp_vendor_shortcode($attr) {
-        $this->load_class('vendor-dashboard');
-        return $this->shortcode_wrapper(array('WCMp_Vendor_Dashboard_Shortcode', 'output'));
-    }
-
-    /*
-     * Vendor Registration shortcode
-     */
-
-    function vendor_registration_shortcode($attr) {
-        global $WCMp;
-//            if(is_user_logged_in()){
-//                wp_safe_redirect(get_permalink( get_option('woocommerce_myaccount_page_id')));
-//            }
-        $this->load_class('vendor-registration');
-        return $this->shortcode_wrapper(array('WCMp_Vendor_Registration_Shortcode', 'output'));
-    }
-
     /**
-     * Vendor Shipping Settings
-     *
-     * @return void
+     * Render vendor dashboard
+     * @return object
      */
-    public function vendor_shipping_settings_shortcode($attr) {
-        global $WCMp;
-        $this->load_class('vendor-shipping-settings');
-        return $this->shortcode_wrapper(array('WCMp_Vendor_Shipping_Settings_Shortcode', 'output'));
+    public static function wcmp_vendor_dashboard_shortcode() {
+        self::load_class('vendor-dashboard');
+        return self::shortcode_wrapper(array('WCMp_Vendor_Dashboard_Shortcode', 'output'));
     }
-
+    /**
+     * Render Vendor Registration page
+     * @return object
+     */
+    public static function wcmp_vendor_registration_shortcode() {
+        self::load_class('vendor-registration');
+        return self::shortcode_wrapper(array('WCMp_Vendor_Registration_Shortcode', 'output'));
+    }
+    
     /**
      * vendor orer detail
      *
      * @return void
      */
-//    public function vendor_order_detail_shortcode($attr) {
-//        global $WCMp;
-//        $this->load_class('vendor-view-order-dtl');
-//        return $this->shortcode_wrapper(array('WCMp_Vendor_Order_Detail_Shortcode', 'output'));
-//    }
-
-    /**
-     * vendor orer detail
-     *
-     * @return void
-     */
-    public function vendor_coupons_shortcode($attr) {
-        global $WCMp;
-        $this->load_class('vendor-used-coupon');
-        return $this->shortcode_wrapper(array('WCMp_Vendor_Coupon_Shortcode', 'output'));
+    public static function vendor_coupons_shortcode($attr) {
+        self::load_class('vendor-used-coupon');
+        return self::shortcode_wrapper(array('WCMp_Vendor_Coupon_Shortcode', 'output'));
     }
-
-    /**
-     * Vendor Thank You
-     *
-     * @return void
-     */
-//    public function vendor_transaction_thankyou($attr) {
-//        global $WCMp;
-//        $this->load_class('vendor-withdrawal-request');
-//        return $this->shortcode_wrapper(array('WCMp_Vendor_Withdrawal_Request_Shortcode', 'output'));
-//    }
-
+    
     /**
      * Helper Functions
-     */
-
-    /**
      * Shortcode Wrapper
-     *
+     * 
      * @access public
      * @param mixed $function
      * @param array $atts (default: array())
      * @return string
      */
-    public function shortcode_wrapper($function, $atts = array()) {
+    public static function shortcode_wrapper($function, $atts = array()) {
         ob_start();
         call_user_func($function, $atts);
         return ob_get_clean();
@@ -132,7 +97,7 @@ class WCMp_Shortcode {
      * @param mixed $class_name
      * @return void
      */
-    public function load_class($class_name = '') {
+    public static function load_class($class_name = '') {
         global $WCMp;
         if ('' != $class_name && '' != $WCMp->token) {
             require_once ('shortcode/class-' . esc_attr($WCMp->token) . '-shortcode-' . esc_attr($class_name) . '.php');
@@ -150,8 +115,9 @@ class WCMp_Shortcode {
 
         if (!empty($vendor_id)) {
             $author = $vendor_id->ID;
-        } else
+        } else {
             $author = '';
+        }
 
         return $author;
     }
@@ -335,7 +301,7 @@ class WCMp_Shortcode {
      * @return string
      */
 
-    public function wcmp_recent_products($atts) {
+    public static function wcmp_recent_products($atts) {
         global $woocommerce_loop, $WCMp;
 
         if (empty($atts))
@@ -839,87 +805,10 @@ class WCMp_Shortcode {
      * 
      * 	@param $atts shortcode attributs 
      */
-    public function wcmp_show_vendorslist($atts) {
+    public static function wcmp_show_vendorslist($atts) {
         global $WCMp;
-        $vendors_available = false;
-        $get_all_vendors = array();
-        $select_html = '';
-
-        extract(shortcode_atts(array(
-            'orderby' => 'registered',
-            'order' => 'ASC',
-                        ), $atts));
-
-        $vendors = '';
-        $vendor_sort_type = '';
-        if (isset($_GET['vendor_sort_type'])) {
-            if ($_GET['vendor_sort_type'] == 'category') {
-                $vendors_ids = array();
-                $vendor_sort_type = $_GET['vendor_sort_type'];
-                $selected_category = $_GET['vendor_sort_category'];
-
-                $args = array('post_type' => 'product',
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'product_cat',
-                            'field' => 'term_id',
-                            'terms' => $selected_category
-                        )
-                    )
-                );
-
-                $wp_obj = new WP_Query($args);
-                $sorted_products = $wp_obj->posts;
-
-                if (isset($sorted_products) && !empty($sorted_products)) {
-                    foreach ($sorted_products as $sorted_product) {
-                        $vendor_obj = get_wcmp_product_vendors($sorted_product->ID);
-                        if (isset($vendor_obj) && !empty($vendor_obj)) {
-                            if (!in_array($vendor_obj->id, $vendors_ids)) {
-                                $vendors_ids[] = $vendor_obj->id;
-                                $get_all_vendors[] = new WCMp_Vendor($vendor_obj->id);
-                                $vendors_available = true;
-                            }
-                        }
-                    }
-                }
-            } else {
-                $vendor_sort_type = $_GET['vendor_sort_type'];
-                $orderby = $vendor_sort_type;
-                $order = 'ASC';
-            }
-        }
-
-        if (!$vendors_available) {
-            $get_all_vendors = get_wcmp_vendors(array('orderby' => $orderby, 'order' => $order));
-        }
-
-        $get_blocked = wcmp_get_all_blocked_vendors();
-        $get_block_array = array();
-        if (!empty($get_blocked)) {
-            foreach ($get_blocked as $get_block) {
-                $get_block_array[] = (int) $get_block->id;
-            }
-        }
-        if (!empty($get_all_vendors) && is_array($get_all_vendors)) {
-            $i = 0;
-            foreach ($get_all_vendors as $get_vendor) {
-                if (in_array($get_vendor->id, $get_block_array))
-                    continue;
-                if (!$get_vendor->image)
-                    $get_vendor->image = $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
-                $vendor_info_array[$i]['vendor_permalink'] = $get_vendor->permalink;
-                $vendor_info_array[$i]['vendor_name'] = $get_vendor->user_data->display_name;
-                $vendor_info_array[$i]['vendor_image'] = $get_vendor->image;
-                $vendor_info_array[$i]['ID'] = $get_vendor->id;
-                $vendor_info_array[$i]['term_id'] = $get_vendor->term_id;
-                $vendor_info = apply_filters('wcmp_vendor_lits_vendor_info_fields', $vendor_info_array);
-                $i++;
-            }
-        }
-        $WCMp->template->get_template('shortcode/vendor_lists.php', array('vendor_info' => $vendor_info));
-        //return $vendors;
+        self::load_class('vendor-list');
+        return self::shortcode_wrapper(array('WCMp_Shortcode_Vendor_List', 'output'), $atts);
     }
 
 }
-?>

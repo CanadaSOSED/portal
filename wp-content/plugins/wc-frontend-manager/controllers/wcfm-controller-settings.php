@@ -61,19 +61,6 @@ class WCFM_Settings_Controller {
 		
 	  update_option( 'wcfm_options', $options );
 	  
-	  do_action( 'wcfm_capability_update', $wcfm_settings_form );
-	  
-	  // Save WCFM capability option
-		if( isset( $wcfm_settings_form['wcfm_capability_options'] ) ) {
-			update_option( 'wcfm_capability_options', $wcfm_settings_form['wcfm_capability_options'] );
-		} else {
-			update_option( 'wcfm_capability_options', array() ); 
-		}
-	  
-		if( wcfm_is_marketplace() ) {
-			$WCFM->wcfm_vendor_support->vendors_capability_option_updates();
-		}
-		
 		// Init WCFM Custom CSS file
 		$wcfm_style_custom = $WCFM->wcfm_create_custom_css();
 		 

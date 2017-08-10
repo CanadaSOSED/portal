@@ -2,8 +2,8 @@
 Contributors: kokomoweb
 Tags: woocommerce, customer list, who bought, admin order list, product-specific, export customers to csv, email customers, customer list, customer, list, print
 Requires at least: 4.0
-Tested up to: 4.8
-Stable tag: 2.5.1
+Tested up to: 4.8.1
+Stable tag: 2.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,9 +19,10 @@ Great for sending out e-mails to customers for product recalls or for courses.
 
 * Support for variable products
 * Options page to select which info columns to display
-* Displays customer name, email, phone number, address, order number, order date and quantity for each product
+* Displays customer name, email, phone number, address, order number, order date, shipping method, order total and quantity for each product
 * Shortcode to display orders in the front-end (beta)
 * Button to e-mail all customers for a specific product using your favorite e-mail client (b.c.c.)
+* Email selected customers
 * Export the customer list to CSV (great for importing into Mailchimp!)
 * Export the customer list to Excel
 * Export the customer list to PDF (choose your orientation and page size in the settings)
@@ -87,6 +88,22 @@ There is currently only one hook, that enables you to add content after the “e
 2. The settings page.
 
 == Changelog ==
+
+= 2.5.5 =
+* Fixed datatables related javascript errors
+* Added missing translation in settings page
+
+= 2.5.4 =
+* Fixed bug where some variations wouldn’t display (again!)
+
+= 2.5.3 =
+* Fixed bug where some variations wouldn’t display
+* Added row selection for emails
+* Added shipping method column
+* Updated screenshots
+
+= 2.5.2 =
+* Added dropdown to select list length
 
 = 2.5.1 =
 * Added hook “wpcl_after_email_button” to display content after the email button.

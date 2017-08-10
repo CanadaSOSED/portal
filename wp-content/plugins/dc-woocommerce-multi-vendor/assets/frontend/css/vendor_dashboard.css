@@ -426,7 +426,7 @@ display:block;
 .wcmp_form1 .select_box{
 	height:43px;
 	border:1px solid #dedede;
-	line-height:43px;
+	line-height:1.6;
 	color:#777;
 	width:100%;
 	font-size:13px;
@@ -467,8 +467,8 @@ display:block;
 
 
 .input-group-addon{
-  background-color:transparent;
-    border: 0px solid #ccc;
+  background-color:transparent !important;
+    border: 0px solid #ccc !important;
    float:right;
    color:#dadada;
    font-size:12px;
@@ -1917,4 +1917,7 @@ table.customer_order_dtl th, table.customer_order_dtl td, table.customer_order_d
 }
 table.customer_order_dtl label{
 	margin: 0;
+}
+.popup-content p {
+   margin: 15px 0 5px;
 }

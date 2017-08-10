@@ -174,10 +174,10 @@ div.rowhead div.rowsub{
 	}
 	
 }
-.singleproductmultivendor_tab .container, .woocommerce-Tabs-panel--singleproductmultivendor .container{
+.singleproductmultivendor_tab .container, .woocommerce-Tabs-panel--singleproductmultivendor .container, #tab-singleproductmultivendor .container{
 	max-width: 100%;
 } 
-.singleproductmultivendor_tab .wc-accordion-content, .woocommerce-Tabs-panel--singleproductmultivendor, .woocommerce-tabs .tab-panels, #content_tab_singleproductmultivendor{
+.singleproductmultivendor_tab .wc-accordion-content, .woocommerce-Tabs-panel--singleproductmultivendor, .woocommerce-tabs .tab-panels, #content_tab_singleproductmultivendor, #tab-singleproductmultivendor{
 	position: relative;
 } 
 .ajax_loader_class_msg {

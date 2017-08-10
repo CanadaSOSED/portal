@@ -49,9 +49,6 @@ class WCMp_Ajax {
         add_action('wp_ajax_wcmp_dismiss_dashboard_announcements', array($this, 'wcmp_dismiss_dashboard_message'));
         add_action('wp_ajax_nopriv_wcmp_dismiss_dashboard_announcements', array($this, 'wcmp_dismiss_dashboard_message'));
 
-        // Sort vendors by category
-        add_action('wp_ajax_vendor_list_by_category', array($this, 'vendor_list_by_category'));
-        add_action('wp_ajax_nopriv_vendor_list_by_category', array($this, 'vendor_list_by_category'));
         if (get_wcmp_vendor_settings('is_singleproductmultiseller', 'general') == 'Enable') {
             // Product auto suggestion
             add_action('wp_ajax_wcmp_auto_search_product', array($this, 'wcmp_auto_suggesion_product'));
@@ -71,6 +68,11 @@ class WCMp_Ajax {
         add_action('wp_ajax_nopriv_wcmp_load_more_review_rating_vendor', array($this, 'wcmp_load_more_review_rating_vendor'));
 
         add_action('wp_ajax_wcmp_save_vendor_registration_form', array(&$this, 'wcmp_save_vendor_registration_form_callback'));
+        
+        add_action('wp_ajax_dismiss_wcmp_servive_notice', array(&$this, 'dismiss_wcmp_servive_notice'));
+        // search filter vendors from widget
+        add_action('wp_ajax_vendor_list_by_search_keyword', array($this, 'vendor_list_by_search_keyword'));
+        add_action('wp_ajax_nopriv_vendor_list_by_search_keyword', array($this, 'vendor_list_by_search_keyword'));
     }
 
     public function wcmp_save_vendor_registration_form_callback() {
@@ -177,25 +179,6 @@ class WCMp_Ajax {
         } else {
             echo "<div>" . __('No Suggestion found', 'dc-woocommerce-multi-vendor') . "</div>";
         }
-        die;
-    }
-
-    function vendor_list_by_category() {
-        global $WCMp;
-        $html = '';
-
-        $category_terms = get_terms('product_cat');
-
-        $html = '&nbsp&nbsp&nbsp<select class="select" id="vendor_sort_category" name="vendor_sort_category">';
-
-        foreach ($category_terms as $terms) {
-            $html .= '<option value="' . $terms->term_id . '">' . $terms->name . '</option>';
-        }
-
-        $html .= '</select>';
-
-        echo $html;
-
         die;
     }
 
@@ -1076,8 +1059,8 @@ class WCMp_Ajax {
         $user = new WP_User(absint($user_id));
         $user->remove_role('dc_pending_vendor');
         $user->remove_role('dc_rejected_vendor');
-        //$WCMp->user->update_vendor_meta($user_id);
-        $user->add_role('dc_vendor');
+        $WCMp->user->update_vendor_meta($user_id);
+        $user->set_role('dc_vendor');
         $WCMp->user->add_vendor_caps($user_id);
         $vendor = get_wcmp_vendor($user_id);
         $vendor->generate_term();
@@ -1162,6 +1145,84 @@ class WCMp_Ajax {
             /* === Send Mail === */
             $response = wp_mail($to, $subject, $message, $headers);
         }
+        die();
+    }
+    /**
+     * Set a flag while dismiss WCMp service notice
+     */
+    public function dismiss_wcmp_servive_notice(){
+        $updated = update_option('_is_dismiss_service_notice', true);
+        echo $updated;
+        die();
+    }
+
+    function vendor_list_by_search_keyword() {
+        global $WCMp;
+        // check vendor_search_nonce
+        if( !isset( $_POST['vendor_search_nonce'] ) || !wp_verify_nonce( $_POST['vendor_search_nonce'], 'wcmp_widget_vendor_search_form' ) ) {
+            die();
+        }
+        $html = '';
+        if(!empty(sanitize_text_field($_POST['s']))){
+            $args =array(
+                'search' => '*'.esc_attr( $_POST['s'] ).'*',
+                'search_columns' => array( 'display_name' ),
+                'meta_query' => array(
+                    'relation' => 'OR',
+                    array(
+                        'key'     => 'first_name',
+                        'value'   => esc_attr( $_POST['s'] ),
+                        'compare' => 'LIKE'
+                    ),
+                    array(
+                        'key'     => 'last_name',
+                        'value'   => esc_attr( $_POST['s'] ),
+                        'compare' => 'LIKE'
+                    )
+                )
+            );
+            $vendors = get_wcmp_vendors($args);
+
+            if($vendors) {
+                foreach($vendors as $vendors_key => $vendor) {
+                    if(!$vendor->image) $vendor->image = $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
+                    $html .= '<div style=" width: 100%; margin-bottom: 5px; clear: both; display: block;">
+                    <div style=" width: 25%;  display: inline;">        
+                    <img width="50" height="50" class="vendor_img" style="display: inline;" src="'.$vendor->image.'" id="vendor_image_display">
+                    </div>
+                    <div style=" width: 75%;  display: inline;  padding: 10px;">
+                            <a href="'.esc_attr( $vendor->permalink ).'">
+                                '.$vendor->user_data->display_name.'
+                            </a>
+                    </div>
+                </div>';
+                }
+            }else{
+                $html .= '<div style=" width: 100%; margin-bottom: 5px; clear: both; display: block;">
+                    <div style="display: inline;  padding: 10px;">
+                        '.__('No Vendor Matched!', 'dc-woocommerce-multi-vendor').'
+                    </div>
+                </div>';
+            }
+        }else{
+            $vendors = get_wcmp_vendors();
+            if($vendors) {
+                foreach($vendors as $vendors_key => $vendor) {
+                    if(!$vendor->image) $vendor->image = $WCMp->plugin_url . 'assets/images/WP-stdavatar.png';
+                    $html .= '<div style=" width: 100%; margin-bottom: 5px; clear: both; display: block;">
+                    <div style=" width: 25%;  display: inline;">        
+                    <img width="50" height="50" class="vendor_img" style="display: inline;" src="'.$vendor->image.'" id="vendor_image_display">
+                    </div>
+                    <div style=" width: 75%;  display: inline;  padding: 10px;">
+                            <a href="'.esc_attr( $vendor->permalink ).'">
+                                '.$vendor->user_data->display_name.'
+                            </a>
+                    </div>
+                </div>';
+                }
+            }
+        }
+        echo $html;
         die();
     }
 

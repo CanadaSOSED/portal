@@ -75,6 +75,7 @@ class WCFM_Orders_Controller {
 				$wcfm_orders_json_arr[$index][] =  '<span class="order-status tips wcicon-status-' . sanitize_title( $the_order->get_status() ) . ' text_tip" data-tip="' . wc_get_order_status_name( $the_order->get_status() ) . '"></span>';
 				
 				// Order
+				$user_info = array();
 				if ( $the_order->user_id ) {
 					$user_info = get_userdata( $the_order->user_id );
 				}
@@ -99,7 +100,11 @@ class WCFM_Orders_Controller {
 					}
 				}
 
-				$wcfm_orders_json_arr[$index][] =  '<a href="' . get_wcfm_view_order_url($wcfm_orders_single->ID, $the_order) . '" class="wcfm_order_title">#' . esc_attr( $the_order->get_order_number() ) . '</a> by ' . $username;
+				if( $wcfm_is_allow_order_details = apply_filters( 'wcfm_is_allow_order_details', true ) ) {
+					$wcfm_orders_json_arr[$index][] =  '<a href="' . get_wcfm_view_order_url($wcfm_orders_single->ID, $the_order) . '" class="wcfm_dashboard_item_title">#' . esc_attr( $the_order->get_order_number() ) . '</a> by ' . $username;
+				} else {
+					$wcfm_orders_json_arr[$index][] =  '<span class="wcfm_dashboard_item_title">#' . esc_attr( $the_order->get_order_number() ) . '</span> by ' . $username;
+				}
 				
 				// Purchased
 				$order_item_details = '<div class="order_items" cellspacing="0">';
@@ -135,7 +140,10 @@ class WCFM_Orders_Controller {
 				$wcfm_orders_json_arr[$index][] = '<abbr title="' . esc_attr( $t_time ) . '">' . esc_html( apply_filters( 'post_date_column_time', $h_time, $wcfm_orders_single ) ) . '</abbr>';
 				
 				// Action
-				$actions = '<a class="wcfm-action-icon" href="' . get_wcfm_view_order_url($wcfm_orders_single->ID, $the_order) . '"><span class="fa fa-eye text_tip" data-tip="' . esc_attr__( 'View Details', 'wc-frontend-manager' ) . '"></span></a>';
+				$actions = '';
+				if( $wcfm_is_allow_order_details = apply_filters( 'wcfm_is_allow_order_details', true ) ) {
+					$actions = '<a class="wcfm-action-icon" href="' . get_wcfm_view_order_url($wcfm_orders_single->ID, $the_order) . '"><span class="fa fa-eye text_tip" data-tip="' . esc_attr__( 'View Details', 'wc-frontend-manager' ) . '"></span></a>';
+				}
 				
 				if( !WCFM_Dependencies::wcfmu_plugin_active_check() ) {
 					if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {      

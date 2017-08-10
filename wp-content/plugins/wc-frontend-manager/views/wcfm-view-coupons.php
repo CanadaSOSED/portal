@@ -24,16 +24,16 @@ if( !current_user_can( 'edit_shop_coupons' ) ) {
 			if( !WCFM_Dependencies::wcfmu_plugin_active_check() ) {
 				if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
 					?>
-					<span class="wcfm_screen_manager_dummy text_tip" data-tip="<?php wcfmu_feature_help_text_show( 'Screen Manager', false, true ); ?>"><span class="fa fa-cog"></span></span>
+					<span class="wcfm_screen_manager_dummy text_tip" data-tip="<?php wcfmu_feature_help_text_show( 'Screen Manager', false, true ); ?>"><span class="fa fa-television"></span></span>
 					<?php
 				}
 			} else {
 				?>
-				<a class="wcfm_screen_manager text_tip" href="#" data-screen="coupon" data-tip="<?php _e( 'Screen Manager', 'wc-frontend-manager' ); ?>"><span class="fa fa-cog"></span></a>
+				<a class="wcfm_screen_manager text_tip" href="#" data-screen="coupon" data-tip="<?php _e( 'Screen Manager', 'wc-frontend-manager' ); ?>"><span class="fa fa-television"></span></a>
 				<?php
 			}
 			?>
-			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=shop_coupon'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-user-secret"></span></a>
+			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('edit.php?post_type=shop_coupon'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-wordpress"></span></a>
 			<?php
 		}
 		if( $has_new = apply_filters( 'wcfm_add_new_coupon_sub_menu', true ) ) {

@@ -512,6 +512,8 @@ function resetCollapsHeight(multi_input_holder) {
 	if (jQuery(window).width() > 640) {
 		if( multi_input_holder.attr('id') != 'gallery_img' ) {
 			var wrapHeight = multi_input_holder.parent().height();
+			//console.log(multi_input_holder.parent().attr('id'));
+			//console.log(collapsHeight +"::"+ wrapHeight);
 			if(collapsHeight > wrapHeight) {
 				jQuery('.wcfm-tabWrap').css('height', collapsHeight );
 				jQuery(document.body).trigger('wcfm_product_tabwrap_changed', collapsHeight );

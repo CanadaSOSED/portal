@@ -103,7 +103,7 @@ class WC_Vendors_Report_Sales_By_Date extends WC_Admin_Report {
 		// Enable big selects for reports
 		$wpdb->query( 'SET SESSION SQL_BIG_SELECTS=1' );
 
-		$results = $wpdb->get_results( $wpdb->prepare( $sql, get_current_user_id() ) );
+		$results = $wpdb->get_results( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', get_current_user_id() ) ) );
 
 		$total_shipping_amount          = 0.00;
 		$total_tax_amount               = 0.00;
@@ -319,7 +319,7 @@ class WC_Vendors_Report_Sales_By_Date extends WC_Admin_Report {
 		// Enable big selects for reports
 		$wpdb->query( 'SET SESSION SQL_BIG_SELECTS=1' );
 		
-		$results = $wpdb->get_results( $wpdb->prepare( $sql, get_current_user_id() ) );
+		$results = $wpdb->get_results( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', get_current_user_id() ) ) );
 
 		// Prepare data for report
 		$order_counts         = $this->prepare_chart_data( $results, 'time', 'count', $this->chart_interval, $this->start_date, $this->chart_groupby );
@@ -383,7 +383,7 @@ class WC_Vendors_Report_Sales_By_Date extends WC_Admin_Report {
 		// Enable big selects for reports
 		$wpdb->query( 'SET SESSION SQL_BIG_SELECTS=1' );
 		
-		$results = $wpdb->get_results( $wpdb->prepare( $sql, get_current_user_id() ) );
+		$results = $wpdb->get_results( $wpdb->prepare( $sql, apply_filters( 'wcfm_current_vendor_id', get_current_user_id() ) ) );
 		
 		$shipping_amounts     = $this->prepare_chart_data( $results, 'time', 'total_shipping', $this->chart_interval, $this->start_date, $this->chart_groupby );
 		

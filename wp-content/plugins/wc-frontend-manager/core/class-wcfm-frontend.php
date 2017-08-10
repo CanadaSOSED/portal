@@ -111,7 +111,8 @@ class WCFM_Frontend {
 		$allowed_roles = apply_filters( 'wcfm_allwoed_user_rols',  array( 'administrator', 'shop_manager' ) );
 		if ( !array_intersect( $allowed_roles, (array) $user->roles ) )  return;
 				
-		if( wcfm_is_vendor() && ( get_current_user_id() != $post->post_author ) ) return;
+		$current_user = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
+		if( wcfm_is_vendor() && ( $current_user != $post->post_author ) ) return;
 		
 		$pro_id = $post->ID;
 		$_product = wc_get_product($pro_id);

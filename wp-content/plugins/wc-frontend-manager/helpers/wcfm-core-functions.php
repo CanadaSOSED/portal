@@ -80,6 +80,36 @@ if(!function_exists('wcfmu_feature_help_text_show')) {
 	}
 }
 
+if(!function_exists('wcfmgs_feature_help_text_show')) {
+	function wcfmgs_feature_help_text_show( $feature, $only_admin = false, $text_only = false ) {
+		
+		if( wcfm_is_vendor() ) {
+			if( !$only_admin ) {
+				if( $text_only ) {
+					_e( $feature . ': Please contact your Store Admin to avail this feature.', 'wc-frontend-manager' );
+				} else {
+					?>
+					<div id="wcfmu-feature-missing-message" class="wcfm-warn-message wcfm-wcfmu" style="display: block;">
+						<p><span class="fa fa-warning"></span>
+						<?php printf( __( '%s' . $feature . '%s: Please contact your %sStore Admin%s to avail this feature.', 'wc-frontend-manager' ), '<strong>', '</strong>', '<strong>', '</strong>' ); ?></p>
+					</div>
+					<?php
+				}
+			}
+		} else {
+			if( $text_only ) {
+				_e( $feature . ': Upgrade your WCFM to WCFM Groups & Staffs to avail this feature.', 'wc-frontend-manager' );
+			} else {
+				?>
+				<div id="wcfmu-feature-missing-message" class="wcfm-warn-message wcfm-wcfmu" style="display: block;">
+					<p><span class="fa fa-warning"></span><?php printf( __( '%s' . $feature . '%s: Upgrade your WCFM to %sWCFM Groups & Staffs%s to avail this feature.', 'wc-frontend-manager' ), '<strong>', '</strong>', '<a target="_blank" href="http://wclovers.com/product/woocommerce-frontend-manager-groups-staffs/"><strong>', '</strong></a>' ); ?></p>
+				</div>
+				<?php
+			}
+		}
+	}
+}
+
 if( !function_exists( 'wcfm_is_marketplace' ) ) {
 	function wcfm_is_marketplace() {
 		$active_plugins = (array) get_option( 'active_plugins', array() );
@@ -115,7 +145,7 @@ if( !function_exists( 'wcfm_is_vendor' ) ) {
 			}
 		}
 		
-		return false;
+		return apply_filters( 'wcfm_is_vendor', false );
 	}
 }
 
@@ -310,6 +340,15 @@ if(!function_exists('get_wcfm_settings_url')) {
 	}
 }
 
+if(!function_exists('get_wcfm_capability_url')) {
+	function get_wcfm_capability_url() {
+		global $WCFM;
+		$wcfm_page = get_wcfm_page();
+		$get_wcfm_capability_url = wcfm_get_endpoint_url( 'wcfm-capability', '', $wcfm_page );
+		return $get_wcfm_capability_url;
+	}
+}
+
 if(!function_exists('get_wcfm_knowledgebase_url')) {
 	function get_wcfm_knowledgebase_url() {
 		global $WCFM;
@@ -329,8 +368,17 @@ if(!function_exists('get_wcfm_messages_url')) {
 	}
 }
 
+if(!function_exists('get_wcfm_listings_url')) {
+	function get_wcfm_listings_url() {
+		global $WCFM;
+		$wcfm_page = get_wcfm_page();
+		$wcfm_listings_dashboard_url = wcfm_get_endpoint_url( 'wcfm-listings', '', $wcfm_page );
+		return $wcfm_listings_dashboard_url;
+	}
+}
+
 if(!function_exists('get_wcfm_bookings_dashboard_url')) {
-	function get_wcfm_bookings_dashboard_url( $booking_ststus = '') {
+	function get_wcfm_bookings_dashboard_url( $booking_ststus = '' ) {
 		global $WCFM;
 		$wcfm_page = get_wcfm_page();
 		$wcfm_bookings_dashboard_url = wcfm_get_endpoint_url( 'wcfm-bookings-dashboard', '', $wcfm_page );

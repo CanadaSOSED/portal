@@ -66,6 +66,7 @@ class WCFM_Fields {
     }
     $field['name'] 			= isset( $field['name'] ) ? $field['name'] : $field['id'];
     $field['type'] 			= isset( $field['type'] ) ? $field['type'] : 'text';
+    if($field['type'] == 'numeric') { $field['type'] = 'number'; }
     
     // Custom attribute handling
     $custom_attributes = array();
@@ -201,6 +202,58 @@ class WCFM_Fields {
   }
   
   /**
+   * Output a checkbox  OFF-ON.
+   *
+   * @access public
+   * @param array $field
+   * @return void
+   */
+  public function checkbox_offon_input($field) {
+    $field['class'] 		= isset( $field['class'] ) ? $field['class'] : 'checkbox';
+    $field['class'] 		.= ' onoffswitch-checkbox';
+    $field['value'] 		= isset( $field['value'] ) ? $field['value'] : '';
+    $field['id']        = sanitize_title( $field['name'] ) . '-' . $field['id'];
+    $field['name'] 			= isset( $field['name'] ) ? $field['name'] : $field['id'];
+    $field['dfvalue'] 	= isset( $field['dfvalue'] ) ? $field['dfvalue'] : '';
+    
+    // Custom attribute handling
+    $custom_attributes = array();
+    $custom_tags = array();
+    
+    if ( ! empty( $field['custom_attributes'] ) && is_array( $field['custom_attributes'] ) )
+      foreach ( $field['custom_attributes'] as $attribute => $value )
+        $custom_attributes[] = 'data-' . esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
+    
+    if ( ! empty( $field['custom_tags'] ) && is_array( $field['custom_tags'] ) ){
+      foreach ( $field['custom_tags'] as $tag => $value ){
+        $custom_tags[] = esc_attr( $tag ) . '="' . esc_attr( $value ) . '"';
+      }
+    }
+    $field = $this->field_wrapper_start($field);
+    
+    printf(
+        '<div class="onoffswitch">
+           <input type="checkbox" id="%s" name="%s" class="%s" value="%s" %s %s %s />
+           <label class="onoffswitch-label" for="%s">
+					   <span class="onoffswitch-inner"></span>
+						 <span class="onoffswitch-switch"></span>
+					</label>
+        </div>
+        ',
+        esc_attr($field['id']),
+        esc_attr($field['name']),
+        esc_attr($field['class']),
+        esc_attr($field['value']),
+        checked( $field['value'], $field['dfvalue'], false ),
+        implode( ' ', $custom_attributes ),
+        implode(' ', $custom_tags),
+        esc_attr($field['id'])
+    );
+    
+    $this->field_wrapper_end($field);
+  }
+  
+  /**
    * Output a radio gruop field.
    *
    * @access public
@@ -224,7 +277,7 @@ class WCFM_Fields {
     
     printf(
         '
-        <fieldset id="%s" class="%s_field %s">
+        <fieldset id="%s" class="%s_field %s wcfm-radio-group">
           <legend class="screen-reader-text"><span>%s</span></legend>
             %s
         </fieldset>
@@ -232,7 +285,58 @@ class WCFM_Fields {
         esc_attr($field['id']),
         esc_attr($field['id']),
         esc_attr($field['wrapper_class']),
-        esc_attr($field['title']),
+        esc_attr($field['label']),
+        $options
+    );
+    
+    $this->field_wrapper_end($field);
+  }
+  
+  /**
+   * Output a radio gruop field.
+   *
+   * @access public
+   * @param array $field
+   * @return void
+   */
+  public function radio_offon_input($field) {
+    $field['class'] 		= isset( $field['class'] ) ? $field['class'] : 'select short';
+    $field['class'] 		.= ' onoffswitch-radio-checkbox';
+    $field['wrapper_class'] = isset( $field['wrapper_class'] ) ? $field['wrapper_class'] : '';
+    $field['name'] 			= isset( $field['name'] ) ? $field['name'] : $field['id'];
+    $field['value'] 		= isset( $field['value'] ) ? $field['value'] : '';
+    $field['dfvalue'] 		= isset( $field['dfvalue'] ) ? $field['dfvalue'] : '';
+    $field['value'] 		= ( $field['value'] ) ? $field['value'] : $field['dfvalue'];
+    
+    $options = '';
+    foreach ( $field['options'] as $key => $value ) {
+      $options .= '<div class="onoffswitch-radio">
+										 <input type="radio" id="option-' . esc_attr($key) . '-' . esc_attr($field['name']) . '" name="' . esc_attr($field['name']) . '" class="' . esc_attr($field['class']) . '" value="' . esc_attr($key) . '" ' . checked( esc_attr($field['value']), esc_attr($key), false ) . ' />
+										 <label class="onoffswitch-radio-label" for="option-' . esc_attr($key) . '-' . esc_attr($field['name']) . '">
+											 <span class="onoffswitch-radio-inner">' . esc_html($value) . '</span>
+											 <span class="onoffswitch-radio-switch"></span>
+										</label>
+									</div>
+									';
+      
+      
+      
+      //'<label title="' . esc_attr($key) .'"><input class="' . esc_attr($field['class']) . '" type="radio" ' . checked( esc_attr($field['value']), esc_attr($key), false ) . ' value="' . esc_attr($key) . '" name="' . esc_attr($field['name']) . '"> <span>' . esc_html($value) . '</span></label><br />';
+    }
+    
+    $field = $this->field_wrapper_start($field);
+    
+    printf(
+        '
+        <fieldset id="%s" class="%s_field %s wcfm-radio-group">
+          <legend class="screen-reader-text"><span>%s</span></legend>
+            %s
+        </fieldset>
+        ',
+        esc_attr($field['id']),
+        esc_attr($field['id']),
+        esc_attr($field['wrapper_class']),
+        esc_attr($field['label']),
         $options
     );
     
@@ -579,9 +683,12 @@ class WCFM_Fields {
               case 'text':
               case 'email':
               case 'number':
+              case 'numeric':
               case 'time':
               case 'file':
               case 'url':
+              case 'phone':
+							case 'textfield':
                 $this->text_input($optionField);
                 break;
                 
@@ -590,19 +697,24 @@ class WCFM_Fields {
                 break;
                 
               case 'textarea':
+              case 'wysiwyg':
                 $this->textarea_input($optionField);
-                break;
-                
-              case 'wpeditor':
-                $this->wpeditor_input($optionField);
                 break;
                 
               case 'checkbox':
                 $this->checkbox_input($optionField);
                 break;
                 
+              case 'checkboxoffon':
+                $this->checkbox_offon_input($optionField);
+                break;
+                
               case 'radio':
                 $this->radio_input($optionField);
+                break;
+                
+              case 'radiooffon':
+                $this->radio_offon_input($optionField);
                 break;
                 
               case 'select':
@@ -626,6 +738,7 @@ class WCFM_Fields {
                 break;
                 
               case 'datepicker':
+              case 'date':
                 $this->datepicker_input($optionField);
                 break;
                 
@@ -793,6 +906,9 @@ class WCFM_Fields {
 						case 'file':
 						case 'button':
 						case 'url':
+						case 'phone':
+						case 'textfield':
+						case 'numeric':
 							$this->text_input($field);
 							break;
 							
@@ -801,6 +917,7 @@ class WCFM_Fields {
 							break;
 							
 						case 'textarea':
+						case 'wysiwyg':
 							$this->textarea_input($field);
 							break;
 							
@@ -812,9 +929,17 @@ class WCFM_Fields {
 							$this->checkbox_input($field);
 							break;
 							
+						case 'checkboxoffon':
+                $this->checkbox_offon_input($field);
+                break;
+							
 						case 'radio':
 							$this->radio_input($field);
 							break;
+							
+						case 'radiooffon':
+                $this->radio_offon_input($field);
+                break;
 							
 						case 'select':
 							$this->select_input($field);
@@ -837,6 +962,7 @@ class WCFM_Fields {
 							break;
 							
 						case 'datepicker':
+						case 'date':
 							$this->datepicker_input($field);
 							break;
 							

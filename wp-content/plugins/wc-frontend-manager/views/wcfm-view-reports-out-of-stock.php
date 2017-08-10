@@ -1,4 +1,20 @@
 <?php
+/**
+ * WCFM plugin view
+ *
+ * WCFM Reports - Out of Stock View
+ *
+ * @author 		WC Lovers
+ * @package 	wcfm/view
+ * @version   1.0.0
+ */
+ 
+$wcfm_is_allow_reports = apply_filters( 'wcfm_is_allow_reports', true );
+if( !$wcfm_is_allow_reports ) {
+	wcfm_restriction_message_show( "Reports" );
+	return;
+}
+
 global $WCFM;
 
 ?>
@@ -16,7 +32,7 @@ global $WCFM;
 		<?php
 		if( $allow_wp_admin_view = apply_filters( 'wcfm_allow_wp_admin_view', true ) ) {
 			?>
-			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('admin.php?page=wc-reports&tab=stock&report=out_of_stock'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-user-secret"></span></a>
+			<a target="_blank" class="wcfm_wp_admin_view text_tip" href="<?php echo admin_url('admin.php?page=wc-reports&tab=stock&report=out_of_stock'); ?>" data-tip="<?php _e( 'WP Admin View', 'wc-frontend-manager' ); ?>"><span class="fa fa-wordpress"></span></a>
 			<?php
 		}
 		?>

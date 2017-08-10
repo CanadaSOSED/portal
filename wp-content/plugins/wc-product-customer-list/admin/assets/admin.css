@@ -32,6 +32,10 @@ thead th strong {
     border-top: 0;
     white-space: nowrap;
 }
+
+.wpcl #list-table thead th {
+    padding: 8px;
+}
 .wpcl p {
 	margin: 8px;
 }
@@ -87,4 +91,12 @@ thead th strong {
 }
 .wpcl .dataTables_empty {
 	padding: 8px !important;
+}
+
+.wpcl table.dataTable tbody>tr.selected, .wpcl table.dataTable tbody>tr>.selected {
+    background-color: #eee;
+}
+
+.wpcl .dataTables_wrapper .dataTables_length {
+    margin-left: 10px;
 }

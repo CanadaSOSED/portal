@@ -33,7 +33,7 @@
 	vertical-align: top;
 }
 
-.wcfm_dashboard_wc_status_data .fa-dollar { color: #555; margin-left: 5px; margin-right: 5px; }
+.wcfm_dashboard_wc_status_data .fa-dollar, .wcfm_dashboard_wc_status_data .fa-currency { color: #555; font-weight: 700; margin-left: 5px; margin-right: 5px; }
 .wcfm_dashboard_wc_status_data .fa-money { color: #008C00; }
 .wcfm_dashboard_wc_status_data .fa-cubes { color: #D15600; }
 .wcfm_dashboard_wc_status_data .fa-cube { color: #4096EE; }

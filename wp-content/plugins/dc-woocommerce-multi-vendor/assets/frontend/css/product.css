@@ -54,7 +54,7 @@ form#respond #submit {
     width: 100%;
     z-index: 999;
 }
-.overlay .popup-overlay {
+.wcmp-overlay .popup-overlay {
     left: 0;
     opacity: 1;
 }

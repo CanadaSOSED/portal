@@ -251,7 +251,7 @@ if (!function_exists('is_vendor_dashboard')) {
      */
     function is_vendor_dashboard() {
         if (get_wcmp_vendor_settings('wcmp_vendor', 'vendor', 'general')) {
-            return is_page(get_wcmp_vendor_settings('wcmp_vendor', 'vendor', 'general')) ? true : false;
+            return is_page((int) get_wcmp_vendor_settings('wcmp_vendor', 'vendor', 'general'));
         }
         return false;
     }

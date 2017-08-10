@@ -77,7 +77,7 @@ class WCFM_ThirdParty_Products_Manage_Controller {
 	
 			foreach ( $rental_fields as $field_name ) {
 				if ( isset( $wcfm_products_manage_form_data[ $field_name ] ) ) {
-					$rental_fields[ $field_name ] = $wcfm_products_manage_form_data[ $field_name ];
+					$rental_fields[ str_replace( 'redq_', '', $field_name ) ] = $wcfm_products_manage_form_data[ $field_name ];
 					update_post_meta( $new_product_id, $field_name, $wcfm_products_manage_form_data[ $field_name ] );
 				}
 			}

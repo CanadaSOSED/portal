@@ -1,4 +1,20 @@
 <?php
+/**
+ * WCFM plugin view
+ *
+ * WCFM Reports - WC Marketplace Sales by Date View
+ *
+ * @author 		WC Lovers
+ * @package 	wcfm/view
+ * @version   1.0.0
+ */
+ 
+$wcfm_is_allow_reports = apply_filters( 'wcfm_is_allow_reports', true );
+if( !$wcfm_is_allow_reports ) {
+	wcfm_restriction_message_show( "Reports" );
+	return;
+}
+
 global $wp, $WCFM, $wpdb;
 
 if( isset( $wp->query_vars['wcfm-reports-sales-by-date'] ) && !empty( $wp->query_vars['wcfm-reports-sales-by-date'] ) ) {
@@ -19,6 +35,7 @@ $ranges = array(
 $wcfm_report_sales_by_date->chart_colors = apply_filters( 'wcfm_vendor_sales_by_date_chart_colors', array(
 			'average'          => '#95a5a6',
 			'order_count'      => '#dbe1e3',
+			'item_count'       => '#ecf0f1',
 			'shipping_amount'  => '#FF7400',
 			'earned'           => '#4096EE',
 			'commission'       => '#00897b',

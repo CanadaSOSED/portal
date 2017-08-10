@@ -20,7 +20,7 @@ class WCFM_Settings_WCVendors_Controller {
 	public function processing() {
 		global $WCFM, $wpdb, $_POST;
 		
-		$user_id = get_current_user_id();
+		$user_id = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 		
 		$wcfm_settings_form_data = array();
 	  parse_str($_POST['wcfm_settings_form'], $wcfm_settings_form);

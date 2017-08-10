@@ -71,27 +71,31 @@ jQuery( document ).ready( function( $ ) {
 			
 			if( product_type != 'simple' ) {
 				$('#is_downloadable').attr( 'checked', false );
-				$('#is_virtual').attr( 'checked', false );
+				//$('#is_virtual').attr( 'checked', false );
 			}
 			$('#is_downloadable').change();
 			//$('#is_virtual').change();
+			
+			$( document.body ).trigger( 'wcfm_product_type_changed' );
+			
+			if($('.wcaddons').length > 0) { $('.wcaddons').removeClass('wcfm_ele_hide wcfm_block_hide wcfm_head_hide'); }
 			
 			// Tabheight  
 			collapsHeight = 0;
 			$('.page_collapsible').each(function() {
 				if( !$(this).hasClass('wcfm_head_hide') ) {
-					collapsHeight += $(this).height() + 20;
+					//console.log($(this).attr('id'));
+					collapsHeight += $(this).height() + 21;
 				}
 			});  
 			resetCollapsHeight($('#sku'));
-			
-			$( document.body ).trigger( 'wcfm_product_type_changed' );
 		}).change();
 		
 		// Downloadable
 		$('#is_downloadable').change(function() {
 		  if($(this).is(':checked')) {
 		  	$('.downlodable').removeClass('wcfm_ele_hide wcfm_block_hide wcfm_head_hide');
+		  	resetCollapsHeight($('#sku'));
 		  } else {
 		  	$('.downlodable').addClass('wcfm_ele_hide wcfm_block_hide wcfm_head_hide');
 		  }
@@ -99,6 +103,7 @@ jQuery( document ).ready( function( $ ) {
 		$('.is_downloadable_hidden').change(function() {
 		  if($(this).val() == 'enable') {
 		  	$('.downlodable').removeClass('wcfm_ele_hide wcfm_block_hide wcfm_head_hide');
+		  	resetCollapsHeight($('#sku'));
 		  } else {
 		  	$('.downlodable').addClass('wcfm_ele_hide wcfm_block_hide wcfm_head_hide');
 		  }
@@ -126,7 +131,7 @@ jQuery( document ).ready( function( $ ) {
 		$('.wcfm_ele').addClass('wcfm_ele_hide');
 	}
 	
-		$('.variations').click(function() {
+	$('.variations').click(function() {
 		if($(this).hasClass('collapse-open')) {
 			resetVariationsAttributes();
 		}
@@ -190,6 +195,9 @@ jQuery( document ).ready( function( $ ) {
 	  	resetCollapsHeight($('#variations'));
 	  }
 	}).change();
+	
+	// On Page Load Manage Product Tab Container Height Set
+	resetCollapsHeight($('#sku'));
 	
 	$('.sales_schedule').click( function() {
 	  $('.sales_schedule_ele').toggleClass('sales_schedule_ele_show');
@@ -596,6 +604,141 @@ jQuery( document ).ready( function( $ ) {
 	  removed_variations.push($(this).parent().find('.variation_id').val());
 	});
 	
+	// Variation Bulk Options
+	$('#variations_options').change(function() {
+		$variations_option = $(this).val();
+		if( $variations_option ) {
+			switch( $variations_option ) {
+			  case 'set_regular_price':
+			  	var regular_price = prompt( "Regular Price" );
+			  	if( regular_price != null ) {
+			  		$('#variations').find('input[data-name="regular_price"]').each(function() {
+			  			if( !isNaN(parseFloat(regular_price)) ) {
+			  				$(this).val(parseFloat(regular_price));
+			  			}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'regular_price_increase':
+			  	var regular_price = prompt( "Regular price increase by" );
+			  	if( regular_price != null ) {
+			  		$('#variations').find('input[data-name="regular_price"]').each(function() {
+			  			if( !isNaN(parseFloat(regular_price)) ) {
+								if( $(this).val().length > 0 ) {
+									$(this).val(parseFloat($(this).val()) + parseFloat(regular_price));
+								} else {
+									$(this).val(parseFloat(regular_price));
+								}
+							}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'regular_price_decrease':
+			  	var regular_price = prompt( "Regular price decrease by" );
+			  	if( regular_price != null ) {
+			  		$('#variations').find('input[data-name="regular_price"]').each(function() {
+			  			if( !isNaN(parseFloat(regular_price)) ) {
+								if( $(this).val().length > 0 ) {
+									$(this).val(parseFloat($(this).val()) - parseFloat(regular_price));
+								} else {
+									$(this).val(parseFloat(regular_price));
+								}
+							}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'set_sale_price':
+			  	var sale_price = prompt( "Sale Price" );
+			  	if( sale_price != null ) {
+			  		$('#variations').find('input[data-name="sale_price"]').each(function() {
+			  		  if( !isNaN(parseFloat(sale_price)) ) {
+			  				$(this).val(parseFloat(sale_price));
+			  			}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'sale_price_increase':
+			  	var sale_price = prompt( "Sale price increase by" );
+			  	if( sale_price != null ) {
+			  		$('#variations').find('input[data-name="sale_price"]').each(function() {
+			  			if( !isNaN(parseFloat(sale_price)) ) {
+								if( $(this).val().length > 0 ) {
+									$(this).val(parseFloat($(this).val()) + parseFloat(sale_price));
+								} else {
+									$(this).val(parseFloat(sale_price));
+								}
+							}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'sale_price_decrease':
+			  	var sale_price = prompt( "Sale price decrease by" );
+			  	if( sale_price != null ) {
+			  		$('#variations').find('input[data-name="sale_price"]').each(function() {
+			  			if( !isNaN(parseFloat(sale_price)) ) {
+								if( $(this).val().length > 0 ) {
+									$(this).val(parseFloat($(this).val()) - parseFloat(sale_price));
+								} else {
+									$(this).val(parseFloat(sale_price));
+								}
+							}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'set_length':
+			  	var length = prompt( "Length" );
+			  	if( length != null ) {
+			  		$('#variations').find('input[data-name="length"]').each(function() {
+			  		  if( !isNaN(parseFloat(length)) ) {
+			  				$(this).val(parseFloat(length));
+			  			}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'set_width':
+			  	var width = prompt( "Width" );
+			  	if( width != null ) {
+			  		$('#variations').find('input[data-name="width"]').each(function() {
+			  		  if( !isNaN(parseFloat(width)) ) {
+			  				$(this).val(parseFloat(width));
+			  			}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'set_height':
+			  	var height = prompt( "Height" );
+			  	if( height != null ) {
+			  		$('#variations').find('input[data-name="height"]').each(function() {
+			  		  if( !isNaN(parseFloat(height)) ) {
+			  				$(this).val(parseFloat(height));
+			  			}
+			  		});
+			  	}
+			  	break;
+			  	
+			  case 'set_weight':
+			  	var weight = prompt( "Weight" );
+			  	if( weight != null ) {
+			  		$('#variations').find('input[data-name="weight"]').each(function() {
+			  		  if( !isNaN(parseFloat(weight)) ) {
+			  				$(this).val(parseFloat(weight));
+			  			}
+			  		});
+			  	}
+			  	break;
+			}
+			$(this).val('');
+		}
+	});
+	
 	if( typeof gmw_forms != 'undefined' ) {
 		// Geo my WP Support
 		tinymce.PluginManager.add('geomywp', function(editor, url) {
@@ -637,7 +780,8 @@ jQuery( document ).ready( function( $ ) {
 																	],
 																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link | geomywp',
 																	content_css: '//www.tinymce.com/css/codepen.min.css',
-																	statusbar: false
+																	statusbar: false,
+																	entity_encoding: "raw"
 																});
 		
 		// TinyMCE intialize - Description
@@ -652,38 +796,45 @@ jQuery( document ).ready( function( $ ) {
 																	],
 																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link | geomywp',
 																	content_css: '//www.tinymce.com/css/codepen.min.css',
-																	statusbar: false
+																	statusbar: false,
+																	entity_encoding: "raw"
 																});
 	} else {
 		// TinyMCE intialize - Short description
-		var shdescTinyMCE = tinymce.init({
-																	selector: '#excerpt',
-																	height: 75,
-																	menubar: false,
-																	plugins: [
-																		'advlist autolink lists link charmap print preview anchor',
-																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime table contextmenu paste code'
-																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
-																	content_css: '//www.tinymce.com/css/codepen.min.css',
-																	statusbar: false
-																});
+		if( $('#excerpt').hasClass('rich_editor') ) {
+			var shdescTinyMCE = tinymce.init({
+																		selector: '#excerpt',
+																		height: 75,
+																		menubar: false,
+																		plugins: [
+																			'advlist autolink lists link charmap print preview anchor',
+																			'searchreplace visualblocks code fullscreen',
+																			'insertdatetime table contextmenu paste code'
+																		],
+																		toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
+																		content_css: '//www.tinymce.com/css/codepen.min.css',
+																		statusbar: false,
+																		entity_encoding: "raw"
+																	});
+		}
 		
 		// TinyMCE intialize - Description
-		var descTinyMCE = tinymce.init({
-																	selector: '#description',
-																	height: 120,
-																	menubar: false,
-																	plugins: [
-																		'advlist autolink lists link charmap print preview anchor',
-																		'searchreplace visualblocks code fullscreen',
-																		'insertdatetime table contextmenu paste code'
-																	],
-																	toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
-																	content_css: '//www.tinymce.com/css/codepen.min.css',
-																	statusbar: false
-																});
+		if( $('#description').hasClass('rich_editor') ) {
+			var descTinyMCE = tinymce.init({
+																		selector: '#description',
+																		height: 120,
+																		menubar: false,
+																		plugins: [
+																			'advlist autolink lists link charmap print preview anchor',
+																			'searchreplace visualblocks code fullscreen',
+																			'insertdatetime table contextmenu paste code'
+																		],
+																		toolbar: 'undo redo | insert | styleselect | bold italic | alignleft aligncenter alignright alignjustify |  bullist numlist outdent indent | link',
+																		content_css: '//www.tinymce.com/css/codepen.min.css',
+																		statusbar: false,
+																		entity_encoding: "raw"
+																	});
+		}
 	}
 	
 	function wcfm_products_manage_form_validate() {
@@ -713,10 +864,20 @@ jQuery( document ).ready( function( $ ) {
 					opacity: 0.6
 				}
 			});
+			
 			var excerpt = '';
-			if( tinymce.get('excerpt') != null ) excerpt = tinymce.get('excerpt').getContent();
+			if( $('#excerpt').hasClass('rich_editor') ) {
+				if( tinymce.get('excerpt') != null ) excerpt = tinymce.get('excerpt').getContent({format: 'raw'});
+			} else {
+				excerpt = $('#excerpt').val();
+			}
+			
 			var description = '';
-			if( tinymce.get('description') != null ) description = tinymce.get('description').getContent();
+			if( $('#description').hasClass('rich_editor') ) {
+				if( tinymce.get('description') != null ) description = tinymce.get('description').getContent({format: 'raw'});
+			} else {
+				description = $('#description').val();
+			}
 			var data = {
 				action : 'wcfm_ajax_controller',
 				controller : 'wcfm-products-manage', 
@@ -762,10 +923,21 @@ jQuery( document ).ready( function( $ ) {
 					opacity: 0.6
 				}
 			});
+			
 			var excerpt = '';
-			if( tinymce.get('excerpt') != null ) excerpt = tinymce.get('excerpt').getContent();
+			if( $('#excerpt').hasClass('rich_editor') ) {
+				if( tinymce.get('excerpt') != null ) excerpt = tinymce.get('excerpt').getContent({format: 'raw'});
+			} else {
+				excerpt = $('#excerpt').val();
+			}
+			
 			var description = '';
-			if( tinymce.get('description') != null ) description = tinymce.get('description').getContent();
+			if( $('#description').hasClass('rich_editor') ) {
+				if( tinymce.get('description') != null ) description = tinymce.get('description').getContent({format: 'raw'});
+			} else {
+				description = $('#description').val();
+			}
+			
 			var data = {
 				action : 'wcfm_ajax_controller',
 				controller : 'wcfm-products-manage',

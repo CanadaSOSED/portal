@@ -37,6 +37,7 @@ class WCMp_Frontend {
         add_action('woocommerce_checkout_create_order_shipping_item', array(&$this, 'add_meta_date_in_shipping_package'), 10, 4);
         // processed woocomerce checkout order data
         add_action('woocommerce_checkout_order_processed', array(&$this, 'wcmp_checkout_order_processed'), 30, 3);
+        add_action('woocommerce_login_form', array(&$this, 'add_extra_wcmp_login_field'));
     }
 
     /**
@@ -673,6 +674,14 @@ class WCMp_Frontend {
         }
 
         return $calculated_fee;
+    }
+    /**
+     * add extra login field
+     */
+    public function add_extra_wcmp_login_field() {
+        if (is_vendor_dashboard()) {
+            echo '<input type="wcmp-login-vendor" name="wcmp-login-nonce" value="wcmp"';
+        }
     }
 
 }

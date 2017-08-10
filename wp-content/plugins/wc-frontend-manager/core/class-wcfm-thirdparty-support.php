@@ -14,14 +14,19 @@ class WCFM_ThirdParty_Support {
 	public function __construct() {
 		global $WCFM;
 		
-		// Product Manage Third Party Plugins View
-    add_action( 'end_wcfm_products_manage', array( &$this, 'wcfm_thirdparty_products_manage_views' ), 100 );
+    // WCFM Query Var Filter
+		add_filter( 'wcfm_query_vars', array( &$this, 'wcfm_thirdparty_query_vars' ), 20 );
+		add_filter( 'wcfm_endpoint_title', array( &$this, 'wcfm_thirdparty_endpoint_title' ), 20, 2 );
+		add_action( 'init', array( &$this, 'wcfm_thirdparty_init' ), 20 );
+		
+		// WCFM Third Party Endpoint Edit
+		add_filter( 'wcfm_endpoints_slug', array( $this, 'wcfm_thirdparty_endpoints_slug' ) );
     
     // WCFM Menu Filter
     add_filter( 'wcfm_menus', array( &$this, 'wcfm_thirdparty_menus' ), 100 );
     
     // Third Party Product Type Capability
-		add_filter( 'wcfm_settings_fields_vendor_product_types', array( &$this, 'wcfmcap_vendor_product_types' ), 50 );
+		add_filter( 'wcfm_settings_fields_product_types', array( &$this, 'wcfmcap_product_types' ), 50, 3 );
     
     // WC Paid Listing Support - 2.3.4
     if( $wcfm_allow_job_package = apply_filters( 'wcfm_is_allow_job_package', true ) ) {
@@ -44,15 +49,82 @@ class WCFM_ThirdParty_Support {
 				add_filter( 'after_wcfm_products_manage_general', array( &$this, 'wcfm_wcrental_product_manage_fields' ), 80, 2 );
 			}
 		}
+		
+		// Product Manage Third Party Plugins View
+    add_action( 'end_wcfm_products_manage', array( &$this, 'wcfm_thirdparty_products_manage_views' ), 100 );
 	}
 	
+	
 	/**
-   * Product Manage Third Party Plugins views
+   * WCFM Third Party Query Var
    */
-  function wcfm_thirdparty_products_manage_views( ) {
-		global $WCFM;
-	  
-	 require_once( $WCFM->library->views_path . 'wcfm-view-thirdparty-products-manage.php' );
+  function wcfm_thirdparty_query_vars( $query_vars ) {
+  	
+  	// WP Job Manager Support
+  	if( $wcfm_allow_listings = apply_filters( 'wcfm_is_allow_listings', true ) ) {
+			if ( WCFM_Dependencies::wcfm_wp_job_manager_plugin_active_check() ) {
+				$wcfm_modified_endpoints = (array) get_option( 'wcfm_endpoints' );
+  	
+				$query_listing_vars = array(
+					'wcfm-listings'       => ! empty( $wcfm_modified_endpoints['wcfm-listings'] ) ? $wcfm_modified_endpoints['wcfm-listings'] : 'wcfm-listings',
+				);
+		
+				$query_vars = array_merge( $query_vars, $query_listing_vars );
+			} else {
+				delete_option( 'wcfm_updated_end_point_wc_listings' );
+			}
+		}
+		
+		return $query_vars;
+  }
+  
+  /**
+   * WCFM Third Party End Point Title
+   */
+  function wcfm_thirdparty_endpoint_title( $title, $endpoint ) {
+  	
+  	switch ( $endpoint ) {
+  		case 'wcfm-listings' :
+				$title = __( 'Listings Dashboard', 'wc-frontend-manager' );
+			break;
+  	}
+  	
+  	return $title;
+  }
+  
+  /**
+   * WCFM Third Party Endpoint Intialize
+   */
+  function wcfm_thirdparty_init() {
+  	global $WCFM_Query;
+	
+		// Intialize WCFM End points
+		$WCFM_Query->init_query_vars();
+		$WCFM_Query->add_endpoints();
+		
+		if( !get_option( 'wcfm_updated_end_point_wc_listings' ) ) {
+			// Flush rules after endpoint update
+			flush_rewrite_rules();
+			update_option( 'wcfm_updated_end_point_wc_listings', 1 );
+		}
+  }
+  
+  /**
+	 * Thirdparty Endpoiint Edit
+	 */
+	function wcfm_thirdparty_endpoints_slug( $endpoints ) {
+		
+		// Listings
+		if( $wcfm_allow_listings = apply_filters( 'wcfm_is_allow_listings', true ) ) {
+			if ( WCFM_Dependencies::wcfm_wp_job_manager_plugin_active_check() ) {
+				$listings_endpoints = array(
+															'wcfm-listings'  		   => 'wcfm-listings',
+															);
+				$endpoints = array_merge( $endpoints, $listings_endpoints );
+			}
+		}
+		
+		return $endpoints;
 	}
 	
 	/**
@@ -61,25 +133,18 @@ class WCFM_ThirdParty_Support {
 	function wcfm_thirdparty_menus( $menus ) {
   	global $WCFM;
   	
-  	// WP Job Manager Menu Item
-  	if( $wcfm_allow_job_package = apply_filters( 'wcfm_is_allow_job_package', true ) ) {
+  	// WP Job Manager Support
+  	if( $wcfm_allow_listings = apply_filters( 'wcfm_is_allow_listings', true ) ) {
 			if ( WCFM_Dependencies::wcfm_wp_job_manager_plugin_active_check() ) {
-				$wcfm_options = get_option( 'wcfm_options' );
-				$wc_frontend_manager_associate_listings = ( isset( $wcfm_options['wc_frontend_manager_associate_listings'] ) ) ? $wcfm_options['wc_frontend_manager_associate_listings'] : 'no';
-				if( !wcfm_is_vendor() || ( wcfm_is_vendor() && 'no' == $wc_frontend_manager_associate_listings ) ) {
-					$jobs_dashboard = get_permalink( get_option( 'job_manager_job_dashboard_page_id' ) );
-					$post_a_job = get_permalink ( get_option( 'job_manager_submit_job_form_page_id' ) );
-					if( $jobs_dashboard && $post_a_job ) {
-						$menus = array_slice($menus, 0, 3, true) +
-																array( 'listings' => array(  'label'  => __( 'Listings', 'wc-frontend-manager' ),
-																												 'url'     => $jobs_dashboard,
-																												 'icon'    => 'briefcase',
-																												 'has_new'    => true,
-																												 'new_class'  => 'wcfm_sub_menu_items_listings_manage',
-																												 'new_url'    => $post_a_job,
-																												) )	 +
-																	array_slice($menus, 3, count($menus) - 3, true) ;
-					}
+				$jobs_dashboard = get_permalink( get_option( 'job_manager_job_dashboard_page_id' ) );
+				$post_a_job = get_permalink ( get_option( 'job_manager_submit_job_form_page_id' ) );
+				if( $jobs_dashboard && $post_a_job ) {
+					$menus = array_slice($menus, 0, 3, true) +
+															array( 'wcfm-listings' => array(  'label'      => __( 'Listings', 'wc-frontend-manager' ),
+																													 'url'        => get_wcfm_listings_url(),
+																													 'icon'       => 'briefcase',
+																													) )	 +
+																array_slice($menus, 3, count($menus) - 3, true) ;
 				}
 			}
 		}
@@ -88,28 +153,26 @@ class WCFM_ThirdParty_Support {
   }
   
   /**
-	 * WCFM Capability Vendor Product Types
+	 * WCFM Capability Product Types
 	 */
-	function wcfmcap_vendor_product_types( $product_types ) {
+	function wcfmcap_product_types( $product_types, $handler = 'wcfm_capability_options', $wcfm_capability_options = array() ) {
 		global $WCFM, $WCFMu;
-		
-		$wcfm_capability_options = apply_filters( 'wcfm_capability_options', (array) get_option( 'wcfm_capability_options' ) );
 		
 		if ( WCFM_Dependencies::wcfm_wc_paid_listing_active_check() ) {
 			$job_package = ( isset( $wcfm_capability_options['job_package'] ) ) ? $wcfm_capability_options['job_package'] : 'no';
 		
-			$product_types["job_package"] = array('label' => __('Job Package', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[job_package]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $job_package);
+			$product_types["job_package"] = array('label' => __('Job Package', 'wc-frontend-manager') , 'name' => $handler . '[job_package]','type' => 'checkboxoffon', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $job_package);
 		}
 		
 		if( WCFM_Dependencies::wcfm_wc_rental_active_check() ) {
 			$rental = ( isset( $wcfm_capability_options['rental'] ) ) ? $wcfm_capability_options['rental'] : 'no';
 			
-			$product_types["rental"] = array('label' => __('Rental', 'wc-frontend-manager') , 'name' => 'wcfm_capability_options[rental]','type' => 'checkbox', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $rental);
+			$product_types["rental"] = array('label' => __('Rental', 'wc-frontend-manager') , 'name' => $handler . '[rental]','type' => 'checkboxoffon', 'class' => 'wcfm-checkbox wcfm_ele', 'value' => 'yes', 'label_class' => 'wcfm_title checkbox_title', 'dfvalue' => $rental);
 		}
 		
 		return $product_types;
 	}
-  
+	
   /**
    * WC Paid Listing Product Type
    */
@@ -216,5 +279,14 @@ class WCFM_ThirdParty_Support {
 		</div>
 	</div>
 	<?php	
+	}
+	
+	/**
+   * Product Manage Third Party Plugins views
+   */
+  function wcfm_thirdparty_products_manage_views( ) {
+		global $WCFM;
+	  
+	 require_once( $WCFM->library->views_path . 'wcfm-view-thirdparty-products-manage.php' );
 	}
 }

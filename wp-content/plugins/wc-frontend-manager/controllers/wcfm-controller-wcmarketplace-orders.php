@@ -17,7 +17,7 @@ class WCFM_Orders_WCMarketplace_Controller {
 	public function __construct() {
 		global $WCFM;
 		
-		$this->vendor_id   = get_current_user_id();
+		$this->vendor_id   = apply_filters( 'wcfm_current_vendor_id', get_current_user_id() );
 		$this->vendor_term = get_user_meta( $this->vendor_id, '_vendor_term_id', true );
 		
 		$this->processing();
@@ -143,6 +143,7 @@ class WCFM_Orders_WCMarketplace_Controller {
 				$wcfm_orders_json_arr[$index][] =  '<span class="order-status tips wcicon-status-' . sanitize_title( $the_order->get_status() ) . ' text_tip" data-tip="' . wc_get_order_status_name( $the_order->get_status() ) . '"></span>';
 				
 				// Order
+				$user_info = array();
 				if ( $the_order->user_id ) {
 					$user_info = get_userdata( $the_order->user_id );
 				}
@@ -212,7 +213,7 @@ class WCFM_Orders_WCMarketplace_Controller {
 				if ( $WCMp->vendor_caps->vendor_payment_settings('give_tax') ) {
 					$total += ( $order->tax == 'NAN' ) ? 0 : $order->tax;
 				}
-				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( $total ) . $status, $order->product_id, $total, $status );
+				$wcfm_orders_json_arr[$index][] =  apply_filters( 'wcfm_vendor_order_total', wc_price( $total ) . '<br />' . $status, $order->order_id, $order->product_id, $total, $status );
 				
 				// Date
 				$wcfm_orders_json_arr[$index][] = date_i18n( wc_date_format(), strtotime( $order_date ) );

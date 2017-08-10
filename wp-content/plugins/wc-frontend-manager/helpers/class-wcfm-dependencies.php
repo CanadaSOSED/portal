@@ -26,6 +26,13 @@ class WCFM_Dependencies {
 		return false;
 	}
 	
+	// WC Frontend Manager Groups and Staffs - 2.5.0
+	static function wcfmgs_plugin_active_check() {
+		if ( ! self::$active_plugins ) self::init();
+		return in_array( 'wc-frontend-manager-groups-staffs/wc_frontend_manager_groups_staffs.php', self::$active_plugins ) || array_key_exists( 'wc-frontend-manager-groups-staffs/wc_frontend_manager_groups_staffs.php', self::$active_plugins );
+		return false;
+	}
+	
 	// WC Vendors Pro
 	static function wcvpro_plugin_active_check() {
 		if ( ! self::$active_plugins ) self::init();

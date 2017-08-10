@@ -170,11 +170,15 @@ class WCMp_Transaction {
         $item_totals = array();
         $transaction_amount = get_post_meta($transaction_id, 'amount', true);
         $transfer_charge = get_post_meta($transaction_id, 'transfer_charge', true);
+        $gateway_charge = get_post_meta($transaction_id, 'gateway_charge', true);
         $transaction_mode = get_post_meta($transaction_id, 'transaction_mode', true);
         $item_totals['date'] = array('label' => __('Date of request', 'dc-woocommerce-multi-vendor'), 'value' => get_the_date('Y-m-d', $transaction_id));
-        $item_totals['amount'] = array('label' => __('Amount', 'dc-woocommerce-multi-vendor'), 'value' => get_woocommerce_currency_symbol() . $transaction_amount);
+        $item_totals['amount'] = array('label' => __('Amount', 'dc-woocommerce-multi-vendor'), 'value' => wc_price($transaction_amount));
         if ($transfer_charge) {
-            $item_totals['transfer_fee'] = array('label' => __('Transfer Fee', 'dc-woocommerce-multi-vendor'), 'value' => get_woocommerce_currency_symbol() . $transfer_charge);
+            $item_totals['transfer_fee'] = array('label' => __('Transfer Fee', 'dc-woocommerce-multi-vendor'), 'value' => wc_price($transfer_charge));
+        }
+        if($gateway_charge){
+            $item_totals['gateway_charge'] = array('label' => __('Gateway Fee', 'dc-woocommerce-multi-vendor'), 'value' => wc_price($gateway_charge));
         }
 
         if ($transaction_mode == 'direct_bank') {

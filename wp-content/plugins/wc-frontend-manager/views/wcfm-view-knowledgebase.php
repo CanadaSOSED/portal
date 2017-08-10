@@ -11,6 +11,13 @@
  
 global $WCFM;
 
+
+$wcfm_is_allow_knowledgebase = apply_filters( 'wcfm_is_allow_knowledgebase', true );
+if( !$wcfm_is_allow_knowledgebase ) {
+	wcfm_restriction_message_show( "Knowledgesbase" );
+	return;
+}
+
 $wcfm_knowledgebase = get_option( 'wcfm_knowledgebase' );
 
 ?>

@@ -77,7 +77,11 @@ class WCFM_Products_Controller {
 			foreach($wcfm_products_array as $wcfm_products_single) {
 				$the_product = wc_get_product( $wcfm_products_single );
 				// Thumb
-				$wcfm_products_json_arr[$index][] =  '<a href="' . get_wcfm_edit_product_url($wcfm_products_single->ID, $the_product) . '">' . $the_product->get_image( 'thumbnail' ) . '</a>';
+				if( current_user_can( 'edit_published_products' ) ) {
+					$wcfm_products_json_arr[$index][] =  '<a href="' . get_wcfm_edit_product_url($wcfm_products_single->ID, $the_product) . '">' . $the_product->get_image( 'thumbnail' ) . '</a>';
+				} else {
+					$wcfm_products_json_arr[$index][] =  $the_product->get_image( 'thumbnail' );
+				}
 				
 				// Title
 				if( current_user_can( 'edit_published_products' ) ) {
@@ -101,7 +105,7 @@ class WCFM_Products_Controller {
 		
 				// If the product has children, a single stock level would be misleading as some could be -ve and some +ve, some managed/some unmanaged etc so hide stock level in this case.
 				if ( $the_product->managing_stock() && ! sizeof( $the_product->get_children() ) ) {
-					$stock_html .= ' (' . $the_product->get_total_stock() . ')';
+					$stock_html .= ' (' . $the_product->get_stock_quantity() . ')';
 				}
 				$wcfm_products_json_arr[$index][] =  apply_filters( 'woocommerce_admin_stock_html', $stock_html, $the_product );
 				
@@ -110,11 +114,11 @@ class WCFM_Products_Controller {
 				
 				// Type
 				$pro_type = '';
-				if ( 'grouped' == $the_product->product_type ) {
+				if ( 'grouped' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips grouped wcicon-grouped text_tip" data-tip="' . esc_attr__( 'Grouped', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'external' == $the_product->product_type ) {
+				} elseif ( 'external' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips external wcicon-external text_tip" data-tip="' . esc_attr__( 'External/Affiliate', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'simple' == $the_product->product_type ) {
+				} elseif ( 'simple' == $the_product->get_type() ) {
 		
 					if ( $the_product->is_virtual() ) {
 						$pro_type = '<span class="product-type tips virtual wcicon-virtual text_tip" data-tip="' . esc_attr__( 'Virtual', 'wc-frontend-manager' ) . '"></span>';
@@ -124,25 +128,27 @@ class WCFM_Products_Controller {
 						$pro_type = '<span class="product-type tips simple wcicon-simple text_tip" data-tip="' . esc_attr__( 'Simple', 'wc-frontend-manager' ) . '"></span>';
 					}
 		
-				} elseif ( 'variable' == $the_product->product_type ) {
+				} elseif ( 'variable' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips variable wcicon-variable text_tip" data-tip="' . esc_attr__( 'Variable', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'subscription' == $the_product->product_type ) {
+				} elseif ( 'subscription' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips wcicon-variable text_tip" data-tip="' . esc_attr__( 'Subscription', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'variable-subscription' == $the_product->product_type ) {
+				} elseif ( 'variable-subscription' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips wcicon-variable text_tip" data-tip="' . esc_attr__( 'Variable Subscription', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'job_package' == $the_product->product_type ) {
+				} elseif ( 'job_package' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips fa fa-briefcase text_tip" data-tip="' . esc_attr__( 'Job Package', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'resume_package' == $the_product->product_type ) {
+				} elseif ( 'resume_package' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips fa fa-suitcase text_tip" data-tip="' . esc_attr__( 'Resume Package', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'auction' == $the_product->product_type ) {
+				} elseif ( 'auction' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips fa fa-gavel text_tip" data-tip="' . esc_attr__( 'Auction', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'redq_rental' == $the_product->product_type ) {
+				} elseif ( 'redq_rental' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips fa fa-cab text_tip" data-tip="' . esc_attr__( 'Rental', 'wc-frontend-manager' ) . '"></span>';
-				} elseif ( 'accommodation-booking' == $the_product->product_type ) {
+				} elseif ( 'accommodation-booking' == $the_product->get_type() ) {
 					$pro_type = '<span class="product-type tips fa fa-calendar text_tip" data-tip="' . esc_attr__( 'Accommodation', 'wc-frontend-manager' ) . '"></span>';
+				} elseif ( 'appointment' == $the_product->get_type() ) {
+					$pro_type = '<span class="product-type tips fa fa-calendar text_tip" data-tip="' . esc_attr__( 'Appointment', 'wc-frontend-manager' ) . '"></span>';
 				} else {
 					// Assuming that we have other types in future
-					$pro_type = '<span class="product-type tips wcicon-' . $the_product->product_type . ' text_tip ' . $the_product->product_type . '" data-tip="' . ucfirst( $the_product->product_type ) . '"></span>';
+					$pro_type = '<span class="product-type tips wcicon-' . $the_product->get_type() . ' text_tip ' . $the_product->get_type() . '" data-tip="' . ucfirst( $the_product->get_type() ) . '"></span>';
 				}
 				$wcfm_products_json_arr[$index][] =  $pro_type;
 				
@@ -154,6 +160,17 @@ class WCFM_Products_Controller {
 				
 				// Action
 				$actions = '<a class="wcfm-action-icon" target="_blank" href="' . get_permalink( $wcfm_products_single->ID ) . '"><span class="fa fa-eye text_tip" data-tip="' . esc_attr__( 'View', 'wc-frontend-manager' ) . '"></span></a>';
+				
+				if( $wcfm_is_allow_duplicate_product = apply_filters( 'wcfm_is_allow_duplicate_product', true ) ) {
+					if( WCFM_Dependencies::wcfmu_plugin_active_check() ) {
+						$actions .= '<a class="wcfm_product_duplicate wcfm-action-icon" href="#" data-proid="' . $wcfm_products_single->ID . '"><span class="fa fa-copy text_tip" data-tip="' . esc_attr__( 'Duplicate', 'wc-frontend-manager' ) . '"></span></a>';
+					} else {
+						if( $is_wcfmu_inactive_notice_show = apply_filters( 'is_wcfmu_inactive_notice_show', true ) ) {
+							$actions .= '<a class="wcfm_product_dummy_duplicate wcfm-action-icon" href="#" onclick="return false;"><span class="fa fa-copy text_tip" data-tip="' . __( 'Duplicate Product: Upgrade your WCFM to WCFM Ultimate to avail this feature.', 'wc-frontend-manager' ) . '"></span></a>';
+						}
+					}
+				}
+				
 				if( $wcfm_products_single->post_status == 'publish' ) {
 					$actions .= ( current_user_can( 'edit_published_products' ) ) ? '<a class="wcfm-action-icon" href="' . get_wcfm_edit_product_url($wcfm_products_single->ID, $the_product) . '"><span class="fa fa-edit text_tip" data-tip="' . esc_attr__( 'Edit', 'wc-frontend-manager' ) . '"></span></a>' : '';
 					$actions .= ( current_user_can( 'delete_published_products' ) ) ? '<a class="wcfm-action-icon wcfm_product_delete" href="#" data-proid="' . $wcfm_products_single->ID . '"><span class="fa fa-trash-o text_tip" data-tip="' . esc_attr__( 'Delete', 'wc-frontend-manager' ) . '"></span></a>' : '';
@@ -161,6 +178,7 @@ class WCFM_Products_Controller {
 					$actions .= ( current_user_can( 'edit_products' ) ) ? '<a class="wcfm-action-icon" href="' . get_wcfm_edit_product_url($wcfm_products_single->ID, $the_product) . '"><span class="fa fa-edit text_tip" data-tip="' . esc_attr__( 'Edit', 'wc-frontend-manager' ) . '"></span></a>' : '';
 					$actions .= ( current_user_can( 'delete_products' ) ) ? '<a class="wcfm_product_delete wcfm-action-icon" href="#" data-proid="' . $wcfm_products_single->ID . '"><span class="fa fa-trash-o text_tip" data-tip="' . esc_attr__( 'Delete', 'wc-frontend-manager' ) . '"></span></a>' : '';
 				}
+				
 				$wcfm_products_json_arr[$index][] =  apply_filters ( 'wcfm_products_actions',  $actions, $the_product );
 				
 				

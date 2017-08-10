@@ -4,7 +4,7 @@ Tags: multivendor marketplace, multi vendor, woocommerce marketplace, product ve
 Donate link: http://wclovers.com
 Requires at least: 4.4
 Tested up to: 4.8
-Stable tag: 2.4.5
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,7 @@ WooCommerce Frontend Manager is the smartest woocommerce frontend vendor store/s
 >
 > Premium WCFM will add many more feathers into the frontend wing - 
 > [WCFM Ultimate](http://wclovers.com/product/woocommerce-frontend-manager-ultimate/) - [Overview](https://youtu.be/gitvRdLMTjw) - [Documentation](http://wclovers.com/documentation/)
+> [WCFM Groups & Staffs](http://wclovers.com/product/woocommerce-frontend-manager-groups-staffs/) - [Demo](http://wcfmgs.wclovers.com/my-account/)
 
 On any days, we provide <strong>6 hours</strong> turnaround time to reply every query, even in our busiest schedule. All you need to do is to reach us either via our [support forum](http://wclovers.com/forums) or [WordPress.org](https://wordpress.org/support/plugin/wc-frontend-manager)
 
@@ -56,6 +57,9 @@ WCFM is now fully integrated with -
 - WP Job Manager - WC Paid Listing
 - WP Job Manager - Resume Manager
 - Yoast SEO
+- Toolset Types - [WCFM Demo](http://wcbookings.wclovers.com/my-account/)
+- WooCommerce Per Product Shipping - [WCFM Demo](http://wcmp.wclovers.com/my-account/)
+- Amazon Web Service (S3)
 - WooCommerce Bulk Discount
 - WooCommerce Barcode & ISBN
 - WooCommerce MSRP Pricing
@@ -75,8 +79,9 @@ WooCommerce Frontend Manager is fully compatible with any WordPress-WooCommerce 
 
 = Quick view - what will be on your dashboard? =
 
-- Create and Manage Simple, Variable, Grouped, External, Subscription, Bookable, Auction, Rental, Job Package and Resume Package Products
+- Create and Manage Simple, Variable, Grouped, External, Subscription, Bookable, Accommodation, Auction, Rental, Job Package and Resume Package Products
 - Vendor PDF Invoices (Ultimate)
+- Vendor Groups & Staffs
 - Knowledgebase Module
 - Notification Module
 - Vendor - Store Admin Direct messaging (Chat) system (Ultimate)
@@ -176,10 +181,10 @@ Fully compatible with multivendor marketplace <strong>WC Marketplace</storng> an
 4. WCFM PDF Invoice
 5. WCFM Diverse of Reports
 6. WCFM Product Manager
-7. WCFM Bookable Product Manager
+7. WCFM Groups & Staffs
 8. WCFM Bookings Calendar
 9. WCFM Bookings Dashboard
-10. WCFM Subscription Product Manager
+10. WCFM Bookable Product Manager
 11. WCFM Quick Product Manager
 12. WCFM Coupon Manager
 13. WCFM Coupons Dashboard
@@ -191,8 +196,41 @@ Fully compatible with multivendor marketplace <strong>WC Marketplace</storng> an
 19. WCFM Bookings / Appointments Dashboard
 20. WCFM Message Board
 21. WCFM Knowledgebase
+22. WCFM Subscription Product Manager
 
 == Changelog ==
+
+= 2.6.0 =
+* Feature - WCFM Groups & Staffs integrated
+
+= 2.5.2 =
+* Feature - WCMp Request withdrawal mode integrated
+* Feature - Duplicate Product
+* Enhance - ToolSet Types Address( Map) field compatible
+* Fixed   - Products Dashboard Ajax error issue resolved
+* Enhance - Product Editor Google Map embed code supported
+* Feature - WCMp vendor store slug edit
+* Fixed   - Product Vendors store name update issue resolved
+
+= 2.5.1 =
+* Feature - WCMp Vendor Shipping Settings
+* Feature - Amazon Web Service (S3) media library compatible
+* Enhance - Advance Capability to restrict Vendor from using Rich Editor
+
+= 2.5.0 =
+* Feature - WC Per Product Shipping integrated
+* Feature - Toolset Types integrated
+* Fixed   - WooCommerce Appointments 3.2.0+ compatible
+* Fixed   - Order Guest customer name display issue resolved
+* Enance  - Modified Capability Controller
+* Fixed   - Minor Javascript issue resolved
+
+= 2.4.6 =
+* Feature - WCfM Listings Dashboard
+* Feature - Variation Bulk Actions
+* Fixed   - WooCommerce PDF Invoices & Packing Slips 2.0+ compatible
+* Fixed   - Booking and Rental System (Woocommerce) 1.0.7 compatible
+* Fixed   - Minor Javascript issue resolved
 
 = 2.4.5 =
 * Feature - RTL support added
@@ -440,9 +478,5 @@ Fully compatible with multivendor marketplace <strong>WC Marketplace</storng> an
 
 == Upgrade Notice ==
 
-= 2.4.5 =
-* Feature - RTL support added
-* Fixed   - Knowledgebase video embed issue resolved
-* Enhance - Vednor Dashboard Hooks added
-* Fixed   - Vendor Order Price filter
-* Fixed   - Admin Dashboard Notice controller
+= 2.6.0 =
+* Feature - WCFM Groups & Staffs integrated
