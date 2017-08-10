@@ -143,12 +143,14 @@ class WC_Product_Variable extends WC_Product {
 			$max_reg_price = end( $prices['regular_price'] );
 
 			if ( $min_price !== $max_price ) {
-				$price = apply_filters( 'woocommerce_variable_price_html', wc_format_price_range( $min_price, $max_price ) . $this->get_price_suffix(), $this );
+				$price = wc_format_price_range( $min_price, $max_price );
 			} elseif ( $this->is_on_sale() && $min_reg_price === $max_reg_price ) {
-				$price = apply_filters( 'woocommerce_variable_price_html', wc_format_sale_price( wc_price( $max_reg_price ), wc_price( $min_price ) ) . $this->get_price_suffix(), $this );
+				$price = wc_format_sale_price( wc_price( $max_reg_price ), wc_price( $min_price ) );
 			} else {
-				$price = apply_filters( 'woocommerce_variable_price_html', wc_price( $min_price ) . $this->get_price_suffix(), $this );
+				$price = wc_price( $min_price );
 			}
+
+			$price = apply_filters( 'woocommerce_variable_price_html', $price . $this->get_price_suffix(), $this );
 		}
 
 		return apply_filters( 'woocommerce_get_price_html', $price, $this );
@@ -177,6 +179,8 @@ class WC_Product_Variable extends WC_Product {
 
 	/**
 	 * Return a products child ids.
+	 *
+	 * @param bool|string $visible_only
 	 *
 	 * @return array Children ids
 	 */
@@ -221,6 +225,10 @@ class WC_Product_Variable extends WC_Product {
 
 	/**
 	 * Variable products themselves cannot be downloadable.
+	 *
+	 * @param string $context
+	 *
+	 * @return bool
 	 */
 	public function get_downloadable( $context = 'view' ) {
 		return false;
@@ -228,6 +236,10 @@ class WC_Product_Variable extends WC_Product {
 
 	/**
 	 * Variable products themselves cannot be virtual.
+	 *
+	 * @param string $context
+	 *
+	 * @return bool
 	 */
 	public function get_virtual( $context = 'view' ) {
 		return false;

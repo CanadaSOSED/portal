@@ -1,0 +1,102 @@
+#customer-bought .inside {
+	margin-top: 8px;
+}
+.wpcl #list-table {
+	border-collapse: collapse;
+}
+#postcustomstuff table tr {
+    vertical-align: middle;
+}
+thead th strong {
+    padding-right: 15px;
+}
+.wpcl-init {
+    display: none;
+}
+#postcustomstuff .dataTables_scrollHeadInner table {
+    border: 0;
+}
+.wpcl tr:nth-child(even) {
+	background-color:#f9f9f9;
+}
+.wpcl tr:nth-child(odd) {
+	background-color:#fff;
+}
+.wpcl #list-table tr, .wpcl #list-table td {
+	border: 1px solid #dfdfdf;
+	text-align: left;
+	padding: 0;
+}
+.wpcl #list-table thead th, .wpcl .dataTables_wrapper.no-footer .dataTables_scrollBody, .wpcl table.dataTable thead th, .wpcl table.dataTable thead td {
+	border-bottom: 0;
+    border-top: 0;
+    white-space: nowrap;
+}
+
+.wpcl #list-table thead th {
+    padding: 8px;
+}
+.wpcl p {
+	margin: 8px;
+}
+.wpcl .counter {
+	background-color: #f1f1f1;
+}
+.wpcl .counter p {
+	text-align: center;
+	margin: 8px 0;
+}
+.wpcl .total {
+	text-align: right;
+	float: right;
+	margin-top: 15px;
+}
+.wpcl .button {
+	margin-top: 10px;
+}
+.wpcl .button.button-second {
+	margin-right:3px;
+}
+
+/* Datatables */
+
+.wpcl .dataTables_wrapper .dataTables_paginate .paginate_button {
+    display: inline-block;
+    min-width: 30px !important;
+    border: 1px solid #d2d2d2 !important;
+    padding: 3px 5px 7px !important;
+    background: #e4e4e4 !important;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 400;
+    text-align: center;
+    border-radius: 0;
+    margin: 0.5em 0 0 0.2em;
+}
+.wpcl .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    border-color: #5b9dd9 !important;
+    color: #fff !important;
+    background: #00a0d2 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+}
+.wpcl .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .wpcl .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+    background-color: #ebebeb !important;
+    color: #b4b4b4 !important;
+    border: 0 !important;
+}
+.wpcl .dataTables_wrapper .dataTables_length, .wpcl .dataTables_wrapper .dataTables_filter {
+    margin-bottom: 0.5em;
+}
+.wpcl .dataTables_empty {
+	padding: 8px !important;
+}
+
+.wpcl table.dataTable tbody>tr.selected, .wpcl table.dataTable tbody>tr>.selected {
+    background-color: #eee;
+}
+
+.wpcl .dataTables_wrapper .dataTables_length {
+    margin-left: 10px;
+}

@@ -1,3 +1,6 @@
 [submodule "wp-content/themes"]
 	path = wp-content/themes
 	url = https://github.com/briancaicco/themes.git
+[submodule "wp-content/plugins/sos-woo-reporting"]
+	path = wp-content/plugins/sos-woo-reporting
+	url = https://github.com/briancaicco/sos-woo-reporting.git
