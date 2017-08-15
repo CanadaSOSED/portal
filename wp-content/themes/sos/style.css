@@ -1,0 +1,15 @@
+/*
+Theme Name: SOS Primary
+Author: SOS Development Team
+Author URI:
+Description: SOS Parent Theme
+Text Domain: sos
+
+/*
+This file is just used to identify the theme in WordPress.
+The compiled CSS output can be found in /css/theme.css
+The SASS sources for it can be found in /sass/
+The dependencies can be found in /src/ after running "gulp copy-assets" terminal command
+
+...and now go out and play!
+*/
