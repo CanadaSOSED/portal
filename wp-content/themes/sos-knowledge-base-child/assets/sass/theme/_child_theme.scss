@@ -1,0 +1,173 @@
+
+//////////////////////////////////////////////////////////////////////
+// Global Elements
+//////////////////////////////////////////////////////////////////////
+.wrapper{
+	padding: 80px 0 !important;
+}
+
+a{
+	text-decoration: none !important;
+}
+
+body{
+	font-size: 14px;
+	margin-top: 68px;
+}
+
+// Pages
+.page-title{
+	font-size: 22px;
+}
+
+
+// Archive Pages
+.archive-entry-title{
+	font-size: 17px;
+}
+
+.archive-entry-footer{
+	border-bottom: 1px solid $medium-grey-border;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+
+// Sidebar
+#right-sidebar .widget{
+	padding: 30px;
+	background: $light-bg;
+	border-radius: 5px;
+	ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+} 
+
+#related_posts, .home-right-widget{
+	padding: 30px;
+	background: $light-bg;
+	border-radius: 5px;
+	ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+}
+
+.widget-title{
+	font-size: 22px;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////
+// Navbar + Breadcrumb Navigation 
+//////////////////////////////////////////////////////////////////////
+
+.navbar-logo img {
+	height: 2rem;
+	margin-right: 5px;
+}
+
+#wrapper-navbar{
+	.navbar{
+		padding: 25px 0;
+	}
+	.bg-inverse{
+			background-color: $brand-accent !important;
+	}
+}
+
+#wrapper-breadcrumb{
+	background-color: #e2e2e2;
+	padding: 12px 0;
+	label{
+		display: none;
+	}
+	.breadcrumbs{
+		overflow: hidden;
+		a{
+			color: #0f425c !important;
+		}
+	}
+
+	.nav-breadcrumb{
+		margin-bottom: 0px;
+		box-shadow: none;
+	}
+
+}
+
+.form-control,.wpcf7 input[type=text],.wpcf7 input[type=search],.wpcf7 input[type=url],.wpcf7 input[type=tel],.wpcf7 input[type=number],.wpcf7 input[type=range],.wpcf7 input[type=date],.wpcf7 input[type=month],.wpcf7 input[type=week],.wpcf7 input[type=time],.wpcf7 input[type=datetime],.wpcf7 input[type=datetime-local],.wpcf7 input[type=color],.wpcf7 input[type=email],.wpcf7 input[type=file],.wpcf7 input[type=submit],.wpcf7 select,.wpcf7 textarea,.wpcf7 .wpcf7-validation-errors {
+    display: block;
+    width: 100%;
+    color: #888;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+}
+
+.form-control::-ms-expand,.wpcf7 input[type=text]::-ms-expand,.wpcf7 input[type=search]::-ms-expand,.wpcf7 input[type=url]::-ms-expand,.wpcf7 input[type=tel]::-ms-expand,.wpcf7 input[type=number]::-ms-expand,.wpcf7 input[type=range]::-ms-expand,.wpcf7 input[type=date]::-ms-expand,.wpcf7 input[type=month]::-ms-expand,.wpcf7 input[type=week]::-ms-expand,.wpcf7 input[type=time]::-ms-expand,.wpcf7 input[type=datetime]::-ms-expand,.wpcf7 input[type=datetime-local]::-ms-expand,.wpcf7 input[type=color]::-ms-expand,.wpcf7 input[type=email]::-ms-expand,.wpcf7 input[type=file]::-ms-expand,.wpcf7 input[type=submit]::-ms-expand,.wpcf7 select::-ms-expand,.wpcf7 textarea::-ms-expand,.wpcf7 .wpcf7-validation-errors::-ms-expand {
+    background-color: transparent;
+    border: 0
+}
+
+.form-control:focus,.wpcf7 input[type=text]:focus,.wpcf7 input[type=search]:focus,.wpcf7 input[type=url]:focus,.wpcf7 input[type=tel]:focus,.wpcf7 input[type=number]:focus,.wpcf7 input[type=range]:focus,.wpcf7 input[type=date]:focus,.wpcf7 input[type=month]:focus,.wpcf7 input[type=week]:focus,.wpcf7 input[type=time]:focus,.wpcf7 input[type=datetime]:focus,.wpcf7 input[type=datetime-local]:focus,.wpcf7 input[type=color]:focus,.wpcf7 input[type=email]:focus,.wpcf7 input[type=file]:focus,.wpcf7 input[type=submit]:focus,.wpcf7 select:focus,.wpcf7 textarea:focus,.wpcf7 .wpcf7-validation-errors:focus {
+    color: #888;
+    background-color: #fff;
+    border-color: #0f425c;
+    outline: none
+}
+
+.form-control::placeholder,.wpcf7 input[type=text]::placeholder,.wpcf7 input[type=search]::placeholder,.wpcf7 input[type=url]::placeholder,.wpcf7 input[type=tel]::placeholder,.wpcf7 input[type=number]::placeholder,.wpcf7 input[type=range]::placeholder,.wpcf7 input[type=date]::placeholder,.wpcf7 input[type=month]::placeholder,.wpcf7 input[type=week]::placeholder,.wpcf7 input[type=time]::placeholder,.wpcf7 input[type=datetime]::placeholder,.wpcf7 input[type=datetime-local]::placeholder,.wpcf7 input[type=color]::placeholder,.wpcf7 input[type=email]::placeholder,.wpcf7 input[type=file]::placeholder,.wpcf7 input[type=submit]::placeholder,.wpcf7 select::placeholder,.wpcf7 textarea::placeholder,.wpcf7 .wpcf7-validation-errors::placeholder {
+    color: #888;
+    opacity: 1
+}
+
+//////////////////////////////////////////////////////////////////////
+// Home Page
+//////////////////////////////////////////////////////////////////////
+#wrapper-search{
+	background-color: $light-bg;
+}
+
+// Large Search Box on Home Page
+.home-search{
+	padding: 30px 0;
+	label{
+		display: none;
+	}
+
+	.form-control, .wpcf7 input[type=text], .wpcf7 input[type=search], .wpcf7 input[type=url], .wpcf7 input[type=tel], .wpcf7 input[type=number], .wpcf7 input[type=range], .wpcf7 input[type=date], .wpcf7 input[type=month], .wpcf7 input[type=week], .wpcf7 input[type=time], .wpcf7 input[type=datetime], .wpcf7 input[type=datetime-local], .wpcf7 input[type=color], .wpcf7 input[type=email], .wpcf7 input[type=file], .wpcf7 input[type=submit], .wpcf7 select, .wpcf7 textarea, .wpcf7 .wpcf7-validation-errors {
+		padding: 18px;
+		background-color: #fff;
+		color: #888;
+	}
+
+	.btn, .wpcf7 input[type=submit]{
+		padding: 18px 40px;
+	}
+}
+
+// Recent Post Category Lists
+.recent-posts-list{
+	list-style-type: none;
+	padding-left: 0px;
+	li{
+
+		a{
+			color: $brand-accent;
+			padding: 20px;
+			display: block;
+
+		}
+		a:hover{
+			color: $brand-primary;
+			background-color: $light-bg;
+
+		}
+	}
+}
+
+
+
