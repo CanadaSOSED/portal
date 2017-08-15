@@ -76,18 +76,17 @@ class WC_Meta_Box_Product_Data {
 	 */
 	private static function get_product_data_tabs() {
 		$tabs = apply_filters( 'woocommerce_product_data_tabs', array(
+// 			'general' => array(
+// 				'label'  => __( 'Pricing', 'woocommerce' ),
+// 				'target' => 'general_product_data',
+// 				'class'  => array( 'hide_if_grouped' ),
+// 			),
+// 			'inventory' => array(
+// 				'label'  => __( 'Logistics', 'woocommerce' ),
+// 				'target' => 'inventory_product_data',
+// 				'class'  => array( 'show_if_simple', 'show_if_variable', 'show_if_grouped', 'show_if_external' ),
+// 			)
 			'general' => array(
-<<<<<<< HEAD
-				'label'  => __( 'Pricing', 'woocommerce' ),
-				'target' => 'general_product_data',
-				'class'  => array( 'hide_if_grouped' ),
-			),
-			'inventory' => array(
-				'label'  => __( 'Logistics', 'woocommerce' ),
-				'target' => 'inventory_product_data',
-				'class'  => array( 'show_if_simple', 'show_if_variable', 'show_if_grouped', 'show_if_external' ),
-			)
-=======
 				'label'    => __( 'General', 'woocommerce' ),
 				'target'   => 'general_product_data',
 				'class'    => array( 'hide_if_grouped' ),
@@ -129,7 +128,7 @@ class WC_Meta_Box_Product_Data {
 				'class'    => array(),
 				'priority' => 70,
 			),
->>>>>>> fb67d4238afedba0d5e8577a4293ec34cec24577
+
 		) );
 
 		// Sort tabs based on priority.
