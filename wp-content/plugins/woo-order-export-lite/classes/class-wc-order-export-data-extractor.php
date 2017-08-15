@@ -409,7 +409,7 @@ class WC_Order_Export_Data_Extractor {
 	private static function parse_pairs( $pairs, $valid_types, $mode = '' ) {
 		$pair_types = array();
 		foreach ( $pairs as $pair ) {
-			list( $filter_type, $filter_value ) = explode( "=", trim( $pair ) );
+			list( $filter_type, $filter_value ) = array_map( 'trim', explode( "=", trim( $pair ) ) );
 			if ( $mode == 'lower_filter_label' ) {
 				$filter_type = strtolower( $filter_type );
 			} // Country=>country for locations
@@ -842,6 +842,19 @@ class WC_Order_Export_Data_Extractor {
 				}
 			}	
 		}
+        if ( $settings['billing_locations'] ) {
+            $filters              = self::parse_complex_pairs( $settings['billing_locations'],
+                array( 'city', 'state', 'postcode', 'country' ), 'lower_filter_label' );
+            foreach ( $filters as $operator => $fields) {
+                foreach ( $fields as $field => $values ) {
+                    $values = self::sql_subset( $values );
+                    if ( $values ) {
+                        $left_join_order_meta[] = "LEFT JOIN {$wpdb->postmeta} AS ordermeta_{$field} ON ordermeta_{$field}.post_id = orders.ID";
+                        $order_meta_where []    = " (ordermeta_{$field}.meta_key='_billing_$field'  AND ordermeta_{$field}.meta_value $operator ($values)) ";
+                    }
+                }
+            }
+        }
 		
 		// users
 		$user_ids = array();
@@ -1109,7 +1122,7 @@ class WC_Order_Export_Data_Extractor {
 	 *
 	 * @return array
 	 */
-	public static function fetch_order_products( $order, $labels, $format, $filters_active, $static_vals , $export_only_products, $export_refunds ) {
+	public static function fetch_order_products( $order, $labels, $format, $filters_active, $static_vals , $export_only_products, $export_refunds, $skip_refunded_items ) {
 		$products = array();
 		$i = 0;
 		foreach ( $order->get_items('line_item') as $item_id=>$item ) {
@@ -1119,7 +1132,7 @@ class WC_Order_Export_Data_Extractor {
 			// we export only matched products?
 			if( $export_only_products AND !in_array($item['product_id'], $export_only_products ) AND !in_array($item['variation_id'], $export_only_products ) )
 				continue;
-
+			
 			$product   = $order->get_product_from_item( $item );
 			$product = apply_filters( "woe_get_order_product", $product );
 			$item_meta = get_metadata( 'order_item', $item_id );
@@ -1135,8 +1148,16 @@ class WC_Order_Export_Data_Extractor {
 			$item_meta = apply_filters( "woe_get_order_product_item_meta", $item_meta );
 			$product = apply_filters( "woe_get_order_product_and_item_meta", $product , $item_meta );
 			if( $product ) {
-				$product_id  = method_exists($product,'get_id') ? $product->get_id() : $product->id;
-				$post   = method_exists($product,'get_id') ? get_post($product->get_id()) : $product->post;
+				if( method_exists($product,'get_id') ) {
+					if ( $product->is_type( 'variation' ) ) 
+						$product_id = method_exists($product,'get_parent_id') ? $product->get_parent_id() : $product->parent->id; 
+					else
+						$product_id = $product->get_id();
+					$post = get_post( $product_id ); 
+				} else {	// legacy
+					$product_id  =  $product->id;
+					$post   = $product->post;
+				}	
 			} else {
 				$product_id = 0;
 				$post  = false;
@@ -1145,6 +1166,12 @@ class WC_Order_Export_Data_Extractor {
 			// skip based on products/items/meta
 			if( apply_filters('woe_skip_order_item', false, $product, $item, $item_meta, $post) ) 
 				continue;
+			
+			if( $skip_refunded_items ) {
+				$qty_minus_refund = $item_meta["_qty"][0] + $order->get_qty_refunded_for_item( $item_id ); // Yes we add negative! qty	
+				if( $qty_minus_refund < 1 )
+					continue;
+			}
 			
 			$i++;
 			$row       = array();
@@ -1302,15 +1329,12 @@ class WC_Order_Export_Data_Extractor {
 			$temp['qty'] = '';
 			$temp['weight'] = '';
 			$data['products'] = self::fetch_order_products( $order, $temp, $format,
-				$filters_active['products'], $static_vals['products'], $options['include_products'] , $options['export_refunds'] );
+				$filters_active['products'], $static_vals['products'], $options['include_products'] , $options['export_refunds'] , $options['skip_refunded_items'] );
 		}
 		if ( $export['coupons'] OR isset( $labels['order']['coupons_used'] ) ) {
 			$data['coupons'] = self::fetch_order_coupons( $order, $labels['coupons'], $format,
 				$filters_active['coupons'], $get_coupon_meta, $static_vals['coupons'] );
 		}
-
-		// extra WP_User 
-		$user = ! empty( $order_meta['_customer_user'] ) ? get_userdata( $order_meta['_customer_user'] ) : false;
 
 		$must_adjust_extra_rows = array();
 
@@ -1325,6 +1349,31 @@ class WC_Order_Export_Data_Extractor {
 		$parent_order_id = method_exists($order,'get_parent_id') ? $order->get_parent_id() : $order->post->post_parent;
 		$parent_order = $parent_order_id ? new WC_Order($parent_order_id) : false;
 		$post   = method_exists($order,'get_id') ? get_post($order->get_id()) : $order->post;
+		
+		// correct meta for child orders
+		if( $parent_order_id ) {
+			// overwrite child values for refunds
+			$is_refund = ($post->post_type == 'shop_order_refund') ;
+			$overwrite_child_order_meta = apply_filters( 'woe_overwrite_child_order_meta',  $is_refund ) ;
+			$recs       = $wpdb->get_results( "SELECT meta_value,meta_key FROM {$wpdb->postmeta} WHERE post_id=$parent_order_id" );
+			foreach ( $recs as $rec ) {
+				if( $overwrite_child_order_meta OR !isset( $order_meta[ $rec->meta_key ] ) ) 
+					$order_meta[ $rec->meta_key ] = $rec->meta_value;
+			}
+			
+			//refund rewrites it
+			if ( $overwrite_child_order_meta ) {
+				foreach( array( "billing_country","billing_state","shipping_country","shipping_state") as $field_30 ) {
+					$$field_30 = method_exists($parent_order,'get_'.$field_30) ? $parent_order->{'get_'.$field_30}() : $parent_order->$field_30;
+				}
+			}	
+			//refund status
+			if( $is_refund ) 
+				$order_status = 'refunded';
+		}
+		
+		// extra WP_User 
+		$user = ! empty( $order_meta['_customer_user'] ) ? get_userdata( $order_meta['_customer_user'] ) : false;
 		
 		// fill as it must
 		foreach ( $labels['order'] as $field => $label ) {
@@ -1372,7 +1421,7 @@ class WC_Order_Export_Data_Extractor {
 			} elseif ( $field == 'order_total_tax_minus_refund' ) {
 				$row['order_total_tax_minus_refund'] = wc_round_tax_total( $order->get_total_tax() - $order->get_total_tax_refunded() );
 			} elseif ( $field == 'order_status' ) {
-				$status              = $order->get_status();
+				$status              = empty($order_status) ? $order->get_status() : $order_status ;
 				$status              = 'wc-' === substr( $status, 0, 3 ) ? substr( $status, 3 ) : $status;
 				$row['order_status'] = isset( self::$statuses[ 'wc-' . $status ] ) ? self::$statuses[ 'wc-' . $status ] : $status;
 			} elseif ( $field == 'user_login' OR $field == 'user_email' ) {
@@ -1394,7 +1443,7 @@ class WC_Order_Export_Data_Extractor {
 				$country_states = WC()->countries->get_states( $shipping_country );
 				$row[ $field ] = isset( $country_states[ $shipping_state ]) ? html_entity_decode( $country_states[ $shipping_state ] ) : $shipping_state;
 			} elseif ( $field == 'products' OR $field == 'coupons' ) {
-				if ( $format == 'xls' OR $format == 'csv' ) {
+				if ( $format == 'xls' OR $format == 'csv' OR $format == 'tsv' ) {
 					if ( $csv_max[ $field ] == 1 ) {
 						//print_r(array_values($row));die();
 						// don't refill columns from parent row!
@@ -1605,6 +1654,9 @@ class WC_Order_Export_Data_Extractor {
 	public static function get_shipping_methods() {
 	
 		if( !class_exists("WC_Shipping_Zone") )
+			return array();
+			
+		if( !method_exists("WC_Shipping_Zone", "get_shipping_methods") )
 			return array();
 	
 		$shipping_methods = array();

@@ -13,7 +13,7 @@ class WC_Order_Export_Admin {
 	var $activation_notice_option = 'woocommerce-order-export-activation-notice-shown';
 	var $tempfile_prefix = 'woocommerce-order-file-';
 	var $step = 30;
-	public static $formats = array( 'XLS', 'CSV', 'XML', 'JSON' );
+	public static $formats = array( 'XLS', 'CSV', 'XML', 'JSON', 'TSV' );
 	public static $export_types = array( 'EMAIL', 'FTP', 'HTTP', 'FOLDER' );
 	public $url_plugin;
 	public $path_plugin;
@@ -94,6 +94,9 @@ class WC_Order_Export_Admin {
 	public function uninstall() {
 		wp_clear_scheduled_hook( "wc_export_cron_global" );
 		delete_option( $this->activation_notice_option );
+
+		if( class_exists('WC_Order_Export_EDD') )
+			WC_Order_Export_EDD::getInstance()->edd_woe_force_deactivate_license();
 	}
 
 	function load_textdomain() {
@@ -129,6 +132,10 @@ class WC_Order_Export_Admin {
 		$this->render( 'tools', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'WC_Order_Export' => $this ) );
 	}
 
+	public function render_tab_license() {
+		$this->render( 'license', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'WC_Order_Export' => $this ) );
+	}
+
     public function render_tab_help() {
 		$this->render( 'help', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ), 'WC_Order_Export' => $this ) );
 	}
@@ -147,7 +154,7 @@ class WC_Order_Export_Admin {
 			'order_filters'    => true,
 			'product_filters'  => true,
 			'customer_filters' => true,
-			'payment_filters'  => true,
+			'billing_filters'  => true,
 			'shipping_filters' => true,
 		);
 		switch ( $wc_oe ) {
@@ -443,6 +450,7 @@ class WC_Order_Export_Admin {
 		$free_job = get_option( $this->settings_name_now, array() );
 		if(empty( $profiles )  AND !empty( $free_job ) ) {
 			$free_job['title'] = __('Copied from "Export Now"', 'woocommerce-order-export' );
+			$free_job['mode'] = self::EXPORT_PROFILE;
 			$profiles[1] = $free_job;
 			update_option( $this->settings_name_profiles, $profiles);
 		}
@@ -480,8 +488,10 @@ class WC_Order_Export_Admin {
 
 		$defaults = array(
 			'mode'                                           => $mode,
+			'skip_empty_file'                                => true,
 			'from_status'                                    => array(),
 			'to_status'                                      => array(),
+			'change_order_status_to'                         => '',
 			'statuses'                                       => array(),
 			'from_date'                                      => '',
 			'to_date'                                        => '',
@@ -489,6 +499,7 @@ class WC_Order_Export_Admin {
 			'shipping_methods'                               => array(),
 			'user_roles'                                     => array(),
 			'user_names'                                     => array(),
+            'billing_locations'                              => array(),
 			'payment_methods'                                => array(),
 			'coupons'                                        => array(),
 			'order_custom_fields'                            => array(),
@@ -510,13 +521,21 @@ class WC_Order_Export_Admin {
 			'format_csv_display_column_names'                => 1,
 			'format_csv_add_utf8_bom'                        => 0,
 			'format_csv_populate_other_columns_product_rows' => 1,
+			'format_csv_encoding'                            => 'UTF-8',
+			'format_tsv_linebreak'                           => '\r\n',
+			'format_tsv_display_column_names'                => 1,
+			'format_tsv_add_utf8_bom'                        => 0,
+			'format_tsv_populate_other_columns_product_rows' => 1,
+			'format_tsv_encoding'                            => 'UTF-8',
 			'format_xml_root_tag'                            => 'Orders',
 			'format_xml_order_tag'                           => 'Order',
 			'format_xml_product_tag'                         => 'Product',
 			'format_xml_coupon_tag'                          => 'Coupon',
 			'format_xml_prepend_raw_xml'                     => '',
 			'format_xml_append_raw_xml'                      => '',
+			'format_xml_self_closing_tags'                   => 1,
 			'all_products_from_order'                        => 1,
+			'skip_refunded_items'                            => 1,
 			'skip_suborders' 	              		         => 0,
 			'export_refunds' 	              		         => 0,
 			'date_format' 									 => 'Y-m-d',
@@ -565,12 +584,14 @@ class WC_Order_Export_Admin {
 			$all_jobs = get_option( $this->settings_name_cron, array() );
 			if ( $id ) {
 				$options['schedule']['last_run'] = current_time("timestamp",0);//$all_jobs[ $id ]['schedule']['last_run'];
-				$options['schedule']['next_run'] = self::next_event_timestamp_for_schedule( $options['schedule'] );
+				$options['schedule']['next_run'] = self::next_event_timestamp_for_schedule( $options['schedule'], $id );
 				$all_jobs[ $id ]                 = $options;
 			} else {
 				$options['schedule']['last_run'] = current_time("timestamp",0);
 				$options['schedule']['next_run'] = self::next_event_timestamp_for_schedule( $options['schedule'] );
 				$all_jobs[]                      = $options; // new job
+                end( $all_jobs );
+                $id = key( $all_jobs );
 			}
 
 			update_option( $this->settings_name_cron, $all_jobs );
@@ -578,18 +599,22 @@ class WC_Order_Export_Admin {
 		} elseif ( $mode == self::EXPORT_PROFILE ) {
 			$all_jobs = get_option( $this->settings_name_profiles, array() );
 			if ( $id ) {
-				$all_jobs[ $id ]				 = $options;
+				$all_jobs[ $id ] = $options;
 			} else {
-				$all_jobs[]						 = $options; // new job
+				$all_jobs[] = $options; // new job
+				end( $all_jobs );
+				$id = key( $all_jobs );
 			}
 
 			update_option( $this->settings_name_profiles, $all_jobs );
 		} elseif ( $mode == self::EXPORT_ORDER_ACTION ) {
 			$all_jobs = get_option( $this->settings_name_actions, array() );
 			if ( $id ) {
-				$all_jobs[ $id ]				 = $options;
+				$all_jobs[ $id ] = $options;
 			} else {
-				$all_jobs[]						 = $options; // new job
+				$all_jobs[] = $options; // new job
+				end( $all_jobs );
+				$id = key( $all_jobs );
 			}
 
 			update_option( $this->settings_name_actions, $all_jobs );
@@ -730,6 +755,7 @@ class WC_Order_Export_Admin {
 			'user_roles',
 			'user_names',
 			'coupons',
+            'billing_locations',
 			'payment_methods',
 			'product_attributes',
             'product_itemmeta',
@@ -806,26 +832,41 @@ class WC_Order_Export_Admin {
 
 	public function ajax_action_save_settings() {
 		$settings = $this->make_new_settings( $_POST );
-		//print_r(array($_POST['mode'], $_POST['id'], $settings));
-		$this->save_export_settings( $_POST['mode'], $_POST['id'], $settings );
-		//_e("Settings Updated", 'woocommerce-order-export');
+
+		$id = $this->save_export_settings( $_POST['mode'], $_POST['id'], $settings );
+
+		echo json_encode( array( 'id' => $id ) );
 	}
 
     public function ajax_action_save_tools() {
-		$tools = json_decode(stripslashes($_POST['tools-import']), true);
-        if ($tools) {
-			$allowed_options  =  array(
+		$data        = json_decode(stripslashes($_POST['tools-import']), true);
+        if ( $data ) {
+			$allowed_options = array(
 				$this->settings_name_now,
 				$this->settings_name_cron,
 				$this->settings_name_profiles,
 				$this->settings_name_actions,
 			);
-            foreach ($allowed_options as $key) {
-                if ( isset($tools[$key]) ) {
-                    update_option( $key, $tools[$key] );
-                }
-            }
-        }
+			if( isset( $data["woocommerce-order-export-now"] ) ) { // import ALL
+				foreach ( $allowed_options as $key ) {
+					if ( isset( $data[ $key ] ) ) {
+						update_option( $key, $data[ $key ] );
+					}
+				}
+			}
+			elseif( isset( $data["mode"] ) ) { // OR import single ?
+				$import_type = $data["mode"] == self::EXPORT_ORDER_ACTION ? $this->settings_name_actions : "woocommerce-order-export-" . $data["mode"];
+				if( in_array( $import_type, $allowed_options ) ) {
+					if( $import_type == $this->settings_name_now ) {
+						update_option( $import_type, $data ); // rewrite
+					} else { // append!
+						$items   = get_option( $import_type, array() );
+						$items[] = $data;
+						update_option( $import_type, $items );
+					}	
+				}
+            }// if modes
+        }// if data 
 	}
 
 	public function ajax_action_get_products() {
@@ -967,6 +1008,19 @@ class WC_Order_Export_Admin {
 		echo json_encode( $values );
 	}
 
+	public function ajax_action_get_products_taxonomies_values() {
+		$data = false;
+
+		$terms = get_terms( array( 'taxonomy' => $_POST['tax'] ) );
+		if ( ! empty( $terms ) ) {
+			$data = array_map( function ( $term ) {
+				return $term->name;
+			}, $terms );
+		}
+		sort( $data );
+		echo json_encode( $data );
+	}
+
 	public function ajax_action_get_products_attributes_values() {
 
 		$data = false;
@@ -1009,17 +1063,25 @@ class WC_Order_Export_Admin {
 
 		$data = false;
 
-		$query   = $wpdb->prepare( 'SELECT meta_value FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s',
+		$query   = $wpdb->prepare( 'SELECT DISTINCT meta_value FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s',
 			array( '_shipping_' . strtolower( $_POST['item'] ) ) );
-		$results = $wpdb->get_results( $query );
-		$data    = array_filter( array_unique( array_map( function ( $elem ) {
-			return $elem->meta_value;
-		}, $results ) ), function ( $elem ) {
-			return ! empty( $elem );
-		} );
-
+		$results = $wpdb->get_col( $query );
+		$data    = array_filter( $results );
 		echo json_encode( $data );
 	}
+
+    public function ajax_action_get_products_billing_values() {
+
+        global $wpdb;
+
+        $data = false;
+
+        $query   = $wpdb->prepare( 'SELECT DISTINCT meta_value FROM ' . $wpdb->postmeta . ' WHERE meta_key = %s',
+            array( '_billing_' . strtolower( $_POST['item'] ) ) );
+        $results = $wpdb->get_col( $query );
+        $data    = array_filter( $results );
+        echo json_encode( $data );
+    }
 
 	public function send_headers( $format, $download_name = '') {
 		while ( @ob_end_clean() ) {
@@ -1038,6 +1100,11 @@ class WC_Order_Export_Admin {
 			case 'CSV':
 				if( empty( $download_name ) )
 				  $download_name = "orders.csv";
+				header( 'Content-type: text/csv' );
+				break;
+			case 'TSV':
+				if( empty( $download_name ) )
+					$download_name = "orders.tsv";
 				header( 'Content-type: text/csv' );
 				break;
 			case 'JSON':
@@ -1186,12 +1253,9 @@ class WC_Order_Export_Admin {
 		}
 		$old_status = "wc-{$old_status}";
 		$new_status = "wc-{$new_status}";
-
-		$callback = function( $where, $settings ) use( $order_id ) {
-			$where[] = "orders.ID = {$order_id}";
-			return $where;
-		};
-		add_filter( 'woe_sql_get_order_ids_where', $callback, 10, 2 );
+		
+		$this->changed_order_id = $order_id;
+		add_filter( 'woe_sql_get_order_ids_where', array($this, "filter_by_changed_order"), 10, 2 );
 		
 		$logger = function_exists( "wc_get_logger" ) ? wc_get_logger() : false; //new logger in 3.0+
 		$logger_context = array( 'source' => 'woocommerce-order-export' );
@@ -1215,8 +1279,14 @@ class WC_Order_Export_Admin {
 				do_action('woe_order_action_completed', $order_id,  $item , $result );
 			}
 		}
-		remove_filter( 'woe_sql_get_order_ids_where', $callback, 10 );
+		remove_filter( 'woe_sql_get_order_ids_where', array($this, "filter_by_changed_order"), 10 );
 	}
+	
+	public function filter_by_changed_order ( $where, $settings ) {
+		$where[] = "orders.ID = " . $this->changed_order_id;
+		return $where;
+	}
+
 
 	public function create_custom_schedules( $schedules ) {
 
@@ -1270,7 +1340,7 @@ class WC_Order_Export_Admin {
 					$logger->info( $output, $logger_context );
 					
 				$item['schedule']['last_run'] = $time;
-				$item['schedule']['next_run'] = self::next_event_timestamp_for_schedule( $item['schedule'] );
+				$item['schedule']['next_run'] = self::next_event_timestamp_for_schedule( $item['schedule'], $key );
 			}
 		}
 		unset( $item );
@@ -1279,7 +1349,8 @@ class WC_Order_Export_Admin {
 		delete_transient( $this->cron_process_option );
 	}
 
-	public static function next_event_timestamp_for_schedule( $schedule ) {
+	public static function next_event_timestamp_for_schedule( $schedule, $job_id = 0 ) {
+		$schedule = apply_filters("woe_modify_job_schedule", $schedule, $job_id );
 		if ( $schedule['type'] == 'schedule-1' ) {
 			if( !isset( $schedule['weekday'] ) ) // nothing selected!
 				$schedule['weekday'] = array();
@@ -1451,6 +1522,9 @@ class WC_Order_Export_Admin {
 
 		if ( $pagenow == 'edit.php' && $post_type == 'shop_order' && isset( $_REQUEST[ 'export_bulk_profile' ] ) ) {
 			$url = admin_url( 'admin-ajax.php' ) . "?action=order_exporter&method=export_download_bulk_file&export_bulk_profile=" . $_REQUEST[ 'export_bulk_profile' ] . "&ids=" . $_REQUEST[ 'ids' ];
+			wp_redirect($url);
+			exit();
+			/* unused code
 			//$message = sprintf( __( 'Orders exported. <a href="%s">Download report.</a>' ,'woocommerce-order-export'), $url );
 			$message = __( 'Orders exported.','woocommerce-order-export');
 
@@ -1458,6 +1532,7 @@ class WC_Order_Export_Admin {
 
 			// must remove this arg from pagination url
 			add_filter('removable_query_args', array($this, 'fix_table_links') );
+			*/
 		}
 	}
 
@@ -1474,4 +1549,8 @@ class WC_Order_Export_Admin {
 		// our method MUST BE called
 		return isset($_REQUEST['action'])  AND ($_REQUEST['action'] == "order_exporter"  OR $_REQUEST['action'] == "order_exporter_run" );
 	}
+
+	public static function is_full_version() {
+        return defined( 'WOE_VERSION' );
+    }
 }

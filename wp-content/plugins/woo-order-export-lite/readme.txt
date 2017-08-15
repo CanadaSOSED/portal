@@ -1,14 +1,14 @@
 === Advanced Orders Export For WooCommerce ===
 Contributors: algolplus
 Donate link: http://algolplus.com/plugins/
-Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export
+Tags: woocommerce,export,order,xls,csv,xml,woo export lite,export orders,orders export,csv export,xml export,xls export,tsv
 Requires at least: 4.2.4
 Tested up to: 4.8
 Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Export orders from WooCommerce with ease ( Excel/CSV/XML/Json supported )
+Export orders from WooCommerce with ease ( Excel/CSV/TSV/XML/Json supported )
 
 == Description ==
 This plugin helps you to **easily** export WooCommerce order data. 
@@ -31,7 +31,7 @@ Export any custom field assigned to orders/products/coupons is easy and you can 
 * customer details (both shipping and billing)
 * product attributes
 * coupon details
-* CSV, XLS, XML and JSON formats
+* XLS, CSV, TSV, XML and JSON formats
 
 = Use this plugin to export orders for =
 
@@ -92,6 +92,20 @@ Yes, you can email a request to aprokaev@gmail.com. We intensively develop this 
 6. Select orders to export and use "bulk action".
 
 == Changelog ==
+
+= 1.4.2 - 2017-07-13 =
+* Fixed critical bug in deactivation procedure
+
+= 1.4.1 - 2017-07-12 =
+* German translation was added. Thanks to contributor!
+* Added filter "Billing locations"
+* Added new format TSV (tab separated values)
+* Added self closing tags for XML
+* Added option to skip refunded items
+* Import/export works with single profile
+* Force string format for  some Excel columns ( customer note, phone number,..)
+* Fixed some bugs for refunds
+* Fixed bug for export via bulk actions 
 
 = 1.4.0 - 2017-06-02 =
 * Fixed bug for field "Customer order note"
