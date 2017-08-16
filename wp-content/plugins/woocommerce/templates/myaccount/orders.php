@@ -26,8 +26,6 @@ do_action( 'woocommerce_before_account_orders', $has_orders ); ?>
 
 <?php if ( $has_orders ) : ?>
 
-	<p>Please refrain from sharing course materials with others. You are the reason why students in other countries are able to gain access to education. Help us continue this effort by supporting SOS through Exam-Aids, Digital Exam-Aids and Take-Home Packages.</p>
-
 	<table class="woocommerce-orders-table woocommerce-MyAccount-orders shop_table shop_table_responsive my_account_orders account-orders-table">
 		<thead>
 			<tr>

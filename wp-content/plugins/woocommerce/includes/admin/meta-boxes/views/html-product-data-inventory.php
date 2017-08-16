@@ -7,11 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="options_group">
 		<?php
-
-			/* --- COMMENTED OUT SKU OPTION - Ryan Woo --- */
-			/* if ( wc_product_sku_enabled() ) {
+			if ( wc_product_sku_enabled() ) {
 				woocommerce_wp_text_input( array(
-						'id'          => '_sku`',`
+					'id'          => '_sku',
 					'value'       => $product_object->get_sku( 'edit' ),
 					'label'       => '<abbr title="' . __( 'Stock Keeping Unit', 'woocommerce' ) . '">' . __( 'SKU', 'woocommerce' ) . '</abbr>',
 					'desc_tip'    => true,
@@ -19,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 				) );
 			}
 
-			do_action( 'woocommerce_product_options_sku' ); */
+			do_action( 'woocommerce_product_options_sku' );
 
 			if ( 'yes' === get_option( 'woocommerce_manage_stock' ) ) {
 
@@ -27,8 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'id'            => '_manage_stock',
 					'value'         => $product_object->get_manage_stock( 'edit' ) ? 'yes' : 'no',
 					'wrapper_class' => 'show_if_simple show_if_variable',
-					'label'         => __( 'Maximum Capacity?', 'woocommerce' ),
-					'description'   => __( 'Restrict registration to a maximum number - use for room capacity.', 'woocommerce' ),
+					'label'         => __( 'Manage stock?', 'woocommerce' ),
+					'description'   => __( 'Enable stock management at product level', 'woocommerce' ),
 				) );
 
 				do_action( 'woocommerce_product_options_stock' );
@@ -38,9 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				woocommerce_wp_text_input( array(
 					'id'                => '_stock',
 					'value'             => $product_object->get_stock_quantity( 'edit' ),
-					'label'             => __( 'Maximum Seats', 'woocommerce' ),
+					'label'             => __( 'Stock quantity', 'woocommerce' ),
 					'desc_tip'          => true,
-					'description'       => __( 'Maximum seats. For Take-Home Package and DEAs do not use unless you want to restrict how many purchases you want to allow.', 'woocommerce' ),
+					'description'       => __( 'Stock quantity. If this is a variable product this value will be used to control stock for all variations, unless you define stock at variation level.', 'woocommerce' ),
 					'type'              => 'number',
 					'custom_attributes' => array(
 						'step'          => 'any',
@@ -48,30 +46,28 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'data_type'         => 'stock',
 				) );
 
-				/* --- COMMENTED OUT THE BACKORDERS OPTION --- Ryan Woo */
-				/* woocommerce_wp_select( array(
+				woocommerce_wp_select( array(
 					'id'          => '_backorders',
 					'value'       => $product_object->get_backorders( 'edit' ),
 					'label'       => __( 'Allow backorders?', 'woocommerce' ),
 					'options'     => wc_get_product_backorder_options(),
 					'desc_tip'    => true,
 					'description' => __( 'If managing stock, this controls whether or not backorders are allowed. If enabled, stock quantity can go below 0.', 'woocommerce' ),
-				) ); */
+				) );
 
 				do_action( 'woocommerce_product_options_stock_fields' );
 
 				echo '</div>';
 			}
 
-
 			woocommerce_wp_select( array(
 				'id'             => '_stock_status',
 				'value'          => $product_object->get_stock_status( 'edit' ),
 				'wrapper_class'  => 'hide_if_variable hide_if_external',
-				'label'          => __( 'Product Status', 'woocommerce' ),
+				'label'          => __( 'Stock status', 'woocommerce' ),
 				'options'        => wc_get_product_stock_status_options(),
 				'desc_tip'       => true,
-				'description'    => __( 'Controls whether product is still "For Sale" or "No Longer Available".', 'woocommerce' ),
+				'description'    => __( 'Controls whether or not the product is listed as "in stock" or "out of stock" on the frontend.', 'woocommerce' ),
 			) );
 
 			do_action( 'woocommerce_product_options_stock_status' );

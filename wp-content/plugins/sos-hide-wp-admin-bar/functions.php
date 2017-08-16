@@ -16,7 +16,9 @@
 add_action('after_setup_theme', 'remove_admin_bar');
 
 function remove_admin_bar() {
-    if (!current_user_can('administrator') && !is_admin()) {
-      add_filter('show_admin_bar', '__return_false');
+    if( current_user_can('edit_pages') ) { 
+    
+    } else {
+    	add_filter('show_admin_bar', '__return_false');
     }
 }

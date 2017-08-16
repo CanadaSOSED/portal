@@ -418,18 +418,19 @@ function wc_scheduled_sales() {
 	$product_ids = $data_store->get_starting_sales();
 	if ( $product_ids ) {
 		foreach ( $product_ids as $product_id ) {
-			$product = wc_get_product( $product_id );
-			$sale_price = $product->get_sale_price();
+			if ( $product = wc_get_product( $product_id ) ) {
+				$sale_price = $product->get_sale_price();
 
-			if ( $sale_price ) {
-				$product->set_price( $sale_price );
-				$product->set_date_on_sale_from( '' );
-			} else {
-				$product->set_date_on_sale_to( '' );
-				$product->set_date_on_sale_from( '' );
+				if ( $sale_price ) {
+					$product->set_price( $sale_price );
+					$product->set_date_on_sale_from( '' );
+				} else {
+					$product->set_date_on_sale_to( '' );
+					$product->set_date_on_sale_from( '' );
+				}
+
+				$product->save();
 			}
-
-			$product->save();
 		}
 
 		delete_transient( 'wc_products_onsale' );
@@ -439,13 +440,14 @@ function wc_scheduled_sales() {
 	$product_ids = $data_store->get_ending_sales();
 	if ( $product_ids ) {
 		foreach ( $product_ids as $product_id ) {
-			$product       = wc_get_product( $product_id );
-			$regular_price = $product->get_regular_price();
-			$product->set_price( $regular_price );
-			$product->set_sale_price( '' );
-			$product->set_date_on_sale_to( '' );
-			$product->set_date_on_sale_from( '' );
-			$product->save();
+			if ( $product = wc_get_product( $product_id ) ) {
+				$regular_price = $product->get_regular_price();
+				$product->set_price( $regular_price );
+				$product->set_sale_price( '' );
+				$product->set_date_on_sale_to( '' );
+				$product->set_date_on_sale_from( '' );
+				$product->save();
+			}
 		}
 
 		WC_Cache_Helper::get_transient_version( 'product', true );
@@ -530,12 +532,10 @@ add_action( 'template_redirect', 'wc_track_product_view', 20 );
  */
 function wc_get_product_types() {
 	return (array) apply_filters( 'product_type_selector', array(
-		'simple'   => __( 'EA/DEA/Take-Home', 'woocommerce' )
-
-		// --- COMMENTED OUT ALL OTHER OPTIONS - Ryan Woo
-		/* 'grouped'  => __( 'Grouped product', 'woocommerce' ),
+		'simple'   => __( 'Simple product', 'woocommerce' ),
+		'grouped'  => __( 'Grouped product', 'woocommerce' ),
 		'external' => __( 'External/Affiliate product', 'woocommerce' ),
-		'variable' => __( 'Variable product', 'woocommerce' ), */
+		'variable' => __( 'Variable product', 'woocommerce' ),
 	) );
 }
 
@@ -788,7 +788,7 @@ function wc_get_min_max_price_meta_query( $args ) {
 		'key'     => '_price',
 		'value'   => array( $min, $max ),
 		'compare' => 'BETWEEN',
-		'type'    => 'NUMERIC',
+		'type'    => 'DECIMAL(10,' . wc_get_price_decimals() . ')',
 	);
 }
 
@@ -819,8 +819,8 @@ function wc_get_product_tax_class_options() {
  */
 function wc_get_product_stock_status_options() {
 	return array(
-		'instock'    => __( 'For Sale', 'woocommerce' ),
-		'outofstock' => __( 'No Longer Available', 'woocommerce' ),
+		'instock'    => __( 'In stock', 'woocommerce' ),
+		'outofstock' => __( 'Out of stock', 'woocommerce' ),
 	);
 }
 
