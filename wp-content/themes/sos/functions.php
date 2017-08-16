@@ -91,6 +91,56 @@ function sos_change_cat_object() {
 add_action( 'init', 'sos_change_cat_object' );
 
 
+// Append Nav with login / logout link
+//////////////////////////////////////////////////////////////////////
+
+function add_login_logout_register_menu( $items, $args ) {
+ if ( $args->theme_location != 'primary' ) {
+ return $items;
+ }
+
+if ( is_user_logged_in() ) {
+    if( current_user_can('edit_post') ) { 
+        $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/wp-admin">' . __( 'Admin' ) . '</a></li>';
+        $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
+    } else {
+        $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'My Account' ) . '</a></li>';
+        $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
+    }
+ 
+ } else {
+     $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'Login' ) . '</a></li>';
+     $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'Sign Up' ) . '</a></li>';
+ }
+ 
+ return $items;
+}
+ 
+add_filter( 'wp_nav_menu_items', 'add_login_logout_register_menu', 199, 2 );
+
+
+/**
+* Redirect user after successful login to Woocomerce My Account Page if User can edit_posts
+* 
+*
+* @param string $url URL to redirect to.
+* @param string $request URL the user is coming from.
+* @param object $user Logged user's data.
+* @return string
+*/
+
+function sos_login_redirect( $url, $request, $user ){
+    if( $user && is_object( $user ) && is_a( $user, 'WP_User' ) ) {
+        if( $user->has_cap( 'edit_posts' ) ) {
+            $url = admin_url();
+        } else {
+            $url = home_url('/my-account/');
+        }
+    }
+    return $url;
+}
+add_filter('login_redirect', 'sos_login_redirect', 10, 3 );
+
 
 /**
  * Theme setup and custom theme supports.

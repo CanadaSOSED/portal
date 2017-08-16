@@ -15,7 +15,7 @@ get_header(); ?>
 		<div class="overlay"></div>
 	     <div class="page-header page-header-small">
 	         <div class="container">
-	     		<div class="row">
+	     		<div class="row mt-5 mb-5 pt-3 pb-3">
 	     			<div class="col-md-6">
 	     				<div class="embed-container"><iframe src='http://www.youtube.com/embed/b3A9tkKw43A' frameborder='0' allowfullscreen></iframe></div>
 	     			</div>
@@ -32,15 +32,15 @@ get_header(); ?>
      </section>
      <section id="sos-mission">
      	<div class="container">
-     	<div class="row">
-     	                 <div class="col-md-8 offset-md-2 text-center">
-     	                     <h2 class="title mb-5">Our Mission</h2>
+     	<div class="row mt-5 mb-5 pt-3 pb-3">
+     	                 <div class="col-sm-12 text-center">
+     	                     <h2 class="title mb-2">Our Mission</h2>
      	                 </div>
      	             </div>
-     		<div class="row">
+     		<div class="row mt-5 mb-5 pt-3 pb-3">
      			<div class="col-xs-12 col-md-6">
      					<div class="card text-center">
-     						<div class="card-block">
+     						<div class="card-body">
      							<h4 class="card-title">Raising Marks</h4>
      							<h6 class="card-subtitle mb-2 text-muted">Exam-AID Sessions</h6>
      							<p class="card-text">Volunteers manage SOS campus chapters as social enterprises,&nbsp;planning and running “Exam-AID” group review sessions. During our 3-4 hour Exam-AID sessions, volunteer leaders take their peers over all the material covered on an upcoming exam.<br></p>
@@ -50,7 +50,7 @@ get_header(); ?>
      			</div>
      			<div class="col-xs-12 col-md-6">
      					<div class="card text-center">
-     						<div class="card-block">
+     						<div class="card-body">
      							<h4 class="card-title">Raising Money</h4>
      							<h6 class="card-subtitle mb-2 text-muted">Exam-AID Donations</h6>
      							<p class="card-text">SOS asks for a $10-$20 donation to attend an Exam-AID session. The money generated from these sessions is used to fund education development projects in rural Latin&nbsp;America.<br></p>
@@ -59,10 +59,10 @@ get_header(); ?>
      					</div>
      			</div>
      		</div>
-     		<div class="row">
+     		<div class="row mt-5 mb-5 pt-3 pb-3">
      		<div class="col-xs-12 col-md-12">
      					<div class="card text-center">
-     						<div class="card-block">
+     						<div class="card-body">
      							<h4 class="card-title">Raising Roofs</h4>
      							<h6 class="card-subtitle mb-2 text-muted">Latin America Homes</h6>
      							<p class="card-text">These projects are not just funded by, but also built by volunteers on outreach trips. Each May &amp; August, volunteers spend two weeks building the project their SOS chapter funded over the year, exposing them to a whole new culture and to the impact of their time and efforts.</p>
@@ -75,7 +75,7 @@ get_header(); ?>
      </section>
      <div class="section section-about-us">
          <div class="container">
-             <div class="row">
+             <div class="row mt-5 mb-5 pt-3 pb-3">
                  <div class="col-md-8 offset-md-2 text-center">
                      <h2 class="title">SOS on Campus and Exam Aid Sessions</h2>
                      <h5 class="description">Exam Aids are three hour group review sessions that occur prior to a midterm or final test. Each session is taught by a student volunteer with exceptional communication skills, who has previously excelled in that particular course.</h5>
@@ -83,12 +83,12 @@ get_header(); ?>
              </div>
              <div class="separator separator-primary"></div>
              <div class="section-story-overview">
-                 <div class="row">
+                 <div class="row mt-5 mb-5 pt-3 pb-3">
                      <div class="col-md-6">
                          <div class="image-container image-left">
                              <!-- First image on the left side -->
                              <img src="<?php bloginfo( 'stylesheet_directory' ); ?>/assets/img/now-ui/writing.jpg" alt="" class="rounded img-fluid img-raised">
-                             <p class="blockquote blockquote-primary w-3">"Having participated in two outreach trips with SOS, I can attest to the positive difference the organization is making. I've established lasting and unique relationships and can genuinely say that the memories will last a lifetime."
+                             <p class="bodyquote bodyquote-primary w-3">"Having participated in two outreach trips with SOS, I can attest to the positive difference the organization is making. I've established lasting and unique relationships and can genuinely say that the memories will last a lifetime."
                                  <br>
                                  <br>
                                  <small>-  <b>Joey Hutter, University of Calgary</b><br/>
@@ -124,7 +124,7 @@ get_header(); ?>
          <div class="container">
              <h2 class="title">Here is our team</h2>
              <div class="team">
-                 <div class="row">
+                 <div class="row mt-5 mb-5 pt-3 pb-3">
                      <div class="col-md-4">
                          <div class="team-player">
                              <img src="<?php bloginfo( 'stylesheet_directory' ); ?>/assets/img/now-ui/avatar.jpg" alt="Thumbnail Image" class="rounded-circle img-fluid img-raised">
@@ -168,7 +168,7 @@ get_header(); ?>
          <div class="container">
              <h2 class="title">Want to work with us?</h2>
              <p class="description">Your project is very important to us.</p>
-             <div class="row">
+             <div class="row mt-5 mb-5 pt-3 pb-3">
                  <div class="col-lg-6 text-center offset-lg-3 col-md-8 offset-md-2">
                      <div class="input-group form-group-no-border input-lg">
                          <span class="input-group-addon">
@@ -183,10 +183,10 @@ get_header(); ?>
                          <input type="text" class="form-control" placeholder="Email...">
                      </div>
                      <div class="textarea-container">
-                         <textarea class="form-control" name="name" rows="4" cols="80" placeholder="Type a message..."></textarea>
+                         <textarea class="form-control" name="name" row mt-5 mb-5 pt-3 pb-3s="4" cols="80" placeholder="Type a message..."></textarea>
                      </div>
                      <div class="send-button">
-                         <a href="#pablo" class="btn btn-info btn-round btn-block btn-lg">Send Message</a>
+                         <a href="#pablo" class="btn btn-info btn-round btn-body btn-lg">Send Message</a>
                      </div>
                  </div>
              </div>
@@ -196,7 +196,7 @@ get_header(); ?>
 
  <section class="pre-footer-cta">
  	<div class="container">
- 		<div class="row">
+ 		<div class="row mt-5 mb-5 pt-3 pb-3">
  			<div class="col-md-4">
  				<div class="text-xs-center"><a class="btn btn-lg btn-info" href="#">FIND YOUR SCHOOL</a></div>
  			</div>

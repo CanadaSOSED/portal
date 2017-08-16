@@ -2,7 +2,7 @@
 /**
  * Add WooCommerce support
  *
- * @package sos-knowledge-base
+ * @package sos-primary-theme
  */
 add_action( 'after_setup_theme', 'woocommerce_support' );
 if ( ! function_exists( 'woocommerce_support' ) ) {
@@ -40,63 +40,92 @@ function wc_form_field_args( $args, $key, $value = null ) {
 		case 'select' :
 			// Add a class to the field's html element wrapper - woocommerce
 			// input types (fields) are often wrapped within a <p></p> tag.
-			$args['class'][] = 'form-group';
+		$args['class'][] = 'form-group';
 			// Add a class to the form input itself.
-			$args['input_class']       = array( 'form-control', 'input-lg' );
-			$args['label_class']       = array( 'control-label' );
-			$args['custom_attributes'] = array(
-				'data-plugin'      => 'select2',
-				'data-allow-clear' => 'true',
-				'aria-hidden'      => 'true',
+		$args['input_class']       = array( 'form-control', 'input-lg' );
+		$args['label_class']       = array( 'control-label' );
+		$args['custom_attributes'] = array(
+			'data-plugin'      => 'select2',
+			'data-allow-clear' => 'true',
+			'aria-hidden'      => 'true',
 				// Add custom data attributes to the form input itself.
-			);
-			break;
+		);
+		break;
 		// By default WooCommerce will populate a select with the country names - $args
 		// defined for this specific input type targets only the country select element.
 		case 'country' :
-			$args['class'][]     = 'form-group single-country';
-			$args['label_class'] = array( 'control-label' );
-			break;
+		$args['class'][]     = 'form-group single-country';
+		$args['label_class'] = array( 'control-label' );
+		break;
 		// By default WooCommerce will populate a select with state names - $args defined
 		// for this specific input type targets only the country select element.
 		case 'state' :
 			// Add class to the field's html element wrapper.
-			$args['class'][] = 'form-group';
+		$args['class'][] = 'form-group';
 			// add class to the form input itself.
-			$args['input_class']       = array( '', 'input-lg' );
-			$args['label_class']       = array( 'control-label' );
-			$args['custom_attributes'] = array(
-				'data-plugin'      => 'select2',
-				'data-allow-clear' => 'true',
-				'aria-hidden'      => 'true',
-			);
-			break;
+		$args['input_class']       = array( '', 'input-lg' );
+		$args['label_class']       = array( 'control-label' );
+		$args['custom_attributes'] = array(
+			'data-plugin'      => 'select2',
+			'data-allow-clear' => 'true',
+			'aria-hidden'      => 'true',
+		);
+		break;
 		case 'password' :
 		case 'text' :
 		case 'email' :
 		case 'tel' :
 		case 'number' :
-			$args['class'][]     = 'form-group';
-			$args['input_class'] = array( 'form-control', 'input-lg' );
-			$args['label_class'] = array( 'control-label' );
-			break;
+		$args['class'][]     = 'form-group';
+		$args['input_class'] = array( 'form-control', 'input-lg' );
+		$args['label_class'] = array( 'control-label' );
+		break;
 		case 'textarea' :
-			$args['input_class'] = array( 'form-control', 'input-lg' );
-			$args['label_class'] = array( 'control-label' );
-			break;
+		$args['input_class'] = array( 'form-control', 'input-lg' );
+		$args['label_class'] = array( 'control-label' );
+		break;
 		case 'checkbox' :
-			$args['label_class'] = array( 'custom-control custom-checkbox' );
-			$args['input_class'] = array( 'custom-control-input', 'input-lg' );
-			break;
+		$args['label_class'] = array( 'custom-control custom-checkbox' );
+		$args['input_class'] = array( 'custom-control-input', 'input-lg' );
+		break;
 		case 'radio' :
-			$args['label_class'] = array( 'custom-control custom-radio' );
-			$args['input_class'] = array( 'custom-control-input', 'input-lg' );
-			break;
+		$args['label_class'] = array( 'custom-control custom-radio' );
+		$args['input_class'] = array( 'custom-control-input', 'input-lg' );
+		break;
 		default :
-			$args['class'][]     = 'form-group';
-			$args['input_class'] = array( 'form-control', 'input-lg' );
-			$args['label_class'] = array( 'control-label' );
-			break;
+		$args['class'][]     = 'form-group';
+		$args['input_class'] = array( 'form-control', 'input-lg' );
+		$args['label_class'] = array( 'control-label' );
+		break;
 	} // end switch ($args).
 	return $args;
 }
+
+/**
+*
+*
+* Woocommerce Hooks & Overrides
+*
+* 
+*/
+
+/**
+* Remove 'Dashboard' from My Account Page Menu
+*/
+function custom_my_account_menu_items( $items ) {
+
+	$items = array(
+
+		'dashboard' => __( 'My Account', 'woocommerce' ),
+		'orders' => __( 'Orders', 'woocommerce' ),
+		'downloads' => __( 'Downloads', 'woocommerce' ),
+		'edit-address' => __( 'Addresses', 'woocommerce' ),
+		'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
+		'edit-account' => __( 'Edit Account', 'woocommerce' ),
+		'customer-logout' => __( 'Logout', 'woocommerce' ),
+	);
+
+	return $items;
+}
+add_filter( 'woocommerce_account_menu_items', 'custom_my_account_menu_items' );
+
