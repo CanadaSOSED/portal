@@ -44,10 +44,32 @@ add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
 add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
 
 
-// Rename Default "Post" type to "Sessions"
+// Rename Flamingo Default "Page" type to "Form Submissions"
 //////////////////////////////////////////////////////////////////////
 
-function sos_change_post_object() {
+function sos_rename_flamingo_menu( $translated, $original, $domain ) {
+
+$strings = array(
+    'Flamingo' => 'Applications',
+    'Address Book' => 'Contact Info',
+    'Flamingo Address Book' => 'Applicant Contact Information',
+    'Inbound Messages' => 'All Applications'
+);
+
+if ( isset( $strings[$original] ) && is_admin() ) {
+    $translations = &get_translations_for_domain( $domain );
+    $translated = $translations->translate( $strings[$original] );
+}
+
+  return $translated;
+}
+
+add_filter( 'gettext', 'sos_rename_flamingo_menu', 10, 3 );
+
+// Rename WooCommerce Default "Post" type to "Sessions"
+//////////////////////////////////////////////////////////////////////
+
+function sos_change_woo_post_object() {
     global $wp_post_types;
     $labels = &$wp_post_types['product']->labels;
     $labels->name = 'Sessions';
@@ -65,13 +87,13 @@ function sos_change_post_object() {
     $labels->name_admin_bar = 'Sessions';
 }
  
-add_action( 'init', 'sos_change_post_object' );
+add_action( 'init', 'sos_change_woo_post_object' );
 
 
-// Rename Default "Category" Taxonomy to "Topics"
+// Rename WooCommerce Default "Category" Taxonomy to "Topics"
 //////////////////////////////////////////////////////////////////////
 
-function sos_change_cat_object() {
+function sos_change_woo_cat_object() {
     global $wp_taxonomies;
     $labels = &$wp_taxonomies['product_cat']->labels;
     $labels->name = 'Topic';
@@ -88,7 +110,7 @@ function sos_change_cat_object() {
     $labels->menu_name = 'Topic';
     $labels->name_admin_bar = 'Topic';
 }
-add_action( 'init', 'sos_change_cat_object' );
+add_action( 'init', 'sos_change_woo_cat_object' );
 
 
 // Append Nav with login / logout link
