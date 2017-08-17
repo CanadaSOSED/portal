@@ -64,6 +64,23 @@ if ($ip = '138.197.168.139') {
 
 }
 
+
+// Disable User Roles
+//////////////////////////////////////////////////////////////////////
+add_action('admin_menu', 'remove_built_in_roles');
+ 
+function remove_built_in_roles() {
+    global $wp_roles;
+ 
+    $roles_to_remove = array('contributor', 'author', 'editor', 'subscriber', 'shop-manager');
+ 
+    foreach ($roles_to_remove as $role) {
+        if (isset($wp_roles->roles[$role])) {
+            $wp_roles->remove_role($role);
+        }
+    }
+}
+
 // Rename Flamingo Default "Page" type to "Form Submissions"
 //////////////////////////////////////////////////////////////////////
 
