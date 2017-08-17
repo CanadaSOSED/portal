@@ -72,7 +72,7 @@ add_action('admin_menu', 'remove_built_in_roles');
 function remove_built_in_roles() {
     global $wp_roles;
  
-    $roles_to_remove = array('contributor', 'author', 'editor', 'subscriber', 'shop manager');
+    $roles_to_remove = array('contributor', 'author', 'editor', 'subscriber', 'shop_manager');
  
     foreach ($roles_to_remove as $role) {
         if (isset($wp_roles->roles[$role])) {
