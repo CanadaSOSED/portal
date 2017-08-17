@@ -44,6 +44,26 @@ add_filter( 'style_loader_src', 'remove_cssjs_ver', 10, 2 );
 add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
 
 
+
+// Hide All WordPress and plugin update notifications
+//////////////////////////////////////////////////////////////////////
+function remove_update_notifications(){
+ 
+    global $wp_version;return(object) array('last_checked'=> time(),'version_checked'=> $wp_version,);
+
+}
+
+// Make sure we're on the development server
+$ip = getenv('REMOTE_ADDR');
+
+if ($ip = '138.197.168.139') {
+
+    add_filter('pre_site_transient_update_core','remove_update_notifications');
+    add_filter('pre_site_transient_update_plugins','remove_update_notifications');
+    add_filter('pre_site_transient_update_themes','remove_update_notifications');
+
+}
+
 // Rename Flamingo Default "Page" type to "Form Submissions"
 //////////////////////////////////////////////////////////////////////
 
