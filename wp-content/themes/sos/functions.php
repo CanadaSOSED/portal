@@ -127,6 +127,9 @@ function sos_change_woo_post_object() {
 add_action( 'init', 'sos_change_woo_post_object' );
 
 
+// Remove WooCommerce Default supports for "products aka: sessions"
+//////////////////////////////////////////////////////////////////////
+
 function sos_supports_for_woo_post_object() {
 	
 	remove_post_type_support( 
@@ -143,6 +146,51 @@ function sos_supports_for_woo_post_object() {
 }
 
 add_action( 'init', 'sos_supports_for_woo_post_object' );
+
+
+// Remove dashboard metaboxes
+//////////////////////////////////////////////////////////////////////
+function sos_disable_dashboard_widgets() {  
+  
+	remove_meta_box( 'dashboard_incoming_links', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_plugins', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
+	remove_meta_box( 'dashboard_secondary', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
+	remove_meta_box( 'dashboard_recent_drafts', 'dashboard', 'side' );
+	remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_activity', 'dashboard', 'normal');//since 3.8
+    remove_action('welcome_panel', 'wp_welcome_panel'); // Welcome panel on update & first signin
+    
+}  
+add_action('wp_dashboard_setup', 'sos_disable_dashboard_widgets');
+
+
+function sos_remove_plugin_metaboxes(){
+	$post_types = get_post_types();
+		// change name of reviews meta box by removing it and adding it back with a new name
+	  remove_meta_box( 'woocommerce_dashboard_recent_reviews', 'dashboard', 'normal' ); 
+	  remove_meta_box( 'woocommerce_dashboard_status', 'dashboard', 'normal' ); // woocommerce activity metabox
+}
+add_action( 'do_meta_boxes', 'sos_remove_plugin_metaboxes' );
+
+
+// Add Custom dashboard metaboxes
+//////////////////////////////////////////////////////////////////////
+
+// Function that outputs the contents of the dashboard widget
+function sos_dashboard_widget_function( $post, $callback_args ) {
+	echo "Checkout the knowledge base to find the answers you're looking for. <br/> <a href='http://kb.soscampus.com'>Visit Knowledge Base</a>";
+}
+
+// Function used in the action hook
+function sos_add_dashboard_widgets() {
+	wp_add_dashboard_widget('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_widget_function');
+}
+
+// Register the new dashboard widget with the 'wp_dashboard_setup' action
+add_action('wp_dashboard_setup', 'sos_add_dashboard_widgets' );
 
 
 // Rename WooCommerce Default "Category" Taxonomy to "Topics"
@@ -167,6 +215,13 @@ function sos_change_woo_cat_object() {
 }
 add_action( 'init', 'sos_change_woo_cat_object' );
 
+
+// Add custom login page styles
+//////////////////////////////////////////////////////////////////////
+function my_custom_login() {
+echo '<link rel="stylesheet" type="text/css" href="' . get_bloginfo('stylesheet_directory') . '/assets/css/login.css" />';
+}
+add_action('login_head', 'my_custom_login');
 
 // Append Nav with login / logout link
 //////////////////////////////////////////////////////////////////////

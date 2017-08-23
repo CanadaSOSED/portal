@@ -1,0 +1,13 @@
+body{
+
+}
+body.login {
+  background-image: url('../img/login-page-bg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.login h1 a {
+  background-image: url('../img/sos-logo.svg');
+}
