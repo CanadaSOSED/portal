@@ -7,17 +7,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	<div class="options_group">
 		<?php
-			if ( wc_product_sku_enabled() ) {
-				woocommerce_wp_text_input( array(
-					'id'          => '_sku',
-					'value'       => $product_object->get_sku( 'edit' ),
-					'label'       => '<abbr title="' . __( 'Stock Keeping Unit', 'woocommerce' ) . '">' . __( 'SKU', 'woocommerce' ) . '</abbr>',
-					'desc_tip'    => true,
-					'description' => __( 'SKU refers to a Stock-keeping unit, a unique identifier for each distinct product and service that can be purchased.', 'woocommerce' ),
-				) );
-			}
 
-			do_action( 'woocommerce_product_options_sku' );
+		  //-- DONT NEED SKU
+			// if ( wc_product_sku_enabled() ) {
+			// 	woocommerce_wp_text_input( array(
+			// 		'id'          => '_sku',
+			// 		'value'       => $product_object->get_sku( 'edit' ),
+			// 		'label'       => '<abbr title="' . __( 'Stock Keeping Unit', 'woocommerce' ) . '">' . __( 'SKU', 'woocommerce' ) . '</abbr>',
+			// 		'desc_tip'    => true,
+			// 		'description' => __( 'SKU refers to a Stock-keeping unit, a unique identifier for each distinct product and service that can be purchased.', 'woocommerce' ),
+			// 	) );
+			// }
+			//
+			// do_action( 'woocommerce_product_options_sku' );
 
 			if ( 'yes' === get_option( 'woocommerce_manage_stock' ) ) {
 
@@ -25,8 +27,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'id'            => '_manage_stock',
 					'value'         => $product_object->get_manage_stock( 'edit' ) ? 'yes' : 'no',
 					'wrapper_class' => 'show_if_simple show_if_variable',
-					'label'         => __( 'Manage stock?', 'woocommerce' ),
-					'description'   => __( 'Enable stock management at product level', 'woocommerce' ),
+					'label'         => __( 'Set Max Capacity', 'woocommerce' ),
+					'description'   => __( 'If your session has a maximum number of seats enable this setting.', 'woocommerce' ),
 				) );
 
 				do_action( 'woocommerce_product_options_stock' );
@@ -36,9 +38,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 				woocommerce_wp_text_input( array(
 					'id'                => '_stock',
 					'value'             => $product_object->get_stock_quantity( 'edit' ),
-					'label'             => __( 'Stock quantity', 'woocommerce' ),
+					'label'             => __( 'Maximum Seats', 'woocommerce' ),
 					'desc_tip'          => true,
-					'description'       => __( 'Stock quantity. If this is a variable product this value will be used to control stock for all variations, unless you define stock at variation level.', 'woocommerce' ),
+					'description'       => __( 'Set the maximum number of available seats.', 'woocommerce' ),
 					'type'              => 'number',
 					'custom_attributes' => array(
 						'step'          => 'any',
@@ -46,14 +48,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'data_type'         => 'stock',
 				) );
 
-				woocommerce_wp_select( array(
-					'id'          => '_backorders',
-					'value'       => $product_object->get_backorders( 'edit' ),
-					'label'       => __( 'Allow backorders?', 'woocommerce' ),
-					'options'     => wc_get_product_backorder_options(),
-					'desc_tip'    => true,
-					'description' => __( 'If managing stock, this controls whether or not backorders are allowed. If enabled, stock quantity can go below 0.', 'woocommerce' ),
-				) );
+				// woocommerce_wp_select( array(
+				// 	'id'          => '_backorders',
+				// 	'value'       => $product_object->get_backorders( 'edit' ),
+				// 	'label'       => __( 'Allow backorders?', 'woocommerce' ),
+				// 	'options'     => wc_get_product_backorder_options(),
+				// 	'desc_tip'    => true,
+				// 	'description' => __( 'If managing stock, this controls whether or not backorders are allowed. If enabled, stock quantity can go below 0.', 'woocommerce' ),
+				// ) );
 
 				do_action( 'woocommerce_product_options_stock_fields' );
 
@@ -64,10 +66,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 				'id'             => '_stock_status',
 				'value'          => $product_object->get_stock_status( 'edit' ),
 				'wrapper_class'  => 'hide_if_variable hide_if_external',
-				'label'          => __( 'Stock status', 'woocommerce' ),
+				'label'          => __( 'Course Status', 'woocommerce' ),
 				'options'        => wc_get_product_stock_status_options(),
 				'desc_tip'       => true,
-				'description'    => __( 'Controls whether or not the product is listed as "in stock" or "out of stock" on the frontend.', 'woocommerce' ),
+				'description'    => __( 'Controls whether your course is "For Sale" or "No Longer Available".', 'woocommerce' ),
 			) );
 
 			do_action( 'woocommerce_product_options_stock_status' );
