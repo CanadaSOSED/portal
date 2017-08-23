@@ -127,6 +127,24 @@ function sos_change_woo_post_object() {
 add_action( 'init', 'sos_change_woo_post_object' );
 
 
+function sos_supports_for_woo_post_object() {
+	
+	remove_post_type_support( 
+		'product',
+		'editor',
+		'author',
+		'trackbacks',
+		'comments',
+		'revisions',
+		'post-formats',
+		'thumbnail'
+	);
+
+}
+
+add_action( 'init', 'sos_supports_for_woo_post_object' );
+
+
 // Rename WooCommerce Default "Category" Taxonomy to "Topics"
 //////////////////////////////////////////////////////////////////////
 
