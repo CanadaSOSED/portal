@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 *
 	 * @hooked woocommerce_subcategory_thumbnail - 10
 	 */
-	do_action( 'woocommerce_before_subcategory_title', $category );
+	//do_action( 'woocommerce_before_subcategory_title', $category );
 
 	/**
 	 * woocommerce_shop_loop_subcategory_title hook.
