@@ -142,7 +142,6 @@ function sos_supports_for_woo_post_object() {
 		'post-formats',
 		'thumbnail'
 	);
-
 }
 
 add_action( 'init', 'sos_supports_for_woo_post_object' );
@@ -193,27 +192,94 @@ function sos_add_dashboard_widgets() {
 add_action('wp_dashboard_setup', 'sos_add_dashboard_widgets' );
 
 
-// Rename WooCommerce Default "Category" Taxonomy to "Topics"
+// Rename WooCommerce Default "Category" Taxonomy to "Session Topics" & Register a new one "course topics"
 //////////////////////////////////////////////////////////////////////
 
 function sos_change_woo_cat_object() {
     global $wp_taxonomies;
     $labels = &$wp_taxonomies['product_cat']->labels;
-    $labels->name = 'Topic';
-    $labels->singular_name = 'Topic';
-    $labels->add_new = 'Add Topic';
-    $labels->add_new_item = 'Add Topic';
-    $labels->edit_item = 'Edit Topic';
-    $labels->new_item = 'Topic';
-    $labels->view_item = 'View Topic';
-    $labels->search_items = 'Search Topics';
-    $labels->not_found = 'No Topics found';
-    $labels->not_found_in_trash = 'No Topics found in Trash';
-    $labels->all_items = 'All Topics';
-    $labels->menu_name = 'Topic';
-    $labels->name_admin_bar = 'Topic';
+    $labels->name = 'Session Topic';
+    $labels->singular_name = 'Session Topic';
+    $labels->add_new = 'Add Session Topic';
+    $labels->add_new_item = 'Add Session Topic';
+    $labels->edit_item = 'Edit Session Topic';
+    $labels->new_item = 'Session Topic';
+    $labels->view_item = 'View Session Topic';
+    $labels->search_items = 'Search Session Topics';
+    $labels->not_found = 'No Session Topics found';
+    $labels->not_found_in_trash = 'No Session Topics found in Trash';
+    $labels->all_items = 'All Session Topics';
+    $labels->menu_name = 'Session Topic';
+    $labels->name_admin_bar = 'Session Topic';
 }
 add_action( 'init', 'sos_change_woo_cat_object' );
+
+
+// create a second taxonomy for woocommerce "Session Types"
+function create_course_type_taxonomy() {
+	// Add new taxonomy, make it hierarchical (like categories)
+	$labels = array(
+		'name'              => _x( 'Session Types', 'taxonomy general name', 'textdomain' ),
+		'singular_name'     => _x( 'Session Type', 'taxonomy singular name', 'textdomain' ),
+		'search_items'      => __( 'Search Session Types', 'textdomain' ),
+		'all_items'         => __( 'All Session Session Types', 'textdomain' ),
+		'parent_item'       => __( 'Parent Session Type', 'textdomain' ),
+		'parent_item_colon' => __( 'Parent Session Type:', 'textdomain' ),
+		'edit_item'         => __( 'Edit Session Type', 'textdomain' ),
+		'update_item'       => __( 'Update Session Type', 'textdomain' ),
+		'add_new_item'      => __( 'Add New Session Type', 'textdomain' ),
+		'new_item_name'     => __( 'New Session Type Name', 'textdomain' ),
+		'menu_name'         => __( 'Session Type', 'textdomain' ),
+	);
+
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'session_type' ),
+	);
+
+	register_taxonomy( 'session_type', array( 'product' ), $args );
+
+}
+
+
+// hook into the init action and call create_course_type_taxonomy when it fires
+add_action( 'init', 'create_course_type_taxonomy', 0 );
+
+
+// remove the tags taxonomy from the product (aka: session) post type. We don't need it.
+function unregister_product_tags() {
+    unregister_taxonomy_for_object_type( 'product_tag', 'product' );
+    unregister_taxonomy_for_object_type( 'product_variation', 'product' );
+
+}
+
+add_action( 'init', 'unregister_product_tags' );
+
+
+
+function remove_linked_products($tabs){
+
+  unset($tabs['shipping']);
+
+  unset($tabs['linked_product']);
+
+  unset($tabs['attribute']);
+
+  unset($tabs['advanced']);
+
+  return($tabs);
+
+}
+
+add_filter('woocommerce_product_data_tabs', 'remove_linked_products', 10, 1);
+
+
+
+
 
 
 // Add custom login page styles
