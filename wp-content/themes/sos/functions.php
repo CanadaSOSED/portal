@@ -333,25 +333,31 @@ add_filter( 'wc_product_sku_enabled', '__return_false' );
 add_filter( 'woocommerce_product_options_stock_fields', '__return_false' );
 
 
+// Replace wordpress admin branding with SOS admin branding
+////////////////////////////////////////////////////////////////////////////
+function no_wp_logo_admin_bar_remove() {
+    ?>
+        <style type="text/css">
+            #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
+                content: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/img/sos-logo-white.svg) !important;
+                top: 2px;
+                opacity: 0.6;
+            }
 
+            #wpadminbar #wp-admin-bar-wp-logo>.ab-item .ab-icon{
+                width: 35px;
+                height: auto;
+                padding: 3px 0;
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            #wpadminbar #wp-admin-bar-wp-logo > a.ab-item {
+                pointer-events: none;
+                cursor: default;
+            }
+        </style>
+    <?php
+}
+add_action('wp_before_admin_bar_render', 'no_wp_logo_admin_bar_remove', 0);
 
 
 // Add custom login page styles
