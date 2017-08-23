@@ -179,19 +179,33 @@ add_action( 'do_meta_boxes', 'sos_remove_plugin_metaboxes' );
 //////////////////////////////////////////////////////////////////////
 
 // Function that outputs the contents of the dashboard widget
-function sos_dashboard_widget_function( $post, $callback_args ) {
-	echo "Checkout the knowledge base to find the answers you're looking for. <br/> <a href='http://kb.soscampus.com'>Visit Knowledge Base</a>";
+function sos_dashboard_knowledgebase_widget_function( $post, $callback_args ) {
+	echo "<p>Checkout the knowledge base to find the meaning of life. <br/>Thanks to the interwebs the knowledge base is open 24/7. 🤘 Rock on! 🤘</p>";
+    echo '<p><hr/></p>';
+    echo "<p><a class='button button-primary button-large' href='http://kb.soscampus.com'>Visit Knowledge Base</a></p>";
+}
+
+function sos_dashboard_finance_widget_function( $post, $callback_args ) {
+    echo "<p>All the cool kids keep their chapter finances up to date. <br/>You're a cool kid aren't you? 😎<p>";
+    echo '<p><hr/></p>';
+    echo "<p><a class='button button-primary button-large' href='http://soscampus.com/finance-forms'>Go To Finance Forms</a></p>";
 }
 
 // Function used in the action hook
-//////////////////////////////////////////////////////////////////////
 function sos_add_dashboard_widgets() {
-	wp_add_dashboard_widget('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_widget_function');
+	add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
+    add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'side');
+
 }
 
 // Register the new dashboard widget with the 'wp_dashboard_setup' action
-//////////////////////////////////////////////////////////////////////
 add_action('wp_dashboard_setup', 'sos_add_dashboard_widgets' );
+
+
+
+// Stop the text editor from auto adding markup to html
+//////////////////////////////////////////////////////////////////////
+remove_filter( 'the_content', 'wpautop' );
 
 
 // Rename WooCommerce Default "Category" Taxonomy to "Session Topics" & Register a new one "course topics"
@@ -299,7 +313,6 @@ function hide_panel_items_woocommerce(){
 
 add_action('admin_head', 'hide_panel_items_woocommerce', 99, 0 );
 add_filter( 'wc_product_sku_enabled', '__return_false' );
-
 
 
 
