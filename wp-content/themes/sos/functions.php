@@ -184,11 +184,13 @@ function sos_dashboard_widget_function( $post, $callback_args ) {
 }
 
 // Function used in the action hook
+//////////////////////////////////////////////////////////////////////
 function sos_add_dashboard_widgets() {
 	wp_add_dashboard_widget('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_widget_function');
 }
 
 // Register the new dashboard widget with the 'wp_dashboard_setup' action
+//////////////////////////////////////////////////////////////////////
 add_action('wp_dashboard_setup', 'sos_add_dashboard_widgets' );
 
 
@@ -216,6 +218,7 @@ add_action( 'init', 'sos_change_woo_cat_object' );
 
 
 // create a second taxonomy for woocommerce "Session Types"
+//////////////////////////////////////////////////////////////////////
 function create_course_type_taxonomy() {
 	// Add new taxonomy, make it hierarchical (like categories)
 	$labels = array(
@@ -247,10 +250,12 @@ function create_course_type_taxonomy() {
 
 
 // hook into the init action and call create_course_type_taxonomy when it fires
+//////////////////////////////////////////////////////////////////////////////////
 add_action( 'init', 'create_course_type_taxonomy', 0 );
 
 
 // remove the tags taxonomy from the product (aka: session) post type. We don't need it.
+////////////////////////////////////////////////////////////////////////////////////
 function unregister_product_tags() {
     unregister_taxonomy_for_object_type( 'product_tag', 'product' );
     unregister_taxonomy_for_object_type( 'product_variation', 'product' );
@@ -260,28 +265,8 @@ add_action( 'init', 'unregister_product_tags' );
 
 
 
-// hide tabs in the single product (aka : session) edit page.
-
-function remove_linked_products($tabs){
-
-
-  unset($tabs['shipping']);
-
-  unset($tabs['linked_product']);
-
-  unset($tabs['attribute']);
-
-  unset($tabs['advanced']);
-
-  unset($tabs['variations']);
-
-  return($tabs);
-
-}
-add_filter('woocommerce_product_data_tabs', 'remove_linked_products', 99, 1);
-
-
 // Remove "attributes" page from the woocommerce post type "products" aka: sessions
+////////////////////////////////////////////////////////////////////////////////////
 function remove_attributes_subpage() {
 
     $ptype = 'product';
@@ -293,6 +278,7 @@ add_action( 'admin_menu', 'remove_attributes_subpage', 99, 0 );
 
 
 // Remove Default product types on single product page. aka "session page" We only need simple products.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function remove_product_types( $types ){
     unset( $types['grouped'] );
     unset( $types['external'] );
@@ -303,17 +289,65 @@ function remove_product_types( $types ){
 add_filter( 'product_type_selector', 'remove_product_types' );
 
 
-
-
 // Removes uneeded items from the logistics panel on the single product/sessions pages
+//////////////////////////////////////////////////////////////////////////////////////////////
 function hide_panel_items_woocommerce(){
 
-	echo '<style> ._manage_stock_field, ._sold_individually_field {display:none !important;} </style>';
+	echo '<style> ._sold_individually_field, #product-type {display:none !important;} </style>';
 
 }
 
 add_action('admin_head', 'hide_panel_items_woocommerce', 99, 0 );
 add_filter( 'wc_product_sku_enabled', '__return_false' );
+
+
+
+
+// FUNCTION TO REMOVE ALL UNUSED TABS
+///////////////////////////////////////////////////////////////////////////////////
+function remove_linked_products($tabs){
+  unset($tabs['shipping']);
+  unset($tabs['linked_product']);
+  unset($tabs['attribute']);
+  unset($tabs['advanced']);
+
+  return($tabs);
+}
+
+add_filter('woocommerce_product_data_tabs', 'remove_linked_products', 10, 1);
+
+// FUNCTION TO CHANGE TAB NAMES
+//////////////////////////////////////////////////////////////////////////////////
+function rename_tabs($tabs){
+  $tabs['general']['label'] = __('Pricing');
+  $tabs['inventory']['label'] = __('Logistics');
+
+  return $tabs;
+}
+
+add_filter('woocommerce_product_data_tabs', 'rename_tabs');
+
+// REMOVING SKU OPTION
+////////////////////////////////////////////////////////////////////////////
+add_filter( 'wc_product_sku_enabled', '__return_false' );
+add_filter( 'woocommerce_product_options_stock_fields', '__return_false' );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
