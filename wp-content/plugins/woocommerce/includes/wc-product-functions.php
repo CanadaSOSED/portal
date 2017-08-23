@@ -819,8 +819,8 @@ function wc_get_product_tax_class_options() {
  */
 function wc_get_product_stock_status_options() {
 	return array(
-		'instock'    => __( 'In stock', 'woocommerce' ),
-		'outofstock' => __( 'Out of stock', 'woocommerce' ),
+		'instock'    => __( 'For Sale', 'woocommerce' ),
+		'outofstock' => __( 'No Longer Available', 'woocommerce' ),
 	);
 }
 
