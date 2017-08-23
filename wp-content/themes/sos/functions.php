@@ -254,14 +254,16 @@ add_action( 'init', 'create_course_type_taxonomy', 0 );
 function unregister_product_tags() {
     unregister_taxonomy_for_object_type( 'product_tag', 'product' );
     unregister_taxonomy_for_object_type( 'product_variation', 'product' );
-
 }
 
 add_action( 'init', 'unregister_product_tags' );
 
 
 
+// hide tabs in the single product (aka : session) edit page.
+
 function remove_linked_products($tabs){
+
 
   unset($tabs['shipping']);
 
@@ -271,16 +273,34 @@ function remove_linked_products($tabs){
 
   unset($tabs['advanced']);
 
+  unset($tabs['variations']);
+
   return($tabs);
 
 }
-
-add_filter('woocommerce_product_data_tabs', 'remove_linked_products', 10, 1);
-
+add_filter('woocommerce_product_data_tabs', 'remove_linked_products', 99, 1);
 
 
+// Remove "attributes" page from the woocommerce post type "products" aka: sessions
+function remove_attributes_subpage() {
+
+    $ptype = 'product';
+    remove_submenu_page( "edit.php?post_type=product", "product_attributes" );
+
+}
+
+add_action( 'admin_menu', 'remove_attributes_subpage', 99, 0 );
 
 
+// Remove Default product types on single product page. We only need simple products.
+function remove_product_types( $types ){
+    unset( $types['grouped'] );
+    unset( $types['external'] );
+    unset( $types['variable'] );
+
+    return $types;
+}
+add_filter( 'product_type_selector', 'remove_product_types' );
 
 // Add custom login page styles
 //////////////////////////////////////////////////////////////////////

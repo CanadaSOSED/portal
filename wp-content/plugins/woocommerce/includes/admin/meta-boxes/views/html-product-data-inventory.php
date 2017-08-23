@@ -9,17 +9,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php
 
 		  //-- DONT NEED SKU
-			// if ( wc_product_sku_enabled() ) {
-			// 	woocommerce_wp_text_input( array(
-			// 		'id'          => '_sku',
-			// 		'value'       => $product_object->get_sku( 'edit' ),
-			// 		'label'       => '<abbr title="' . __( 'Stock Keeping Unit', 'woocommerce' ) . '">' . __( 'SKU', 'woocommerce' ) . '</abbr>',
-			// 		'desc_tip'    => true,
-			// 		'description' => __( 'SKU refers to a Stock-keeping unit, a unique identifier for each distinct product and service that can be purchased.', 'woocommerce' ),
-			// 	) );
-			// }
-			//
-			// do_action( 'woocommerce_product_options_sku' );
+			if ( wc_product_sku_enabled() ) {
+				woocommerce_wp_text_input( array(
+					'id'          => '_sku',
+					'value'       => $product_object->get_sku( 'edit' ),
+					'label'       => '<abbr title="' . __( 'Stock Keeping Unit', 'woocommerce' ) . '">' . __( 'SKU', 'woocommerce' ) . '</abbr>',
+					'desc_tip'    => true,
+					'description' => __( 'SKU refers to a Stock-keeping unit, a unique identifier for each distinct product and service that can be purchased.', 'woocommerce' ),
+				) );
+			}
+			
+			do_action( 'woocommerce_product_options_sku' );
 
 			if ( 'yes' === get_option( 'woocommerce_manage_stock' ) ) {
 
@@ -48,14 +48,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 					'data_type'         => 'stock',
 				) );
 
-				// woocommerce_wp_select( array(
-				// 	'id'          => '_backorders',
-				// 	'value'       => $product_object->get_backorders( 'edit' ),
-				// 	'label'       => __( 'Allow backorders?', 'woocommerce' ),
-				// 	'options'     => wc_get_product_backorder_options(),
-				// 	'desc_tip'    => true,
-				// 	'description' => __( 'If managing stock, this controls whether or not backorders are allowed. If enabled, stock quantity can go below 0.', 'woocommerce' ),
-				// ) );
+				woocommerce_wp_select( array(
+					'id'          => '_backorders',
+					'value'       => $product_object->get_backorders( 'edit' ),
+					'label'       => __( 'Allow backorders?', 'woocommerce' ),
+					'options'     => wc_get_product_backorder_options(),
+					'desc_tip'    => true,
+					'description' => __( 'If managing stock, this controls whether or not backorders are allowed. If enabled, stock quantity can go below 0.', 'woocommerce' ),
+				) );
 
 				do_action( 'woocommerce_product_options_stock_fields' );
 
