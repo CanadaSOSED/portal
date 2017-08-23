@@ -292,7 +292,7 @@ function remove_attributes_subpage() {
 add_action( 'admin_menu', 'remove_attributes_subpage', 99, 0 );
 
 
-// Remove Default product types on single product page. We only need simple products.
+// Remove Default product types on single product page. aka "session page" We only need simple products.
 function remove_product_types( $types ){
     unset( $types['grouped'] );
     unset( $types['external'] );
@@ -301,6 +301,24 @@ function remove_product_types( $types ){
     return $types;
 }
 add_filter( 'product_type_selector', 'remove_product_types' );
+
+
+
+
+// Removes uneeded items from the logistics panel on the single product/sessions pages
+function hide_panel_items_woocommerce(){
+
+	echo '<style> ._manage_stock_field, ._sold_individually_field {display:none !important;} </style>';
+
+}
+
+add_action('admin_head', 'hide_panel_items_woocommerce', 99, 0 );
+add_filter( 'wc_product_sku_enabled', '__return_false' );
+
+
+
+
+
 
 // Add custom login page styles
 //////////////////////////////////////////////////////////////////////
