@@ -3,7 +3,7 @@
  * Adapted from Edward McIntyre's wp_bootstrap_navwalker class.
  * Removed support for glyphicon and added support for Font Awesome.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 // Exit if accessed directly.
@@ -34,7 +34,7 @@ class WP_Bootstrap_Navwalker extends Walker_Nav_Menu {
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat( "\t", $depth );
-		$output .= "\n$indent<ul class=\" pull-xs-right dropdown-menu\" role=\"menu\">\n";
+		$output .= "\n$indent<ul class=\" dropdown-menu\" role=\"menu\">\n";
 	}
 
 	/**
@@ -64,9 +64,9 @@ class WP_Bootstrap_Navwalker extends Walker_Nav_Menu {
 		} else if ( strcasecmp( $item->title, 'divider' ) == 0 && $depth === 1 ) {
 			$output .= $indent . '<li class="divider" role="presentation">';
 		} else if ( strcasecmp( $item->attr_title, 'dropdown-header' ) == 0 && $depth === 1 ) {
-			$output .= $indent . '<li class="dropdown-header" role="presentation">' . esc_attr( $item->title );
+			$output .= $indent . '<li class="dropdown-header" role="presentation">' . esc_html( $item->title );
 		} else if ( strcasecmp( $item->attr_title, 'disabled' ) == 0 ) {
-			$output .= $indent . '<li class="disabled" role="presentation"><a href="#">' . esc_attr( $item->title ) . '</a>';
+			$output .= $indent . '<li class="disabled" role="presentation"><a href="#">' . esc_html( $item->title ) . '</a>';
 		} else {
 			$class_names = $value = '';
 			$classes     = empty( $item->classes ) ? array() : (array) $item->classes;
@@ -107,10 +107,10 @@ class WP_Bootstrap_Navwalker extends Walker_Nav_Menu {
 			if ( $args->has_children && $depth === 0 ) {
 				$atts['href']        = '#';
 				$atts['data-toggle'] = 'dropdown';
-				$atts['class']       = 'nav-link link dropdown-toggle';
+				$atts['class']       = 'nav-link dropdown-toggle';
 			} else {
 				$atts['href']  = ! empty( $item->url ) ? $item->url : '';
-				$atts['class'] = 'nav-link link dropdown-item';
+				$atts['class'] = 'nav-link';
 			}
 			$atts       = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args );
 			$attributes = '';

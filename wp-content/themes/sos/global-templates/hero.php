@@ -2,7 +2,7 @@
 /**
  * Hero setup.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 ?>

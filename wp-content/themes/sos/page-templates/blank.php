@@ -4,7 +4,7 @@
  *
  * Template for displaying a blank page.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 ?>

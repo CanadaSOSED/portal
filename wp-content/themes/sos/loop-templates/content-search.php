@@ -2,7 +2,7 @@
 /**
  * Search results partial template.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 ?>

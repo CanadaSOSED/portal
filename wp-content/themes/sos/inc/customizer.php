@@ -2,7 +2,7 @@
 /**
  * Understrap Theme Customizer
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 /**

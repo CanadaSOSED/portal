@@ -2,7 +2,7 @@
 /**
  * Left sidebar check.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 ?>

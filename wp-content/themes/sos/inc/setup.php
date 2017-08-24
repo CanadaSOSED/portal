@@ -2,7 +2,7 @@
 /**
  * Theme basic setup.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 require get_template_directory() . '/inc/theme-settings.php';
@@ -118,7 +118,8 @@ if ( ! function_exists( 'all_excerpts_get_more_link' ) ) {
 	 */
 	function all_excerpts_get_more_link( $post_excerpt ) {
 
-		return $post_excerpt . ' ...';
+		return $post_excerpt . ' [...]<p><a class="btn btn-secondary understrap-read-more-link" href="' . get_permalink( get_the_ID() ) . '">' . __( 'Read More...',
+		'understrap' ) . '</a></p>';
 	}
 }
 add_filter( 'wp_trim_excerpt', 'all_excerpts_get_more_link' );

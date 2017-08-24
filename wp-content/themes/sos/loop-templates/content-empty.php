@@ -2,7 +2,7 @@
 /**
  * Content empty partial template.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 the_content();

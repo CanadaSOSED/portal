@@ -2,7 +2,7 @@
 /**
  * Understrap modify editor
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 /**

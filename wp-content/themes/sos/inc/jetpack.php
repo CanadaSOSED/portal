@@ -4,7 +4,7 @@
  *
  * @link https://jetpack.me/
  *
- * @package sos-knowledge-base
+ * @package UnderStrap
  */
 
 /**

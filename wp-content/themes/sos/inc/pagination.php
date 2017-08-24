@@ -2,7 +2,7 @@
 /**
  * Pagination layout.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 /**

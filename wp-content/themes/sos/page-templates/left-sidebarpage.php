@@ -4,7 +4,7 @@
  *
  * This template can be used to override the default template and sidebar setup
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 get_header();
@@ -13,7 +13,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <div class="wrapper" id="page-wrapper">
 
-	<div class="<?php echo esc_html( $container ); ?>" id="content">
+	<div class="<?php echo esc_attr( $container ); ?>" id="content">
 
 		<div class="row">
 

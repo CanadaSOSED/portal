@@ -4,7 +4,7 @@
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 if ( ! function_exists( 'understrap_body_classes' ) ) {

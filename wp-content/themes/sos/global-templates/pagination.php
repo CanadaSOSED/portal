@@ -2,7 +2,7 @@
 /**
  * Boostrap 4 pagination
  *
- * @package sos-knowledge-base
+ * @package understrap
  */
 
 /**
