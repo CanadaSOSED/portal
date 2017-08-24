@@ -12,8 +12,8 @@ $container = get_theme_mod( 'understrap_container_type' );
 ?>
 
 <section>
-	<div class="container pb-5 ">
-		<div class="jumbotron">
+	<div class="container my-5 ">
+		<div class="jumbotron text-center">
 			<h1 class="display-4">Ace Your Exams With an Exam Aid.</h1>
 			<p class="lead">Exam aids help you prepare for your upcoming exams &amp; help build schools.</p>
 			<hr class="my-4">
