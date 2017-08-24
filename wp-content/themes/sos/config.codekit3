@@ -1423,6 +1423,12 @@
 		"oS": 3,
 		"uL": 1
 		},
+	"\/_bak\/_footer.php.bak.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/_bak\/_footer.php.bak.php",
+		"oF": 0
+		},
 	"\/_bak\/_global-templates.bak\/hero.php": {
 		"ft": 8192,
 		"oA": 2,
@@ -1637,17 +1643,11 @@
 		"oAP": "\/_bak\/_page-templates.bak\/right-sidebarpage.php",
 		"oF": 0
 		},
-	"\/_footer.php.bak.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/_footer.php.bak.php",
-		"oF": 0
-		},
-	"\/_theme.js.bak.js": {
+	"\/_bak\/_theme.js.bak.js": {
 		"ft": 64,
 		"mi": 1,
 		"oA": 0,
-		"oAP": "\/_theme.js.bak-min.js",
+		"oAP": "\/_bak\/_theme.js.bak-min.js",
 		"oF": 0,
 		"sC": 1,
 		"tS": 0
@@ -1823,12 +1823,6 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/header.php",
-		"oF": 0
-		},
-	"\/homepage.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/homepage.php",
 		"oF": 0
 		},
 	"\/img\/bigvolunteering1-2000x529.jpg": {
@@ -2052,12 +2046,6 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/inc\/theme-settings.php",
-		"oF": 0
-		},
-	"\/inc\/untitled.html": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/inc\/untitled.html",
 		"oF": 0
 		},
 	"\/inc\/widgets.php": {

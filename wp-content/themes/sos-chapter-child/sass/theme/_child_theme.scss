@@ -1,0 +1,66 @@
+
+//////////////////////////////////////////////////////////////////////
+// Global Elements
+//////////////////////////////////////////////////////////////////////
+a{
+	text-decoration: none !important;
+}
+
+body{
+	font-size: 14px;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Navbar
+//////////////////////////////////////////////////////////////////////////////
+.nav-link.link.dropdown-item:hover {
+	background-color: transparent !important;
+	@include float-right;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+	background: transparent;
+}
+
+.navbar-logo img {
+	height: 2rem;
+}
+
+.navbar-caption{
+	font-size: 14px;
+	padding-top: 3px;
+}
+
+//////////////////////////////////////////////////////////////////////
+// Woocommerce Single Product Page (aka - Sessions)
+//////////////////////////////////////////////////////////////////////
+
+.woocommerce.content-full-width div.product div.summary {
+  width: 100%;
+}
+
+.related.products{
+	display: none;
+}
+
+.woocommerce span.onsale{
+	height: 30px;
+	width: 30px;
+	padding: .202em;
+	font-size: 14px;
+	font-weight: 700;
+	position: absolute;
+	text-align: center;
+	line-height: 32px;
+	top: 8px;
+	left: 100px;
+	margin: 0;
+	border-radius: 100%;
+	background-color: #77a464;
+	color: #fff;
+	font-size: .857em;
+	-webkit-font-smoothing: antialiased;
+	z-index: 9;
+}

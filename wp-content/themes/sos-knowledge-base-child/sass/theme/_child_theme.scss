@@ -1,0 +1,118 @@
+//////////////////////////////////////////////////////////////////////
+// Global Elements
+//////////////////////////////////////////////////////////////////////
+
+a{
+	text-decoration: none !important;
+}
+
+body{
+	font-size: 14px;
+}
+
+
+// Sidebar
+#right-sidebar .widget{
+	padding: 30px;
+	background: $light-bg;
+	border-radius: 5px;
+	ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+} 
+
+#related_posts, .home-right-widget{
+	padding: 30px;
+	background: $light-bg;
+	border-radius: 5px;
+	ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////
+// Navbar + Breadcrumb Navigation 
+//////////////////////////////////////////////////////////////////////
+
+.navbar-logo img {
+	height: 2rem;
+}
+
+.navbar-caption{
+	font-size: 14px;
+	padding-top: 3px;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+	background: transparent;
+}
+
+#wrapper-navbar{
+	.bg-inverse{
+			background-color: $brand-accent !important;
+	}
+}
+
+#wrapper-breadcrumb{
+	label{
+		display: none;
+	}
+
+	.nav-breadcrumb{
+		margin-bottom: 0px;
+		box-shadow: none;
+	}
+}
+
+
+
+//////////////////////////////////////////////////////////////////////
+// Home Page
+//////////////////////////////////////////////////////////////////////
+#wrapper-search{
+	background-color: $light-bg;
+}
+
+// Large Search Box on Home Page
+.home-search{
+	padding: 30px 0;
+	label{
+		display: none;
+	}
+
+	.form-control, .wpcf7 input[type=text], .wpcf7 input[type=search], .wpcf7 input[type=url], .wpcf7 input[type=tel], .wpcf7 input[type=number], .wpcf7 input[type=range], .wpcf7 input[type=date], .wpcf7 input[type=month], .wpcf7 input[type=week], .wpcf7 input[type=time], .wpcf7 input[type=datetime], .wpcf7 input[type=datetime-local], .wpcf7 input[type=color], .wpcf7 input[type=email], .wpcf7 input[type=file], .wpcf7 input[type=submit], .wpcf7 select, .wpcf7 textarea, .wpcf7 .wpcf7-validation-errors {
+		padding: 18px;
+		background-color: #fff;
+		color: #888;
+	}
+
+	.btn, .wpcf7 input[type=submit]{
+		padding: 18px 40px;
+	}
+}
+
+// Recent Post Category Lists
+.recent-posts-list{
+	list-style-type: none;
+	padding-left: 0px;
+	li{
+
+		a{
+			color: $brand-accent;
+			padding: 20px;
+			display: block;
+
+		}
+		a:hover{
+			color: $brand-primary;
+			background-color: $light-bg;
+
+		}
+	}
+}
+
+
+

@@ -27,20 +27,22 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container">
-	        <a href="<?php bloginfo('url'); ?>" class="navbar-brand">
-<img class="w-25" src="<?php bloginfo( 'stylesheet_directory' ); ?>/img/sos-logo-white.svg" />
-			SOS Portal
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbarToggler" aria-controls="mainNavbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+	        <div class="navbar-brand">
+				<a href="<?php bloginfo('url'); ?>" class="navbar-logo">
+					<img class="mr-3" src="<?php echo get_template_directory_uri(); ?>/img/sos-logo-white.svg" />
+				</a>
+				<a class="navbar-caption" href="<?php bloginfo('url'); ?>" ><?php bloginfo( 'name' ); ?></a>
+			</div>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
 			  <span class="navbar-toggler-icon"></span>
 			</button>
 
 	<?php wp_nav_menu(
 		array(
 			'theme_location'  => 'primary',
-			'container_class' => 'collapse navbar-collapse d-flex justify-content-end',
-			'container_id'    => 'mainNavbarToggler',
-			'menu_class'      => 'navbar-nav',
+			'container_class' => 'collapse navbar-collapse justify-content-lg-end',
+			'container_id'    => 'primaryNav',
+			'menu_class'      => 'navbar-nav ml-auto',
 			'fallback_cb'     => '',
 			'menu_id'         => '',
 			'walker'          => new WP_Bootstrap_Navwalker(),

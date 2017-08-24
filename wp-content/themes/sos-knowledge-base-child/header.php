@@ -9,7 +9,7 @@
 
 $container = get_theme_mod( 'understrap_container_type' );
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -17,7 +17,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-title" content="<?php bloginfo( 'name' ); ?> - <?php bloginfo( 'description' ); ?>">
+	<meta name="apple-mobile-web-app-title" content="<?php bloginfo( 'name' ); ?>">
 	<link rel="profile" href="http://gmpg.org/xfn/11">
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
 	<?php wp_head(); ?>
@@ -25,29 +25,26 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <body <?php body_class( $class = 'landing-page' ); ?> >
 
-<nav class="navbar navbar-toggleable-md bg-primary fixed-top" <?php if ( is_user_logged_in() ) { echo 'style=" margin-top: 32px;"';  }?>>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 	<div class="container">
-	<div class="navbar-translate">
-	    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-	        <span class="navbar-toggler-bar bar1"></span>
-	        <span class="navbar-toggler-bar bar2"></span>
-	        <span class="navbar-toggler-bar bar3"></span>
-	    </button>
-	    <div class="navbar-brand">
-	        <a href="<?php bloginfo('url'); ?>" class="navbar-logo">
-				<img src="<?php bloginfo('template_url'); ?>/assets/img/download-1-copy-207x128.png" alt="SOS Portal">
-			</a>
-	        <a class="navbar-caption" href="<?php bloginfo('url'); ?>" >SOS Portal Knowledge base</a>
-	    </div>
-	</div>
+	        <div class="navbar-brand">
+				<a href="<?php bloginfo('url'); ?>" class="navbar-logo">
+					<img class="mr-3" src="<?php echo get_template_directory_uri(); ?>/img/sos-logo-white.svg" />
+				</a>
+				<a class="navbar-caption" href="<?php bloginfo('url'); ?>" ><?php bloginfo( 'name' ); ?></a>
+			</div>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button>
+
 	<?php wp_nav_menu(
 		array(
 			'theme_location'  => 'primary',
-			'container_class' => 'collapse navbar-collapse justify-content-end',
-			'container_id'    => 'navigation',
-			'menu_class'      => 'navbar-nav ml-auto nav-dropdown collapse navbar-inverse nav navbar-toggleable-sm',
+			'container_class' => 'collapse navbar-collapse justify-content-lg-end',
+			'container_id'    => 'primaryNav',
+			'menu_class'      => 'navbar-nav ml-auto',
 			'fallback_cb'     => '',
-			'menu_id'         => 'navbar-nav',
+			'menu_id'         => '',
 			'walker'          => new WP_Bootstrap_Navwalker(),
 		)
 		); ?>

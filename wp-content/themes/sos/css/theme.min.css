@@ -9162,8 +9162,25 @@ a.skip-link {
 .gallery-caption {
   display: block; }
 
+a {
+  text-decoration: none !important; }
+
+body {
+  font-size: 14px; }
+
+.nav-link.link.dropdown-item:hover {
+  background-color: transparent !important;
+  float: right !important; }
+
 .dropdown-item:focus, .dropdown-item:hover {
   background: transparent; }
+
+.navbar-logo img {
+  height: 2rem; }
+
+.navbar-caption {
+  font-size: 14px;
+  padding-top: 3px; }
 
 /*
 * Use existing Bootstrap 4 classes and

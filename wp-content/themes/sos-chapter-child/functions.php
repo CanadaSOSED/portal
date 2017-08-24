@@ -16,8 +16,8 @@ function theme_enqueue_styles() {
 	// Get the theme data
 	$the_theme = wp_get_theme();
 
-    wp_enqueue_style( 'child-understrap-styles', get_stylesheet_directory_uri() . '/assets/css/child-theme-min.css', array(), $the_theme->get( 'Version' ) );
-    wp_enqueue_script( 'child-understrap-scripts', get_stylesheet_directory_uri() . '/assets/js/child-theme-min.js', array(), $the_theme->get( 'Version' ), true );
+    wp_enqueue_style( 'child-understrap-styles', get_stylesheet_directory_uri() . '/css/child-theme-min.css', array(), $the_theme->get( 'Version' ) );
+    wp_enqueue_script( 'child-understrap-scripts', get_stylesheet_directory_uri() . '/js/child-theme-min.js', array(), $the_theme->get( 'Version' ), true );
 }
 
 
@@ -200,6 +200,23 @@ function sos_chapter_change_cat_object() {
     $labels->name_admin_bar = 'Topic';
 }
 add_action( 'init', 'sos_chapter_change_cat_object' );
+
+
+
+// Hide tabs on single product (aka session page)
+//////////////////////////////////////////////////////////////////////
+
+add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
+
+function woo_remove_product_tabs( $tabs ) {
+
+    unset( $tabs['description'] );          // Remove the description tab
+    //unset( $tabs['reviews'] );          // Remove the reviews tab
+    unset( $tabs['additional_information'] );   // Remove the additional information tab
+
+    return $tabs;
+
+}
 
 @include 'inc/widgets.php';
 @include 'inc/breadcrumbs.php';

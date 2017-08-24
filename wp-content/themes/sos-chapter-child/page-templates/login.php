@@ -32,7 +32,7 @@ get_header(); ?>
             <div class="card card-login card-plain">
                 <div class="header header-primary text-center">
                         <div class="logo-container">
-                            <img src="<?php bloginfo('template_directory') ?>/assets/img/sos-logo-207x128.png" width="120px" alt=""><br/>
+                            <img src="<?php bloginfo('template_directory') ?>/img/sos-logo-207x128.png" width="120px" alt=""><br/>
                             <h4><?php bloginfo( 'name' ); ?></h4>
                         </div>
                     </div>

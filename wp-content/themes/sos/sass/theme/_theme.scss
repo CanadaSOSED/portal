@@ -1,5 +1,32 @@
-// This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+
+//////////////////////////////////////////////////////////////////////
+// Global Elements
+//////////////////////////////////////////////////////////////////////
+a{
+	text-decoration: none !important;
+}
+
+body{
+	font-size: 14px;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Navbar
+//////////////////////////////////////////////////////////////////////////////
+.nav-link.link.dropdown-item:hover {
+	background-color: transparent !important;
+	@include float-right;
+}
 
 .dropdown-item:focus, .dropdown-item:hover {
 	background: transparent;
+}
+
+.navbar-logo img {
+	height: 2rem;
+}
+
+.navbar-caption{
+	font-size: 14px;
+	padding-top: 3px;
 }
