@@ -352,7 +352,7 @@ function no_wp_logo_admin_bar_remove() {
     ?>
         <style type="text/css">
             #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
-                content: url(<?php echo get_stylesheet_directory_uri(); ?>/assets/img/sos-logo-white.svg) !important;
+                content: url(<?php echo get_stylesheet_directory_uri(); ?>/img/sos-logo-white.svg) !important;
                 top: 2px;
                 opacity: 0.6;
             }

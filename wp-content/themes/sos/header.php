@@ -28,7 +28,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container">
 	        <a href="<?php bloginfo('url'); ?>" class="navbar-brand">
-<img class="w-25" src="<?php bloginfo( 'stylesheet_directory' ); ?>/assets/img/sos-logo-207x128.png" />
+<img class="w-25" src="<?php bloginfo( 'stylesheet_directory' ); ?>/img/sos-logo-white.svg" />
 			SOS Portal
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbarToggler" aria-controls="mainNavbarToggler" aria-expanded="false" aria-label="Toggle navigation">
