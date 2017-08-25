@@ -191,10 +191,17 @@ function sos_dashboard_finance_widget_function( $post, $callback_args ) {
     echo "<p><a class='button button-primary button-large' href='http://soscampus.com/finance-forms'>Go To Finance Forms</a></p>";
 }
 
+function sos_dashboard_princeton_widget_function( $post, $callback_args ) {
+    echo "<p>Ya know what's dope? Discounts are dope! Dope Discounts! ...click button 👇 claim your Princeton Review Discount. <p>";
+    echo '<p><hr/></p>';
+    echo "<p><a class='button button-primary button-large' href='https://docs.google.com/forms/d/e/1FAIpQLScva-U8KWwPpcm5wf5xIQwzzkfKX9ziV_JDsY3OlFFnKO6URQ/viewform?usp=sf_link'>Go To Finance Forms</a></p>";
+}
+
 // Function used in the action hook
 function sos_add_dashboard_widgets() {
 	add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
     add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'side');
+    add_meta_box('sos_dashboard_princeton', 'Princeton Review Discount ', 'sos_dashboard_princeton_widget_function','dashboard', 'side');
 
 }
 
