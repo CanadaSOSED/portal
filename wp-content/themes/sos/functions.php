@@ -180,13 +180,13 @@ add_action( 'do_meta_boxes', 'sos_remove_plugin_metaboxes' );
 
 // Function that outputs the contents of the dashboard widget
 function sos_dashboard_knowledgebase_widget_function( $post, $callback_args ) {
-	echo "<p>Checkout the knowledge base to find the meaning of life. <br/>Thanks to the interwebs the knowledge base is open 24/7. 🤘 Rock on! 🤘</p>";
+	echo "<p>Checkout the knowledge base and you could find the meaning of life. <br/>Thanks to the interwebs the knowledge base is open 24/7. 🤘 Rock on! 🤘</p>";
     echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='http://kb.soscampus.com'>Visit Knowledge Base</a></p>";
 }
 
 function sos_dashboard_finance_widget_function( $post, $callback_args ) {
-    echo "<p>All the cool kids keep their chapter finances up to date. <br/>You're a cool kid aren't you? 😎<p>";
+    echo "<p>All the cool kids keep their chapter finances up to date. <br/>You're a cool kid aren't you? 😎 <a href='https://youtu.be/ZXsQAXx_ao0'>Click For Motivation</a><p> ";
     echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='http://soscampus.com/finance-forms'>Go To Finance Forms</a></p>";
 }
@@ -197,19 +197,25 @@ function sos_dashboard_princeton_widget_function( $post, $callback_args ) {
     echo "<p><a class='button button-primary button-large' href='https://docs.google.com/forms/d/e/1FAIpQLScva-U8KWwPpcm5wf5xIQwzzkfKX9ziV_JDsY3OlFFnKO6URQ/viewform?usp=sf_link'>Claim Discount</a></p>";
 }
 
+function sos_dashboard_training_widget_function( $post, $callback_args ) {
+    echo "<p>Feeling stuck? Worried about exams? Relax with some soothing SOS training... You'll learn more about navigating this new system and possibly find the meaning of life. <p>";
+    echo '<p><hr/></p>';
+    echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
+}
+
 // Function used in the action hook
 function sos_add_dashboard_widgets() {
 	add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
     add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'side');
     add_meta_box('sos_dashboard_princeton', 'Princeton Review Discount ', 'sos_dashboard_princeton_widget_function','dashboard', 'normal');
+    add_meta_box('sos_dashboard_training', 'Training Resources','sos_dashboard_training_widget_function', 'dashboard', 'side');
 
 }
 
 // Register the new dashboard widget with the 'wp_dashboard_setup' action
 add_action('wp_dashboard_setup', 'sos_add_dashboard_widgets' );
-
-
-
+ 
+ 
 // Stop the text editor from auto adding markup to html
 //////////////////////////////////////////////////////////////////////
 remove_filter( 'the_content', 'wpautop' );
