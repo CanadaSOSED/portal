@@ -20,7 +20,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<div class="lead animated fadeIn">
 					<p>Over <b>100,000</b> students have used Exam Aids to ace their exams!</p>
 				</div>
-				<p class="animated fadeIn">The nearer it gets to exams the faster Exam Aid sessions fill up. Don't miss out on easiest way to boost your marks.</p>
+				<p class="animated fadeIn">The nearer it gets to exams the faster Exam Aid sessions fill up. Don't miss out on the easiest way to boost your marks.</p>
 				<a class="btn btn-primary btn-lg mx-auto my-3 d-block animated fadeIn" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/shop" role="button">Find a Session</a>
 			</div>
 		</div>
@@ -39,7 +39,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 	<div class="row no-gutters">
 		<div class="col-12 col-md-6 d-block align-middle py-6 px-4 py-lg-7 px-lg-6 order-1 order-md-2">
 			<h3>Watch, learn, and relax.</h3>
-			<p class="lead">You'll learn your courses' exam content inside &amp; out in a simple and easy way.</p>
+			<p class="lead">You'll learn your course's exam content inside &amp; out in a simple and easy way.</p>
 			<a href="/shop" class="btn btn-outline-primary">Find a Session</a>
 		</div>
 			<div class="col-12 col-md-6 img-block-2 py-8 order-2 order-md-1"></div>
