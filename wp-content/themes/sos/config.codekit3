@@ -2185,6 +2185,12 @@
 		"oAP": "\/page-templates\/empty.php",
 		"oF": 0
 		},
+	"\/page-templates\/findyourcampus.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/page-templates\/findyourcampus.php",
+		"oF": 0
+		},
 	"\/page-templates\/fullwidthpage.php": {
 		"ft": 8192,
 		"oA": 2,

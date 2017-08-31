@@ -30,19 +30,34 @@ $container = get_theme_mod( 'understrap_container_type' );
 <section id="features">
 	<div class="row no-gutters">
 		<div class="col-12 col-md-6 d-block align-middle py-6 px-4 py-lg-7 px-lg-6">
-				<h3>They know what you need to know...<br/>and what you don't.</h3>
-				<p class="lead">Learn from an A+ student who has already aced your course.</p>
+				<h3>SOS Volunteers are here to help.</h3>
+				<p class="lead">They'll review course content in a way that is fun and easy to understand.</p>
 				<a href="/shop" class="btn btn-outline-primary">Find a Session</a>
 		</div>
 			<div class="col-12 col-md-6 img-block-1 py-8 "></div>
 	</div>
 	<div class="row no-gutters">
 		<div class="col-12 col-md-6 d-block align-middle py-6 px-4 py-lg-7 px-lg-6 order-1 order-md-2">
-			<h3>Watch, learn, and relax.</h3>
-			<p class="lead">You'll learn your course's exam content inside &amp; out in a simple and easy way.</p>
+			<h3>Suited to Your Style.</h3>
+			<p class="lead">We provide in-person review sessions, video tutorials, and take-home study packages, so you can learn in the way that suits your style. </p>
 			<a href="/shop" class="btn btn-outline-primary">Find a Session</a>
 		</div>
 			<div class="col-12 col-md-6 img-block-2 py-8 order-2 order-md-1"></div>
+	</div>
+</section>
+<section id="support-us">
+	<div class="container py-4 py-md-7">
+		<div class="row d-flex justify-content-center text-center">
+			<div class="col-8 col-md-10">
+				<h2 class="mb-3 text-center">Supporting a Great Cause</h2>
+				<hr class="w-25" />
+				<div class="row d-flex justify-content-center">
+					<p class="lead">Each Exam Aid has a suggested donation amount, with 100% of proceeds going to Canada SOS. </p>
+					<p>We are a registered charity (#81495 0416 RR 0001) that supports the universal right to education through funding of sustainable international projects.</small></p>
+					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/" role="button">Learn More</a>
+				</div> 
+			</div>
+		</div>
 	</div>
 </section>
 <section id="partners">

@@ -444,6 +444,38 @@ function sos_login_redirect( $url, $request, $user ){
 add_filter('login_redirect', 'sos_login_redirect', 10, 3 );
 
 
+
+
+// Append Nav with login / logout link
+//////////////////////////////////////////////////////////////////////
+
+function sos_chapters_list(){
+    if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
+        $sites = get_sites();
+        foreach ( $sites as $site ) {
+            switch_to_blog( $site->blog_id );
+                    
+                    $details->blogname   = get_option( 'blogname' );
+                    $details->siteurl    = get_option( 'siteurl' );
+                    $details->post_count = get_option( 'post_count' );
+                    $details->home       = get_option( 'home' );
+
+                    echo '<div class="col-12 col-sm-4">';
+                    echo '<a href="' . $details->siteurl . '" class="btn btn-lrg btn-outline-primary" >' . $details->blogname . '</a>';
+                    echo '</div>';
+            restore_current_blog();
+        }
+        return;
+    }
+}
+
+
+
+
+
+
+
+
 /**
  * Theme setup and custom theme supports.
  */

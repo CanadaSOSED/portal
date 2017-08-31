@@ -137,6 +137,26 @@
 		"plM": 3758088159,
 		"prP": 0
 		},
+	"\/img\/outreach-1.jpg": {
+		"ft": 16384,
+		"iS": 260959,
+		"oA": 0,
+		"oAP": "\/img\/outreach-1.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"q": 100
+		},
+	"\/img\/outreach-2.jpg": {
+		"ft": 16384,
+		"iS": 375250,
+		"oA": 0,
+		"oAP": "\/img\/outreach-2.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"q": 100
+		},
 	"\/img\/princeton-logo.svg": {
 		"ft": 2097152,
 		"miP": 0,
@@ -2231,6 +2251,16 @@
 		"oF": 0,
 		"oS": 0,
 		"uL": 1
+		},
+	"\/style-min.css": {
+		"aP": 1,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 0,
+		"oAP": "\/style-min-min.css",
+		"oF": 0,
+		"oS": 3
 		},
 	"\/style.css": {
 		"aP": 1,
