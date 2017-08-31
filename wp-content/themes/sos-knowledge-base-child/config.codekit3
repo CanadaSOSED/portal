@@ -25,6 +25,16 @@
 		"oF": 0,
 		"oS": 3
 		},
+	"\/css\/child-theme-min.css": {
+		"aP": 1,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 0,
+		"oAP": "\/css\/child-theme-min-min.css",
+		"oF": 0,
+		"oS": 3
+		},
 	"\/footer.php": {
 		"ft": 8192,
 		"oA": 2,

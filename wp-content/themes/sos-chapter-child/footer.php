@@ -13,14 +13,18 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <?php get_sidebar( 'footerfull' ); ?>
 
-<div class="wrapper" id="wrapper-footer">
+<div class="wrapper " id="wrapper-footer" style="background-color: #0f425c;">
 	<div class="<?php echo esc_html( $container ); ?>">
 
-		<div class="row">
-
-			<div class="col-md-12">
-
-
+		<div class="row d-flex justify-content-between">
+			<div class="col-12 col-sm-6">
+			<nav class="navbar navbar-dark d-flex justify-content-start">
+				<div class="nav-item"><a class="nav-link" href="<?php bloginfo( 'site_url'); ?>">Home</a></div>
+				<div class="nav-item"><?php sos_wp_loginout(); ?></div>
+				<div class="nav-item"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
+			</nav>
+			</div><!--col end -->
+			<div class="col-12 col-sm-6">
 
 			</div><!--col end -->
 

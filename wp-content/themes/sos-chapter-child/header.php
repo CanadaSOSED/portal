@@ -25,11 +25,11 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 <body <?php body_class( $class = '' ); ?> >
 
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #0f425c;">
 	<div class="container">
 	        <div class="navbar-brand">
 				<a href="<?php bloginfo('url'); ?>" class="navbar-logo">
-					<img class="mr-3" src="<?php echo get_template_directory_uri(); ?>/img/sos-logo.svg" />
+					<img class="mr-3" src="<?php echo get_template_directory_uri(); ?>/img/sos-logo-white.svg" />
 				</a>
 				<a class="navbar-caption" href="<?php bloginfo('url'); ?>" ><?php bloginfo( 'name' ); ?></a>
 			</div>
@@ -40,7 +40,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 	<?php wp_nav_menu(
 		array(
 			'theme_location'  => 'primary',
-			'container_class' => 'collapse navbar-collapse justify-content-lg-end',
+			'container_class' => 'collapse navbar-collapse ',
 			'container_id'    => 'primaryNav',
 			'menu_class'      => 'navbar-nav ml-auto',
 			'fallback_cb'     => '',

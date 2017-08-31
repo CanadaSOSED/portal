@@ -23,11 +23,11 @@ function theme_enqueue_styles() {
 
 // Custom SOS Login Button -  Displayed on /page-templates/login-page.php
 ////////////////////////////////////////////////////////////////////////////////////
-function sos_wp_loginout($redirect = '', $echo = true) {
+function sos_wp_loginout($class ='', $redirect = '', $echo = true) {
     if ( ! is_user_logged_in() )
-        $link = '<a href="' . esc_url( wp_login_url($redirect) ) . '" class="btn btn-info">' . __('Log in') . '</a>';
+        $link = '<a href="' . esc_url( wp_login_url($redirect) ) . '" class="' . $class . '">' . __('Log In') . '</a>';
     else
-        $link = '<a href="' . esc_url( wp_logout_url($redirect) ) . '" class="btn btn-info">' . __('Log out') . '</a>';
+        $link = '<a href="' . esc_url( wp_logout_url($redirect) ) . '" class="' . $class . '">' . __('Log Out') . '</a>';
  
     if ( $echo ) {
         /**

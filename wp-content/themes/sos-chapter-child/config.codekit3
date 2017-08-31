@@ -97,6 +97,66 @@
 		"oT": 1,
 		"q": 100
 		},
+	"\/img\/exam-aid-1.jpg": {
+		"ft": 16384,
+		"iS": 5163255,
+		"oA": 0,
+		"oAP": "\/img\/exam-aid-1.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"q": 100
+		},
+	"\/img\/exam-aid-2.jpg": {
+		"ft": 16384,
+		"iS": 131015,
+		"oA": 0,
+		"oAP": "\/img\/exam-aid-2.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"q": 100
+		},
+	"\/img\/exam-aid-3.jpg": {
+		"ft": 16384,
+		"iS": 112343,
+		"oA": 0,
+		"oAP": "\/img\/exam-aid-3.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"q": 100
+		},
+	"\/img\/minute-logo.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "\/img\/minute-logo.svg",
+		"oF": 0,
+		"opt": 0,
+		"plM": 3758088159,
+		"prP": 0
+		},
+	"\/img\/princeton-logo.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "\/img\/princeton-logo.svg",
+		"oF": 0,
+		"opt": 0,
+		"plM": 3758088159,
+		"prP": 0
+		},
+	"\/img\/scotiabank-logo.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "\/img\/scotiabank-logo.svg",
+		"oF": 0,
+		"opt": 0,
+		"plM": 3758088159,
+		"prP": 0
+		},
 	"\/img\/sos-logo-207x128.png": {
 		"ft": 32768,
 		"iS": 14141,
@@ -266,6 +326,19 @@
 		"oA": 2,
 		"oAP": "\/page-templates\/widgets.php",
 		"oF": 0
+		},
+	"\/sass\/assets\/animate.scss": {
+		"aP": 0,
+		"bl": 0,
+		"dP": 10,
+		"dS": 0,
+		"ft": 4,
+		"ma": 0,
+		"oA": 1,
+		"oAP": "\/sass\/assets\/animate.css",
+		"oF": 0,
+		"oS": 0,
+		"uL": 1
 		},
 	"\/sass\/assets\/bootstrap4.scss": {
 		"aP": 0,
@@ -3004,7 +3077,7 @@
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
-	"alwaysUseExternalServer": 0,
+	"alwaysUseExternalServer": 1,
 	"animateCSSInjections": 1,
 	"autoBuildNewItems": 1,
 	"autoprefixerBrowserString": "> 1%, last 2 versions, Firefox ESR, Opera 12.1",
@@ -4358,7 +4431,7 @@
 			}
 		},
 	"esLintSourceType": 0,
-	"externalServerAddress": "http:\/\/localhost:8888",
+	"externalServerAddress": "http:\/\/localhost\/",
 	"gitIgnoreBuildFolder": 1,
 	"hideConfigFile": 0,
 	"jsCheckerReservedNamesString": "",
@@ -4936,8 +5009,8 @@
 		},
 	"languageDefaultsUserDefined": [
 		],
-	"overrideExternalServerCSS": 0,
-	"previewPathAddition": "",
+	"overrideExternalServerCSS": 1,
+	"previewPathAddition": "http:\/\/localhost\/sos3\/ubc",
 	"skippedFoldersString": "log, _logs, logs, _cache, cache, \/storage\/framework\/sessions, node_modules",
 	"sourceFolderName": "source",
 	"uglifyDefinesString": "",
