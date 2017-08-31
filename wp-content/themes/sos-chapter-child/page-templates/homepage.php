@@ -30,8 +30,8 @@ $container = get_theme_mod( 'understrap_container_type' );
 <section id="features">
 	<div class="row no-gutters">
 		<div class="col-12 col-md-6 d-block align-middle py-6 px-4 py-lg-7 px-lg-6">
-				<h3>They know what you need...<br/>and what you don't.</h3>
-				<p class="lead">Learn from A+ student who has already aced your course.</p>
+				<h3>They know what you need to know...<br/>and what you don't.</h3>
+				<p class="lead">Learn from an A+ student who' has already aced your course.</p>
 				<a href="/shop" class="btn btn-outline-primary">Find a Session</a>
 		</div>
 			<div class="col-12 col-md-6 img-block-1 py-8 "></div>
