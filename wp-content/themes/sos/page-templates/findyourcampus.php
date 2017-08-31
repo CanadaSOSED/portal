@@ -12,7 +12,7 @@ get_header(); ?>
 
 <div class="container my-5 py-5">
 	<div class="row d-flex justify-content-center">
-		<div class="col-12 col-md-8 ">
+		<div class="col-12 col-md-10 ">
 		<div class="h2 text-center pb-4">Select Your Campus</div>
 			<div class="row d-flex justify-content-start text-center">
 				<?php sos_chapters_list(); ?>
