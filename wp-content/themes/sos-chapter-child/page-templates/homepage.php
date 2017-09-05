@@ -20,7 +20,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<div class="lead animated fadeIn">
 					<p>Over <b>100,000</b> students have used Exam Aids to ace their exams!</p>
 				</div>
-				<p class="animated fadeIn">The nearer it gets to exams the faster Exam Aid sessions fill up. Don't miss out on the easiest way to boost your marks.</p>
+				<!-- <p class="animated fadeIn"></p> -->
 				<a class="btn btn-primary btn-lg mx-auto my-3 d-block animated fadeIn" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/shop" role="button">Find a Session</a>
 			</div>
 		</div>
@@ -55,7 +55,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 					<p class="lead">Each Exam Aid has a suggested donation amount, with 100% of proceeds going to Canada SOS. </p>
 					<p>We are a registered charity (#81495 0416 RR 0001) that supports the universal right to education through funding of sustainable international projects.</small></p>
 					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/" role="button">Learn More</a>
-				</div> 
+				</div>
 			</div>
 		</div>
 	</div>
