@@ -60,6 +60,20 @@ $container = get_theme_mod( 'understrap_container_type' );
 		</div>
 	</div>
 </section>
+<section id="volunteer">
+	<div class="container py-4 py-md-7">
+		<div class="row d-flex justify-content-center text-center">
+			<div class="col-8 col-md-10">
+				<h2 class="mb-3 text-center">Want to Join Your Campus Team? Apply Today!</h2>
+				<hr class="w-25" />
+				<div class="row d-flex justify-content-center">
+					<p class="lead">Make an impact on your campus today and apply to be a part of something special now!</p>
+					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/apply" role="button">Volunteer Now</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 <section id="partners">
 	<div class="container pt-5 pb-4">
 		<div class="row d-flex justify-content-center">
