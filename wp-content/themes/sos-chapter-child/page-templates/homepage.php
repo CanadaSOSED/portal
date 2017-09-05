@@ -54,7 +54,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<div class="row d-flex justify-content-center">
 					<p class="lead">We’re a registered charity. Since 2004 we’ve been working to support the universal right to education.</p>
 					<p>At Exam Aid sessions we collect donations, and thanks to our volunteers 100% of what's collected goes directly to our charitable mandate. By attending a session you’re not just helping your own marks, you’re helping to create a world where everyone has a fair chance to learn. </small></p>
-					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/" role="button">Learn More</a>
+					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/our-impact/" role="button">See Our Impact</a>
 				</div>
 			</div>
 		</div>
