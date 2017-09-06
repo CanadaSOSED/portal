@@ -465,7 +465,7 @@ function sos_chapters_list(){
                     $details->post_count = get_option( 'post_count' );
                     $details->home       = get_option( 'home' );
 
-                    echo '<div class="col-12 col-sm-4 my-2">';
+                    echo '<div class="button-text col-12 col-sm-4 my-2">';
                     echo '<a href="' . $details->siteurl . '" class="btn btn-lrg btn-outline-primary w-100" >' . $details->blogname . '</a>';
                     echo '</div>';
             restore_current_blog();
