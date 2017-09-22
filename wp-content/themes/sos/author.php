@@ -4,7 +4,7 @@
  *
  * Learn more: https://codex.wordpress.org/Author_Templates
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 get_header();

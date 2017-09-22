@@ -2,7 +2,7 @@
 /**
  * Custom header setup.
  *
- * @package understrap
+ * @package sos-primary
  */
 
 function understrap_custom_header_setup() {

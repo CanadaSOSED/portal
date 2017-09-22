@@ -2,7 +2,7 @@
 /**
  * Left sidebar check.
  *
- * @package understrap
+ * @package sos-primary
  */
 
 ?>

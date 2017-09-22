@@ -2,7 +2,7 @@
 /**
  * The template for displaying all single posts.
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 get_header();

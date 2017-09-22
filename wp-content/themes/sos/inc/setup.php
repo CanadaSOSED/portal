@@ -2,7 +2,7 @@
 /**
  * Theme basic setup.
  *
- * @package understrap
+ * @package sos-primary
  */
 
 require get_template_directory() . '/inc/theme-settings.php';

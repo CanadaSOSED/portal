@@ -30,3 +30,143 @@ body{
 	font-size: 14px;
 	padding-top: 3px;
 }
+
+.custom-select{
+	-webkit-appearance: none;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+// Buttons
+//////////////////////////////////////////////////////////////////////////////
+.bg-accent {
+  background: $brand-accent;
+}
+
+a.accent{
+	color: $brand-accent;
+}
+
+//////////////////////////////////////////////////////////////////////////////
+// Utilities
+//////////////////////////////////////////////////////////////////////////////
+.shade{
+	position: relative;
+	background: rgba(0,0,0, 0.5);
+	display: block;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+
+.relative{
+	position: relative;
+	z-index: 0;
+}
+
+.animated{
+	animation-duration: 2s;
+	animation-delay: .2s;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////
+// HomePage
+//////////////////////////////////////////////////////////////////////////////
+
+#hero-banner{
+		position: relative;
+		background-image:  linear-gradient(180deg, rgba(3, 21, 35, .85) 50%, rgba(3, 21, 35, .7) 100%), url('../img/exam-aid-2.jpg');
+		background-repeat: no-repeat;
+		background-position: bottom left, center;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		display: block;
+		.h1{
+			color: $white;
+		}
+		.lead, p{
+			color: $white !important;
+			opacity: .8;
+		}
+}
+
+#features{
+
+	.img-block-1, .img-block-2{
+		transition: all .35 ease-in;
+		transform: scale(1);
+		overflow: hidden;
+		box-shadow: 
+		&:hover{
+			transform: scale(1.005);
+		}
+	}
+
+	.img-block-1{
+		background-image: linear-gradient(0deg, rgba(3, 21, 35, .6) 0%, rgba(3, 21, 35, .3) 100%), url('../img/exam-aid-1.jpg');
+		background-repeat: no-repeat;
+		background-position: bottom left, center;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		display: block;
+	}
+
+	.img-block-2{
+		background-image: linear-gradient(0deg, rgba(3, 21, 35, .6) 0%, rgba(3, 21, 35, .3) 100%), url('../img/exam-aid-3.jpg');
+		background-repeat: no-repeat;
+		background-position: bottom left, center;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		display: block;
+	}
+}
+ 
+#support-us{ 
+	background-image: linear-gradient(0deg, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .3) 100%), url('../img/outreach-2.jpg');
+	background-repeat: no-repeat;
+	background-position: bottom left, center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover; 
+
+	h2{
+		color: $white !important;
+	}
+	p {
+		color: $white !important;
+		opacity: .8;
+	}
+
+	hr{
+		background: $white !important;
+		opacity: .4;
+	}
+}
+
+
+#partners{
+	background: $gray-200;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////
+// Footer
+//////////////////////////////////////////////////////////////////////
+
+.nav-item a{
+	color: $white !important;
+
+	&:hover{
+		opacity: .8;
+		cursor: pointer;
+	}
+}

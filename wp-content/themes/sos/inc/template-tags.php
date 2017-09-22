@@ -4,7 +4,7 @@
  *
  * Eventually, some of the functionality here could be replaced by core features.
  *
- * @package understrap
+ * @package sos-primary
  */
 
 if ( ! function_exists( 'understrap_posted_on' ) ) :

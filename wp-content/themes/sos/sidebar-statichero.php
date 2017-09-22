@@ -2,7 +2,7 @@
 /**
  * Static hero sidebar setup.
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 $container   = get_theme_mod( 'understrap_container_type' );

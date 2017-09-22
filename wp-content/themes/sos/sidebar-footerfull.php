@@ -2,7 +2,7 @@
 /**
  * Sidebar setup for footer full.
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 $container   = get_theme_mod( 'understrap_container_type' );

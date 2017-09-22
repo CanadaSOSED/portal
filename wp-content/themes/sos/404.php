@@ -2,7 +2,7 @@
 /**
  * The template for displaying 404 pages (not found).
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 get_header();

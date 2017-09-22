@@ -2,7 +2,7 @@
 /**
  * The sidebar containing the main widget area.
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 if ( ! is_active_sidebar( 'sidebar-1' ) ) {

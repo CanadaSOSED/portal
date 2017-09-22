@@ -2,7 +2,7 @@
 /**
  * Sidebar - hero setup.
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 ?>

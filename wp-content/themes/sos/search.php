@@ -2,7 +2,7 @@
 /**
  * The template for displaying search results pages.
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 get_header();

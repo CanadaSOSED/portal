@@ -1825,29 +1825,9 @@
 		"oAP": "\/header.php",
 		"oF": 0
 		},
-	"\/img\/bigvolunteering1-2000x529.jpg": {
-		"ft": 16384,
-		"iS": 108960,
-		"oA": 0,
-		"oAP": "\/img\/bigvolunteering1-2000x529.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"q": 100
-		},
-	"\/img\/download-2000x576.jpg": {
-		"ft": 16384,
-		"iS": 118251,
-		"oA": 0,
-		"oAP": "\/img\/download-2000x576.jpg",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"q": 100
-		},
 	"\/img\/exam-aid-1.jpg": {
 		"ft": 16384,
-		"iS": 124522,
+		"iS": 0,
 		"oA": 0,
 		"oAP": "\/img\/exam-aid-1.jpg",
 		"oF": 0,
@@ -1855,42 +1835,81 @@
 		"opt": 1,
 		"q": 100
 		},
-	"\/img\/joel.jpg": {
+	"\/img\/exam-aid-2.jpg": {
 		"ft": 16384,
-		"iS": 271434,
+		"iS": 0,
 		"oA": 0,
-		"oAP": "\/img\/joel.jpg",
+		"oAP": "\/img\/exam-aid-2.jpg",
 		"oF": 0,
 		"oIPL": 0,
 		"opt": 1,
 		"q": 100
 		},
-	"\/img\/login-page-bg.jpg": {
+	"\/img\/exam-aid-3.jpg": {
 		"ft": 16384,
-		"iS": 14565,
+		"iS": 0,
 		"oA": 0,
-		"oAP": "\/img\/login-page-bg.jpg",
+		"oAP": "\/img\/exam-aid-3.jpg",
 		"oF": 0,
 		"oIPL": 0,
-		"opt": 0,
+		"opt": 1,
 		"q": 100
+		},
+	"\/img\/minute-logo.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "\/img\/minute-logo.svg",
+		"oF": 0,
+		"opt": 0,
+		"plM": 3758088159,
+		"prP": 0
+		},
+	"\/img\/outreach-1.jpg": {
+		"ft": 16384,
+		"iS": 0,
+		"oA": 0,
+		"oAP": "\/img\/outreach-1.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"q": 100
+		},
+	"\/img\/outreach-2.jpg": {
+		"ft": 16384,
+		"iS": 0,
+		"oA": 0,
+		"oAP": "\/img\/outreach-2.jpg",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 1,
+		"q": 100
+		},
+	"\/img\/princeton-logo.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "\/img\/princeton-logo.svg",
+		"oF": 0,
+		"opt": 0,
+		"plM": 3758088159,
+		"prP": 0
+		},
+	"\/img\/scotiabank-logo.svg": {
+		"ft": 2097152,
+		"miP": 0,
+		"oA": 2,
+		"oAP": "\/img\/scotiabank-logo.svg",
+		"oF": 0,
+		"opt": 0,
+		"plM": 3758088159,
+		"prP": 0
 		},
 	"\/img\/sos-logo-128x78.png": {
 		"ft": 32768,
 		"iS": 11549,
 		"oA": 0,
 		"oAP": "\/img\/sos-logo-128x78.png",
-		"oF": 0,
-		"oIPL": 0,
-		"opt": 0,
-		"oT": 1,
-		"q": 100
-		},
-	"\/img\/sos-logo-207x128.png": {
-		"ft": 32768,
-		"iS": 14141,
-		"oA": 0,
-		"oAP": "\/img\/sos-logo-207x128.png",
 		"oF": 0,
 		"oIPL": 0,
 		"opt": 0,

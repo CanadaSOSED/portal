@@ -4,7 +4,7 @@
  *
  * Learn more: http://codex.wordpress.org/Template_Hierarchy
  *
- * @package sos-knowledge-base
+ * @package sos-primary
  */
 
 get_header();
