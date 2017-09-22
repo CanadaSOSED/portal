@@ -20,7 +20,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<div class="lead animated fadeIn">
 					<p>Over <b>100,000</b> students have used Exam Aids to ace their exams!</p>
 				</div>
-				<p class="animated fadeIn">The nearer it gets to exams the faster Exam Aid sessions fill up. Don't miss out on the easiest way to boost your marks.</p>
+				<!-- <p class="animated fadeIn"></p> -->
 				<a class="btn btn-primary btn-lg mx-auto my-3 d-block animated fadeIn" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/shop" role="button">Find a Session</a>
 			</div>
 		</div>
@@ -52,10 +52,25 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<h2 class="mb-3 text-center">Supporting a Great Cause</h2>
 				<hr class="w-25" />
 				<div class="row d-flex justify-content-center">
-					<p class="lead">Each Exam Aid has a suggested donation amount, with 100% of proceeds going to Canada SOS. </p>
-					<p>We are a registered charity (#81495 0416 RR 0001) that supports the universal right to education through funding of sustainable international projects.</small></p>
-					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/" role="button">Learn More</a>
-				</div> 
+					<p class="lead">We’re a registered charity. Since 2004 we’ve been working to support the universal right to education.</p>
+					<p>At Exam Aid sessions we collect donations, and thanks to our volunteers 100% of what's collected goes directly to our charitable mandate. By attending a session you’re not just helping your own marks, you’re helping to create a world where everyone has a fair chance to learn. </small></p>
+					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/our-impact/" role="button">See Our Impact</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section id="volunteer">
+	<div class="container py-4 py-md-7">
+		<div class="row d-flex justify-content-center text-center">
+			<div class="col-8 col-md-10">
+				<h2 class="mb-3 text-center">Want to Join Your Campus Team? Apply Today!</h2>
+				<hr class="w-25" />
+				<div class="row d-flex justify-content-center">
+					<p class="lead">Make an impact on your campus today and apply to be a part of something special now!</p>
+					<p>Whether you want to be an Exam Aid Instructor, gain experience with our Finance team or contribute in other ways, reach out to us and learn how you can join SOS.</small></p>
+					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/apply" role="button">Volunteer Now</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -64,7 +79,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 	<div class="container pt-5 pb-4">
 		<div class="row d-flex justify-content-center">
 			<div class="col-8 col-md-10">
-				<h3 class="mb-3 text-center">In Partnership With</h3>
+				<h3 class="mb-3 text-center">Thank You to Our Sponsors</h3>
 				<hr class="w-25" />
 				<div class="row d-flex justify-content-center">
 					<div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">

@@ -22,7 +22,7 @@ function acme_autocomplete_login_init()
 {
     ob_start();
 }
- 
+
 add_action('login_form', 'acme_autocomplete_login_form');
 function acme_autocomplete_login_form()
 {
@@ -48,7 +48,7 @@ add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
 // Hide All WordPress and plugin update notifications
 //////////////////////////////////////////////////////////////////////
 function remove_update_notifications(){
- 
+
     global $wp_version;return(object) array('last_checked'=> time(),'version_checked'=> $wp_version,);
 
 }
@@ -68,12 +68,12 @@ if ($ip = '138.197.168.139') {
 // Disable User Roles
 //////////////////////////////////////////////////////////////////////
 add_action('admin_menu', 'remove_built_in_roles');
- 
+
 function remove_built_in_roles() {
     global $wp_roles;
- 
+
     $roles_to_remove = array('contributor', 'author', 'editor', 'subscriber', 'shop_manager');
- 
+
     foreach ($roles_to_remove as $role) {
         if (isset($wp_roles->roles[$role])) {
             $wp_roles->remove_role($role);
@@ -123,7 +123,7 @@ function sos_change_woo_post_object() {
     $labels->menu_name = 'Sessions';
     $labels->name_admin_bar = 'Sessions';
 }
- 
+
 add_action( 'init', 'sos_change_woo_post_object' );
 
 
@@ -131,8 +131,8 @@ add_action( 'init', 'sos_change_woo_post_object' );
 //////////////////////////////////////////////////////////////////////
 
 function sos_supports_for_woo_post_object() {
-	
-	remove_post_type_support( 
+
+	remove_post_type_support(
 		'product',
 		'editor',
 		'author',
@@ -149,8 +149,8 @@ add_action( 'init', 'sos_supports_for_woo_post_object' );
 
 // Remove dashboard metaboxes
 //////////////////////////////////////////////////////////////////////
-function sos_disable_dashboard_widgets() {  
-  
+function sos_disable_dashboard_widgets() {
+
 	remove_meta_box( 'dashboard_incoming_links', 'dashboard', 'normal' );
 	remove_meta_box( 'dashboard_plugins', 'dashboard', 'normal' );
 	remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
@@ -161,15 +161,15 @@ function sos_disable_dashboard_widgets() {
 	remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' );
 	remove_meta_box( 'dashboard_activity', 'dashboard', 'normal');//since 3.8
     remove_action('welcome_panel', 'wp_welcome_panel'); // Welcome panel on update & first signin
-    
-}  
+
+}
 add_action('wp_dashboard_setup', 'sos_disable_dashboard_widgets');
 
 
 function sos_remove_plugin_metaboxes(){
 	$post_types = get_post_types();
 		// change name of reviews meta box by removing it and adding it back with a new name
-	  remove_meta_box( 'woocommerce_dashboard_recent_reviews', 'dashboard', 'normal' ); 
+	  remove_meta_box( 'woocommerce_dashboard_recent_reviews', 'dashboard', 'normal' );
 	  remove_meta_box( 'woocommerce_dashboard_status', 'dashboard', 'normal' ); // woocommerce activity metabox
 }
 add_action( 'do_meta_boxes', 'sos_remove_plugin_metaboxes' );
@@ -180,25 +180,25 @@ add_action( 'do_meta_boxes', 'sos_remove_plugin_metaboxes' );
 
 // Function that outputs the contents of the dashboard widget
 function sos_dashboard_knowledgebase_widget_function( $post, $callback_args ) {
-	echo "<p>Checkout the knowledge base and you could find the meaning of life. <br/>Thanks to the interwebs the knowledge base is open 24/7. 🤘 Rock on! 🤘</p>";
+	echo "<p>Check out the Knowledge Base if you've got any questions about the new system, or are unclear about any processes. If you're question isn't there, someone from HQ will answer your question, and then it will get added to the system for everyone else to see! </p>";
     echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='http://kb.soscampus.com'>Visit Knowledge Base</a></p>";
 }
 
 function sos_dashboard_finance_widget_function( $post, $callback_args ) {
-    echo "<p>All the cool kids keep their chapter finances up to date. <br/>You're a cool kid aren't you? 😎 <a href='https://youtu.be/ZXsQAXx_ao0'>Click For Motivation</a><p> ";
+    echo "<p>Expenses, revenues, and everything in between - All finance forms for your Chapter are accessible here. </p> ";
     echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='http://soscampus.com/finance-forms'>Go To Finance Forms</a></p>";
 }
 
 function sos_dashboard_princeton_widget_function( $post, $callback_args ) {
-    echo "<p>Ya know what's dope? Discounts are dope! Dope Discounts! ...click button 👇 claim your Princeton Review Discount. <p>";
+    echo "<p>SOS has an awesome partnership with The Princeton Review - offering everyone who gets involved with SOS discount on prep courses. Visit the link below to apply for your discount!</p>";
     echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='https://docs.google.com/forms/d/e/1FAIpQLScva-U8KWwPpcm5wf5xIQwzzkfKX9ziV_JDsY3OlFFnKO6URQ/viewform?usp=sf_link'>Claim Discount</a></p>";
 }
 
 function sos_dashboard_training_widget_function( $post, $callback_args ) {
-    echo "<p>Feeling stuck? Worried about exams? Relax with some soothing SOS training... You'll learn more about navigating this new system and possibly find the meaning of life. <p>";
+    echo "<p>Need some review on training? Wanting to grow within your department, or try out a new department? Visit our Training Resources site to check them out. </p>";
     echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
 }
@@ -214,8 +214,8 @@ function sos_add_dashboard_widgets() {
 
 // Register the new dashboard widget with the 'wp_dashboard_setup' action
 add_action('wp_dashboard_setup', 'sos_add_dashboard_widgets' );
- 
- 
+
+
 // Stop the text editor from auto adding markup to html
 //////////////////////////////////////////////////////////////////////
 remove_filter( 'the_content', 'wpautop' );
@@ -402,28 +402,28 @@ function add_login_logout_register_menu( $items, $args ) {
  }
 
 if ( is_user_logged_in() ) {
-    if( current_user_can('edit_post') ) { 
+    if( current_user_can('edit_post') ) {
         $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/wp-admin">' . __( 'Admin' ) . '</a></li>';
         $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
     } else {
         $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'My Account' ) . '</a></li>';
         $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
     }
- 
+
  } else {
      $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'Login' ) . '</a></li>';
      $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'Sign Up' ) . '</a></li>';
  }
- 
+
  return $items;
 }
- 
+
 add_filter( 'wp_nav_menu_items', 'add_login_logout_register_menu', 199, 2 );
 
 
 /**
 * Redirect user after successful login to Woocomerce My Account Page if User can edit_posts
-* 
+*
 *
 * @param string $url URL to redirect to.
 * @param string $request URL the user is coming from.
@@ -459,14 +459,15 @@ function sos_chapters_list(){
         $sites = get_sites($args);
         foreach ( $sites as $site ) {
             switch_to_blog( $site->blog_id );
-                    
+
                     $details->blogname   = get_option( 'blogname' );
                     $details->siteurl    = get_option( 'siteurl' );
                     $details->post_count = get_option( 'post_count' );
                     $details->home       = get_option( 'home' );
 
-                    echo '<div class="col-12 col-sm-4 my-2">';
-                    echo '<a href="' . $details->siteurl . '" class="btn btn-lrg btn-outline-primary w-100" style="font-size: 13px;">' . $details->blogname . '</a>';
+
+                    echo '<div class="button-text col-12 col-sm-4 my-2">';
+                    echo '<a href="' . $details->siteurl . '" class="btn btn-lrg btn-outline-primary w-100" >' . $details->blogname . '</a>';
                     echo '</div>';
             restore_current_blog();
         }
