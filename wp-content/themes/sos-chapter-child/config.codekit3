@@ -200,6 +200,12 @@
 		"oAP": "\/inc\/customizer.php",
 		"oF": 0
 		},
+	"\/inc\/post-type-applications.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/inc\/post-type-applications.php",
+		"oF": 0
+		},
 	"\/inc\/recent-posts-by-category-widget.php": {
 		"ft": 8192,
 		"oA": 2,
@@ -315,6 +321,12 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/page-templates\/fullwidthpage.php",
+		"oF": 0
+		},
+	"\/page-templates\/homepage.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/page-templates\/homepage.php",
 		"oF": 0
 		},
 	"\/page-templates\/left-sidebarpage.php": {

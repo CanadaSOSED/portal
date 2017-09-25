@@ -1690,6 +1690,16 @@
 		"oF": 0,
 		"oS": 3
 		},
+	"\/css\/theme.min.css": {
+		"aP": 1,
+		"bl": 0,
+		"ft": 16,
+		"ma": 0,
+		"oA": 0,
+		"oAP": "\/css\/theme.min-min.css",
+		"oF": 0,
+		"oS": 3
+		},
 	"\/css\/theme.min.css.map": {
 		"ft": 8192,
 		"oA": 2,
@@ -1774,6 +1784,12 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/footer.php",
+		"oF": 0
+		},
+	"\/functions.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/functions.php",
 		"oF": 0
 		},
 	"\/global-templates\/hero.php": {
@@ -1894,6 +1910,17 @@
 		"iS": 11549,
 		"oA": 0,
 		"oAP": "\/img\/sos-logo-128x78.png",
+		"oF": 0,
+		"oIPL": 0,
+		"opt": 0,
+		"oT": 1,
+		"q": 100
+		},
+	"\/img\/sos-logo-207x128.png": {
+		"ft": 32768,
+		"iS": 14141,
+		"oA": 0,
+		"oAP": "\/img\/sos-logo-207x128.png",
 		"oF": 0,
 		"oIPL": 0,
 		"opt": 0,

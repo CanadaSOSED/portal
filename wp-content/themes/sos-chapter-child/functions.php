@@ -19,7 +19,7 @@ function theme_enqueue_styles() {
     wp_enqueue_style( 'child-understrap-styles', get_stylesheet_directory_uri() . '/css/child-theme-min.css', array(), $the_theme->get( 'Version' ) );
     wp_enqueue_script( 'child-understrap-scripts', get_stylesheet_directory_uri() . '/js/child-theme-min.js', array(), $the_theme->get( 'Version' ), true );
 }
-
+ 
 
 // Custom SOS Login Button -  Displayed on /page-templates/login-page.php
 ////////////////////////////////////////////////////////////////////////////////////
@@ -218,6 +218,7 @@ function woo_remove_product_tabs( $tabs ) {
 
 }
 
+@include 'inc/post-type-applications.php';
 @include 'inc/widgets.php';
 @include 'inc/breadcrumbs.php';
 @include 'inc/recent-posts-by-category-widget.php';
