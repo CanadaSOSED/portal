@@ -486,14 +486,13 @@ function sos_chapters_list_option_box(){
     if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
         $sites = get_sites($args);
         echo '<select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">';
-
+        echo '<option> Select Your Campus </option>';
         foreach ( $sites as $site ) {
             switch_to_blog( $site->blog_id );
                     $details->blogname   = get_option( 'blogname' );
                     $details->siteurl    = get_option( 'siteurl' );
                     $details->post_count = get_option( 'post_count' );
                     $details->home       = get_option( 'home' );
-                    echo '<option> Select Your Campus </option>';
                     echo '<option value="' . $details->siteurl . '">' . $details->blogname . '</option>';
             restore_current_blog();
         }
