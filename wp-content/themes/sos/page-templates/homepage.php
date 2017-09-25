@@ -20,7 +20,10 @@ get_header(); ?>
                     <p>Over <b>100,000</b> students have used Exam Aids to ace their exams!</p>
                 </div>
                 <p class="animated fadeIn">The nearer it gets to exams the faster Exam Aid sessions fill up. Don't miss out on the easiest way to boost your marks.</p>
-                <?php sos_chapters_list_option_box(); ?>
+                <select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
+                <option> Select Your Campus </option>
+                    <?php sos_chapters_list_option_box(); ?>
+                </select>
             </div>
         </div>
     </div>
@@ -31,7 +34,10 @@ get_header(); ?>
         <div class="col-12 col-md-6 d-block align-middle py-6 px-4 py-lg-7 px-lg-6">
                 <h3>SOS Volunteers are here to help.</h3>
                 <p class="lead">They'll review course content in a way that is fun and easy to understand.</p>
-                <?php sos_chapters_list_option_box(); ?>
+                <select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
+                <option> Select Your Campus </option>
+                    <?php sos_chapters_list_option_box(); ?>
+                </select>
         </div>
             <div class="col-12 col-md-6 img-block-1 py-8 "></div>
     </div>
@@ -39,7 +45,10 @@ get_header(); ?>
         <div class="col-12 col-md-6 d-block align-middle py-6 px-4 py-lg-7 px-lg-6 order-1 order-md-2">
             <h3>Suited to Your Style.</h3>
             <p class="lead">We provide in-person review sessions, video tutorials, and take-home study packages, so you can learn in the way that suits your style. </p>
-            <?php sos_chapters_list_option_box(); ?>
+            <select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
+            <option> Select Your Campus </option>
+                <?php sos_chapters_list_option_box(); ?>
+            </select>
         </div>
             <div class="col-12 col-md-6 img-block-2 py-8 order-2 order-md-1"></div>
     </div>
