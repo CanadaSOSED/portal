@@ -476,7 +476,6 @@ function sos_chapters_list(){
 }
 
 
-
 function sos_chapters_list_option_box(){
     $args = array(
         'site__not_in' => '1,4,5',
@@ -495,10 +494,9 @@ function sos_chapters_list_option_box(){
                     $details->home       = get_option( 'home' );
                     echo '<option value="' . $details->siteurl . '">' . $details->blogname . '</option>';
             restore_current_blog();
-        }
+         }
         return;
     }
-    echo '</select>';
 
 }
 
