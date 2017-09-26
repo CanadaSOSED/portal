@@ -478,7 +478,7 @@ function sos_chapters_list(){
 
 function sos_chapters_list_option_box(){
     $args = array(
-        'site__not_in' => '1,4,5',
+        'site__not_in' => '1,5',
         'orderby' => 'domain'
     );
 
