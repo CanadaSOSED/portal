@@ -76,15 +76,15 @@ class WC_Gateway_COD extends WC_Payment_Gateway {
 				'title'       => __( 'Title', 'woocommerce' ),
 				'type'        => 'text',
 				'description' => __( 'Payment method description that the customer will see on your checkout.', 'woocommerce' ),
-				'default'     => __( 'Cash on delivery', 'woocommerce' ),
+				// 'default'     => __( 'Cash on delivery', 'woocommerce' ),
+				'default'     => __( 'Cash at the Door (In-person Exam Aid sessions only)', 'woocommerce' ),
 				'desc_tip'    => true,
 			),
 			'description' => array(
 				'title'       => __( 'Description', 'woocommerce' ),
 				'type'        => 'textarea',
 				'description' => __( 'Payment method description that the customer will see on your website.', 'woocommerce' ),
-				// 'default'     => __( 'Pay with cash upon delivery.', 'woocommerce' ),
-				'default'     => __( 'Cash at the Door (In-person Exam Aid sessions only)', 'woocommerce' ),
+				'default'     => __( 'Pay with cash upon delivery.', 'woocommerce' ),
 				'desc_tip'    => true,
 			),
 			'instructions' => array(
