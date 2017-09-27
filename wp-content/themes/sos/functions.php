@@ -203,13 +203,20 @@ function sos_dashboard_training_widget_function( $post, $callback_args ) {
     echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
 }
 
+function sos_dashboard_archived_materials_widget_function( $post, $callback_args ) {
+    echo "<p>Looking for old Exam Aid/Take-Home/DEA packages? We've archived them for you to view.</p>";
+    echo "<p><hr/></p>";
+    echo "<p>Login using <strong>username: amaterials</strong> and <strong>password: amaterials</strong>.";
+    echo "<p><a class='button button-primary button-large' href="www.studentsofferingsupport.ca/portal/Files/CourseDownloadPage.php">Archived Materials</a></p>";
+}
+
 // Function used in the action hook
 function sos_add_dashboard_widgets() {
-	add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
+	  add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
     add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'side');
     add_meta_box('sos_dashboard_princeton', 'Princeton Review Discount ', 'sos_dashboard_princeton_widget_function','dashboard', 'normal');
     add_meta_box('sos_dashboard_training', 'Training Resources','sos_dashboard_training_widget_function', 'dashboard', 'side');
-
+    add_meta_box('sos_dashboard_archived', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'normal');
 }
 
 // Register the new dashboard widget with the 'wp_dashboard_setup' action
