@@ -205,8 +205,8 @@ function sos_dashboard_training_widget_function( $post, $callback_args ) {
 
 function sos_dashboard_archived_materials_widget_function( $post, $callback_args ) {
     echo "<p>Looking for old Exam Aid/Take-Home/DEA packages? We've archived them for you to view.</p>";
-    echo "<p><hr/></p>";
     echo "<p>Login using <strong>username: amaterials</strong> and <strong>password: amaterials</strong>.";
+    echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/portal/Files/CourseDownloadPage.php'>Archived Materials</a></p>";
 }
 
