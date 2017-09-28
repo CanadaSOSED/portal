@@ -255,6 +255,7 @@ function sos_card_title_start() {
 add_action( 'woocommerce_after_shop_loop_item_title', 'sos_card_title_end', 6 );
 function sos_card_title_end() {
     echo '</div>';
+    echo '<a href="' . get_permalink( $post->ID ) . '">View Details</a>';
 
 }
 

@@ -77,9 +77,17 @@ a.accent{
 // Woocommerce Category Archive Product Page (aka - Sessions)
 //////////////////////////////////////////////////////////////////////
 .woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
-width: 29.5%;
+	width: 29.5%;
 }
 
+.woocommerce ul.products li.product .price{
+	float: right;
+}
+
+.woocommerce ul.products li.product .button{
+	float: right;
+	clear: both;
+}
 
 //////////////////////////////////////////////////////////////////////
 // Woocommerce Single Product Page (aka - Sessions)
