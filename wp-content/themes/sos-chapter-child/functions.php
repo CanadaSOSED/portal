@@ -289,6 +289,36 @@ if (!function_exists('loop_columns')) {
 }
 
 
+// Changed the 'Add to Cart' text
+//////////////////////////////////////////////////////////////////////
+add_filter( 'woocommerce_product_add_to_cart_text', 'woo_custom_product_add_to_cart_text' );
+
+function woo_custom_product_add_to_cart_text() {
+
+    return __( 'Enroll Now', 'woocommerce' );
+
+}
+
+// Add Enroll Now Button Text
+//////////////////////////////////////////////////////////////////////
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'themeprefix_cart_button_text' );
+
+function themeprefix_cart_button_text() {
+  return __( 'Enroll Now', 'woocommerce' );
+}
+
+// Redirect to Pay Now instead of View Cart
+//////////////////////////////////////////////////////////////////////
+add_filter('add_to_cart_redirect', 'themeprefix_add_to_cart_redirect');
+
+function themeprefix_add_to_cart_redirect() {
+    global $woocommerce;
+    $checkout_url = $woocommerce->cart->get_checkout_url();
+    return $checkout_url;
+}
+
+
+
 // Allow authors on single products
 //////////////////////////////////////////////////////////////////////
 
