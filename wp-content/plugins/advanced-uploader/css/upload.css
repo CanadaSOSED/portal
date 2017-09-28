@@ -1,0 +1,51 @@
+#media-items {
+	margin: 1em 0;
+}
+
+/* popup */
+.wp-dialog {
+	z-index: 300002;
+}
+
+.ui-dialog-titlebar-close {
+	cursor: pointer;
+}
+/* body */
+#dest-popup {
+	padding: 10px;
+}
+
+#dest-popup p,
+#dest-popup .option {
+	overflow: hidden;
+	line-height: 2em;
+}
+
+#dest-popup select {
+	float: right;
+}
+
+#dest-popup .custom-combobox {
+	float: right;
+	clear:right;
+}
+
+.gallery_name {
+	overflow: hidden;
+	clear: both;
+}
+
+.hide {
+	display: none;
+}
+
+/* separator */
+.dashed {
+	border: 1px dashed #444;
+	border-style: none none dashed;
+	margin: 10px 0px;
+}
+
+.advuplddialog {
+	z-index: 200001 !important;
+}
