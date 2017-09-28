@@ -21,6 +21,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <li <?php wc_product_cat_class( '', $category ); ?>>
+
+	content-product_cat.php
 	<?php
 	/**
 	 * woocommerce_before_subcategory hook.

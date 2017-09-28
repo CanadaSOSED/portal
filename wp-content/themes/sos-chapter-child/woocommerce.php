@@ -30,6 +30,7 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 
 				<?php woocommerce_content(); ?>
 
+
 			</main><!-- #main -->
 
 		</div><!-- #primary -->

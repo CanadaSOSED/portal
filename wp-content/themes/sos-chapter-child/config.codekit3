@@ -200,10 +200,10 @@
 		"oAP": "\/inc\/customizer.php",
 		"oF": 0
 		},
-	"\/inc\/post-type-applications.php": {
+	"\/inc\/post-type-opportunities.php": {
 		"ft": 8192,
 		"oA": 2,
-		"oAP": "\/inc\/post-type-applications.php",
+		"oAP": "\/inc\/post-type-opportunities.php",
 		"oF": 0
 		},
 	"\/inc\/recent-posts-by-category-widget.php": {
@@ -297,6 +297,12 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/loop-templates\/content.php",
+		"oF": 0
+		},
+	"\/page-templates\/applypage.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/page-templates\/applypage.php",
 		"oF": 0
 		},
 	"\/page-templates\/blank.php": {

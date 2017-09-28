@@ -218,7 +218,70 @@ function woo_remove_product_tabs( $tabs ) {
 
 }
 
-@include 'inc/post-type-applications.php';
+// Hide Product Thumbnail Placeholder
+remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
+
+// Start Card Wrapper
+add_action( 'woocommerce_before_shop_loop_item', 'sos_card_start', 10 );
+function sos_card_start() {
+    echo '<div class="card">';
+    echo '<div class="card-body">';
+}
+
+
+// Start Card Wrapper
+add_action( 'woocommerce_shop_loop_item_title', 'sos_card_title_start', 9 );
+function sos_card_title_start() {
+    echo '<div class="card-title" style="font-weight:500;line-height:1.1;font-size:1.5em;">';
+
+}
+
+// Start Card Wrapper
+add_action( 'woocommerce_after_shop_loop_item_title', 'sos_card_title_end', 6 );
+function sos_card_title_end() {
+    echo '</div>';
+
+}
+
+// End Card Wrapper
+add_action( 'woocommerce_after_shop_loop_item', 'sos_card_end', 10 );
+function sos_card_end() {
+
+    echo '</div>';
+
+    echo '<div class="card-footer">';
+        $product_cats = wp_get_post_terms( get_the_ID(), 'session_type' );
+
+        if ( $product_cats && ! is_wp_error ( $product_cats ) ){
+
+            $single_cat = array_shift( $product_cats );
+
+            echo '<span class="badge badge-primary">' . $single_cat->name . '</span>';
+        }
+
+    echo '</div>';
+    echo '</div>';
+
+
+}
+
+// Change number or products per row to 3
+add_filter('loop_shop_columns', 'loop_columns');
+if (!function_exists('loop_columns')) {
+    function loop_columns() {
+        return 3; // 3 products per row
+    }
+}
+
+
+// Allow authors on single products
+//////////////////////////////////////////////////////////////////////
+
+if ( post_type_exists( 'product' ) ) {
+    add_post_type_support( 'product', 'author' );
+}
+
+@include 'inc/post-type-opportunities.php';
 @include 'inc/widgets.php';
 @include 'inc/breadcrumbs.php';
 @include 'inc/recent-posts-by-category-widget.php';
