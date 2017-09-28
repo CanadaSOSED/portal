@@ -327,7 +327,7 @@ add_filter( 'product_type_selector', 'remove_product_types' );
 //////////////////////////////////////////////////////////////////////////////////////////////
 function hide_panel_items_woocommerce(){
 
-	echo '<style> ._sold_individually_field, #product-type {display:none !important;} </style>';
+	echo '<style>._manage_stock_field, ._sold_individually_field, #product-type {display:none !important;} </style>';
 
 }
 
