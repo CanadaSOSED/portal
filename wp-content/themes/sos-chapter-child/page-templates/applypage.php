@@ -34,8 +34,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 					</div>
 					</a>
 					   
-					<? endwhile;
-					?>
+					<?php endwhile; ?>
 				</div>
 			</div>
 
