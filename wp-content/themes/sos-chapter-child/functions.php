@@ -222,6 +222,21 @@ function woo_remove_product_tabs( $tabs ) {
 remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
 
 // Start Card Wrapper
+add_action( 'woocommerce_before_subcategory', 'sos_cat_card_start', 9 );
+function sos_cat_card_start() {
+    echo '<div class="card">';
+    echo '<div class="card-body">';
+}
+
+// End Card Wrapper
+add_action( 'woocommerce_after_subcategory', 'sos_cat_card_end', 10 );
+function sos_cat_card_end() {
+    echo '</div>';
+    echo '</div>';
+}
+
+
+// Start Card Wrapper
 add_action( 'woocommerce_before_shop_loop_item', 'sos_card_start', 10 );
 function sos_card_start() {
     echo '<div class="card">';
