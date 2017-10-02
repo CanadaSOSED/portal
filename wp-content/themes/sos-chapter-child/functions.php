@@ -19,7 +19,7 @@ function theme_enqueue_styles() {
     wp_enqueue_style( 'child-understrap-styles', get_stylesheet_directory_uri() . '/css/child-theme-min.css', array(), $the_theme->get( 'Version' ) );
     wp_enqueue_script( 'child-understrap-scripts', get_stylesheet_directory_uri() . '/js/child-theme-min.js', array(), $the_theme->get( 'Version' ), true );
 }
- 
+
 
 // Custom SOS Login Button -  Displayed on /page-templates/login-page.php
 ////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +28,7 @@ function sos_wp_loginout($class ='', $redirect = '', $echo = true) {
         $link = '<a href="' . esc_url( wp_login_url($redirect) ) . '" class="' . $class . '">' . __('Log In') . '</a>';
     else
         $link = '<a href="' . esc_url( wp_logout_url($redirect) ) . '" class="' . $class . '">' . __('Log Out') . '</a>';
- 
+
     if ( $echo ) {
         /**
          * Filters the HTML output for the Log In/Log Out link.
@@ -44,7 +44,7 @@ function sos_wp_loginout($class ='', $redirect = '', $echo = true) {
     }
 }
 
-// Custom SOS Register Button - Displayed on /page-templates/login-page.php 
+// Custom SOS Register Button - Displayed on /page-templates/login-page.php
 //////////////////////////////////////////////////////////////////////////////////////////
 function sos_wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
     if ( ! is_user_logged_in() ) {
@@ -57,7 +57,7 @@ function sos_wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
     } else {
         $link = '';
     }
- 
+
     /**
      * Filters the HTML link to the Registration or Admin page.
      *
@@ -69,7 +69,7 @@ function sos_wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
      * @param string $link The HTML code for the link to the Registration or Admin page.
      */
     $link = apply_filters( 'register', $link );
- 
+
     if ( $echo ) {
         echo $link;
     } else {
@@ -104,7 +104,7 @@ remove_action ('woocommerce_single_product_summary', 'woocommerce_template_singl
 // {
 //     ob_start();
 // }
- 
+
 // add_action('login_form', 'acme_autocomplete_login_form_kb');
 // function acme_autocomplete_login_form_kb()
 // {
@@ -152,7 +152,7 @@ remove_action ('woocommerce_single_product_summary', 'woocommerce_template_singl
 //     $labels->menu_name = 'Articles';
 //     $labels->name_admin_bar = 'Articles';
 // }
- 
+
 // add_action( 'admin_menu', 'change_post_label' );
 // add_action( 'init', 'change_post_object' );
 
@@ -176,7 +176,7 @@ function sos_chapter_change_post_object() {
     $labels->menu_name = 'Sessions';
     $labels->name_admin_bar = 'Sessions';
 }
- 
+
 add_action( 'init', 'sos_chapter_change_post_object' );
 
 
@@ -308,7 +308,19 @@ function themeprefix_cart_button_text() {
   return __( 'Purchase Now', 'woocommerce' );
 }
 
+// RESTRICT AMOUNT IN CART TO 1
+//////////////////////////////////////////////////////////////////////
+function so_27030769_maybe_empty_cart( $valid, $product_id, $quantity ) {
 
+    if( ! empty ( WC()->cart->get_cart() ) && $valid ){
+        WC()->cart->empty_cart();
+        wc_add_notice( 'Whoa hold up. You can only have 1 item in your cart', 'error' );
+    }
+
+    return $valid;
+
+}
+add_filter( 'woocommerce_add_to_cart_validation', 'so_27030769_maybe_empty_cart', 10, 3 );
 
 // Allow authors on single products
 //////////////////////////////////////////////////////////////////////
@@ -323,4 +335,3 @@ if ( post_type_exists( 'product' ) ) {
 @include 'inc/recent-posts-by-category-widget.php';
 @include 'inc/customizer.php';
 //@include 'inc/related-posts-by-category-widget.php';
-
