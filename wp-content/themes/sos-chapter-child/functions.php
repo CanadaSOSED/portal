@@ -314,7 +314,7 @@ function so_27030769_maybe_empty_cart( $valid, $product_id, $quantity ) {
 
     if( ! empty ( WC()->cart->get_cart() ) && $valid ){
         WC()->cart->empty_cart();
-        wc_add_notice( 'Whoa hold up. You can only have 1 item in your cart', 'error' );
+        // wc_add_notice( 'Whoa hold up. You can only have 1 item in your cart', 'error' );
     }
 
     return $valid;
