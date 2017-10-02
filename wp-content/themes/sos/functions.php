@@ -94,7 +94,7 @@ $strings = array(
 );
 
 if ( isset( $strings[$original] ) && is_admin() ) {
-    $translations = &get_translations_for_domain( $domain );
+    $translations = get_translations_for_domain( $domain );
     $translated = $translations->translate( $strings[$original] );
 }
 
@@ -453,34 +453,42 @@ add_filter('login_redirect', 'sos_login_redirect', 10, 3 );
 
 
 
-// Append Nav with login / logout link
-//////////////////////////////////////////////////////////////////////
+// // Append Nav with login / logout link
+// //////////////////////////////////////////////////////////////////////
 
-function sos_chapters_list(){
-    $args = array(
-        'site__not_in' => '1,4,5',
-        'orderby' => 'domain'
-    );
+// function sos_chapters_leaderboard(){
+//     $args = array(
+//         'site__not_in' => '1,5',
+//         'orderby' => 'domain'
+//     );
 
-    if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
-        $sites = get_sites($args);
-        foreach ( $sites as $site ) {
-            switch_to_blog( $site->blog_id );
+//     if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
+//         $sites = get_sites($args);
+//         foreach ( $sites as $site ) {
+//             switch_to_blog( $site->blog_id );
 
-                    $details->blogname   = get_option( 'blogname' );
-                    $details->siteurl    = get_option( 'siteurl' );
-                    $details->post_count = get_option( 'post_count' );
-                    $details->home       = get_option( 'home' );
+//                     $details->blogname   = get_option( 'blogname' );
+//                     $details->siteurl    = get_option( 'siteurl' );
+//                     $details->home       = get_option( 'home' );
+                    
+//                     $order = wc_get_order( $order_id );
+//                     foreach ($order->get_items() as $item_key => $item_values){
+//                         $item_data = $item_values->get_data();
+//                         $product_name = $item_data['name'];
+//                     }
+
+//                     echo '<div class="col-12">' . $details->blogname . '</div>';
+                    
+//                     // echo '<div class="button-text col-12 col-sm-4 my-2">';
+//                     // echo '<a href="' . $details->siteurl . '" class="btn btn-lrg btn-outline-primary w-100" >' . $details->blogname . '</a>';
+//                     // echo '</div>';
 
 
-                    echo '<div class="button-text col-12 col-sm-4 my-2">';
-                    echo '<a href="' . $details->siteurl . '" class="btn btn-lrg btn-outline-primary w-100" >' . $details->blogname . '</a>';
-                    echo '</div>';
-            restore_current_blog();
-        }
-        return;
-    }
-}
+//             restore_current_blog();
+//         }
+//         return;
+//     }
+// }
 
 
 function sos_chapters_list_option_box(){

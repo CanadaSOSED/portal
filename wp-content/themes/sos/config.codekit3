@@ -1786,6 +1786,12 @@
 		"oAP": "\/footer.php",
 		"oF": 0
 		},
+	"\/functions.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/functions.php",
+		"oF": 0
+		},
 	"\/global-templates\/hero.php": {
 		"ft": 8192,
 		"oA": 2,
@@ -2209,12 +2215,6 @@
 		"oAP": "\/page-templates\/empty.php",
 		"oF": 0
 		},
-	"\/page-templates\/findyourcampus.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/page-templates\/findyourcampus.php",
-		"oF": 0
-		},
 	"\/page-templates\/fullwidthpage.php": {
 		"ft": 8192,
 		"oA": 2,
@@ -2225,6 +2225,12 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/page-templates\/homepage.php",
+		"oF": 0
+		},
+	"\/page-templates\/leaderboard.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/page-templates\/leaderboard.php",
 		"oF": 0
 		},
 	"\/page-templates\/left-sidebarpage.php": {
@@ -4164,6 +4170,54 @@
 		"oAP": "\/style-min.css",
 		"oF": 0,
 		"oS": 3
+		},
+	"\/vendor\/WooCommerce\/Client.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/Client.php",
+		"oF": 0
+		},
+	"\/vendor\/WooCommerce\/HttpClient\/BasicAuth.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/HttpClient\/BasicAuth.php",
+		"oF": 0
+		},
+	"\/vendor\/WooCommerce\/HttpClient\/HttpClient.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/HttpClient\/HttpClient.php",
+		"oF": 0
+		},
+	"\/vendor\/WooCommerce\/HttpClient\/HttpClientException.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/HttpClient\/HttpClientException.php",
+		"oF": 0
+		},
+	"\/vendor\/WooCommerce\/HttpClient\/OAuth.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/HttpClient\/OAuth.php",
+		"oF": 0
+		},
+	"\/vendor\/WooCommerce\/HttpClient\/Options.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/HttpClient\/Options.php",
+		"oF": 0
+		},
+	"\/vendor\/WooCommerce\/HttpClient\/Request.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/HttpClient\/Request.php",
+		"oF": 0
+		},
+	"\/vendor\/WooCommerce\/HttpClient\/Response.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/vendor\/WooCommerce\/HttpClient\/Response.php",
+		"oF": 0
 		},
 	"\/woocommerce.php": {
 		"ft": 8192,
