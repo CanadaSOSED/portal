@@ -155,7 +155,7 @@ a.accent{
 		transition: all .35 ease-in;
 		transform: scale(1);
 		overflow: hidden;
-		box-shadow: 
+		box-shadow:
 		&:hover{
 			transform: scale(1.005);
 		}
@@ -183,15 +183,15 @@ a.accent{
 		display: block;
 	}
 }
- 
-#support-us{ 
+
+#support-us{
 	background-image: linear-gradient(0deg, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .3) 100%), url('../img/outreach-2.jpg');
 	background-repeat: no-repeat;
 	background-position: bottom left, center;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
-	background-size: cover; 
+	background-size: cover;
 
 	h2{
 		color: $white !important;
@@ -219,7 +219,7 @@ a.accent{
 //////////////////////////////////////////////////////////////////////
 
 .nav-item a{
-	color: $white !important;
+	color: $brand-accent !important;
 
 	&:hover{
 		opacity: .8;
