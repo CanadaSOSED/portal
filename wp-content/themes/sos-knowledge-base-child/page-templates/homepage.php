@@ -32,7 +32,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 		<div class="row site-main" id="main" role="main">
 
 			<div class="col-md-8">
-	
+
 				<div class="row">
 					<div class="col-sm-12">
 						<h3>Help Topics</h3>
@@ -43,22 +43,17 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 				<div class="row">
 
-					<div class="col-md-6">
-						<?php 
+					<div class="col-md-12">
+						<?php
 						get_sidebar( 'home_left' );
 						?>
 					</div>
 
-					<div class="col-md-6">
-						<?php 
-						get_sidebar( 'home_middle' );
-						?>
-					</div>
 				</div>
 			</div>
 
 			<div class="col-md-4">
-				<?php 
+				<?php
 				get_sidebar( 'home_right' );
 				?>
 			</div>
