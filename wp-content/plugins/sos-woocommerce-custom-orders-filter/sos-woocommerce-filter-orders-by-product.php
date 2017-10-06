@@ -60,7 +60,7 @@ class FOA_Woo_Filter_Orders_by_Product{
 	    ?>
 	    <span id="foa_order_product_filter_wrap">
 		    <select name="foa_order_product_filter" id="foa_order_product_filter">
-		    <option value=""><?php _e('All products', 'woocommerce-filter-orders-by-product'); ?></option>
+		    <option value=""><?php _e('All Sessions', 'woocommerce-filter-orders-by-product'); ?></option>
 		    <?php
 		        $current_v = isset($_GET['foa_order_product_filter'])? $_GET['foa_order_product_filter']:'';
 		        foreach ($values as $key => $title) {
