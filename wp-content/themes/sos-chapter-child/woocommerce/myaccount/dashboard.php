@@ -41,6 +41,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	);
 ?></p>
 
+<h5><?php
+	printf(
+		__( 'If you are having difficulty finding or accessing your materials, head to <a href="%1$s"><strong>ORDERS</strong></a> or watch this <a href="https://kb.soscampus.com/2017/10/02/how-do-i-access-my-course-materials/">short video</a>.', 'woocommerce' ),
+		esc_url( wc_get_endpoint_url( 'orders' ) )
+	);
+?></h5>
+
 <?php
 	/**
 	 * My Account dashboard.
