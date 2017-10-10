@@ -254,6 +254,7 @@ function sos_card_title_start() {
 // Start Card Wrapper
 add_action( 'woocommerce_after_shop_loop_item_title', 'sos_card_title_end', 6 );
 function sos_card_title_end() {
+    global $post;
     echo '</div>';
     echo '<a href="' . get_permalink( $post->ID ) . '">View Details</a>';
 
