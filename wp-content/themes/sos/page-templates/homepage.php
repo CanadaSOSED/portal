@@ -52,18 +52,6 @@ get_header(); ?>
         </div>
             <div class="col-12 col-md-6 img-block-2 py-8 order-2 order-md-1"></div>
     </div>
-    <!-- TESTING OUT APPLY LINKS -->
-    <div class="row no-gutters">
-        <div class="col-12 col-md-6 d-block align-middle py-6 px-4 py-lg-7 px-lg-6">
-                <h3>Interested in Joining SOS?</h3>
-                <p class="lead">Your university chapter may be looking for people to join their team and you could be a great fit. Check out opportunities now!</p>
-                <select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
-                <option> Select Your Campus </option>
-                    <?php sos_chapters_list_apply_box(); ?>
-                </select>
-        </div>
-            <div class="col-12 col-md-6 img-block-1 py-8 "></div>
-    </div>
 
 </section>
 <section id="support-us">
