@@ -8,7 +8,7 @@
  * @package sos-primary
  */
 
-get_header(); ?> 
+get_header(); ?>
 
 <section id="hero-banner" class="bg bg-dark">
     <div class="grad-overlay"></div>
@@ -52,6 +52,7 @@ get_header(); ?>
         </div>
             <div class="col-12 col-md-6 img-block-2 py-8 order-2 order-md-1"></div>
     </div>
+
 </section>
 <section id="support-us">
     <div class="container py-4 py-md-7">
@@ -63,7 +64,7 @@ get_header(); ?>
                     <p class="lead">Each Exam Aid has a suggested donation amount, with 100% of proceeds going to Canada SOS. </p>
                     <p>We are a registered charity (#81495 0416 RR 0001) that supports the universal right to education through funding of sustainable international projects.</small></p>
                     <a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/" role="button">Learn More</a>
-                </div> 
+                </div>
             </div>
         </div>
     </div>

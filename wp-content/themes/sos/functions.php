@@ -470,7 +470,7 @@ add_filter('login_redirect', 'sos_login_redirect', 10, 3 );
 //                     $details->blogname   = get_option( 'blogname' );
 //                     $details->siteurl    = get_option( 'siteurl' );
 //                     $details->home       = get_option( 'home' );
-                    
+
 //                     $order = wc_get_order( $order_id );
 //                     foreach ($order->get_items() as $item_key => $item_values){
 //                         $item_data = $item_values->get_data();
@@ -478,7 +478,7 @@ add_filter('login_redirect', 'sos_login_redirect', 10, 3 );
 //                     }
 
 //                     echo '<div class="col-12">' . $details->blogname . '</div>';
-                    
+
 //                     // echo '<div class="button-text col-12 col-sm-4 my-2">';
 //                     // echo '<a href="' . $details->siteurl . '" class="btn btn-lrg btn-outline-primary w-100" >' . $details->blogname . '</a>';
 //                     // echo '</div>';
