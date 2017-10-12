@@ -96,7 +96,7 @@ a.accent{
 }
 
 .product .card-title h2 {
-	font-size: 1em !important;
+	font-size: .8em !important;
 }
 
 .product .card{
@@ -106,6 +106,25 @@ a.accent{
 
 .product span.onsale{
 	display: none;
+}
+
+.product-category .woocommerce-loop-category__title{
+	font-size: 1.5em !important;
+	.count{
+		display: block;
+		background: transparent;
+		padding: 0px;
+		font-size: .75em !important;
+
+	}
+}
+
+.product-category .card {
+	background: $light-bg;
+	min-height: 85px;
+	&:hover{
+		opacity: .8;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
