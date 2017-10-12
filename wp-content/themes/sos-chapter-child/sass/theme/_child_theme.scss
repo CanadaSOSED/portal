@@ -101,7 +101,7 @@ a.accent{
 
 .product .card{
 	margin-bottom: 30px;
-	min-height: 238px;
+	width: 100%;
 }
 
 .product span.onsale{
@@ -121,7 +121,6 @@ a.accent{
 
 .product-category .card {
 	background: $light-bg;
-	min-height: 137px;
 	&:hover{
 		opacity: .8;
 	}

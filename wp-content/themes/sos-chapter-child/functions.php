@@ -243,7 +243,7 @@ remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_l
 // Start Card Wrapper
 add_action( 'woocommerce_before_subcategory', 'sos_cat_card_start', 9 );
 function sos_cat_card_start() {
-    echo '<div class="card">';
+    echo '<div class="card align-self-stretch">';
     echo '<div class="card-body">';
 }
 
@@ -258,7 +258,7 @@ function sos_cat_card_end() {
 // Start Card Wrapper
 add_action( 'woocommerce_before_shop_loop_item', 'sos_card_start', 10 );
 function sos_card_start() {
-    echo '<div class="card">';
+    echo '<div class="card align-self-stretch">';
     echo '<div class="card-body">';
 }
 

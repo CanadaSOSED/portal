@@ -17,4 +17,4 @@
  */
 ?>
 <div class="clearfix"></div>
-<div class="products row d-flex flex-wrap ">
+<div class="products row d-flex flex-wrap">
