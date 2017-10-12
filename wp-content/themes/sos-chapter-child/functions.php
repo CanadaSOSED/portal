@@ -311,6 +311,41 @@ if (!function_exists('loop_columns')) {
 }
 
 
+// Remove Refunds for Anyone who isn't from SOS HQ
+
+add_action('admin_head', 'sos_hide_wc_refund_button');
+
+function sos_hide_wc_refund_button() {
+
+    global $post;
+
+    if (current_user_can('create_sites')) {
+        return;
+    }
+    if (strpos($_SERVER['REQUEST_URI'], 'post.php?post=') === false) {
+        return;
+    }
+
+    if (empty($post) || $post->post_type != 'shop_order') {
+        return;
+    }
+?>
+    <script>
+      jQuery(function () {
+            jQuery('.refund-items').hide();
+            jQuery('.order_actions option[value=send_email_customer_refunded_order]').remove();
+            if (jQuery('#original_post_status').val()=='wc-refunded') {
+                jQuery('#s2id_order_status').html('Refunded');
+            } else {
+                jQuery('#order_status option[value=wc-refunded]').remove();
+            }
+        });
+    </script>
+    <?php
+
+}
+
+
 // Changed the 'Add to Cart' text
 //////////////////////////////////////////////////////////////////////
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_custom_product_add_to_cart_text' );
