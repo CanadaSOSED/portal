@@ -493,7 +493,7 @@ add_filter('login_redirect', 'sos_login_redirect', 10, 3 );
 
 function sos_chapters_list_option_box(){
     $args = array(
-        'site__not_in' => '1,5',
+        'site__not_in' => '1,5,29,30',
         'orderby' => 'domain'
     );
 
