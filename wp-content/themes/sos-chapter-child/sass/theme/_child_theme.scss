@@ -76,21 +76,54 @@ a.accent{
 //////////////////////////////////////////////////////////////////////
 // Woocommerce Category Archive Product Page (aka - Sessions)
 //////////////////////////////////////////////////////////////////////
-.woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
+.woocommerce div.products .product, .woocommerce-page div.products .product {
 	width: 29.5%;
 }
 
-.woocommerce ul.products li.product .price{
+.woocommerce div.products .product .price{
 	float: right;
+	font-size: .857em;
 }
 
-.woocommerce ul.products li.product .button{
+.woocommerce div.products .product .button{
 	float: right;
 	clear: both;
+	margin-top: 2em;
 }
 
 .woocommerce-MyAccount-navigation-link.nav-item a{
 	color: $brand-accent !important;
+}
+
+.product .card-title h2 {
+	font-size: .8em !important;
+}
+
+.product .card{
+	margin-bottom: 30px;
+	width: 100%;
+}
+
+.product span.onsale{
+	display: none;
+}
+
+.product-category .woocommerce-loop-category__title{
+	font-size: 1.5em !important;
+	.count{
+		display: block;
+		background: transparent;
+		padding: 0px;
+		font-size: .75em !important;
+
+	}
+}
+
+.product-category .card {
+	background: $light-bg;
+	&:hover{
+		opacity: .8;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -123,6 +156,10 @@ a.accent{
 	font-size: .857em;
 	-webkit-font-smoothing: antialiased;
 	z-index: 9;
+}
+
+.woocommerce #reviews #comments h2{
+	font-size: 1.2em;
 }
 
 

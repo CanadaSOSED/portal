@@ -41,6 +41,12 @@
 		"oAP": "\/footer.php",
 		"oF": 0
 		},
+	"\/functions.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/functions.php",
+		"oF": 0
+		},
 	"\/header.php": {
 		"ft": 8192,
 		"oA": 2,

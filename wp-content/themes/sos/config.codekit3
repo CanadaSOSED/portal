@@ -1786,12 +1786,6 @@
 		"oAP": "\/footer.php",
 		"oF": 0
 		},
-	"\/functions.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/functions.php",
-		"oF": 0
-		},
 	"\/global-templates\/hero.php": {
 		"ft": 8192,
 		"oA": 2,
@@ -2219,12 +2213,6 @@
 		"ft": 8192,
 		"oA": 2,
 		"oAP": "\/page-templates\/fullwidthpage.php",
-		"oF": 0
-		},
-	"\/page-templates\/homepage.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/page-templates\/homepage.php",
 		"oF": 0
 		},
 	"\/page-templates\/leaderboard.php": {

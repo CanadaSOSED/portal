@@ -218,13 +218,32 @@ function woo_remove_product_tabs( $tabs ) {
 
 }
 
+
+add_filter( 'woocommerce_subcategory_count_html', 'sos_subcat_count', 10, 2);
+function sos_subcat_count( $markup, $category){
+
+    return '<p class="count pt-2 text-secondary">' . $category->count . ' Sessions Available</p>';
+}
+
+// Change Default "Shop" page title to "Sessions"
+
+add_filter( 'woocommerce_page_title', 'woo_shop_page_title');
+function woo_shop_page_title( $page_title ) {
+  if( 'Shop' == $page_title) {
+    return "Sessions";
+ } else {
+    return $page_title;
+ }
+}
+
+
 // Hide Product Thumbnail Placeholder
 remove_action('woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10 );
 
 // Start Card Wrapper
 add_action( 'woocommerce_before_subcategory', 'sos_cat_card_start', 9 );
 function sos_cat_card_start() {
-    echo '<div class="card">';
+    echo '<div class="card align-self-stretch">';
     echo '<div class="card-body">';
 }
 
@@ -239,7 +258,7 @@ function sos_cat_card_end() {
 // Start Card Wrapper
 add_action( 'woocommerce_before_shop_loop_item', 'sos_card_start', 10 );
 function sos_card_start() {
-    echo '<div class="card">';
+    echo '<div class="card align-self-stretch">';
     echo '<div class="card-body">';
 }
 
@@ -250,6 +269,7 @@ function sos_card_title_start() {
     echo '<div class="card-title" style="font-weight:500;line-height:1.1;font-size:1.5em;">';
 
 }
+
 
 // Start Card Wrapper
 add_action( 'woocommerce_after_shop_loop_item_title', 'sos_card_title_end', 6 );
@@ -267,14 +287,14 @@ function sos_card_end() {
     echo '</div>';
 
     echo '<div class="card-footer">';
-        $product_cats = wp_get_post_terms( get_the_ID(), 'session_type' );
+    $product_cats = wp_get_post_terms( get_the_ID(), 'session_type' );
 
-        if ( $product_cats && ! is_wp_error ( $product_cats ) ){
+    if ( $product_cats && ! is_wp_error ( $product_cats ) ){
 
-            $single_cat = array_shift( $product_cats );
+        $single_cat = array_shift( $product_cats );
 
-            echo '<span class="badge badge-primary">' . $single_cat->name . '</span>';
-        }
+        echo '<span class="badge badge-primary">' . $single_cat->name . '</span>';
+    }
 
     echo '</div>';
     echo '</div>';
@@ -288,6 +308,41 @@ if (!function_exists('loop_columns')) {
     function loop_columns() {
         return 3; // 3 products per row
     }
+}
+
+
+// Remove Refunds for Anyone who isn't from SOS HQ
+
+add_action('admin_head', 'sos_hide_wc_refund_button');
+
+function sos_hide_wc_refund_button() {
+
+    global $post;
+
+    if (current_user_can('create_sites')) {
+        return;
+    }
+    if (strpos($_SERVER['REQUEST_URI'], 'post.php?post=') === false) {
+        return;
+    }
+
+    if (empty($post) || $post->post_type != 'shop_order') {
+        return;
+    }
+?>
+    <script>
+      jQuery(function () {
+            jQuery('.refund-items').hide();
+            jQuery('.order_actions option[value=send_email_customer_refunded_order]').remove();
+            if (jQuery('#original_post_status').val()=='wc-refunded') {
+                jQuery('#s2id_order_status').html('Refunded');
+            } else {
+                jQuery('#order_status option[value=wc-refunded]').remove();
+            }
+        });
+    </script>
+    <?php
+
 }
 
 
