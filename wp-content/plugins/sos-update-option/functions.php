@@ -48,11 +48,10 @@ function sos_options_page() {
 					<th scope="row"><label for="blog_registered">Option</label></th>
 					<td><input type="text" name="option"></td>
 				</tr>
-<!-- 				<tr class="form-field">
+				<tr class="form-field">
 					<th scope="row"><label for="blog_last_updated">Value</label></th>
 					<td><input type="text" name="value"></td>
-				</tr> -->
-
+				</tr>
 			</tbody>
 		</table>
 		<p class="submit"><input type="submit" name="update" id="submit" class="button button-primary" value="Update Option"></p>
@@ -61,7 +60,7 @@ function sos_options_page() {
 
 if(isset($_POST['update'])){
 	$option = $_POST['option'];
-	//$value = $_POST['value'];
+	$value = $_POST['value'];
 	$sites = get_sites();
 	$status_message = '';
 
@@ -73,8 +72,6 @@ if(isset($_POST['update'])){
 		$site_name = get_blog_details($site_id)->blogname;
 
 			switch_to_blog( $site->blog_id );
-
-			$value = "[" . $site_name . "] Orders CSV Export";
 
 			echo "Updating (<i>" . $option . "</i>) for site (<i>" . $site_name . " [" . $site_id . "] " . "</i>) with the value (<i>" . $value . "</i>) <br/>";
 
