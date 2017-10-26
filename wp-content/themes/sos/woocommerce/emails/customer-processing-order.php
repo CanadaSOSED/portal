@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
-<p><?php _e( "Your order has been received and is now being processed. Your order details are shown below for your reference:", 'woocommerce' ); ?></p>
+<p><?php _e( "Your order has been received and is now being processed. It can take a few hours for your process, if you have not received access to your materials in more than 3 hours, please contact your chapter. Your order details are shown below for your reference:", 'woocommerce' ); ?></p>
 
 <?php
 
