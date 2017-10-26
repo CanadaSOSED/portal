@@ -299,12 +299,6 @@
 		"oAP": "\/loop-templates\/content.php",
 		"oF": 0
 		},
-	"\/page-templates\/applypage.php": {
-		"ft": 8192,
-		"oA": 2,
-		"oAP": "\/page-templates\/applypage.php",
-		"oF": 0
-		},
 	"\/page-templates\/blank.php": {
 		"ft": 8192,
 		"oA": 2,

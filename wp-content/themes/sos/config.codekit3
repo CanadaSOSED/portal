@@ -2197,6 +2197,12 @@
 		"oO": 0,
 		"oS": 1
 		},
+	"\/page-templates\/apply-page.php": {
+		"ft": 8192,
+		"oA": 2,
+		"oAP": "\/page-templates\/apply-page.php",
+		"oF": 0
+		},
 	"\/page-templates\/blank.php": {
 		"ft": 8192,
 		"oA": 2,

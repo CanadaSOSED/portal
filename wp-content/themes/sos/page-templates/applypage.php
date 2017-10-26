@@ -1,6 +1,6 @@
 <?php
 /**
- * Template Name: Apply Page Template
+ * Template Name: Apply Page - Chapters Template
  *
  * This template can be used to override the default template and sidebar setup
  *

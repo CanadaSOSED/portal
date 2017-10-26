@@ -514,6 +514,29 @@ function sos_chapters_list_option_box(){
 }
 
 
+function sos_chapters_list_apply_option_box(){
+    $args = array(
+        'site__not_in' => '1,5,29,30',
+        'orderby' => 'domain'
+    );
+
+    if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
+        $sites = get_sites($args);
+        foreach ( $sites as $site ) {
+            switch_to_blog( $site->blog_id );
+                    $details->blogname   = get_option( 'blogname' );
+                    $details->siteurl    = get_option( 'siteurl' );
+                    $details->post_count = get_option( 'post_count' );
+                    $details->home       = get_option( 'home' );
+                    echo '<option value="' . $details->siteurl . '/apply">' . $details->blogname . '</option>';
+            restore_current_blog();
+         }
+        return;
+    }
+
+}
+
+
 /**
  * Theme setup and custom theme supports.
  */

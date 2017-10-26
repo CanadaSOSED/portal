@@ -25,19 +25,11 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 
 					<?php get_template_part( 'loop-templates/content', 'single' ); ?>
 
-						<?php // understrap_post_nav(); ?>
-
-					<?php
-					// If comments are open or we have at least one comment, load up the comment template.
-					// if ( comments_open() || get_comments_number() ) :
-					// 	comments_template();
-					// endif;
-					?>
 					<br>
 					<hr/>
 					<br>
 					<p>Last modified: <?php the_modified_date('F j, Y'); ?></p>
-					<p><?php display_post_tags(); ?>
+					<p>
 				<?php endwhile; // end of the loop. ?>
 
 			</main><!-- #main -->
