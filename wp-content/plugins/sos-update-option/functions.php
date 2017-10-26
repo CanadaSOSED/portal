@@ -69,11 +69,12 @@ if(isset($_POST['update'])){
 
 	
 	foreach ( $sites as $site ) {
-
+		$site_id = get_object_vars($site)["blog_id"];
+		$site_name = get_blog_details($site_id)->blogname;
 
 			switch_to_blog( $site->blog_id );
 
-			echo "Updating (<i>" . $option . "</i>) for site (<i>" . $site->path . "</i>) with the value (<i>" . $value . "</i>) <br/>";
+			echo "Updating (<i>" . $option . "</i>) for site (<i>" . $site_name . " [" . $site_id . "] " . "</i>) with the value (<i>" . $value . "</i>) <br/>";
 
 			update_option( $option, $value );
 
