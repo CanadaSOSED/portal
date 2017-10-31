@@ -537,6 +537,57 @@ function sos_chapters_list_apply_option_box(){
 }
 
 
+// So Jetpack can run on localhost
+add_filter( 'jetpack_development_mode', '__return_true' );
+
+
+
+// Add a custom service fee to checkout
+////////////////////////////////////////////////////////////////////////////
+function woocommerce_custom_fee( ) {
+
+    if ( ( is_admin() && ! defined( 'DOING_AJAX' ) ) || ! is_checkout() )
+        return;
+
+    $chosen_gateway = WC()->session->chosen_payment_method;
+
+    $fee = .5;
+    // or calculate your $fee with all the php magic...
+        // $fee = WC()->cart->cart_contents_total * .025; // sample computation for getting 2.5% of the cart total.
+
+    if ( $chosen_gateway == 'stripe' ) { //test with paypal method
+        WC()->cart->add_fee( 'Service Fee', $fee, false, '' );
+    }
+}
+add_action( 'woocommerce_cart_calculate_fees','woocommerce_custom_fee' );
+
+
+function cart_update_script() {
+    if (is_checkout()) :
+    ?>
+    <script>
+        jQuery( function( $ ) {
+
+            // woocommerce_params is required to continue, ensure the object exists
+            if ( typeof woocommerce_params === 'undefined' ) {
+                return false;
+            }
+
+            $checkout_form = $( 'form.checkout' );
+
+            $checkout_form.on( 'change', 'input[name="payment_method"]', function() {
+                    $checkout_form.trigger( 'update' );
+            });
+
+
+        });
+    </script>
+    <?php
+    endif;
+}
+add_action( 'wp_footer', 'cart_update_script', 999 );
+
+
 /**
  * Theme setup and custom theme supports.
  */

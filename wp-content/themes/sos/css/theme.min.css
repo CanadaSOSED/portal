@@ -9948,6 +9948,16 @@ a {
 body {
   font-size: 14px; }
 
+.nav-item a {
+  color: #0f425c; }
+  .nav-item a:hover {
+    opacity: .8;
+    cursor: pointer; }
+
+.nav-pills .is-active .nav-link {
+  color: #fff;
+  background-color: #50bbf8; }
+
 .nav-link.link.dropdown-item:hover {
   background-color: transparent !important;
   float: right !important; }
@@ -10051,9 +10061,9 @@ a.accent {
 #partners {
   background: #e9ecef; }
 
-.nav-item a {
+#wrapper-footer .nav-item a {
   color: #fff !important; }
-  .nav-item a:hover {
+  #wrapper-footer .nav-item a:hover {
     opacity: .8;
     cursor: pointer; }
 

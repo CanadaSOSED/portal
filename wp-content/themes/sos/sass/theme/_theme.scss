@@ -10,6 +10,29 @@ body{
 	font-size: 14px;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////
+// Nav Pills
+//////////////////////////////////////////////////////////////////////////////
+
+.nav-item a{
+	color: $brand-primary;
+
+	&:hover{
+		opacity: .8;
+		cursor: pointer;
+	}
+}
+
+.nav-pills{
+	.is-active {
+		.nav-link{
+			color: #fff;
+			background-color: $brand-accent;
+		}
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////
 // Navbar
 //////////////////////////////////////////////////////////////////////////////
@@ -40,7 +63,7 @@ body{
 // Buttons
 //////////////////////////////////////////////////////////////////////////////
 .bg-accent {
-  background: $brand-accent;
+	background: $brand-accent;
 }
 
 a.accent{
@@ -75,22 +98,22 @@ a.accent{
 //////////////////////////////////////////////////////////////////////////////
 
 #hero-banner{
-		position: relative;
-		background-image:  linear-gradient(180deg, rgba(3, 21, 35, .85) 50%, rgba(3, 21, 35, .7) 100%), url('../img/exam-aid-2.jpg');
-		background-repeat: no-repeat;
-		background-position: bottom left, center;
-		-webkit-background-size: cover;
-		-moz-background-size: cover;
-		-o-background-size: cover;
-		background-size: cover;
-		display: block;
-		.h1{
-			color: $white;
-		}
-		.lead, p{
-			color: $white !important;
-			opacity: .8;
-		}
+	position: relative;
+	background-image:  linear-gradient(180deg, rgba(3, 21, 35, .85) 50%, rgba(3, 21, 35, .7) 100%), url('../img/exam-aid-2.jpg');
+	background-repeat: no-repeat;
+	background-position: bottom left, center;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	display: block;
+	.h1{
+		color: $white;
+	}
+	.lead, p{
+		color: $white !important;
+		opacity: .8;
+	}
 }
 
 
@@ -129,7 +152,7 @@ a.accent{
 		display: block;
 	}
 }
- 
+
 #support-us{ 
 	background-image: linear-gradient(0deg, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .3) 100%), url('../img/outreach-2.jpg');
 	background-repeat: no-repeat;
@@ -163,12 +186,13 @@ a.accent{
 //////////////////////////////////////////////////////////////////////
 // Footer
 //////////////////////////////////////////////////////////////////////
+#wrapper-footer{
+	.nav-item a{
+		color: $white !important;
 
-.nav-item a{
-	color: $white !important;
-
-	&:hover{
-		opacity: .8;
-		cursor: pointer;
+		&:hover{
+			opacity: .8;
+			cursor: pointer;
+		}
 	}
 }
