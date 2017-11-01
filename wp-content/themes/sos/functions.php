@@ -180,7 +180,7 @@ add_action( 'do_meta_boxes', 'sos_remove_plugin_metaboxes' );
 
 // Function that outputs the contents of the dashboard widget
 function sos_dashboard_knowledgebase_widget_function( $post, $callback_args ) {
-	echo "<p>Check out the Knowledge Base if you've got any questions about the new system, or are unclear about any processes. If you're question isn't there, someone from HQ will answer your question, and then it will get added to the system for everyone else to see! </p>";
+	echo "<p>This is SOS if you've got any questions about the new system, or are unclear about any processes. If you're question isn't there, someone from HQ will answer your question, and then it will get added to the system for everyone else to see! </p>";
     echo '<p><hr/></p>';
     echo "<p><a class='button button-primary button-large' href='http://kb.soscampus.com'>Visit Knowledge Base</a></p>";
 }
@@ -450,7 +450,46 @@ function sos_login_redirect( $url, $request, $user ){
 }
 add_filter('login_redirect', 'sos_login_redirect', 10, 3 );
 
+// Service Fee Added to Stripe Transactions
+//////////////////////////////////////////////////////////////////////
+function woocommerce_custom_fee( ) {
+	if ( ( is_admin() && ! defined( 'DOING_AJAX' ) ) || ! is_checkout() )
+		return;
 
+	$chosen_gateway = WC()->session->chosen_payment_method;
+
+	$fee = .5;
+
+	if ( $chosen_gateway == 'stripe' ) { //test with paypal method
+		WC()->cart->add_fee( 'Service Fee', $fee, false, '' );
+	}
+}
+
+add_action( 'woocommerce_cart_calculate_fees','woocommerce_custom_fee' );
+
+function cart_update_script() {
+  if (is_checkout()) :
+  ?>
+  <script>
+	 jQuery( function( $ ) {
+
+		// woocommerce_params is required to continue, ensure the object exists
+		if ( typeof woocommerce_params === 'undefined' ) {
+			return false;
+		}
+
+		$checkout_form = $( 'form.checkout' );
+
+		$checkout_form.on( 'change', 'input[name="payment_method"]', function() {
+				$checkout_form.trigger( 'update' );
+		});
+
+	});
+  </script>
+  <?php
+  endif;
+}
+add_action( 'wp_footer', 'cart_update_script', 999 );
 
 
 // // Append Nav with login / logout link
@@ -534,6 +573,20 @@ function sos_chapters_list_apply_option_box(){
         return;
     }
 
+}
+
+// User-specific Dashboard
+///////////////////////////////////////////////////
+add_action('admin_init','customize_meta_boxes');
+
+function customize_meta_boxes() {
+  global $current_user;
+
+  get_currentuserinfo();
+
+  if ( !current_user_can( 'create_sites' ) ) {
+
+  }
 }
 
 
