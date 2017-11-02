@@ -210,7 +210,7 @@ function sos_dashboard_training_widget_function( $post, $callback_args ) {
 function sos_dashboard_hr_support_widget_function( $post, $callback_args ) {
   echo "<p>In this folder, you will find role descriptions & expectation agreements, hiring & training guides, in addition to other HR resources.</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHaHV3RVJkSmdDSDA'>HR Resources</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHaHV3RVJkSmdDSDA'>Access Resources</a></p>";
 }
 
 // ED Dashboard box
@@ -218,8 +218,9 @@ function sos_dashboard_hr_support_widget_function( $post, $callback_args ) {
 function sos_dashboard_ed_support_widget_function( $post, $callback_args ) {
   echo "<p>In this folder, you will find Exam Aid powerpoint templates, sample cover letters for take home packages, and other ED resources.</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHNkNKLVQzWkllLVU'>ED Resources</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHNkNKLVQzWkllLVU'>Access Resources</a></p>";
 }
+// add_meta_box('sos_dashboard_edsupport', 'ED Resources', 'sos_dashboard_ed_support_widget_function','dashboard', 'normal');
 
 // Archived EA Materials
 //////////////////////////////////////////////////////////////////////
@@ -229,6 +230,7 @@ function sos_dashboard_archived_materials_widget_function( $post, $callback_args
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/portal/Files/CourseDownloadPage.php'>Archived Materials</a></p>";
 }
+// add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'normal');
 
 // Refund Forms
 //////////////////////////////////////////////////////////////////////
@@ -237,6 +239,7 @@ function sos_dashboard_refund_widget_function( $post, $callback_args ) {
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='https://docs.google.com/forms/d/e/1FAIpQLSfg9HYrST-ZxPfoi4oGMIZFE48tLKHjbSx4pjgMgkwVrEEXJQ/viewform'>Refund Request</a></p>";
 }
+// add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'normal');
 
 // EA FAQs
 //////////////////////////////////////////////////////////////////////
@@ -245,30 +248,34 @@ function sos_dashboard_faq_widget_function( $post, $callback_args ) {
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='https://faq.soscampus.com/'>Access FAQ</a></p>";
 }
+// add_meta_box('sos_dashboard_faq', 'Frequently Asked Questions', 'sos_dashboard_faq_widget_function', 'dashboard', 'normal');
 
 // EA Presentation templates
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_ea_template_widget_function( $post, $callback_args ) {
   echo "<p>In this folder, you will find Exam Aid powerpoint templates and sample cover letters for take home packages.</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHNmNtUk1PX2doem8'>FAQ</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHNmNtUk1PX2doem8'>Access Template</a></p>";
 }
+// add_meta_box('sos_dashboard_eatemplate', 'Exam Aid Template', 'sos_dashboard_ea_template_widget_function', 'dashboard', 'normal');
 
 // Finance Mastersheets
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_fin_mastersheets_widget_function( $post, $callback_args ) {
   echo "<p>In this folder, you will see all SOS Chapter's mastersheets. You just need to find your Chapter's specific document (it is in alphabetical order).</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0BxsgrL3RdWEccXBxSV9NU0lRMGs'>Finance Mastersheets</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0BxsgrL3RdWEccXBxSV9NU0lRMGs'>Access Mastersheets</a></p>";
 }
+// add_meta_box('sos_dashboard_financemastersheet', 'Finance Mastersheet', 'sos_dashboard_fin_mastersheets_widget_function', 'dashboard', 'normal');
 
 // Quickbook Links
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_quickbook_links_widget_function( $post, $callback_args ) {
   echo "<p>Complete your weekly finance tasks and reconciliations by clicking on this link to get to your Quickbooks account.</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://quickbooks.intuit.ca/'>Finance Mastersheets</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://quickbooks.intuit.ca/'>Quickbooks Links</a></p>";
 }
+// add_meta_box('sos_dashboard_quickbook', 'Quickbook Links', 'sos_dashboard_quickbook_links_widget_function', 'dashboard', 'normal');
 
 // Budget and Income Statements
 //////////////////////////////////////////////////////////////////////
@@ -277,6 +284,7 @@ function sos_dashboard_fin_statements_widget_function( $post, $callback_args ) {
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHM0xvendZY096eG8'>Finance Statements</a></p>";
 }
+// add_meta_box('sos_dashboard_financestatement', 'Budget and Income Statements', 'sos_dashboard_fin_statements_widget_function', 'dashboard', 'normal');
 
 // Marketing Support
 //////////////////////////////////////////////////////////////////////
@@ -285,14 +293,16 @@ function sos_dashboard_marketing_widget_function( $post, $callback_args ) {
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHREtkSHpvZ3QwVjQ'>Marketing Support</a></p>";
 }
+// add_meta_box('sos_dashboard_marketing', 'Marketing Support', 'sos_dashboard_marketing_widget_function', 'dashboard', 'normal');
 
 // Facebook
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_fb_widget_function( $post, $callback_args ) {
-  echo "<p>Here is a link to the SOS Facebook page! Give the page a "like" and feel free to share any posts to your Chapter's account!</p>";
+  echo "<p>Here is a link to the SOS Facebook page! Give the page a 'like' and feel free to share any posts to your Chapter's account!</p>";
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='https://www.facebook.com/StudentsOfferingSupport/'>SOS Facebook</a></p>";
 }
+// add_meta_box('sos_dashboard_fb', 'Facebook', 'sos_dashboard_fb_widget_function', 'dashboard', 'normal');
 
 // Instagram
 //////////////////////////////////////////////////////////////////////
@@ -301,6 +311,7 @@ function sos_dashboard_ig_widget_function( $post, $callback_args ) {
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='https://www.instagram.com/studentsofferingsupport/'>SOS Instagram</a></p>";
 }
+// add_meta_box('sos_dashboard_ig', 'Instagram', 'sos_dashboard_ig_widget_function', 'dashboard', 'normal');
 
 // Twitter
 //////////////////////////////////////////////////////////////////////
@@ -309,30 +320,82 @@ function sos_dashboard_twitter_widget_function( $post, $callback_args ) {
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' href='https://twitter.com/sosheadoffice'>SOS Twitter</a></p>";
 }
+// add_meta_box('sos_dashboard_twitter', 'Twitter', 'sos_dashboard_twitter_widget_function', 'dashboard', 'normal');
 
 // BD Support
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_bd_support_widget_function( $post, $callback_args ) {
   echo "<p>In this folder, you will find national sponsorship materials & sponsor logos, Chapter level sponsorship templates, in addition to other great Business Development resources.</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHSUN6SWhWVXBseTQ'>BD Resources</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHSUN6SWhWVXBseTQ'>Access Resources</a></p>";
 }
+// add_meta_box('sos_dashboard_bdresources', 'Business Development Resources', 'sos_dashboard_bd_support_widget_function', 'dashboard', 'normal');
 
 // Chapter Resources
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_chapter_resources_widget_function( $post, $callback_args ) {
   echo "<p>Here is a link to the general Chapter Resources folder. In it, you will see HQ'd folder (filled with resources per department and general SOS policies) and Chapter folders. Please save all SOS related materials in your Chapter's folder - and feel free to peruse the other Chapter folders to see what your SOS family members are up to!</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHM0xvendZY096eG8'>Chapter Resources</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0B-cl0XfKOoxHM0xvendZY096eG8'>Access Resources</a></p>";
 }
+// add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'normal');
 
 // Function used in the action hook
 function sos_add_dashboard_widgets() {
-  add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
-  add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'side');
-  add_meta_box('sos_dashboard_princeton', 'Princeton Review Discount ', 'sos_dashboard_princeton_widget_function','dashboard', 'normal');
-  add_meta_box('sos_dashboard_training', 'Training Resources','sos_dashboard_training_widget_function', 'dashboard', 'side');
+  global $current_user;
 
+  get_currentuserinfo();
+
+  // President
+  if ( current_user_can( 'publish_posts' ) ) {
+    add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
+  }
+
+  // HR Dashboard
+  elseif ( current_user_can( 'remove_users' ) ) {
+    add_meta_box('sos_dashboard_hr', 'HR Resources', 'sos_dashboard_hr_support_widget_function','dashboard', 'side');
+  }
+
+  // VP Finance
+  elseif ( current_user_can( 'view_woocommerce_reports' ) ) {
+    add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_financemastersheet', 'Finance Mastersheet', 'sos_dashboard_fin_mastersheets_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_quickbook', 'Quickbook Links', 'sos_dashboard_quickbook_links_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_financestatement', 'Budget and Income Statements', 'sos_dashboard_fin_statements_widget_function', 'dashboard', 'side');
+  }
+
+  // VP BD
+  elseif ( current_user_can( 'list_users' ) ) {
+    add_meta_box('sos_dashboard_bdresources', 'Business Development Resources', 'sos_dashboard_bd_support_widget_function', 'dashboard', 'side');
+  }
+
+  // VP Marketing
+  elseif ( current_user_can( 'moderate_comments' ) ) {
+    add_meta_box('sos_dashboard_marketing', 'Marketing Support', 'sos_dashboard_marketing_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_fb', 'Facebook', 'sos_dashboard_fb_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_ig', 'Instagram', 'sos_dashboard_ig_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_twitter', 'Twitter', 'sos_dashboard_twitter_widget_function', 'dashboard', 'side');
+  }
+
+  // ED Dashboard
+  elseif ( current_user_can( 'publish_products' ) ) {
+    add_meta_box('sos_dashboard_edsupport', 'ED Resources', 'sos_dashboard_ed_support_widget_function','dashboard', 'side');
+    add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
+  }
+
+  // Coordinator/EAI Dashboard
+  elseif ( current_user_can( 'edit_published_products' ) ) {
+    add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_faq', 'Frequently Asked Questions', 'sos_dashboard_faq_widget_function', 'dashboard', 'side');
+    add_meta_box('sos_dashboard_eatemplate', 'Exam Aid Template', 'sos_dashboard_ea_template_widget_function', 'dashboard', 'side');
+  }
+
+  add_meta_box('sos_dashboard_training', 'Training Resources','sos_dashboard_training_widget_function', 'dashboard', 'normal');
+  add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
+  add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'normal');
+  add_meta_box('sos_dashboard_princeton', 'Princeton Review Discount ', 'sos_dashboard_princeton_widget_function','dashboard', 'normal');
 }
 
 // Register the new dashboard widget with the 'wp_dashboard_setup' action
@@ -703,6 +766,7 @@ function customize_meta_boxes() {
   if ( !current_user_can( 'create_sites' ) ) {
 
   }
+
 }
 
 
