@@ -1,0 +1,7 @@
+.DS_Store
+wp-config-local.php
+wp-local.php
+wp-content/cache/
+wp-content/upgrade/
+wp-content/uploads/
+wp-config.php

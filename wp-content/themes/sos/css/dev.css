@@ -1,0 +1,108 @@
+.trips.type-trips {
+    margin: 0 0 2rem;
+    padding: 0 0 2rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.trips.type-trips:last-of-type {
+    border-bottom: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.trips.type-trips .btn {
+    margin: 1rem 0 0;
+}
+
+.trips.type-trips .archive-entry-title {
+    font-size: 1.75rem;
+}
+
+.trips.type-trips .archive-entry-title a,
+.trips.type-trips .entry-title a {
+    color: #0f425c;
+}
+
+.gform_button {
+    appearance: none;
+    outline: none;
+    display: inline-block;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: .5rem .75rem;
+    font-size: 1rem;
+    line-height: 1.25;
+    border-radius: .25rem;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.gform_button:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.gform_button:active {
+    background-color: #0069d9;
+    background-image: none;
+    border-color: #0062cc;
+}
+
+.gform_body input[type="text"],
+.gform_body input[type="email"],
+.gform_body input[type="tel"],
+.gform_body textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    outline: none;
+    border: 2px solid #ccc;
+    padding: 1rem !important;
+    border-radius: 5px;
+}
+
+.gform_body input[type="text"]:focus,
+.gform_body input[type="email"]:focus,
+.gform_body input[type="tel"]:focus,
+.gform_body textarea:focus {
+    border-color: #007bff;
+}
+
+.gform_wrapper.gf_browser_chrome .gfield_checkbox li input,
+.gform_wrapper.gf_browser_chrome .gfield_checkbox li input[type=checkbox], .gform_wrapper.gf_browser_chrome .gfield_radio li input[type=radio] {
+    margin-top: 0 !important;
+}
+
+.gform_wrapper .top_label .gfield_label {
+    margin-bottom: 0;
+}
+
+/* Validation */
+.gform_wrapper div.validation_error {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: #ff0048;
+    border-radius: 5px;
+    color: white !important;
+    padding: 1rem !important;
+}
+
+.gform_wrapper li.gfield.gfield_error {
+    background: transparent;
+    border: none;
+}
+
+.gfield_error .gfield_label {
+
+}
+
+.gform_wrapper .gfield .validation_message,
+.gfield_error .gfield_label {
+    color: #ff0048 !important;
+}

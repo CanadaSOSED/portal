@@ -106,25 +106,25 @@ add_filter( 'gettext', 'sos_rename_flamingo_menu', 10, 3 );
 // Rename WooCommerce Default "Post" type to "Sessions"
 //////////////////////////////////////////////////////////////////////
 
-function sos_change_woo_post_object() {
-    global $wp_post_types;
-    $labels = &$wp_post_types['product']->labels;
-    $labels->name = 'Sessions';
-    $labels->singular_name = 'Session';
-    $labels->add_new = 'Add Session';
-    $labels->add_new_item = 'Add Session';
-    $labels->edit_item = 'Edit Session';
-    $labels->new_item = 'Session';
-    $labels->view_item = 'View Session';
-    $labels->search_items = 'Search Sessions';
-    $labels->not_found = 'No Sessions found';
-    $labels->not_found_in_trash = 'No Sessions found in Trash';
-    $labels->all_items = 'All Sessions';
-    $labels->menu_name = 'Sessions';
-    $labels->name_admin_bar = 'Sessions';
-}
-
-add_action( 'init', 'sos_change_woo_post_object' );
+// function sos_change_woo_post_object() {
+//     global $wp_post_types;
+//     $labels = &$wp_post_types['product']->labels;
+//     $labels->name = 'Sessions';
+//     $labels->singular_name = 'Session';
+//     $labels->add_new = 'Add Session';
+//     $labels->add_new_item = 'Add Session';
+//     $labels->edit_item = 'Edit Session';
+//     $labels->new_item = 'Session';
+//     $labels->view_item = 'View Session';
+//     $labels->search_items = 'Search Sessions';
+//     $labels->not_found = 'No Sessions found';
+//     $labels->not_found_in_trash = 'No Sessions found in Trash';
+//     $labels->all_items = 'All Sessions';
+//     $labels->menu_name = 'Sessions';
+//     $labels->name_admin_bar = 'Sessions';
+// }
+//
+// add_action( 'init', 'sos_change_woo_post_object' );
 
 
 // Remove WooCommerce Default supports for "products aka: sessions"
@@ -460,11 +460,45 @@ function create_course_type_taxonomy() {
 	register_taxonomy( 'session_type', array( 'product' ), $args );
 
 }
-
-
 // hook into the init action and call create_course_type_taxonomy when it fires
 //////////////////////////////////////////////////////////////////////////////////
 add_action( 'init', 'create_course_type_taxonomy', 0 );
+
+// create a second taxonomy for woocommerce "Types"
+//////////////////////////////////////////////////////////////////////
+function create_type_taxonomy() {
+	// Add new taxonomy, make it hierarchical (like categories)
+	$labels = array(
+		'name'              => _x( 'Types', 'taxonomy general name', 'textdomain' ),
+		'singular_name'     => _x( 'Type', 'taxonomy singular name', 'textdomain' ),
+		'search_items'      => __( 'Search Types', 'textdomain' ),
+		'all_items'         => __( 'All Types', 'textdomain' ),
+		'parent_item'       => __( 'Parent Type', 'textdomain' ),
+		'parent_item_colon' => __( 'Parent Type:', 'textdomain' ),
+		'edit_item'         => __( 'Edit Type', 'textdomain' ),
+		'update_item'       => __( 'Update Type', 'textdomain' ),
+		'add_new_item'      => __( 'Add New Type', 'textdomain' ),
+		'new_item_name'     => __( 'New Type Name', 'textdomain' ),
+		'menu_name'         => __( 'Type', 'textdomain' ),
+	);
+
+	$args = array(
+		'hierarchical'      => true,
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => array( 'slug' => 'type' ),
+	);
+
+	register_taxonomy( 'type', array( 'product' ), $args );
+
+}
+
+// hook into the init action and call create_course_type_taxonomy when it fires
+//////////////////////////////////////////////////////////////////////////////////
+add_action( 'init', 'create_type_taxonomy', 0 );
+
 
 
 // remove the tags taxonomy from the product (aka: session) post type. We don't need it.
@@ -832,3 +866,584 @@ require get_template_directory() . '/inc/woocommerce.php';
  * Load Editor functions.
  */
 require get_template_directory() . '/inc/editor.php';
+
+///////////////////// Create Custom Post Types /////////////////////
+
+function create_posttype_sos() {
+
+    register_post_type( 'trip_applications',
+    // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Trip Applications' ),
+                'singular_name' => __( 'Trip Application' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'trip_applications'),
+        )
+    );
+}
+add_action( 'init', 'create_posttype_sos' );
+
+
+function create_posttype_trip() {
+
+    register_post_type( 'trips',
+        array(
+            'labels' => array(
+                'name' => __( 'Trips' ),
+                'singular_name' => __( 'Trip' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'trips'),
+        )
+    );
+}
+
+add_action( 'init', 'create_posttype_trip' );
+
+
+
+
+///////////////////// Create Archive Status for Trip Post Type /////////////////////
+
+function trips_archive_post_status(){
+	register_post_status( 'archive', array(
+		'label'                     => _x( 'Archive', 'post' ),
+		'public'                    => true,
+		'exclude_from_search'       => false,
+		'show_in_admin_all_list'    => true,
+		'show_in_admin_status_list' => true,
+		'label_count'               => _n_noop( 'Archive <span class="count">(%s)</span>', 'Archive <span class="count">(%s)</span>' ),
+	) );
+}
+add_action( 'init', 'trips_archive_post_status' );
+
+function add_to_post_status_dropdown(){
+    ?>
+    <script>
+    jQuery(document).ready(function($){
+        $("select#post_status").append("<option value=\"archive\" <?php selected('archive', $post->post_status); ?>>Archive</option>");
+    });
+    </script>
+    <?php
+}
+add_action( 'post_submitbox_misc_actions', 'add_to_post_status_dropdown');
+
+///////////////////// Cleaning up Custom Post Type Admin /////////////////////
+
+add_filter( 'page_row_actions', 'wpse_125800_row_actions', 10, 2 );
+add_filter( 'post_row_actions', 'wpse_125800_row_actions', 10, 2 );
+function wpse_125800_row_actions( $actions, $post ) {
+    unset( $actions['inline hide-if-no-js'] );
+    unset( $actions['view'] );
+
+    return $actions;
+}
+
+if(!isset($_GET['trip_applications']) || !isset($_GET['trip_applications'])){
+    add_action('admin_head', 'remove_preview_button');
+    function remove_preview_button() {
+      echo '<style>
+            #post-preview{
+                display:none !important;
+            }
+            }
+          </style>';
+    }
+}
+
+///////////////////// Loading all Schools Dynamically into ACF /////////////////////
+
+function acf_load_trip_field_choices( $field ) {
+
+    $field['choices'] = array();
+
+    $all_blog = wp_get_sites();
+    $choices = [];
+    $values = [];
+    foreach ($all_blog as $blog) {
+        array_push($choices, $blog['domain']);
+        array_push($values, $blog['blog_id']);
+    }
+
+    if( is_array($all_blog) ) {
+        foreach( $all_blog as $blog ) {
+            $field['choices'][ $blog['blog_id'] ] = $blog['domain'];
+        }
+    }
+
+    // return the field
+    return $field;
+
+}
+
+add_filter('acf/load_field/name=trip_schools', 'acf_load_trip_field_choices');
+
+///////////////////// Add all Trips Dynamically to ACF /////////////////////
+
+function acf_load_trip_select_field_choices( $field ) {
+
+    $field['choices'] = array();
+
+    $all_trips = get_posts(array(
+        'posts_per_page'    =>  -1,
+        'post_type'         =>  'trips',
+        'post_status'       =>  'publish'
+    ));
+
+    if( is_array($all_trips) ) {
+        foreach( $all_trips as $trip ) {
+            $field['choices'][ $trip->ID ] = $trip->post_title;
+        }
+    }
+
+    // return the field
+    return $field;
+
+}
+add_filter('acf/load_field/name=ta_trip_select', 'acf_load_trip_select_field_choices');
+
+///////////////////// Adding Custom Table Headers for Trip Application Post Type /////////////////////
+
+add_filter('manage_trip_applications_posts_columns', 'trip_applications_table_head');
+function trip_applications_table_head( $defaults ) {
+    $defaults['trip_name']  = 'Trip';
+    $defaults['trip_state']  = 'Application State';
+    // $defaults['interview_complete']    = 'Interview Complete';
+    // $defaults['deposit_received']   = 'Deposit Received';
+    // $defaults['flight_cost_received']   = 'Flight Cost Received';
+    // $defaults['participation_fee_received']   = 'Participation Fee Received';
+    return $defaults;
+}
+
+add_action( 'manage_trip_applications_posts_custom_column', 'trip_applications_table_content', 10, 2 );
+function trip_applications_table_content( $column_name, $post_id ) {
+    if ($column_name == 'trip_name') {
+        $trip_id = get_post_meta( $post_id, 'ta_trip_select', true );
+        $trip_name = get_post($trip_id)->post_title;
+        echo $trip_name;
+    }
+    if ($column_name == 'trip_state') {
+        $trip_state = get_post_meta( $post_id, 'ta_application_state', true );
+
+        $application_states = get_field_object("field_59ef820057f5c");
+
+        foreach($application_states['choices'] as $value => $state){
+
+            if($trip_state == $value){
+                echo $state;
+            }
+        }
+    }
+}
+
+///////////////////// Make Custom Columns Sortable /////////////////////
+
+add_filter( 'manage_edit-trip_applications_sortable_columns', 'trip_applications_table_sorting' );
+function trip_applications_table_sorting( $columns ) {
+  $columns['trip_name'] = 'trip_name';
+  $columns['trip_state'] = 'trip_state';
+  return $columns;
+}
+
+add_filter( 'request', 'trip_applications_trip_name_column_orderby' );
+function trip_applications_trip_name_column_orderby( $vars ) {
+    if ( isset( $vars['orderby'] ) && 'trip_name' == $vars['orderby'] ) {
+        $vars = array_merge( $vars, array(
+            'meta_key' => 'ta_trip_select',
+            'orderby' => 'meta_value'
+        ) );
+    }
+
+    return $vars;
+}
+
+add_filter( 'request', 'trip_applications_trip_state_column_orderby' );
+function trip_applications_trip_state_column_orderby( $vars ) {
+    if ( isset( $vars['orderby'] ) && 'trip_state' == $vars['orderby'] ) {
+        $vars = array_merge( $vars, array(
+            'meta_key' => 'ta_application_state',
+            'orderby' => 'meta_value'
+        ) );
+    }
+
+    return $vars;
+}
+
+///////////////////// Column Filtering /////////////////////
+
+add_action( 'restrict_manage_posts', 'trip_applications_table_filtering' );
+function trip_applications_table_filtering() {
+  global $wpdb, $current_screen;
+  if ( $current_screen->post_type == 'trip_applications' ) {
+
+    $all_trips = get_posts(array(
+            'posts_per_page'    =>  -1,
+            'post_type'         =>  'trips',
+            'post_status'       =>  'publish'
+    ));
+
+    $application_states = get_field_object("field_59ef820057f5c");
+
+    /// Show All Trips Selection ///
+
+    echo '<select name="trip_selection">';
+    echo '<option value="">' . __( 'Show all Trips', 'textdomain' ) . '</option>';
+
+    foreach( $all_trips as $trip ) {
+        $value = $trip->ID;
+        $name = $trip->post_title;
+
+        $selected = ( !empty( $_GET['trip_selection'] ) AND $_GET['trip_selection'] == $value ) ? 'selected="select"' : '';
+        echo '<option ' .$selected . ' value="'.$value.'">' . $name . '</option>';
+    }
+    echo '</select>';
+
+
+    /// Show All Status Selection ///
+
+    echo '<select name="application_state_selection">';
+    echo '<option value="">' . __( 'Show all Status', 'textdomain' ) . '</option>';
+
+    foreach($application_states['choices'] as $value => $state){
+
+        $selected = ( !empty( $_GET['application_state_selection'] ) AND $_GET['application_state_selection'] == $value ) ? 'selected="select"' : '';
+        echo '<option ' .$selected . ' value="'.$value.'">' . $state . '</option>';
+    }
+    echo '</select>';
+
+  }
+}
+
+///////////////////// Filtering Logic Here /////////////////////
+
+add_filter( 'parse_query','trip_applications_table_filter' );
+function trip_applications_table_filter( $query ) {
+    if( is_admin() AND $query->query['post_type'] == 'trip_applications' ) {
+        $qv = &$query->query_vars;
+        $qv['meta_query'] = array();
+
+        if( !empty( $_GET['trip_selection'] ) ) {
+             $qv['meta_query'][] = array(
+               'key' => 'ta_trip_select',
+               'value' => $_GET['trip_selection'],
+               'compare' => '=',
+               'type' => 'CHAR'
+             );
+        }
+
+        if( !empty( $_GET['application_state_selection'] ) ) {
+             $qv['meta_query'][] = array(
+               'key' => 'ta_application_state',
+               'value' => $_GET['application_state_selection'],
+               'compare' => '=',
+               'type' => 'CHAR'
+             );
+        }
+    }
+}
+
+///////////////////// Gravity Form Creating Trip Application post type title from 2 fields in form /////////////////////
+
+add_action( 'gform_pre_submission_8', 'pre_submission_handler' );
+function pre_submission_handler( $form ) {
+    $_POST['input_17'] = rgpost( 'input_23' );
+    $_POST['input_1'] = rgpost( 'input_17' ) . " - " . rgpost( 'input_2' );
+
+}
+
+///////////////////// Gravity Form adding fields from Volunteer Outreach Form /////////////////////
+
+add_action( 'gform_after_submission_10', 'insert_volunteer_outreach_form_fields', 10, 2 );
+function insert_volunteer_outreach_form_fields( $entry, $form ) {
+
+    $post_id = $_GET['App'];
+
+    //Personal Info
+    update_field('ta_personal_address', $entry['3'], $post_id );
+    update_field('ta_personal_phone', $entry['5'], $post_id );
+    update_field('ta_personal_shirt_size', $entry['6'], $post_id );
+    update_field('ta_personal_fluency_in_spanish', $entry['7'], $post_id );
+
+    //Passport Info
+    update_field('ta_passport_first_name', $entry['9'], $post_id );
+    update_field('ta_passport_middle_name', $entry['10'], $post_id );
+    update_field('ta_passport_last_name', $entry['11'], $post_id );
+    update_field('ta_passport_expiration', $entry['19'], $post_id );
+
+    update_field('ta_passport_canadianpassport', $entry['12'], $post_id );
+    update_field('ta_passport_wherefrom', $entry['13'], $post_id );
+    update_field('ta_passport_status_in_canada', $entry['14'], $post_id );
+
+    update_field('ta_passport_number', $entry['15'], $post_id );
+    update_field('ta_passport_nationality', $entry['17'], $post_id );
+    update_field('ta_passport_other_citizenships', $entry['18'], $post_id );
+
+    update_field('ta_passport_place_of_issue', $entry['20'], $post_id );
+    if($entry['21.1'] == 'yes'){
+        update_field('ta_passport_covered_by_provincial_health', 1, $post_id );
+    }else{
+        update_field('ta_passport_covered_by_provincial_health', 0, $post_id );
+    }
+
+    update_field('ta_passport_profession', $entry['23'], $post_id );
+
+    //Emergency Contacts
+    update_field('ta_emergency_contact_1_full_name', $entry['26'], $post_id );
+    update_field('ta_emergency_contact_1_relationship', $entry['27'], $post_id );
+    update_field('ta_emergency_contact_1_cell', $entry['28'], $post_id );
+    update_field('ta_emergency_contact_1_email', $entry['29'], $post_id );
+
+    update_field('ta_emergency_contact_2_full_name', $entry['31'], $post_id );
+    update_field('ta_emergency_contact_2_relationship', $entry['32'], $post_id );
+    update_field('ta_emergency_contact_2_cell', $entry['33'], $post_id );
+    update_field('ta_emergency_contact_2_email', $entry['34'], $post_id );
+
+    //Medical Information
+    update_field('ta_medical_cigarettes', $entry['36'], $post_id );
+    update_field('ta_medical_allergies', $entry['37'], $post_id );
+    update_field('ta_medical_dietary_restrictions', $entry['38'], $post_id );
+    update_field('ta_medical_physical', $entry['39'], $post_id );
+    update_field('ta_medical_prescription_medication', $entry['40'], $post_id );
+    update_field('ta_medical_other_concerns', $entry['41'], $post_id );
+    update_field('ta_medial_first_aid', $entry['42'], $post_id );
+    if($entry['44.1'] == 'yes'){
+        update_field('ta_medical_acknowledge_medical_conditions', 1, $post_id );
+    }else{
+        update_field('ta_medical_acknowledge_medical_conditions', 0, $post_id );
+    }
+
+
+    update_field('ta_application_state', 'info_collected', $post_id);
+
+
+}
+
+///////////////////// Gravity Form adding fields from Policies and Procedures Form /////////////////////
+
+add_action( 'gform_after_submission_12', 'insert_policies_form_fields', 10, 2 );
+function insert_policies_form_fields( $entry, $form ) {
+
+    $post_id = $_GET['App'];
+
+    if($entry['2.1'] == 'yes'){
+        update_field('ta_agree_to_policies_and_procedures', 1, $post_id );
+    }else{
+        update_field('ta_agree_to_policies_and_procedures', 0, $post_id );
+    }
+
+
+    update_field('ta_application_state', 'policies_agreed', $post_id);
+
+
+}
+
+///////////////////// Gravity Form adding fields from Waiver Sent in Form /////////////////////
+
+add_action( 'gform_after_submission_13', 'waiver_upload', 10, 2 );
+function waiver_upload( $entry, $form ) {
+
+    $post_id = $_GET['App'];
+
+
+    update_field('ta_waiver_uploaded', 1, $post_id );
+
+
+
+    update_field('ta_application_state', 'waiver_signed', $post_id);
+
+
+
+}
+
+///////////////////// Gravity Form adding fields from Medical Fitness Form /////////////////////
+
+add_action( 'gform_after_submission_11', 'insert_medical_fitness_form_fields', 10, 2 );
+function insert_medical_fitness_form_fields( $entry, $form ) {
+
+    $post_id = $_GET['App'];
+
+    update_field('ta_fitness_physician_name', $entry['5'], $post_id );
+    update_field('ta_fitness_physician_contact_number', $entry['6'], $post_id );
+
+    update_field('ta_fitness_personal_fitness_level', $entry['8'], $post_id );
+
+    update_field('ta_fitness_describe_injury', $entry['10'], $post_id );
+    update_field('ta_fitness_taking_current_measures', $entry['11'], $post_id );
+    update_field('ta_fitness_list_complications', $entry['12'], $post_id );
+    update_field('ta_fitness_outline_treatment_plan', $entry['13'], $post_id );
+
+
+    if($entry['15.1'] == 'yes'){
+        update_field('ta_fitness_agree_to_terms_medical_fitness_form', 1, $post_id );
+    }else{
+        update_field('ta_fitness_agree_to_terms_medical_fitness_form', 0, $post_id );
+    }
+
+    update_field('ta_application_state', 'medical_fitness_collected', $post_id);
+
+
+
+}
+
+///////////////////// Delete Applications for Trip when Trip is Archived /////////////////////
+
+function delete_trip_applications_on_trip_change( $new_status, $old_status, $post ) {
+    if (get_post_type($post) !== 'trips'){
+        return;
+    }
+
+    if( $old_status === 'publish' && $new_status === 'trash') {
+
+        $args = array('post_type'=> 'trip_applications',
+             'post_status'      => 'publish',
+             'posts_per_page'   => -1,
+             'meta_key'         => 'ta_trip_select',
+             'meta_value'       => $post->ID
+
+        );
+        $related_trip_applications = get_posts($args);
+
+        foreach($related_trip_applications as $trip_application){
+           $query = array(
+            'ID' => $trip_application->ID,
+            'post_status' => 'trash',
+           );
+           wp_update_post( $query, true );
+        }
+    }
+}
+add_action('transition_post_status', 'delete_trip_applications_on_trip_change', 10, 3);
+
+///////////////////// Send Email Updates on Trip Application Update /////////////////////
+
+add_action( 'edit_post', 'setup_automated_email' );
+function setup_automated_email(){
+    global $post;
+    if(get_post_type($post) == "trip_applications"){
+
+        global $application_email_subject, $application_email_body;
+
+        $old_value = get_field('ta_application_state');
+        $new_value = $_POST['acf']['field_59ef820057f5c'];
+
+        if($old_value != $new_value){
+            if($new_value == 'interview_setup'){
+                $application_email_subject = 'interview_setup_email_subject';
+                $application_email_body = 'interview_setup_email_body';
+
+            }elseif($new_value == 'application_confirmed'){
+                $application_email_subject = 'application_confirmed_email_subject';
+                $application_email_body = 'application_confirmed_email_body';
+
+            }elseif($new_value == 'suspended'){
+                $application_email_subject = 'suspended_email_subject';
+                $application_email_body = 'suspended_email_body';
+
+            }elseif($new_value == 'refunded'){
+                $application_email_subject = 'refunded_email_subject';
+                $application_email_body = 'refunded_email_body';
+
+            }
+        }
+    }
+}
+
+add_action( 'save_post', 'send_automated_email' );
+function send_automated_email(){
+
+    $to = get_field('ta_email');
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+    global $application_email_subject, $application_email_body;
+
+    if($application_email_subject != null && $application_email_body != null){
+
+        $email_subject = get_field($application_email_subject, 'options');
+        $email_body = get_field($application_email_body, 'options');
+
+        wp_mail( $to, $email_subject, $email_body, $headers );
+    }
+
+
+}
+
+///////////////////// Set up Email specific shortcodes /////////////////////
+
+// Applicant Name
+function applicant_name_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_fullname');
+    }
+
+}
+add_shortcode( 'applicant_name', 'applicant_name_shortcode' );
+
+// Applicant Interview Date
+function applicant_interview_date_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_interview_date');
+    }
+
+}
+add_shortcode( 'applicant_interview_date', 'applicant_interview_date_shortcode' );
+
+// Applicant Selected Trip
+function applicant_trip_selected_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        $all_trips = get_posts(array(
+            'posts_per_page'    =>  -1,
+            'post_type'         =>  'trips',
+            'post_status'       =>  'publish'
+        ));
+        foreach($all_trips as $trip){
+            if($trip->ID == $post->ta_trip_select){
+                return $trip->post_title;
+            }
+        }
+    }
+
+}
+add_shortcode( 'applicant_trip_selected', 'applicant_trip_selected_shortcode' );
+
+// Add ACF Options Page
+if(function_exists('acf_add_options_page')) {
+    acf_add_options_page();
+}
+
+///////////////////// Remove WooCommerce Product Type Filtering /////////////////////
+
+add_filter('woocommerce_product_filters', 'woocommerce_product_filter_remove');
+function woocommerce_product_filter_remove($content){
+    return "";
+
+}
+
+///////////////////// Add WooCommerce Custom Type Filtering /////////////////////
+
+add_action('restrict_manage_posts', 'product_type_filter');
+function product_type_filter() {
+    global $typenow;
+
+    if ($typenow == 'product') {
+        $selected = isset($_GET['type']) ? $_GET['type'] : '';
+        $info_taxonomy = get_taxonomy('type');
+
+        wp_dropdown_categories(array(
+            'show_option_all' => __("Show All Products"),
+            'taxonomy' => 'type',
+            'name' => 'type',
+            'orderby' => 'name',
+            'selected' => $selected,
+            'value_field' => 'slug',
+            'show_count' => true,
+            'hide_empty' => true,
+        ));
+    };
+}
