@@ -26,7 +26,8 @@
 	</header><!-- .archive-entry-header -->
 
 		<?php
-
+		echo "<strong>Cost:</strong> $" . get_field('trip_total_cost', get_the_ID());
+		echo '<br>';
 		echo "<strong>Departure City:</strong> " . get_field('trip_departure_city', get_the_ID());
 		echo '<br>';
 		echo "<strong>Departure Date:</strong> " . get_field('trip_departure_date', get_the_ID());
