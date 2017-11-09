@@ -1148,7 +1148,7 @@ function trip_applications_table_filter( $query ) {
 
 ///////////////////// Gravity Form Creating Trip Application post type title from 2 fields in form /////////////////////
 
-add_action( 'gform_pre_submission_8', 'pre_submission_handler' );
+add_action( 'gform_pre_submission_1', 'pre_submission_handler' );
 function pre_submission_handler( $form ) {
     $_POST['input_17'] = rgpost( 'input_23' );
     $_POST['input_1'] = rgpost( 'input_17' ) . " - " . rgpost( 'input_2' );
@@ -1157,7 +1157,7 @@ function pre_submission_handler( $form ) {
 
 ///////////////////// Gravity Form adding fields from Volunteer Outreach Form /////////////////////
 
-add_action( 'gform_after_submission_10', 'insert_volunteer_outreach_form_fields', 10, 2 );
+add_action( 'gform_after_submission_2', 'insert_volunteer_outreach_form_fields', 10, 2 );
 function insert_volunteer_outreach_form_fields( $entry, $form ) {
 
     $post_id = $_GET['App'];
@@ -1224,7 +1224,7 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
 
 ///////////////////// Gravity Form adding fields from Policies and Procedures Form /////////////////////
 
-add_action( 'gform_after_submission_12', 'insert_policies_form_fields', 10, 2 );
+add_action( 'gform_after_submission_4', 'insert_policies_form_fields', 10, 2 );
 function insert_policies_form_fields( $entry, $form ) {
 
     $post_id = $_GET['App'];
@@ -1243,7 +1243,7 @@ function insert_policies_form_fields( $entry, $form ) {
 
 ///////////////////// Gravity Form adding fields from Waiver Sent in Form /////////////////////
 
-add_action( 'gform_after_submission_13', 'waiver_upload', 10, 2 );
+add_action( 'gform_after_submission_5', 'waiver_upload', 10, 2 );
 function waiver_upload( $entry, $form ) {
 
     $post_id = $_GET['App'];
@@ -1261,7 +1261,7 @@ function waiver_upload( $entry, $form ) {
 
 ///////////////////// Gravity Form adding fields from Medical Fitness Form /////////////////////
 
-add_action( 'gform_after_submission_11', 'insert_medical_fitness_form_fields', 10, 2 );
+add_action( 'gform_after_submission_3', 'insert_medical_fitness_form_fields', 10, 2 );
 function insert_medical_fitness_form_fields( $entry, $form ) {
 
     $post_id = $_GET['App'];
