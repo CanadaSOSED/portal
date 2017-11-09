@@ -34,12 +34,17 @@ if(is_user_logged_in()){
 
 	foreach($my_trip_application as $app){
 		$app_id = $app->ID;
+
 		$trip_id = get_field('ta_trip_select', $app->ID);
 		$trip_status_id = get_field('ta_application_state', $app->ID);
+
 		$interview_date = get_field('ta_interview_date', $app->ID);
+		$interview_date = get_field('ta_interview_location', $app->ID);
+
 		$trip_deposit_payed = get_field('ta_trip_deposit_received', $app->ID);
 		$trip_flight_cost_payed = get_field('ta_flight_cost_received', $app->ID);
 		$trip_participation_payed = get_field('ta_participation_fee_received', $app->ID);
+
 		$trip_cancelled = get_field('ta_trip_cancelled', $app->ID);
 		$volunteer_outreach_form = get_field('ta_medical_acknowledge_medical_conditions', $app->ID);
 		$medical_fitness_form = get_field('ta_fitness_agree_to_terms_medical_fitness_form', $app->ID);
@@ -83,7 +88,15 @@ if(is_user_logged_in()){
 	if($interview_date != Null){
 		echo '<strong>Interview Date:</strong> ' . $interview_date;
 	}else{
-		echo '<strong>Interview date:</strong> Not Set';
+		echo '<strong>Interview Date:</strong> Not Set';
+	}
+
+	echo '<br>';
+
+	if($interview_location != Null){
+		echo '<strong>Interview Location:</strong> ' . $interview_location;
+	}else{
+		echo '<strong>Interview Location:</strong> Not Set';
 	}
 
 	/////// Checklist Area ///////
@@ -151,13 +164,8 @@ if(is_user_logged_in()){
 	echo '<br>';
 
 	if($trip_deposit_payed != 1){
-		echo '<strong>Your Deposit:</strong> Not Paid';
-
-		if($trip_status_id != 'application_confirmed'){
-
-		}else{
-			echo '<a href=' . $trip_deposit_url .'> Pay Now </a>';
-		}
+		echo '<strong>Your Deposit:</strong> ';
+		echo '<a href=' . $trip_deposit_url .'> Pay Now </a>';
 
 	}else{
 		echo '<strong>Your Deposit:</strong> Paid';
@@ -166,13 +174,8 @@ if(is_user_logged_in()){
 	echo '<br>';
 
 	if($trip_flight_cost_payed != 1){
-		echo '<strong>Your Flight Cost:</strong> Not Paid';
-
-		if($trip_status_id != 'insurance_info_approved'){
-
-		}else{
-			echo '<a href=' . $trip_flight_cost_url .'> Pay Now </a>';
-		}
+		echo '<strong>Your Flight Cost:</strong> ';
+		echo '<a href=' . $trip_flight_cost_url .'> Pay Now </a>';
 
 	}else{
 		echo '<strong>Your Flight Cost:</strong> Paid';
@@ -181,13 +184,9 @@ if(is_user_logged_in()){
 	echo '<br>';
 
 	if($trip_participation_payed != 1){
-		echo '<strong>Your Participation Fee:</strong> Not Paid';
+		echo '<strong>Your Participation Fee:</strong> ';
+		echo '<a href=' . $trip_participation_url .'> Pay Now </a>';
 
-		if($trip_status_id != 'flight_cost_received'){
-
-		}else{
-			echo '<a href=' . $trip_participation_url .'> Pay Now </a>';
-		}
 	}else{
 		echo '<strong>Your Participation Fee:</strong> Paid';
 	}
