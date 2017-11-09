@@ -1347,6 +1347,10 @@ function setup_automated_email(){
                 $application_email_subject = 'refunded_email_subject';
                 $application_email_body = 'refunded_email_body';
 
+            }elseif($new_value == 'insurance_info_approved'){
+                $application_email_subject = 'insurance_email_subject';
+                $application_email_body = 'insurance_email_body';
+
             }
         }
     }
@@ -1355,10 +1359,15 @@ function setup_automated_email(){
 add_action( 'save_post', 'send_automated_email' );
 function send_automated_email(){
 
-    $to = get_field('ta_email');
-    $headers = array('Content-Type: text/html; charset=UTF-8');
-
     global $application_email_subject, $application_email_body;
+
+    if($application_email_subject == 'insurance_email_subject'){
+        $to = get_field('insurance_email_address', 'options');
+    }else{
+        $to = get_field('ta_email');
+    }
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
 
     if($application_email_subject != null && $application_email_body != null){
 
@@ -1382,6 +1391,26 @@ function applicant_name_shortcode() {
 
 }
 add_shortcode( 'applicant_name', 'applicant_name_shortcode' );
+
+// Applicant Email
+function applicant_email_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_email');
+    }
+
+}
+add_shortcode( 'applicant_email', 'applicant_email_shortcode' );
+
+// Applicant Birth Date
+function applicant_birth_date_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_birthdate');
+    }
+
+}
+add_shortcode( 'applicant_birth_date', 'applicant_birth_date_shortcode' );
 
 // Applicant Interview Date
 function applicant_interview_date_shortcode() {
@@ -1422,7 +1451,150 @@ function applicant_trip_selected_shortcode() {
 }
 add_shortcode( 'applicant_trip_selected', 'applicant_trip_selected_shortcode' );
 
-// Add ACF Options Page
+///// Passport Shortcodes /////
+
+// Applicant Passport First Name
+function applicant_passport_first_name_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_passport_first_name');
+    }
+
+}
+add_shortcode( 'applicant_passport_first_name', 'applicant_passport_first_name_shortcode' );
+
+// Applicant Passport Middle Name
+function applicant_passport_middle_name_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_passport_middle_name');
+    }
+
+}
+add_shortcode( 'applicant_passport_middle_name', 'applicant_passport_middle_name_shortcode' );
+
+// Applicant Passport Last Name
+function applicant_passport_last_name_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_passport_last_name');
+    }
+
+}
+add_shortcode( 'applicant_passport_last_name', 'applicant_passport_last_name_shortcode' );
+
+// Applicant Passport Expiration Date
+function applicant_passport_expiration_date_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_passport_expiration');
+    }
+
+}
+add_shortcode( 'applicant_passport_expiration_date', 'applicant_passport_expiration_date_shortcode' );
+
+///// Personal Information Shortcodes /////
+
+// Applicant Address
+function applicant_address_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_personal_address');
+    }
+
+}
+add_shortcode( 'applicant_address', 'applicant_address_shortcode' );
+
+// Applicant Phone
+function applicant_phone_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_personal_phone');
+    }
+
+}
+add_shortcode( 'applicant_phone', 'applicant_phone_shortcode' );
+
+///// Trip Information Shortcodes /////
+
+// Trip Departure City
+function trip_departure_city_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        $all_trips = get_posts(array(
+            'posts_per_page'    =>  -1,
+            'post_type'         =>  'trips',
+            'post_status'       =>  'publish'
+        ));
+        foreach($all_trips as $trip){
+            if($trip->ID == $post->ta_trip_select){
+                return get_field('trip_departure_city', $trip->ID);
+            }
+        }
+    }
+
+}
+add_shortcode( 'trip_departure_city', 'trip_departure_city_shortcode' );
+
+// Trip Departure Date
+function trip_departure_date_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        $all_trips = get_posts(array(
+            'posts_per_page'    =>  -1,
+            'post_type'         =>  'trips',
+            'post_status'       =>  'publish'
+        ));
+        foreach($all_trips as $trip){
+            if($trip->ID == $post->ta_trip_select){
+                return get_field('trip_departure_date', $trip->ID);
+            }
+        }
+    }
+
+}
+add_shortcode( 'trip_departure_date', 'trip_departure_date_shortcode' );
+
+// Trip Return Date
+function trip_return_date_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        $all_trips = get_posts(array(
+            'posts_per_page'    =>  -1,
+            'post_type'         =>  'trips',
+            'post_status'       =>  'publish'
+        ));
+        foreach($all_trips as $trip){
+            if($trip->ID == $post->ta_trip_select){
+                return get_field('trip_return_date', $trip->ID);
+            }
+        }
+    }
+
+}
+add_shortcode( 'trip_return_date', 'trip_return_date_shortcode' );
+
+// Trip Country
+function trip_rcountry_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        $all_trips = get_posts(array(
+            'posts_per_page'    =>  -1,
+            'post_type'         =>  'trips',
+            'post_status'       =>  'publish'
+        ));
+        foreach($all_trips as $trip){
+            if($trip->ID == $post->ta_trip_select){
+                return get_field('trip_rcountry', $trip->ID);
+            }
+        }
+    }
+
+}
+add_shortcode( 'trip_rcountry', 'trip_rcountry_shortcode' );
+
+///////////////////// Add ACF Options Page /////////////////////
+
 if(function_exists('acf_add_options_page')) {
     acf_add_options_page();
 }
