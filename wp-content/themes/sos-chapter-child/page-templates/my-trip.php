@@ -91,6 +91,8 @@ if(is_user_logged_in()){
 	}else{
 		echo '<strong>Interview Date:</strong> Not Set';
 	}
+	
+	echo '<br>';
 
 	if($interview_location != Null){
 		echo '<strong>Interview Location:</strong> ' . $interview_location;
