@@ -1393,6 +1393,16 @@ function applicant_interview_date_shortcode() {
 }
 add_shortcode( 'applicant_interview_date', 'applicant_interview_date_shortcode' );
 
+// Applicant Interview Location
+function applicant_interview_location_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_interview_location');
+    }
+
+}
+add_shortcode( 'applicant_interview_location', 'applicant_interview_location_shortcode' );
+
 // Applicant Selected Trip
 function applicant_trip_selected_shortcode() {
     global $post;
