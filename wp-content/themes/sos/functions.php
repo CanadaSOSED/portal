@@ -1575,7 +1575,7 @@ function trip_return_date_shortcode() {
 add_shortcode( 'trip_return_date', 'trip_return_date_shortcode' );
 
 // Trip Country
-function trip_rcountry_shortcode() {
+function trip_country_shortcode() {
     global $post;
     if(get_post_type($post) == 'trip_applications'){
         $all_trips = get_posts(array(
@@ -1585,13 +1585,13 @@ function trip_rcountry_shortcode() {
         ));
         foreach($all_trips as $trip){
             if($trip->ID == $post->ta_trip_select){
-                return get_field('trip_rcountry', $trip->ID);
+                return get_field('trip_country', $trip->ID);
             }
         }
     }
 
 }
-add_shortcode( 'trip_rcountry', 'trip_rcountry_shortcode' );
+add_shortcode( 'trip_country', 'trip_country_shortcode' );
 
 ///////////////////// Add ACF Options Page /////////////////////
 
