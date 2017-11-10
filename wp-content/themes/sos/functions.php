@@ -1629,3 +1629,44 @@ function product_type_filter() {
         ));
     };
 }
+
+// Clean up the WP Admin Backend for user vpid
+add_action('admin_menu', 'cleanup_admin_menu', 99999999);
+function cleanup_admin_menu(){
+    if(!current_user_can('administrator') && current_user_can('vpid')){
+        global $menu;
+        foreach($menu as $k=>$v){
+            if($v[0] == 'Appearance'){
+                $menu[$k][0] = 'Menus';
+                $menu[$k][2] = 'nav-menus.php';
+            }
+        }
+
+        remove_menu_page( 'tools.php' );
+        remove_menu_page( 'edit.php' );
+        remove_menu_page( 'edit-comments.php' );
+        remove_menu_page( 'wpcf7' );
+        remove_menu_page( 'acf-options' );
+        remove_menu_page( 'edit.php?post_type=trips' );
+        remove_menu_page( 'woocommerce' );
+        remove_menu_page( 'edit_products' );
+        remove_menu_page( 'edit-tags.php?taxonomy=session_type&post_type=product' );
+
+        // echo '<pre>';
+        // print_r($menu);
+        // die();
+        return $menu;
+    }
+}
+
+add_action('admin_head', 'hide_products_vpid');
+
+function hide_products_vpid() {
+    if(!current_user_can('administrator') && current_user_can('vpid')){
+      echo '<style>
+        #menu-posts-product {
+          display: none;
+        }
+      </style>';
+  }
+}
