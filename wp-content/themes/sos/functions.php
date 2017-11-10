@@ -1708,14 +1708,17 @@ function wc_payment_complete( $order_id ){
                 if($product['product_id'] == $trip_deposit_id){
 
 					update_field('ta_trip_deposit_received', 1, $application->ID);
+                    update_field('ta_application_state', 'deposit_received', $application->ID);
 
 				}elseif($product['product_id'] == $trip_flight_cost_id){
 
 					update_field('ta_flight_cost_received', 1, $application->ID);
+                    update_field('ta_application_state', 'flight_cost_received', $application->ID);
 
 				}elseif($product['product_id'] == $trip_participation_id){
 
 					update_field('ta_participation_fee_received', 1, $application->ID);
+                    update_field('ta_application_state', 'participation_fee_received', $application->ID);
 
 				}
             }
