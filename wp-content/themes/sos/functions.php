@@ -1677,8 +1677,8 @@ add_action( 'woocommerce_order_status_completed', 'wc_payment_complete');
 function wc_payment_complete( $order_id ){
     $order = new WC_Order( $order_id );
 
-    echo dog;
-    die();
+    // echo dog;
+    // die();
 
     $user_id = (int)$order->user_id;
     $products = $order->get_items();
