@@ -1670,3 +1670,56 @@ function hide_products_vpid() {
       </style>';
   }
 }
+
+/////////////////// WooCommerce Hook Run when Payment is Complete /////////////////////
+
+add_action( 'woocommerce_payment_complete', 'wc_payment_complete');
+function wc_payment_complete( $order_id ){
+    $order = new WC_Order( $order_id );
+
+    echo dog;
+    die();
+
+    $user_id = (int)$order->user_id;
+    $products = $order->get_items();
+
+    $trip_applications = get_posts(array(
+        'posts_per_page'    =>  -1,
+        'post_type'         =>  'trip_applications',
+        'post_status'       =>  'publish',
+		'meta_key'			=>  'ta_user_id',
+		'meta_value'		=>  $user_id
+    ));
+
+    if( sizeof($trip_applications) != 1 ){
+
+    }else{
+
+        foreach($trip_applications as $application){
+
+            $trip_id = get_field('ta_trip_select', $application->ID);
+
+            $trip = get_post($trip_id);
+            $trip_deposit_id = get_field('trip_deposit_installment', $trip_id)->ID;
+            $trip_flight_cost_id = get_field('trip_flight_cost_installment', $trip_id)->ID;
+            $trip_participation_id = get_field('trip_participation_fee_installment', $trip_id)->ID;
+
+            foreach($products as $product){
+                if($product['product_id'] == $trip_deposit_id){
+
+					update_field('ta_trip_deposit_received', 1, $application->ID);
+
+				}elseif($product['product_id'] == $trip_flight_cost_id){
+
+					update_field('ta_flight_cost_received', 1, $application->ID);
+
+				}elseif($product['product_id'] == $trip_participation_id){
+
+					update_field('ta_participation_fee_received', 1, $application->ID);
+
+				}
+            }
+        }
+    }
+
+}
