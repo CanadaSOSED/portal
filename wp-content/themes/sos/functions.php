@@ -1673,7 +1673,7 @@ function hide_products_vpid() {
 
 /////////////////// WooCommerce Hook Run when Payment is Complete /////////////////////
 
-add_action( 'woocommerce_payment_complete', 'wc_payment_complete');
+add_action( 'woocommerce_order_status_completed', 'wc_payment_complete');
 function wc_payment_complete( $order_id ){
     $order = new WC_Order( $order_id );
 
