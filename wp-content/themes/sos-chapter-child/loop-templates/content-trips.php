@@ -14,7 +14,13 @@
 		switch_to_blog(1);
 		$main_blog_url = get_site_url();
 		// restore_current_blog();
-		$application_url = $main_blog_url . "/trip-application/?Trip=" . get_the_ID() . '&Applicant=' . get_current_user_id();
+		if(is_user_logged_in()){
+			$application_url = $main_blog_url . "/trip-application/?Trip=" . get_the_ID() . '&Applicant=' . get_current_user_id();
+		}else{
+			restore_current_blog();
+			$application_url = home_url() . "/my-account";
+			switch_to_blog(1);
+		}
 	?>
 
 	<header class="archive-entry-header">
