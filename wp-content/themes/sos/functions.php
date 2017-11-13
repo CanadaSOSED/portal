@@ -1159,6 +1159,7 @@ function pre_submission_handler( $form ) {
 
 add_action( 'gform_after_submission_2', 'insert_volunteer_outreach_form_fields', 10, 2 );
 function insert_volunteer_outreach_form_fields( $entry, $form ) {
+    global $post;
 
     $post_id = $_GET['App'];
 
@@ -1220,6 +1221,14 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
 
     update_field('ta_application_state', 'info_collected', $post_id);
 
+    $post = get_post($post_id);
+
+    $headers = array('Content-Type: text/html; charset=UTF-8');
+    $email_subject = get_field('emergency_contact_email_subject', 'options');
+    $email_body = get_field('emergency_contact_email_body', 'options');
+
+    wp_mail( $entry['29'], $email_subject, $email_body, $headers );
+    wp_mail( $entry['34'], $email_subject, $email_body, $headers );
 
 }
 
