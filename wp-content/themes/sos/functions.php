@@ -1373,7 +1373,9 @@ function setup_email_on_acf_update( $value, $post_id, $field  ) {
     global $application_email_subject, $application_email_body;
 
     $old_value = get_field('ta_passport_canadianpassport');
+    $old_value_depost = get_field('');
     $new_value = $value;
+
 
     if($old_value != $new_value){
         if($new_value == 'no'){
