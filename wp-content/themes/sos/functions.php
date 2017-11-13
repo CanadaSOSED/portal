@@ -1167,6 +1167,7 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
     update_field('ta_personal_phone', $entry['5'], $post_id );
     update_field('ta_personal_shirt_size', $entry['6'], $post_id );
     update_field('ta_personal_fluency_in_spanish', $entry['7'], $post_id );
+    update_field('ta_personal_school', $entry['45'], $post_id );
 
     //Passport Info
     update_field('ta_passport_first_name', $entry['9'], $post_id );
@@ -1356,6 +1357,30 @@ function setup_automated_email(){
     }
 }
 
+///////////////////// Send Email Updates on ACF Update /////////////////////
+
+function setup_email_on_acf_update( $value, $post_id, $field  ) {
+
+    global $application_email_subject, $application_email_body;
+
+    $old_value = get_field('ta_passport_canadianpassport');
+    $new_value = $value;
+
+    if($old_value != $new_value){
+        if($new_value == 'no'){
+            $application_email_subject = 'non_canadian_passport_email_subject';
+            $application_email_body = 'non_canadian_passport_email_body';
+            send_automated_email();
+        }
+    }
+
+    return $value;
+}
+
+add_filter('acf/update_value', 'setup_email_on_acf_update', 10, 3);
+
+///////////////////// Send The Actual Email /////////////////////
+
 add_action( 'save_post', 'send_automated_email' );
 function send_automated_email(){
 
@@ -1515,6 +1540,16 @@ function applicant_phone_shortcode() {
 }
 add_shortcode( 'applicant_phone', 'applicant_phone_shortcode' );
 
+// Applicant School
+function applicant_school_shortcode() {
+    global $post;
+    if(get_post_type($post) == 'trip_applications'){
+        return get_field('ta_personal_school');
+    }
+
+}
+add_shortcode( 'applicant_school', 'applicant_school_shortcode' );
+
 ///// Trip Information Shortcodes /////
 
 // Trip Departure City
@@ -1660,7 +1695,6 @@ function cleanup_admin_menu(){
 }
 
 add_action('admin_head', 'hide_products_vpid');
-
 function hide_products_vpid() {
     if(!current_user_can('administrator') && current_user_can('vpid')){
       echo '<style>
