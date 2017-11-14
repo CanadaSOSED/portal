@@ -1416,6 +1416,200 @@ function send_automated_email(){
 
 }
 
+///////////////////// Set up 60 days before Email cron job /////////////////////
+
+add_action('init','auto_email_recurring_schedule');
+add_action('auto_email_recurring_cron_job','auto_email_recurring_cron_function');
+
+function auto_email_recurring_cron_function(){
+
+    $current_day = time();
+
+    $all_trips = get_posts(array(
+        'posts_per_page'    =>  -1,
+        'post_type'         =>  'trips',
+        'post_status'       =>  'publish'
+    ));
+    foreach($all_trips as $trip){
+
+        $trip_departure_date = get_field('trip_departure_date', $trip->ID);
+        $trip_return_date = get_field('trip_return_date', $trip->ID);
+
+        if(get_field('trip_60_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 60 days')){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                $to = get_field('ta_email');
+                $email_subject = get_field('60_days_before_email_subject', 'options');
+                $email_body = get_field('60_days_before_email_body', 'options');
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $email_subject, $email_body, $headers );
+
+            }
+
+            update_field('trip_60_days_before', 1, $trip->ID);
+
+        }elseif(get_field('trip_30_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 30 days'){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                $to = get_field('ta_email');
+                $email_subject = get_field('30_days_before_email_subject', 'options');
+                $email_body = get_field('30_days_before_email_body', 'options');
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $email_subject, $email_body, $headers );
+
+            }
+
+            update_field('trip_30_days_before', 1, $trip->ID);
+
+        }elseif(get_field('trip_14_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 14 days'){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                $to = get_field('ta_email');
+                $email_subject = get_field('14_days_before_email_subject', 'options');
+                $email_body = get_field('14_days_before_email_body', 'options');
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $email_subject, $email_body, $headers );
+
+            }
+
+            update_field('trip_14_days_before', 1, $trip->ID);
+
+        }elseif(get_field('trip_day_of_arrival', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                $to = get_field('ta_email');
+                $email_subject = get_field('welcome_home_email_subject', 'options');
+                $email_body = get_field('welcome_home_email_body', 'options');
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $email_subject, $email_body, $headers );
+
+            }
+
+            update_field('trip_day_of_arrival', 1, $trip->ID);
+
+        }elseif(get_field('trip_1_day_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 1 day'){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                $to = get_field('ta_email');
+                $email_subject = get_field('1_day_after_email_subject', 'options');
+                $email_body = get_field('1_day_after_email_body', 'options');
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $email_subject, $email_body, $headers );
+
+            }
+
+            update_field('trip_1_day_after', 1, $trip->ID);
+
+        }elseif(get_field('trip_7_days_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 7 days'){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                $to = get_field('ta_email');
+                $email_subject = get_field('7_days_after_email_subject', 'options');
+                $email_body = get_field('7_days_after_email_body', 'options');
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $email_subject, $email_body, $headers );
+
+            }
+
+            update_field('trip_7_days_after', 1, $trip->ID);
+
+        }elseif(get_field('trip_6_months_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 6 months'){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                $to = get_field('ta_email');
+                $email_subject = get_field('6_months_after_trip_email_subject', 'options');
+                $email_body = get_field('6_months_after_trip_email_body', 'options');
+                $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                wp_mail( $to, $email_subject, $email_body, $headers );
+
+            }
+
+            update_field('trip_6_months_after', 1, $trip->ID);
+
+        }
+    }
+}
+
+function auto_email_recurring_schedule(){
+
+    if(!wp_next_scheduled('auto_email_recurring_cron_job')){
+        wp_schedule_event (time(), 'daily', 'auto_email_recurring_cron_job');
+    }
+
+
+}
+
+
 ///////////////////// Set up Email specific shortcodes /////////////////////
 
 // Applicant Name
@@ -1721,9 +1915,6 @@ function hide_products_vpid() {
 add_action( 'woocommerce_order_status_completed', 'wc_payment_complete');
 function wc_payment_complete( $order_id ){
     $order = new WC_Order( $order_id );
-
-    // echo dog;
-    // die();
 
     $user_id = (int)$order->user_id;
     $products = $order->get_items();
