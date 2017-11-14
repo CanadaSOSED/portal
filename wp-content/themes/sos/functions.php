@@ -1430,6 +1430,7 @@ function auto_email_recurring_cron_function(){
         'post_type'         =>  'trips',
         'post_status'       =>  'publish'
     ));
+
     foreach($all_trips as $trip){
 
         $trip_departure_date = get_field('trip_departure_date', $trip->ID);
@@ -1458,7 +1459,7 @@ function auto_email_recurring_cron_function(){
 
             update_field('trip_60_days_before', 1, $trip->ID);
 
-        }elseif(get_field('trip_30_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 30 days'){
+        }elseif(get_field('trip_30_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 30 days')){
 
             $trip_applications = get_posts(array(
                 'posts_per_page'    =>  -1,
@@ -1481,7 +1482,7 @@ function auto_email_recurring_cron_function(){
 
             update_field('trip_30_days_before', 1, $trip->ID);
 
-        }elseif(get_field('trip_14_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 14 days'){
+        }elseif(get_field('trip_14_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 14 days')){
 
             $trip_applications = get_posts(array(
                 'posts_per_page'    =>  -1,
@@ -1504,7 +1505,7 @@ function auto_email_recurring_cron_function(){
 
             update_field('trip_14_days_before', 1, $trip->ID);
 
-        }elseif(get_field('trip_day_of_arrival', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date){
+        }elseif(get_field('trip_day_of_arrival', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date)){
 
             $trip_applications = get_posts(array(
                 'posts_per_page'    =>  -1,
@@ -1527,7 +1528,7 @@ function auto_email_recurring_cron_function(){
 
             update_field('trip_day_of_arrival', 1, $trip->ID);
 
-        }elseif(get_field('trip_1_day_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 1 day'){
+        }elseif(get_field('trip_1_day_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 1 day')){
 
             $trip_applications = get_posts(array(
                 'posts_per_page'    =>  -1,
@@ -1550,7 +1551,7 @@ function auto_email_recurring_cron_function(){
 
             update_field('trip_1_day_after', 1, $trip->ID);
 
-        }elseif(get_field('trip_7_days_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 7 days'){
+        }elseif(get_field('trip_7_days_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 7 days')){
 
             $trip_applications = get_posts(array(
                 'posts_per_page'    =>  -1,
@@ -1573,7 +1574,7 @@ function auto_email_recurring_cron_function(){
 
             update_field('trip_7_days_after', 1, $trip->ID);
 
-        }elseif(get_field('trip_6_months_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 6 months'){
+        }elseif(get_field('trip_6_months_after', $trip->ID) != 1 && $current_day >= strtotime($trip_return_date . '+ 6 months')){
 
             $trip_applications = get_posts(array(
                 'posts_per_page'    =>  -1,
