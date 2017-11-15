@@ -1,0 +1,327 @@
+
+//////////////////////////////////////////////////////////////////////
+// Global Elements
+//////////////////////////////////////////////////////////////////////
+.wrapper{
+	padding: 80px 0 !important;
+}
+
+a{
+	text-decoration: none !important;
+}
+
+body{
+	font-size: 14px;
+}
+
+// Pages
+.page-title{
+	font-size: 22px;
+}
+
+
+// Archive Pages
+.archive-entry-title{
+	font-size: 17px;
+}
+
+.archive-entry-footer{
+	border-bottom: 1px solid $medium-grey-border;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+
+// Sidebar
+#right-sidebar .widget{
+	padding: 30px;
+	background: $light-bg;
+	border-radius: 5px;
+	ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+} 
+
+#related_posts, .home-right-widget{
+	padding: 30px;
+	background: $light-bg;
+	border-radius: 5px;
+	ul{
+		list-style-type: none;
+		padding-left: 0px;
+	}
+}
+
+.widget-title{
+	font-size: 22px;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////
+// Woocommerce Products Page (aka - Sessions)
+//////////////////////////////////////////////////////////////////////
+
+.woocommerce.content-full-width div.product div.summary {
+  width: 100%;
+}
+#tab-description {
+  padding: 0 20%;
+}
+
+
+//////////////////////////////////////////////////////////////////////
+// Login Page
+//////////////////////////////////////////////////////////////////////
+.page-template-login {
+
+	.card-login{
+		border-radius: 0.25rem;
+		padding-bottom: 0.7rem;
+		max-width: 320px;
+	}
+
+	.logo-container h4 {
+		font-size: 1.3rem;
+	}
+
+	#loginform p { 
+		margin-bottom: 10px;
+		width: 100%;
+		position: relative;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		width: 100%;
+	}
+	#loginform p.login-username label, #loginform p.login-password label  { display: none; }
+	#loginform input {
+		padding: 15px 18px 15px 16px;
+		background-color: rgba(255, 255, 255, 0.2);
+		border: none;
+		border-radius: 0.25rem;
+		color: #2c2c2c;
+		line-height: 1em;
+		font-size: 0.8571em;
+		-webkit-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		-moz-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		-o-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		-ms-transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		margin-bottom: 10px;
+		position: relative;
+		z-index: 2;
+		-webkit-box-flex: 1;
+		-webkit-flex: 1 1 auto;
+		-ms-flex: 1 1 auto;
+		flex: 1 1 auto;
+		width: 1%;
+		margin-bottom: 0;
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-webkit-box-pack: center;
+		-webkit-justify-content: center;
+		-ms-flex-pack: center;
+		justify-content: center;
+	}
+	#loginform {
+		::-webkit-input-placeholder { /* Chrome */
+		  color: #ffffff;
+		}
+		:-ms-input-placeholder { /* IE 10+ */
+		  color: #ffffff;
+		}
+		::-moz-placeholder { /* Firefox 19+ */
+		  color: #ffffff;
+		  opacity: 1;
+		}
+		:-moz-placeholder { /* Firefox 4 - 18 */
+		  color: #ffffff;
+		  opacity: 1;
+		}
+	}
+
+	#loginform input:focus, #loginform input:active{
+		background-color: rgba(255, 255, 255, 0.2);
+		color: #FFFFFF;
+		outline: none !important;
+
+	}
+
+	#loginform p.login-submit input#wp-submit{
+		background-color: #50bbf8;
+		color: #fff;
+		border-width: 2px;
+		font-weight: normal;
+		font-size: 1em;
+		line-height: 1.35em;
+		border: none;
+		border-radius: .1875rem;
+		padding: 15px 48px;
+		cursor: pointer;
+		text-align: center;
+		text-align: -webkit-center;
+		white-space: nowrap;
+		vertical-align: middle;
+		user-select: none;
+		transition: all 0.2s ease-in-out;
+		margin-top: 20px;
+	}
+
+	#loginform p.login-remember{
+		display: none;
+	}
+
+	#loginform p.login-submit input#wp-submit:active, #loginform p.login-submit input#wp-submit:focus{
+		background-color: #109CFF;
+		  color: #fff;
+
+	}
+	#loginform input#user_login {}
+	#loginform input#user_pass {}
+	#loginform p.forgetmenot {}
+	#loginform p.forgetmenot input#rememberme {}
+	#loginform p.submit {}
+	#loginform p.submit input#wp-submit {}
+}
+
+.page-header .page-header-image-login {
+    position: absolute;
+    background-size: cover;
+    background-position: center center;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+
+}
+
+[filter-color="blue"]{
+	background: -moz-linear-gradient(top,  rgba(30,87,153,0.7) 0%, rgba(48,165,255,0.7) 50%, rgba(117,232,255,0.7) 100%);
+	background: -webkit-linear-gradient(top,  rgba(30,87,153,0.7) 0%,rgba(48,165,255,0.7) 50%,rgba(117,232,255,0.7) 100%);
+	background: linear-gradient(to bottom,  rgba(30,87,153,0.7) 0%,rgba(48,165,255,0.7) 50%,rgba(117,232,255,0.7) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b31e5799', endColorstr='#b375e8ff',GradientType=0 );
+}
+
+//////////////////////////////////////////////////////////////////////
+// Navbar + Breadcrumb Navigation 
+//////////////////////////////////////////////////////////////////////
+
+
+.navbar-logo img {
+	height: 2rem;
+	margin-right: 5px;
+}
+
+#wrapper-navbar{
+	.navbar{
+		padding: 25px 0;
+	}
+	.bg-inverse{
+			background-color: $brand-accent !important;
+	}
+}
+
+#wrapper-breadcrumb{
+	background-color: #e2e2e2;
+	padding: 12px 0;
+	label{
+		display: none;
+	}
+	.breadcrumbs{
+		overflow: hidden;
+		a{
+			color: #0f425c !important;
+		}
+	}
+
+	.nav-breadcrumb{
+		margin-bottom: 0px;
+		box-shadow: none;
+	}
+
+}
+
+.form-control,.wpcf7 input[type=text],.wpcf7 input[type=search],.wpcf7 input[type=url],.wpcf7 input[type=tel],.wpcf7 input[type=number],.wpcf7 input[type=range],.wpcf7 input[type=date],.wpcf7 input[type=month],.wpcf7 input[type=week],.wpcf7 input[type=time],.wpcf7 input[type=datetime],.wpcf7 input[type=datetime-local],.wpcf7 input[type=color],.wpcf7 input[type=email],.wpcf7 input[type=file],.wpcf7 input[type=submit],.wpcf7 select,.wpcf7 textarea,.wpcf7 .wpcf7-validation-errors {
+    display: block;
+    width: 100%;
+    color: #888;
+    background-color: #fff;
+    background-image: none;
+    background-clip: padding-box;
+}
+
+.form-control::-ms-expand,.wpcf7 input[type=text]::-ms-expand,.wpcf7 input[type=search]::-ms-expand,.wpcf7 input[type=url]::-ms-expand,.wpcf7 input[type=tel]::-ms-expand,.wpcf7 input[type=number]::-ms-expand,.wpcf7 input[type=range]::-ms-expand,.wpcf7 input[type=date]::-ms-expand,.wpcf7 input[type=month]::-ms-expand,.wpcf7 input[type=week]::-ms-expand,.wpcf7 input[type=time]::-ms-expand,.wpcf7 input[type=datetime]::-ms-expand,.wpcf7 input[type=datetime-local]::-ms-expand,.wpcf7 input[type=color]::-ms-expand,.wpcf7 input[type=email]::-ms-expand,.wpcf7 input[type=file]::-ms-expand,.wpcf7 input[type=submit]::-ms-expand,.wpcf7 select::-ms-expand,.wpcf7 textarea::-ms-expand,.wpcf7 .wpcf7-validation-errors::-ms-expand {
+    background-color: transparent;
+    border: 0
+}
+
+.form-control:focus,.wpcf7 input[type=text]:focus,.wpcf7 input[type=search]:focus,.wpcf7 input[type=url]:focus,.wpcf7 input[type=tel]:focus,.wpcf7 input[type=number]:focus,.wpcf7 input[type=range]:focus,.wpcf7 input[type=date]:focus,.wpcf7 input[type=month]:focus,.wpcf7 input[type=week]:focus,.wpcf7 input[type=time]:focus,.wpcf7 input[type=datetime]:focus,.wpcf7 input[type=datetime-local]:focus,.wpcf7 input[type=color]:focus,.wpcf7 input[type=email]:focus,.wpcf7 input[type=file]:focus,.wpcf7 input[type=submit]:focus,.wpcf7 select:focus,.wpcf7 textarea:focus,.wpcf7 .wpcf7-validation-errors:focus {
+    color: #888;
+    background-color: #fff;
+    border-color: #0f425c;
+    outline: none
+}
+
+.form-control::placeholder,.wpcf7 input[type=text]::placeholder,.wpcf7 input[type=search]::placeholder,.wpcf7 input[type=url]::placeholder,.wpcf7 input[type=tel]::placeholder,.wpcf7 input[type=number]::placeholder,.wpcf7 input[type=range]::placeholder,.wpcf7 input[type=date]::placeholder,.wpcf7 input[type=month]::placeholder,.wpcf7 input[type=week]::placeholder,.wpcf7 input[type=time]::placeholder,.wpcf7 input[type=datetime]::placeholder,.wpcf7 input[type=datetime-local]::placeholder,.wpcf7 input[type=color]::placeholder,.wpcf7 input[type=email]::placeholder,.wpcf7 input[type=file]::placeholder,.wpcf7 input[type=submit]::placeholder,.wpcf7 select::placeholder,.wpcf7 textarea::placeholder,.wpcf7 .wpcf7-validation-errors::placeholder {
+    color: #888;
+    opacity: 1
+}
+
+//////////////////////////////////////////////////////////////////////
+// Home Page
+//////////////////////////////////////////////////////////////////////
+#wrapper-search{
+	background-color: $light-bg;
+}
+
+// Large Search Box on Home Page
+.home-search{
+	padding: 30px 0;
+	label{
+		display: none;
+	}
+
+	.form-control, .wpcf7 input[type=text], .wpcf7 input[type=search], .wpcf7 input[type=url], .wpcf7 input[type=tel], .wpcf7 input[type=number], .wpcf7 input[type=range], .wpcf7 input[type=date], .wpcf7 input[type=month], .wpcf7 input[type=week], .wpcf7 input[type=time], .wpcf7 input[type=datetime], .wpcf7 input[type=datetime-local], .wpcf7 input[type=color], .wpcf7 input[type=email], .wpcf7 input[type=file], .wpcf7 input[type=submit], .wpcf7 select, .wpcf7 textarea, .wpcf7 .wpcf7-validation-errors {
+		padding: 18px;
+		background-color: #fff;
+		color: #888;
+	}
+
+	.btn, .wpcf7 input[type=submit]{
+		padding: 18px 40px;
+	}
+}
+
+// Recent Post Category Lists
+.recent-posts-list{
+	list-style-type: none;
+	padding-left: 0px;
+	li{
+
+		a{
+			color: $brand-accent;
+			padding: 20px;
+			display: block;
+
+		}
+		a:hover{
+			color: $brand-primary;
+			background-color: $light-bg;
+
+		}
+	}
+}
+
+
+

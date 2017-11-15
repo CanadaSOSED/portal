@@ -8,7 +8,6 @@
  */
 
 $container = get_theme_mod( 'understrap_container_type' );
-ini_set("display_errors", 0);
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>

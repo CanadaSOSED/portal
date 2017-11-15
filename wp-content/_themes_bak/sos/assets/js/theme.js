@@ -1,0 +1,7 @@
+// @codekit-append  "/lib/jquery/jquery.js"
+// @codekit-append  "/lib/jquery/jquery-slim.js"
+// @codekit-append  "/lib/tether/tether.js"
+// @codekit-append  "/lib/bootstrap/bootstrap.js"
+// @codekit-append  "/lib/bootstrap/bootstrap-switch.js"
+// @codekit-append  "/lib/bootstrap/bootstrap-datepicker.js"
+// @codekit-append  "/lib/now-ui-kit.js"
