@@ -61,6 +61,8 @@ if(is_user_logged_in()){
 			$trip_flight_cost_url = get_field('trip_flight_cost_installment', $trip->ID)->guid;
 			$trip_participation_url = get_field('trip_participation_fee_installment', $trip->ID)->guid;
 			$trip_resources = get_field('trip_resources', $trip->ID);
+			$trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
+			$trip_Participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
 		}
 	}
 
@@ -91,7 +93,7 @@ if(is_user_logged_in()){
 	}else{
 		echo '<strong>Interview Date:</strong> Not Set';
 	}
-	
+
 	echo '<br>';
 
 	if($interview_location != Null){

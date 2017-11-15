@@ -1436,6 +1436,9 @@ function auto_email_recurring_cron_function(){
         $trip_departure_date = get_field('trip_departure_date', $trip->ID);
         $trip_return_date = get_field('trip_return_date', $trip->ID);
 
+        $trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
+        $trip_participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
+
         if(get_field('trip_60_days_before', $trip->ID) != 1 && $current_day >= strtotime($trip_departure_date . '- 60 days')){
 
             $trip_applications = get_posts(array(
@@ -1596,6 +1599,114 @@ function auto_email_recurring_cron_function(){
             }
 
             update_field('trip_6_months_after', 1, $trip->ID);
+
+        }elseif(get_field('flight_cost_deadline_approaching', $trip->ID) != 1 && $current_day >= strtotime($trip_flight_cost_due_date . '- 7 days')){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                if(get_field('ta_flight_cost_received', $application->ID) != 1){
+
+                    $to = get_field('ta_email');
+                    $email_subject = get_field('deadline_approaching_flight_cost_email_subject', 'options');
+                    $email_body = get_field('deadline_approaching_flight_cost_email_body', 'options');
+                    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                    wp_mail( $to, $email_subject, $email_body, $headers );
+
+                }
+
+            }
+
+            update_field('flight_cost_deadline_approaching', 1, $trip->ID);
+
+        }elseif(get_field('participation_fee_deadline_approaching', $trip->ID) != 1 && $current_day >= strtotime($trip_participation_fee_due_date . '- 7 days')){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                if(get_field('ta_participation_fee_received', $application->ID) != 1){
+
+                    $to = get_field('ta_email');
+                    $email_subject = get_field('deadline_approaching_participation_fee_email_subject', 'options');
+                    $email_body = get_field('deadline_approaching_participation_fee_email_body', 'options');
+                    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                    wp_mail( $to, $email_subject, $email_body, $headers );
+
+                }
+
+            }
+
+            update_field('participation_fee_deadline_approaching', 1, $trip->ID);
+
+        }elseif(get_field('flight_cost_deadline_missed', $trip->ID) != 1 && $current_day >= strtotime($trip_flight_cost_due_date . '+ 1 day')){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                if(get_field('ta_flight_cost_received', $application->ID) != 1){
+
+                    $to = get_field('ta_email');
+                    $email_subject = get_field('deadline_missed_flight_cost_email_subject', 'options');
+                    $email_body = get_field('deadline_missed_flight_cost_email_body', 'options');
+                    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                    wp_mail( $to, $email_subject, $email_body, $headers );
+
+                }
+
+            }
+
+            update_field('flight_cost_deadline_missed', 1, $trip->ID);
+
+        }elseif(get_field('participation_fee_deadline_missed', $trip->ID) != 1 && $current_day >= strtotime($trip_participation_fee_due_date . '+ 1 day')){
+
+            $trip_applications = get_posts(array(
+                'posts_per_page'    =>  -1,
+                'post_type'         =>  'trip_applications',
+                'post_status'       =>  'publish',
+        		'meta_key'			=>  'ta_trip_select',
+        		'meta_value'		=>  $trip->ID
+            ));
+
+            foreach($trip_applications as $application){
+
+                if(get_field('ta_participation_fee_received', $application->ID) != 1){
+
+                    $to = get_field('ta_email');
+                    $email_subject = get_field('deadline_missed_participation_fee_email_subject', 'options');
+                    $email_body = get_field('deadline_missed_participation_fee_email_body', 'options');
+                    $headers = array('Content-Type: text/html; charset=UTF-8');
+
+                    wp_mail( $to, $email_subject, $email_body, $headers );
+
+                }
+
+            }
+
+            update_field('participation_fee_deadline_missed', 1, $trip->ID);
 
         }
     }
