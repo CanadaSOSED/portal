@@ -51,6 +51,8 @@ if(is_user_logged_in()){
 		$policies_agreed = get_field('ta_agree_to_policies_and_procedures', $app->ID);
 		$waiver_uploaded = get_field('ta_waiver_uploaded', $app->ID);
 		$webinar_registered = get_field('ta_webinar_registered', $app->ID);
+
+		$trip_leader = get_field('ta_trip_leader', $app->ID);
 	}
 
 	foreach($all_trips as $trip){
@@ -60,10 +62,13 @@ if(is_user_logged_in()){
 			$trip_flight_cost_url = get_field('trip_flight_cost_installment', $trip->ID)->guid;
 			$trip_participation_url = get_field('trip_participation_fee_installment', $trip->ID)->guid;
 			$trip_resources = get_field('trip_resources', $trip->ID);
+			$trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
+			$trip_Participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
 		}
 	}
 
 	$options_trip_resources = get_field('options_resources', 'options');
+	$options_trip_leader_resources = get_field('options_trip_leader_resources', 'options');
 	$waiver_download_url = get_field('trip_waiver', 'options');
 
 
@@ -207,8 +212,19 @@ if(is_user_logged_in()){
 			echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
 		}
 	}
-
 	echo '</ul>';
+
+	if($trip_leader == 1){
+		echo '<br>';
+		echo '<strong>Trip Leader Resources:</strong>';
+		echo '<br>';
+
+		echo '<ul>';
+		foreach($options_trip_leader_resources as $resource){
+			echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
+		}
+		echo '</ul>';
+	}
 
 	echo '</div>';
 	echo '</div>';
