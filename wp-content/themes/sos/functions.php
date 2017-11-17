@@ -2008,6 +2008,28 @@ function cleanup_admin_menu(){
         // print_r($menu);
         // die();
         return $menu;
+    }elseif(!current_user_can('administrator')){
+        global $menu;
+        foreach($menu as $k=>$v){
+            if($v[0] == 'Appearance'){
+                $menu[$k][0] = 'Menus';
+                $menu[$k][2] = 'nav-menus.php';
+            }
+        }
+
+        // remove_menu_page( 'tools.php' );
+        // remove_menu_page( 'edit.php' );
+        // remove_menu_page( 'edit-comments.php' );
+        // remove_menu_page( 'wpcf7' );
+        // remove_menu_page( 'acf-options' );
+        if(!current_user_can('president')){
+            remove_menu_page( 'edit.php?post_type=trip_applications' );
+        }
+        remove_menu_page( 'edit.php?post_type=trips' );
+        // remove_menu_page( 'woocommerce' );
+        // remove_menu_page( 'edit_products' );
+        // remove_menu_page( 'edit-tags.php?taxonomy=session_type&post_type=product' );
+
     }
 }
 
