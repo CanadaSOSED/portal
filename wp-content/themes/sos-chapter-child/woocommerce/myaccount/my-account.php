@@ -29,7 +29,7 @@ wc_print_notices();
 do_action( 'woocommerce_account_navigation' ); ?>
 
 <div class="woocommerce-MyAccount-content">
-	<p>TEST</p>
+
 	<?php
 		/**
 		 * My Account content.
