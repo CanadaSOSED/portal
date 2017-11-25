@@ -17,7 +17,7 @@ get_header(); ?>
         <p>We focus our work in communities across 8 different countries in Latin America. There is a huge need for projects within the region which means we can make a genuine and lasting impact.</p>
       </div>
       <!-- <p class="animated fadeIn"></p> -->
-      <a class="btn btn-primary btn-lg mx-auto my-3 d-block animated fadeIn" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/trips" role="button">Find a Session</a>
+      <a class="btn btn-primary btn-lg mx-auto my-3 d-block animated fadeIn" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/trips" role="button">Find a Trip</a>
     </div>
   </div>
 </div>
