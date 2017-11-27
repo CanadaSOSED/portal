@@ -1356,7 +1356,7 @@ function setup_automated_email(){
                 $application_email_body = 'interview_setup_email_body';
 
             }elseif($new_value == 'application_confirmed'){
-                $application_email_subject = 'application_confirmed_email_subject';
+                $application_email_subject = 'application_confirmation_subject';
                 $application_email_body = 'application_confirmed_email_body';
 
             }elseif($new_value == 'suspended'){
@@ -1394,7 +1394,7 @@ function setup_automated_email(){
 //             send_automated_email();
 //         }
 //     }
-// 
+//
 //     return $value;
 // }
 //
