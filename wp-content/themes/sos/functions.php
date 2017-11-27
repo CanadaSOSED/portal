@@ -1177,6 +1177,16 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
     update_field('ta_passport_expiration', $entry['19'], $post_id );
 
     update_field('ta_passport_canadianpassport', $entry['12'], $post_id );
+
+    if($entry['12'] == 'no'){
+        $to = get_field('ta_email', $post_id);
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        $email_subject = get_field('non_canadian_passport_email_subject', 'options');
+        $email_body = get_field('non_canadian_passport_email_body', 'options');
+
+        wp_mail( $to, $email_subject, $email_body, $headers );
+    }
+
     update_field('ta_passport_wherefrom', $entry['13'], $post_id );
     update_field('ta_passport_status_in_canada', $entry['14'], $post_id );
 
@@ -1368,27 +1378,27 @@ function setup_automated_email(){
 
 ///////////////////// Send Email Updates on ACF Update /////////////////////
 
-function setup_email_on_acf_update( $value, $post_id, $field  ) {
-
-    global $application_email_subject, $application_email_body;
-
-    $old_value = get_field('ta_passport_canadianpassport');
-    $old_value_depost = get_field('');
-    $new_value = $value;
-
-
-    if($old_value != $new_value){
-        if($new_value == 'no'){
-            $application_email_subject = 'non_canadian_passport_email_subject';
-            $application_email_body = 'non_canadian_passport_email_body';
-            send_automated_email();
-        }
-    }
-
-    return $value;
-}
-
-add_filter('acf/update_value', 'setup_email_on_acf_update', 10, 3);
+// function setup_email_on_acf_update( $value, $post_id, $field  ) {
+//
+//     global $application_email_subject, $application_email_body;
+//
+//     $old_value = get_field('ta_passport_canadianpassport');
+//     $old_value_depost = get_field('');
+//     $new_value = $value;
+//
+//
+//     if($old_value != $new_value){
+//         if($new_value == 'no'){
+//             $application_email_subject = 'non_canadian_passport_email_subject';
+//             $application_email_body = 'non_canadian_passport_email_body';
+//             send_automated_email();
+//         }
+//     }
+// 
+//     return $value;
+// }
+//
+// add_filter('acf/update_value', 'setup_email_on_acf_update', 10, 3);
 
 ///////////////////// Send The Actual Email /////////////////////
 
