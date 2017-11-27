@@ -353,7 +353,7 @@ add_filter( 'woocommerce_product_add_to_cart_text', 'woo_custom_product_add_to_c
 
 function woo_custom_product_add_to_cart_text() {
 
-    return __( 'Purchase Now', 'woocommerce' );
+    return __( 'Enroll Now', 'woocommerce' );
 
 }
 
@@ -362,11 +362,26 @@ function woo_custom_product_add_to_cart_text() {
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'themeprefix_cart_button_text' );
 
 function themeprefix_cart_button_text() {
-  return __( 'Purchase Now', 'woocommerce' );
+  return __( 'Enroll Now', 'woocommerce' );
 }
+
+// Redirect to Pay Now instead of View Cart
+//////////////////////////////////////////////////////////////////////
+add_filter('add_to_cart_redirect', 'themeprefix_add_to_cart_redirect');
+
+function themeprefix_add_to_cart_redirect() {
+    global $woocommerce;
+    $checkout_url = $woocommerce->cart->get_checkout_url();
+    return $checkout_url;
+}
+
+
+
 
 // RESTRICT AMOUNT IN CART TO 1
 //////////////////////////////////////////////////////////////////////
+
+add_filter( 'woocommerce_add_to_cart_validation', 'so_27030769_maybe_empty_cart', 10, 3 );
 function so_27030769_maybe_empty_cart( $valid, $product_id, $quantity ) {
 
     if( ! empty ( WC()->cart->get_cart() ) && $valid ){
@@ -377,7 +392,8 @@ function so_27030769_maybe_empty_cart( $valid, $product_id, $quantity ) {
     return $valid;
 
 }
-add_filter( 'woocommerce_add_to_cart_validation', 'so_27030769_maybe_empty_cart', 10, 3 );
+
+
 
 // Allow authors on single products
 //////////////////////////////////////////////////////////////////////
@@ -385,6 +401,50 @@ add_filter( 'woocommerce_add_to_cart_validation', 'so_27030769_maybe_empty_cart'
 if ( post_type_exists( 'product' ) ) {
     add_post_type_support( 'product', 'author' );
 }
+
+
+
+// Remove additional signup fields
+//////////////////////////////////////////////////////////////////////
+add_filter( 'woocommerce_enable_order_notes_field', '__return_false' );
+
+add_filter( 'woocommerce_checkout_fields', 'custom_override_checkout_fields' );
+
+function custom_override_checkout_fields( $fields ) {
+
+    // REMOVING BILLING PHONE NUMBER
+    unset($fields['billing']['billing_phone']);
+
+    // REMOVING BILLING COMPANY
+    unset($fields['billing']['billing_company']);
+
+    // REMOVING ADDITIONAL INFORMATION FIELD
+    unset($fields['order']['order_comments']);
+
+    return $fields;
+}
+
+
+// Change woocommerce backorder options
+//////////////////////////////////////////////////////////////////////
+function wc_get_product_backorder_options() {
+    return array(
+        'no'     => __( 'Do not allow', 'woocommerce' ),
+        'notify' => __( 'Allow, but notify customer', 'woocommerce' ),
+        'yes'    => __( 'Allow', 'woocommerce' ),
+    );
+}
+
+
+
+// Description for shipping class page to aid users.
+//////////////////////////////////////////////////////////////////////
+function product_attribute_description() {
+    echo wpautop( __( 'Attribute terms can be assigned to products and variations.<br/><br/><b>Note</b>: Deleting a term will remove it from all products and variations to which it has been assigned. Recreating a term will not automatically assign it back to products.', 'woocommerce' ) );
+}
+
+
+
 
 @include 'inc/post-type-opportunities.php';
 @include 'inc/widgets.php';
