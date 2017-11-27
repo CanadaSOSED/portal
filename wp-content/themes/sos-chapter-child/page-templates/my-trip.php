@@ -40,7 +40,7 @@ if(is_user_logged_in()){
 		$trip_status_id = get_field('ta_application_state', $app->ID);
 
 		$interview_date = get_field('ta_interview_date', $app->ID);
-		$interview_date = get_field('ta_interview_location', $app->ID);
+		$interview_location = get_field('ta_interview_location', $app->ID);
 
 		$trip_deposit_payed = get_field('ta_trip_deposit_received', $app->ID);
 		$trip_flight_cost_payed = get_field('ta_flight_cost_received', $app->ID);
