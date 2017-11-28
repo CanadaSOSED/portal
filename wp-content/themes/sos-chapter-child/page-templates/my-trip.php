@@ -200,34 +200,36 @@ if(is_user_logged_in()){
 			echo '<strong>Your Participation Fee:</strong> Paid';
 		}
 
-		/////// Resources Area ///////
-		echo '<br><br>';
-		echo '<strong>Trip Resources:</strong>';
-		echo '<br>';
-
-		echo '<ul>';
-		if($trip_resources){
-			foreach($trip_resources as $resource){
-				echo '<li><a target="_blank" href=' . $resource['trip_resource'] .'>' . $resource['resource_name'] . '</a></li>';
-			}
-		}
-		if($options_trip_resources){
-			foreach($options_trip_resources as $resource){
-				echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
-			}
-		}
-		echo '</ul>';
-
-		if($trip_leader == 1){
-			echo '<br>';
-			echo '<strong>Trip Leader Resources:</strong>';
+		if($trip_deposit_payed != 1){
+			/////// Resources Area ///////
+			echo '<br><br>';
+			echo '<strong>Trip Resources:</strong>';
 			echo '<br>';
 
 			echo '<ul>';
-			foreach($options_trip_leader_resources as $resource){
-				echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
+			if($trip_resources){
+				foreach($trip_resources as $resource){
+					echo '<li><a target="_blank" href=' . $resource['trip_resource'] .'>' . $resource['resource_name'] . '</a></li>';
+				}
+			}
+			if($options_trip_resources){
+				foreach($options_trip_resources as $resource){
+					echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
+				}
 			}
 			echo '</ul>';
+
+			if($trip_leader == 1){
+				echo '<br>';
+				echo '<strong>Trip Leader Resources:</strong>';
+				echo '<br>';
+
+				echo '<ul>';
+				foreach($options_trip_leader_resources as $resource){
+					echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
+				}
+				echo '</ul>';
+			}
 		}
 	}
 
