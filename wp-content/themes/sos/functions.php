@@ -622,7 +622,7 @@ function add_login_logout_register_menu( $items, $args ) {
  }
 
 if ( is_user_logged_in() ) {
-    if( current_user_can('edit_post') ) {
+    if( current_user_can('edit_post') || current_user_can('vpid') ) {
         $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/wp-admin">' . __( 'Admin' ) . '</a></li>';
         $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
     } else {
