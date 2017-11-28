@@ -79,164 +79,175 @@ if(is_user_logged_in()){
 		}
 	}
 
-
-
 	echo '<div class="wrapper">';
 	echo '<div class="container">';
 	echo '<div class="row">';
 	echo '<div class="col-md-12 content-area" id="primary">';
-	echo '<h1>My Trip</h1>';
-	echo '<strong>Your Trip is:</strong> ' . $trip_name;
-	echo '<br>';
-	echo '<strong>Status:</strong> ' . $trip_state;
-	echo '<br>';
 
-	if($interview_date != Null){
-		echo '<strong>Interview Date:</strong> ' . $interview_date;
-	}else{
-		echo '<strong>Interview Date:</strong> Not Set';
-	}
+	if(!$trip_name){
 
-	echo '<br>';
-
-	if($interview_location != Null){
-		echo '<strong>Interview Location:</strong> ' . $interview_location;
-	}else{
-		echo '<strong>Interview Location:</strong> Not Set';
-	}
-
-	if($trip_state == 'Application received' || $trip_state == 'Interview Setup' || $trip_state == 'Interview Complete'){
+		echo '<h1>My Trip</h1>';
+		echo '<strong>You are not registered for a trip.</strong>';
 
 	}else{
-		/////// Checklist Area ///////
-		echo '<br><br>';
-		echo '<strong>To Do List:</strong>';
+
+
+		echo '<h1>My Trip</h1>';
+		echo '<strong>Your Trip is:</strong> ' . $trip_name;
 		echo '<br>';
-		echo '<p>Please complete the following items at <u>least <strong>TWO</strong></u> months prior to the start date of your SOS Outreach Trip. <br>
-			Failure to complete these items can result in the cancellation of your SOS Outreach Trip</p>';
+		echo '<strong>Status:</strong> ' . $trip_state;
+		echo '<br>';
 
-		$volunteer_outreach_url = $main_blog_url . "/volunteer-outreach-form/?App=" . $app_id;
-
-		if($volunteer_outreach_form == 1){
-			echo '&#10004 Volunteer Outreach Participation Form Complete';
+		if($interview_date != Null){
+			echo '<strong>Interview Date:</strong> ' . $interview_date;
 		}else{
-			echo '<a href='. $volunteer_outreach_url . '>Click here to fill out the Volunteer Outreach Participation Form</a>';
+			echo '<strong>Interview Date:</strong> Not Set';
 		}
 
 		echo '<br>';
 
-		$policies_url = $main_blog_url . "/policies-and-procedures/?App=" . $app_id;
-
-		if($policies_agreed == 1){
-			echo '&#10004 Policies and Procedures Agreed';
+		if($interview_location != Null){
+			echo '<strong>Interview Location:</strong> ' . $interview_location;
 		}else{
-			echo '<a href='. $policies_url . '>Click here to read the Policies and Procedures</a>';
+			echo '<strong>Interview Location:</strong> Not Set';
 		}
 
-		echo '<br>';
-
-		$waiver_upload_url = $main_blog_url . "/trip-waiver-upload/?App=" . $app_id;
-
-		if($waiver_uploaded == 1){
-			echo '&#10004 Waiver Uploaded';
-		}else{
-			echo '<a target="_blank"
-					 href='. $waiver_download_url . '
-					 title="Please download, complete, sign and re-upload the following waiver. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below. Please note: when filling out the waiver, &#39;Chapter&#39; refers to the school or group that you are travelling with. Example: Ryerson University, Wilfrid Laurier University Alumni, etc.​​">Download the Trip Waiver</a>';
-			echo '<br>';
-			echo '<a href='. $waiver_upload_url . '>Click here to upload the Trip Waiver</a>';
-		}
-
-		echo '<br>';
-
-		$medical_fitness_url = $main_blog_url . "/medical-fitness-form/?App=" . $app_id;
-
-		if($medical_fitness_form == 1){
-			echo '&#10004 Medical Fitness Form Complete';
-		}else{
-			echo '<a href='. $medical_fitness_url . '>Click here to fill out the Medical Fitness Form</a>';
-		}
-
-		echo '<br>';
-
-		$webinar_url = $main_blog_url . "/pre-departure-webinar";
-
-		if($webinar_registered == 1){
-			echo '&#10004 Pre-Depature Webinar Registered';
-		}else{
-			echo '<a href='. $webinar_url . '>Click here to Register for a Pre-Departure Webinar</a>';
-		}
-
-		/////// Payment Area ///////
-		echo '<br><br>';
-		echo '<strong>Payment Status:</strong>';
-		echo '<br>';
-
-		if($trip_deposit_payed != 1){
-			echo '<strong>Your Deposit:</strong> ';
-			echo '<a href=' . $trip_deposit_url .'> Pay Now </a>';
+		if($trip_state == 'Application received' || $trip_state == 'Interview Setup' || $trip_state == 'Interview Complete'){
 
 		}else{
-			echo '<strong>Your Deposit:</strong> Paid';
-		}
-
-		echo '<br>';
-
-		if($trip_flight_cost_payed != 1){
-			echo '<strong>Your Flight Cost:</strong> ';
-			echo '<a href=' . $trip_flight_cost_url .'> Pay Now </a>';
-
-		}else{
-			echo '<strong>Your Flight Cost:</strong> Paid';
-		}
-
-		echo '<br>';
-
-		if($trip_participation_payed != 1){
-			echo '<strong>Your Participation Fee:</strong> ';
-			echo '<a href=' . $trip_participation_url .'> Pay Now </a>';
-
-		}else{
-			echo '<strong>Your Participation Fee:</strong> Paid';
-		}
-
-		if($trip_deposit_payed == 1){
-			/////// Resources Area ///////
+			/////// Checklist Area ///////
 			echo '<br><br>';
-			echo '<strong>Trip Resources:</strong>';
+			echo '<strong>To Do List:</strong>';
+			echo '<br>';
+			echo '<p>Please complete the following items at <u>least <strong>TWO</strong></u> months prior to the start date of your SOS Outreach Trip. <br>
+				Failure to complete these items can result in the cancellation of your SOS Outreach Trip</p>';
+
+			$volunteer_outreach_url = $main_blog_url . "/volunteer-outreach-form/?App=" . $app_id;
+
+			if($volunteer_outreach_form == 1){
+				echo '&#10004 Volunteer Outreach Participation Form Complete';
+			}else{
+				echo '<a href='. $volunteer_outreach_url . '>Click here to fill out the Volunteer Outreach Participation Form</a>';
+			}
+
 			echo '<br>';
 
-			echo '<ul>';
-			if($trip_resources){
-				foreach($trip_resources as $resource){
-					echo '<li><a target="_blank" href=' . $resource['trip_resource'] .'>' . $resource['resource_name'] . '</a></li>';
-				}
-			}
-			if($options_trip_resources){
-				foreach($options_trip_resources as $resource){
-					echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
-				}
-			}
-			echo '</ul>';
+			$policies_url = $main_blog_url . "/policies-and-procedures/?App=" . $app_id;
 
-			if($trip_leader == 1){
+			if($policies_agreed == 1){
+				echo '&#10004 Policies and Procedures Agreed';
+			}else{
+				echo '<a href='. $policies_url . '>Click here to read the Policies and Procedures</a>';
+			}
+
+			echo '<br>';
+
+			$waiver_upload_url = $main_blog_url . "/trip-waiver-upload/?App=" . $app_id;
+
+			if($waiver_uploaded == 1){
+				echo '&#10004 Waiver Uploaded';
+			}else{
+				echo '<a target="_blank"
+						 href='. $waiver_download_url . '
+						 title="Please download, complete, sign and re-upload the following waiver. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below. Please note: when filling out the waiver, &#39;Chapter&#39; refers to the school or group that you are travelling with. Example: Ryerson University, Wilfrid Laurier University Alumni, etc.​​">Download the Trip Waiver</a>';
 				echo '<br>';
-				echo '<strong>Trip Leader Resources:</strong>';
+				echo '<a href='. $waiver_upload_url . '>Click here to upload the Trip Waiver</a>';
+			}
+
+			echo '<br>';
+
+			$medical_fitness_url = $main_blog_url . "/medical-fitness-form/?App=" . $app_id;
+
+			if($medical_fitness_form == 1){
+				echo '&#10004 Medical Fitness Form Complete';
+			}else{
+				echo '<a href='. $medical_fitness_url . '>Click here to fill out the Medical Fitness Form</a>';
+			}
+
+			echo '<br>';
+
+			$webinar_url = $main_blog_url . "/pre-departure-webinar";
+
+			if($webinar_registered == 1){
+				echo '&#10004 Pre-Depature Webinar Registered';
+			}else{
+				echo '<a href='. $webinar_url . '>Click here to Register for a Pre-Departure Webinar</a>';
+			}
+
+			/////// Payment Area ///////
+			echo '<br><br>';
+			echo '<strong>Payment Status:</strong>';
+			echo '<br>';
+
+			if($trip_deposit_payed != 1){
+				echo '<strong>Your Deposit:</strong> ';
+				echo '<a href=' . $trip_deposit_url .'> Pay Now </a>';
+
+			}else{
+				echo '<strong>Your Deposit:</strong> Paid';
+			}
+
+			echo '<br>';
+
+			if($trip_flight_cost_payed != 1){
+				echo '<strong>Your Flight Cost:</strong> ';
+				echo '<a href=' . $trip_flight_cost_url .'> Pay Now </a>';
+
+			}else{
+				echo '<strong>Your Flight Cost:</strong> Paid';
+			}
+
+			echo '<br>';
+
+			if($trip_participation_payed != 1){
+				echo '<strong>Your Participation Fee:</strong> ';
+				echo '<a href=' . $trip_participation_url .'> Pay Now </a>';
+
+			}else{
+				echo '<strong>Your Participation Fee:</strong> Paid';
+			}
+
+			if($trip_deposit_payed == 1){
+				/////// Resources Area ///////
+				echo '<br><br>';
+				echo '<strong>Trip Resources:</strong>';
 				echo '<br>';
 
 				echo '<ul>';
-				foreach($options_trip_leader_resources as $resource){
-					echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
+				if($trip_resources){
+					foreach($trip_resources as $resource){
+						echo '<li><a target="_blank" href=' . $resource['trip_resource'] .'>' . $resource['resource_name'] . '</a></li>';
+					}
+				}
+				if($options_trip_resources){
+					foreach($options_trip_resources as $resource){
+						echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
+					}
 				}
 				echo '</ul>';
+
+				if($trip_leader == 1){
+					echo '<br>';
+					echo '<strong>Trip Leader Resources:</strong>';
+					echo '<br>';
+
+					echo '<ul>';
+					foreach($options_trip_leader_resources as $resource){
+						echo '<li><a target="_blank" href=' . $resource['resource'] .'>' . $resource['resource_name'] . '</a></li>';
+					}
+					echo '</ul>';
+				}
 			}
 		}
+
 	}
+
 
 	echo '</div>';
 	echo '</div>';
 	echo '</div>';
 	echo '</div>';
+	
 	restore_current_blog();
 
 	get_footer();
