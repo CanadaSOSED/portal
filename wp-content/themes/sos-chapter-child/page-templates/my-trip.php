@@ -200,7 +200,7 @@ if(is_user_logged_in()){
 			echo '<strong>Your Participation Fee:</strong> Paid';
 		}
 
-		if($trip_deposit_payed != 1){
+		if($trip_deposit_payed == 1){
 			/////// Resources Area ///////
 			echo '<br><br>';
 			echo '<strong>Trip Resources:</strong>';
