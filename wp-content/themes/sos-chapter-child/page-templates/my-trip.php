@@ -105,7 +105,7 @@ if(is_user_logged_in()){
 		echo '<strong>Interview Location:</strong> Not Set';
 	}
 
-	if($trip_state = 'Application received' || $trip_state = 'Interview Setup' || $trip_state = 'Interview Complete'){
+	if($trip_state == 'Application received' || $trip_state == 'Interview Setup' || $trip_state == 'Interview Complete'){
 
 	}else{
 		/////// Checklist Area ///////
