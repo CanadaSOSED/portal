@@ -1012,6 +1012,7 @@ add_filter('manage_trip_applications_posts_columns', 'trip_applications_table_he
 function trip_applications_table_head( $defaults ) {
     $defaults['trip_name']  = 'Trip';
     $defaults['trip_state']  = 'Application State';
+    $defaults['campus']  = 'Campus';
     // $defaults['interview_complete']    = 'Interview Complete';
     // $defaults['deposit_received']   = 'Deposit Received';
     // $defaults['flight_cost_received']   = 'Flight Cost Received';
@@ -1038,6 +1039,10 @@ function trip_applications_table_content( $column_name, $post_id ) {
             }
         }
     }
+    if ($column_name == 'campus') {
+        $campus_name = get_field('ta_university', $post_id);
+        echo $campus_name;
+    }
 }
 
 ///////////////////// Make Custom Columns Sortable /////////////////////
@@ -1046,6 +1051,7 @@ add_filter( 'manage_edit-trip_applications_sortable_columns', 'trip_applications
 function trip_applications_table_sorting( $columns ) {
   $columns['trip_name'] = 'trip_name';
   $columns['trip_state'] = 'trip_state';
+  $columns['campus'] = 'campus';
   return $columns;
 }
 
@@ -1066,6 +1072,18 @@ function trip_applications_trip_state_column_orderby( $vars ) {
     if ( isset( $vars['orderby'] ) && 'trip_state' == $vars['orderby'] ) {
         $vars = array_merge( $vars, array(
             'meta_key' => 'ta_application_state',
+            'orderby' => 'meta_value'
+        ) );
+    }
+
+    return $vars;
+}
+
+add_filter( 'request', 'trip_applications_campus_column_orderby' );
+function trip_applications_campus_column_orderby( $vars ) {
+    if ( isset( $vars['orderby'] ) && 'campus' == $vars['orderby'] ) {
+        $vars = array_merge( $vars, array(
+            'meta_key' => 'ta_university',
             'orderby' => 'meta_value'
         ) );
     }
@@ -1375,30 +1393,6 @@ function setup_automated_email(){
         }
     }
 }
-
-///////////////////// Send Email Updates on ACF Update /////////////////////
-
-// function setup_email_on_acf_update( $value, $post_id, $field  ) {
-//
-//     global $application_email_subject, $application_email_body;
-//
-//     $old_value = get_field('ta_passport_canadianpassport');
-//     $old_value_depost = get_field('');
-//     $new_value = $value;
-//
-//
-//     if($old_value != $new_value){
-//         if($new_value == 'no'){
-//             $application_email_subject = 'non_canadian_passport_email_subject';
-//             $application_email_body = 'non_canadian_passport_email_body';
-//             send_automated_email();
-//         }
-//     }
-//
-//     return $value;
-// }
-//
-// add_filter('acf/update_value', 'setup_email_on_acf_update', 10, 3);
 
 ///////////////////// Send The Actual Email /////////////////////
 
