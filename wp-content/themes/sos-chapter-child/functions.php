@@ -365,9 +365,10 @@ function themeprefix_cart_button_text() {
   return __( 'Enroll Now', 'woocommerce' );
 }
 
+
 // Redirect to Pay Now instead of View Cart
 //////////////////////////////////////////////////////////////////////
-add_filter('add_to_cart_redirect', 'themeprefix_add_to_cart_redirect');
+add_filter('woocommerce_add_to_cart_redirect', 'themeprefix_add_to_cart_redirect');
 
 function themeprefix_add_to_cart_redirect() {
     global $woocommerce;
@@ -377,11 +378,10 @@ function themeprefix_add_to_cart_redirect() {
 
 
 
-
 // RESTRICT AMOUNT IN CART TO 1
 //////////////////////////////////////////////////////////////////////
-
 add_filter( 'woocommerce_add_to_cart_validation', 'so_27030769_maybe_empty_cart', 10, 3 );
+
 function so_27030769_maybe_empty_cart( $valid, $product_id, $quantity ) {
 
     if( ! empty ( WC()->cart->get_cart() ) && $valid ){
@@ -422,17 +422,6 @@ function custom_override_checkout_fields( $fields ) {
     unset($fields['order']['order_comments']);
 
     return $fields;
-}
-
-
-// Change woocommerce backorder options
-//////////////////////////////////////////////////////////////////////
-function wc_get_product_backorder_options() {
-    return array(
-        'no'     => __( 'Do not allow', 'woocommerce' ),
-        'notify' => __( 'Allow, but notify customer', 'woocommerce' ),
-        'yes'    => __( 'Allow', 'woocommerce' ),
-    );
 }
 
 
