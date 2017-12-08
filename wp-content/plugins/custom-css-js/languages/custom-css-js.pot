@@ -1,0 +1,455 @@
+# Copyright (C) 2017 Simple Custom CSS and JS
+# This file is distributed under the same license as the Simple Custom CSS and JS package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Simple Custom CSS and JS 3.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/custom-css-js-"
+"svn\n"
+"POT-Creation-Date: 2017-05-13 18:45:06+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: custom-css-js.php:56 custom-css-js.php:63
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: custom-css-js.php:198
+msgctxt "post type general name"
+msgid "Custom Code"
+msgstr ""
+
+#: custom-css-js.php:199
+msgctxt "post type singular name"
+msgid "Custom Code"
+msgstr ""
+
+#: custom-css-js.php:200
+msgctxt "admin menu"
+msgid "Custom CSS & JS"
+msgstr ""
+
+#: custom-css-js.php:201
+msgctxt "add new on admin bar"
+msgid "Custom Code"
+msgstr ""
+
+#: custom-css-js.php:202
+msgctxt "add new"
+msgid "Add Custom Code"
+msgstr ""
+
+#: custom-css-js.php:203
+msgid "Add Custom Code"
+msgstr ""
+
+#: custom-css-js.php:204
+msgid "New Custom Code"
+msgstr ""
+
+#: custom-css-js.php:205
+msgid "Edit Custom Code"
+msgstr ""
+
+#: custom-css-js.php:206
+msgid "View Custom Code"
+msgstr ""
+
+#: custom-css-js.php:207
+msgid "All Custom Code"
+msgstr ""
+
+#: custom-css-js.php:208
+msgid "Search Custom Code"
+msgstr ""
+
+#: custom-css-js.php:209
+msgid "Parent Custom Code:"
+msgstr ""
+
+#: custom-css-js.php:210
+msgid "No Custom Code found."
+msgstr ""
+
+#: custom-css-js.php:211
+msgid "No Custom Code found in Trash."
+msgstr ""
+
+#: custom-css-js.php:232
+msgid "Custom CSS and JS code"
+msgstr ""
+
+#: custom-css-js.php:277
+msgid "Web Designer"
+msgstr ""
+
+#: custom-css-js.php:372
+msgid "Settings"
+msgstr ""
+
+#: includes/admin-addons.php:42 includes/admin-screens.php:631
+msgid "Available only in <br />Simple Custom CSS and JS Pro"
+msgstr ""
+
+#: includes/admin-addons.php:54
+msgid "Preview"
+msgstr ""
+
+#: includes/admin-addons.php:55
+msgid "Apply only on these URLs"
+msgstr ""
+
+#: includes/admin-addons.php:56
+msgid "Code Revisions"
+msgstr ""
+
+#: includes/admin-addons.php:67
+msgid "Full URL on which to preview the changes ..."
+msgstr ""
+
+#: includes/admin-addons.php:68
+msgid "Preview Changes"
+msgstr ""
+
+#: includes/admin-addons.php:82
+msgid "All Website"
+msgstr ""
+
+#: includes/admin-addons.php:83
+msgid "First page"
+msgstr ""
+
+#: includes/admin-addons.php:84
+msgid "Contains"
+msgstr ""
+
+#: includes/admin-addons.php:85
+msgid "Not contains"
+msgstr ""
+
+#: includes/admin-addons.php:86
+msgid "Is equal to"
+msgstr ""
+
+#: includes/admin-addons.php:87
+msgid "Not equal to"
+msgstr ""
+
+#: includes/admin-addons.php:88
+msgid "Starts with"
+msgstr ""
+
+#: includes/admin-addons.php:89
+msgid "Ends by"
+msgstr ""
+
+#: includes/admin-addons.php:100 includes/admin-addons.php:101
+msgid "URL"
+msgstr ""
+
+#: includes/admin-addons.php:102
+msgid "Text filter"
+msgstr ""
+
+#: includes/admin-addons.php:103
+msgid "Add"
+msgstr ""
+
+#: includes/admin-addons.php:114
+msgctxt "revision date format"
+msgid "F j, Y @ H:i:s"
+msgstr ""
+
+#: includes/admin-addons.php:136 includes/admin-addons.php:169
+msgid "Compare"
+msgstr ""
+
+#: includes/admin-addons.php:137
+msgid "Revision"
+msgstr ""
+
+#: includes/admin-addons.php:138 includes/admin-screens.php:268
+msgid "Author"
+msgstr ""
+
+#: includes/admin-addons.php:139 includes/admin-addons.php:173
+msgid "Delete"
+msgstr ""
+
+#: includes/admin-addons.php:140 includes/admin-addons.php:163
+msgid "Restore"
+msgstr ""
+
+#: includes/admin-notices.php:125
+msgid "Get your discount now"
+msgstr ""
+
+#: includes/admin-notices.php:125 includes/admin-notices.php:190
+msgid "Dismiss this notice"
+msgstr ""
+
+#: includes/admin-screens.php:94
+msgid "Add Custom CSS"
+msgstr ""
+
+#: includes/admin-screens.php:97
+msgid "Add Custom JS"
+msgstr ""
+
+#: includes/admin-screens.php:100
+msgid "Add Custom HTML"
+msgstr ""
+
+#: includes/admin-screens.php:189
+msgid "Options"
+msgstr ""
+
+#: includes/admin-screens.php:249
+msgid "Add CSS code"
+msgstr ""
+
+#: includes/admin-screens.php:250
+msgid "Add JS code"
+msgstr ""
+
+#: includes/admin-screens.php:251
+msgid "Add HTML code"
+msgstr ""
+
+#: includes/admin-screens.php:265
+msgid "Active"
+msgstr ""
+
+#: includes/admin-screens.php:266
+msgid "Type"
+msgstr ""
+
+#: includes/admin-screens.php:267
+msgid "Title"
+msgstr ""
+
+#: includes/admin-screens.php:269
+msgid "Date"
+msgstr ""
+
+#: includes/admin-screens.php:270
+msgid "Modified"
+msgstr ""
+
+#: includes/admin-screens.php:299
+msgid "%s ago"
+msgstr ""
+
+#: includes/admin-screens.php:301
+msgid "Y/m/d"
+msgstr ""
+
+#: includes/admin-screens.php:309
+msgid "Toggle active"
+msgstr ""
+
+#: includes/admin-screens.php:311
+msgid "The code is active. Click to deactivate it"
+msgstr ""
+
+#: includes/admin-screens.php:314
+msgid "The code is inactive. Click to activate it"
+msgstr ""
+
+#: includes/admin-screens.php:365
+msgid "Custom Code"
+msgstr ""
+
+#: includes/admin-screens.php:366 includes/admin-screens.php:397
+msgid "Add CSS Code"
+msgstr ""
+
+#: includes/admin-screens.php:367 includes/admin-screens.php:398
+msgid "Add JS Code"
+msgstr ""
+
+#: includes/admin-screens.php:368 includes/admin-screens.php:399
+msgid "Add HTML Code"
+msgstr ""
+
+#: includes/admin-screens.php:407
+msgid "Code updated"
+msgstr ""
+
+#: includes/admin-screens.php:490
+msgid ""
+"/* Add your JavaScript code here.\n"
+"                     \n"
+"If you are using the jQuery library, then don't forget to wrap your code "
+"inside jQuery.ready() as follows:\n"
+"\n"
+"jQuery(document).ready(function( $ ){\n"
+"    // Your code in here \n"
+"});\n"
+"\n"
+"End of comment */ "
+msgstr ""
+
+#: includes/admin-screens.php:506
+msgid ""
+"<!-- Add HTML code to the header or the footer. \n"
+"\n"
+"For example, you can use the following code for loading the jQuery library "
+"from Google CDN:\n"
+"<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min."
+"js\"></script>\n"
+"\n"
+"or the following one for loading the Bootstrap library from MaxCDN:\n"
+"<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/"
+"bootstrap/3.3.7/css/bootstrap.min.css\" integrity=\"sha384-"
+"BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u\" "
+"crossorigin=\"anonymous\">\n"
+"\n"
+"-- End of the comment --> "
+msgstr ""
+
+#: includes/admin-screens.php:532
+msgid ""
+"/* Add your CSS code here.\n"
+"                     \n"
+"For example:\n"
+".example {\n"
+"    color: red;\n"
+"}\n"
+"\n"
+"For brushing up on your CSS knowledge, check out http://www.w3schools.com/"
+"css/css_syntax.asp\n"
+"\n"
+"End of comment */ "
+msgstr ""
+
+#: includes/admin-screens.php:646
+msgid "Linking type"
+msgstr ""
+
+#: includes/admin-screens.php:651
+msgid "External File"
+msgstr ""
+
+#: includes/admin-screens.php:655
+msgid "Internal"
+msgstr ""
+
+#: includes/admin-screens.php:661 includes/admin-screens.php:745
+msgid "Where on page"
+msgstr ""
+
+#: includes/admin-screens.php:666 includes/admin-screens.php:750
+msgid "Header"
+msgstr ""
+
+#: includes/admin-screens.php:670 includes/admin-screens.php:754
+msgid "Footer"
+msgstr ""
+
+#: includes/admin-screens.php:676 includes/admin-screens.php:760
+msgid "Where in site"
+msgstr ""
+
+#: includes/admin-screens.php:681 includes/admin-screens.php:765
+msgid "In Frontend"
+msgstr ""
+
+#: includes/admin-screens.php:685 includes/admin-screens.php:769
+msgid "In Admin"
+msgstr ""
+
+#: includes/admin-screens.php:691
+msgid "CSS Preprocessor"
+msgstr ""
+
+#: includes/admin-screens.php:696
+msgid "None"
+msgstr ""
+
+#: includes/admin-screens.php:699
+msgid "Less"
+msgstr ""
+
+#: includes/admin-screens.php:702
+msgid "SASS (only SCSS syntax)"
+msgstr ""
+
+#: includes/admin-screens.php:708
+msgid "Minify the code"
+msgstr ""
+
+#: includes/admin-screens.php:715 includes/admin-screens.php:796
+msgid "Priority"
+msgstr ""
+
+#: includes/admin-screens.php:720 includes/admin-screens.php:801
+msgctxt "1 is the highest priority"
+msgid "1 (highest)"
+msgstr ""
+
+#: includes/admin-screens.php:729 includes/admin-screens.php:810
+msgctxt "10 is the lowest priority"
+msgid "10 (lowest)"
+msgstr ""
+
+#: includes/admin-screens.php:775
+msgid "On which device"
+msgstr ""
+
+#: includes/admin-screens.php:781
+msgid "Desktop"
+msgstr ""
+
+#: includes/admin-screens.php:785
+msgid "Mobile"
+msgstr ""
+
+#: includes/admin-screens.php:789
+msgid "Both"
+msgstr ""
+
+#: includes/admin-screens.php:932
+msgid "The %s directory could not be created"
+msgstr ""
+
+#: includes/admin-screens.php:933
+msgid "Please run the following commands in order to make the directory"
+msgstr ""
+
+#: includes/admin-screens.php:941
+msgid ""
+"The %s directory is not writable, therefore the CSS and JS files cannot be "
+"saved."
+msgstr ""
+
+#: includes/admin-screens.php:942
+msgid "Please run the following command to make the directory writable"
+msgstr ""
+
+#: includes/admin-warnings.php:55
+msgid ""
+"Please remove the <b>custom-css-js</b> post type from the <b>qTranslate "
+"settings</b> in order to avoid some malfunctions in the Simple Custom CSS & "
+"JS plugin. Check out <a href=\"%s\" target=\"_blank\">this screenshot</a> "
+"for more details on how to do that."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/custom-css-js/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Easily add Custom CSS or JS to your website with an awesome editor."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Diana Burduja"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.silkypress.com/"
+msgstr ""

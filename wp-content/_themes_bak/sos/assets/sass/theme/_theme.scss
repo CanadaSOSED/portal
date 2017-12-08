@@ -1,0 +1,171 @@
+// This is an empty scss file for your custom styles - Please add your super duper awesome mega design styles here
+
+
+//////////////////////////////////////////////////////
+// Global
+//////////////////////////////////////////////////////
+.wrapper{
+	margin-top: 68px;
+}
+
+.overlay{
+	background-color: #000;
+	bottom: 0;
+	left: 0;
+	opacity: 0.5;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 1;
+}
+
+section{
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding: 100px 0 100px 0;
+}
+
+.card-title{
+	margin-top: 5px;
+}
+
+.card-subtitle{
+	font-weight: normal;
+	font-style: italic;
+}
+
+//////////////////////////////////////////////////////
+// Typography
+//////////////////////////////////////////////////////
+body{
+	color: #2c2c2c;
+	font-size: 14px;
+	font-family: "Montserrat","Helvetica Neue",Arial,sans-serif;
+}
+.lead p{
+	font-size: 1.07rem;
+	font-weight: 300;
+	margin-bottom: 2.3125rem;
+}
+
+
+//////////////////////////////////////////////////////
+// Primary Navbar
+//////////////////////////////////////////////////////
+
+.navbar-logo img {
+	height: 2rem;
+	margin-right: 5px;
+}
+
+
+//////////////////////////////////////////////////////
+// Home Page
+//////////////////////////////////////////////////////
+
+#home-hero {
+	background-image: url(../img/bigvolunteering1-2000x529.jpg);
+	padding: 100px 0 100px 0;
+	overflow: hidden;
+	position: relative;
+	.overlay{
+		background-color: rgb(5, 20, 27);
+		opacity: 0.9;
+	}
+	.page-header-small{
+		height: auto;
+		max-height: auto;
+	}
+	.page-header::before{
+		background-color: transparent;
+	}
+	.page-header{
+		height: auto;
+		max-height: auto;
+		.container{
+			text-align: left;
+			p{
+				color: #bed4df;
+			}
+		}
+	}
+}
+
+.section-about-us{
+	margin-bottom: 140px;
+}
+
+.section-story-overview p.blockquote {
+	width: 320px;
+}
+
+.section-story-overview p small {
+	font-size: 12px;
+}
+
+.section-story-overview .image-container .img-fluid {
+	width: 80%;
+}
+
+.section-story-overview .image-container img {
+	left: 60px;
+}
+
+//////////////////////////////////////////////////////
+// Media
+//////////////////////////////////////////////////////
+
+.embed-container { 
+	position: relative; 
+	padding-bottom: 56.25%; 
+	height: 0; 
+	overflow: hidden; 
+	max-width: 100%; 
+} 
+
+.embed-container iframe, .embed-container object, .embed-container embed { 
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%; 
+}
+
+
+
+//////////////////////////////////////////////////////
+// Footer
+//////////////////////////////////////////////////////
+
+.pre-footer-cta{
+	background-color: rgb(15, 66, 92);
+	padding: 40px 0;
+	.title{
+		color: #fff;
+		margin-bottom: 20px;
+	}
+	.lead{
+		color: #bed4df;
+		font-size: 16px;
+	}
+	.btn{
+		margin-top: 25px;
+	}
+}
+
+.pre-footer{
+	background-color: rgb(10, 43, 61);
+	padding-top: 90px;
+	padding-bottom: 90px;
+	color: #fff;
+	h6{
+		color: #bed4df;
+		margin-bottom: 20px;
+	}
+}
+
+.footer.footer-default{
+	background-color: rgb(6, 26, 37);
+	color: #acacac;
+}

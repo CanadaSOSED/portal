@@ -28,6 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if ( get_option( 'woocommerce_enable_myaccount_registration' ) === 'yes' ) : ?>
 
+<p style="text-align: center;">To sign up for an Exam Aid session or to apply for an SOS trip please create an account. You can delete your account at any time.</p>
+
 <div class="row" id="customer_login">
 
 	<div class="col-md-6">

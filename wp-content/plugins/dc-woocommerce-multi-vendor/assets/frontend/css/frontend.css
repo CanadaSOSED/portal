@@ -1,0 +1,80 @@
+.vendor_address p img {
+	height: 12px;
+	margin-right: 14px;
+	width: 12px;
+	display: inline-block;
+}
+.vendor_description_background {
+	background-color: rgb(255, 255, 255);
+	    background-size: cover;
+    background-position: center center;
+}
+.vendor_description {
+	box-sizing:border-box;
+	width: 100%;
+	clear: both;
+	display: inline-block;
+	padding-left: 20px;
+  padding-top: 15px;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 245px;
+  font-weight: bold;
+}
+.vendor_description .vendor_img_add {
+	width: 50%;
+	float: left;
+}
+.vendor_description .description {
+	width: 50%;
+	float: right;
+	clear: right;
+	padding-top: 20px;
+	padding-right: 5px;
+	top: 78%;
+  position: relative;
+}
+
+.vendor_address p {
+	margin: 0 0 10px;
+        text-align: left;
+}
+.img_div img{
+	height: auto;
+  max-width: 100px;
+}
+.vendor_address label {
+  font-size: 14px;
+}
+.social_profile {
+	float : right;
+}
+.social_profile a {
+  padding: 2px;
+  display: inline-block;
+}
+.dc-wpv-quick-info-wrapper #respond {
+  padding: 0px;
+}
+.vendor_address label {
+  display: inline;
+  color: #fff;
+}
+.success_review_msg, .error_review_msg {
+	border: 1px solid;
+	margin: 10px 0px;
+	padding:15px 10px 15px 50px;
+	background-position: 10px center;
+}
+
+.success_review_msg {
+	color: #4F8A10;
+	background-color: #DFF2BF;
+}
+.error_review_msg {
+	color: #D8000C;
+	background-color: #FFBABA;
+}
+.wocommerce #wcmp_vendor_reviews{
+	margin-top: 20px;
+}
+@media screen and (max-width: 640px) {.vendor_description .vendor_img_add{width: auto;}}
