@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div id="inventory_product_data" class="panel woocommerce_options_panel">
+<div id="inventory_product_data" class="panel woocommerce_options_panel hidden">
 
 	<div class="options_group">
 		<?php
