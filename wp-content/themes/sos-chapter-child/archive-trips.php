@@ -60,9 +60,6 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 
 						'<h1 class="page-title">Trips </h1>'
 						?>
-						<div>
-							
-						</div>
 						<hr/>
 						<br>
 					</div><!-- .page-header -->

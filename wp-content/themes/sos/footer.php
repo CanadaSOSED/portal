@@ -19,7 +19,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<div class="col-12 col-sm-6">
 				<nav class="navbar navbar-dark d-flex justify-content-start">
 					<div class="nav-item"><a class="nav-link" href="<?php bloginfo( 'site_url'); ?>">Home</a></div>
-					<!-- <div class="nav-item"><?php sos_wp_loginout(); ?></div> -->
+					<!-- <div class="nav-item"><?php //sos_wp_loginout(); ?></div> -->
 					<div class="nav-item"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
 				</nav>
 				</div><!--col end -->

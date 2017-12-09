@@ -622,7 +622,7 @@ function add_login_logout_register_menu( $items, $args ) {
  }
 
 if ( is_user_logged_in() ) {
-    if( current_user_can('edit_post') ) {
+    if( current_user_can('edit_post') || current_user_can('vpid') ) {
         $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/wp-admin">' . __( 'Admin' ) . '</a></li>';
         $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
     } else {
@@ -1012,6 +1012,7 @@ add_filter('manage_trip_applications_posts_columns', 'trip_applications_table_he
 function trip_applications_table_head( $defaults ) {
     $defaults['trip_name']  = 'Trip';
     $defaults['trip_state']  = 'Application State';
+    $defaults['campus']  = 'Campus';
     // $defaults['interview_complete']    = 'Interview Complete';
     // $defaults['deposit_received']   = 'Deposit Received';
     // $defaults['flight_cost_received']   = 'Flight Cost Received';
@@ -1038,6 +1039,10 @@ function trip_applications_table_content( $column_name, $post_id ) {
             }
         }
     }
+    if ($column_name == 'campus') {
+        $campus_name = get_field('ta_university', $post_id);
+        echo $campus_name;
+    }
 }
 
 ///////////////////// Make Custom Columns Sortable /////////////////////
@@ -1046,6 +1051,7 @@ add_filter( 'manage_edit-trip_applications_sortable_columns', 'trip_applications
 function trip_applications_table_sorting( $columns ) {
   $columns['trip_name'] = 'trip_name';
   $columns['trip_state'] = 'trip_state';
+  $columns['campus'] = 'campus';
   return $columns;
 }
 
@@ -1066,6 +1072,18 @@ function trip_applications_trip_state_column_orderby( $vars ) {
     if ( isset( $vars['orderby'] ) && 'trip_state' == $vars['orderby'] ) {
         $vars = array_merge( $vars, array(
             'meta_key' => 'ta_application_state',
+            'orderby' => 'meta_value'
+        ) );
+    }
+
+    return $vars;
+}
+
+add_filter( 'request', 'trip_applications_campus_column_orderby' );
+function trip_applications_campus_column_orderby( $vars ) {
+    if ( isset( $vars['orderby'] ) && 'campus' == $vars['orderby'] ) {
+        $vars = array_merge( $vars, array(
+            'meta_key' => 'ta_university',
             'orderby' => 'meta_value'
         ) );
     }
@@ -1177,6 +1195,16 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
     update_field('ta_passport_expiration', $entry['19'], $post_id );
 
     update_field('ta_passport_canadianpassport', $entry['12'], $post_id );
+
+    if($entry['12'] == 'no'){
+        $to = get_field('ta_email', $post_id);
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        $email_subject = get_field('non_canadian_passport_email_subject', 'options');
+        $email_body = get_field('non_canadian_passport_email_body', 'options');
+
+        wp_mail( $to, $email_subject, $email_body, $headers );
+    }
+
     update_field('ta_passport_wherefrom', $entry['13'], $post_id );
     update_field('ta_passport_status_in_canada', $entry['14'], $post_id );
 
@@ -1346,7 +1374,7 @@ function setup_automated_email(){
                 $application_email_body = 'interview_setup_email_body';
 
             }elseif($new_value == 'application_confirmed'){
-                $application_email_subject = 'application_confirmed_email_subject';
+                $application_email_subject = 'application_confirmation_subject';
                 $application_email_body = 'application_confirmed_email_body';
 
             }elseif($new_value == 'suspended'){
@@ -1365,30 +1393,6 @@ function setup_automated_email(){
         }
     }
 }
-
-///////////////////// Send Email Updates on ACF Update /////////////////////
-
-function setup_email_on_acf_update( $value, $post_id, $field  ) {
-
-    global $application_email_subject, $application_email_body;
-
-    $old_value = get_field('ta_passport_canadianpassport');
-    $old_value_depost = get_field('');
-    $new_value = $value;
-
-
-    if($old_value != $new_value){
-        if($new_value == 'no'){
-            $application_email_subject = 'non_canadian_passport_email_subject';
-            $application_email_body = 'non_canadian_passport_email_body';
-            send_automated_email();
-        }
-    }
-
-    return $value;
-}
-
-add_filter('acf/update_value', 'setup_email_on_acf_update', 10, 3);
 
 ///////////////////// Send The Actual Email /////////////////////
 
@@ -2008,6 +2012,28 @@ function cleanup_admin_menu(){
         // print_r($menu);
         // die();
         return $menu;
+    }elseif(!current_user_can('administrator')){
+        global $menu;
+        foreach($menu as $k=>$v){
+            if($v[0] == 'Appearance'){
+                $menu[$k][0] = 'Menus';
+                $menu[$k][2] = 'nav-menus.php';
+            }
+        }
+
+        // remove_menu_page( 'tools.php' );
+        // remove_menu_page( 'edit.php' );
+        // remove_menu_page( 'edit-comments.php' );
+        // remove_menu_page( 'wpcf7' );
+        // remove_menu_page( 'acf-options' );
+        if(!current_user_can('president')){
+            remove_menu_page( 'edit.php?post_type=trip_applications' );
+        }
+        remove_menu_page( 'edit.php?post_type=trips' );
+        // remove_menu_page( 'woocommerce' );
+        // remove_menu_page( 'edit_products' );
+        // remove_menu_page( 'edit-tags.php?taxonomy=session_type&post_type=product' );
+
     }
 }
 
