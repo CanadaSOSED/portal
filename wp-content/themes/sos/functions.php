@@ -344,7 +344,7 @@ function sos_dashboard_chapter_resources_widget_function( $post, $callback_args 
 function sos_add_dashboard_widgets() {
   global $current_user;
 
-  get_currentuserinfo();
+  wp_get_current_user();
 
   // President
   if ( current_user_can( 'publish_posts' ) ) {
@@ -795,7 +795,7 @@ add_action('admin_init','customize_meta_boxes');
 function customize_meta_boxes() {
   global $current_user;
 
-  get_currentuserinfo();
+  wp_get_current_user();
 
   if ( !current_user_can( 'create_sites' ) ) {
 
