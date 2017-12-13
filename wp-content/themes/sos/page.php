@@ -10,6 +10,11 @@
  * @package sos-primary
  */
 
+if(is_page('volunteer-outreach-form') && !is_user_logged_in()){
+	wp_redirect('/');
+	exit;
+}
+
 get_header();
 
 $container   = get_theme_mod( 'understrap_container_type' );
