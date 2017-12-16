@@ -10,6 +10,11 @@
  * @package sos-primary
  */
 
+if(is_page(array( 'policies-and-procedures', 'pre-departure-webinar', 'medical-fitness-form', 'trip-waiver-upload', 'volunteer-outreach-form' )) && !is_user_logged_in()){
+	wp_redirect('/');
+	exit;
+}
+
 get_header();
 
 $container   = get_theme_mod( 'understrap_container_type' );
