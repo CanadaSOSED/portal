@@ -1247,7 +1247,7 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
     }
 
 
-    update_field('ta_application_state', 'info_collected', $post_id);
+    //update_field('ta_application_state', 'info_collected', $post_id);
 
     $post = get_post($post_id);
 
@@ -1274,7 +1274,7 @@ function insert_policies_form_fields( $entry, $form ) {
     }
 
 
-    update_field('ta_application_state', 'policies_agreed', $post_id);
+    //update_field('ta_application_state', 'policies_agreed', $post_id);
 
 
 }
@@ -1291,7 +1291,7 @@ function waiver_upload( $entry, $form ) {
 
 
 
-    update_field('ta_application_state', 'waiver_signed', $post_id);
+    //update_field('ta_application_state', 'waiver_signed', $post_id);
 
 
 
@@ -1321,7 +1321,7 @@ function insert_medical_fitness_form_fields( $entry, $form ) {
         update_field('ta_fitness_agree_to_terms_medical_fitness_form', 0, $post_id );
     }
 
-    update_field('ta_application_state', 'medical_fitness_collected', $post_id);
+    //update_field('ta_application_state', 'medical_fitness_collected', $post_id);
 
 
 
