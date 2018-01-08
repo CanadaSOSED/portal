@@ -99,3 +99,35 @@
 .gfield_error .gfield_label {
     color: #ff0048 !important;
 }
+
+.alignleft,
+.alignright {
+    display: block;
+    margin: 0 0 1rem 0;
+    padding: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+
+    .alignleft {
+        float: left;
+        margin: 0 2rem 1rem 0;
+        padding: 1rem;
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+
+    .alignright {
+        float: right;
+        margin: 0 0 1rem 2rem;
+        padding: 1rem;
+    }
+
+}
+
+.aligncenter {
+    display: block;
+    margin: 0 auto;
+}

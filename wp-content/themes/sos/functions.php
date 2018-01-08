@@ -404,7 +404,7 @@ add_action('wp_dashboard_setup', 'sos_add_dashboard_widgets' );
 
 // Stop the text editor from auto adding markup to html
 //////////////////////////////////////////////////////////////////////
-remove_filter( 'the_content', 'wpautop' );
+// remove_filter( 'the_content', 'wpautop' );
 
 
 // Rename WooCommerce Default "Category" Taxonomy to "Session Topics" & Register a new one "course topics"
@@ -962,6 +962,7 @@ function acf_load_trip_field_choices( $field ) {
     $field['choices'] = array();
 
     $all_blog = wp_get_sites();
+
     $choices = [];
     $values = [];
     foreach ($all_blog as $blog) {

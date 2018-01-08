@@ -7,7 +7,7 @@
 
 ?>
 
-
+<div style="float:left;width:100%;">
 <article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
 	<?php
@@ -45,7 +45,8 @@
 	<div class="archive-entry-content">
 
 		<?php
-			the_content();
+		echo apply_filters('the_content', get_the_content(get_the_ID()));
+			// the_content();
 		?>
 		<p><a class="btn btn-primary" href="<?php echo $application_url ?>" >Apply</a></p>
 
@@ -57,3 +58,4 @@
 	</footer><!-- .archive-entry-footer -->
 
 </article><!-- #post-## -->
+</div>
