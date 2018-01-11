@@ -82,14 +82,17 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<h3 class="mb-3 text-center">Thank You to Our Sponsors</h3>
 				<hr class="w-25" />
 				<div class="row d-flex justify-content-center">
-					<div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/scotiabank-logo.svg" class="" title="scotiabank-logo">
+					<div class=" col-sm-3 d-sm-flex align-top justify-content-center my-4 my-sm-0">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/scotiabank-logo.svg" class="" title="scotiabank-logo">
 					</div>
 					<div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="w-50" title="princeton-review-logo">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
 					</div>
 					<div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
-						<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/ch-logo.svg" class="" title="course-hero-logo">
+					</div>
+					<div class=" col-sm-3 d-sm-flex align-middle my-4 my-sm-0">
+							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="w-50" title="princeton-review-logo">
 					</div>
 				</div>
 			</div>
