@@ -71,19 +71,22 @@ get_header(); ?>
 </section>
 <section id="partners">
     <div class="container pt-5 pb-4">
-        <div class="row d-flex justify-content-center">
+        <div class="row d-flex justify-content-around">
             <div class="col-8 col-md-10">
                 <h3 class="mb-3 text-center">In Partnership With</h3>
                 <hr class="w-25" />
                 <div class="row d-flex justify-content-center">
-                    <div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
+                    <div class=" col-sm-3 d-sm-flex align-top justify-content-center my-4 my-sm-0">
                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/scotiabank-logo.svg" class="" title="scotiabank-logo">
                     </div>
                     <div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="w-50" title="princeton-review-logo">
+                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
                     </div>
                     <div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
+                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/ch-logo.svg" class="" title="course-hero-logo">
+                    </div>
+                    <div class=" col-sm-3 d-sm-flex align-middle my-4 my-sm-0">
+                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="w-50" title="princeton-review-logo">
                     </div>
                 </div>
             </div>

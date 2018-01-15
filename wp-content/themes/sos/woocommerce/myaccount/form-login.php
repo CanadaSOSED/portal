@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php if ( get_option( 'woocommerce_enable_myaccount_registration' ) === 'yes' ) : ?>
 
-<p style="text-align: center;">To sign up for an Exam Aid session or to apply for an SOS trip please create an account. You can delete your account at any time.</p>
+<p style="text-align: center;font-size:140%;">To sign up for an Exam Aid session or to apply for an SOS Outreach Trip please Register (create) an account. You can delete your account at any time.</p>
 
 <div class="row" id="customer_login">
 
@@ -75,6 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="col-md-6">
 
 		<h2><?php _e( 'Register', 'woocommerce' ); ?></h2>
+		<p style="font-size:90%;">To register for an account, simply add your email address and create a password. You will then be directed to the page you require and a confirmation email will be sent to you.</p>
 
 		<form method="post" class="register">
 
