@@ -69,7 +69,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<div class="row d-flex justify-content-center">
 					<p class="lead">Make an impact on your campus today and apply to be a part of something special now!</p>
 					<p>Whether you want to be an Exam Aid Instructor, gain experience with our Finance team or contribute in other ways, reach out to us and learn how you can join SOS.</small></p>
-					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/apply" role="button">Volunteer Now</a>
+					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/apply-gdoc" role="button">Volunteer Now</a>
 				</div>
 			</div>
 		</div>
