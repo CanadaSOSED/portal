@@ -434,6 +434,33 @@ function product_attribute_description() {
 
 
 
+// Hide referral link for customers without any order.
+//////////////////////////////////////////////////////////////////////
+add_filter('wpgens_raf_link','gens_raf_link',10,3);
+function gens_raf_link($raf_link, $referral_id, $type) {
+	$user_id = get_current_user_id();
+	if($user_id == 0) {
+		return 0;
+	}
+	$customer_orders = get_posts( array(
+	    'numberposts' => -1,
+	    'meta_query' => array(
+			array(
+				'key'    => '_customer_user',
+	    		'value'  => $user_id,
+			),
+		),
+	    'post_type'   => wc_get_order_types(),
+	    'post_status' => 'wc-completed',
+	) );
+
+	if(count($customer_orders) < 1) {
+		return "You need at least one order for referral link";
+	} else {
+		return $raf_link;
+	}
+}
+
 
 @include 'inc/post-type-opportunities.php';
 @include 'inc/widgets.php';
