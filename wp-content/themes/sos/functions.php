@@ -780,7 +780,7 @@ function sos_chapters_list_apply_option_box(){
                     $details->siteurl    = get_option( 'siteurl' );
                     $details->post_count = get_option( 'post_count' );
                     $details->home       = get_option( 'home' );
-                    echo '<option value="' . $details->siteurl . '/apply-gdoc">' . $details->blogname . '</option>';
+                    echo '<option value="' . $details->siteurl . '/apply">' . $details->blogname . '</option>';
             restore_current_blog();
          }
         return;
