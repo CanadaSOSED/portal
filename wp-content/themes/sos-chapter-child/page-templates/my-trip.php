@@ -51,6 +51,7 @@ if(is_user_logged_in()){
 		$medical_fitness_form = get_field('ta_fitness_agree_to_terms_medical_fitness_form', $app->ID);
 		$policies_agreed = get_field('ta_agree_to_policies_and_procedures', $app->ID);
 		$waiver_uploaded = get_field('ta_waiver_uploaded', $app->ID);
+		$pdf_uploaded = get_field('ta_pdf_uploaded', $app->ID);
 		$webinar_registered = get_field('ta_webinar_registered', $app->ID);
 
 		$trip_leader = get_field('ta_trip_leader', $app->ID);
@@ -71,6 +72,7 @@ if(is_user_logged_in()){
 	$options_trip_resources = get_field('options_resources', 'options');
 	$options_trip_leader_resources = get_field('options_trip_leader_resources', 'options');
 	$waiver_download_url = get_field('trip_waiver', 'options');
+	$document_pdf_download_url = get_field('document_pdf', 'options');
 
 
 	foreach($application_states['choices'] as $value => $state){
@@ -152,6 +154,20 @@ if(is_user_logged_in()){
 						 title="Please download, complete, sign and re-upload the following waiver. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below. Please note: when filling out the waiver, &#39;Chapter&#39; refers to the school or group that you are travelling with. Example: Ryerson University, Wilfrid Laurier University Alumni, etc.​​">Download the Trip Waiver</a>';
 				echo '<br>';
 				echo '<a href='. $waiver_upload_url . '>Click here to upload the Trip Waiver</a>';
+			}
+
+			echo '<br>';
+
+			$document_pdf_upload_url = $main_blog_url . "/trip-pdf-upload/?App=" . $app_id;
+
+			if($pdf_uploaded == 1){
+				echo '&#10004 PDF Uploaded';
+			}else{
+				echo '<a target="_blank"
+						 href='. $document_pdf_download_url . '
+						 title="Please download, complete, sign and re-upload the following waiver. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below. Please note: when filling out the waiver, &#39;Chapter&#39; refers to the school or group that you are travelling with. Example: Ryerson University, Wilfrid Laurier University Alumni, etc.​​">Download the PDF</a>';
+				echo '<br>';
+				echo '<a href='. $document_pdf_upload_url . '>Click here to upload the PDF</a>';
 			}
 
 			echo '<br>';
@@ -247,7 +263,7 @@ if(is_user_logged_in()){
 	echo '</div>';
 	echo '</div>';
 	echo '</div>';
-	
+
 	restore_current_blog();
 
 	get_footer();

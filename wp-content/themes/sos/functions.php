@@ -1298,6 +1298,24 @@ function waiver_upload( $entry, $form ) {
 
 }
 
+///////////////////// Gravity Form adding fields from PDF Upload Sent in Form /////////////////////
+
+add_action( 'gform_after_submission_6', 'pdf_upload', 10, 2 );
+function pdf_upload( $entry, $form ) {
+
+    $post_id = $_GET['App'];
+
+
+    update_field('ta_pdf_uploaded', 1, $post_id );
+
+
+
+    //update_field('ta_application_state', 'waiver_signed', $post_id);
+
+
+
+}
+
 ///////////////////// Gravity Form adding fields from Medical Fitness Form /////////////////////
 
 add_action( 'gform_after_submission_3', 'insert_medical_fitness_form_fields', 10, 2 );
