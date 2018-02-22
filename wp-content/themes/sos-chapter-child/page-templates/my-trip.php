@@ -61,7 +61,7 @@ if(is_user_logged_in()){
 		if($trip_id == $trip->ID){
 			$trip_name = $trip->post_title;
 			$trip_deposit_url = get_field('trip_deposit_installment', $trip->ID)->guid;
-			$trip_flight_cost_url = get_field('trip_flight_cost_url', $trip->ID)->guid;
+			$trip_flight_cost_url = get_field('trip_flight_cost_url', $trip->ID);
 			$trip_participation_url = get_field('trip_participation_fee_installment', $trip->ID)->guid;
 			$trip_resources = get_field('trip_resources', $trip->ID);
 			$trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
