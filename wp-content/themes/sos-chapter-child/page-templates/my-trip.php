@@ -61,7 +61,7 @@ if(is_user_logged_in()){
 		if($trip_id == $trip->ID){
 			$trip_name = $trip->post_title;
 			$trip_deposit_url = get_field('trip_deposit_installment', $trip->ID)->guid;
-			$trip_flight_cost_url = get_field('trip_flight_cost_installment', $trip->ID)->guid;
+			$trip_flight_cost_url = get_field('trip_flight_cost_url', $trip->ID)->guid;
 			$trip_participation_url = get_field('trip_participation_fee_installment', $trip->ID)->guid;
 			$trip_resources = get_field('trip_resources', $trip->ID);
 			$trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
@@ -165,9 +165,9 @@ if(is_user_logged_in()){
 			}else{
 				echo '<a target="_blank"
 						 href='. $document_pdf_download_url . '
-						 title="Please download, complete, sign and re-upload the following waiver. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below. Please note: when filling out the waiver, &#39;Chapter&#39; refers to the school or group that you are travelling with. Example: Ryerson University, Wilfrid Laurier University Alumni, etc.​​">Download the PDF</a>';
+						 title="Please download, complete, sign and re-upload the following PDF. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below.">Download the Authorization for Disclosure Form</a>';
 				echo '<br>';
-				echo '<a href='. $document_pdf_upload_url . '>Click here to upload the PDF</a>';
+				echo '<a href='. $document_pdf_upload_url . '>Click here to upload the Authorization for Disclosure Form</a>';
 			}
 
 			echo '<br>';
@@ -207,7 +207,7 @@ if(is_user_logged_in()){
 
 			if($trip_flight_cost_payed != 1){
 				echo '<strong>Your Flight Cost:</strong> ';
-				echo '<a href=' . $trip_flight_cost_url .'> Pay Now </a>';
+				echo '<a href=' . $trip_flight_cost_url .'> Click here for instructions </a>';
 
 			}else{
 				echo '<strong>Your Flight Cost:</strong> Paid';
