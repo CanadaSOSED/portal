@@ -1677,7 +1677,8 @@ function auto_email_recurring_cron_function(){
 
             update_field('participation_fee_deadline_approaching', 1, $trip->ID);
 
-        }elseif(get_field('flight_cost_deadline_missed', $trip->ID) != 1 && $current_day >= strtotime($trip_flight_cost_due_date . '+ 1 day')){
+        // Didn't change the variable names for this but flight_cost_deadline_missed has been changed to Flight Cost Deadline Approaching 2 in the backend //
+      }elseif(get_field('flight_cost_deadline_missed', $trip->ID) != 1 && $current_day >= strtotime($trip_flight_cost_due_date . '- 2 days')){
 
             $trip_applications = get_posts(array(
                 'posts_per_page'    =>  -1,
