@@ -1,0 +1,1150 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Refer a Friend for WooCommerce PREMIUM\n"
+"POT-Creation-Date: 2018-01-03 00:08+0100\n"
+"PO-Revision-Date: 2018-01-03 00:07+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: wpgens-raf.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: includes/admin/class-wpgens-raf-admin-order.php:32
+#: includes/admin/class-wpgens-raf-menu.php:30
+msgid "Refer a Friend Data"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-admin-order.php:58
+#: includes/admin/class-wpgens-raf-list-table.php:45
+msgid "Referred by:"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-admin-order.php:65
+msgid "Generate a coupon on order complete:"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-admin-order.php:71
+msgid "Referral notes:"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-admin-order.php:79
+msgid "No referral data."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-list-table.php:43
+#: templates/myaccount-tab.php:73
+msgid "Status"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-list-table.php:44
+msgid "RAF Order"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-list-table.php:46
+msgid "Created"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-list-table.php:47
+msgid "Order amount"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-list-table.php:72
+msgid "No Referrals found yet."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-menu.php:30
+msgid "Refers Stats"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:53
+msgid "Refer A Friend"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:70
+#: includes/admin/class-wpgens-raf-settings.php:184
+#: includes/admin/class-wpgens-raf-settings.php:282
+#: includes/admin/class-wpgens-raf-settings.php:319
+#: includes/admin/class-wpgens-raf-settings.php:381
+#: includes/admin/class-wpgens-raf-settings.php:421
+#: includes/admin/class-wpgens-raf-settings.php:557
+#: includes/admin/class-wpgens-raf-settings.php:616
+msgid "General"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:71
+msgid "Coupon Settings"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:72
+#: includes/admin/class-wpgens-raf-settings.php:194
+msgid "Referred Person Coupon Settings"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:73
+msgid "Woo Product Tab"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:74
+#: includes/admin/class-wpgens-raf-settings.php:431
+#: includes/admin/class-wpgens-raf-settings.php:454
+msgid "My Account Page"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:75
+msgid "Share Options"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:76
+msgid "Email"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:77
+msgid "How to use plugin"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:96
+msgid "Referrer Coupon Settings"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:98
+msgid "Coupon for a user that has referred a person."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:103
+#: includes/admin/class-wpgens-raf-settings.php:209
+msgid "Coupon Type"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:107
+#: includes/admin/class-wpgens-raf-settings.php:213
+msgid "Cart Discount"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:108
+#: includes/admin/class-wpgens-raf-settings.php:214
+msgid "Cart % Discount"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:109
+#: includes/admin/class-wpgens-raf-settings.php:215
+msgid "Product Discount"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:110
+#: includes/admin/class-wpgens-raf-settings.php:216
+msgid "Percent of Order"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:115
+#: includes/admin/class-wpgens-raf-settings.php:221
+msgid "Coupon Amount"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:118
+#: includes/admin/class-wpgens-raf-settings.php:223
+msgid ""
+" Entered without the currency unit or a percent sign as these will be added "
+"automatically, e.g., ’10’ for 10£ or 10%."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:119
+#: includes/admin/class-wpgens-raf-settings.php:224
+msgid ""
+"Fixed value or percentage off depending on the discount type you choose."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:123
+#: includes/admin/class-wpgens-raf-settings.php:228
+msgid "Products"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:125
+#: includes/admin/class-wpgens-raf-settings.php:230
+msgid ""
+" Products which need to be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are discounted. "
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:126
+#: includes/admin/class-wpgens-raf-settings.php:133
+#: includes/admin/class-wpgens-raf-settings.php:231
+#: includes/admin/class-wpgens-raf-settings.php:238
+msgid "Write product ID-s, separated by comma, e.g. 152,321,25"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:130
+#: includes/admin/class-wpgens-raf-settings.php:235
+msgid "Exclude Products"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:132
+#: includes/admin/class-wpgens-raf-settings.php:237
+msgid ""
+" Products that the coupon will not be applied to, or that cannot be in the "
+"cart in order for the \"Fixed cart discount\" to be applied."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:137
+#: includes/admin/class-wpgens-raf-settings.php:242
+msgid "Product Categories"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:139
+#: includes/admin/class-wpgens-raf-settings.php:244
+msgid ""
+"A product must be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will be discounted."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:140
+#: includes/admin/class-wpgens-raf-settings.php:147
+#: includes/admin/class-wpgens-raf-settings.php:245
+#: includes/admin/class-wpgens-raf-settings.php:252
+msgid "Write category ID-s, separated by comma, e.g. 3,5,7"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:144
+#: includes/admin/class-wpgens-raf-settings.php:249
+msgid "Exclude Categories"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:146
+#: includes/admin/class-wpgens-raf-settings.php:251
+msgid ""
+"Product must not be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will not be discounted. "
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:151
+#: includes/admin/class-wpgens-raf-settings.php:256
+msgid "Coupon Duration"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:153
+#: includes/admin/class-wpgens-raf-settings.php:258
+msgid "How many days coupon should last, just type number, like: 30"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:157
+#: includes/admin/class-wpgens-raf-settings.php:262
+msgid "Minimum Order"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:159
+#: includes/admin/class-wpgens-raf-settings.php:264
+msgid "Define minimum order subtotal in order for coupon to work."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:163
+#: includes/admin/class-wpgens-raf-settings.php:268
+msgid "Individual Use"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:165
+#: includes/admin/class-wpgens-raf-settings.php:270
+msgid ""
+"Check this box if the coupon cannot be used in conjunction with other "
+"coupons."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:170
+#: includes/admin/class-wpgens-raf-settings.php:275
+msgid "Limit usage to X Items"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:172
+#: includes/admin/class-wpgens-raf-settings.php:277
+msgid ""
+"The maximum number of individual items this coupon can apply to when using "
+"product discounts. Leave blank to apply to all qualifying items in cart."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:177
+msgid "Generate coupons on every nth referral"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:179
+msgid ""
+"By default, coupons are generated on every referral order. If you want to "
+"generate on every third. Place number 3. Leave empty for default every order."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:196
+msgid ""
+"Give coupon to a user being referred as well. AFTER their first purchase. "
+"(Scroll down for first purchase.)"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:201
+#: includes/admin/class-wpgens-raf-settings.php:297
+msgid "Enable"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:203
+msgid "Enable Coupons for friends"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:204
+msgid "Check to enable. Coupon code will be sent to their email."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:288
+msgid "Referral Coupons applied on first purchase"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:290
+msgid ""
+"This option will allow you to automatically apply coupon to a person being "
+"referred to your site via someones referral link, this is also coupon that "
+"is applied if you enable referral codes option.<br/>\n"
+"\t\t\tFirst go to WooCommerce coupons page and manually create a coupon, "
+"choose options you want and make sure it does not have limit or email "
+"restriction. Then put coupon code in the textbox below.<br/>\n"
+"\t\t\tOnce you activate this option, deactivate the above one, or you will "
+"be sending coupons to referrals on both first and second purchase."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:299
+msgid "Enable Coupons for referrals as well."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:300
+msgid "Check to enable. Coupon code will be automatically applied in cart."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:305
+msgid "Coupon CODE"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:307
+msgid ""
+"Read the description above. Then paste coupon code that will be applied to "
+"referrals on first purchase."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:311
+msgid "Cart Message"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:314
+msgid ""
+"This is the message that will be shown at the cart page when coupon is "
+"automatically applied."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:315
+msgid "Your purchase through referral link earned you a coupon!"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:329
+msgid "Email Settings"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:331
+msgid ""
+"Setup the look of email that will be sent to the referral together with "
+"coupon."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:336
+msgid "WooCommerce Template"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:338
+msgid "Use WooCommerce default template"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:339
+msgid "Check this to use woo default email template."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:344
+#: includes/admin/class-wpgens-raf-settings.php:483
+msgid "Email Subject"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:346
+msgid ""
+"Enter the subject of email that will be sent when notifiying the user of "
+"their coupon code. Use {{name}} to show users name."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:347
+#: includes/admin/class-wpgens-raf-settings.php:354
+#: includes/admin/class-wpgens-raf-settings.php:369
+#: includes/admin/class-wpgens-raf-settings.php:493
+msgid "Hey there!"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:351
+#: includes/admin/class-wpgens-raf-settings.php:490
+msgid "Email Headings"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:353
+msgid ""
+"Enter the email headings. It is shown above body text in bigger fonts. Use "
+"{{name}} to show users name."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:358
+msgid "Email Message"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:361
+msgid ""
+"Text that will appear in email that is sent to user once they get the code. "
+"Use {{name}} to show users name. HTML allowed."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:362
+msgid ""
+"You invited a friend or family member to check out our shop. We are pleased "
+"to tell you they made a purchase which means you now get discount for your "
+"next order with us. <br> Use the coupon below."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:366
+msgid "Buyer Email Subject"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:368
+msgid ""
+"Enter the subject of email that will be sent when notifiying the buyer of "
+"their coupon code."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:373
+msgid "Buyer Email Message"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:376
+msgid ""
+"Text that will appear in email that is sent to buyer once they get the code. "
+"Use {{name}} to show users name. HTML allowed."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:377
+#, php-format
+msgid ""
+"Thank you! You just made a purchase at our shop after clicking your friends "
+"referral link. And as a way of saying thank you for trusting us, we would "
+"like to give you 10% off of your next order with us. Use the coupon below."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:391
+msgid "Product Tab"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:393
+msgid ""
+"Each product can have RAF Tab enabled that includes share buttons with some "
+"text. Update text here. If you want to add some content before or after raf "
+"tab content, use \"gens_tab_filter_before\" and \"gens_tab_filter_after\" "
+"filters."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:398
+#: includes/admin/class-wpgens-raf-settings.php:564
+msgid "Disable"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:400
+msgid "Disable tabs"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:401
+msgid "Check to disable. RAF Tab wont show."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:406
+#: includes/admin/class-wpgens-raf-settings.php:447
+msgid "Text Before"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:409
+msgid "Text that is shown above share icons. HTML allowed."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:413
+msgid "Guest text"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:416
+msgid "Text to show when user is not logged in."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:417
+msgid "Please register to get your referral link."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:433
+msgid "Add some text above share icons. HTML tags allowed."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:438
+msgid "My Account Page Share Link"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:441
+msgid ""
+"Page URL that is used for refer a friend link in my account page. Leave "
+"empty for home page."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:442
+msgid ""
+"Default share url that is shown in my account page is home url. Change it "
+"here to some other. Use full link like: http://mysite.com/some-page/"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:450
+msgid "Text that is shown above share icons."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:464
+msgid "Share options (Twitter, Facebook, Email, WhatsUp)"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:470
+msgid "Twitter via (without @)"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:476
+msgid "Twitter & WhatsUp Title"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:478
+msgid ""
+"Default Text that will appear as a title in Twitter and WhatsUp. User can "
+"change this manualy."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:486
+msgid ""
+"Subject of an email that is sent when user shares his URL via email. Use "
+"{{name}} to show senders name. Use {{friend_name}} to show name of a friend "
+"to whom referrer is sending email"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:492
+msgid ""
+"Enter the email headings. It is shown above body text in bigger fonts. Use "
+"{{name}} to show senders name. Use {{friend_name}} to show name of a friend "
+"to whom referrer is sending email."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:497
+msgid "Email Body"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:500
+msgid ""
+"Body text of the email that is sent when user shares his referral url via "
+"email. Use {{name}} to show senders name. Use {{friend_name}} to show name "
+"of a friend to whom referrer is sending email. Check the look of the email "
+"by sending an email to yourself."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:501
+msgid ""
+"I thought you might like this site. I gave their products a try and I like "
+"them. Click on the link below and you will get discount during your purchase."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:505
+msgid "Send via Referrer email."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:507
+msgid "Referrer email as from."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:508
+msgid ""
+"Checking this will use referrer from email instead of sites, but gmail might "
+"mark it as a spam so test it out."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:513
+#: includes/admin/class-wpgens-raf-settings.php:547
+msgid "Plugins"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:523
+msgid "Small tutorial to help you get started"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:525
+#, php-format
+msgid ""
+"Thanks for supporting Refer a Friend plugin by purchasing premium version. "
+"<br/>\n"
+"\t\t\t\t\t\t\tThere are additional options that comes with premium version "
+"as well as fully styled shortcodes and user statistics. <br/><br/>\n"
+"\t\t\t\t\t\t\tYou can find new options under this \"Refer a Friend\" tab, "
+"while shortcodes to be used are as follow:<br/><br/>\n"
+"\t\t\t\t\t\t\t1. Simple Shortcode that shows just link and can be used "
+"anywhere: <strong>[WOO_GENS_RAF]</strong><br/>\n"
+"\t\t\t\t\t\t\t2. Advance Shortcode that comes with share links, like example "
+"on <a href=\"%s\" target=\"_blank\">this page</a>. To get that exact look, "
+"just center text via editor. Shortcode is:<br/> "
+"<strong>[WOO_GENS_RAF_ADVANCE guest_text=\"Text to show when user is not "
+"logged in\" share_text=\"Text showing above share icons\"]</strong><br/>\n"
+"\t\t\t\t\t\t\t3. Shortcode for Contact Form 7 plugin is <strong>[gens_raf]</"
+"strong>. User who uses contact form will have his referral URL shown in that "
+"shortcode. Place it in two places, first one before submit button inside "
+"form. Second one place in mail tab that will show in email sent to user.<br/"
+">\n"
+"\t\t\t\t\t\t\t<h3>FULL GUIDE</h3>\n"
+"\t\t\t\t\t\t\tCheck <a href=\"http://wpgens.helpscoutdocs.com\">this link.</"
+"a> for full guide.\n"
+"\t\t\t\t\t\t\t<h3>QUICK SETUP GUIDE</h3>\n"
+"\t\t\t\t\t\t\t<ul>\n"
+"\t\t\t\t\t\t\t\t<li>1. After installing plugin, go to Refer a friend "
+"settings (this page), and click on General tab inside Refer a friend tab. "
+"Setup main plugin options.</li>\n"
+"\t\t\t\t\t\t\t\t<li>2. Click on Coupon Settings to setup a coupon for a user "
+"that referrs someone.</li>\n"
+"\t\t\t\t\t\t\t\t<li>3. Click on Referred Person Coupon Settings to setup a "
+"coupon for a user that has been referred.</li>\n"
+"\t\t\t\t\t\t\t\t<li>4. Click on Product Tab option and populate tab text, or "
+"turn it off. You can use \"gens_tab_filter_before\" and "
+"\"gens_tab_filter_after\" filters to easily add text before and after RAF "
+"tab text/share icons.</li>\n"
+"\t\t\t\t\t\t\t\t<li>5. Click on email tab and populate text that will be "
+"sent to user after he gets coupon.</li>\n"
+"\t\t\t\t\t\t\t\t<li>Thats it! Now every user will have referral link in "
+"their account page, or in page where you placed shortcode. After someone "
+"makes a purchase through their referral link, and after order is marked as "
+"complete. They will recieve coupon in their inbox.</li>\n"
+"\t\t\t\t\t\t\t</ul>\n"
+"\t\t\t\t\t\t\t"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:566
+msgid "Disable Coupons"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:567
+msgid "Check to disable. Referral links wont work anymore."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:572
+msgid "Existing users"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:574
+msgid ""
+"By default, if user sends referral link to other user that is registered on "
+"your site and has at least one order, referral link will not work for them. "
+"If you check this, then user can get reward for sharing referral link with "
+"both new and existing users."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:575
+msgid ""
+"Check this to enable users to refer existing customers. Uncheck to enable "
+"referral link for new customers only."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:579
+msgid "Cookie Time"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:581
+msgid ""
+"As long as cookie is saved, user will recieve coupon after referral purchase "
+"product."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:582
+msgid "How long to keep cookies before it expires.(In days)"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:586
+msgid "Minimum referral order"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:588
+msgid ""
+"Set how much someone needs to purchase in order to generate coupon for "
+"referral"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:592
+#: includes/admin/class-wpgens-raf-settings.php:593
+msgid "Single Purchase"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:595
+msgid ""
+"This means that coupon is sent only the first time referral makes a "
+"purchase, as referral cookie is deleted after it."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:596
+msgid "If checked, cookie will be deleted after customer makes a purchase."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:600
+#: includes/admin/class-wpgens-raf-settings.php:601
+msgid "Referral Codes"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:603
+msgid ""
+"Referral codes are users personal coupon code that he share with his friend. "
+"Their friend will insert them as coupons and get discount while user will "
+"get new referral and once order is completed, a coupon. Applied coupon is "
+"the one that you define at the bottom of the \"Referred Person Coupon "
+"Settings\" tab."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:604
+msgid ""
+"Checking this will enable the use of both referral links and referral codes."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:608
+#: includes/admin/class-wpgens-raf-settings.php:609
+msgid "WooCommerce Subscription"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:611
+msgid ""
+"Checking this means that earned coupons will be applied on next subscription "
+"renewal."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-settings.php:612
+msgid ""
+"Check this to enable auto applying of coupons to subscription renewal. Works "
+"with payment gateways that support <a href=\"https://docs.woocommerce.com/"
+"document/subscriptions/payment-gateways/#advanced-features\" target=\"_blank"
+"\">recurring total modifications.</a>"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-tools.php:26
+msgid "Refer a friend - Create missing referral links."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-tools.php:27
+msgid "Create referrals"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-tools.php:28
+msgid ""
+"<strong class=\"red\">Note:</strong> This tool will add missing referrals to "
+"your site prior to users clicking on my account page. Useful if you want to "
+"inform users about their referral link, before it was autogenerated by them "
+"visiting page with referral link. "
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-tools.php:32
+msgid "Refer a friend - Reset referral data."
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-tools.php:33
+msgid "Reset referrals"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-tools.php:34
+msgid ""
+"<strong class=\"red\">Note:</strong> This tool will remove all referral data "
+"from orders and will reset number of referrals for each user. Use with "
+"caution! Coupons will be kept by users, but if some referrals are pending, "
+"they wont award coupons after this. Backup your store before clicking!"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-tools.php:75
+msgid " missing referral codes have been created"
+msgstr ""
+
+#: includes/admin/class-wpgens-raf-user-meta.php:31
+msgid "Refer a friend Link"
+msgstr ""
+
+#: includes/admin/edd_licence/EDD_SL_Plugin_Updater.php:201
+#, php-format
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: includes/admin/edd_licence/EDD_SL_Plugin_Updater.php:209
+#, php-format
+msgid ""
+"There is a new version of %1$s available. %2$sView version %3$s details%4$s "
+"or %5$supdate now%6$s."
+msgstr ""
+
+#: includes/admin/edd_licence/EDD_SL_Plugin_Updater.php:399
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: includes/admin/edd_licence/EDD_SL_Plugin_Updater.php:399
+msgid "Error"
+msgstr ""
+
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:77
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:124
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:179
+msgid "An error occurred, please try again."
+msgstr ""
+
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:91
+#, php-format
+msgid "Your license key expired on %s."
+msgstr ""
+
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:98
+msgid "Your license key has been disabled."
+msgstr ""
+
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:103
+msgid "Invalid license."
+msgstr ""
+
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:109
+msgid "Your license is not active for this URL."
+msgstr ""
+
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:114
+#, php-format
+msgid "This appears to be an invalid license key for %s."
+msgstr ""
+
+#: includes/admin/edd_licence/class-wpgens-raf-licence.php:119
+msgid "Your license key has reached its activation limit."
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:589
+#, php-format
+msgid "%s average gross daily sales"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:594
+#, php-format
+msgid "%s average net daily sales"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:602
+#, php-format
+msgid "%s average gross monthly sales"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:607
+#, php-format
+msgid "%s average net monthly sales"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:616
+#, php-format
+msgid "%s gross sales in this period"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:619
+msgid ""
+"This is the sum of the order totals after any refunds and including shipping "
+"and taxes."
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:634
+#, php-format
+msgid "%s net sales in this period"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:637
+msgid ""
+"This is the sum of the order totals after any refunds and excluding shipping "
+"and taxes."
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:652
+#, php-format
+msgid "%s orders placed"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:662
+#, php-format
+msgid "%s items purchased"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:671
+#, php-format
+msgid "%s worth of coupons used"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:686
+msgid "Year"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:687
+msgid "Last month"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:688
+msgid "This month"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:689
+msgid "Last 7 days"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:727
+msgid "Date"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:731
+msgid "Export CSV"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:811
+msgid "Number of items sold"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:819
+msgid "Number of orders"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:827
+msgid "Average gross sales amount"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:837
+msgid "Average net sales amount"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:847
+msgid "Coupon amount"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:857
+msgid "Shipping amount"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:867
+msgid "Gross sales amount"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-admin-report-class.php:877
+msgid "Net sales amount"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-raf-report.php:32
+#: includes/class-wpgens-raf-myaccount.php:35
+msgid "Refer a Friend"
+msgstr ""
+
+#: includes/admin/reports/class-wpgens-raf-report.php:35
+msgid "Sales by date"
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:17
+msgid "Refer a Friend by WPGens"
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:20
+msgid "Orders made through referral link:"
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:40
+msgid "Number of referrals per user:"
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:57
+msgid "Licence Key:"
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:64
+msgid ""
+"Enter your valid license key to receive automatic updates, save and then "
+"click on activate license."
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:69
+msgid "Licence is active."
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:72
+msgid "Deactivate License"
+msgstr ""
+
+#: includes/admin/views/html-admin-stats.php:75
+msgid "Activate License"
+msgstr ""
+
+#: includes/class-wpgens-raf-assets.php:36
+msgid "Invitation has been sent!"
+msgstr ""
+
+#: includes/class-wpgens-raf-checkout.php:147
+msgid "Potential Fraud Detected. Referred customer has previous orders with "
+msgstr ""
+
+#: includes/class-wpgens-raf-checkout.php:149
+msgid "Potential Fraud Detected. User is trying to refer himself."
+msgstr ""
+
+#: includes/class-wpgens-raf-checkout.php:151
+msgid ""
+"This is not a new customer, and settings are set to disable coupons for "
+"existing customers."
+msgstr ""
+
+#: includes/class-wpgens-raf-checkout.php:153
+msgid ""
+"Potential Fraud Detected. Referer and referre have the same billing address. "
+"Investigate."
+msgstr ""
+
+#: includes/class-wpgens-raf-checkout.php:155
+msgid "Order minimum amount of "
+msgstr ""
+
+#: includes/class-wpgens-raf-checkout.php:157
+msgid "Coupons wont be generated due to nth coupon option."
+msgstr ""
+
+#: includes/class-wpgens-raf-checkout.php:253
+msgid "Coupon Applied!"
+msgstr ""
+
+#: includes/class-wpgens-raf-myaccount.php:101
+msgid "No expiry date"
+msgstr ""
+
+#: includes/class-wpgens-raf-myaccount.php:177
+msgid "Guest"
+msgstr ""
+
+#: includes/class-wpgens-raf-product.php:27
+msgid "Refer to a friend"
+msgstr ""
+
+#: templates/advance-shortcode.php:14 templates/myaccount-tab.php:15
+#: templates/product-tab.php:15
+msgid "Your Referral URL:"
+msgstr ""
+
+#: templates/advance-shortcode.php:18 templates/myaccount-tab.php:19
+#: templates/product-tab.php:19
+msgid "Your Coupon Code to share:"
+msgstr ""
+
+#: templates/advance-shortcode.php:24 templates/myaccount-tab.php:25
+#: templates/product-tab.php:25
+msgid "Share via Facebook"
+msgstr ""
+
+#: templates/advance-shortcode.php:25 templates/myaccount-tab.php:26
+#: templates/product-tab.php:26
+msgid "Share via Twitter"
+msgstr ""
+
+#: templates/advance-shortcode.php:26 templates/myaccount-tab.php:27
+#: templates/product-tab.php:27
+msgid "Share via Google+"
+msgstr ""
+
+#: templates/advance-shortcode.php:27 templates/myaccount-tab.php:28
+#: templates/product-tab.php:28
+msgid "Share via Whatsapp"
+msgstr ""
+
+#: templates/advance-shortcode.php:30 templates/myaccount-tab.php:31
+#: templates/product-tab.php:31
+msgid "or share via email"
+msgstr ""
+
+#: templates/advance-shortcode.php:33 templates/myaccount-tab.php:34
+#: templates/product-tab.php:34
+msgid "Enter email"
+msgstr ""
+
+#: templates/advance-shortcode.php:34 templates/myaccount-tab.php:35
+#: templates/product-tab.php:35
+msgid "Enter name"
+msgstr ""
+
+#: templates/advance-shortcode.php:37 templates/myaccount-tab.php:38
+#: templates/product-tab.php:38
+msgid "Send Emails"
+msgstr ""
+
+#: templates/emails/email-body-coupon.php:53
+#: templates/emails/email-body-share.php:46
+msgid "Shop Now"
+msgstr ""
+
+#: templates/emails/email-body-coupon.php:62
+msgid "Expires: "
+msgstr ""
+
+#: templates/myaccount-tab.php:44
+msgid "Unused Refer a Friend Coupons"
+msgstr ""
+
+#: templates/myaccount-tab.php:47
+msgid "Coupon code"
+msgstr ""
+
+#: templates/myaccount-tab.php:48
+msgid "Coupon discount"
+msgstr ""
+
+#: templates/myaccount-tab.php:49
+msgid "Expiry date"
+msgstr ""
+
+#: templates/myaccount-tab.php:61
+msgid "Track your invites"
+msgstr ""
+
+#: templates/myaccount-tab.php:63
+msgid "Earned Coupons:"
+msgstr ""
+
+#: templates/myaccount-tab.php:64
+msgid "Potential Coupons:"
+msgstr ""
+
+#: templates/myaccount-tab.php:71
+msgid "Friend"
+msgstr ""
+
+#: templates/myaccount-tab.php:72
+msgid "Referred On"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Refer a Friend for WooCommerce PREMIUM"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wpgens.com/downloads/refer-a-friend-for-woocommerce-premium/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"PREMIUM Refer a friend by WPGENS. Go to WooCommerce -> Settings -> Refer a "
+"friend tab to set it up."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "WPGens"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://wpgens.com"
+msgstr ""

@@ -1,0 +1,42 @@
+#am2_nl_header {
+	background-color:#9A59B5;
+	min-height:120px;
+	margin-left:-20px;
+}
+#am2_nl_header h1 {
+	color:#fff;
+	margin:0;
+	line-height:120px;
+	margin-left:25px;
+	text-align: center;
+	font-size: 35px;
+	font-weight: 300;
+	text-transform: capitalize;
+}
+#am2_nl_subheader {
+	box-sizing: border-box;
+	background-color:#fff;
+	min-height:60px;
+	margin-left:-20px;
+	padding: 25px;
+}
+#am2_nl_subheader h2 {
+	color:#222;
+	margin:0;
+	line-height:60px;
+	margin-left:25px;
+}
+#am2_nl_subheader form {
+	display: inline-block;
+}
+.am2_newsletter_first_half {
+	width: 60%;
+	float: left;
+	box-sizing: border-box;
+	padding: 0 40px;
+}
+.am2_newsletter_second_half {
+	width: 39%;
+	float: left;
+}
+

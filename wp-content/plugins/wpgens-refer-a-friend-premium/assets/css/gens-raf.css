@@ -1,0 +1,264 @@
+@font-face {
+  font-family: 'sbfontello';
+  src: url('../fonts/fontello.eot?75050836');
+  src: url('../fonts/fontello.eot?75050836#iefix') format('embedded-opentype'),
+       url('../fonts/fontello.woff?75050836') format('woff'),
+       url('../fonts/fontello.ttf?75050836') format('truetype'),
+       url('../fonts/fontello.svg?75050836#fontello') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="gens_raf"]:before, [class*=" gens_raf"]:before {
+  font-family: "sbfontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gens_raf_icn-facebook:before { content: '\e800'; } /* '' */
+.gens_raf_icn-paper-plane-1:before { content: '\e801'; font-size: 16px; } /* '' */
+.gens_raf_icn-whatsapp:before { content: '\e802'; } /* '' */
+.gens_raf_icn-twitter:before { content: '\e803'; } /* '' */
+.gens_raf_icn-gplus:before { content: '\e804'; } /* '' */
+.gens_raf_icn-linkedin:before { content: '\e805'; } /* '' */
+.gens_raf_icn-email:before { content: '\e806'; } /* '' */
+.gens_raf_icn-left-open:before { content: '\e807'; } /* '' */
+.gens_raf_icn-right-open:before { content: '\e808'; } /* '' */
+.gens_raf_icn-up-open:before { content: '\e809'; } /* '' */
+.gens_raf_icn-up-big:before { content: '\e80a'; } /* '' */
+.gens_raf_icn-angle-circled-up:before { content: '\e80b'; } /* '' */
+.gens_raf_icn-pinterest:before { content: '\e80c'; } /* '' */
+
+
+#raf_advance_shortcode {
+  text-align: center;
+  margin: auto;
+}
+#raf_advance_shortcode .share_text {
+  display: block;
+  margin: 15px 0;
+}
+#raf_advance_shortcode input {
+  max-width: 360px;
+  width: 100%;
+  background-color: #f1f1f1;
+  border: 1px solid #C8C8C8;
+}
+.woocommerce-Tabs-panel--refer_tab {
+  max-width: 680px;
+}
+/* My Account Page */
+#gens-raf-message,
+#gens-raf-mail-share {
+  display: block!important;
+  position: relative!important;
+  background-color: #e5ffe8;
+  color: #3C4858;
+  padding: 20px 15px 20px 50px !important;
+  margin-bottom: 25px;
+  border-left: 10px solid rgba(0,0,0,.15);
+}
+#gens-raf-message a{ 
+  color:#3C4858;
+  font-weight: bold;
+}
+.gens-referral_share {
+  overflow: hidden;
+  max-width: 960px;
+}
+.gens-referral_share a{ 
+  text-align: center;
+  display: block;
+  width: 32%;
+  padding: 20px;
+  float: left;
+  font-weight: 600;
+  color: #fff!important;
+  text-decoration: none;
+  margin-bottom: 25px;
+  margin-right: 1%;
+  box-sizing: border-box;
+}
+.gens-referral_share a:hover {
+  color: #fff!important;
+  opacity: 0.85;
+}
+.gens-referral_share a i {
+  padding-right: 8px;
+}
+.gens-referral_share .gens-referral_share__fb {
+  background-color: #3b5998;
+  width: 33%;
+}
+.gens-referral_share .gens-referral_share__tw {
+  background-color: #00b6f1;
+}
+.gens-referral_share .gens-referral_share__gp {
+  background-color: #df4a32;
+  width: 33%;
+  margin-right: 0;
+}
+.gens-referral_share .gens-referral_share__wa {
+  background: #73BF50;
+}
+#gens-referral_share__email {
+  margin:0!important;
+  padding:0!important;
+}
+.gens-referral_share__email {
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 25px;
+}
+.gens-referral_share__email__title {
+  display: block;
+  text-align: center;
+  margin:5px 0 30px 0;
+  color:#aaa;
+}
+.gens-referral_share__email__inputs {
+  overflow: hidden;
+  margin:0!important;
+  padding: 0!important;
+}
+.gens-referral_share__email input[type='submit'] {
+  background: #E91E63!important;
+  position: relative;
+  margin: 10px 1px;
+  line-height: 32px;
+  padding: 8px 30px;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: normal;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #fff!important;
+  -webkit-box-shadow: 0 2px 2px 0 rgba(153, 153, 153, 0.14), 0 3px 1px -2px rgba(153, 153, 153, 0.2), 0 1px 5px 0 rgba(153, 153, 153, 0.12);
+  -moz-box-shadow: 0 2px 2px 0 rgba(153, 153, 153, 0.14), 0 3px 1px -2px rgba(153, 153, 153, 0.2), 0 1px 5px 0 rgba(153, 153, 153, 0.12);
+  box-shadow: 0 2px 2px 0 rgba(153, 153, 153, 0.14), 0 3px 1px -2px rgba(153, 153, 153, 0.2), 0 1px 5px 0 rgba(153, 153, 153, 0.12);
+  -webkit-transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
+  transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
+}
+.gens-referral_share__email input[type='submit']:hover {
+  -webkit-box-shadow: 0 14px 26px -12pxrgba(233,30,99,0.42),0 4px 23px 0 rgba(0,0,0,0.12),0 8px 10px -5px rgba(233,30,99,0.2);
+  box-shadow: 0 14px 26px -12px rgba(233,30,99,0.42),0 4px 23px 0 rgba(0,0,0,0.12),0 8px 10px -5px rgba(233,30,99,0.2);
+}
+.gens-referral_share__email__inputs--clone {
+
+}
+.gens-referral_share__email input[type='email'],
+.gens-referral_share__email input[type='text'] {
+  background-color: #F2F2F2!important;
+  color: #43454b!important;
+  border: none!important;
+  box-shadow: none!important;
+  border-radius: 0!important;
+  max-width: 48%;
+  width: 100%;
+  box-sizing: border-box;
+  float: left!important;
+  margin-bottom: 25px;
+  margin-right: 1%;
+  min-height: 44px;
+  padding-left: 15px;
+}
+#js--gens-email-clone {
+  position: absolute;
+  right: 0;
+  bottom: 105px;
+  color: #fff;
+  background-color: #1FB7EF;
+  width: 23px;
+  height: 23px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  font-size: 23px;
+  font-weight: bold;
+  line-height: 23px;
+  outline:none;
+}
+.gens-referral_stats {
+  overflow: hidden;
+  min-height: 25px;
+  margin-bottom: 35px;
+  line-height: 25px;
+}
+.gens-referral_stats > div{
+  box-sizing: border-box;
+  width: 50%;
+  padding: 25px;
+  float: left;
+  background-color: #f3f3f3;
+  font-weight: 600;
+}
+.gens-referral_stats div:first-child {
+  background-color: #00bcd4;
+  color: #fff;
+  font-weight: 600;
+}
+table.gens-referral_stats__table,
+table.gens-referral_coupons__table {
+  border-spacing: 0;
+  text-align: left;
+}
+table.gens-referral_stats__table th,
+table.gens-referral_coupons__table th {
+  background-color: #f8f8f8;
+  line-height: 30px;
+  height: 30px;
+  font-weight: 600;
+  padding: 15px;
+  color: #6d6d6d;
+}
+
+table.gens-referral_stats__table tr,
+table.gens-referral_coupons__table tr {
+  border:none!important;
+}
+table.gens-referral_stats__table tbody td,
+table.gens-referral_coupons__table tbody td {
+  background-color: #fdfdfd;
+  text-align: left!important;
+  line-height: 47px;
+  height: 47px;
+  padding: 15px;
+  border:none!important;
+  color: #6d6d6d;
+}
+
+table.gens-referral_stats__table tbody tr:nth-child(2n) td,
+table.gens-referral_coupons__table tbody tr:nth-child(2n) td {
+  background-color: #fbfbfb;
+}
+
+.woocommerce-account table.shop_table_responsive.shop_table_wpgens tbody td {
+  text-align: left;
+}
+.gens-refer-a-friend {
+  max-width: 960px;
+  margin:15px 0;
+}
+@media screen and (max-width: 667px) {
+  .gens-referral_share a {
+    width: 100%!important;
+  }
+}
+@media screen and (min-width: 667px) {
+  .gens-referral_share__wa {
+    display: none!important;
+  }
+  
+}
