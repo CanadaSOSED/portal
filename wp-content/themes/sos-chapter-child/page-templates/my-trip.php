@@ -65,7 +65,8 @@ if(is_user_logged_in()){
 			$trip_participation_url = get_field('trip_participation_fee_installment', $trip->ID)->guid;
 			$trip_resources = get_field('trip_resources', $trip->ID);
 			$trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
-			$trip_Participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
+			$trip_participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
+
 		}
 	}
 
@@ -208,6 +209,9 @@ if(is_user_logged_in()){
 			if($trip_flight_cost_payed != 1){
 				echo '<strong>Your Flight Cost:</strong> ';
 				echo '<a href=' . $trip_flight_cost_url .'> Click here for instructions </a>';
+				echo " | ";
+				echo '<strong>Due Date:</strong> ';
+				echo $trip_flight_cost_due_date;
 
 			}else{
 				echo '<strong>Your Flight Cost:</strong> Paid';
@@ -218,6 +222,9 @@ if(is_user_logged_in()){
 			if($trip_participation_payed != 1){
 				echo '<strong>Your Participation Fee:</strong> ';
 				echo '<a href=' . $trip_participation_url .'> Pay Now </a>';
+				echo " | ";
+				echo '<strong>Due Date:</strong> ';
+				echo $trip_participation_fee_due_date;
 
 			}else{
 				echo '<strong>Your Participation Fee:</strong> Paid';
