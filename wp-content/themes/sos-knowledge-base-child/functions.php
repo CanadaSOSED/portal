@@ -37,7 +37,7 @@ function theme_enqueue_styles() {
 // {
 //     ob_start();
 // }
- 
+
 // add_action('login_form', 'acme_autocomplete_login_form_kb');
 // function acme_autocomplete_login_form_kb()
 // {
@@ -85,7 +85,7 @@ function change_post_object() {
     $labels->menu_name = 'Articles';
     $labels->name_admin_bar = 'Articles';
 }
- 
+
 add_action( 'admin_menu', 'change_post_label' );
 add_action( 'init', 'change_post_object' );
 
@@ -125,7 +125,7 @@ function display_post_tags() {
     $html = '<div class="post_tags"> Tagged: ';
     foreach ( $tags as $tag ) {
         $tag_link = get_tag_link( $tag->term_id );
-                
+
         $html .= "<a href='{$tag_link}' title='{$tag->name} Tag' class='{$tag->slug} btn btn-sm btn-outline-secondary'>";
         $html .= "{$tag->name}</a> ";
     }
@@ -133,8 +133,40 @@ function display_post_tags() {
     echo $html;
 }
 
+
+
+//ismara - 2/13/2018 - Adding new fields options for Contact us
+// Dynamic Select for Contact Form 7
+function dynamic_select_for_custom_blogs($choices, $args=array()) {
+
+	// Here we grab the blogs using the arguments originated from the shortcode
+	$get_custom_blogs = get_sites($args);
+
+	// If we have blogs, proceed
+	if ($get_custom_blogs) {
+    //insert a blank option - this is a required field
+    $choices['---'] = '';
+		// Foreach found custom blog, we build the option using the [key] => [value] fashion
+		foreach ($get_custom_blogs as $custom_blog) {
+				$choices[$custom_blog->blogname] = $custom_blog->blogname;
+			}
+
+	// If we don't have blogs, halt! Lets use a generic not found option
+	} else {
+
+		// Just a generic option to inform nothing was found
+		$choices['No blogs found'] = 'No blogs found';
+
+	}
+	return $choices;
+}
+// Lets add a suggestive name to our filter (we will use it on the shortcode)
+add_filter('conjure-blogs-dynamically', 'dynamic_select_for_custom_blogs', 10, 2);
+
+
+
+
 @include 'inc/widgets.php';
 @include 'inc/breadcrumbs.php';
 @include 'inc/recent-posts-by-category-widget.php';
 //@include 'inc/related-posts-by-category-widget.php';
-
