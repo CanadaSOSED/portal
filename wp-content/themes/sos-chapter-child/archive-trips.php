@@ -36,9 +36,21 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 
 					$args = (array(
 						'post_type'       => 'trips',
-						'meta_key'        => 'trip_schools',
-						'meta_value'      => '"'.$currentblog.'"',
-						'meta_compare'	  => 'LIKE'
+						'meta_query' => array(
+					        'relation' => "AND",
+					        array(
+					            'key' => 'trip_schools',
+					            'value' => '"'.$currentblog.'"',
+					            'compare' => 'LIKE'
+					        ),
+
+					        array(
+					            'key' => 'trip_close_toggle',
+					            'value' => '1',
+					            'compare' => '!='
+					        )
+					    )
+
 					));
 					// var_dump($args); die();
 
