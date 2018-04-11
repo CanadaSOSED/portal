@@ -164,7 +164,7 @@ if(is_user_logged_in()){
 			$document_pdf_upload_url = $main_blog_url . "/trip-pdf-upload/?App=" . $app_id;
 
 			if($pdf_uploaded == 1){
-				echo '&#10004 PDF Uploaded';
+				echo '&#10004 Authorization to Disclose Form Uploaded';
 			}else{
 				echo '<a target="_blank"
 						 href='. $document_pdf_download_url . '
