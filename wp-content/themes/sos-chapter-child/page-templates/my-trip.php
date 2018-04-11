@@ -52,7 +52,7 @@ if(is_user_logged_in()){
 		$policies_agreed = get_field('ta_agree_to_policies_and_procedures', $app->ID);
 		$waiver_uploaded = get_field('ta_waiver_uploaded', $app->ID);
 		$pdf_uploaded = get_field('ta_pdf_uploaded', $app->ID);
-		$webinar_registered = get_field('ta_webinar_registered', $app->ID);
+		$webinar_registered = get_field('ta_webinar_signed_up', $app->ID);
 
 		$trip_leader = get_field('ta_trip_leader', $app->ID);
 	}
