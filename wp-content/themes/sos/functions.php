@@ -1243,6 +1243,7 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
     update_field('ta_medial_first_aid', $entry['42'], $post_id );
     if($entry['44.1'] == 'yes'){
         update_field('ta_medical_acknowledge_medical_conditions', 1, $post_id );
+        update_field('ta_volunteer_outreach_form_complete', 1, $post_id );
     }else{
         update_field('ta_medical_acknowledge_medical_conditions', 0, $post_id );
     }
@@ -1336,6 +1337,7 @@ function insert_medical_fitness_form_fields( $entry, $form ) {
 
     if($entry['15.1'] == 'yes'){
         update_field('ta_fitness_agree_to_terms_medical_fitness_form', 1, $post_id );
+        update_field('ta_medical_fitness_form_complete', 1, $post_id );
     }else{
         update_field('ta_fitness_agree_to_terms_medical_fitness_form', 0, $post_id );
     }
