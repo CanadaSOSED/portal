@@ -202,7 +202,11 @@ function sos_dashboard_princeton_widget_function( $post, $callback_args ) {
 function sos_dashboard_training_widget_function( $post, $callback_args ) {
   echo "<p>Need some review on training? Wanting to grow within your department, or try out a new department? Visit our Training Resources site to check them out. </p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
+
+  // ismara - 2018-04-30 - changing href for the new training page (LMS) site_url('training')
+  echo "<p><a class='button button-primary button-large' href='" . site_url('training') . "'>Training Resources</a></p>";
+  //echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
+  // ismara - 2018-04-30 - end
 }
 
 // HR Dashboard Box
@@ -1243,6 +1247,7 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
     update_field('ta_medial_first_aid', $entry['42'], $post_id );
     if($entry['44.1'] == 'yes'){
         update_field('ta_medical_acknowledge_medical_conditions', 1, $post_id );
+        update_field('ta_volunteer_outreach_form_complete', 1, $post_id );
     }else{
         update_field('ta_medical_acknowledge_medical_conditions', 0, $post_id );
     }
@@ -1336,6 +1341,7 @@ function insert_medical_fitness_form_fields( $entry, $form ) {
 
     if($entry['15.1'] == 'yes'){
         update_field('ta_fitness_agree_to_terms_medical_fitness_form', 1, $post_id );
+        update_field('ta_medical_fitness_form_complete', 1, $post_id );
     }else{
         update_field('ta_fitness_agree_to_terms_medical_fitness_form', 0, $post_id );
     }
