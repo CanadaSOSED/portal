@@ -434,10 +434,9 @@ function product_attribute_description() {
 
 
 
-//ismara - 2/13/2018 - Adding new fields options for Contact us
+//ismara - 2018-02-13 - Adding new fields options for Contact us
 // Dynamic Select for Contact Form 7
 function dynamic_select_for_custom_blogs($choices, $args=array()) {
-
 	// Here we grab the blogs using the arguments originated from the shortcode
 	$get_custom_blogs = get_sites($args);
 
@@ -459,9 +458,10 @@ function dynamic_select_for_custom_blogs($choices, $args=array()) {
 	}
 	return $choices;
 }
+
 // Lets add a suggestive name to our filter (we will use it on the shortcode)
 add_filter('conjure-blogs-dynamically', 'dynamic_select_for_custom_blogs', 10, 2);
-
+//ismara - 2018-02-13 - end
 
 
 // Ismara - 2018-02-06 - Hide referral link for customers without any order.
@@ -490,9 +490,10 @@ function gens_raf_link($raf_link, $referral_id, $type) {
 		return $raf_link;
 	}
 }
+//ismara - 2018-02-06 - end
 
 
-// ismara - 2018/04/05 - Default content for posts
+// ismara - 2018-04-05 - Default content for posts
 // ACF - custom fields
 add_filter( 'default_content', 'my_editor_content', 10, 2 );
 
@@ -509,6 +510,7 @@ function my_editor_content( $content, $post ) {
 
     return $content;
 }
+//ismara - 2018-04-05 -  end
 
 
 
