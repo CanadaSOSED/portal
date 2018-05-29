@@ -204,7 +204,7 @@ function sos_dashboard_training_widget_function( $post, $callback_args ) {
   echo '<p><hr/></p>';
 
   // ismara - 2018-04-30 - changing href for the new training page (LMS) site_url('training')
-  echo "<p><a class='button button-primary button-large' href='" . site_url('training') . "'>Training Resources</a></p>";
+  echo "<p><a class='button button-primary button-large' href='http://training.soscampus.com'>Training Resources</a></p>";
   //echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
   // ismara - 2018-04-30 - end
 }

@@ -1,0 +1,321 @@
+html, body{
+	max-width:100%;
+	background:#FFFFFF;
+	color:#383838;
+	font-family: 'Open Sans', sans-serif;
+	font-weight:400px;
+	font-size:15px;
+	line-height:25px;
+	color:#444;
+	}
+
+h1,h2,h3,h4,h5,h6{font-family: 'Raleway', sans-serif;}
+
+a.navbar-brand{display:none;}
+
+a, a:hover, a:active{color:#0000FF; text-decoration:none;}
+
+ol{padding-left:15px}
+
+img{
+	display: block;
+	max-width: 100%;
+	height: auto;
+	}
+
+header{
+	/*text-align: center;
+	font-size: 72px;*/
+	line-height: 108px;
+	height: 50px;
+	background: #0084ff;
+	color: #222;
+	
+	-webkit-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+	z-index:1000;
+}
+
+header.sticky {
+	position: fixed;
+	/*font-size: 24px;*/
+	line-height: 48px;
+	height: 48px; 
+	width: 100%;
+	background: #FFF;
+	border-bottom: 1px solid #f1f1f1;
+	text-align: left;
+	/*padding-left: 20px;*/
+	z-index:1000;
+}
+
+header.sticky  .navbar-default .navbar-nav > li > a{color:#444;}
+
+header.sticky .navbar-default .navbar-nav > .active > a, 
+header.sticky .navbar-default .navbar-nav > .active > a:focus, 
+header.sticky .navbar-default .navbar-nav > .active > a:hover {
+    color: #FFF;
+    background: #0084ff;
+}
+
+header.sticky .nav > li > a{padding: 13px 15px;}
+
+section{padding:30px 0;}
+
+section:nth-of-type(even){background: #F6F7F7;}
+
+.main{
+	background:#0084ff !important;
+	padding:30px 0 50px 0;
+	color:#FFF;
+}
+
+.main h1{
+	font-family: 'Raleway', sans-serif;
+	font-weight:700;
+}
+
+.navbar-default{
+	background:none;
+	border:none;
+}
+
+.main h1{color:#FFF; font-size:30px; text-transform:uppercase; letter-spacing:0.5px;}
+
+.navbar-default .navbar-nav > li > a{color:#FFF; font-size:14px; font-weight:bold;}
+
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px;
+}
+
+.navbar-default .navbar-nav > .active > a, 
+.navbar-default .navbar-nav > .active > a:focus, 
+.navbar-default .navbar-nav > .active > a:hover {
+    color: #FFF !important;
+    background: #0084ff;
+}
+
+header.sticky .navbar-default .navbar-nav li:hover a{background:#0084ff; color: #FFF !important;}
+
+#screenshots .col-sm-3{margin-bottom:20px;}
+
+#screenshots .col-sm-3 img{
+	padding:4px;
+	border: 1px solid #E9E9E9;
+	box-shadow: 1px 1px 2px #DEDEDE;
+	display:inline;
+}
+
+#screenshots .col-sm-3:nth-child(4n+1){clear:left;}
+
+.demo-link{
+	border:3px solid #FFF;
+	font-weight:bold;
+	padding: 10px 25px 10px;
+	font-size: 15px;
+	display: inline-block;
+	color:#FFF;
+	margin-top:15px;
+}
+
+a.demo-link:hover,
+a.demo-link:active{
+	text-decoration:none;
+	color:#FFF;
+}
+
+.demo-link i{
+	font-size: 20px;
+	padding-left:5px;
+	}
+
+.SubHeading {
+    /*border-bottom: 1px solid #CEE4F5;*/
+    /*margin-bottom: 15px;
+    padding-bottom: 2px;*/
+}
+
+.SubHeading h3 {
+    font-weight:600;
+	text-align:center !important;
+    font-size: 32px;
+    letter-spacing: 1px;
+    color: #0084ff;
+    display:block;
+    /*border-bottom: 3px solid #46A7EE;*/
+	text-transform:capitalize;
+	padding:15px 0 0 0;
+	margin:0;
+}
+
+.UlList{padding-left:0;}
+
+.UlList span{
+	margin-bottom: 15px;
+	display: block;
+}
+
+.UlList span li {
+	list-style: none;
+	background-image: url("../img/tick.png");
+	background-repeat: no-repeat;
+	background-position: 0px 1px;
+	margin-left: 0px;
+	line-height: 18px;
+	padding-left: 30px;
+	padding-bottom: 2px;
+	color:#2F2F2F;
+}
+
+.UlList span p{
+	margin:0 !important; 
+	display:block; 
+	padding:0 0 0 30px; 
+	font-size:12px !important;
+	line-height: 20px;
+	color:#747474;
+	}
+
+.two_column{
+	width:50%;
+	float:left;
+	/*border:1px solid red;*/
+}
+
+.two_column li:nth-child(2n+1){clear:both;}
+
+#supports a strong{color:#0084ff;}
+
+#supports a:hover strong, 
+#supports a:active strong{text-decoration:none !important;}
+
+.line_space{
+	margin-top: 5px;
+	margin-bottom: 20px;
+	text-align: center;
+	color:#e1e1e1;
+}
+
+.hr-inner {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.hr-inner {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+
+
+.hr-inner.inner-border-av-border-fat {
+    border-top-width: 1px;
+}
+
+.line_space span{
+	border-top: 1px solid #e1e1e1;
+	display: inline-grid;
+}
+
+.version-info{
+	/*background:#eceff1;*/
+	padding-top: 50px;
+	padding-bottom: 35px;
+}
+
+.version-info .col-md-4:nth-child(3n+1){
+	clear:left;
+}
+
+.version-info a{color:#0084ff;}
+
+.version-info span{color: #666; padding-right:5px; font-size:14px;}
+
+.version-info strong{
+	font-family: 'Open Sans', sans-serif;
+	font-weight:700px;
+}
+
+.version-info .col-md-4{margin-bottom:15px;}
+
+#supports{margin-bottom:20px;}
+
+/*iframe{max-width:100% !important;}*/
+
+#installation ol{margin-top:15px;}
+
+#installation ol li{
+	margin-left: 15px;
+    margin-bottom: 15px;
+    line-height: 18px;
+    padding-left: 10px;	
+}
+
+#changelog ul li ul{
+	padding-left: 9px;
+	padding-top: 8px;	
+}
+
+@media (max-width:991px){
+	.navbar-default .navbar-nav > li > a,	
+	header.sticky .nav > li > a{padding: 13px 5px !important; font-size:13px;}
+	
+	.two_column li{width:47%;}
+}
+
+@media (max-width:767px){
+	.navbar-toggle{background:#FFF;}
+	
+	.navbar-nav{margin: 0px -15px;}
+	
+	.navbar-default .navbar-nav > li > a,
+	header.sticky .nav > li > a{font-size:14px;}
+	
+	.navbar-default .navbar-nav > li:last-child > a{border-bottom:1px solid #d1d1d1;}
+	
+	header.sticky .navbar-default .navbar-nav > li > a:focus, 
+	header.sticky .navbar-default .navbar-nav > li > a:hover,	
+	.navbar-default .navbar-nav > li > a:focus, 
+	.navbar-default .navbar-nav > li > a:hover {
+		background:#0084ff;
+		color:#FFF;
+	}
+	
+	.container-fluid > .navbar-collapse, 
+	.container-fluid > .navbar-header, 
+	.container > .navbar-collapse, 
+	.container > .navbar-header{position:relative; bottom:3px;}
+
+	.navbar-default .navbar-collapse{
+		background:#FFF;
+	}
+	
+	.navbar-default .navbar-nav > li > a{color:#444;}
+	
+	.two_column{padding-left:0px; padding-right:15px;}
+	
+	.two_column,
+	.two_column li{width:100%;}
+	
+	#screenshots .col-sm-3{
+		width:50%; 
+		float:left;
+		text-align:center;
+	}
+	
+	.video-container iframe, .video-container object, .video-container embed {width:100%;}
+}
+
+@media (max-width:450px){
+	
+	#screenshots .col-sm-3{
+		width:100%; 
+		float:none;
+		text-align:center;
+	}
+	
+
+}
+
