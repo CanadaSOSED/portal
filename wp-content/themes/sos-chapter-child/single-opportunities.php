@@ -73,7 +73,8 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 							}?>
 					</div><!-- .block_content -->
 					<br>
-					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="<?php bloginfo('site_url'); ?>/apply" role="button">Volunteer Now</a>
+					<!--ismara - 2018-05-30 - button didn't work with bloginfo('site_url') when we were at an publishe opportunity -->
+					<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="<?php bloginfo('url'); ?>/apply" role="button">Volunteer Now</a>
 					<br>
 					<hr/>
 					<br>
