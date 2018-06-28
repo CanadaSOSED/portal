@@ -433,10 +433,10 @@ function product_attribute_description() {
 }
 
 
-
-//ismara - 2018-02-13 - Adding new fields options for Contact us
+//ismara - 2/13/2018 - Adding new fields options for Contact us
 // Dynamic Select for Contact Form 7
 function dynamic_select_for_custom_blogs($choices, $args=array()) {
+
 	// Here we grab the blogs using the arguments originated from the shortcode
 	$get_custom_blogs = get_sites($args);
 
@@ -458,14 +458,11 @@ function dynamic_select_for_custom_blogs($choices, $args=array()) {
 	}
 	return $choices;
 }
-
 // Lets add a suggestive name to our filter (we will use it on the shortcode)
 add_filter('conjure-blogs-dynamically', 'dynamic_select_for_custom_blogs', 10, 2);
-//ismara - 2018-02-13 - end
 
-
-// Ismara - 2018-02-06 - Hide referral link for customers without any order.
-// Refer a friend customization
+// Hide referral link for customers without any order.
+//////////////////////////////////////////////////////////////////////
 add_filter('wpgens_raf_link','gens_raf_link',10,3);
 function gens_raf_link($raf_link, $referral_id, $type) {
 	$user_id = get_current_user_id();
@@ -490,28 +487,103 @@ function gens_raf_link($raf_link, $referral_id, $type) {
 		return $raf_link;
 	}
 }
-//ismara - 2018-02-06 - end
 
-
-// ismara - 2018-04-05 - Default content for posts
-// ACF - custom fields
-add_filter( 'default_content', 'my_editor_content', 10, 2 );
-
-function my_editor_content( $content, $post ) {
-
-    switch( $post->post_type ) {
-        case 'opportunities':
-            $content = 'Students Offering Support (SOS) is a National Charity that develops and supports Chapters in universities across North America. The SOS model, Raising Marks, Raising Money, Raising Roofs, provides a service within which people place genuine value, and is unlike any other organization. Students Offering Support is a unique social enterprise that relies on the passionate student leaders to create positive impact both at home and abroad. Regardless of position, all Students Offering Support volunteers must thoroughly understand, communicate, and embody SOS’ 360 degree model of volunteering.';
-        break;
-        default:
-            $content = '';
-        break;
-    }
-
-    return $content;
+//Joanna
+//Menu order
+//////////////
+function woo_my_account_order() {
+  if( current_user_can('edit_post') || current_user_can('vpid') ) {
+    	$myorder = array(
+        'dashboard'          => __( 'Welcome', 'woocommerce' ),
+        'admin'              => __( 'My Chapter Admin' ),
+        'orders'           => __( 'Order History', 'woocommerce' ),
+        'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		'my-trips'           => __( 'My Trips' ),
+        'myreferrals'        => __( 'Refer A Friend' ),
+        'edit-account'       => __( 'Account Details', 'woocommerce' ),
+        'my-cart'            => __( 'My Cart', 'woocommerce' ),
+    		'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	);
+    } else {
+      $myorder = array(
+        'dashboard'          => __( 'Welcome', 'woocommerce' ),
+        'orders'           => __( 'Order History', 'woocommerce' ),
+        'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		'my-trips'           => __( 'My Trips' ),
+        'myreferrals'        => __( 'Refer A Friend' ),
+        'edit-account'       => __( 'Account Details', 'woocommerce' ),
+        'my-cart'            => __( 'My Cart', 'woocommerce' ),
+    		'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	);
+  }
+	return $myorder;
 }
-//ismara - 2018-04-05 -  end
+add_filter( 'woocommerce_account_menu_items', 'woo_my_account_order');
 
+
+
+// My Account Tab Merged (Payment-Methods + Edit-Address into Edit-Account)
+//////////////////////////////////////////////////////////////////////
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_payment_methods');
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_edit_address');
+
+//New Tabs
+///////////////////////////////////////////////////////////////////////
+add_filter ( 'woocommerce_account_menu_items', 'extra_links' );
+function extra_links( $menu_links ){
+  if( current_user_can('edit_post') || current_user_can('vpid') ) {
+     $new = array( 'my-trips' => 'My Trips', 'admin' => 'Admin', 'my-cart' => 'My Cart' );
+  } else {
+     $new = array( 'my-trips' => 'My Trips', 'my-cart' => 'My Cart' );
+  }
+	$menu_links = array_slice( $menu_links, 0, 8, true )
+	+ $new
+	+ array_slice( $menu_links, 8, NULL, true );
+	return $menu_links;
+}
+
+add_action( 'init', 'add_my_trips_endpoint' );
+function add_my_trips_endpoint() {
+    add_rewrite_endpoint( 'my-trips', EP_ROOT | EP_PAGES );
+}
+
+add_action( 'init', 'add_my_cart_endpoint' );
+function add_my_cart_endpoint() {
+    add_rewrite_endpoint( 'my-cart', EP_ROOT | EP_PAGES );
+}
+
+add_action( 'init', 'add_admin_endpoint' );
+function add_admin_endpoint() {
+    add_rewrite_endpoint( 'admin', EP_ROOT | EP_PAGES );
+}
+
+//My Cart tab
+//////////////////////
+add_action( 'woocommerce_account_my-cart_endpoint', 'my_cart_content' );
+function my_cart_content() {
+  echo do_shortcode( '[woocommerce_cart]' );
+}
+
+
+//Admin; I have to figure out how to make other roles show this
+//////////////////////
+add_action( 'woocommerce_account_admin_endpoint', 'admin_content' );
+function admin_content() {
+  echo '<p>Click the link below to access your Chapter Admin:</p>';
+  $url = admin_url();
+  $link = "<strong><a href='{$url}'>Volunteer Dashboard</a></strong>";
+  echo $link;
+}
+
+
+// My Trips
+////////////////////////
+add_action( 'woocommerce_account_my-trips_endpoint', 'my_trips_content' );
+function my_trips_content() {
+  $file_path = include 'woocommerce/myaccount/my-trip.php';
+  $content = @file_get_contents($file_path);
+  echo $content;
+}
 
 
 @include 'inc/post-type-opportunities.php';
