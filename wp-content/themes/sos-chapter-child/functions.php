@@ -496,7 +496,7 @@ function woo_my_account_order() {
     	$myorder = array(
         'dashboard'          => __( 'Welcome', 'woocommerce' ),
         'admin'              => __( 'My Chapter Admin' ),
-        'orders'           => __( 'Order History', 'woocommerce' ),
+        'orders'             => __( 'Order History', 'woocommerce' ),
         'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
     		'my-trips'           => __( 'My Trips' ),
         'myreferrals'        => __( 'Refer A Friend' ),
@@ -507,7 +507,7 @@ function woo_my_account_order() {
     } else {
       $myorder = array(
         'dashboard'          => __( 'Welcome', 'woocommerce' ),
-        'orders'           => __( 'Order History', 'woocommerce' ),
+        'orders'             => __( 'Order History', 'woocommerce' ),
         'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
     		'my-trips'           => __( 'My Trips' ),
         'myreferrals'        => __( 'Refer A Friend' ),

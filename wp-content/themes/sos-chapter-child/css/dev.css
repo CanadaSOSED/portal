@@ -2,6 +2,10 @@ p {
   color: black;
 }
 
+a:visited {
+  color: #50BBF8;
+}
+
 .trips.type-trips {
     margin: 0 0 2rem;
     padding: 0 0 2rem;
