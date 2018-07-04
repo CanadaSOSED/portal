@@ -23,36 +23,52 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
-<p><?php
+<h5><?php
 	/* translators: 1: user display name 2: logout url */
 	printf(
-		__( 'Hello %1$s (not %1$s? <a href="%2$s">Log out</a>)', 'woocommerce' ),
+		__( 'Hello %1$s (not %1$s?    <strong><a href="%2$s">Log out</a></strong>).', 'woocommerce' ),
 		'<strong>' . esc_html( $current_user->display_name ) . '</strong>',
 		esc_url( wc_logout_url( wc_get_page_permalink( 'myaccount' ) ) )
+	);
+?></h5>
+
+&nbsp;
+
+<p><?php
+	$link = home_url();
+	echo "Click <strong><a href='$link'>here</a></strong> to go back to the homepage or click on the logo above.";
+?></p>
+
+<p><?php
+	printf(
+		__( 'Your sessions will be listed under <a href="%1$s"><strong>Order History</strong></a>.<br>',  'woocommerce' ),
+		esc_url( wc_get_endpoint_url( 'orders', 'downloads' ) )
+	);
+?></p>
+<p><?php
+	printf(
+		__( 'Your downloadable content is available under <a href="%1$s"><strong>Exam Aid Materials</strong></a>.',  'woocommerce' ),
+		esc_url( wc_get_endpoint_url( 'downloads' ) )
 	);
 ?></p>
 
 <p><?php
 	printf(
-		__( 'From your account dashboard you can view your <a href="%1$s">recent orders</a> and <a href="%3$s">edit your password and account details</a>.', 'woocommerce' ),
+		__( 'From your account dashboard you can review your <strong><a href="%1$s">Trip application</a></strong> and edit your <strong><a href="%3$s">Account details</a></strong>.', 'woocommerce' ),
 		esc_url( wc_get_endpoint_url( 'orders' ) ),
 		esc_url( wc_get_endpoint_url( 'edit-address' ) ),
 		esc_url( wc_get_endpoint_url( 'edit-account' ) )
 	);
 ?></p>
 
-<p><?php
-	printf(
-		__( 'Visit our <a href="http://faq.soscampus.com/">FAQ</a> for any questions you may have. You probably are not the first student to ask!', 'woocommerce' )
-	);
-?></p>
 
-<h5><?php
-	printf(
-		__( 'If you are having difficulty finding or accessing your materials, head to <a href="%1$s"><strong>ORDERS</strong></a> or watch this <a href="https://kb.soscampus.com/2017/10/02/how-do-i-access-my-course-materials/">short video</a>.', 'woocommerce' ),
-		esc_url( wc_get_endpoint_url( 'orders' ) )
-	);
-?></h5>
+&nbsp;
+
+<p><?php
+printf(
+	__( 'Visit our <strong><a href="http://faq.soscampus.com/">FAQ</a></strong> for any questions you may have.', 'woocommerce' )
+);
+ ?></p>
 
 <?php
 	/**

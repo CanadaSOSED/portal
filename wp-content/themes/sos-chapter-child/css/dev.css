@@ -2,6 +2,10 @@ p {
   color: black;
 }
 
+a:visited {
+  color: #50BBF8;
+}
+
 .trips.type-trips {
     margin: 0 0 2rem;
     padding: 0 0 2rem;
@@ -134,4 +138,50 @@ p {
 .aligncenter {
     display: block;
     margin: 0 auto;
+}
+
+/*/////////WOOCOMMERCE CSS///////////////*/
+/*///////////////////////////////////////*/
+
+/* Change WC Acct Page Column Widths */
+@media only screen and (min-width: 769px) {
+  .woocommerce-account .woocommerce-MyAccount-navigation {
+    width: 22%;
+  }
+  .woocommerce-account .woocommerce-MyAccount-content {
+    width: 75%;
+  }
+}
+
+.entry-header h1 { /*This is the Header CSS*/
+  font-size: 30px;
+  padding-left: 10px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid rgba(0,0,0,0.05);
+}
+
+
+/* Woocommerce Endpoint Links */
+.woocommerce-MyAccount-navigation ul {
+  list-style-type: none;
+  padding-left: 0;
+  max-width: 220px;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.woocommerce-MyAccount-navigation ul li {
+  padding: 8px 20px;
+  background-color: rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.woocommerce-MyAccount-navigation ul li.is-active {
+  background-color: rgba(0,0,0,0.1);
+}
+.woocommerce-MyAccount-navigation ul li.is-active a {
+  color: rgba(0,0,0,0.8); cursor: default;
+}
+
+.woocommerce-MyAccount-navigation ul li:not(.is-active):hover {
+  background-color: rgba(0,0,0,0.07);
 }
