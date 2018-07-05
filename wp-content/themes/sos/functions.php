@@ -746,12 +746,13 @@ add_action( 'wp_footer', 'cart_update_script', 999 );
 //     }
 // }
 
-
 function sos_chapters_list_option_box(){
     $args = array(
-        'site__not_in' => '1,5,29,30',
+//2018-07-04 - ismara - excluded chapters from the list -> (1))soscampus.com - (5)kb.soscampus.com - (29)hq.soscampus.com - (30)faq.soscampus.com - (31)national.soscampus.com - (32)training.soscampus.com
+        'site__not_in' => '1,5,29,30,31,32',
         'orderby' => 'domain'
     );
+
 
     if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
         $sites = get_sites($args);
