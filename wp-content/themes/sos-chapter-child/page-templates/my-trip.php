@@ -289,7 +289,8 @@ if(is_user_logged_in()){
 
 	restore_current_blog();
 
-	get_footer();
+//2018-07-05 - ismara - we are not using this for the new my-trip page
+//	get_footer();
 
 }else{
 	wp_redirect(home_url() . "/my-account");
