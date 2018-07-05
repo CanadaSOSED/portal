@@ -580,7 +580,9 @@ function admin_content() {
 ////////////////////////
 add_action( 'woocommerce_account_my-trips_endpoint', 'my_trips_content' );
 function my_trips_content() {
-  $file_path = include 'woocommerce/myaccount/my-trip.php';
+//2018-07-05 - ismara - we are will use the same my-trip page, not the one created at woocommerce
+//  $file_path = include 'woocommerce/myaccount/my-trip.php';
+  $file_path = include 'page-templates/my-trip.php';
   $content = @file_get_contents($file_path);
   echo $content;
 }
