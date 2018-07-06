@@ -1,0 +1,573 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Responsive Tabs\n"
+"POT-Creation-Date: 2016-03-26 19:55+0800\n"
+"PO-Revision-Date: 2016-03-26 19:55+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_x\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/class-tgm-plugin-activation.php:306
+msgid "Install Required Plugins"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:307
+msgid "Install Plugins"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:308
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:309
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:370
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:371
+msgid "Return to the dashboard"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:372
+#: inc/class-tgm-plugin-activation.php:2995
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:373
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:374
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:375
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:376
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:377
+msgid "Dismiss this notice"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:378
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:1854
+#, php-format
+msgid "TGMPA v%s"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2133
+msgid "Required"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2136
+msgid "Recommended"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2152
+msgid "WordPress Repository"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2155
+msgid "External Source"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2158
+msgid "Pre-Packaged"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2175
+msgid "Not Installed"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2179
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2181
+msgid "Active"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2187
+msgid "Required Update not Available"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2190
+msgid "Requires Update"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2193
+msgid "Update recommended"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2201
+#, php-format
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2337
+msgid "unknown"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2345
+msgid "Installed version:"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2353
+msgid "Minimum required version:"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2365
+msgid "Available version:"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2388
+#, php-format
+msgid ""
+"No plugins to install, update or activate. <a href=\"%1$s\">Return to the "
+"Dashboard</a>"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2402
+msgid "Plugin"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2403
+msgid "Source"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2404
+msgid "Type"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2408
+msgid "Version"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2409
+msgid "Status"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2457
+#, php-format
+msgid "Install %2$s"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2461
+#, php-format
+msgid "Update %2$s"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2466
+#, php-format
+msgid "Activate %2$s"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2569
+msgid "Install"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2575
+msgid "Update"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2578
+msgid "Activate"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2609
+msgid "No plugins were selected to be installed. No action taken."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2611
+msgid "No plugins were selected to be updated. No action taken."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2647
+msgid "No plugins are available to be installed at this time."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2649
+msgid "No plugins are available to be updated at this time."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:2994
+msgid "Plugin activation failed."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3328
+#, php-format
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3330
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3331
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3335
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3336
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3337
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3338
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3341
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3343
+msgid "All installations have been completed."
+msgstr ""
+
+#: inc/class-tgm-plugin-activation.php:3344
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: inc/rtbs-metaboxes.php:20
+msgid "Manage Tabs"
+msgstr "Gestionar pestañas"
+
+#: inc/rtbs-metaboxes.php:20
+msgid "Unlock more features with Responsive Tabs PRO!"
+msgstr "&iexcl;Desbloquear más funciones con Team Members PRO!"
+
+#: inc/rtbs-metaboxes.php:20
+msgid "Free version"
+msgstr "Versi&oacute;n gratuita"
+
+#: inc/rtbs-metaboxes.php:29
+msgid "Tab {#}"
+msgstr "Pestaña {#}"
+
+#: inc/rtbs-metaboxes.php:30
+msgid "Add another tab"
+msgstr "Añadir otra pestaña"
+
+#: inc/rtbs-metaboxes.php:31
+msgid "Remove tab"
+msgstr "Borrar pestaña"
+
+#: inc/rtbs-metaboxes.php:38
+msgid "Tab content"
+msgstr "Contenido"
+
+#: inc/rtbs-metaboxes.php:45
+msgid "Title (label)"
+msgstr "Título (pestaña)"
+
+#: inc/rtbs-metaboxes.php:53
+msgid "Inner section"
+msgstr "Sección interior"
+
+#: inc/rtbs-metaboxes.php:53
+msgid "Basic HTML allowed — Shortcodes allowed but not recommended"
+msgstr "HTML b&aacute;sico permitido — Shortcode permitido pero no recomendado"
+
+#: inc/rtbs-metaboxes.php:65
+msgid "Settings"
+msgstr "Configuraci&oacute;n"
+
+#: inc/rtbs-metaboxes.php:72
+msgid "General settings"
+msgstr "Configuraci&oacute;n general"
+
+#: inc/rtbs-metaboxes.php:79
+msgid "Main color"
+msgstr "Color principal"
+
+#: inc/rtbs-metaboxes.php:86
+msgid "Accordion breakpoint"
+msgstr "Breakpoint (acordeón)"
+
+#: inc/rtbs-metaboxes.php:86
+msgid ""
+"Width at which the tabs turn into an accordion — In pixels, without the 'px'"
+msgstr ""
+"Anchura en la que las pestañas transforman en un acordeón - En píxeles, sin "
+"el 'px'"
+
+#: inc/rtbs-metaboxes.php:94
+msgid "Others"
+msgstr "Otros"
+
+#: inc/rtbs-metaboxes.php:101
+msgid "Force original fonts"
+msgstr "Utilizar la fuente original"
+
+#: inc/rtbs-metaboxes.php:101
+msgid "Check this to use the plugin's font instead of your theme's"
+msgstr "Haga clic para utilisar la fuente del plugin en lugar de la de su tema"
+
+#: inc/rtbs-metaboxes.php:102
+msgid "Check to enable"
+msgstr "Haga clic para activar"
+
+#: inc/rtbs-metaboxes.php:132
+msgid "Help & Support"
+msgstr "Ayuda"
+
+#: inc/rtbs-metaboxes.php:141
+msgid "Display your Tabs"
+msgstr "Visualizar su pestanãs"
+
+#: inc/rtbs-metaboxes.php:141
+msgid ""
+"To display your Tabs on your site, copy-paste the Tab set's "
+"<strong>[Shortcode]</strong> in your post/page. You can find this shortcode "
+"by clicking <strong>All Tab sets</strong> in the menu on the left."
+msgstr ""
+"Para visualizar su pestanãs en su sitio web, copiar y pegar el "
+"<strong>[Shortcode]</strong> en la pagina/entrada de su elecci&oacute;n. "
+"Haga clic en <strong>Grupos de tabs</strong> para encontrar este shortcode."
+
+#: inc/rtbs-metaboxes.php:141
+msgid "Get support"
+msgstr "Obtener ayuda"
+
+#: inc/rtbs-metaboxes.php:141
+msgid "Submit a ticket"
+msgstr "Enviar su pregunta"
+
+#: inc/rtbs-metaboxes.php:141
+msgid "View documentation"
+msgstr "Consulte la documentaci&oacute;n"
+
+#: rtbs.php:174 rtbs.php:176
+msgid "Tab sets"
+msgstr "Grupos de tabs"
+
+#: rtbs.php:175 rtbs.php:177
+msgid "Tab set"
+msgstr "Grupo de tabs"
+
+#: rtbs.php:178
+msgid "Add New"
+msgstr "A&ntilde;adir"
+
+#: rtbs.php:179
+msgid "Add New Tab set"
+msgstr "A&ntilde;adir Grupo de tabs"
+
+#: rtbs.php:180
+msgid "New Tab set"
+msgstr "Nuevo Grupo de tabs"
+
+#: rtbs.php:181
+msgid "Edit Tab set"
+msgstr "Editar Grupo de tabs"
+
+#: rtbs.php:182
+msgid "View Tab set"
+msgstr "Ver Grupo de tabs"
+
+#: rtbs.php:183
+msgid "All Tab sets"
+msgstr "Grupos de tabs"
+
+#: rtbs.php:184
+msgid "Search Tab sets"
+msgstr "Buscar Grupos de tabs"
+
+#: rtbs.php:185
+msgid "No Tab sets found."
+msgstr "No Grupo de tabs encontrado."
+
+#: rtbs.php:186
+msgid "No Tab sets found in Trash."
+msgstr "No Grupo de tabs encontrado en la basura."
+
+#: rtbs.php:212 rtbs.php:213
+msgid "Tab set updated."
+msgstr "Grupo de tabs actualizado."
+
+#: rtbs.php:214
+msgid "Tab set published."
+msgstr "Grupo de tabs publicado."
+
+#: rtbs.php:215
+msgid "Tab set saved."
+msgstr "Grupo de tabs guardado."
+
+#: rtbs.php:216
+msgid "Tab set draft updated."
+msgstr "Borrador de Grupo de tabs actualizado."
+
+#~ msgid ""
+#~ "There is a new version of %1$s available. <a target=\"_blank\" class="
+#~ "\"thickbox\" href=\"%2$s\">View version %3$s details</a>."
+#~ msgstr ""
+#~ "Nueva versi&oacute;n del %1$s disponible. <a target=\"_blank\" class="
+#~ "\"thickbox\" href=\"%2$s\">Nueva versi&oacute;n %3$s detalles</a>."
+
+#~ msgid ""
+#~ "There is a new version of %1$s available. <a target=\"_blank\" class="
+#~ "\"thickbox\" href=\"%2$s\">View version %3$s details</a> or <a href=\"%4$s"
+#~ "\">update now</a>."
+#~ msgstr ""
+#~ "Nueva versi&oacute;n del %1$s disponible. <a target=\"_blank\" class="
+#~ "\"thickbox\" href=\"%2$s\">Nueva versi&oacute;n %3$s detalles</a> or <a "
+#~ "href=\"%4$s\">actualizar ahora</a>"
+
+#~ msgid "You do not have permission to install plugin updates"
+#~ msgstr "Usted no tiene permiso para instalar las actualizaciones del plugin"
+
+#~ msgid "Error"
+#~ msgstr "Error"
+
+#~ msgid "PRO version"
+#~ msgstr "Versi&oacute;n PRO"
+
+#~ msgid "Link-only tab"
+#~ msgstr "Solo un enlace"
+
+#~ msgid ""
+#~ "Check this if this tab is only a link to a page (it will remove the inner "
+#~ "section)"
+#~ msgstr "Haga clic si la pestaña es un enlace (no tendrá ninguno contenido)"
+
+#~ msgid "Icon"
+#~ msgstr "Icono"
+
+#~ msgid ""
+#~ "The icon you choose will show next to the tab title — eg. fa-facebook"
+#~ msgstr "El icono se va a mostrar al lado de la pestaña — eg. fa-facebook"
+
+#~ msgid ""
+#~ "Find the full list of available icons on <a target=\"_blank\" href="
+#~ "\"http://fortawesome.github.io/Font-Awesome/icons/\">Font-Awesome</a> "
+#~ "(link opens in new window)"
+#~ msgstr ""
+#~ "Encuentra la lista de iconos completa en <a target=\"_blank\" href="
+#~ "\"http://fortawesome.github.io/Font-Awesome/icons/\">Font-Awesome</a> "
+#~ "(abre une nueva ventana)"
+
+#~ msgid "Tab link URL"
+#~ msgstr "URL del enlace"
+
+#~ msgid "Start with http://"
+#~ msgstr "Empiece con http://"
+
+#~ msgid "Label borders"
+#~ msgstr "Bordes de pestañas"
+
+#~ msgid "Top-left and top-right borders of the tab labels"
+#~ msgstr "Bordes top-left y top-right de los títulos de pestañas"
+
+#~ msgid "Squared"
+#~ msgstr "Cuadrado"
+
+#~ msgid "Rounded"
+#~ msgstr "Redondeado"
+
+#~ msgid "Content background shade"
+#~ msgstr "Fondo del contenido"
+
+#~ msgid "Background color for the content block"
+#~ msgstr "Color de fondo para el contenido"
+
+#~ msgid "Light grey"
+#~ msgstr "Gris claro"
+
+#~ msgid "Lighter grey"
+#~ msgstr "Gris más claro"
+
+#~ msgid "White"
+#~ msgstr "Blanco"
+
+#~ msgid "Transparent"
+#~ msgstr "Transparente"
+
+#~ msgid "Lighter than main color"
+#~ msgstr "Tono del color principal"
+
+#~ msgid "Current label arrow"
+#~ msgstr "Flecha de pestaña activa"
+
+#~ msgid "Adds a down arrow to the active tab"
+#~ msgstr "Añade una flecha a la pestaña activa"
+
+#~ msgid "Overwrite font-sizes"
+#~ msgstr "Tamaños de fuente"
+
+#~ msgid "Tabs title"
+#~ msgstr "Títulos"
+
+#~ msgid "Font-size for the tab labels in pixels (without the 'px')"
+#~ msgstr "Tamaño de fuente para los títulos en pixeles (sin el ‘px’)"
+
+#~ msgid "Tabs inner"
+#~ msgstr "Contenido"
+
+#~ msgid ""
+#~ "Font-size for the tab's paragraph blocks in pixels (without the 'px')"
+#~ msgstr "Tamaño de fuente para los párrafos en pixeles (sin el ‘px’)"
+
+#~ msgid "License activation"
+#~ msgstr "Activaci&oacute;n de la licencia"
+
+#~ msgid ""
+#~ "Activating your license allows you to receive automatic updates for a "
+#~ "year.<br/>This is <strong>NOT</strong> required for the plugin to work "
+#~ "correctly."
+#~ msgstr ""
+#~ "Activar su licencia le permite recibir actualizaciones autom&aacute;ticas "
+#~ "para un a&ntilde;o.<br/>Esto <strong>NO</strong> es necesario para que el "
+#~ "plugin funcione correctamente."
+
+#~ msgid "License key"
+#~ msgstr "Clave de licencia"
+
+#~ msgid "Activate license"
+#~ msgstr "Activar licencia"
+
+#~ msgid "Activated"
+#~ msgstr "Activada"
+
+#~ msgid "Deactivate license"
+#~ msgstr "Desactivar licencia"

@@ -1,0 +1,719 @@
+	/* This is to make sure the IDE does not overlap anything else in the window */
+	.toplevel_page_aceide #wpcontent {
+		z-index: 10;
+		position: relative;
+	}
+
+	#quicktags, #post-status-info, #editor-toolbar, #newcontent, .ace_print_margin { display: none; }
+    #aceidelogo {
+        width: 111px;
+        height: 33px;
+        margin: -4px 7px 4px auto;
+        display: block;
+    }
+    #fancyeditordiv {
+		position: relative;
+		width: 70%;
+		height: 400px;
+	}
+	#template div{margin-right:0 !important;}
+
+	#fancyeditordiv #resizer {
+		width: 16px;
+		height: 16px;
+		position: absolute;
+		bottom: 0px;
+		right: 0px;
+		cursor: nw-resize;
+		background-image: url( 'images/resize-handle.png' );
+	}
+	#template div{margin-right:0 !important;}
+
+    #aceide_container {
+        width: 75%;
+        box-sizing: border-box;
+    }
+
+    #aceide_container.fullScreen {
+        width: 100%;
+        height: 100%;
+        padding: 20px;
+        background-color: #E9E9E9;
+    }
+
+	#aceide_toolbar{
+		width: 100%;
+		min-height: 30px;
+		text-align: right;
+		padding-top: 5px;
+		position: relative;
+		float: left;
+	}
+	#aceide_toolbar form{
+		position: absolute;
+		left: 104%;
+	}
+	#aceide_toolbar_tabs{
+		width:100%;
+	}
+
+	#aceide_toolbar .aceide_tab {
+        position:relative;
+		height: 18px;
+		font: 13px/18px Arial,Helvetica,sans-serif normal;
+		margin-top: -2px;
+		margin-right: 2px;
+		padding: 6px;
+        padding-right:20px;
+		float: left;
+		cursor: pointer;
+		border-width: 1px;
+		border-style: solid;
+		-webkit-border-top-right-radius: 3px;
+		-webkit-border-top-left-radius: 3px;
+		border-top-right-radius: 3px;
+		border-top-left-radius: 3px;
+		background-color: #E8E8E8;
+		border-color: #DFDFDF #DFDFDF #CCC;
+		color: #B00001;
+		text-decoration: none;
+		font-style: italic;
+        -moz-opacity:.60;
+        filter:alpha(opacity=60);
+        opacity:.60;
+	}
+    #aceide_toolbar .aceide_tab.active {
+        -moz-opacity:1;
+        filter:alpha(opacity=1);
+        opacity:1;
+        border-left-color:#bbb;
+        border-right-color:#bbb;
+        border-top-color:#bbb;
+        border-bottom-color:#dedede;
+    }
+	#aceide_toolbar .aceide_tab.modified {
+		color: blue;
+		font-weight: bold;
+	}
+	#aceide_toolbar .aceide-tab.modified:after {
+		content: ' *';
+	}
+
+    #aceide_toolbar .close_tab {
+        color: #575757;
+        font-style: normal;
+        padding-bottom: 7px;
+        padding-left: 7px;
+        position: absolute;
+        right: 3px;
+        text-decoration: none;
+        top: -2px;
+		outline: none !important;
+    }
+    #aceide_toolbar .close_tab:hover{
+        color:#B00001;
+        font-weight:bold;
+    }
+	#aceide_toolbar .close_tab:active {
+		color: #444444;
+		font-weight: bold;
+	}
+
+	#aceide_file_browser{
+		margin-right:2%;
+		text-align:left;
+	}
+
+	.toplevel_page_aceide #submitdiv,
+	.toplevel_page_aceide #docinfodiv h3.hndle{
+		 width:100%;
+		 float:right;
+		 clear:right;
+	 }
+	 .toplevel_page_aceide #submitdiv h3.hndle,
+	 .toplevel_page_aceide #docinfodiv h3.hndle{
+	 	font-family: Georgia,"Times New Roman";
+		font-size: 15px;
+		font-weight: bold;
+		padding: 7px 10px;
+		margin: 0;
+		line-height: 1;
+	 }
+
+	 #aceide_toolbar_buttons {
+	 	position:relative;
+	 	min-height:30px;
+		width:100%;
+		float:left;
+        clear:left;
+		text-align:left;
+		overflow:hidden;
+		border-bottom: 1px solid #CCC;
+		background-color: #E9E9E9;
+		background-image: -ms-linear-gradient(bottom,#ddd,#e9e9e9);
+		background-image: -moz-linear-gradient(bottom,#ddd,#e9e9e9);
+		background-image: -o-linear-gradient(bottom,#ddd,#e9e9e9);
+		background-image: -webkit-linear-gradient(bottom,#ddd,#e9e9e9);
+		background-image: linear-gradient(bottom,#ddd,#e9e9e9);
+
+		-webkit-border-top-right-radius: 6px;
+		-webkit-border-top-left-radius: 0px;
+		border-top-right-radius: 6px;
+		border-top-left-radius: 0px;
+	}
+
+	#aceide_toolbar_buttons a{
+        display: block;
+        float: right;
+        margin: 2px;
+        padding: 0 10px;
+        height: auto;
+        margin-top: 4px;
+	}
+    #aceide_toolbar_buttons .red{
+        color:#bc201d;
+    }
+
+	#wpwrap div.ace_gutter{
+		background-color:#f4f4f4;
+		color:#aaa;
+        z-index:999;
+	}
+
+	/* The above fix will make tooltips hide behind the gutter.
+	   This will bring them in front. */
+	#wpwrap .ace_gutter-tooltip {
+		z-index: 1000;
+	}
+
+	#aceide_save_container{
+        float: left;
+        clear: left;
+        width: 100%;
+        padding: 0.5%;
+        background-color: #E9E9E9;
+        box-sizing: border-box;
+        border-color: #CCC;
+        -webkit-box-shadow: inset 0 1px 0 #fff;
+        box-shadow: inset 0 1px 0 #fff;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+	}
+
+	#aceide_info {
+		position: relative;
+		min-height: 30px;
+		width: 100%;
+		padding-right:2px;
+		float: right;
+		clear: right;
+		text-align: left;
+		overflow: visible;
+		border-bottom: 1px solid #CCC;
+		background-color: #E9E9E9;
+		background-image: -ms-linear-gradient(bottom,#DDD,#E9E9E9);
+		background-image: -moz-linear-gradient(bottom,#DDD,#E9E9E9);
+		background-image: -o-linear-gradient(bottom,#DDD,#E9E9E9);
+		background-image: -webkit-linear-gradient(bottom,#DDD,#E9E9E9);
+		background-image: linear-gradient(bottom,#DDD,#E9E9E9);
+		-webkit-border-top-right-radius: 0px;
+		-webkit-border-top-left-radius: 6px;
+		border-top-right-radius: 0px;
+		border-top-left-radius: 6px;
+
+	}
+
+	#aceide_info_content{
+		margin-top: 8px;
+		margin-left: 10px;
+	}
+	.aceide_func_highlight,
+	.aceide_func_highlight_black {
+		font-size: 120%;
+	}
+	.aceide_func_highlight{
+		color: #4A8EAD;
+	}
+	.aceide_func_params{
+		padding-left:10px;
+		display: block;
+		color:#555;
+		font-family: courier;
+	}
+	.aceide_func_desc{
+		color:#333;
+	}
+	.aceide_func_arg_notrequired{
+		color:#888;
+	}
+	.aceide_func_arg_notrequired em{
+		color: green;
+		display: block;
+		font-size: 80%;
+		line-height: 100%;
+	}
+
+    #fancyeditordiv{
+        width:100%;
+        height:1000px;
+        margin-right:0!important;
+        float:left;
+		min-height: 230px;
+		/* Stop browser text selection of the editor.
+			This will not stop selection IN the editor. */
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
+    }
+
+    #aceide_message{
+        display:none;
+        width: 80%;
+        float: left;
+        text-align: left;
+        margin: 0;
+        padding: 7px;
+    }
+
+    #aceide_message a{
+        float:none;
+        display:inline-block;
+        margin:2px;
+    }
+
+    #aceide_message span{
+        width: 80%;
+    }
+
+    #aceide_message .note{
+        font-size: 10px;
+        margin: 10px 0;
+        display: block;
+    }
+
+    #aceide_footer_message,
+    #aceide_footer_message_last_saved,
+    #aceide_footer_message_unsaved{
+        display:none;
+        float: left;
+        padding: 8px;
+        font-size: 12px;
+        color: #666;
+    }
+    #aceide_footer_message_unsaved{
+        color:#bc201d;
+    }
+
+    #aceide_save{
+        float: right;
+    }
+
+    #aceide_git{
+        float: right;
+        margin-right: 20px;
+        background-image: url(images/git.png);
+        background-repeat: no-repeat;
+        background-position: right center;
+        padding-right: 30px;
+    }
+
+    /* Make sure the modal window doesn't get hidden behind wp toolbar */
+    .ui-dialog{
+        margin-top:30px; /* this just is not working - the WP admin toolbar gets in the way */
+    }
+
+    #gitdiv{
+        display:none;
+        background-color: #efefef;
+    }
+    #gitdiv .red{
+        color: #bc201d;
+    }
+    #gitdivcontent{
+        margin:10px;
+    }
+
+    .git_settings_panel{
+        overflow: hidden;
+        margin:20px 0px;
+    }
+    .input_row{
+        padding: 5px;
+        width: 99%;
+        background-color: #ddd;
+        margin: 2px;
+        display:block;
+    }
+    .input_row input[type=text]{
+        width:98%;
+    }
+    .input_row .input_row em{
+        margin: 2px;
+        font-size: 10px;
+    }
+
+    .git_settings_panel .input_row,
+    .git_settings_panel .input_row em,
+    .git_settings_panel label,
+    .git_settings_panel input[type=text]{
+        float:left;
+        clear:left;
+    }
+
+    .git_log .input_row{
+        padding: 5px;
+        width: 99%;
+        background-color: #ddd;
+        margin: 2px;
+        float: left;
+    }
+    .git_log .input_row .message{
+        display:block;
+        font-weight:bold;
+        margin-bottom:10px;
+    }
+
+    #gitdiv label,
+    #gitdiv input[type=text],
+    #gitdiv a.button{
+        margin:2px;
+    }
+    #gitdiv label{
+        font-weight:bold;
+    }
+
+    #gitdiv .button{
+        text-align: center;
+        height: inherit;
+        line-height: 130%;
+        padding-top: 10px;
+        font-weight:bold;
+    }
+    #gitdiv .button em{
+        display:block;
+        font-size: 10px;
+        font-weight:normal;
+    }
+
+    .gitfilerow{
+        background-color: #bbb;
+        padding: 10px;
+
+
+    }
+    .gitfilerow:hover{
+
+    }
+    .gitfilerow.light{
+        background-color: #ddd;
+    }
+    .gitfilerow input[type=checkbox]{
+        margin-right:20px;
+    }
+    .gitfilerow .filename{
+        width: 70%;
+        display: block;
+        float: left;
+    }
+    .gitfilerow .viewdiff{
+        color: #bc201d;
+    }
+
+    #gitdivcommit{
+        margin-top:20px;
+        padding:10px;
+        border: 1px solid #bbb;
+    }
+    #gitdivcommit a.button-primary{
+        margin-left: 8px;
+    }
+    #gitdiv input.message{
+        width:70%;
+    }
+
+    .gitdivdiff{
+        margin-top: 10px;
+    }
+    .gitdivdiff .diff_line{
+        display:block;
+        padding:5px;
+        font-size:11px;
+        background-color:#fff;
+    }
+    .gitdivdiff .diff_line.plus{
+        background-color:#b5ffce;
+    }
+    .gitdivdiff .diff_line.minus{
+        background-color:#fad3e5;
+    }
+
+    .gitdivdiff .diff-addedline,
+    .gitdivdiff .diff-deletedline{
+        font-size:10px;
+        line-height:130%;
+    }
+
+    #publishing-action img{
+        visibility: hidden;
+    }
+
+    div#side-info-column{
+           width:23%;
+    }
+    #submitdiv.postbox{
+            min-width:220px;
+    }
+
+/* color assist */
+.ImageColorPickerWrapper{
+    height: 300px;
+    width: 100%;
+    overflow: scroll;
+}
+#aceide_color_assist{
+    position:relative;
+    width: 100%;
+    background-color: whiteSmoke;
+    margin: auto;
+    border: 1px solid #CCC;
+    padding-right: 2px;
+    margin-left: -2px;
+    height: 380px;
+}
+#aceide_color_assist img, #aceide_color_assist canvas{
+    margin:auto;
+    display:block;
+}
+#aceide_color_assist canvas.ImageColorPickerCanvasColor{
+    position:absolute;
+    left:0;
+    top:0;
+}
+#aceide_color_assist input[type=button]{
+    float:left;
+    width:110px;
+    margin: 15px 5px;
+    font-size: 12px;
+}
+#aceide_color_assist_input{
+    float:left;
+    width:100px;
+    margin: 15px 5px;
+}
+
+.close_color_picker{
+    padding-bottom: 7px;
+    padding-left: 7px;
+    position: absolute;
+    right: 20px;
+    top: 5px;
+}
+.close_color_picker a{
+    color: #575757;
+    font-style: normal;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+#aceide_color_assist h3{
+    background-color: #F1F1F1;
+    background-image: -ms-linear-gradient(top,#F9F9F9,#ECECEC);
+    background-image: -moz-linear-gradient(top,#F9F9F9,#ECECEC);
+    background-image: -o-linear-gradient(top,#F9F9F9,#ECECEC);
+    background-image: -webkit-gradient(linear,left top,left bottom,from(#F9F9F9),to(#ECECEC));
+    background-image: -webkit-linear-gradient(top,#F9F9F9,#ECECEC);
+    background-image: linear-gradient(top,#F9F9F9,#ECECEC);
+
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.currentColor, .selectedColor {
+  border: 1px solid #000;
+  background-color: #fff;
+  width:30px;
+  height:30px;
+}
+
+.ImageColorPickerCanvas {
+    cursor:crosshair;
+}
+
+div.ImageColorPickerWrapper{
+
+}
+
+#wpfooter{
+    display:none;
+}
+#wpbody-content{
+    padding-bottom:0;
+}
+
+.aceide-settings {
+	height: 20px;
+	width: 20px;
+	background-image: url( images/settings.png );
+	background-repeat: no-repeat;
+	background-position: 2px 2px;
+	display: inline-block;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	padding: 2px;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+}
+
+.editor_settings_dialog-minbutton {
+	display: none;
+}
+
+.aceide-settings:hover {
+	border-color: #666666;
+	background-color: #F2F2F2;
+}
+
+/* Settings Dialog */
+#editor_settings_dialog label {
+	display: inline-block;
+	width: 100%;
+	margin: 4px 0;
+	font-weight: bold;
+}
+#editor_settings_dialog label .ipt-sel {
+	width: 125px;
+}
+#editor_settings_dialog label .number {
+	width: 117px;
+}
+#editor_settings_dialog label input, #editor_settings_dialog label select {
+	float: right;
+	font-weight: normal;
+}
+#editor_settings_dialog .left {
+	float: left;
+	width: 48%;
+}
+#editor_settings_dialog .right {
+	float: right;
+	width: 48%;
+}
+
+#editor_find_dialog {
+	overflow: hidden;
+}
+#editor_find_dialog_minimized {
+	float: right;
+}
+#editor_find_dialog label {
+	display: block;
+	width: 40%;
+}
+#editor_find_dialog label.left {
+	display: inline-block;
+	float: left;
+	width: 65%;
+}
+#editor_find_dialog input.action_button {
+	display: inline-block;
+	float: right;
+	width: 100%;
+}
+#editor_find_dialog input.action_button:active {
+	box-shadow: 0 0 5px lightGrey inset
+}
+#editor_find_dialog label.left input {
+	float: right;
+	width: 190px;
+}
+#editor_find_dialog div.search_direction {
+	display: inline-block;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+	width: 30%;
+}
+#editor_find_dialog div.search_direction label {
+	width: 100%;
+}
+#editor_find_dialog div.right {
+	display: inline-block;
+	position: absolute;
+	top: 4px;
+	right: 10px;
+	width: 30%
+}
+#editor_find_dialog div.right input {
+	border: 1px solid #dfdfdf;
+	background-color: #fefefe;
+	border-radius: 2px;
+}
+#editor_find_dialog div.right input:hover {
+	border-color: #AAAAAA;
+}
+
+ul.jqueryFileTree a {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	min-width: 123px;
+	margin-right: 26px;
+}
+
+.jqueryFileTree .create_new a {
+	min-width: 24px;
+	max-width: 24px;
+	width: 24px;
+}
+
+.jqueryFileTree .directory > a,
+.jqueryFileTree .file > a {
+	border: 1px solid transparent;
+	outline: none !important;
+}
+
+.jqueryFileTree .filetree_delete:hover {
+	opacity: 1;
+}
+
+.jqueryFileTree .directory > a:hover,
+.jqueryFileTree .file > a:hover {
+	background-color: #BDF;
+	border: 1px solid #BDF;
+	outline: none !important;
+}
+
+.jqueryFileTree .directory > a:active,
+.jqueryFileTree .file > a:active {
+	border: 1px solid #AAF;
+	background-color: #BDF;
+	outline: none !important;
+}
+
+.jqueryFileTree LI.allowDrop > a {
+    background: #3ca924;
+    color: #fff;
+}
+
+#aceide_file_browser .aceide-context-menu {
+	position: absolute;
+	background: white;
+	border: 1px solid #AAAAAA;
+	padding: 3px;
+	z-index: 100;
+	border-radius: 3px;
+	box-shadow: 6px 6px 11px -7px #333;
+}
+#aceide_file_browser .aceide-context-menu li {
+	list-style-type: none;
+	padding: 3px 6px 3px 20px;
+	-webkit-user-select: none;
+	user-select: none;
+	cursor: pointer;
+	font-size: 14px;
+}
+#aceide_file_browser .aceide-context-menu li:hover {
+	background-color: #DFDFDF;
+}
