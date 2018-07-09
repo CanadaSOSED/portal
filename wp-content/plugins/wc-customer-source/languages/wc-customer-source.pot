@@ -1,0 +1,191 @@
+# Copyright (C) 2015 "Where Did You Hear About Us Checkout Field for WooCommerce"
+# This file is distributed under the same license as the "Where Did You Hear About Us Checkout Field for WooCommerce" package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Where Did You Hear About Us Checkout Field for WooCommerce 1.0.0\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wc-customer-source\n"
+"POT-Creation-Date: 2015-01-27 14:35:53+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: wc-customer-source.php:145
+#: wc-customer-source.php:154
+msgid "Cheatin&#8217; huh?"
+msgstr ""
+
+#: wc-customer-source.php:164
+msgid "View Report"
+msgstr ""
+
+#: wc-customer-source.php:165
+msgid "Settings"
+msgstr ""
+
+#: wc-customer-source.php:166
+msgid "Support"
+msgstr ""
+
+#: wc-customer-source.php:200
+msgid "Where did you hear about us?"
+msgstr ""
+
+#: wc-customer-source.php:208
+msgid "Other"
+msgstr ""
+
+#: wc-customer-source.php:242
+msgid "Other"
+msgstr ""
+
+#: wc-customer-source.php:346
+msgid "Customer Source"
+msgstr ""
+
+#: wc-customer-source.php:349
+msgid "Report"
+msgstr ""
+
+#: wc-customer-source.php:355
+msgid "Settings"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:76
+msgid "Before order notes"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:77
+msgid "After order notes"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:78
+msgid "Before checkout billing form"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:79
+msgid "After checkout billing form"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:80
+msgid "Before checkout shipping form"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:81
+msgid "After checkout shipping form"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:89
+msgid "Checkout Field Settings"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:81
+msgid "Enable / Disable"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:105
+msgid "Checkout Field Position"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:109
+msgid "select"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:118
+msgid "Checkout Field Label"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:126
+msgid "Checkout Field Options"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:143
+msgid "New option"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:149
+msgid "Required"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:154
+msgid "Make field required"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:160
+msgid "Other field"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:165
+msgid "Disable other field"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:171
+msgid "Other field label"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:181
+msgid "Report Settings"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:184
+msgid "Orders displayed"
+msgstr ""
+
+#: includes/wccs-admin-settings.php:188
+msgid "Show only orders that have customer source."
+msgstr ""
+
+#: includes/wccs-admin-settings.php:193
+msgid "Orders Statuses"
+msgstr ""
+
+#: includes/wccs-source-report-table.php:26
+#: includes/wccs-source-report-table.php:27
+msgid "Report"
+msgstr ""
+
+#: includes/wccs-source-report-table.php:36
+msgid "No orders found."
+msgstr ""
+
+#: includes/wccs-source-report-table.php:102
+msgid "Order ID"
+msgstr ""
+
+#: includes/wccs-source-report-table.php:103
+msgid "Order Status"
+msgstr ""
+
+#: includes/wccs-source-report-table.php:104
+msgid "Customer Name"
+msgstr ""
+
+#: includes/wccs-source-report-table.php:105
+msgid "Customer Source"
+msgstr ""
+
+#: includes/wccs-source-report-table.php:106
+msgid "Actions"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Where Did You Hear About Us Checkout Field for WooCommerce"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://wooassist.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Adds a custom field in the checkout page to ask the custom where they've heard about your store."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Wooassist"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://wooassist.com/"
+msgstr ""

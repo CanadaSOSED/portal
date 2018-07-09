@@ -91,17 +91,19 @@ if(is_user_logged_in()){
 
 	if(!$trip_name){
 
-		echo '<h1>My Trip</h1>';
-		echo '<strong>You are not registered for a trip.</strong>';
+				echo '<h3>My Trip</h3>';
+				echo '<strong>You are not registered for a trip.</strong>';
+				echo '<p>   </p>';
+				echo '<p>   </p>';
+				echo '<p>Please visit your Chapters site to learn more about upcoming <strong>SOS Outreach Trips!</strong></p>';
 
 	}else{
 
-
-		echo '<h1>My Trip</h1>';
-		echo '<strong>Your Trip is:</strong> ' . $trip_name;
-		echo '<br>';
-		echo '<strong>Status:</strong> ' . $trip_state;
-		echo '<br>';
+				echo '<h3>My Trip</h3>';
+				echo '<strong>Your Trip is:</strong> ' . $trip_name;
+				echo '<br>';
+				echo '<strong>Status:</strong> ' . $trip_state;
+				echo '<br>';
 
 		if($interview_date != Null){
 			echo '<strong>Interview Date:</strong> ' . $interview_date;

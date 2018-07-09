@@ -1,0 +1,11 @@
+*** Where Did You Hear About Us Checkout Field for WooCommerce Changelog ***
+
+
+1.0.0
+* initial release
+
+1.0.1
+* Logged Out user can now see the form
+* Tested with WordPress 4.9.2
+* Tested with Storefront 2.2.7
+* Tested with WooCommerce 3.2.6
