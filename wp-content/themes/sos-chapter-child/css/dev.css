@@ -6,22 +6,102 @@ a:visited {
   color: #50BBF8;
 }
 
+h1, h2, h3, h4 {
+  font-family: 'Raleway', sans-serif; /*This is the official SOS font (refer to branding guide)*/
+}
+
+/*Trips page CSS end - Joanna*/
+
+.hero {
+  background: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09154430/hero.jpg');
+  height: 300px;
+  background-color: #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hero-footer {
+  background: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09154433/outreach-2.jpg');
+  height: 300px;
+  background-color: #000;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 5rem;
+}
+
+.hero-footer h4 {
+  color: #fff;
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+}
+
+.hero-footer p {
+  color: #fff;
+  text-align: center;
+}
+
+.icons p {
+  margin-top: 5px;
+}
+
+.icons img {
+  margin-left: 10px;
+}
+
+.tripInfo {
+  background-color: #d4d4d4;
+  box-shadow: 2px 2px 2px grey;
+  margin-bottom: 10px;
+  padding: 10px 40px 10px 40px;
+}
+
+.tripMap {
+  margin-bottom: 2rem;
+}
+
 .trips.type-trips {
     margin: 0 0 2rem;
     padding: 0 0 2rem;
     border-bottom: 1px solid #ccc;
 }
 
-.trips.type-trips .btn {
-    margin: 1rem 0 0;
+.trips.type-trips .archive-entry-title a {
+    color: #0F425C;
+    font-weight: bold;
+    font-family: 'Raleway', sans-serif;
 }
+
+.btn {
+  -webkit-border-radius: 6;
+  -moz-border-radius: 6;
+  border-radius: 6px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 1em;
+  background: #0F425C;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+  border-color: #0F425C;
+  box-shadow: 1px 1px 1px rgb(34, 34, 34);
+
+}
+
+.btn:hover {
+  background: #1b71a6;
+  border-color: #1b71a6;
+  text-decoration: none;
+}
+
+.trips.type-trips .btn {
+    margin: 1rem 0 1rem;
+}
+
+/*Trips page CSS end - Joanna*/
 
 .trips.type-trips .archive-entry-title {
 
-}
-
-.trips.type-trips .archive-entry-title a {
-    color: #0f425c;
 }
 
 .gform_button {
