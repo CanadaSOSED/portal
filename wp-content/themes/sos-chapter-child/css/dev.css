@@ -2,15 +2,10 @@ p {
   color: black;
 }
 
-a:visited {
-  color: #50BBF8;
-}
-
-h1, h2, h3, h4 {
-  font-family: 'Raleway', sans-serif; /*This is the official SOS font (refer to branding guide)*/
-}
-
 /*Trips page CSS end - Joanna*/
+h1, h2, h3, h4 {
+  font-family: 'Raleway', sans-serif;
+}
 
 .hero {
   background: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09154430/hero.jpg');
@@ -58,6 +53,7 @@ h1, h2, h3, h4 {
 }
 
 .tripMap {
+  margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
@@ -100,7 +96,6 @@ h1, h2, h3, h4 {
 }
 
 /*Trips page CSS end - Joanna*/
-
 .trips.type-trips .archive-entry-title {
 
 }
@@ -241,6 +236,15 @@ h1, h2, h3, h4 {
   border-bottom: 2px solid rgba(0,0,0,0.05);
 }
 
+.partners {
+  border: 1px solid grey;
+  padding: 2em;
+  margin-bottom: 1em;
+}
+
+#tripGallery ul { list-style-type: none; }
+
+.#ripGallery ul li { display: inline; }
 
 /* Woocommerce Endpoint Links */
 .woocommerce-MyAccount-navigation ul {
