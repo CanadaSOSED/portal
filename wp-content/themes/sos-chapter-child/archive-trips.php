@@ -7,20 +7,21 @@
  * @package sos-chapter
  */
 
-
-
-get_header();
-?>
+ get_header();
+ ?>
 
 <?php
 $container   = get_theme_mod( 'understrap_container_type' );
 $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 ?>
 
-<div class="wrapper" id="archive-wrapper">
+<div class="hero">
+  <?php the_title( sprintf( '<h2 class="archive-entry-title"><a href="%s" rel="bookmark">', esc_url( $application_url ) ),
+  '</a></h2>' ); ?>
+</div>
 
+<div id="archive-wrapper">
 	<div class="<?php echo esc_html( $container ); ?>" id="content" tabindex="-1">
-
 		<div class="row">
 
 			<!-- Do the left sidebar check -->
@@ -118,5 +119,11 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 </div><!-- Container end -->
 
 </div><!-- Wrapper end -->
+<div class="hero-footer">
+	<h4>Supporting a Great Cause</h4>
+  <p>Since 2004, we have been working to support the universal right to education through funding of sustainable international
+    projects.</p>
+	<p><a class="btn btn-primary" href="http://sosvolunteertrips.org/">Learn More</a></p>
+</div>
 
 <?php get_footer(); ?>
