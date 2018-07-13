@@ -31,12 +31,12 @@
 	</header><!-- .archive-entry-header -->
 
 <div class="container">
-	<div class="row">
-		<div class="col-12" style="border: 1px solid grey; padding: 1em; margin-bottom: 1em;">
-			<h3 style="text-align: center;"><strong>Our Partners</strong></h3>
-			<?php the_field('trip_partners'); ?>
-		</div>
-	</div>
+  <div class="row">
+    <div class="col-12">
+      <?php the_field('trip_partners');?>
+    </div>
+  </div>
+
 	<div class="row">
 		<div class="col-12 col-md-3">
 				<div class="tripInfo">
@@ -76,7 +76,7 @@
   		<div class="row">
   			<div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132716/home.png"><p>SOS volunteers sleep in available community structures (classrooms, community centers, churches), and live as close to the conditions of the community as possible. </p></div>
   			<div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132717/transportation.png"><p>SOS works directly with Flight Centre to process all volunteers' Outreach Trip logistics from your travel insurance to your in country needs like clean drinking water and accommodations!</p></div>
-  			<div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132715/food.png"><p>3 meals a day plus clean drinking water and snacks! </p></div>
+  			<div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132715/food.png"><p>3 meals a day plus clean drinking water and snacks!Three meals a day plus clean drinking water and snacks! Meals will consist of rice, beans, tortillas, and fruit/vegetables. Soups, stews, and pasta dishes are common as well. Most dietary restrictions and allergies can accommodated. </p></div>
   			<div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132716/support.png"><p>SOS works exclusively with registered non governmental organizations in every community to ensure our volunteers have the best experience possible.</p></div>
 	     </div>
   <div style="text-align: center;">
@@ -84,7 +84,6 @@
   </div>
 </div>
 </div>
-
 
 	<footer class="archive-entry-footer">
 
