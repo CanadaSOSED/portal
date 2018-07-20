@@ -27,6 +27,42 @@ if ( ! $post->post_excerpt ) {
 }
 
 ?>
-<div class="woocommerce-product-details__short-description">
-    <?php echo apply_filters( 'woocommerce_short_description', $post->post_excerpt ); ?>
+<div class="row">
+	<div class="col-12 col-md-8" "woocommerce-product-details__short-description">
+			<?php echo apply_filters( 'woocommerce_short_description', $post->post_excerpt ); ?>
+	</div>
+
+
+	<div class="col-12 col-md-4">
+		<p class="price">
+			<?php global $product;
+      echo "<strong>Price:</strong> " . $product->get_price_html(); ?>
+	  </p>
+	  <?php
+		echo "<strong>Location:</strong> " . get_field('session_location', get_the_ID());
+		echo '<br>';
+		echo "<strong>Date:</strong> " . get_field('session_date', get_the_ID());
+		echo '<br>';
+		echo "<strong>Time:</strong> " . get_field('session_time', get_the_ID());
+		echo '<br>';
+		global $session_fb;
+		$session_fb = get_field('session_fb_event', get_the_ID());
+		echo "<strong>Facebook event:</strong> <br>" ;
+		?>
+		<a href="<?php echo $session_fb; ?>" target="_blank"><?php echo $session_fb; ?> </a>
+		<?php
+		echo '<br><br><br>';
+		?>
+
+	</div>
 </div>
+
+
+
+
+	<!--<div class="woocommerce-product-details__short-description">
+	    // <?php
+			//echo apply_filters( 'woocommerce_short_description', $post->post_excerpt );
+			//?>
+	</div>
+	-->
