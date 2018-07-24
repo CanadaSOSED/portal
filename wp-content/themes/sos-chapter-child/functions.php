@@ -89,6 +89,23 @@ remove_action ( 'woocommerce_before_single_product_summary', 'woocommerce_show_p
 // Hide Reviews
 remove_action ('woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10);
 
+
+
+//begin --ismara - 2018-07-19 - redesign products page
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+
+if ( ! function_exists( 'woocommerce_template_single_instructor' ) ) {
+
+	function woocommerce_template_single_instructor() {
+		wc_get_template( 'single-product/instructor.php' );
+	}
+}
+
+add_action ('woocommerce_after_single_product_summary', 'woocommerce_template_single_instructor',5);
+//End --ismara - 2018-07-19 - redesign products page
+
+
+
 // // Allow SVG Upload
 // //////////////////////////////////////////////////////////////////////
 // function cc_mime_types_kb($mimes) {

@@ -270,3 +270,12 @@ h1, h2, h3, h4 {
 .woocommerce-MyAccount-navigation ul li:not(.is-active):hover {
   background-color: rgba(0,0,0,0.07);
 }
+
+/*begin - ismara - 2018-07-19 session improvments*/
+h1.product_title.entry-title {margin-bottom: 5px;}
+h2.display_name {margin-top: 5px;}
+.instAvatar {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+/*end - ismara - 2018-07-19 session improvments*/
