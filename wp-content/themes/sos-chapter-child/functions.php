@@ -509,31 +509,63 @@ function gens_raf_link($raf_link, $referral_id, $type) {
 //Menu order
 //////////////
 function woo_my_account_order() {
-  if( current_user_can('edit_post') || current_user_can('vpid') ) {
-    	$myorder = array(
-        'dashboard'          => __( 'Welcome', 'woocommerce' ),
-        'admin'              => __( 'My Chapter Admin' ),
-        'orders'             => __( 'Order History', 'woocommerce' ),
-        'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
-    		'my-trips'           => __( 'My Trips' ),
-        'myreferrals'        => __( 'Refer A Friend' ),
-        'edit-account'       => __( 'Account Details', 'woocommerce' ),
-        'my-cart'            => __( 'My Cart', 'woocommerce' ),
-    		'customer-logout'    => __( 'Logout', 'woocommerce' ),
-    	);
+
+   $disable = get_option( 'gens_raf_disable' );
+   if( current_user_can('edit_posts')  || current_user_can('vpid') ) {
+      if($disable === TRUE || $disable === "yes") {
+//user has a role - refer a friend is disable
+         $myorder = array(
+           'dashboard'          => __( 'Welcome', 'woocommerce' ),
+           'admin'              => __( 'My Chapter Admin' ),
+           'orders'             => __( 'Order History', 'woocommerce' ),
+           'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		   'my-trips'           => __( 'My Trips' ),
+           'edit-account'       => __( 'Account Details', 'woocommerce' ),
+           'my-cart'            => __( 'My Cart', 'woocommerce' ),
+    		   'customer-logout'    => __( 'Logout', 'woocommerce' ),
+         );
+       } else {
+//user has a role - refer a friend is enable
+    	   $myorder = array(
+           'dashboard'          => __( 'Welcome', 'woocommerce' ),
+           'admin'              => __( 'My Chapter Admin' ),
+           'orders'             => __( 'Order History', 'woocommerce' ),
+           'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		   'my-trips'           => __( 'My Trips' ),
+           'myreferrals'        => __( 'Refer A Friend' ),
+           'edit-account'       => __( 'Account Details', 'woocommerce' ),
+           'my-cart'            => __( 'My Cart', 'woocommerce' ),
+    		   'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+       }
     } else {
-      $myorder = array(
-        'dashboard'          => __( 'Welcome', 'woocommerce' ),
-        'orders'             => __( 'Order History', 'woocommerce' ),
-        'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
-    		'my-trips'           => __( 'My Trips' ),
-        'myreferrals'        => __( 'Refer A Friend' ),
-        'edit-account'       => __( 'Account Details', 'woocommerce' ),
-        'my-cart'            => __( 'My Cart', 'woocommerce' ),
-    		'customer-logout'    => __( 'Logout', 'woocommerce' ),
-    	);
-  }
-	return $myorder;
+      if($disable === TRUE || $disable === "yes") {
+//user has NO role - refer a friend is disable
+         $myorder = array(
+           'dashboard'          => __( 'Welcome', 'woocommerce' ),
+           'orders'             => __( 'Order History', 'woocommerce' ),
+           'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		   'my-trips'           => __( 'My Trips' ),
+           'edit-account'       => __( 'Account Details', 'woocommerce' ),
+           'my-cart'            => __( 'My Cart', 'woocommerce' ),
+     	   	 'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+         } else{
+//user has NO role - refer a friend is enable
+           $myorder = array(
+             'dashboard'          => __( 'Welcome', 'woocommerce' ),
+             'orders'             => __( 'Order History', 'woocommerce' ),
+             'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+      		   'my-trips'           => __( 'My Trips' ),
+             'myreferrals'        => __( 'Refer A Friend' ),
+             'edit-account'       => __( 'Account Details', 'woocommerce' ),
+             'my-cart'            => __( 'My Cart', 'woocommerce' ),
+      	   	 'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+       }
+    }
+
+	  return $myorder;
 }
 add_filter( 'woocommerce_account_menu_items', 'woo_my_account_order');
 
@@ -548,7 +580,7 @@ add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_ed
 ///////////////////////////////////////////////////////////////////////
 add_filter ( 'woocommerce_account_menu_items', 'extra_links' );
 function extra_links( $menu_links ){
-  if( current_user_can('edit_post') || current_user_can('vpid') ) {
+  if( current_user_can('edit_posts') || current_user_can('vpid') ) {
      $new = array( 'my-trips' => 'My Trips', 'admin' => 'Admin', 'my-cart' => 'My Cart' );
   } else {
      $new = array( 'my-trips' => 'My Trips', 'my-cart' => 'My Cart' );
