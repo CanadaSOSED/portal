@@ -82,9 +82,6 @@ get_header(); ?>
                     <div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
                     </div>
-                    <div class=" col-sm-3 d-sm-flex align-middle justify-content-center my-4 my-sm-0">
-                        <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/ch-logo.svg" class="" title="course-hero-logo">
-                    </div>
                     <div class=" col-sm-3 d-sm-flex align-middle my-4 my-sm-0">
                         <img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="w-50" title="princeton-review-logo">
                     </div>
