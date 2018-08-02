@@ -15,12 +15,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 
-<div class="row" style="border: 1px solid grey; padding: 1em; margin-bottom: 5em;">
-	<?php
-	global $instructor;
-	$instructor = get_field('session_instructor', get_the_ID());
-  ?>
+<?php
+global $instructor;
+$instructor = get_field('session_instructor', get_the_ID());
+if( $instructor ) {
+	?>
 
+<div class="row" style="border: 1px solid grey; padding: 1em; margin-bottom: 5em;">
 	<div class="col-12 col-md-3">
 		<h1 class="product_title entry-title"> Instructor </h1>
 		<div class="instAvatar ml-5 ml-md-0">
@@ -42,3 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		?>
   </div>
 </div>
+
+<?php
+}
+?>
