@@ -527,12 +527,15 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'href'      => admin_url(),
 		) );
 
-		$wp_admin_bar->add_menu( array(
-			'parent' => $menu_id,
-			'id'     => $menu_id . '-d',
-			'title'  => __( 'Dashboard' ),
-			'href'   => admin_url(),
-		) );
+		/*ismara - 2018-08-08 - we don't want customers/subscriber to see dashboard option at this menu*/
+		if( current_user_can('edit_posts')  || current_user_can('vpid') ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => $menu_id,
+				'id'     => $menu_id . '-d',
+				'title'  => __( 'Dashboard' ),
+				'href'   => admin_url(),
+			) );
+		}
 
 		if ( current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 			$wp_admin_bar->add_menu( array(
