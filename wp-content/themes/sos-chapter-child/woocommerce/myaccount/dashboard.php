@@ -55,7 +55,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <p><?php
 	printf(
 		__( 'From your account dashboard you can review your <strong><a href="%1$s">Trip application</a></strong> and edit your <strong><a href="%3$s">Account details</a></strong>.', 'woocommerce' ),
-		esc_url( wc_get_endpoint_url( 'my-trips' ) ),
+		esc_url( wc_get_endpoint_url( 'orders' ) ),
 		esc_url( wc_get_endpoint_url( 'edit-address' ) ),
 		esc_url( wc_get_endpoint_url( 'edit-account' ) )
 	);

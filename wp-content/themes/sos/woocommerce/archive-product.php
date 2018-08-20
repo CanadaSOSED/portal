@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-get_header( 'shop' ); ?>
+get_header( 'shop' ); ?> 
 
 	<?php
 		/**
@@ -34,6 +34,7 @@ get_header( 'shop' ); ?>
 	?>
 
     <header class="woocommerce-products-header">
+
 
 		<?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
 
@@ -71,7 +72,6 @@ get_header( 'shop' ); ?>
 				<?php woocommerce_product_subcategories(); ?>
 
 				<?php while ( have_posts() ) : the_post(); ?>
-
 					<?php
 						/**
 						 * woocommerce_shop_loop hook.
@@ -80,7 +80,7 @@ get_header( 'shop' ); ?>
 						 */
 						do_action( 'woocommerce_shop_loop' );
 					?>
-
+						
 					<?php wc_get_template_part( 'content', 'product' ); ?>
 
 				<?php endwhile; // end of the loop. ?>

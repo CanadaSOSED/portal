@@ -1,20 +1,6 @@
 <?php
-/**
- * Template Name: My Trip Page Template
- *
- * Template for displaying a page just with the header and footer area and a "naked" content area in between.
- * Good for landingpages and other types of pages where you want to add a lot of custom markup.
- *
- * @package sos-primary
- */
 
-
-
-if(is_user_logged_in()){
-
-	get_header();
-
-	$my_trip_application = get_posts(array(
+  $my_trip_application = get_posts(array(
 		'posts_per_page'    =>  -1,
 		'post_type'         =>  'trip_applications',
 		'post_status'       =>  'publish',
@@ -71,27 +57,32 @@ if(is_user_logged_in()){
 	$options_trip_leader_resources = get_field('options_trip_leader_resources', 'options');
 	$waiver_download_url = get_field('trip_waiver', 'options');
 
-
+/*
 	foreach($application_states['choices'] as $value => $state){
 		if($trip_status_id == $value){
 			$trip_state = $state;
 		}
 	}
+*/
 
 	echo '<div class="wrapper">';
 	echo '<div class="container">';
 	echo '<div class="row">';
 	echo '<div class="col-md-12 content-area" id="primary">';
 
-	if(!$trip_name){
 
-		echo '<h1>My Trip</h1>';
+  if(!$trip_name){
+
+		echo '<h3>My Trip</h3>';
 		echo '<strong>You are not registered for a trip.</strong>';
+		echo '<p>   </p>';
+		echo '<p>   </p>';
+		echo '<p>Please visit your Chapters site to learn more about upcoming <strong>SOS Outreach Trips!</strong></p>';
 
 	}else{
 
 
-		echo '<h1>My Trip</h1>';
+		echo '<h3>My Trip</h3>';
 		echo '<strong>Your Trip is:</strong> ' . $trip_name;
 		echo '<br>';
 		echo '<strong>Status:</strong> ' . $trip_state;
@@ -247,7 +238,4 @@ if(is_user_logged_in()){
 	echo '</div>';
 	echo '</div>';
 
-}else{
-	wp_redirect(home_url() . "/my-account");
-    exit();
-}
+  ?>

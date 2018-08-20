@@ -45,15 +45,11 @@ if ( ! $post->post_excerpt ) {
 		echo '<br>';
 		echo "<strong>Time:</strong> " . get_field('session_time', get_the_ID());
 		echo '<br>';
-		global $session_fb;
-		$session_fb = get_field('session_fb_event', get_the_ID());
-		echo "<strong>Facebook event:</strong> <br>" ;
+		global $session;
+		$session = get_field('session_fb_event', get_the_ID());
+		echo "<strong>Facebook event:</strong> <br>" . $session;
+		echo '<br>';
 		?>
-		<a href="<?php echo $session_fb; ?>" target="_blank"><?php echo $session_fb; ?> </a>
-		<?php
-		echo '<br><br><br>';
-		?>
-
 	</div>
 </div>
 

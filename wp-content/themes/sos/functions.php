@@ -202,11 +202,7 @@ function sos_dashboard_princeton_widget_function( $post, $callback_args ) {
 function sos_dashboard_training_widget_function( $post, $callback_args ) {
   echo "<p>Need some review on training? Wanting to grow within your department, or try out a new department? Visit our Training Resources site to check them out. </p>";
   echo '<p><hr/></p>';
-
-  // ismara - 2018-04-30 - changing href for the new training page (LMS) site_url('training')
-  echo "<p><a class='button button-primary button-large' href='http://training.soscampus.com'>Training Resources</a></p>";
-  //echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
-  // ismara - 2018-04-30 - end
+  echo "<p><a class='button button-primary button-large' href='http://www.studentsofferingsupport.ca/TrainingResources/'>Training Resources</a></p>";
 }
 
 // HR Dashboard Box
@@ -746,13 +742,12 @@ add_action( 'wp_footer', 'cart_update_script', 999 );
 //     }
 // }
 
+
 function sos_chapters_list_option_box(){
     $args = array(
-//2018-07-04 - ismara - excluded chapters from the list -> (1))soscampus.com - (5)kb.soscampus.com - (29)hq.soscampus.com - (30)faq.soscampus.com - (31)national.soscampus.com - (32)training.soscampus.com
-        'site__not_in' => '1,5,29,30,31,32',
+        'site__not_in' => '1,5,29,30',
         'orderby' => 'domain'
     );
-
 
     if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
         $sites = get_sites($args);
@@ -1248,7 +1243,6 @@ function insert_volunteer_outreach_form_fields( $entry, $form ) {
     update_field('ta_medial_first_aid', $entry['42'], $post_id );
     if($entry['44.1'] == 'yes'){
         update_field('ta_medical_acknowledge_medical_conditions', 1, $post_id );
-        update_field('ta_volunteer_outreach_form_complete', 1, $post_id );
     }else{
         update_field('ta_medical_acknowledge_medical_conditions', 0, $post_id );
     }
@@ -1342,7 +1336,6 @@ function insert_medical_fitness_form_fields( $entry, $form ) {
 
     if($entry['15.1'] == 'yes'){
         update_field('ta_fitness_agree_to_terms_medical_fitness_form', 1, $post_id );
-        update_field('ta_medical_fitness_form_complete', 1, $post_id );
     }else{
         update_field('ta_fitness_agree_to_terms_medical_fitness_form', 0, $post_id );
     }
@@ -2125,5 +2118,136 @@ function wc_payment_complete( $order_id ){
             }
         }
     }
+}
 
+
+//Joanna
+//Menu order
+//////////////
+function woo_my_account_order() {
+
+   $disable = get_option( 'gens_raf_disable' );
+   if( current_user_can('edit_posts')  || current_user_can('vpid') ) {
+      if($disable === TRUE || $disable === "yes") {
+//user has a role - refer a friend is disable
+         $myorder = array(
+           'dashboard'          => __( 'Welcome', 'woocommerce' ),
+           'admin'              => __( 'My Chapter Admin' ),
+           'orders'             => __( 'Order History', 'woocommerce' ),
+           'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		   'my-trips'           => __( 'My Trips' ),
+           'edit-account'       => __( 'Account Details', 'woocommerce' ),
+           'my-cart'            => __( 'My Cart', 'woocommerce' ),
+    		   'customer-logout'    => __( 'Logout', 'woocommerce' ),
+         );
+       } else {
+//user has a role - refer a friend is enable
+    	   $myorder = array(
+           'dashboard'          => __( 'Welcome', 'woocommerce' ),
+           'admin'              => __( 'My Chapter Admin' ),
+           'orders'             => __( 'Order History', 'woocommerce' ),
+           'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		   'my-trips'           => __( 'My Trips' ),
+           'myreferrals'        => __( 'Refer A Friend' ),
+           'edit-account'       => __( 'Account Details', 'woocommerce' ),
+           'my-cart'            => __( 'My Cart', 'woocommerce' ),
+    		   'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+       }
+    } else {
+      if($disable === TRUE || $disable === "yes") {
+//user has NO role - refer a friend is disable
+         $myorder = array(
+           'dashboard'          => __( 'Welcome', 'woocommerce' ),
+           'orders'             => __( 'Order History', 'woocommerce' ),
+           'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+    		   'my-trips'           => __( 'My Trips' ),
+           'edit-account'       => __( 'Account Details', 'woocommerce' ),
+           'my-cart'            => __( 'My Cart', 'woocommerce' ),
+     	   	 'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+         } else{
+//user has NO role - refer a friend is enable
+           $myorder = array(
+             'dashboard'          => __( 'Welcome', 'woocommerce' ),
+             'orders'             => __( 'Order History', 'woocommerce' ),
+             'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
+      		   'my-trips'           => __( 'My Trips' ),
+             'myreferrals'        => __( 'Refer A Friend' ),
+             'edit-account'       => __( 'Account Details', 'woocommerce' ),
+             'my-cart'            => __( 'My Cart', 'woocommerce' ),
+      	   	 'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+       }
+    }
+
+	  return $myorder;
+}
+add_filter( 'woocommerce_account_menu_items', 'woo_my_account_order');
+
+
+
+// My Account Tab Merged (Payment-Methods + Edit-Address into Edit-Account)
+//////////////////////////////////////////////////////////////////////
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_payment_methods');
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_edit_address');
+
+//New Tabs
+///////////////////////////////////////////////////////////////////////
+add_filter ( 'woocommerce_account_menu_items', 'extra_links' );
+function extra_links( $menu_links ){
+  if( current_user_can('edit_posts') || current_user_can('vpid') ) {
+     $new = array( 'my-trips' => 'My Trips', 'admin' => 'Admin', 'my-cart' => 'My Cart' );
+  } else {
+     $new = array( 'my-trips' => 'My Trips', 'my-cart' => 'My Cart' );
+  }
+	$menu_links = array_slice( $menu_links, 0, 8, true )
+	+ $new
+	+ array_slice( $menu_links, 8, NULL, true );
+	return $menu_links;
+}
+
+add_action( 'init', 'add_my_trips_endpoint' );
+function add_my_trips_endpoint() {
+    add_rewrite_endpoint( 'my-trips', EP_ROOT | EP_PAGES );
+}
+
+add_action( 'init', 'add_my_cart_endpoint' );
+function add_my_cart_endpoint() {
+    add_rewrite_endpoint( 'my-cart', EP_ROOT | EP_PAGES );
+}
+
+add_action( 'init', 'add_admin_endpoint' );
+function add_admin_endpoint() {
+    add_rewrite_endpoint( 'admin', EP_ROOT | EP_PAGES );
+}
+
+//My Cart tab
+//////////////////////
+add_action( 'woocommerce_account_my-cart_endpoint', 'my_cart_content' );
+function my_cart_content() {
+  echo do_shortcode( '[woocommerce_cart]' );
+}
+
+
+//Admin; I have to figure out how to make other roles show this
+//////////////////////
+add_action( 'woocommerce_account_admin_endpoint', 'admin_content' );
+function admin_content() {
+  echo '<p>Click the link below to access your Chapter Admin:</p>';
+  $url = admin_url();
+  $link = "<strong><a href='{$url}'>Volunteer Dashboard</a></strong>";
+  echo $link;
+}
+
+
+// My Trips
+////////////////////////
+add_action( 'woocommerce_account_my-trips_endpoint', 'my_trips_content' );
+function my_trips_content() {
+//2018-07-05 - ismara - we are will use the same my-trip page, not the one created at woocommerce
+//  $file_path = include 'woocommerce/myaccount/my-trip.php';
+  $file_path = include 'page-templates/my-trip.php';
+  $content = @file_get_contents($file_path);
+  echo $content;
 }

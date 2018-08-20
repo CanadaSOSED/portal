@@ -16,4 +16,5 @@
  * @version     2.0.0
  */
 ?>
-<ul class="products">
+<div class="clearfix"></div>
+<div class="products row d-flex flex-wrap">
