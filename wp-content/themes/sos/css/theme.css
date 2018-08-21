@@ -512,6 +512,15 @@ pre {
   margin-right: -15px;
   margin-left: -15px; }
 
+  /*begin ismara - 2018-08-15 new row for gforms template */
+  #row-formfill {
+    background-color: #fff;
+    border: 1px solid #888888;
+    padding: 10px;
+    box-shadow: 5px 10px #888888;
+  }
+  /*end ismara - 2018-08-15 new row for gforms template */
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0; }
@@ -6688,6 +6697,13 @@ a.text-dark:focus, a.text-dark:hover {
 
 #wrapper-hero {
   padding: 0px !important; }
+
+/*begin ismara - 2018-08-15 new wrapper for gforms template */
+#wrapper-formfill {
+    padding: 30px 0;
+    background: url("../img/tree-back-light.jpg") #f3f3f3;
+}
+/*end ismara - 2018-08-15 new wrapper for gforms template */
 
 .sticky,
 .gallery-caption,

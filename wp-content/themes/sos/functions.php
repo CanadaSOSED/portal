@@ -770,6 +770,46 @@ function sos_chapters_list_option_box(){
 
 }
 
+/*begin - ismara - 2018-08-21 dynamically populated Gform select fields - chapters' list*/
+add_filter( 'gform_pre_render', 'populate_chapters' );
+add_filter( 'gform_pre_validation', 'populate_chapters' );
+add_filter( 'gform_pre_submission_filter', 'populate_chapters' );
+add_filter( 'gform_admin_pre_render', 'populate_chapters' );
+function populate_chapters( $form ) {
+    $args = array(
+        'site__not_in' => '1,5,29,30,31,32',
+        'orderby' => 'domain'
+    );
+
+    foreach ( $form['fields'] as &$field ) {
+
+        if ( $field->type != 'select' || strpos( $field->cssClass, 'populate_chapters' ) === false ) {
+            continue;
+        }
+
+
+        if ( function_exists( 'get_sites' ) && class_exists( 'WP_Site_Query' ) ) {
+          $sites = get_sites($args);
+
+          $choices = array();
+
+          foreach ( $sites as $site ) {
+              switch_to_blog( $site->blog_id );
+              $choices[] = array( 'text' => get_option('blogname'), 'value' => get_option('blogname') );
+              restore_current_blog();
+          }
+
+          $field->placeholder = '---';
+          $field->choices = $choices;
+        }
+    }
+
+    return $form;
+}
+/*end - ismara - 2018-08-21 dynamically populated Gform select fields - chapters' list*/
+
+
+
 
 function sos_chapters_list_apply_option_box(){
     $args = array(

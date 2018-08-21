@@ -40,6 +40,10 @@
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
+
+    /*begin ismara - 2018-08-15 adding space to the button */
+    padding: 1rem !important;
+    /*end ismara - 2018-08-15 adding space to the button */
 }
 
 .gform_button:hover {
@@ -72,6 +76,18 @@
 .gform_body textarea:focus {
     border-color: #007bff;
 }
+
+/*begin - ismara - 2018-08-15 the same border for selection fields */
+.gform_body select {
+    border: 2px solid #ccc;
+    padding: 1rem !important;
+    border-radius: 5px;
+}
+.gform_body select:focus {
+    border-color: #007bff;
+}
+/*end ismara - 2018-08-15 the same border for selection fields */
+
 
 .gform_wrapper.gf_browser_chrome .gfield_checkbox li input,
 .gform_wrapper.gf_browser_chrome .gfield_checkbox li input[type=checkbox], .gform_wrapper.gf_browser_chrome .gfield_radio li input[type=radio] {
