@@ -512,6 +512,15 @@ pre {
   margin-right: -15px;
   margin-left: -15px; }
 
+  /*begin ismara - 2018-08-15 new row for gforms template */
+  #row-formfill {
+    background-color: #fff;
+    border: 1px solid #888888;
+    padding: 10px;
+    box-shadow: 5px 10px #888888;
+  }
+  /*end ismara - 2018-08-15 new row for gforms template */
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0; }
@@ -3219,13 +3228,13 @@ tbody.collapse.show {
     .input-group-btn > .btn:focus,
     .wpcf7 .input-group-btn > input[type=submit]:focus, .input-group-btn > .btn:active, .wpcf7 .input-group-btn > input[type=submit]:active, .input-group-btn > .btn:hover, .wpcf7 .input-group-btn > input[type=submit]:hover {
       z-index: 3; }
-  
+
   .input-group-btn:not(:last-child) > .btn,
   .wpcf7
   .input-group-btn:not(:last-child) > input[type=submit],
   .input-group-btn:not(:last-child) > .btn-group {
     margin-right: -1px; }
-  
+
   .input-group-btn:not(:first-child) > .btn,
   .wpcf7
   .input-group-btn:not(:first-child) > input[type=submit],
@@ -4619,7 +4628,7 @@ button.close {
       bottom: -11px;
       margin-left: -6px;
       border-top-color: rgba(0, 0, 0, 0.25); }
-    
+
     .popover.bs-popover-top .arrow::after, .popover.bs-popover-auto[x-placement^="top"] .arrow::after {
       bottom: -10px;
       margin-left: -6px;
@@ -4635,7 +4644,7 @@ button.close {
     .popover.bs-popover-right .arrow::before, .popover.bs-popover-auto[x-placement^="right"] .arrow::before {
       left: -11px;
       border-right-color: rgba(0, 0, 0, 0.25); }
-    
+
     .popover.bs-popover-right .arrow::after, .popover.bs-popover-auto[x-placement^="right"] .arrow::after {
       left: -10px;
       border-right-color: #fff; }
@@ -4650,7 +4659,7 @@ button.close {
     .popover.bs-popover-bottom .arrow::before, .popover.bs-popover-auto[x-placement^="bottom"] .arrow::before {
       top: -11px;
       border-bottom-color: rgba(0, 0, 0, 0.25); }
-    
+
     .popover.bs-popover-bottom .arrow::after, .popover.bs-popover-auto[x-placement^="bottom"] .arrow::after {
       top: -10px;
       border-bottom-color: #fff; }
@@ -4674,7 +4683,7 @@ button.close {
     .popover.bs-popover-left .arrow::before, .popover.bs-popover-auto[x-placement^="left"] .arrow::before {
       right: -11px;
       border-left-color: rgba(0, 0, 0, 0.25); }
-    
+
     .popover.bs-popover-left .arrow::after, .popover.bs-popover-auto[x-placement^="left"] .arrow::after {
       right: -10px;
       border-left-color: #fff; }
@@ -7497,6 +7506,13 @@ a.text-dark:focus, a.text-dark:hover {
 
 #wrapper-hero {
   padding: 0px !important; }
+
+/*begin ismara - 2018-08-15 new wrapper for gforms template */
+#wrapper-formfill {
+    padding: 30px 0;
+    background: url("../img/tree-back-light.jpg") #f3f3f3;
+}
+/*end ismara - 2018-08-15 new wrapper for gforms template */
 
 .sticky,
 .gallery-caption,
