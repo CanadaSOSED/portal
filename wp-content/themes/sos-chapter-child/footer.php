@@ -6,39 +6,57 @@
  *
  * @package sos-chapter
  */
-
 $the_theme = wp_get_theme();
 $container = get_theme_mod( 'understrap_container_type' );
 ?>
 
 <?php get_sidebar( 'footerfull' ); ?>
 
-<div class="wrapper " id="wrapper-footer" style="background-color: #0f425c;">
+<div class="wrapper" id="wrapper-footer" style="background-color: #262626;">
 	<div class="<?php echo esc_html( $container ); ?>">
 
-		<div class="row d-flex justify-content-between">
-			<div class="col-12 col-sm-6">
-			<nav class="navbar navbar-dark d-flex justify-content-start">
-				<div class="nav-item"><a class="nav-link" href="<?php bloginfo( 'site_url'); ?>">Home</a></div>
-				<!-- <div class="nav-item"><?php //sos_wp_loginout(); ?></div> -->
-				<div class="nav-item"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
-				<div class="nav-item"><a href="http://faq.soscampus.com/">Help</a></div>
-			</nav>
+		<div class="row d-flex justify-content-md-center">
+			<div class="col-sm-6 col-md-4 col-lg-3">
+				<h5>Contact Information</h5>
+				<ul>
+					<li>(289)-210-1855</li>
+					<li><a href="mailto:info@studentsofferingsupport.ca">info@studentsofferingsupport.ca</a></li>
+					<li>720 Bathurst Street - Suite 410,<br>Toronto, Ontario M5S 2R4</li>
+					<li>Charity #: 81495 0416 RR 0001</li>
+				</ul>
+				<div class="socialFooter">
+					<ul>
+						<li><a href="https://www.facebook.com/StudentsOfferingSupport" target="_blank"><img alt="facebook" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/09154317/facebook.png" width="20" height="20"></a></li>
+						<li><a href="https://www.instagram.com/studentsofferingsupport/" target="_blank"><img alt="instagram" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/09154317/instagram.png" width="20" height="20"></a></li>
+						<li><a href="https://www.linkedin.com/groups/1845827" target="_blank"><img alt="linkedin" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/09154318/linkedin.png" width="20" height="20"></a></li>
+						<li><a href="https://twitter.com/SOSheadoffice" target="_blank"><img alt="twitter" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/09154318/twitter.png" width="20" height="20"></a></li>
+					</ul>
+				</div>
 			</div><!--col end -->
-			<div class="col-12 col-sm-6">
-
+			<div class="col-sm-6 col-md-4 col-lg-3">
+				<h5>About Us</h5>
+				<p style="color:#919191;">Students Offering Support (SOS) is a multi-national charitable and entrepreneurial initiative that supports and develops individual SOS chapters within post-secondary institutions across North America.</p>
 			</div><!--col end -->
-
 		</div><!-- row end -->
-
 	</div><!-- container end -->
-
 </div><!-- wrapper end -->
 
-</div><!-- #page -->
+<div id="copyright-wrapper"  style="background-color: #111111;">
+	<div class="<?php echo esc_html( $container ); ?>">
+		<div class="row">
+			<div class="col-lg-8 col-sm-6">
+				<p> Students Offering Support &#169; 2018.</p>
+			</div><!--col end -->
+			<div class="col-lg-4 col-sm-6">
+				<nav class="navbar">
+					<div class="nav-item" style="margin-left: 12rem;"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
+				</nav>
+			</div><!--col end -->
+		</div><!-- row end -->
+	</div>
+</div><!-- container end -->
 
 <?php wp_footer(); ?>
 
 </body>
-
 </html>
