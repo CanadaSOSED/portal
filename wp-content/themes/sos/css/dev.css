@@ -1,3 +1,27 @@
+/*joanna - landing page */
+.btn {
+  -webkit-border-radius: 6;
+  -moz-border-radius: 6;
+  border-radius: 6px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 1em;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: #0F425C;
+  padding: 15px 40px 15px 40px;
+  text-decoration: none;
+  border-color: #0F425C;
+  box-shadow: 1px 1px 1px rgb(34, 34, 34);
+}
+
+.btn:hover {
+  background: #1b71a6;
+  border-color: #1b71a6;
+  text-decoration: none;
+}
+/*joanna - landing page */
+
 .trips.type-trips {
     margin: 0 0 2rem;
     padding: 0 0 2rem;
@@ -150,4 +174,571 @@
 .aligncenter {
     display: block;
     margin: 0 auto;
+}
+
+
+
+
+
+
+
+
+
+/****************************************************/
+/*****************Landing Page***********************/
+/*******************Joanna***************************/
+
+#examAids {
+  background-image: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/16131211/exam-bg-blue.jpg');
+  background-color: #0f425c;
+  width: 100%;
+  height: 570px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+#examAids h1 {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+#examAids p {
+  margin-bottom: 40px;
+}
+
+#selector {
+  margin-top: 10px;
+  margin-left: 7.5rem;
+  margin-bottom: 10px;
+}
+
+@media screen and (min-width: 1024px) {
+  #selector {
+    margin-top: 10px;
+    margin-left: 12rem;
+    margin-bottom: 10px;
+  }
+
+}
+
+#outreachTrips {
+  background-image: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/13141049/trip-bg-blue.jpg');
+  background-color: #0f425c;
+  width: 100%;
+  height: 570px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+#outreachTrips h1 {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+#outreachTrips p {
+  margin-bottom: 30px;
+}
+
+#voluSection {
+  background-image: linear-gradient(0deg, rgba(3,21,35,0.6) 0%, rgba(3, 21, 34, 0.5) 100%),url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/16021659/Copy-of-f.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.voluText {
+  background-color: #fff;
+}
+
+.causeImage {
+background-image: linear-gradient(0deg, rgba(3,21,35,0.6) 0%, rgba(3,21,35,0.3) 100%),url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/16020832/1DSC_0816-1_1.jpg');
+background-repeat: no-repeat;
+background-position: bottom left, center;
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+display: block;
+color: black;
+}
+
+/****************************************************/
+/*************New Header + Footer********************/
+/*******************Joanna***************************/
+/*--- Header ---*/
+#topNav {
+  display: flex;
+  justify-content: space-between;
+}
+
+#menuNav {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navbar-toggler {
+  margin-top: 20px;
+}
+
+.navbar-top {
+  background-color: #0f425c;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+  padding-left: 0;
+}
+
+.navbar-logo img {
+  height: 6.5rem;
+  margin-left: 15px;
+}
+
+div.mainNav {
+  background-color: #535353;
+  margin-right: 9rem;
+  margin-left: 9rem;
+  padding-right: 2em;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  position: relative; z-index: 91;
+  margin-top: -40px;
+  border-bottom: 4px solid rgb(71, 71, 71);
+}
+
+div.mainNav .social-icons ul {
+  padding-left: 1.2rem;
+}
+
+@media screen (max-width: 415px) {
+  div.mainNav {
+    padding: 123em;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  div.mainNav {
+    padding: 0em;
+  }
+}
+
+.social-icons {
+  margin-top: 5px;
+}
+.social-icons ul{
+  list-style-type: none;
+}
+
+.social-icons li {
+  display: inline;
+  margin-right: 8px;
+}
+
+/*--- top navigation ---*/
+.top-navigation-wrapper{ position: relative; z-index: 98; font-size: 13px; font-weight: bold;
+	padding-top: 10px;}
+.top-navigation-left{ float: left; margin: 0px 15px;  }
+.top-navigation-right{ float: right; margin: 0px 15px; }
+.top-navigation-wrapper a, .gdlr-logo-right-text a { margin-right: 8px; margin-left: 8px; }
+.top-navigation-wrapper a:last-child, .gdlr-logo-right-text a:last-child { margin-right: 0px; }
+
+.top-social-wrapper{ padding-top: 28px; margin: 0px 20px; }
+.top-social-wrapper .social-icon{ float: left; margin-left: 14px; max-width: 16px; }
+.top-social-wrapper .social-icon:first-child{ margin-left: 0px; }
+.top-social-wrapper .social-icon a:hover{ opacity: 0.6; filter: alpha(opacity=60); }
+
+/*superfish*/
+/***Top Nav (login); Joanna ***/
+.jb-menu, .jb-menu * {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.jb-menu li {
+	position: relative;
+}
+.jb-menu ul {
+	position: absolute;
+	display: none;
+	top: 100%;
+	left: 0;
+	z-index: 99;
+}
+.jb-menu > li {
+	float: left;
+}
+.jb-menu li:hover > ul,
+.jb-menu li.sfHover > ul {
+	display: block;
+}
+
+.jb-menu a {
+	display: block;
+	position: relative;
+}
+
+.jb-menu ul ul {
+	top: 0;
+	left: 100%;
+}
+
+.jb-menu {
+	float: right;
+	margin-bottom: 0em;
+}
+.jb-menu ul {
+	box-shadow: 2px 2px 6px rgba(0,0,0,.2);
+	min-width: 10em; /* allow long menu items to determine submenu width */
+	*width: 10em; /* no auto sub width for IE7, see white-space comment below */
+}
+.jb-menu a {
+	/*border-bottom: 1px solid #dFeEFF;  fallback colour must use full shorthand */
+  padding: .75em 1em;
+	text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+}
+
+.jb-menu li {
+	background: #0f425c;
+	white-space: nowrap; /* no need for Supersubs plugin */
+	*white-space: normal; /* ...unless you support IE7 (let it wrap) */
+	-webkit-transition: background .2s;
+	transition: background .2s;
+}
+.jb-menu ul li {
+	background: #fff;
+}
+.jb-menu ul ul li {
+	background: #393939;
+}
+
+.jb-menu li:hover,
+.jb-menu li.sfHover {
+	background: rgba(71, 71, 71, 0.8);
+	/* only transition out, not in */
+	-webkit-transition: none;
+	transition: none;
+}
+/*** ESSENTIAL STYLES ***/
+.sf-menu, .sf-menu * {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+  text-align: left; line-height: 1.7; zoom: 1; text-transform: uppercase;  /*ismaramenu 2018-08-23*/
+}
+.sf-menu li {
+	position: relative;
+}
+.sf-menu ul {
+	position: absolute;
+	display: none;
+	top: 100%;
+	left: 0;
+	z-index: 99;
+}
+.sf-menu > li {
+	float: left;
+}
+.sf-menu li:hover > ul,
+.sf-menu li.sfHover > ul {
+	display: block;
+}
+
+.sf-menu a {
+	display: block;
+	position: relative;
+}
+
+.sf-menu ul ul {
+	top: 0;
+	left: 100%;
+}
+
+.sf-menu {
+	float: right;
+	margin-bottom: 0em;
+}
+.sf-menu ul {
+	box-shadow: 2px 2px 6px rgba(0,0,0,.2);
+	min-width: 10em; /* allow long menu items to determine submenu width */
+	*width: 10em; /* no auto sub width for IE7, see white-space comment below */
+}
+.sf-menu a {
+	/*border-bottom: 1px solid #dFeEFF;  fallback colour must use full shorthand */
+  padding: .75em 1em;
+	text-decoration: none;
+  color: #fff;
+  /* font-weight: 500; ismaramenu 2018-08-23*/
+  text-transform: uppercase;
+  font-size: 13px;
+
+  margin:0px;  font-weight: bold; /*ismaramenu 2018-08-23*/
+}
+
+.sf-menu li {
+	background: #535353;
+	white-space: nowrap; /* no need for Supersubs plugin */
+	*white-space: normal; /* ...unless you support IE7 (let it wrap) */
+	-webkit-transition: background .2s;
+	transition: background .2s;
+}
+.sf-menu ul li {
+	background: #555555;/*ismaramenu 2018-08-23 #fff;*/
+}
+.sf-menu ul ul li {
+	background: #393939;
+}
+
+.sf-menu li:hover,
+.sf-menu li.sfHover {
+	background: #474747;
+	/* only transition out, not in */
+	-webkit-transition: none;
+	transition: none;
+}
+
+.sf-menu ul li:last-child {
+  background: #474747;
+}
+
+.sf-menu ul li a:last-child {
+  font-size: 0.75em;
+  font-weight: normal;
+  text-transform: capitalize;
+}
+
+/*ismaramenu 2018-08-23*/
+.sf-menu ul li a {
+  font-size: 0.75em;
+  font-weight: normal;
+  text-transform: capitalize;
+}
+
+/*** arrows (for all except IE7) **/
+.sf-arrows .sf-with-ul {
+	padding-right: 2.5em;
+	*padding-right: 1em; /* no CSS arrows for IE7 (lack pseudo-elements) */
+}
+/* styling for both css and generated arrows */
+.sf-arrows .sf-with-ul:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	right: 1em;
+	margin-top: -3px;
+	height: 0;
+	width: 0;
+	/* order of following 3 rules important for fallbacks to work */
+	border: 5px solid transparent;
+	border-top-color: #dFeEFF; /* edit this to suit design (no rgba in IE8) */
+	border-top-color: rgba(255,255,255,.5);
+}
+.sf-arrows > li > .sf-with-ul:focus:after,
+.sf-arrows > li:hover > .sf-with-ul:after,
+.sf-arrows > .sfHover > .sf-with-ul:after {
+	border-top-color: white; /* IE8 fallback colour */
+}
+/* styling for right-facing arrows */
+.sf-arrows ul .sf-with-ul:after {
+	margin-top: -5px;
+	margin-right: -3px;
+	border-color: transparent;
+	border-left-color: #dFeEFF; /* edit this to suit design (no rgba in IE8) */
+	border-left-color: rgba(255,255,255,.5);
+}
+.sf-arrows ul li > .sf-with-ul:focus:after,
+.sf-arrows ul li:hover > .sf-with-ul:after,
+.sf-arrows ul .sfHover > .sf-with-ul:after {
+	border-left-color: white;
+}
+
+/*** point all arrows down ***/
+.sf-arrows.sf-navbar ul .sf-with-ul:after {
+	margin-top: -3px;
+	margin-right: 0;
+	border-color: transparent;
+	border-top-color: #dFeEFF; /* edit this to suit design (no rgba in IE8) */
+	border-top-color: rgba(255,255,255,.5);
+}
+
+.sf-arrows.sf-navbar ul > li > .sf-with-ul:focus:after,
+.sf-arrows.sf-navbar ul > li:hover > .sf-with-ul:after,
+.sf-arrows.sf-navbar ul > .sfHover > .sf-with-ul:after {
+	border-color: transparent;
+	border-top-color: white;
+}
+/*DL*/
+/* Common styles of menus */
+
+.dl-menuwrapper {
+	width: 100%;
+	max-width: 300px;
+	float: left;
+	position: relative;
+	-webkit-perspective: 1000px;
+	perspective: 1000px;
+	-webkit-perspective-origin: 50% 200%;
+	perspective-origin: 50% 200%;
+}
+
+.dl-menuwrapper:first-child {
+	margin-right: 100px;
+}
+
+.dl-menuwrapper button {
+	background: #ccc;
+	border: none;
+	width: 48px;
+	height: 45px;
+	text-indent: -900em;
+	overflow: hidden;
+	position: relative;
+	cursor: pointer;
+	outline: none;
+}
+
+.dl-menuwrapper button:hover,
+.dl-menuwrapper button.dl-active,
+.dl-menuwrapper ul {
+	background: #aaa;
+}
+
+.dl-menuwrapper button:after {
+	content: '';
+	position: absolute;
+	width: 68%;
+	height: 5px;
+	background: #fff;
+	top: 10px;
+	left: 16%;
+	box-shadow:
+		0 10px 0 #fff,
+		0 20px 0 #fff;
+}
+
+.dl-menuwrapper ul {
+	padding: 0;
+	list-style: none;
+	-webkit-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+}
+
+.dl-menuwrapper li {
+	position: relative;
+}
+
+.dl-menuwrapper li a {
+	display: block;
+	position: relative;
+	padding: 15px 20px;
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: 300;
+	color: #fff;
+	outline: none;
+}
+
+.no-touch .dl-menuwrapper li a:hover {
+	background: rgba(255,248,213,0.1);
+}
+
+.dl-menuwrapper li.dl-back > a {
+	padding-left: 30px;
+	background: rgba(0,0,0,0.1);
+}
+
+.dl-menuwrapper li.dl-back:after,
+.dl-menuwrapper li > a:not(:only-child):after {
+	position: absolute;
+	top: 0;
+	line-height: 50px;
+	font-family: 'icomoon';
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	content: "\e000";
+}
+
+.dl-menuwrapper li.dl-back:after {
+	left: 10px;
+	color: rgba(212,204,198,0.3);
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.dl-menuwrapper li > a:after {
+	right: 10px;
+	color: rgba(0,0,0,0.15);
+}
+
+.dl-menuwrapper .dl-menu {
+	margin: 5px 0 0 0;
+	position: absolute;
+	width: 100%;
+	opacity: 0;
+	pointer-events: none;
+	-webkit-transform: translateY(10px);
+	transform: translateY(10px);
+	-webkit-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.dl-menuwrapper .dl-menu.dl-menu-toggle {
+	transition: all 0.3s ease;
+}
+
+.dl-menuwrapper .dl-menu.dl-menuopen {
+	opacity: 1;
+	pointer-events: auto;
+	-webkit-transform: translateY(0px);
+	transform: translateY(0px);
+}
+
+/* Hide the inner submenus */
+.dl-menuwrapper li .dl-submenu {
+	display: none;
+}
+
+/****FOOTER****/
+
+#footer-logo {
+  margin-bottom: 10px;
+}
+
+#wrapper-footer {
+  padding: 80px 0 40px 0;
+}
+
+#wrapper-footer h5 {
+  color:#dddddd;
+}
+
+#wrapper-footer ul{
+  color: #919191;
+  list-style-type: none;
+  padding-left: 0;
+  line-height: 2;
+}
+#copyright-wrapper {
+  padding: 10px 0 10px 0
+}
+#copyright-wrapper .navbar {
+  padding: 0;
+  justify-content: flex-start;
+}
+#copyright-wrapper .nav-link {
+  padding-left: 0;
+}
+#copyright-wrapper p {
+  padding-top: 8px;
+  color: #d1d1d1;
+}
+
+.socialFooter ul li{
+  display: inline-block;
+  margin-right: 5px;
 }
