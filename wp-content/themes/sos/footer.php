@@ -20,7 +20,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<h5>Contact Information</h5>
 				<ul>
 					<li>(289)-210-1855</li>
-					<li><a href="mailto:info@studentsofferingsupport.ca">info@studentsofferingsupport.ca</a></li>
+					<li><a style="color:inherit;" href="mailto:info@studentsofferingsupport.ca">info@studentsofferingsupport.ca</a></li>
 					<li>720 Bathurst Street - Suite 410,<br>Toronto, Ontario M5S 2R4</li>
 					<li>Charity #: 81495 0416 RR 0001</li>
 				</ul>
@@ -35,7 +35,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 			</div><!--col end -->
 			<div class="col-sm-6 col-md-4 col-lg-3">
 				<h5>About Us</h5>
-				<p style="color:#919191;">Students Offering Support (SOS) is a multi-national charitable and entrepreneurial initiative that supports and develops individual SOS chapters within post-secondary institutions across North America.</p>
+				<p style="color:#919191;">Students Offering Support is a community of student changemakers delivering transformational learning programs, across Canada and around the world. We’ve been a registered charity since 2008, driven by a one-of-a-kind social enterprise model that creates win-win-win solutions for our volunteers, participants, and communities at large.</p>
 			</div><!--col end -->
 		</div><!-- row end -->
 	</div><!-- container end -->

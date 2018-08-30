@@ -289,9 +289,9 @@ h2.display_name {margin-top: 5px;}
 
 #examAids {
   background-image: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/16131211/exam-bg-blue.jpg');
-  background-color: red;
+  background-color: #0f425c;
   width: 100%;
-  height: 500px;
+  height: 570px;
   margin-bottom: 20px;
   margin-top: 10px;
   padding: 20px;
@@ -307,10 +307,12 @@ h2.display_name {margin-top: 5px;}
   margin-bottom: 40px;
 }
 
+
 #outreachTrips {
   background-image: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/13141049/trip-bg-blue.jpg');
+  background-color: #0f425c;
   width: 100%;
-  height: 500px;
+  height: 570px;
   margin-top: 10px;
   margin-bottom: 20px;
   padding: 20px;

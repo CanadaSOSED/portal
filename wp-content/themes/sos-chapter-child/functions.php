@@ -505,6 +505,27 @@ function gens_raf_link($raf_link, $referral_id, $type) {
 	}
 }
 
+
+
+// ismara - 2018/04/05 - Default content for posts
+// ACF - custom fields
+add_filter( 'default_content', 'my_editor_content', 10, 2 );
+
+function my_editor_content( $content, $post ) {
+
+    switch( $post->post_type ) {
+        case 'opportunities':
+            $content = 'Students Offering Support (SOS) is a National Charity that develops and supports Chapters in universities across North America. The SOS model, Raising Marks, Raising Money, Raising Roofs, provides a service within which people place genuine value, and is unlike any other organization. Students Offering Support is a unique social enterprise that relies on the passionate student leaders to create positive impact both at home and abroad. Regardless of position, all Students Offering Support volunteers must thoroughly understand, communicate, and embody SOS’ 360 degree model of volunteering.';
+        break;
+        default:
+            $content = '';
+        break;
+    }
+
+    return $content;
+}
+
+
 //Joanna
 //Menu order
 //////////////
