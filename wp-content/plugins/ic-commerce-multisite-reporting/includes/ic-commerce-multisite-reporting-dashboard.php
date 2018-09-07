@@ -142,6 +142,121 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 							</div>
 						</div>
 
+
+<!--BEGIN - CUSTOMIZATION MULTISITE REPORT-->
+            <div class="col-sm-3 ic_green_skin">
+							<div class="ic_block">
+								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
+								<div class="ic_head">
+									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/cash-icon.png" alt=""></span>
+									<h3><?php _e('Sales Cash','icwoocommerce_textdomains');?></h3>
+								</div>
+
+								<div class="ic_block_content">
+									<div class="ic_stat">
+										<h4><?php _e('ORD. COUNT','icwoocommerce_textdomains');?></h4>
+										<span class="total_sales_cash_count"></span>
+									</div>
+
+									<div class="ic_stat">
+										<h4><?php _e('Amount','icwoocommerce_textdomains');?></h4>
+										<span class="ic_text total_sales_cash_amount"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+            <div class="col-sm-3 ic_grey_skin">
+							<div class="ic_block">
+								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
+								<div class="ic_head">
+									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/card-icon.png" alt=""></span>
+									<h3><?php _e('Sales Card','icwoocommerce_textdomains');?></h3>
+								</div>
+
+								<div class="ic_block_content">
+									<div class="ic_stat">
+										<h4><?php _e('ORD. COUNT','icwoocommerce_textdomains');?></h4>
+										<span class="total_sales_card_count"></span>
+									</div>
+
+									<div class="ic_stat">
+										<h4><?php _e('Amount','icwoocommerce_textdomains');?></h4>
+										<span class="ic_text total_sales_card_amount"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+<!--            <div class="col-sm-3 ic_skyblue_skin">
+							<div class="ic_block">
+								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
+								<div class="ic_head">
+									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/sales-icon.png" alt=""></span>
+									<h3><?php _e('Sales On-hold','icwoocommerce_textdomains');?></h3>
+								</div>
+
+								<div class="ic_block_content">
+									<div class="ic_stat">
+										<h4><?php _e('ORD. COUNT','icwoocommerce_textdomains');?></h4>
+										<span class="total_sales_onhold_count"></span>
+									</div>
+
+									<div class="ic_stat">
+										<h4><?php _e('Amount','icwoocommerce_textdomains');?></h4>
+										<span class="ic_text total_sales_onhold_amount"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+            <div class="col-sm-3 ic_skyblue_skin">
+							<div class="ic_block">
+								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
+								<div class="ic_head">
+									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/sales-icon.png" alt=""></span>
+									<h3><?php _e('Sales Processing','icwoocommerce_textdomains');?></h3>
+								</div>
+
+								<div class="ic_block_content">
+									<div class="ic_stat">
+										<h4><?php _e('ORD. COUNT','icwoocommerce_textdomains');?></h4>
+										<span class="total_sales_processing_count"></span>
+									</div>
+
+									<div class="ic_stat">
+										<h4><?php _e('Amount','icwoocommerce_textdomains');?></h4>
+										<span class="ic_text total_sales_processing_amount"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+            <div class="col-sm-3 ic_skyblue_skin">
+							<div class="ic_block">
+								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
+								<div class="ic_head">
+									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/sales-icon.png" alt=""></span>
+									<h3><?php _e('Sales Completed','icwoocommerce_textdomains');?></h3>
+								</div>
+
+								<div class="ic_block_content">
+									<div class="ic_stat">
+										<h4><?php _e('ORD. COUNT','icwoocommerce_textdomains');?></h4>
+										<span class="total_sales_completed_count"></span>
+									</div>
+
+									<div class="ic_stat">
+										<h4><?php _e('Amount','icwoocommerce_textdomains');?></h4>
+										<span class="ic_text total_sales_completed_amount"></span>
+									</div>
+								</div>
+							</div>
+						</div>
+-->
+<!--END - CUSTOMIZATION MULTISITE REPORT-->
+
+
 						<div class="col-sm-3 ic_red_skin">
 							<div class="ic_block">
 								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
@@ -165,7 +280,7 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 							</div>
 						</div>
 
-						<div class="col-sm-3 ic_purple_skin">
+						<div class="col-sm-3 ic_orange_skin"> <!-- changed from purple to orange - CUSTOMIZATION MULTISITE REPORT -->
 							<div class="ic_block">
 								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
 
@@ -188,7 +303,7 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 							</div>
 						</div>
 
-						<div class="col-sm-3 ic_green_skin">
+						<div class="col-sm-3 ic_salmon_skin"> <!-- changed from green to salmon - CUSTOMIZATION MULTISITE REPORT -->
 							<div class="ic_block">
 								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
 
@@ -217,7 +332,7 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
 
 								<div class="ic_head">
-									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/tax-icon.png" alt=""></span>
+									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/fee-icon.png" alt=""></span>
 									<h3><?php _e('Service Fee','icwoocommerce_textdomains');?></h3>
 								</div>
 
@@ -235,12 +350,12 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 							</div>
 						</div>
 
-						<div class="col-sm-3 ic_grey_skin">
+						<div class="col-sm-3 ic_purple_skin">
 							<div class="ic_block">
 								<span class="ic_refresh_icon"><i class="fa fa-refresh"></i></span>
 
 								<div class="ic_head">
-									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/tax-icon.png" alt=""></span>
+									<span class="ic_icon"><img src="<?php echo $this->constants['plugin_url']?>/images/stripe-icon.png" alt=""></span>
 									<h3><?php _e('Stripe Fee','icwoocommerce_textdomains');?></h3>
 								</div>
 
@@ -489,6 +604,23 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 					$return['summary_boxes']['total_sales_amount']		= '';
 					$return['summary_boxes']['total_sales_count']		= '';
 
+/* BEGIN - CUSTOMIZATION MULTISITE REPORT */
+$return['summary_boxes']['total_sales_cash_amount']		= '';
+$return['summary_boxes']['total_sales_cash_count']		= '';
+
+$return['summary_boxes']['total_sales_card_amount']		= '';
+$return['summary_boxes']['total_sales_card_count']		= '';
+
+$return['summary_boxes']['total_sales_onhold_amount']		= '';
+$return['summary_boxes']['total_sales_onhold_count']		= '';
+
+$return['summary_boxes']['total_sales_processing_amount']		= '';
+$return['summary_boxes']['total_sales_processing_count']		= '';
+
+$return['summary_boxes']['total_sales_completed_amount']		= '';
+$return['summary_boxes']['total_sales_completed_count']		= '';
+/* END - CUSTOMIZATION MULTISITE REPORT */
+
 					$return['summary_boxes']['order_discount_amount']	= '';
 					$return['summary_boxes']['order_discount_count']	= '';
 
@@ -580,16 +712,36 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 				//2018-04-18 - ismaraalvim - begin - adding new taxes
 				$order_taxreceived								= $this->get_total_taxreceived("total","_line_total","fee",$prefix,$shop_order_status,$start_date,$end_date);
-
 				$return['taxreceived_amount'] 					= isset($order_taxreceived->total_amount) ? $order_taxreceived->total_amount : 0;
 				$return['taxreceived_count'] 					= isset($order_taxreceived->total_count) ? $order_taxreceived->total_count : 0;
 
-
 				$order_taxpaid								= $this->get_total_taxpaid("total","Stripe fee","",$prefix,$shop_order_status,$start_date,$end_date);
-
 				$return['taxpaid_amount'] 					= isset($order_taxpaid->total_amount) ? $order_taxpaid->total_amount : 0;
 				$return['taxpaid_count'] 					= isset($order_taxpaid->total_count) ? $order_taxpaid->total_count : 0;
 				//2018-04-18 - ismaraalvim - end
+
+        /* BEGIN - CUSTOMIZATION MULTISITE REPORT */
+        $order_sales_cash							= $this->get_order_sales_cash('total',$prefix,$shop_order_status,$start_date,$end_date);
+        $return['total_sales_cash_amount'] 			= isset($order_sales_cash->total_amount) ? $order_sales_cash->total_amount : 0;
+        $return['total_sales_cash_count'] 			= isset($order_sales_cash->total_count) ? $order_sales_cash->total_count : 0;
+
+        $order_sales_card							= $this->get_order_sales_card('total',$prefix,$shop_order_status,$start_date,$end_date);
+        $return['total_sales_card_amount'] 			= isset($order_sales_card->total_amount) ? $order_sales_card->total_amount : 0;
+        $return['total_sales_card_count'] 			= isset($order_sales_card->total_count) ? $order_sales_card->total_count : 0;
+
+        $order_sales_onhold						= $this->get_order_sales_onhold('total',$prefix,$shop_order_status,$start_date,$end_date);
+        $return['total_sales_onhold_amount'] 			= isset($order_sales_onhold->total_amount) ? $order_sales_onhold->total_amount : 0;
+        $return['total_sales_onhold_count'] 			= isset($order_sales_onhold->total_count) ? $order_sales_onhold->total_count : 0;
+
+        $order_sales_processing				= $this->get_order_sales_processing('total',$prefix,$shop_order_status,$start_date,$end_date);
+        $return['total_sales_processing_amount'] 			= isset($order_sales_processing->total_amount) ? $order_sales_processing->total_amount : 0;
+        $return['total_sales_processing_count'] 			= isset($order_sales_processing->total_count) ? $order_sales_processing->total_count : 0;
+
+        $order_sales_completed				= $this->get_order_sales_completed('total',$prefix,$shop_order_status,$start_date,$end_date);
+        $return['total_sales_completed_amount'] 			= isset($order_sales_completed->total_amount) ? $order_sales_completed->total_amount : 0;
+        $return['total_sales_completed_count'] 			= isset($order_sales_completed->total_count) ? $order_sales_completed->total_count : 0;
+        /* END - CUSTOMIZATION MULTISITE REPORT */
+
 
 				$order_shipping							= $this->get_total_shipping('total',$prefix,$shop_order_status,$start_date,$end_date);
 
@@ -616,6 +768,23 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$return['taxpaid_amount'] 					= 0;
 				$return['taxpaid_count'] 					= 0;
 				//2018-04-18 - ismaraalvim - end
+
+        /* BEGIN - CUSTOMIZATION MULTISITE REPORT */
+        $return['total_sales_cash_amount'] 					= 0;
+        $return['total_sales_cash_count'] 					= 0;
+
+        $return['total_sales_card_amount'] 					= 0;
+        $return['total_sales_card_count'] 					= 0;
+
+        $return['total_sales_onhold_amount'] 					= 0;
+        $return['total_sales_onhold_count'] 					= 0;
+
+        $return['total_sales_processing_amount'] 					= 0;
+        $return['total_sales_processing_count'] 					= 0;
+
+        $return['total_sales_completed_amount'] 					= 0;
+        $return['total_sales_completed_count'] 					= 0;
+        /* END - CUSTOMIZATION MULTISITE REPORT */
 
 				$return['shipping_amount'] 				= 0;
 				$return['shipping_count'] 				= 0;
@@ -664,6 +833,31 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 					$return['taxpaid_amount'] 					= isset($order_taxpaid->total_amount) ? ($return['taxpaid_amount']  + $order_taxpaid->total_amount) 	: $return['taxpaid_amount'];
 					$return['taxpaid_count'] 					= isset($order_taxpaid->total_count) ? ($return['taxpaid_count']  + $order_taxpaid->total_count) : $return['taxpaid_count'];
 					//2018-04-18 - ismaraalvim - end
+
+          /* BEGIN - CUSTOMIZATION MULTISITE REPORT */
+          $order_sales_cash							= $this->get_order_sales_cash('total',$prefix,$shop_order_status,$start_date,$end_date);
+          $order_sales_card							= $this->get_order_sales_card('total',$prefix,$shop_order_status,$start_date,$end_date);
+          $order_sales_onhold						= $this->get_order_sales_onhold('total',$prefix,$shop_order_status,$start_date,$end_date);
+          $order_sales_processing				= $this->get_order_sales_processing('total',$prefix,$shop_order_status,$start_date,$end_date);
+          $order_sales_completed				= $this->get_order_sales_completed('total',$prefix,$shop_order_status,$start_date,$end_date);
+
+          $return['total_sales_cash_amount'] 					= isset($order_sales_cash->total_amount) ? ($return['total_sales_cash_amount']  + $order_sales_cash->total_amount) 	: $return['total_sales_cash_amount'];
+					$return['total_sales_cash_count'] 					= isset($order_sales_cash->total_count) ? ($return['total_sales_cash_count']  + $order_sales_cash->total_count) : $return['total_sales_cash_count'];
+
+          $return['total_sales_card_amount'] 					= isset($order_sales_card->total_amount) ? ($return['total_sales_card_amount']  + $order_sales_card->total_amount) 	: $return['total_sales_card_amount'];
+					$return['total_sales_card_count'] 					= isset($order_sales_card->total_count) ? ($return['total_sales_card_count']  + $order_sales_card->total_count) : $return['total_sales_card_count'];
+
+          $return['total_sales_onhold_amount'] 					= isset($order_sales_onhold->total_amount) ? ($return['total_sales_onhold_amount']  + $order_sales_onhold->total_amount) 	: $return['total_sales_onhold_amount'];
+					$return['total_sales_onhold_count'] 					= isset($order_sales_onhold->total_count) ? ($return['total_sales_onhold_count']  + $order_sales_onhold->total_count) : $return['total_sales_onhold_count'];
+
+          $return['total_sales_processing_amount'] 					= isset($order_sales_processing->total_amount) ? ($return['total_sales_processing_amount']  + $order_sales_processing->total_amount) 	: $return['total_sales_processing_amount'];
+					$return['total_sales_processing_count'] 					= isset($order_sales_processing->total_count) ? ($return['total_sales_processing_count']  + $order_sales_processing->total_count) : $return['total_sales_processing_count'];
+
+          $return['total_sales_completed_amount'] 					= isset($order_sales_completed->total_amount) ? ($return['total_sales_completed_amount']  + $order_sales_completed->total_amount) 	: $return['total_sales_completed_amount'];
+					$return['total_sales_completed_count'] 					= isset($order_sales_completed->total_count) ? ($return['total_sales_completed_count']  + $order_sales_completed->total_count) : $return['total_sales_completed_count'];
+
+          /* END - CUSTOMIZATION MULTISITE REPORT */
+
 
 					$order_shipping							= $this->get_total_shipping('total',$prefix,$shop_order_status,$start_date,$end_date);
 					$return['shipping_amount'] 				= isset($order_shipping->total) ? ($return['shipping_amount']  + $order_shipping->total) 	: $return['shipping_amount'];
@@ -727,6 +921,24 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			$return['summary_boxes']['taxpaid_count']				= $count_prefix.$return['taxpaid_count'];
 			//2018-04-18 - ismaraalvim - end
 
+      /* BEGIN - CUSTOMIZATION MULTISITE REPORT */
+      $return['summary_boxes']['total_sales_cash_amount']		= wc_price($return['total_sales_cash_amount']);
+			$return['summary_boxes']['total_sales_cash_count']		= $count_prefix.$return['total_sales_cash_count'];
+
+      $return['summary_boxes']['total_sales_card_amount']		= wc_price($return['total_sales_card_amount']);
+			$return['summary_boxes']['total_sales_card_count']		= $count_prefix.$return['total_sales_card_count'];
+
+      $return['summary_boxes']['total_sales_onhold_amount']		= wc_price($return['total_sales_onhold_amount']);
+			$return['summary_boxes']['total_sales_onhold_count']		= $count_prefix.$return['total_sales_onhold_count'];
+
+      $return['summary_boxes']['total_sales_processing_amount']		= wc_price($return['total_sales_processing_amount']);
+			$return['summary_boxes']['total_sales_processing_count']		= $count_prefix.$return['total_sales_processing_count'];
+
+      $return['summary_boxes']['total_sales_completed_amount']		= wc_price($return['total_sales_completed_amount']);
+			$return['summary_boxes']['total_sales_completed_count']		= $count_prefix.$return['total_sales_completed_count'];
+      /* END - CUSTOMIZATION MULTISITE REPORT */
+
+
 			$return['summary_boxes']['shipping_amount']			= wc_price($return['shipping_amount']);
 			$return['summary_boxes']['shipping_count']			= $count_prefix.$return['shipping_count'];
 
@@ -764,56 +976,56 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			switch($retport_name){
 				case "site_wise_sales":
-					$columns['blogname'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['blogname'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['count'] 				= __('Order Count','icwoocommerce_textdomains');
-					$columns['amoount'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['amoount'] 			= __('Order Amount','icwoocommerce_textdomains'); /* from site name to order amount - CUSTOMIZATION MULTISITE REPORT */
 					break;
 				case "low_stock_product":
 				case "zero_stock_products":
 					$columns['stock_product_name'] 	= __('Product Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['product_stock'] 		= __('Stock Count','icwoocommerce_textdomains');
 					break;
 				case "top_products":
 					$columns['product_name'] 		= __('Product Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['quantity'] 			= __('Quantity Sold','icwoocommerce_textdomains');
 					$columns['total_sales'] 		= __('Sales Amount','icwoocommerce_textdomains');
 					break;
 				case "sales_order_status":
 					$columns['Status'] 				= __('Order Status','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['Count'] 				= __('Order Count','icwoocommerce_textdomains');
-					$columns['Total'] 				= __('Amount','icwoocommerce_textdomains');
+					$columns['Total'] 				= __('Order Amount','icwoocommerce_textdomains'); /* add order - CUSTOMIZATION MULTISITE REPORT */
 					break;
 				case "top_categories":
 					$columns['category_name'] 		= __('Category Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['quantity'] 			= __('Quantity Sold','icwoocommerce_textdomains');
 					$columns['total_amount'] 		= __('Sales Amount','icwoocommerce_textdomains');
 					break;
 					case "top_session_types":
 						$columns['session_type_name'] 		= __('Session Type Name','icwoocommerce_textdomains');
-						$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
+						$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 						$columns['quantitiy'] 			= __('Quantity Sold','icwoocommerce_textdomains');
 						$columns['total_amount'] 				= __('Sales Amount','icwoocommerce_textdomains');
 						break;
 				case "top_countries":
 					$columns['BillingCountry'] 		= __('Country Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['OrderCount'] 			= __('Order Count','icwoocommerce_textdomains');
-					$columns['Total'] 				= __('Amount','icwoocommerce_textdomains');
+					$columns['Total'] 				= __('Order Amount','icwoocommerce_textdomains'); /* add order - CUSTOMIZATION MULTISITE REPORT */
 					break;
 				case "top_customers":
-					$columns['billing_name'] 		= __('Billing Name','icwoocommerce_textdomains');
-					$columns['CompanyName'] 		= __('Company Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
-					$columns['BillingEmail'] 		= __('Billing Email','icwoocommerce_textdomains');
+					$columns['billing_name'] 		= __('Customer Name','icwoocommerce_textdomains'); /* from billing to Customer - CUSTOMIZATION MULTISITE REPORT */
+					/*$columns['CompanyName'] 		= __('Company Name','icwoocommerce_textdomains');*/
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['BillingEmail'] 		= __('Email','icwoocommerce_textdomains'); /* from billing to __ - CUSTOMIZATION MULTISITE REPORT */
 					$columns['OrderCount'] 			= __('Order Count','icwoocommerce_textdomains');
 					break;
 				case "top_coupons":
 					$columns['order_item_name'] 	= __('Coupon Code','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Site Name','icwoocommerce_textdomains');
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['Count'] 				= __('Coupon Used Count','icwoocommerce_textdomains');
 					$columns['Total'] 				= __('Amount','icwoocommerce_textdomains');
 					break;
@@ -981,6 +1193,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			return $items;
 		}
+
 
 		/*
 			* Function Name get_order_sales
@@ -1441,153 +1654,6 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 		}
 
 
-//2018-04-18 - ismaraalvim - SOS taxes add to any order received with card (how much we charge students)
-/*
-	* Function Name get_total_taxreceived
-	*
-	* @param string $type
-	*
-	* @param string $meta_key
-	*
-	* @param string $order_item_type
-	*
-	* @param string $prefix
-	*
-	* @param array $shop_order_status
-	*
-	* @param string $start_date
-	*
-	* @param string $end_date
-	*
-	* return $order_items
-*/
-function get_total_taxreceived($type = "today", $meta_key="_line_total",$order_item_type="fee",$prefix = '',$shop_order_status,$start_date,$end_date){
-	global $wpdb;
-	$today_date 			= $this->today;
-	$yesterday_date 		= $this->yesterday;
-
-
-	$sql = "  SELECT";
-	$sql .= " SUM(order_itemmeta.meta_value) 	AS 'total_amount'";
-	$sql .= " ,count(posts.ID) 				AS 'total_count'";
-	$sql .= " FROM {$prefix}posts as posts";
-	$sql .= " LEFT JOIN  {$prefix}woocommerce_order_items as order_items ON order_items.order_id=posts.ID";
-	$sql .= " LEFT JOIN  {$prefix}woocommerce_order_itemmeta as order_itemmeta ON order_items.order_item_id=order_itemmeta.order_item_id";
-
-	if($this->constants['post_order_status_found'] == 0 ){
-		if(count($shop_order_status)>0){
-			$sql .= "
-			LEFT JOIN  {$prefix}term_relationships 	as term_relationships 	ON term_relationships.object_id		=	posts.ID
-			LEFT JOIN  {$prefix}term_taxonomy 		as term_taxonomy 		ON term_taxonomy.term_taxonomy_id	=	term_relationships.term_taxonomy_id";
-		}
-	}
-
-	$sql .= " WHERE order_itemmeta.meta_key = '{$meta_key}' AND order_items.order_item_type='{$order_item_type}' AND order_itemmeta.meta_value > 0";
-
-	$sql .= " AND posts.post_type='shop_order' ";
-
-	$sql .= " AND posts.post_status NOT IN ('wc-refunded') ";
-	if($type == "today") $sql .= " AND DATE(posts.post_date) = '{$today_date}'";
-	if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
-
-	if($this->constants['post_order_status_found'] == 0 ){
-		if(count($shop_order_status)>0){
-			$in_shop_order_status = implode(",",$shop_order_status);
-			$sql .= " AND  term_taxonomy.term_id IN ({$in_shop_order_status})";
-		}
-	}else{
-		if(count($shop_order_status)>0){
-			$in_shop_order_status		= implode("', '",$shop_order_status);
-			$sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
-		}
-	}
-
-	if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
-		$sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
-	}
-
-
-	//error_log($sql);
-
-	return $order_items = $wpdb->get_row($sql);
-
-
-}
-
-//2018-04-18 - ismaraalvim - SOS taxes paid to stripe
-/*
-	* Function Name get_total_taxpaid
-	*
-	* @param string $type
-	*
-	* @param string $meta_key
-	*
-	* @param string $order_item_type
-	*
-	* @param string $prefix
-	*
-	* @param array $shop_order_status
-	*
-	* @param string $start_date
-	*
-	* @param string $end_date
-	*
-	* return $order_items
-*/
-function get_total_taxpaid($type = "today", $meta_key="Stripe fee",$order_item_type="",$prefix = '',$shop_order_status,$start_date,$end_date){
-	global $wpdb;
-	$today_date 			= $this->today;
-	$yesterday_date 		= $this->yesterday;
-
-
-	$sql = "  SELECT";
-	$sql .= " SUM(postmeta1.meta_value) 	AS 'total_amount'";
-	$sql .= " ,count(posts.ID) 				AS 'total_count'";
-	$sql .= " FROM {$prefix}posts as posts";
-	$sql .= " LEFT JOIN  {$prefix}postmeta as postmeta1 ON postmeta1.post_id=posts.ID";
-
-	if($this->constants['post_order_status_found'] == 0 ){
-		if(count($shop_order_status)>0){
-			$sql .= "
-			LEFT JOIN  {$prefix}term_relationships 	as term_relationships 	ON term_relationships.object_id		=	posts.ID
-			LEFT JOIN  {$prefix}term_taxonomy 		as term_taxonomy 		ON term_taxonomy.term_taxonomy_id	=	term_relationships.term_taxonomy_id";
-		}
-	}
-
-	$sql .= " WHERE postmeta1.meta_key = '{$meta_key}'  AND postmeta1.meta_value > 0";
-
-	$sql .= " AND posts.post_type='shop_order' ";
-
-	$sql .= " AND posts.post_status NOT IN ('wc-refunded') ";
-
-	if($type == "today") $sql .= " AND DATE(posts.post_date) = '{$today_date}'";
-	if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
-
-	if($this->constants['post_order_status_found'] == 0 ){
-		if(count($shop_order_status)>0){
-			$in_shop_order_status = implode(",",$shop_order_status);
-			$sql .= " AND  term_taxonomy.term_id IN ({$in_shop_order_status})";
-		}
-	}else{
-		if(count($shop_order_status)>0){
-			$in_shop_order_status		= implode("', '",$shop_order_status);
-			$sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
-		}
-	}
-
-	if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
-		$sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
-	}
-
-
-	error_log($sql);
-
-	return $order_items = $wpdb->get_row($sql);
-
-
-}
-
-
 		/*
 			* Function Name get_total_shipping
 			*
@@ -1791,83 +1857,6 @@ function get_total_taxpaid($type = "today", $meta_key="Stripe fee",$order_item_t
 
 		}
 
-//2018-04-18 - ismaraalvim - add session type list
-		/*
-			* Function Name get_session_type_list
-			*
-			* @param string $prefix
-			*
-			* @param array $shop_order_status
-			*
-			* @param string $start_date
-			*
-			* @param string $end_date
-			*
-			* return $return
-		*/
-		function get_session_type_list($prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
-			global $wpdb;
-			$per_page 	= 20;
-
-
-
-			$sql ="";
-			$sql .= " SELECT ";
-			$sql .= " SUM(woocommerce_order_itemmeta_product_qty.meta_value) AS quantity";
-			$sql .= " ,SUM(woocommerce_order_itemmeta_product_line_total.meta_value) AS total_amount";
-			$sql .= " ,'0' AS session_type_id";
-			$sql .= " ,IFNULL(taxonomy.session_type,'DELETED') AS session_type_name";
-			$sql .= " ,'0' AS parent_session_type_id";
-			$sql .= " ,'' AS parent_session_type_name";
-
-			$sql .= " FROM {$prefix}posts as posts";
-
-			$sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_items where order_item_type = 'line_item') as woocommerce_order_items ON posts.id=woocommerce_order_items.order_id";
-			$sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_itemmeta where meta_key= '_product_id') as woocommerce_order_itemmeta_product_id ON woocommerce_order_itemmeta_product_id.order_item_id=woocommerce_order_items.order_item_id";
-			$sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_itemmeta where meta_key= '_qty') as woocommerce_order_itemmeta_product_qty ON woocommerce_order_itemmeta_product_qty.order_item_id=woocommerce_order_items.order_item_id";
-			$sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_itemmeta where meta_key= '_line_total') as woocommerce_order_itemmeta_product_line_total ON woocommerce_order_itemmeta_product_line_total.order_item_id=woocommerce_order_items.order_item_id";
-
-			$sql .= "			left join (
-			    SELECT a.object_id,GROUP_CONCAT(b.name ORDER BY b.name ASC SEPARATOR ', ') as session_type
-			    from {$prefix}term_relationships A
-			    join (
-			        select distinct a.term_id,a.name,b.term_taxonomy_id
-							from {$prefix}terms a
-			        join {$prefix}term_taxonomy b on a.term_id=b.term_id
-			        where taxonomy ='session_type'
-			    ) b on a.term_taxonomy_id=b.term_taxonomy_id
-			    group by a.object_id
-			) as taxonomy on taxonomy.object_id=woocommerce_order_itemmeta_product_id.meta_value";
-
-			$sql .= " WHERE 1*1 ";
-			$sql .= " AND posts.post_type 											= 'shop_order'";
-
-			$url_shop_order_status	= "";
-
-			if(count($shop_order_status)>0){
-				$in_shop_order_status		= implode("', '",$shop_order_status);
-				$sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
-			}
-
-			if ($start_date != NULL &&  $end_date !=NULL){
-				$sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
-			}
-
-			$sql .= " GROUP BY session_type_name";
-			$sql .= " Order By total_amount DESC";
-			$sql .= " LIMIT {$per_page}";
-
-			$order_items = $wpdb->get_results($sql);
-
-			$return = $this->convert_object_to_array($order_items);
-
-			if($this->constants['userblog_id'] == 'all'){
-				$return  = $this->set_site_name_to_list($return);
-			}
-
-			return $return;
-
-		}
 
 		/*
 			* Function Name get_top_billing_country
@@ -1987,8 +1976,8 @@ function get_total_taxpaid($type = "today", $meta_key="Stripe fee",$order_item_t
 			}
 
 			$sql .= " GROUP BY  postmeta2.meta_value
-			Order By Total DESC
-			LIMIT {$per_page}";
+			Order By OrderCount DESC
+			LIMIT {$per_page}"; /* order by order count instead of Total*/
 
 			$order_items = $wpdb->get_results($sql );
 
@@ -2066,6 +2055,516 @@ function get_total_taxpaid($type = "today", $meta_key="Stripe fee",$order_item_t
 			return $return;
 
 		}
+
+
+
+
+
+/*--------------------------------------------------------------------------------------------------------*/
+/* BEGIN CUSTOMIZATION MULTISITE REPORT */
+/*--------------------------------------------------------------------------------------------------------*/
+//2018-04-18 - ismaraalvim - SOS taxes add to any order received with card (how much we charge students)
+/*
+  * Function Name get_total_taxreceived
+  *
+  * @param string $type
+  * @param string $meta_key
+  * @param string $order_item_type
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $order_items
+*/
+function get_total_taxreceived($type = "today", $meta_key="_line_total",$order_item_type="fee",$prefix = '',$shop_order_status,$start_date,$end_date){
+  global $wpdb;
+  $today_date 			= $this->today;
+  $yesterday_date 		= $this->yesterday;
+
+
+  $sql = "  SELECT";
+  $sql .= " SUM(order_itemmeta.meta_value) 	AS 'total_amount'";
+  $sql .= " ,count(posts.ID) 				AS 'total_count'";
+  $sql .= " FROM {$prefix}posts as posts";
+  $sql .= " LEFT JOIN  {$prefix}woocommerce_order_items as order_items ON order_items.order_id=posts.ID";
+  $sql .= " LEFT JOIN  {$prefix}woocommerce_order_itemmeta as order_itemmeta ON order_items.order_item_id=order_itemmeta.order_item_id";
+
+  if($this->constants['post_order_status_found'] == 0 ){
+    if(count($shop_order_status)>0){
+      $sql .= "
+      LEFT JOIN  {$prefix}term_relationships 	as term_relationships 	ON term_relationships.object_id		=	posts.ID
+      LEFT JOIN  {$prefix}term_taxonomy 		as term_taxonomy 		ON term_taxonomy.term_taxonomy_id	=	term_relationships.term_taxonomy_id";
+    }
+  }
+
+  $sql .= " WHERE order_itemmeta.meta_key = '{$meta_key}' AND order_items.order_item_type='{$order_item_type}' AND order_itemmeta.meta_value > 0";
+
+  $sql .= " AND posts.post_type='shop_order' ";
+
+  $sql .= " AND posts.post_status NOT IN ('wc-refunded') ";
+  if($type == "today") $sql .= " AND DATE(posts.post_date) = '{$today_date}'";
+  if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
+
+  if($this->constants['post_order_status_found'] == 0 ){
+    if(count($shop_order_status)>0){
+      $in_shop_order_status = implode(",",$shop_order_status);
+      $sql .= " AND  term_taxonomy.term_id IN ({$in_shop_order_status})";
+    }
+  }else{
+    if(count($shop_order_status)>0){
+      $in_shop_order_status		= implode("', '",$shop_order_status);
+      $sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
+    }
+  }
+
+  if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+
+  //error_log($sql);
+
+  return $order_items = $wpdb->get_row($sql);
+
+}
+
+//2018-04-18 - ismaraalvim - SOS taxes paid to stripe
+/*
+  * Function Name get_total_taxpaid
+  *
+  * @param string $type
+  * @param string $meta_key
+  * @param string $order_item_type
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $order_items
+*/
+function get_total_taxpaid($type = "today", $meta_key="Stripe fee",$order_item_type="",$prefix = '',$shop_order_status,$start_date,$end_date){
+  global $wpdb;
+  $today_date 			= $this->today;
+  $yesterday_date 		= $this->yesterday;
+
+
+  $sql = "  SELECT";
+  $sql .= " SUM(postmeta1.meta_value) 	AS 'total_amount'";
+  $sql .= " ,count(posts.ID) 				AS 'total_count'";
+  $sql .= " FROM {$prefix}posts as posts";
+  $sql .= " LEFT JOIN  {$prefix}postmeta as postmeta1 ON postmeta1.post_id=posts.ID";
+
+  if($this->constants['post_order_status_found'] == 0 ){
+    if(count($shop_order_status)>0){
+      $sql .= "
+      LEFT JOIN  {$prefix}term_relationships 	as term_relationships 	ON term_relationships.object_id		=	posts.ID
+      LEFT JOIN  {$prefix}term_taxonomy 		as term_taxonomy 		ON term_taxonomy.term_taxonomy_id	=	term_relationships.term_taxonomy_id";
+    }
+  }
+
+  $sql .= " WHERE postmeta1.meta_key = '{$meta_key}'  AND postmeta1.meta_value > 0";
+
+  $sql .= " AND posts.post_type='shop_order' ";
+
+  $sql .= " AND posts.post_status NOT IN ('wc-refunded') ";
+
+  if($type == "today") $sql .= " AND DATE(posts.post_date) = '{$today_date}'";
+  if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
+
+  if($this->constants['post_order_status_found'] == 0 ){
+    if(count($shop_order_status)>0){
+      $in_shop_order_status = implode(",",$shop_order_status);
+      $sql .= " AND  term_taxonomy.term_id IN ({$in_shop_order_status})";
+    }
+  }else{
+    if(count($shop_order_status)>0){
+      $in_shop_order_status		= implode("', '",$shop_order_status);
+      $sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
+    }
+  }
+
+  if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+
+/*	error_log($sql);*/
+
+  return $order_items = $wpdb->get_row($sql);
+
+}
+
+//2018-04-18 - ismaraalvim - add session type list
+/*
+  * Function Name get_session_type_list
+  *
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $return
+*/
+function get_session_type_list($prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
+  global $wpdb;
+  $per_page 	= 20;
+
+  $sql ="";
+  $sql .= " SELECT ";
+  $sql .= " SUM(woocommerce_order_itemmeta_product_qty.meta_value) AS quantity";
+  $sql .= " ,SUM(woocommerce_order_itemmeta_product_line_total.meta_value) AS total_amount";
+  $sql .= " ,'0' AS session_type_id";
+  $sql .= " ,IFNULL(taxonomy.session_type,'DELETED') AS session_type_name";
+  $sql .= " ,'0' AS parent_session_type_id";
+  $sql .= " ,'' AS parent_session_type_name";
+
+  $sql .= " FROM {$prefix}posts as posts";
+
+  $sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_items where order_item_type = 'line_item') as woocommerce_order_items ON posts.id=woocommerce_order_items.order_id";
+  $sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_itemmeta where meta_key= '_product_id') as woocommerce_order_itemmeta_product_id ON woocommerce_order_itemmeta_product_id.order_item_id=woocommerce_order_items.order_item_id";
+  $sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_itemmeta where meta_key= '_qty') as woocommerce_order_itemmeta_product_qty ON woocommerce_order_itemmeta_product_qty.order_item_id=woocommerce_order_items.order_item_id";
+  $sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_itemmeta where meta_key= '_line_total') as woocommerce_order_itemmeta_product_line_total ON woocommerce_order_itemmeta_product_line_total.order_item_id=woocommerce_order_items.order_item_id";
+
+  $sql .= "			left join (
+      SELECT a.object_id,GROUP_CONCAT(b.name ORDER BY b.name ASC SEPARATOR ', ') as session_type
+      from {$prefix}term_relationships A
+      join (
+          select distinct a.term_id,a.name,b.term_taxonomy_id
+          from {$prefix}terms a
+          join {$prefix}term_taxonomy b on a.term_id=b.term_id
+          where taxonomy ='session_type'
+      ) b on a.term_taxonomy_id=b.term_taxonomy_id
+      group by a.object_id
+  ) as taxonomy on taxonomy.object_id=woocommerce_order_itemmeta_product_id.meta_value";
+
+  $sql .= " WHERE 1*1 ";
+  $sql .= " AND posts.post_type 											= 'shop_order'";
+
+  $url_shop_order_status	= "";
+
+  if(count($shop_order_status)>0){
+    $in_shop_order_status		= implode("', '",$shop_order_status);
+    $sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
+  }
+
+  if ($start_date != NULL &&  $end_date !=NULL){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+  $sql .= " GROUP BY session_type_name";
+  $sql .= " Order By total_amount DESC";
+  $sql .= " LIMIT {$per_page}";
+
+  $order_items = $wpdb->get_results($sql);
+
+  $return = $this->convert_object_to_array($order_items);
+
+  if($this->constants['userblog_id'] == 'all'){
+    $return  = $this->set_site_name_to_list($return);
+  }
+
+  return $return;
+
+}
+
+
+/*
+  * Function Name get_order_sales_cash
+  *
+  * @param string $type
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $items
+*/
+function get_order_sales_cash($type = 'total',$prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
+  global $wpdb;
+  $today_date 			= $this->today;
+  $yesterday_date 		= $this->yesterday;
+
+  $sql = "   SELECT ";
+
+  $sql .= " SUM(order_total.meta_value) 	AS total_amount";
+
+  $sql .= " , COUNT(*) 					AS total_count";
+
+  $sql .= "  FROM {$prefix}posts 			AS posts";
+
+  $sql .= " LEFT JOIN  {$prefix}postmeta as order_cash ON order_cash.post_id = posts.ID";
+
+  $sql .= " LEFT JOIN  {$prefix}postmeta as order_total ON order_total.post_id = posts.ID";
+
+  $sql .= " WHERE  post_type = 'shop_order'";
+
+  $sql .= " AND order_cash.meta_key='_payment_method' and order_cash.meta_value='cod'";
+
+  $sql .= " AND order_total.meta_key = '_order_total'";
+
+  if($type == "today") $sql .= " AND DATE(posts.post_date) = '{$today_date}'";
+  if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
+
+  if(count($shop_order_status)>0){
+    $in_shop_order_status		= implode("', '",$shop_order_status);
+    $sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
+  }
+
+  if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+//  $wpdb->query("SET SQL_BIG_SELECTS=1");
+
+//  if($type == "today_yesterday"){
+  //  $sql .= " GROUP BY group_date";
+    //$items =  $wpdb->get_results($sql);
+//  }else{
+    //$items =  $wpdb->get_row($sql);
+//  }
+
+//			error_log($sql);
+
+//  return $items;
+
+  return $order_items = $wpdb->get_row($sql);
+
+}
+
+
+/*
+  * Function Name get_order_sales_card
+  *
+  * @param string $type
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $items
+*/
+function get_order_sales_card($type = 'total',$prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
+  global $wpdb;
+
+  $today_date 			= $this->constants['yesterday_date'];
+
+  $yesterday_date 		= $this->constants['today_date'];
+
+  $sql = "   SELECT ";
+
+  $sql .= " SUM(order_total.meta_value) 	AS total_amount";
+
+  $sql .= " , COUNT(*) 					AS total_count";
+
+  $sql .= "  FROM {$prefix}posts 			AS posts";
+
+  $sql .= " LEFT JOIN  {$prefix}postmeta as order_cash ON order_cash.post_id = posts.ID";
+
+  $sql .= " LEFT JOIN  {$prefix}postmeta as order_total ON order_total.post_id = posts.ID";
+
+  $sql .= " WHERE  post_type = 'shop_order'";
+
+  $sql .= " AND order_cash.meta_key='_payment_method' and order_cash.meta_value='stripe'";
+
+  $sql .= " AND order_total.meta_key = '_order_total'";
+
+  if($type == "today") 		$sql .= " AND DATE(posts.post_date) = '{$today_date}'";
+
+  if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
+
+  if(count($shop_order_status)>0){
+    $in_shop_order_status		= implode("', '",$shop_order_status);
+    $sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
+  }
+
+  if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+  $wpdb->query("SET SQL_BIG_SELECTS=1");
+
+//  if($type == "today_yesterday"){
+//    $sql .= " GROUP BY group_date";
+    //$items =  $wpdb->get_results($sql);
+//  }else{
+    //$items =  $wpdb->get_row($sql);
+//  }
+
+//			error_log($sql);
+
+//  return $items;
+
+  return $order_items = $wpdb->get_row($sql);
+}
+
+/*
+  * Function Name get_order_sales_onhold
+  *
+  * @param string $type
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $items
+*/
+function get_order_sales_onhold($type = 'total',$prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
+  global $wpdb;
+
+  $today_date 			= $this->constants['yesterday_date'];
+
+  $yesterday_date 		= $this->constants['today_date'];
+
+  $sql = "   SELECT ";
+
+  $sql .= " SUM(order_total.meta_value) 	AS total_amount";
+
+  $sql .= " , COUNT(*) 					AS total_count";
+
+  $sql .= "  FROM {$prefix}posts 			AS posts";
+
+  $sql .= " LEFT JOIN  {$prefix}postmeta as order_total ON order_total.post_id = posts.ID";
+
+  $sql .= " WHERE  post_type = 'shop_order'";
+
+  $sql .= " AND order_total.meta_key = '_order_total'";
+
+  if($type == "today") 		$sql .= " AND DATE(posts.post_date) = '{$today_date}'";
+
+  if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
+
+    $sql .= " AND  posts.post_status IN ('wc-on-hold')";
+
+  if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+  $wpdb->query("SET SQL_BIG_SELECTS=1");
+
+  if($type == "today_yesterday"){
+    $sql .= " GROUP BY group_date";
+    $items =  $wpdb->get_results($sql);
+  }else{
+    $items =  $wpdb->get_row($sql);
+  }
+
+//			error_log($sql);
+
+  return $items;
+}
+
+
+/*
+  * Function Name get_order_sales_processing
+  *
+  * @param string $type
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $items
+*/
+function get_order_sales_processing($type = 'total',$prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
+  global $wpdb;
+
+  $today_date 			= $this->constants['yesterday_date'];
+
+  $yesterday_date 		= $this->constants['today_date'];
+
+  $sql = "   SELECT ";
+
+  $sql .= " SUM(order_total.meta_value) 	AS total_amount";
+
+  $sql .= " , COUNT(*) 					AS total_count";
+
+  $sql .= "  FROM {$prefix}posts 			AS posts";
+
+  $sql .= " LEFT JOIN  {$prefix}postmeta as order_total ON order_total.post_id = posts.ID";
+
+  $sql .= " WHERE  post_type = 'shop_order'";
+
+  $sql .= " AND order_total.meta_key = '_order_total'";
+
+  if($type == "today") 		$sql .= " AND DATE(posts.post_date) = '{$today_date}'";
+
+  if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
+
+    $sql .= " AND  posts.post_status IN ('wc-processing')";
+
+  if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+  $wpdb->query("SET SQL_BIG_SELECTS=1");
+
+  if($type == "today_yesterday"){
+    $sql .= " GROUP BY group_date";
+    $items =  $wpdb->get_results($sql);
+  }else{
+    $items =  $wpdb->get_row($sql);
+  }
+
+//			error_log($sql);
+
+  return $items;
+}
+
+/*
+  * Function Name get_order_sales_completed
+  *
+  * @param string $type
+  * @param string $prefix
+  * @param array $shop_order_status
+  * @param string $start_date
+  * @param string $end_date
+  * return $items
+*/
+function get_order_sales_completed($type = 'total',$prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
+  global $wpdb;
+
+  $today_date 			= $this->constants['yesterday_date'];
+
+  $yesterday_date 		= $this->constants['today_date'];
+
+  $sql = "   SELECT ";
+
+  $sql .= " SUM(order_total.meta_value) 	AS total_amount";
+
+  $sql .= " , COUNT(*) 					AS total_count";
+
+  $sql .= "  FROM {$prefix}posts 			AS posts";
+
+  $sql .= " LEFT JOIN  {$prefix}postmeta as order_total ON order_total.post_id = posts.ID";
+
+  $sql .= " WHERE  post_type = 'shop_order'";
+
+  $sql .= " AND order_total.meta_key = '_order_total'";
+
+  if($type == "today") 		$sql .= " AND DATE(posts.post_date) = '{$today_date}'";
+
+  if($type == "yesterday") 	$sql .= " AND DATE(posts.post_date) = '{$yesterday_date}'";
+
+    $sql .= " AND  posts.post_status IN ('wc-completed')";
+
+  if ($start_date != NULL &&  $end_date != NULL && $type != "today"){
+    $sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
+  }
+
+  $wpdb->query("SET SQL_BIG_SELECTS=1");
+
+  if($type == "today_yesterday"){
+    $sql .= " GROUP BY group_date";
+    $items =  $wpdb->get_results($sql);
+  }else{
+    $items =  $wpdb->get_row($sql);
+  }
+
+//			error_log($sql);
+
+  return $items;
+}
+
+/*--------------------------------------------------------------------------------------------------------*/
+/* END - CUSTOMIZATION MULTISITE REPORT */
+/*--------------------------------------------------------------------------------------------------------*/
+
+
+
 
 
     }/*End Class*/
