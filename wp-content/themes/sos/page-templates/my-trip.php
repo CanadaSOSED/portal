@@ -200,8 +200,8 @@ if(is_user_logged_in()){
 
 			if($trip_participation_payed != 1){
 				echo '<strong>Your Participation Fee:</strong> ';
-				echo '<a href=' . $trip_participation_url .'> Pay Now </a>';
-
+				echo '<a href=' . $trip_flight_cost_url .'> Click here for instructions </a>';
+/*				echo '<a href=' . $trip_participation_url .'> Pay Now </a>';*/
 			}else{
 				echo '<strong>Your Participation Fee:</strong> Paid';
 			}
