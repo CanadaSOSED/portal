@@ -13,6 +13,18 @@ get_header();
    $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 ?>
 
+	<?php
+		switch_to_blog(1);
+		$main_blog_url = get_site_url();
+		if(is_user_logged_in()){
+			$application_url = $main_blog_url . "/trip-application/?Trip=" . get_the_ID() . '&Applicant=' . get_current_user_id();
+      restore_current_blog();
+		}else{
+			restore_current_blog();
+			$application_url = home_url() . "/my-account";
+		}
+	?>
+
 <div class="hero">
    <?php the_title( sprintf( '<h2 class="archive-entry-title"><a href="%s" rel="bookmark">', esc_url( $application_url ) ),
    '</a></h2>' ); ?>
@@ -188,11 +200,17 @@ get_header();
 <?php endif; ?>
 
 
-
 <div class="hero-footer">
    <h4>Supporting a Great Cause</h4>
    <p>Since 2004, we have been working to support the universal right to education through funding of sustainable international projects.</p>
 	 <p><a class="btn btn-primary" href="http://sosvolunteertrips.org/">Learn More</a></p>
+</div>
+
+<div class="flight-footer" >
+   <h3>  
+      <img class="alignleft wp-image-1387" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/09/11122222/FCBT_00_logo.png" alt="" width="437" height="160" />
+    </h3>
+   <h4> <span style="color:#ffffff;"><em>SOS is proud to work with Flight Centre for provision of all travel-related services!</em></span></h4>
 </div>
 
 <?php get_footer(); ?>
