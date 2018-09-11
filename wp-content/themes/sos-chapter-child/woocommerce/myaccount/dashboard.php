@@ -23,7 +23,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 
+
 <h5><?php
+
+// Retrieve The Post's Author ID
+$user_id = get_the_author_meta('ID');
+// Set the image size. Accepts all registered images sizes and array(int, int)
+$size = 'thumbnail';
+// Get the image URL using the author ID and image size params
+$imgURL = get_cupp_meta($user_id, $size);
+// Print the image on the page
+echo '<img style="padding-right:20px" src="'. $imgURL .'" alt="" width="150" height="150">';
+
+
 	/* translators: 1: user display name 2: logout url */
 	printf(
 		__( 'Hello %1$s (not %1$s?    <strong><a href="%2$s">Log out</a></strong>).', 'woocommerce' ),
