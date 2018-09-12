@@ -60,7 +60,7 @@ h1, h2, h3, h4 {
 .trips.type-trips {
     margin: 0 0 2rem;
     padding: 0 0 2rem;
-    border-bottom: 1px solid #ccc;
+    /*border-bottom: 1px solid #ccc;*/
 }
 
 .trips.type-trips .archive-entry-title a {
@@ -95,9 +95,19 @@ h1, h2, h3, h4 {
     margin: 1rem 0 1rem;
 }
 
-/*Trips page CSS end - Joanna*/
 .trips.type-trips .archive-entry-title {
 
+}
+/*Trips page CSS end - Joanna*/
+
+
+/*2018-09-11 - ismara - Flight center at Trips page CSS*/
+.flight-footer {
+  background-color: #5b5b5b;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 20px 180px 70px 180px;
 }
 
 .gform_button {
