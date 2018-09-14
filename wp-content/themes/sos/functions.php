@@ -268,7 +268,7 @@ function sos_dashboard_ea_template_widget_function( $post, $callback_args ) {
 function sos_dashboard_fin_mastersheets_widget_function( $post, $callback_args ) {
   echo "<p>In this folder, you will see all SOS Chapter's mastersheets. You just need to find your Chapter's specific document (it is in alphabetical order).</p>";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0BxsgrL3RdWEccXBxSV9NU0lRMGs'>Access Mastersheets</a></p>";
+  echo "<p><a class='button button-primary button-large' href='https://drive.google.com/open?id=0BxsgrL3RdWEcNmN5VFcxUDc3Qkk'>Access Mastersheets</a></p>";
 }
 // add_meta_box('sos_dashboard_financemastersheet', 'Finance Mastersheet', 'sos_dashboard_fin_mastersheets_widget_function', 'dashboard', 'normal');
 
@@ -2295,7 +2295,7 @@ function admin_content() {
 ////////////////////////
 add_action( 'woocommerce_account_my-trips_endpoint', 'my_trips_content' );
 function my_trips_content() {
-//2018-07-05 - ismara - we are will use the same my-trip page, not the one created at woocommerce
+//2018-07-05 - ismara - we will use the same my-trip page, not the one created at woocommerce
 //  $file_path = include 'woocommerce/myaccount/my-trip.php';
   $file_path = include 'page-templates/my-trip.php';
   $content = @file_get_contents($file_path);
