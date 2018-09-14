@@ -1,22 +1,6 @@
-
 <?php
-/**
- * Template Name: My Trip Page Template
- *
- * Template for displaying a page just with the header and footer area and a "naked" content area in between.
- * Good for landingpages and other types of pages where you want to add a lot of custom markup.
- *
- * @package sos-primary
- */
 
-
-if(is_user_logged_in()){
-
-	get_header();
-
-	switch_to_blog(1);
-
-	$my_trip_application = get_posts(array(
+  $my_trip_application = get_posts(array(
 		'posts_per_page'    =>  -1,
 		'post_type'         =>  'trip_applications',
 		'post_status'       =>  'publish',
@@ -52,8 +36,7 @@ if(is_user_logged_in()){
 		$medical_fitness_form = get_field('ta_fitness_agree_to_terms_medical_fitness_form', $app->ID);
 		$policies_agreed = get_field('ta_agree_to_policies_and_procedures', $app->ID);
 		$waiver_uploaded = get_field('ta_waiver_uploaded', $app->ID);
-		$pdf_uploaded = get_field('ta_pdf_uploaded', $app->ID);
-		$webinar_registered = get_field('ta_webinar_signed_up', $app->ID);
+		$webinar_registered = get_field('ta_webinar_registered', $app->ID);
 
 		$trip_leader = get_field('ta_trip_leader', $app->ID);
 	}
@@ -62,49 +45,48 @@ if(is_user_logged_in()){
 		if($trip_id == $trip->ID){
 			$trip_name = $trip->post_title;
 			$trip_deposit_url = get_field('trip_deposit_installment', $trip->ID)->guid;
-			$trip_flight_cost_url = get_field('trip_flight_cost_url', $trip->ID);
+			$trip_flight_cost_url = get_field('trip_flight_cost_installment', $trip->ID)->guid;
 			$trip_participation_url = get_field('trip_participation_fee_installment', $trip->ID)->guid;
 			$trip_resources = get_field('trip_resources', $trip->ID);
 			$trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
-			$trip_flight_cost_installment = get_field('trip_flight_cost_installment', $trip->ID);
-			$trip_participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
-			$trip_participation_fee_installment = get_field('trip_participation_fee_installment', $trip->ID);
-
+			$trip_Participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
 		}
 	}
 
 	$options_trip_resources = get_field('options_resources', 'options');
 	$options_trip_leader_resources = get_field('options_trip_leader_resources', 'options');
 	$waiver_download_url = get_field('trip_waiver', 'options');
-	$document_pdf_download_url = get_field('document_pdf', 'options');
 
-
+/*
 	foreach($application_states['choices'] as $value => $state){
 		if($trip_status_id == $value){
 			$trip_state = $state;
 		}
 	}
+*/
 
 	echo '<div class="wrapper">';
 	echo '<div class="container">';
 	echo '<div class="row">';
 	echo '<div class="col-md-12 content-area" id="primary">';
 
-	if(!$trip_name){
 
-				echo '<h3>My Trip</h3>';
-				echo '<strong>You are not registered for a trip.</strong>';
-				echo '<p>   </p>';
-				echo '<p>   </p>';
-				echo '<p>Please visit your Chapters site to learn more about upcoming <strong>SOS Outreach Trips!</strong></p>';
+  if(!$trip_name){
+
+		echo '<h3>My Trip</h3>';
+		echo '<strong>You are not registered for a trip.</strong>';
+		echo '<p>   </p>';
+		echo '<p>   </p>';
+		echo '<p>Please visit your Chapters site to learn more about upcoming <strong>SOS Outreach Trips!</strong></p>';
 
 	}else{
 
-				echo '<h3>My Trip</h3>';
-				echo '<strong>Your Trip is:</strong> ' . $trip_name;
-				echo '<br>';
-				echo '<strong>Status:</strong> ' . $trip_state;
-				echo '<br>';
+
+		echo '<h3>My Trip</h3>';
+		echo '<strong>Your Trip is:</strong> ' . $trip_name;
+		echo '<br>';
+		echo '<strong>Status:</strong> ' . $trip_state;
+		echo '<br>';
 
 		if($interview_date != Null){
 			echo '<strong>Interview Date:</strong> ' . $interview_date;
@@ -164,20 +146,6 @@ if(is_user_logged_in()){
 
 			echo '<br>';
 
-			$document_pdf_upload_url = $main_blog_url . "/trip-pdf-upload/?App=" . $app_id;
-
-			if($pdf_uploaded == 1){
-				echo '&#10004 Authorization to Disclose Form Uploaded';
-			}else{
-				echo '<a target="_blank"
-						 href='. $document_pdf_download_url . '
-						 title="Please download, complete, sign and re-upload the following PDF. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below.">Download the Authorization for Disclosure Form</a>';
-				echo '<br>';
-				echo '<a href='. $document_pdf_upload_url . '>Click here to upload the Authorization for Disclosure Form</a>';
-			}
-
-			echo '<br>';
-
 			$medical_fitness_url = $main_blog_url . "/medical-fitness-form/?App=" . $app_id;
 
 			if($medical_fitness_form == 1){
@@ -213,17 +181,7 @@ if(is_user_logged_in()){
 
 			if($trip_flight_cost_payed != 1){
 				echo '<strong>Your Flight Cost:</strong> ';
-				echo '<a href=' . $trip_flight_cost_url .'> Click here for instructions </a>';
-				if($trip_flight_cost_due_date){
-					echo " | ";
-					echo '<strong>Due Date:</strong> ';
-					echo $trip_flight_cost_due_date;
-				}
-				if($trip_flight_cost_installment){
-					echo " | ";
-					echo '<strong>Cost:</strong> ';
-					echo $trip_flight_cost_installment;
-				}
+				echo '<a href=' . $trip_flight_cost_url .'> Pay Now </a>';
 
 			}else{
 				echo '<strong>Your Flight Cost:</strong> Paid';
@@ -231,21 +189,10 @@ if(is_user_logged_in()){
 
 			echo '<br>';
 
-
-			if($trip_participation_payed != 1){
+      if($trip_participation_payed != 1){
 				echo '<strong>Your Participation Fee:</strong> ';
 				echo '<a href=' . $trip_flight_cost_url .'> Click here for instructions </a>';
 /*				echo '<a href=' . $trip_participation_url .'> Pay Now </a>';*/
-				if($trip_participation_fee_due_date){
-					echo " | ";
-					echo '<strong>Due Date:</strong> ';
-					echo $trip_participation_fee_due_date;
-				}
-				if($trip_participation_fee_installment){
-					echo " | ";
-					echo '<strong>Cost:</strong> ';
-					echo "$" . wc_get_product($trip_participation_fee_installment)->price;
-				}
 
 			}else{
 				echo '<strong>Your Participation Fee:</strong> Paid';
@@ -292,12 +239,4 @@ if(is_user_logged_in()){
 	echo '</div>';
 	echo '</div>';
 
-	restore_current_blog();
-
-//2018-07-05 - ismara - we are not using this for the new my-trip page
-//	get_footer();
-
-}else{
-	wp_redirect(home_url() . "/my-account");
-    exit();
-}
+  ?>
