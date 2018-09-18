@@ -9978,6 +9978,12 @@ body {
   font-size: 14px;
   padding-top: 3px; }
 
+
+
+/*ismara*/
+  .woocommerce-MyAccount-navigation-link.nav-item a{color:#50bbf8 !important}
+
+
 .custom-select {
   -webkit-appearance: none; }
 
