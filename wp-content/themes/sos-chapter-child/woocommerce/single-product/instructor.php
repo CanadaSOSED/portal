@@ -30,10 +30,11 @@ if( $instructor ) {
   </div>
 
 	<div class="col-12 col-md-9">
-		<h2 class="display_name"> <?php echo  $instructor['display_name']; ?> </h2>
-
-		<a href="mailto: <?php echo $instructor['user_email']; ?>"><?php echo $instructor['user_email']; ?></a>
-
+    <?php if ($instructor['user_firstname']!= '') { ?>
+		  <h2 class="display_name"> <?php echo  ucfirst($instructor['user_firstname'])  . " " . ucwords($instructor['user_lastname']); ?> </h2>
+    <?php } else { ?>
+	    <h2 class="display_name"> <?php echo  $instructor['display_name']; ?> </h2>
+    <?php }?>
 		<?php
 		echo '<br>';
 		echo '<br>';
