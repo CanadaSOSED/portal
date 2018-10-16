@@ -90,13 +90,22 @@ if(is_user_logged_in()){
 	echo '<div class="row">';
 	echo '<div class="col-md-12 content-area" id="primary">';
 
-	if(!$trip_name){
+	restore_current_blog();
 
+
+	if(!$trip_name){
 				echo '<h3>My Trip</h3>';
 				echo '<strong>You are not registered for a trip.</strong>';
 				echo '<p>   </p>';
 				echo '<p>   </p>';
-				echo '<p>Please visit your Chapters site to learn more about upcoming <strong>SOS Outreach Trips!</strong></p>';
+
+				$link = "<p>Please visit our site to learn more about <strong><a href='https://sosvolunteertrips.org/trip-overview/' target='_blank'>SOS Outreach Trips!</a></strong></p>";
+				echo $link;
+				echo '<p>   </p>';
+
+				$url = get_permalink( get_page_by_path( 'trips') );
+		    $link = "<p>Click <strong><a href='{$url}'>here </a></strong>to see the trips available with your SOS Chapter.</p>";
+		    echo $link;
 
 	}else{
 
@@ -105,6 +114,7 @@ if(is_user_logged_in()){
 				echo '<br>';
 				echo '<strong>Status:</strong> ' . $trip_state;
 				echo '<br>';
+
 
 		if($interview_date != Null){
 			echo '<strong>Interview Date:</strong> ' . $interview_date;
@@ -292,7 +302,7 @@ if(is_user_logged_in()){
 	echo '</div>';
 	echo '</div>';
 
-	restore_current_blog();
+//	restore_current_blog();
 
 //2018-07-05 - ismara - we are not using this for the new my-trip page
 //	get_footer();
