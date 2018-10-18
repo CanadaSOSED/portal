@@ -1,0 +1,27 @@
+/*begin - 2018-10-16- ismara - improving design*/
+div.announce.error {
+	border-color: #A6A6A6;
+	box-shadow: 3px 3px #dc3232;
+	border-left-color:#dc3232;
+	border-left-width: 10px;
+}
+
+div.updated.announce {
+	border-color: #A6A6A6;
+	box-shadow: 3px 3px #46b450;
+  border-left-color: #46b450;
+	border-left-width: 10px;
+}
+/*end - 2018-10-16- ismara - improving design*/
+
+
+div.updated.announce.normal {
+	border-color: #A6A6A6;
+	box-shadow: 3px 3px #A6A6A6; /*2018-10-16- ismara - improving design*/
+}
+
+div.updated.announce.nonstyle {
+	background: none;
+	border: 0 none;
+	box-shadow: none;
+}

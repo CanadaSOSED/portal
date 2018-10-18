@@ -1,0 +1,184 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Announce from the Dashboard\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-11 19:45+0900\n"
+"PO-Revision-Date: 2015-05-11 20:08+0900\n"
+"Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
+"Language-Team: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Language: Japanese\n"
+"X-Poedit-Country: JAPAN\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: announce-from-the-dashboard.php:4
+msgid "Announcement to the dashboard screen for users."
+msgstr "ユーザーのダッシュボードにお知らせを表示します。"
+
+#: admin/manager-announce-settng.php:171
+msgid "Please <strong>%1$s</strong> is later than the <strong>%2$s</strong>."
+msgstr "<strong>%1$s</strong>は<strong>%2$s</strong>よりも後にしてください。"
+
+#: admin/manager-announce-settng.php:193
+msgid "Specify"
+msgstr "指定する"
+
+#: admin/manager-announce-settng.php:235
+msgid "Now"
+msgstr "現在"
+
+#: admin/manager-announce-settng.php:259
+#: admin/manager-announce-settng.php:295
+msgid "Hold the CTRL key and click the items in a list to choose them."
+msgstr "CTRLキーを押しながら選択することができます。"
+
+#: admin/manager-announce-settng.php:279
+msgid "Choose the site if you want to <strong>hide announce</strong>."
+msgstr "<strong>お知らせを表示させたくない</strong>サイトを選択してください。"
+
+#: admin/manager-announce-settng.php:280
+msgid "Choose the site if you want to <strong>show announce</strong>."
+msgstr "<strong>お知らせを表示させたい</strong>サイトを選択してください。"
+
+#: admin/view/manager-announce-setting.php:41
+#: admin/view/manager-announce-setting.php:138
+#: admin/view/elements/announce-list.php:54
+msgid "Announce title"
+msgstr "お知らせタイトル"
+
+#: admin/view/manager-announce-setting.php:49
+#: admin/view/manager-announce-setting.php:145
+msgid "Announce content"
+msgstr "お知らせ内容"
+
+#: admin/view/manager-announce-setting.php:57
+#: admin/view/manager-announce-setting.php:139
+#: admin/view/elements/announce-list.php:58
+#: model/announces.php:380
+msgid "Announce type"
+msgstr "お知らせの種類"
+
+#: admin/view/manager-announce-setting.php:65
+#: admin/view/elements/announce-list.php:62
+msgid "Date Range"
+msgstr "表示期間を指定"
+
+#: admin/view/manager-announce-setting.php:84
+#: admin/view/elements/announce-list.php:113
+msgid "Default show for announce of Child-sites"
+msgstr "子サイトへのお知らせ設定"
+
+#: admin/view/manager-announce-setting.php:92
+#: admin/view/elements/announce-list.php:117
+msgid "Select the sub-sites"
+msgstr "サイトを選択"
+
+#: admin/view/manager-announce-setting.php:115
+msgid "It is will show in order from the top."
+msgstr "上から順に表示されます。"
+
+#: admin/view/manager-announce-setting.php:143
+msgid "Child-sites"
+msgstr "サイト設定"
+
+#: admin/view/manager-announce-setting.php:165
+msgid "Not created announce."
+msgstr "作成したお知らせはありません。"
+
+#: admin/view/manager-announce-setting.php:379
+#: admin/view/manager-announce-setting.php:393
+msgid "Are you sure you wish to delete this Announce?"
+msgstr "このお知らせを本当に削除してもよろしいですか？"
+
+#: admin/view/elements/information.php:25
+msgid "About plugin"
+msgstr "プラグインについて"
+
+#: admin/view/elements/information.php:28
+msgid "Version checked"
+msgstr "動作確認済み"
+
+#: admin/view/elements/information.php:35
+msgid "Reviews"
+msgstr "レビュー"
+
+#: admin/view/elements/information.php:39
+msgid "Developer's site"
+msgstr "開発者のサイト"
+
+#: admin/view/elements/information.php:46
+msgid "Useful plugins"
+msgstr "便利なプラグイン"
+
+#: admin/view/elements/information.php:52
+msgid "Customize a variety of screen management."
+msgstr "管理画面の様々なカスタマイズ"
+
+#: admin/view/elements/information.php:57
+msgid "Customize the list of the post and page. custom post type page, too. You can customize the column display items freely."
+msgstr "投稿と固定ページ一覧をカスタマイズします。カスタム投稿タイプも。カラム一覧を自由にカスタマイズできます。"
+
+#: admin/view/elements/information.php:62
+msgid "The plugin that allows you to add the value of the options. Option value that you have created, can be used in addition to the template tag, Short code can be used in the body of the article."
+msgstr "オプション値作成プラグインです。作成したオプション値は、ショートコードとして記事に、テンプレートタグとしても使用できます。"
+
+#: core/helper.php:182
+msgid "Normal"
+msgstr "標準"
+
+#: core/helper.php:186
+msgid "Update"
+msgstr "更新"
+
+#: core/helper.php:194
+msgid "Metabox"
+msgstr "メタボックス"
+
+#: core/helper.php:198
+msgid "Non Styles"
+msgstr "スタイル無し"
+
+#: core/helper.php:226
+msgid "Default show to all child-sites"
+msgstr "デフォルトは全ての子サイトに表示"
+
+#: core/helper.php:227
+msgid "Default show to not all child-sites"
+msgstr "デフォルトは全ての子サイトに表示しない"
+
+#: model/announces.php:76
+msgid "Empty Add Data."
+msgstr ""
+
+#: model/announces.php:148
+msgid "Empty Update Data."
+msgstr ""
+
+#: model/announces.php:250
+#: model/announces.php:272
+#: model/announces.php:380
+#: model/announces.php:389
+#, php-format
+msgid "There is no %s."
+msgstr "%s はありません。"
+
+#: model/announces.php:250
+msgid "change item"
+msgstr "変更アイテム"
+
+#: model/announces.php:272
+msgid "delete ID"
+msgstr "削除ID"
+
+#: model/announces.php:399
+msgid "Please correctly set the time."
+msgstr "正しい時間を設定してください。"
+
