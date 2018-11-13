@@ -44,7 +44,7 @@ get_header(); ?>
 			<h2 class="animated fadeInDown"><strong>Supporting a Great Cause.</strong></h2>
 			<h3 style="color: #000;">We’re a registered charity. Since 2004 we’ve been working to support the universal right to education.</h3>
 			<p class="lead">At Exam Aid sessions we collect donations, and thanks to our volunteers 100% of what's collected goes directly to our charitable mandate. By attending a session you’re not just helping your own marks, you’re helping to create a world where everyone has a fair chance to learn. </p>
-			<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="http://sosvolunteertrips.org/our-impact/" role="button">Learn More</a>
+			<a class="btn btn-primary btn-lg my-3" style="width: 200px;" href="https://studentsofferingsupport.ca/our-impact/" role="button">Learn More</a>
 		</div>
 			<div class="col-12 col-md-6 causeImage py-8 order-md-1"></div>
 	</div>

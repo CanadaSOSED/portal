@@ -204,7 +204,7 @@ get_header();
 <div class="hero-footer">
    <h4>Supporting a Great Cause</h4>
    <p>Since 2004, we have been working to support the universal right to education through funding of sustainable international projects.</p>
-	 <p><a class="btn btn-primary" href="http://sosvolunteertrips.org/">Learn More</a></p>
+	 <p><a class="btn btn-primary" href="https://studentsofferingsupport.ca/">Learn More</a></p>
 </div>
 
 <div class="flight-footer" >
