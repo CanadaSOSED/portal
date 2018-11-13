@@ -209,13 +209,20 @@ function sos_dashboard_training_widget_function( $post, $callback_args ) {
   // ismara - 2018-04-30 - end
 }
 
+function sos_dashboard_application_responses_widget_function( $post, $callback_args ) {
+  echo "<p>In this folder, you will see all Volunteer's Applications. You just need to find your Chapter's specific document (it is in alphabetical order).</p>";
+  echo '<p><hr/></p>';
+  echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href='https://drive.google.com/open?id=1A0SMma5R8ajOObZ-i2tBnS6a2JLYaYZm'>Application Responses</a></p>";
+}
+
 // Archived EA Materials
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_archived_materials_widget_function( $post, $callback_args ) {
   echo "<p>Looking for old Exam Aid/Take-Home/DEA packages? We've archived them for you to view.</p>";
-  echo "<p>Login using <strong>username: amaterials</strong> and <strong>password: amaterials</strong>.";
+//  echo "<p>Login using <strong>username: amaterials</strong> and <strong>password: amaterials</strong>.";
   echo '<p><hr/></p>';
-  echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href='http://www.studentsofferingsupport.ca/portal/Files/CourseDownloadPage.php'>Archived Materials</a></p>";
+//  echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href='http://www.studentsofferingsupport.ca/portal/Files/CourseDownloadPage.php'>Archived Materials</a></p>";
+  echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href=". get_site_url() . '/wp-admin/upload.php'. ">Archived Materials</a></p>";
 }
 // add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'normal');
 
@@ -424,6 +431,7 @@ if ( in_array('administrator', $user_roles, true) ) {
   add_meta_box('sos_dashboard_finresources', 'Finance Resources', 'sos_dashboard_fin_resources_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_hr', 'HR Resources', 'sos_dashboard_hr_resources_widget_function','dashboard', 'side');
   add_meta_box('sos_dashboard_marketing', 'Marketing Support', 'sos_dashboard_mkt_resources_widget_function', 'dashboard', 'side');
+  add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
 
   add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
@@ -441,6 +449,7 @@ if ( in_array('administrator', $user_roles, true) ) {
 }
 elseif (in_array('president', $user_roles, true)) {
   add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
+  add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
 }
 elseif (in_array('ambassador', $user_roles, true)) {
   add_meta_box('sos_dashboard_ambassador', 'Brand Ambassador', 'sos_dashboard_amb_resources_widget_function','dashboard', 'side');
@@ -469,6 +478,7 @@ elseif (in_array('ed', $user_roles, true)) {
   add_meta_box('sos_dashboard_edsupport', 'ED Resources', 'sos_dashboard_ed_resources_widget_function','dashboard', 'side');
   add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
+  add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
 }
 elseif (in_array('finance', $user_roles, true)) {
   add_meta_box('sos_dashboard_finresources', 'Finance Resources', 'sos_dashboard_fin_resources_widget_function', 'dashboard', 'side');
@@ -479,6 +489,7 @@ elseif (in_array('finance', $user_roles, true)) {
 }
 elseif (in_array('hr', $user_roles, true)) {
   add_meta_box('sos_dashboard_hr', 'HR Resources', 'sos_dashboard_hr_resources_widget_function','dashboard', 'side');
+  add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
 }
 elseif (in_array('marketing', $user_roles, true)) {
   add_meta_box('sos_dashboard_marketing', 'Marketing Support', 'sos_dashboard_mkt_resources_widget_function', 'dashboard', 'side');
