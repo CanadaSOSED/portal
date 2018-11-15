@@ -1,0 +1,298 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+/* Self Clearing Goodness */
+#to-top:after,
+#plugin-option-title:after,
+#plugin-support:after,
+#catch_ad_tabs:after,
+#module-container:after {
+	content: "\0020";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.clear {
+	clear: both;
+}
+#to-top {
+    background-color: #fff;
+	box-shadow: 0 2px 6px rgba(100, 100, 100, 0.3);
+	margin: 10px 20px 10px 0;
+	padding-bottom: 30px;
+}
+#to-top .form-table th {
+	padding-left:  10px;
+}
+#to-top .title {
+    background-color: #3a3d41;
+    color: #fff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+}
+#to-top #customizer-message, #to-top #message {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 5px 10px;
+    text-align: center;
+    width: 100%;
+}
+#plugin-option-header {
+    background-color: #3A3D41;
+    display: block;
+	padding: 15px 20px;
+	overflow: hidden;
+}
+#plugin-social {
+    float: right;
+    width: 330px;
+}
+#plugin-social ul li {
+    display: inline;
+    float: right;
+}
+#plugin-option-title {
+    float: left;
+}
+#plugin-option-title .title {
+    color: #fff;
+    float: left;
+    font-size: 21px;
+    line-height: 53px;
+    padding: 0 10px 0 0;
+	text-shadow: none;
+}
+#plugin-option-title .logo  {
+	float: left;
+	margin: 0;
+    padding: 0;
+}
+#plugin-support {
+	float: right;
+    text-align: right;
+}
+#plugin-support ul li {
+	display: inline;
+}
+#plugin-support a {
+	opacity: 0.8;
+	-moz-opacity: 0.8;
+}
+#plugin-support a:hover {
+	opacity: 1;
+	-moz-opacity: 1;
+}
+#to-top .option-container {
+    margin: 0 auto;
+    width: 90%;
+}
+#to-top #videos textarea, #howimadeit textarea {
+	height: 150px;
+	width: 400px;
+}
+
+#to-top #videos textarea, #howimadeit textarea {
+	height: 150px;
+	width: 400px;
+}
+#to-top #faq ul li {
+	list-style:disc inside none;
+}
+#sociallinks .form-table th {
+	padding: 0px;
+	vertical-align: middle;
+}
+#to-top .form-table select[multiple] {
+	height: 200px;
+}
+
+#to-top .form-table label.box {
+	float: left;
+	margin-right: 20px;
+}
+#to-top .form-table label.box:last-child {
+	margin-right: 0;
+}
+
+h3.option-toggle {
+	margin: 20px 0 0 0;
+	border:1px solid #dfdfdf;
+	background-color: #F1F1F1;
+	background-image: -ms-linear-gradient(top, #f9f9f9, #ececec);
+	background-image: -moz-linear-gradient(top, #f9f9f9, #ececec);
+	background-image: -o-linear-gradient(top, #f9f9f9, #ececec);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#f9f9f9), to(#ececec));
+	background-image: -webkit-linear-gradient(top, #f9f9f9, #ececec);
+	background-image: linear-gradient(top, #f9f9f9, #ececec);
+	font-size: 15px;
+	font-weight: normal;
+	float: left;
+	width: 100%;
+}
+
+h3.option-toggle a {
+	background:url(../images/arrow-down.png) 96% 50% no-repeat;
+	color: #464646;
+	text-decoration: none;
+	display: block;
+	text-shadow:#fff 0 1px 0;
+    padding: 12px;
+}
+
+h3.option-active a {
+	background:url(../images/arrow-up.png) 96% 50% no-repeat;
+	color: #000;
+}
+
+.option-content {
+	margin: 0;
+	padding: 0;
+	border: 1px solid #dfdfdf;
+	border-top:none;
+	background: #fcfcfc;
+	overflow: hidden;
+	font-size: 12px;
+	clear: both;
+	color: #333;
+    padding: 21px;
+}
+
+/* Genericon */
+.genericon {
+	vertical-align: middle;
+	float: right;
+}
+/* Dashboard */
+#to-top #dashboard {
+    margin: 0 auto;
+    width: 90%;
+}
+.wrap #plugin-description h2 {
+    color: #464646;
+    font-size: 18px;
+    padding-bottom: 0;
+}
+.wrap #plugin-description p {
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 5px;
+}
+.dashicons {
+	font-size: 32px;
+	height: 32px;
+	width: 32px;
+}
+.dashicon_label {
+    margin-right: 20px;
+}
+.dashicon_to_top_admin {
+    background-color: #000;
+    -webkit-border-radius: 5%;
+    -moz-border-radius: 5%;
+    border-radius: 5%;
+    color: #fff;
+    font-size: 32px;
+    height: 32px;
+    opacity: 0.5;
+    padding: 5px;
+    width: 32px;
+    z-index: 9999;
+}
+
+/*Custom Styles*/
+.catch-modules .module-header,
+.catch-modules-long .module-header {
+    background-color: #f3f3f3;
+    padding: 11px 18px;
+}
+
+.catch-modules .module-header h3,
+.module-container .catch-modules-long h3 {
+    margin: 0;
+}
+
+.module-content {
+     padding: 11px 18px;
+}
+
+.module-container .module-wrap.catch-modules-long {
+    width: 100%;
+    padding-right: 0;
+}
+
+.module-container .catch-actions .button {
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.module-container .module-wrap.catch-modules-long,
+.wrap p.submit {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.form-table {
+    margin-top: 0;
+    table-layout: fixed;
+}
+
+.form-table th,
+.form-table td {
+    padding-top: 0;
+    margin-top: 0;
+    padding-left: 0;
+    padding-bottom: 14px;
+}
+
+.form-table td {
+    padding-right: 0;
+}
+
+.form-table .catchwebtools-social th {
+    padding-right: 14px;
+}
+
+.form-table .catchwebtools-social {
+    padding-bottom: 15px;
+}
+
+.wp-core-ui .button,
+.wp-core-ui .button-primary,
+.wp-core-ui .button-secondary {
+    white-space: normal;
+    height: auto;
+}
+
+input[type="text"],
+input[type="search"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+textarea {
+    max-width: 100%;
+}
+
+.notice.notice-warning {
+    padding: 12px 0 12px 12px;
+    box-shadow: none;
+}
+
+#module-disabled .module-content {
+    margin-top: 21px;
+}
+
+#update-nag,
+.update-nag {
+    box-shadow: none;
+    margin: 0;
+    display: block;
+}
+
+#update-nag > *:last-child,
+.update-nag > *:last-child {
+    margin-bottom: 0;
+}
+

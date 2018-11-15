@@ -99,7 +99,7 @@ if(is_user_logged_in()){
 				echo '<p>   </p>';
 				echo '<p>   </p>';
 
-				$link = "<p>Please visit our site to learn more about <strong><a href='https://sosvolunteertrips.org/trip-overview/' target='_blank'>SOS Outreach Trips!</a></strong></p>";
+				$link = "<p>Please visit our site to learn more about <strong><a href='https://studentsofferingsupport.ca/trip-overview/' target='_blank'>SOS Outreach Trips!</a></strong></p>";
 				echo $link;
 				echo '<p>   </p>';
 

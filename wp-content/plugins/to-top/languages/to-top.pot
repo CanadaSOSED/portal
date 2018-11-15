@@ -1,0 +1,414 @@
+# Copyright (C) 2017 Catch Plugins
+# This file is distributed under the GNU General Public License v3.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: To Top\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
+"POT-Creation-Date: 2018-05-07 20:50+0545\n"
+"PO-Revision-Date: 2016-12-07 23:04-0500\n"
+"Last-Translator: Sakin Shrestha <info@catchplugins.com>\n"
+"Language-Team: Catch Plugins <info@catchplugins.com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;esc_attr_e;esc_attr__;_nx;"
+"esc_html__;esc_html_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../admin/class-to-top-admin.php:135
+#: ../admin/partials/to-top-dashboard.php:45
+msgid "Settings"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:148
+msgid "To Top Settings"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:157
+msgid "You do not have sufficient permissions to access this page."
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:285
+msgid "To Top Options"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:292
+#: ../admin/partials/to-top-dashboard.php:52
+msgid "Basic Settings"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:303
+#: ../admin/partials/to-top-dashboard.php:57
+msgid "Scroll Offset (px)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:304
+#: ../admin/partials/to-top-dashboard.php:62
+msgid "Number of pixels to be scrolled before the button appears"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:324
+#: ../admin/partials/to-top-dashboard.php:68
+msgid "Icon Opacity (%)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:344
+#: ../admin/partials/to-top-dashboard.php:77
+msgid "Style"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:349
+#: ../admin/partials/to-top-dashboard.php:82
+msgid "Icon Using Dashicons"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:350
+#: ../admin/partials/to-top-dashboard.php:83
+msgid "Icon Using Genericons"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:351
+#: ../admin/partials/to-top-dashboard.php:84
+msgid "Icon Using Font Awesome Icons"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:352 ../admin/class-to-top-admin.php:451
+#: ../admin/partials/to-top-dashboard.php:85
+#: ../admin/partials/to-top-dashboard.php:166
+msgid "Image"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:364
+#: ../admin/partials/to-top-dashboard.php:101
+msgid "Select Icon Type"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:379
+#: ../admin/partials/to-top-dashboard.php:118
+msgid "Icon Color"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:394
+#: ../admin/partials/to-top-dashboard.php:128
+msgid "Icon Background Color"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:409
+#: ../admin/partials/to-top-dashboard.php:138
+msgid "Icon Size (px)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:429
+#: ../admin/partials/to-top-dashboard.php:147
+msgid "Border Radius (%)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:430
+#: ../admin/partials/to-top-dashboard.php:152
+msgid "0 will make the icon background square, 50 will make it a circle"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:467
+#: ../admin/partials/to-top-dashboard.php:174
+msgid "Image Width (px)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:488
+#: ../admin/partials/to-top-dashboard.php:183
+msgid "Image Alt"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:503
+#: ../admin/partials/to-top-dashboard.php:195
+msgid "Advanced Settings"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:514
+#: ../admin/partials/to-top-dashboard.php:200
+msgid "Location"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:520
+#: ../admin/partials/to-top-dashboard.php:205
+msgid "Bottom Right"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:521
+#: ../admin/partials/to-top-dashboard.php:206
+msgid "Bottom Left"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:522
+#: ../admin/partials/to-top-dashboard.php:207
+msgid "Top Right"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:523
+#: ../admin/partials/to-top-dashboard.php:208
+msgid "Top Left"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:535
+#: ../admin/partials/to-top-dashboard.php:215
+msgid "Margin X (px)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:555
+#: ../admin/partials/to-top-dashboard.php:224
+msgid "Margin Y (px)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:575
+msgid "Check to show on WP-ADMIN"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:576
+#: ../admin/partials/to-top-dashboard.php:238
+msgid "Button will be shown on admin section"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:590
+msgid "Check to Enable Auto Hide"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:605
+#: ../admin/partials/to-top-dashboard.php:254
+msgid "Auto Hide Time (secs)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:606
+#: ../admin/partials/to-top-dashboard.php:259
+msgid "Button will be auto hidden after this duration in seconds, if enabled"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:626
+msgid "Check to Hide on Small Devices"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:627
+#: ../admin/partials/to-top-dashboard.php:270
+msgid "Button will be hidden on small devices when the width below matches"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:641
+#: ../admin/partials/to-top-dashboard.php:276
+msgid "Small Device Max Width (px)"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:642
+#: ../admin/partials/to-top-dashboard.php:281
+msgid "Button will be hidden on devices with lesser or equal width"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:661
+#: ../admin/partials/to-top-dashboard.php:291
+msgid "Reset Settings"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:672
+#: ../admin/partials/to-top-dashboard.php:300
+msgid "Check to Reset All Settings"
+msgstr ""
+
+#: ../admin/class-to-top-admin.php:673
+msgid ""
+"Caution: All data will be lost. Refresh the page after save to view full "
+"effects."
+msgstr ""
+
+#: ../admin/partials/footer.php:4
+msgid "Catch Plugins"
+msgstr ""
+
+#: ../admin/partials/footer.php:9
+msgid "View Themes"
+msgstr ""
+
+#: ../admin/partials/footer.php:10
+msgid "View Plugins"
+msgstr ""
+
+#: ../admin/partials/footer.php:11
+msgid "Support"
+msgstr ""
+
+#: ../admin/partials/sidebar.php:3
+msgid "Recommendations"
+msgstr ""
+
+#: ../admin/partials/sidebar.php:8
+msgid "Premium Themes"
+msgstr ""
+
+#: ../admin/partials/sidebar.php:9
+msgid ""
+"Check out our simple, clean and responsive Premium WordPress Themes that "
+"come with an array of crucial features with a superior functionality."
+msgstr ""
+
+#: ../admin/partials/sidebar.php:9
+msgid "Check our premium themes."
+msgstr ""
+
+#: ../admin/partials/sidebar.php:16
+msgid "Free Themes"
+msgstr ""
+
+#: ../admin/partials/sidebar.php:17
+msgid ""
+"Check out our collection of Free WordPress Themes that are clean, simple "
+"and feature-rich."
+msgstr ""
+
+#: ../admin/partials/sidebar.php:17
+msgid "Check our free themes."
+msgstr ""
+
+#: ../admin/partials/sidebar.php:25
+msgid "Premium Plugins"
+msgstr ""
+
+#: ../admin/partials/sidebar.php:26
+msgid ""
+"Check out our secured Premium WordPress Plugins to enhance and add extra "
+"functionalities to your website. An exceptional way to get the most out of "
+"WordPress!"
+msgstr ""
+
+#: ../admin/partials/sidebar.php:26
+msgid "Check our premium plugins."
+msgstr ""
+
+#: ../admin/partials/sidebar.php:34
+msgid "Free Plugins"
+msgstr ""
+
+#: ../admin/partials/sidebar.php:35
+msgid ""
+"Check out our Free WordPress Plugins and get the taste of our service "
+"without affecting your wallet."
+msgstr ""
+
+#: ../admin/partials/sidebar.php:36
+msgid "check our free plugins."
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:17
+msgid "To Top"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:24
+msgid "Dashboard"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:25
+#: ../admin/partials/to-top-admin-display.php:35
+msgid "Features"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:40
+msgid "Supports all themes on WordPress"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:41
+msgid ""
+"You don’t have to worry if you have a slightly different or complicated "
+"theme installed on your website. It supports all the themes on WordPress "
+"and makes your website more striking and playful."
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:45
+msgid "Lightweight"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:46
+msgid ""
+"It is extremely lightweight. You do not need to worry about it affecting "
+"the space and speed of your website."
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:50
+msgid "Incredible Support"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:51
+msgid ""
+"We have a great line of support team and support documentation. You do not "
+"need to worry about how to use the plugins we provide, just refer to our "
+"Tech Support Forum. Further, if you need to do advanced customization to "
+"your website, you can always hire our theme customizer!"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:21
+msgid "Plugin Options Saved."
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:36
+msgid "Customizer"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:38
+msgid "Want Live Preview? Change the settings from "
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:93
+#: ../admin/partials/to-top-dashboard.php:158
+#: ../admin/partials/to-top-dashboard.php:192
+#: ../admin/partials/to-top-dashboard.php:288
+#: ../admin/partials/to-top-dashboard.php:308
+msgid "Save Changes"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:96
+msgid "Icon Settings"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:161
+msgid "Image Settings"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:169
+msgid "Insert Image"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:169
+msgid "Change Image"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:233
+msgid "Show on WP-ADMIN?"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:237
+#: ../admin/partials/to-top-dashboard.php:248
+#: ../admin/partials/to-top-dashboard.php:269
+msgid "Check to Enable"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:244
+msgid "Enable Auto Hide"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:265
+msgid "Hide on Small Devices?"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:296
+msgid "Reset All Settings"
+msgstr ""
+
+#: ../admin/partials/to-top-dashboard.php:301
+msgid "Caution: All data will be lost"
+msgstr ""
+
+#: ../public/class-to-top-public.php:136
+#: ../public/class-to-top-public.php:149
+#: ../public/class-to-top-public.php:162
+msgid "Scroll Up"
+msgstr ""
