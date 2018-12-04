@@ -506,13 +506,11 @@ function gens_raf_link($raf_link, $referral_id, $type) {
 }
 
 
-
 // ismara - 2018/04/05 - Default content for posts
 // ACF - custom fields
 add_filter( 'default_content', 'my_editor_content', 10, 2 );
 
 function my_editor_content( $content, $post ) {
-
     switch( $post->post_type ) {
         case 'opportunities':
             $content = 'Students Offering Support (SOS) is a National Charity that develops and supports Chapters in universities across North America. The SOS model, Raising Marks, Raising Money, Raising Roofs, provides a service within which people place genuine value, and is unlike any other organization. Students Offering Support is a unique social enterprise that relies on the passionate student leaders to create positive impact both at home and abroad. Regardless of position, all Students Offering Support volunteers must thoroughly understand, communicate, and embody SOS’ 360 degree model of volunteering.';
@@ -525,7 +523,21 @@ function my_editor_content( $content, $post ) {
     return $content;
 }
 
+// ismara - 2018/12/04 - Default excerpt for posts
+add_filter( 'default_excerpt', 'my_editor_excerpt', 10, 2 );
 
+function my_editor_excerpt( $excerpt, $post ) {
+    switch( $post->post_type ) {
+        case 'product':
+            $content = '<hr><p>This Exam Aid Product will help you prepare for your upcoming Midterm or Final Exam!  SOS Exam Aid products are created from the experience and insights <strong>from students who have previously excelled in the course.</strong> Instructors draw upon their own notes and successful study practices to provide an engaging opportunity for students to learn from their knowledgeable peers. They will  lead the group over core concepts and theories, in a fun and interactive session, full of relevant examples and opportunities for questions. </p><p>All proceeds contribute to Students Offering Support\'s mission t<strong>o provide accessible education in Latin America. </strong></p><hr>';
+        break;
+        default:
+            $content = '';
+        break;
+    }
+
+    return $content;
+}
 
 
 @include 'inc/post-type-opportunities.php';

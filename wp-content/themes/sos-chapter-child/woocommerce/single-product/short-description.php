@@ -22,9 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $post;
 
-if ( ! $post->post_excerpt ) {
-	return;
-}
+// ismara - 2018/12/04 - if we don't have content for the session we should still show additional information
+//if ( ! $post->post_excerpt ) {
+//	return;
+//}
 
 ?>
 <div class="row">
