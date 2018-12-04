@@ -16,14 +16,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <?php
-global $instructor;
-$instructor = get_field('session_instructor', get_the_ID());
-if( $instructor ) {
+global $instructor_list;
+$instructor_list = get_field('session_instructor', get_the_ID());
+if( $instructor_list ) {
 	?>
 
 <div class="row" style="border: 1px solid grey; padding: 1em; margin-bottom: 5em;">
+	<div class="col-12">
+	   <h1 class="product_title entry-title"> Instructor(s) </h1>
+  </div>
+	<?php	foreach($instructor_list as $instructor){ ?>
+
 	<div class="col-12 col-md-3">
-		<h1 class="product_title entry-title"> Instructor </h1>
+		<h1 class="product_title entry-title">  </h1>
 		<div class="instAvatar ml-5 ml-md-0">
 			<?php echo  $instructor['user_avatar']; ?>
   	</div>
@@ -43,6 +48,8 @@ if( $instructor ) {
 		echo '<br>';
 		?>
   </div>
+	<?php } ?>
+
 </div>
 
 <?php
