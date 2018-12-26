@@ -9,8 +9,8 @@
  *
  * @package sos-primary
  */
-
-if(is_page(array( 'policies-and-procedures', 'pre-departure-webinar', 'medical-fitness-form', 'trip-waiver-upload', 'volunteer-outreach-form' )) && !is_user_logged_in()){
+//ismara - 2018-12-26 - Changing Webinar training for our LMS - adding new page
+if(is_page(array( 'policies-and-procedures', 'pre-departure-webinar', 'pre-departure-course', 'medical-fitness-form', 'trip-waiver-upload', 'volunteer-outreach-form' )) && !is_user_logged_in()){
 	wp_redirect('/');
 	exit;
 }
