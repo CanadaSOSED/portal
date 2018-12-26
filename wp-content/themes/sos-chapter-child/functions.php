@@ -539,6 +539,14 @@ function my_editor_excerpt( $excerpt, $post ) {
     return $content;
 }
 
+// ismara - 2018/12/04 - Max instructors per session
+add_filter('acf/validate_value/name=session_instructor', 'only_allow_3', 20, 4);
+function only_allow_3($valid, $value, $field, $input) {
+  if (count($value) > 3) {
+    $valid = 'Select only 3 instructors per Session';
+  }
+  return $valid;
+}
 
 @include 'inc/post-type-opportunities.php';
 @include 'inc/widgets.php';
