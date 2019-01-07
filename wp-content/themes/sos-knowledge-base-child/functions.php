@@ -138,25 +138,21 @@ function display_post_tags() {
 //ismara - 2/13/2018 - Adding new fields options for Contact us
 // Dynamic Select for Contact Form 7
 function dynamic_select_for_custom_blogs($choices, $args=array()) {
-
 	// Here we grab the blogs using the arguments originated from the shortcode
 	$get_custom_blogs = get_sites($args);
-
 	// If we have blogs, proceed
 	if ($get_custom_blogs) {
     //insert a blank option - this is a required field
     $choices['---'] = '';
-		// Foreach found custom blog, we build the option using the [key] => [value] fashion
+    // Foreach found custom blog, we build the option using the [key] => [value] fashion
 		foreach ($get_custom_blogs as $custom_blog) {
 				$choices[$custom_blog->blogname] = $custom_blog->blogname;
 			}
 
 	// If we don't have blogs, halt! Lets use a generic not found option
 	} else {
-
 		// Just a generic option to inform nothing was found
 		$choices['No blogs found'] = 'No blogs found';
-
 	}
 	return $choices;
 }
@@ -164,6 +160,51 @@ function dynamic_select_for_custom_blogs($choices, $args=array()) {
 add_filter('conjure-blogs-dynamically', 'dynamic_select_for_custom_blogs', 10, 2);
 
 
+//ismara - 2019-01-02 - change recipient email on send event in Contact Form 7
+function wpcf7_param_change_on_send($contact_form){
+   // create new instance of WPCF7_Submission class
+  $submission = WPCF7_Submission::get_instance();
+
+	if ( $submission ) {
+    //get the value of tag-email your-chapter (blogname) - issue-category (question type)
+    $formdata = $submission->get_posted_data();
+  	$chapter = $formdata['your-chapter'];
+    $issue =  $formdata['issue-category'];
+
+    //get the blogid
+    $get_custom_blogs = get_sites($args);
+    if ($get_custom_blogs) {
+      foreach ($get_custom_blogs as $custom_blog) {
+  			if ($custom_blog->blogname == $chapter) {
+          $chapterid=$custom_blog->id;
+          break;
+        }
+  		}
+
+      //use the id to get helpdesk_email
+      $toEmail = get_blog_option($chapterid, 'helpdesk_email');
+      if( !empty( $toEmail ) ) {
+        // set the email address to recipient
+        $mailProp = $contact_form->get_properties('mail');
+        $mailProp['mail']['recipient'] = $mailProp['mail']['recipient'] . ',' . $toEmail;
+        // update the form properties
+        $contact_form->set_properties(array('mail' => $mailProp['mail']));
+      }
+      //when question is about trip will send to trips@
+      if( stripos(strtolower($issue),'trip') !== false ) {
+        $toEmail = 'trips@studentsofferingsupport.ca';
+        // set the email address to recipient
+        $mailProp = $contact_form->get_properties('mail');
+        $mailProp['mail']['recipient'] = $mailProp['mail']['recipient'] . ',' . $toEmail;
+        // update the form properties
+        $contact_form->set_properties(array('mail' => $mailProp['mail']));
+      }
+
+    }
+  }
+}
+
+add_action( 'wpcf7_before_send_mail','wpcf7_param_change_on_send');
 
 
 @include 'inc/widgets.php';

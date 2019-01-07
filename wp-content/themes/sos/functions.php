@@ -2455,3 +2455,21 @@ function my_trips_content() {
   $content = @file_get_contents($file_path);
   echo $content;
 }
+
+
+ //-2018-12-20 -- new field for Helpdesk email on Settings for each chapter
+ function register_fields() {
+ 	add_settings_field(
+   'helpdesk_email',
+		'HelpDesk email',
+		'register_fields_callback_function',
+		'general'	);
+
+ 	register_setting( 'general', 'helpdesk_email' );
+ }
+ add_action( 'admin_init', 'register_fields' );
+
+ function register_fields_callback_function() {
+   $value = get_option( 'helpdesk_email' );
+ 	echo '<input name="helpdesk_email" id="helpdesk_email" type="text" value="' .$value . '" class="code" /> Recipients for the FAQ Contact form';
+ }
