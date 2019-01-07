@@ -9,7 +9,7 @@
 
 $container = get_theme_mod( 'understrap_container_type' );
 ?>
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>">
@@ -53,18 +53,18 @@ $container = get_theme_mod( 'understrap_container_type' );
 
 
 	<!-- ******************* The Breadcrumb Area ******************* -->
-	<?php 	// Only Display breadcrumb on single posts 
+	<?php /* --2018-01-07 - ismara - removing replicated information at articles page--	// Only Display breadcrumb on single posts
 			if ( is_single() ) { ?>
 	<div class="wrapper-fluid wrapper-navbar" id="wrapper-breadcrumb">
 
 		<nav class="navbar navbar-toggleable-lg navbar-inverse nav-breadcrumb ">
-		
+
 			<div class="container ">
-				
+
 				<div class="col-sm-12 hidden-md-down col-xl-9 ">
 					<p><?php the_breadcrumb(); ?></p>
 				</div>
-				
+
 				<div class="col-sm-12 col-xl-3 search">
 					<!-- Display Custom Search box -->
 					<form method="get" id="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>" role="search">
@@ -74,9 +74,9 @@ $container = get_theme_mod( 'understrap_container_type' );
 						</div>
 					</form>
 				</div>
-		
+
 		</div><!-- .container -->
-	
+
 	</div><!-- .wrapper-navbar end -->
-	
-	<?php } ?>
+
+	<?php } */?>
