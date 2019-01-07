@@ -53,7 +53,8 @@ if(is_user_logged_in()){
 		$policies_agreed = get_field('ta_agree_to_policies_and_procedures', $app->ID);
 		$waiver_uploaded = get_field('ta_waiver_uploaded', $app->ID);
 		$pdf_uploaded = get_field('ta_pdf_uploaded', $app->ID);
-		$webinar_registered = get_field('ta_webinar_signed_up', $app->ID);
+		//$webinar_registered = get_field('ta_webinar_signed_up', $app->ID);
+		$course_registered = get_field('ta_webinar_signed_up', $app->ID); //ismara - 2018-12-26 - Changing Webinar training for our LMS - I can not change this field (webinar) because is custom field part of the application (with past values)
 
 		$trip_leader = get_field('ta_trip_leader', $app->ID);
 	}
@@ -198,12 +199,19 @@ if(is_user_logged_in()){
 
 			echo '<br>';
 
-			$webinar_url = $main_blog_url . "/pre-departure-webinar";
+			//ismara - 2018-12-26 - Changing Webinar training for our LMS
+			//$webinar_url = $main_blog_url . "/pre-departure-webinar";
+			//if($webinar_registered == 1){
+			//	echo '&#10004 Pre-Depature Webinar Registered';
+			//}else{
+			//	echo '<a href='. $webinar_url . '>Click here to Register for a Pre-Departure Webinar</a>';
+			//}
+      $course_url = $main_blog_url . "/pre-departure-course";
 
-			if($webinar_registered == 1){
-				echo '&#10004 Pre-Depature Webinar Registered';
+			if($course_registered == 1){
+				echo '&#10004 Pre-Depature Course Completed';
 			}else{
-				echo '<a href='. $webinar_url . '>Click here to Register for a Pre-Departure Webinar</a>';
+				echo '<a href='. $course_url . '>Click here to complete your Pre Departure Course</a>';
 			}
 
 			/////// Payment Area ///////
