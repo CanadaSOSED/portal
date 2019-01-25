@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
-<p><?php printf( __( "Hi there. Your recent order on %s has been completed. To access your materials, login to your account on SOSCampus and navigate to your RECENT ORDERS. Your order details are shown below for your reference:", 'woocommerce' ), get_option( 'blogname' ) ); ?></p>
+<p><?php printf( __( "Thank you for your donation towards an Exam Aid Product! Your order is now complete. To access your products, you must log into your account that was create during your reservation. Visit https://soscampus.com/, select your campus (%s), and click 'Log In' at the top of the page. Then, login! Afterwards, you'll find your products in the 'My Exam Aid Products' tab.", 'woocommerce' ), get_option( 'blogname' ) ); ?></p>
 
 <?php
 

@@ -109,16 +109,23 @@ function add_item_register_menu( $items, $args ) {
       return $items;
    }
 
+// ismara - 2018-08-08 - fixing the dashboard menu at the training
 if ( is_user_logged_in() ) {
-    if( current_user_can('edit_post') || current_user_can('vpid') ) {
+/*    if( current_user_can('edit_post') || current_user_can('vpid') ) {
 			  $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-courses">' . __( 'My Courses' ) . '</a></li>';
-        $items .= '<li><a class="nav-link link dropdown-item" href="'. get_dashboard_url() .'">' . __( 'Dashboard' ) . '</a></li>';
+        $items .= '<li><a class="nav-link link dropdown-item" href="'. get_dashboard_url() .'">' . __( 'My Chapter Admin' ) . '</a></li>';
         $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
-    } else {
- 			  $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-courses">' . __( 'My Courses' ) . '</a></li>';
-        $items .= '<li><a class="nav-link link dropdown-item" href="'. get_dashboard_url() .'">' . __( 'Dashboard' ) . '</a></li>';
+    } else { */
+ 			  $active = get_active_blog_for_user( get_current_user_id() );
+
+				$items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-courses">' . __( 'My Courses' ) . '</a></li>';
+				if ( $active )
+				  $items .= '<li><a class="nav-link link dropdown-item" href="'. get_admin_url( $active->blog_id, $path, $scheme ) .'">' . __( 'My Chapter Admin' ) . '</a></li>';
+				else
+				  $items .= '<li><a class="nav-link link dropdown-item" href="'. user_admin_url( $path, $scheme ) .'">' . __( 'My Chapter Admin' ) . '</a></li>';
+
         $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
-    }
+//    }
 
  } else {
 	     $items .= '<li><a class="nav-link link dropdown-item" href="'. network_site_url() .'">' . __( 'SOS Campus' ) . '</a></li>';

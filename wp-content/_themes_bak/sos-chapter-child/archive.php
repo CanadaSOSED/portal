@@ -39,7 +39,7 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 						<!-- ADDED TEXT THAT JAMIE WANTED -->
 						<!-- <div>
 							<p>Become a SOS volunteer in Latin America this summer and spend 2 weeks working and living in a community in need of educational infrastructure. All SOS Outreach Trips are run in conjunction with local non-governmental organizations and partnering communities who will lead you and your team on the ground as you build an essential component to a local school or community. Through the fundraising efforts of our chapter teams, SOS provides the financial support to make these projects a reality, helping bring to reality the proposals developed directly by local communities. But we need your help!</p>
-							<p>Find all the details you'l need before embarking on this journey with us. Visit <a href="sosvolunteertrips.org">SOS Volunteer Trips</a> for more information. </p>
+							<p>Find all the details you'l need before embarking on this journey with us. Visit <a href="studentsofferingsupport.ca">SOS Volunteer Trips</a> for more information. </p>
 						</div> -->
 
 						<hr/>

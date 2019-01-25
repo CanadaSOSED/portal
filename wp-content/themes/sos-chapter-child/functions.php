@@ -89,6 +89,23 @@ remove_action ( 'woocommerce_before_single_product_summary', 'woocommerce_show_p
 // Hide Reviews
 remove_action ('woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10);
 
+
+
+//begin --ismara - 2018-07-19 - redesign products page
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+
+if ( ! function_exists( 'woocommerce_template_single_instructor' ) ) {
+
+	function woocommerce_template_single_instructor() {
+		wc_get_template( 'single-product/instructor.php' );
+	}
+}
+
+add_action ('woocommerce_after_single_product_summary', 'woocommerce_template_single_instructor',5);
+//End --ismara - 2018-07-19 - redesign products page
+
+
+
 // // Allow SVG Upload
 // //////////////////////////////////////////////////////////////////////
 // function cc_mime_types_kb($mimes) {
@@ -488,105 +505,48 @@ function gens_raf_link($raf_link, $referral_id, $type) {
 	}
 }
 
-//Joanna
-//Menu order
-//////////////
-function woo_my_account_order() {
-  if( current_user_can('edit_post') || current_user_can('vpid') ) {
-    	$myorder = array(
-        'dashboard'          => __( 'Welcome', 'woocommerce' ),
-        'admin'              => __( 'My Chapter Admin' ),
-        'orders'             => __( 'Order History', 'woocommerce' ),
-        'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
-    		'my-trips'           => __( 'My Trips' ),
-        'myreferrals'        => __( 'Refer A Friend' ),
-        'edit-account'       => __( 'Account Details', 'woocommerce' ),
-        'my-cart'            => __( 'My Cart', 'woocommerce' ),
-    		'customer-logout'    => __( 'Logout', 'woocommerce' ),
-    	);
-    } else {
-      $myorder = array(
-        'dashboard'          => __( 'Welcome', 'woocommerce' ),
-        'orders'             => __( 'Order History', 'woocommerce' ),
-        'downloads'          => __( 'Exam Aid Materials', 'woocommerce' ),
-    		'my-trips'           => __( 'My Trips' ),
-        'myreferrals'        => __( 'Refer A Friend' ),
-        'edit-account'       => __( 'Account Details', 'woocommerce' ),
-        'my-cart'            => __( 'My Cart', 'woocommerce' ),
-    		'customer-logout'    => __( 'Logout', 'woocommerce' ),
-    	);
+
+// ismara - 2018/04/05 - Default content for posts
+// ACF - custom fields
+add_filter( 'default_content', 'my_editor_content', 10, 2 );
+
+function my_editor_content( $content, $post ) {
+    switch( $post->post_type ) {
+        case 'opportunities':
+            $content = 'Students Offering Support (SOS) is a National Charity that develops and supports Chapters in universities across North America. The SOS model, Raising Marks, Raising Money, Raising Roofs, provides a service within which people place genuine value, and is unlike any other organization. Students Offering Support is a unique social enterprise that relies on the passionate student leaders to create positive impact both at home and abroad. Regardless of position, all Students Offering Support volunteers must thoroughly understand, communicate, and embody SOS’ 360 degree model of volunteering.';
+        break;
+        default:
+            $content = '';
+        break;
+    }
+
+    return $content;
+}
+
+// ismara - 2018/12/04 - Default excerpt for posts
+add_filter( 'default_excerpt', 'my_editor_excerpt', 10, 2 );
+
+function my_editor_excerpt( $excerpt, $post ) {
+    switch( $post->post_type ) {
+        case 'product':
+            $content = '<hr><p>This Exam Aid Product will help you prepare for your upcoming Midterm or Final Exam!  SOS Exam Aid products are created from the experience and insights <strong>from students who have previously excelled in the course.</strong> Instructors draw upon their own notes and successful study practices to provide an engaging opportunity for students to learn from their knowledgeable peers. They will  lead the group over core concepts and theories, in a fun and interactive session, full of relevant examples and opportunities for questions. </p><p>All proceeds contribute to Students Offering Support\'s mission t<strong>o provide accessible education in Latin America. </strong></p><hr>';
+        break;
+        default:
+            $content = '';
+        break;
+    }
+
+    return $content;
+}
+
+// ismara - 2018/12/04 - Max instructors per session
+add_filter('acf/validate_value/name=session_instructor', 'only_allow_3', 20, 4);
+function only_allow_3($valid, $value, $field, $input) {
+  if (count($value) > 3) {
+    $valid = 'Select only 3 instructors per Session';
   }
-	return $myorder;
+  return $valid;
 }
-add_filter( 'woocommerce_account_menu_items', 'woo_my_account_order');
-
-
-
-// My Account Tab Merged (Payment-Methods + Edit-Address into Edit-Account)
-//////////////////////////////////////////////////////////////////////
-add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_payment_methods');
-add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_edit_address');
-
-//New Tabs
-///////////////////////////////////////////////////////////////////////
-add_filter ( 'woocommerce_account_menu_items', 'extra_links' );
-function extra_links( $menu_links ){
-  if( current_user_can('edit_post') || current_user_can('vpid') ) {
-     $new = array( 'my-trips' => 'My Trips', 'admin' => 'Admin', 'my-cart' => 'My Cart' );
-  } else {
-     $new = array( 'my-trips' => 'My Trips', 'my-cart' => 'My Cart' );
-  }
-	$menu_links = array_slice( $menu_links, 0, 8, true )
-	+ $new
-	+ array_slice( $menu_links, 8, NULL, true );
-	return $menu_links;
-}
-
-add_action( 'init', 'add_my_trips_endpoint' );
-function add_my_trips_endpoint() {
-    add_rewrite_endpoint( 'my-trips', EP_ROOT | EP_PAGES );
-}
-
-add_action( 'init', 'add_my_cart_endpoint' );
-function add_my_cart_endpoint() {
-    add_rewrite_endpoint( 'my-cart', EP_ROOT | EP_PAGES );
-}
-
-add_action( 'init', 'add_admin_endpoint' );
-function add_admin_endpoint() {
-    add_rewrite_endpoint( 'admin', EP_ROOT | EP_PAGES );
-}
-
-//My Cart tab
-//////////////////////
-add_action( 'woocommerce_account_my-cart_endpoint', 'my_cart_content' );
-function my_cart_content() {
-  echo do_shortcode( '[woocommerce_cart]' );
-}
-
-
-//Admin; I have to figure out how to make other roles show this
-//////////////////////
-add_action( 'woocommerce_account_admin_endpoint', 'admin_content' );
-function admin_content() {
-  echo '<p>Click the link below to access your Chapter Admin:</p>';
-  $url = admin_url();
-  $link = "<strong><a href='{$url}'>Volunteer Dashboard</a></strong>";
-  echo $link;
-}
-
-
-// My Trips
-////////////////////////
-add_action( 'woocommerce_account_my-trips_endpoint', 'my_trips_content' );
-function my_trips_content() {
-//2018-07-05 - ismara - we are will use the same my-trip page, not the one created at woocommerce
-//  $file_path = include 'woocommerce/myaccount/my-trip.php';
-  $file_path = include 'page-templates/my-trip.php';
-  $content = @file_get_contents($file_path);
-  echo $content;
-}
-
 
 @include 'inc/post-type-opportunities.php';
 @include 'inc/widgets.php';

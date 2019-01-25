@@ -33,11 +33,13 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 					// 	comments_template();
 					// endif;
 					?>
+<!-- *** 2018-01-07 - ismara - removing replicated information at articles page ****
 					<br>
 					<hr/>
 					<br>
 					<p>Last modified: <?php the_modified_date('F j, Y'); ?></p>
 					<p><?php display_post_tags(); ?>
+-->
 				<?php endwhile; // end of the loop. ?>
 
 			</main><!-- #main -->

@@ -1,3 +1,4 @@
+
 <?php
 /**
  * Template Name: My Trip Page Template
@@ -9,10 +10,11 @@
  */
 
 
-
 if(is_user_logged_in()){
 
 	get_header();
+
+	switch_to_blog(1);
 
 	$my_trip_application = get_posts(array(
 		'posts_per_page'    =>  -1,
@@ -50,7 +52,9 @@ if(is_user_logged_in()){
 		$medical_fitness_form = get_field('ta_fitness_agree_to_terms_medical_fitness_form', $app->ID);
 		$policies_agreed = get_field('ta_agree_to_policies_and_procedures', $app->ID);
 		$waiver_uploaded = get_field('ta_waiver_uploaded', $app->ID);
-		$webinar_registered = get_field('ta_webinar_registered', $app->ID);
+		$pdf_uploaded = get_field('ta_pdf_uploaded', $app->ID);
+		//$webinar_registered = get_field('ta_webinar_signed_up', $app->ID);
+		$course_registered = get_field('ta_webinar_signed_up', $app->ID); //ismara - 2018-12-26 - Changing Webinar training for our LMS - I can not change this field (webinar) because is custom field part of the application (with past values)
 
 		$trip_leader = get_field('ta_trip_leader', $app->ID);
 	}
@@ -59,17 +63,21 @@ if(is_user_logged_in()){
 		if($trip_id == $trip->ID){
 			$trip_name = $trip->post_title;
 			$trip_deposit_url = get_field('trip_deposit_installment', $trip->ID)->guid;
-			$trip_flight_cost_url = get_field('trip_flight_cost_installment', $trip->ID)->guid;
+			$trip_flight_cost_url = get_field('trip_flight_cost_url', $trip->ID);
 			$trip_participation_url = get_field('trip_participation_fee_installment', $trip->ID)->guid;
 			$trip_resources = get_field('trip_resources', $trip->ID);
 			$trip_flight_cost_due_date = get_field('trip_flight_cost_due_date', $trip->ID);
-			$trip_Participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
+			$trip_flight_cost_installment = get_field('trip_flight_cost_installment', $trip->ID);
+			$trip_participation_fee_due_date = get_field('trip_participation_fee_due_date', $trip->ID);
+			$trip_participation_fee_installment = get_field('trip_participation_fee_installment', $trip->ID);
+
 		}
 	}
 
 	$options_trip_resources = get_field('options_resources', 'options');
 	$options_trip_leader_resources = get_field('options_trip_leader_resources', 'options');
 	$waiver_download_url = get_field('trip_waiver', 'options');
+	$document_pdf_download_url = get_field('document_pdf', 'options');
 
 
 	foreach($application_states['choices'] as $value => $state){
@@ -83,19 +91,31 @@ if(is_user_logged_in()){
 	echo '<div class="row">';
 	echo '<div class="col-md-12 content-area" id="primary">';
 
-	if(!$trip_name){
+	restore_current_blog();
 
-		echo '<h1>My Trip</h1>';
-		echo '<strong>You are not registered for a trip.</strong>';
+
+	if(!$trip_name){
+				echo '<h3>My Trip</h3>';
+				echo '<strong>You are not registered for a trip.</strong>';
+				echo '<p>   </p>';
+				echo '<p>   </p>';
+
+				$link = "<p>Please visit our site to learn more about <strong><a href='https://studentsofferingsupport.ca/trip-overview/' target='_blank'>SOS Outreach Trips!</a></strong></p>";
+				echo $link;
+				echo '<p>   </p>';
+
+				$url = get_permalink( get_page_by_path( 'trips') );
+		    $link = "<p>Click <strong><a href='{$url}'>here </a></strong>to see the trips available with your SOS Chapter.</p>";
+		    echo $link;
 
 	}else{
 
+				echo '<h3>My Trip</h3>';
+				echo '<strong>Your Trip is:</strong> ' . $trip_name;
+				echo '<br>';
+				echo '<strong>Status:</strong> ' . $trip_state;
+				echo '<br>';
 
-		echo '<h1>My Trip</h1>';
-		echo '<strong>Your Trip is:</strong> ' . $trip_name;
-		echo '<br>';
-		echo '<strong>Status:</strong> ' . $trip_state;
-		echo '<br>';
 
 		if($interview_date != Null){
 			echo '<strong>Interview Date:</strong> ' . $interview_date;
@@ -155,6 +175,20 @@ if(is_user_logged_in()){
 
 			echo '<br>';
 
+			$document_pdf_upload_url = $main_blog_url . "/trip-pdf-upload/?App=" . $app_id;
+
+			if($pdf_uploaded == 1){
+				echo '&#10004 Authorization to Disclose Form Uploaded';
+			}else{
+				echo '<a target="_blank"
+						 href='. $document_pdf_download_url . '
+						 title="Please download, complete, sign and re-upload the following PDF. If you don&#39;t have access to a scanner, you can take a picture of all three pages and upload them below.">Download the Authorization for Disclosure Form</a>';
+				echo '<br>';
+				echo '<a href='. $document_pdf_upload_url . '>Click here to upload the Authorization for Disclosure Form</a>';
+			}
+
+			echo '<br>';
+
 			$medical_fitness_url = $main_blog_url . "/medical-fitness-form/?App=" . $app_id;
 
 			if($medical_fitness_form == 1){
@@ -165,12 +199,19 @@ if(is_user_logged_in()){
 
 			echo '<br>';
 
-			$webinar_url = $main_blog_url . "/pre-departure-webinar";
+			//ismara - 2018-12-26 - Changing Webinar training for our LMS
+			//$webinar_url = $main_blog_url . "/pre-departure-webinar";
+			//if($webinar_registered == 1){
+			//	echo '&#10004 Pre-Depature Webinar Registered';
+			//}else{
+			//	echo '<a href='. $webinar_url . '>Click here to Register for a Pre-Departure Webinar</a>';
+			//}
+      $course_url = $main_blog_url . "/pre-departure-course";
 
-			if($webinar_registered == 1){
-				echo '&#10004 Pre-Depature Webinar Registered';
+			if($course_registered == 1){
+				echo '&#10004 Pre-Depature Course Completed';
 			}else{
-				echo '<a href='. $webinar_url . '>Click here to Register for a Pre-Departure Webinar</a>';
+				echo '<a href='. $course_url . '>Click here to complete your Pre Departure Course</a>';
 			}
 
 			/////// Payment Area ///////
@@ -190,7 +231,17 @@ if(is_user_logged_in()){
 
 			if($trip_flight_cost_payed != 1){
 				echo '<strong>Your Flight Cost:</strong> ';
-				echo '<a href=' . $trip_flight_cost_url .'> Pay Now </a>';
+				echo '<a href=' . $trip_flight_cost_url .'> Click here for instructions </a>';
+				if($trip_flight_cost_due_date){
+					echo " | ";
+					echo '<strong>Due Date:</strong> ';
+					echo $trip_flight_cost_due_date;
+				}
+				if($trip_flight_cost_installment){
+					echo " | ";
+					echo '<strong>Cost:</strong> ';
+					echo $trip_flight_cost_installment;
+				}
 
 			}else{
 				echo '<strong>Your Flight Cost:</strong> Paid';
@@ -198,9 +249,21 @@ if(is_user_logged_in()){
 
 			echo '<br>';
 
+
 			if($trip_participation_payed != 1){
 				echo '<strong>Your Participation Fee:</strong> ';
-				echo '<a href=' . $trip_participation_url .'> Pay Now </a>';
+				echo '<a href=' . $trip_flight_cost_url .'> Click here for instructions </a>';
+/*				echo '<a href=' . $trip_participation_url .'> Pay Now </a>';*/
+				if($trip_participation_fee_due_date){
+					echo " | ";
+					echo '<strong>Due Date:</strong> ';
+					echo $trip_participation_fee_due_date;
+				}
+				if($trip_participation_fee_installment){
+					echo " | ";
+					echo '<strong>Cost:</strong> ';
+					echo "$" . wc_get_product($trip_participation_fee_installment)->price;
+				}
 
 			}else{
 				echo '<strong>Your Participation Fee:</strong> Paid';
@@ -247,7 +310,10 @@ if(is_user_logged_in()){
 	echo '</div>';
 	echo '</div>';
 
-	get_footer();
+//	restore_current_blog();
+
+//2018-07-05 - ismara - we are not using this for the new my-trip page
+//	get_footer();
 
 }else{
 	wp_redirect(home_url() . "/my-account");

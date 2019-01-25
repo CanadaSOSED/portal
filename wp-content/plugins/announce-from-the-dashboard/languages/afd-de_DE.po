@@ -1,0 +1,184 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Announce from the Dashboard\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-11 19:45+0900\n"
+"PO-Revision-Date: 2015-05-11 20:15+0900\n"
+"Last-Translator: gqevu6bsiz <gqevu6bsiz@gmail.com>\n"
+"Language-Team: Thorsten Wollenhoefer <thorsten.wollenhoefer@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ../\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-Language: German\n"
+"X-Poedit-Country: GERMANY\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: announce-from-the-dashboard.php:4
+msgid "Announcement to the dashboard screen for users."
+msgstr "Ank&uuml;ndigung auf dem Armaturenbrett Bildschirm f&uuml;r die Nutzer."
+
+#: admin/manager-announce-settng.php:171
+msgid "Please <strong>%1$s</strong> is later than the <strong>%2$s</strong>."
+msgstr "Bitte <strong>%1$s</strong> sp&auml;ter als das <strong>%2$s</strong>."
+
+#: admin/manager-announce-settng.php:193
+msgid "Specify"
+msgstr "Angeben"
+
+#: admin/manager-announce-settng.php:235
+msgid "Now"
+msgstr "jetzt"
+
+#: admin/manager-announce-settng.php:259
+#: admin/manager-announce-settng.php:295
+msgid "Hold the CTRL key and click the items in a list to choose them."
+msgstr "Halten Sie die STRG-Taste gedr&uuml;ckt und klicken Sie auf die Elemente in einer Liste, um sie zu w&auml;hlen."
+
+#: admin/manager-announce-settng.php:279
+msgid "Choose the site if you want to <strong>hide announce</strong>."
+msgstr "W&auml;hlen Sie die Seite, wenn Sie  Verstecken bekannt geben  werden soll."
+
+#: admin/manager-announce-settng.php:280
+msgid "Choose the site if you want to <strong>show announce</strong>."
+msgstr "W&auml;hlen Sie die Seite, wenn Sie  Show bekannt geben  werden soll."
+
+#: admin/view/manager-announce-setting.php:41
+#: admin/view/manager-announce-setting.php:138
+#: admin/view/elements/announce-list.php:54
+msgid "Announce title"
+msgstr "Ank&uuml;ndigung Titel"
+
+#: admin/view/manager-announce-setting.php:49
+#: admin/view/manager-announce-setting.php:145
+msgid "Announce content"
+msgstr "Ank&uuml;ndigung Inhalt"
+
+#: admin/view/manager-announce-setting.php:57
+#: admin/view/manager-announce-setting.php:139
+#: admin/view/elements/announce-list.php:58
+#: model/announces.php:380
+msgid "Announce type"
+msgstr "Ank&uuml;ndigung Typ"
+
+#: admin/view/manager-announce-setting.php:65
+#: admin/view/elements/announce-list.php:62
+msgid "Date Range"
+msgstr "Datumsbereich"
+
+#: admin/view/manager-announce-setting.php:84
+#: admin/view/elements/announce-list.php:113
+msgid "Default show for announce of Child-sites"
+msgstr "Standard Show f&uuml;r k&uuml;ndigen von Child-Websites"
+
+#: admin/view/manager-announce-setting.php:92
+#: admin/view/elements/announce-list.php:117
+msgid "Select the sub-sites"
+msgstr "W&auml;hlen Sie die Unterseiten"
+
+#: admin/view/manager-announce-setting.php:115
+msgid "It is will show in order from the top."
+msgstr "Es ist in der Reihenfolge von oben zu zeigen."
+
+#: admin/view/manager-announce-setting.php:143
+msgid "Child-sites"
+msgstr "Kind-Websites"
+
+#: admin/view/manager-announce-setting.php:165
+msgid "Not created announce."
+msgstr "Ank&uuml;ndigung Titel nicht erstellt."
+
+#: admin/view/manager-announce-setting.php:379
+#: admin/view/manager-announce-setting.php:393
+msgid "Are you sure you wish to delete this Announce?"
+msgstr "Sind Sie sicher, Sie l&ouml;schen diese Anzeige w&uuml;nschen?"
+
+#: admin/view/elements/information.php:25
+msgid "About plugin"
+msgstr "&Uuml;ber Plugin"
+
+#: admin/view/elements/information.php:28
+msgid "Version checked"
+msgstr "Version &uuml;berpr&uuml;ft"
+
+#: admin/view/elements/information.php:35
+msgid "Reviews"
+msgstr "Bewertungen"
+
+#: admin/view/elements/information.php:39
+msgid "Developer's site"
+msgstr "Die Entwickler Website"
+
+#: admin/view/elements/information.php:46
+msgid "Useful plugins"
+msgstr "N&uuml;tzliche Plugins"
+
+#: admin/view/elements/information.php:52
+msgid "Customize a variety of screen management."
+msgstr "Passen Sie eine Vielzahl von Screen Management."
+
+#: admin/view/elements/information.php:57
+msgid "Customize the list of the post and page. custom post type page, too. You can customize the column display items freely."
+msgstr "Passen Sie die Liste von der Post und Seite. Custom Post-Typ Seite, auch. Sie k&ouml;nnen die Spaltenanzeige Teile frei anpassen."
+
+#: admin/view/elements/information.php:62
+msgid "The plugin that allows you to add the value of the options. Option value that you have created, can be used in addition to the template tag, Short code can be used in the body of the article."
+msgstr "Das Plugin, das Sie den Wert der Optionen hinzuf&uuml;gen k&ouml;nnen. Der Wert einer Option, die Sie erstellt haben, k&ouml;nnen zus&auml;tzlich zu den Template-Tag verwendet werden, k&ouml;nnen Short-Code im K&ouml;rper des Artikels verwendet werden."
+
+#: core/helper.php:182
+msgid "Normal"
+msgstr "Normal"
+
+#: core/helper.php:186
+msgid "Update"
+msgstr "Aktualisierung"
+
+#: core/helper.php:194
+msgid "Metabox"
+msgstr "Metabox"
+
+#: core/helper.php:198
+msgid "Non Styles"
+msgstr "Nicht Stil"
+
+#: core/helper.php:226
+msgid "Default show to all child-sites"
+msgstr "Standard Show f&uuml;r alle Kind-Websites"
+
+#: core/helper.php:227
+msgid "Default show to not all child-sites"
+msgstr "Standard Show nicht alle Kind-Websites"
+
+#: model/announces.php:76
+msgid "Empty Add Data."
+msgstr ""
+
+#: model/announces.php:148
+msgid "Empty Update Data."
+msgstr ""
+
+#: model/announces.php:250
+#: model/announces.php:272
+#: model/announces.php:380
+#: model/announces.php:389
+#, php-format
+msgid "There is no %s."
+msgstr "Es gibt keine %s."
+
+#: model/announces.php:250
+msgid "change item"
+msgstr "&Auml;nderung Artikel"
+
+#: model/announces.php:272
+msgid "delete ID"
+msgstr "l&ouml;schen ID"
+
+#: model/announces.php:399
+msgid "Please correctly set the time."
+msgstr "Bitte korrekt die Zeit einzustellen."
+

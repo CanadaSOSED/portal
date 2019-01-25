@@ -1,122 +1,217 @@
 <?php
 /**
- * The template for displaying archive pages.
+ * The template for displaying all single posts.
  *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * @package sos-chapter
+ * @package sos-primary
  */
-
-
 
 get_header();
 ?>
 
 <?php
-$container   = get_theme_mod( 'understrap_container_type' );
-$sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
+   $container   = get_theme_mod( 'understrap_container_type' );
+   $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 ?>
 
-<div class="wrapper" id="archive-wrapper">
+<div class="hero">
+   <?php the_title( sprintf( '<h2 class="archive-entry-title"><a href="%s" rel="bookmark">', esc_url( $application_url ) ),
+   '</a></h2>' ); ?>
+</div>
 
-	<div class="<?php echo esc_html( $container ); ?>" id="content" tabindex="-1">
+<?php
+   $argument= $_GET['argument1'];
 
-		<div class="row">
+   $currentblog = get_current_blog_id();
+   $current_blog_url = home_url();
+   switch_to_blog(1);
+   $main_blog_url = get_site_url();
 
-			<!-- Do the left sidebar check -->
-			<?php get_template_part( 'global-templates/left-sidebar-check', 'none' ); ?>
+   if ($argument) {
+      $args = (array(
+         'post_type'       => 'trips',
+         'post__in' => array($argument),
+         'meta_query' => array(
+            'relation' => "AND",
+            array(
+               'key' => 'trip_schools',
+               'value' => '"'.$currentblog.'"',
+               'compare' => 'LIKE'
+            ),
+            array(
+               'key' => 'trip_close_toggle',
+               'value' => '1',
+               'compare' => '!='
+            )
+         )
+      ));
+   } else {
+      $args = (array(
+         'post_type'       => 'trips',
+         'meta_query' => array(
+            'relation' => "AND",
+            array(
+               'key' => 'trip_schools',
+               'value' => '"'.$currentblog.'"',
+               'compare' => 'LIKE'
+            ),
+            array(
+               'key' => 'trip_close_toggle',
+               'value' => '1',
+               'compare' => '!='
+            )
+         )
+      ));
+   }
+   $trips = new WP_Query($args);
+?>
 
-			<main class="site-main" id="main">
-
-				<?php
-					//logic for grabbic Trip posts from main SOS site
-					$currentblog = get_current_blog_id();
-
-					switch_to_blog(1);
-
-					$args = (array(
-						'post_type'       => 'trips',
-						'meta_query' => array(
-					        'relation' => "AND",
-					        array(
-					            'key' => 'trip_schools',
-					            'value' => '"'.$currentblog.'"',
-					            'compare' => 'LIKE'
-					        ),
-
-					        array(
-					            'key' => 'trip_close_toggle',
-					            'value' => '1',
-					            'compare' => '!='
-					        )
-					    )
-
-					));
-					// var_dump($args); die();
-
-					$trips = new WP_Query($args);
 
 
-					restore_current_blog();
+<?php if ( $trips->have_posts() ) : ?>
+   <?php $trips->the_post(); ?>
+   <article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
-					// echo "<pre>";
-					// print_r($trips);
-					// echo "</pre>";
-					// die();
-				?>
+     <?php
+       if(is_user_logged_in()){
+         $application_url = $main_blog_url . "/trip-application/?Trip=" . get_the_ID() . '&Applicant=' . get_current_user_id();
+       }else{
+         $application_url = $current_blog_url . "/my-account";
+       }
+     ?>
 
-				<?php if ( $trips ) : ?>
+      <div class="wrapper" style="margin: 0px 50px 0px 50px;" id="single-wrapper">
+	       <div class="row"> <!--principal-->
+            <div class="col-12 col-md-10" id="primary"> <!-- trip colunm -->
+				       <header class="archive-entry-header" style="text-align: center;">
+					        <?php the_title( sprintf( '<h2 class="archive-entry-title"><a href="%s" rel="bookmark">', esc_url( $application_url ) ),
+                  '</a></h2>' ); ?>
+						      <p><a class="btn btn-primary" href="<?php echo $application_url ?>" >Apply</a></p>
+					     </header><!-- .archive-entry-header -->
 
-					<div class="page-title">
-						<?php
+               <?php the_field('trip_partners');?>
+               <div class="row"> <!-- trip information -->
+						      <div class="col-12 col-md-3"> <!-- trip details -->
+						         <div class="tripInfo">
+					              <?php
+					                 echo "<strong>Cost:</strong> $" . get_field('trip_total_cost', get_the_ID());
+					                 echo '<br>';
+					                 echo "<strong>Departure City:</strong> " . get_field('trip_departure_city', get_the_ID());
+					                 echo '<br>';
+					                 echo "<strong>Departure Date:</strong><br> " . get_field('trip_departure_date', get_the_ID());
+					                 echo '<br>';
+					                 echo "<strong>Return Date:</strong><br> " . get_field('trip_return_date', get_the_ID());
+					              ?>
+					           </div> <!-- tripInfo -->
+							       <div class="tripMap ml-5 ml-md-0">
+	    				          <?php
+	    					           $image = get_field('trip_map');
+	    					           if( $image ) {
+	    					           echo wp_get_attachment_image( $image ); }
+	 				              ?>
+	    		           </div> <!-- tripmap -->
+						      </div> <!-- trip details -->
+						      <div class="col-12 col-md-9"> <!-- trip content -->
+							       <?php
+							          $content = get_post_field('post_content', $p->ID);
+							          echo $content;
+							       ?>
+						      </div> <!-- trip content -->
+               </div> <!-- trip information -->
+               <div class="col-12"> <!-- trip recursivetab -->
+	                <?php the_field('trips_tab'); ?>
+               </div> <!-- trip recursivetab -->
+    	         <div class="icons"> <!-- trip whats included -->
+						      <h4 style="text-align: center; margin-top:40px;"><strong>What's Included?</strong></h4>
+							    <div class="row"> <!-- trip icons -->
+							       <div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132716/home.png"><p>SOS volunteers sleep in available community structures (classrooms, community centers, churches), and live as close to the conditions of the community as possible. </p></div>
+							  	   <div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132717/transportation.png"><p>SOS works directly with Flight Centre to process all volunteers' Outreach Trip logistics from your travel insurance to your in country needs like clean drinking water and accommodations!</p></div>
+							  	   <div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132715/food.png"><p>Three meals a day plus clean drinking water and snacks! Meals will consist of rice, beans, tortillas, and fruit/vegetables. Soups, stews, and pasta dishes are common as well. Most dietary restrictions and allergies can accommodated. </p></div>
+							  	   <div class="col-6 col-md-6"><img class="ml-3 ml-md-10" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/07/09132716/support.png"><p>SOS works exclusively with registered non governmental organizations in every community to ensure our volunteers have the best experience possible.</p></div>
+							    </div> <!-- trip icons -->
+							    <div style="text-align: center;">
+							       <p><a class="btn btn-primary" href="<?php echo $application_url ?>">Apply</a></p>
+							    </div>
+						   </div> <!-- trip whats included -->
+				    </div> <!-- trip colunm -->
+				    <div class="col-12 col-md-2" id="primary"> <!-- all trips left sidebar-->
+				       <div id="left-sidebar">
+                  <?php
+                     restore_current_blog();
+                     wp_reset_postdata();
+                  ?>
+                  <h5 class="widget-title" style="text-align: center;">All <?php echo bloginfo('name') ?> SOS Outreach Trips</h5>
+                  <?php
+                     $currentblog = get_current_blog_id();
+                     switch_to_blog(1);
+                     $args = (array(
+                        'post_type'       => 'trips',
+                        'meta_query' => array(
+                           'relation' => "AND",
+                           array(
+                              'key' => 'trip_schools',
+                              'value' => '"'.$currentblog.'"',
+                              'compare' => 'LIKE'
+                           ),
+                           array(
+                              'key' => 'trip_close_toggle',
+                              'value' => '1',
+                              'compare' => '!='
+                           )
+                        )
+                     ));
+                  ?>
+                  <?php
+                     $trips = new WP_Query($args);
+                     restore_current_blog();
+                  ?>
+                  <?php
+	 					         while ( $trips->have_posts() ) : $trips->the_post();
+							    ?>
+	 					         <a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>">
+	 					            <div class="card mb-2">
+	 					               <div class="card-body">
+	 					  	              <p class="card-title h6"><?php the_title(); ?></p>
+                              <p><a class="btn btn-primary" href="<?php echo get_site_url() .'/trips?argument1=' ?><?php echo get_the_ID(); ?>">More Info</a></p>
+	 					               </div>
+	 					            </div>
+	 					         </a>
+	 					        <?php endwhile; ?>
+	 				     </div> <!-- left sidebar -->
+	          </div> <!-- all trips left sidebar -->
+            <?php wp_reset_postdata(); ?>
 
-						'<h1 class="page-title">Trips </h1>'
-						?>
-						<hr/>
-						<br>
-					</div><!-- .page-header -->
+            <?php if ( 'right' === $sidebar_pos || 'both' === $sidebar_pos ) : ?>
+       		  <?php get_sidebar( 'right' ); ?>
+        	  <?php endif; ?>
 
-					<?php /* Start the Loop */ ?>
-					<?php while ( $trips->have_posts() ) : $trips->the_post(); ?>
+         </div> <!--row principal-->
+      </div><!-- Container end -->
+   </article>
 
-						<?php
+<?php else : ?>
+   <div class="container">
+      </br>
+      </br>
+      <header class="archive-entry-header" style="text-align: center;">
+			   <h2 class="archive-entry-title"> All our Outreach Trips for your Chapter are now closed. </h2>
+			</header><!-- .archive-entry-header -->
+      </br>
+      </br>
+   </div>
+<?php endif; ?>
 
-						/*
-						 * Include the Post-Format-specific template for the content.
-						 * If you want to override this in a child theme, then include a file
-						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-						 */
-						get_template_part( 'loop-templates/content-trips', get_post_format() );
-						?>
 
-					<?php endwhile; ?>
+<div class="hero-footer">
+   <h4>Supporting a Great Cause</h4>
+   <p>Since 2004, we have been working to support the universal right to education through funding of sustainable international projects.</p>
+	 <p><a class="btn btn-primary" href="https://studentsofferingsupport.ca/">Learn More</a></p>
+</div>
 
-				<?php else : ?>
-
-					<?php get_template_part( 'loop-templates/content-trips', 'none' ); ?>
-
-				<?php endif; ?>
-
-				<?php wp_reset_postdata(); ?>
-
-			</main><!-- #main -->
-
-			<!-- The pagination component -->
-			<?php understrap_pagination(); ?>
-
-		</div><!-- #primary -->
-
-		<!-- Do the right sidebar check -->
-		<?php if ( 'right' === $sidebar_pos || 'both' === $sidebar_pos ) : ?>
-
-			<?php get_sidebar( 'right' ); ?>
-
-		<?php endif; ?>
-
-	</div> <!-- .row -->
-
-</div><!-- Container end -->
-
-</div><!-- Wrapper end -->
+<div class="flight-footer" >
+   <h3>  
+      <img class="alignleft wp-image-1387" src="https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/09/11122222/FCBT_00_logo.png" alt="" width="437" height="160" />
+    </h3>
+   <h4> <span style="color:#ffffff;"><em>SOS is proud to work with Flight Centre for provision of all travel-related services!</em></span></h4>
+</div>
 
 <?php get_footer(); ?>
