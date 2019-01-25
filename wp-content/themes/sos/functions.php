@@ -177,7 +177,6 @@ add_action( 'do_meta_boxes', 'sos_remove_plugin_metaboxes' );
 
 // Add Custom dashboard metaboxes
 //////////////////////////////////////////////////////////////////////
-
 // Function that outputs the contents of the dashboard widget
 
 // General Dashboard Content
@@ -394,6 +393,15 @@ function sos_dashboard_id_resources_widget_function( $post, $callback_args ) {
   echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href='https://drive.google.com/open?id=0B-cl0XfKOoxHMXV3bWVDZ0o4eVE'>Access Resources</a></p>";
 }
 
+//ismara - 2019-01-23 - new resource for EAI, VPED, Course Coordinator - EAI form
+// Instructor profile form
+//////////////////////////////////////////////////////////////////////
+function sos_dashboard_eai_form_widget_function( $post, $callback_args ) {
+  echo "<p>Become a SOS Exam Aid Instructor! Click this link to access the form. </p>";
+  echo '<p><hr/></p>';
+  echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href='https://docs.google.com/forms/d/e/1FAIpQLSdt1CsBwoehn4FijcdxuZmvLTJQzFh7vtgyKYBxGRtaBHiFuQ/viewform?usp=sf_link'>Instructor Profile Form</a></p>";
+}
+
 
 
 // Function used in the action hook
@@ -432,6 +440,7 @@ if ( in_array('administrator', $user_roles, true) ) {
   add_meta_box('sos_dashboard_hr', 'HR Resources', 'sos_dashboard_hr_resources_widget_function','dashboard', 'side');
   add_meta_box('sos_dashboard_marketing', 'Marketing Support', 'sos_dashboard_mkt_resources_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
+  add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
 
   add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
@@ -450,6 +459,7 @@ if ( in_array('administrator', $user_roles, true) ) {
 elseif (in_array('president', $user_roles, true)) {
   add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
+  add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
 }
 elseif (in_array('ambassador', $user_roles, true)) {
   add_meta_box('sos_dashboard_ambassador', 'Brand Ambassador', 'sos_dashboard_amb_resources_widget_function','dashboard', 'side');
@@ -466,6 +476,7 @@ elseif (in_array('coordinator', $user_roles, true)) {
   add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_faq', 'Frequently Asked Questions', 'sos_dashboard_faq_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_eatemplate', 'Exam Aid Template', 'sos_dashboard_ea_template_widget_function', 'dashboard', 'side');
+  add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
 }
 elseif (in_array('eai', $user_roles, true)) {
   add_meta_box('sos_dashboard_eairesources', 'Exam Aid Instructor Resources', 'sos_dashboard_eai_resources_widget_function', 'dashboard', 'side');
@@ -473,12 +484,14 @@ elseif (in_array('eai', $user_roles, true)) {
   add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_faq', 'Frequently Asked Questions', 'sos_dashboard_faq_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_eatemplate', 'Exam Aid Template', 'sos_dashboard_ea_template_widget_function', 'dashboard', 'side');
+  add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
 }
 elseif (in_array('ed', $user_roles, true)) {
   add_meta_box('sos_dashboard_edsupport', 'ED Resources', 'sos_dashboard_ed_resources_widget_function','dashboard', 'side');
   add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
   add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
+  add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
 }
 elseif (in_array('finance', $user_roles, true)) {
   add_meta_box('sos_dashboard_finresources', 'Finance Resources', 'sos_dashboard_fin_resources_widget_function', 'dashboard', 'side');
@@ -490,6 +503,7 @@ elseif (in_array('finance', $user_roles, true)) {
 elseif (in_array('hr', $user_roles, true)) {
   add_meta_box('sos_dashboard_hr', 'HR Resources', 'sos_dashboard_hr_resources_widget_function','dashboard', 'side');
   add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
+  add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
 }
 elseif (in_array('marketing', $user_roles, true)) {
   add_meta_box('sos_dashboard_marketing', 'Marketing Support', 'sos_dashboard_mkt_resources_widget_function', 'dashboard', 'side');
@@ -2303,20 +2317,20 @@ function wc_payment_complete( $order_id ){
             foreach($products as $product){
                 if($product['product_id'] == $trip_deposit_id){
 
-					update_field('ta_trip_deposit_received', 1, $application->ID);
+					          update_field('ta_trip_deposit_received', 1, $application->ID);
                     update_field('ta_application_state', 'deposit_received', $application->ID);
 
-				}elseif($product['product_id'] == $trip_flight_cost_id){
+				        }elseif($product['product_id'] == $trip_flight_cost_id){
 
-					update_field('ta_flight_cost_received', 1, $application->ID);
+					          update_field('ta_flight_cost_received', 1, $application->ID);
                     update_field('ta_application_state', 'flight_cost_received', $application->ID);
 
-				}elseif($product['product_id'] == $trip_participation_id){
+				        }elseif($product['product_id'] == $trip_participation_id){
 
-					update_field('ta_participation_fee_received', 1, $application->ID);
+					          update_field('ta_participation_fee_received', 1, $application->ID);
                     update_field('ta_application_state', 'participation_fee_received', $application->ID);
 
-				}
+				       }
             }
         }
     }
