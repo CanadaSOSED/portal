@@ -397,7 +397,7 @@ function sos_dashboard_id_resources_widget_function( $post, $callback_args ) {
 // Instructor profile form
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_eai_form_widget_function( $post, $callback_args ) {
-  echo "<p>Become a SOS Exam Aid Instructor! Click this link to access the form. </p>";
+  echo "<p>Are you an Exam Aid Instructor? Click here to submit your profile!</p>";
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href='https://docs.google.com/forms/d/e/1FAIpQLSdt1CsBwoehn4FijcdxuZmvLTJQzFh7vtgyKYBxGRtaBHiFuQ/viewform?usp=sf_link'>Instructor Profile Form</a></p>";
 }
