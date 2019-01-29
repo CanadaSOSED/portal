@@ -2487,3 +2487,28 @@ function my_trips_content() {
    $value = get_option( 'helpdesk_email' );
  	echo '<input name="helpdesk_email" id="helpdesk_email" type="text" value="' .$value . '" class="code" /> Recipients for the FAQ Contact form';
  }
+
+ //2019-01-29 -ismara- checking if applicants are older than 18 for Outreach trips
+ function dob_validate_date_birthday( $result, $value, $form, $field ) {
+     if ( $result['is_valid'] ) {
+         if ( is_array( $value ) ) {
+             $value = array_values( $value );
+         }
+         $date_value = GFFormsModel::prepare_date( $field->dateFormat, $value );
+         //getting the trip's day of their choice to make sure they will be over 18
+         $tripid = rgpost( 'input_16' );
+         $tripday = new datetime(get_field('trip_departure_date', $tripid));
+
+         $diff  = $tripday->diff( new DateTime( $date_value ) );
+         $age   = $diff->y;
+
+         if ( $age < 18 ) {
+             $result['is_valid'] = false;
+             $result['message']  = 'You must be 18 to be a participant at our Outreach trips!';
+         }
+     }
+
+     return $result;
+ }
+
+ add_filter('gform_field_validation_1_3','dob_validate_date_birthday', 10, 4);
