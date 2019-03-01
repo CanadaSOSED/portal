@@ -427,6 +427,135 @@ add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_know
 add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'normal');
 add_meta_box('sos_dashboard_princeton', 'Princeton Review Discount ', 'sos_dashboard_princeton_widget_function','dashboard', 'normal');
 
+//roles per resource
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('president', $user_roles, true) ) {
+  add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('ambassador', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_ambassador', 'Brand Ambassador', 'sos_dashboard_amb_resources_widget_function','dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('vpid', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_idresources', 'International Development Resources', 'sos_dashboard_id_resources_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('busdevelopment', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_bdresources', 'Business Development Resources', 'sos_dashboard_bd_resources_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('coordinator', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_ccresources', 'Course Coordinator Resources', 'sos_dashboard_cc_resources_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('coordinator', $user_roles, true) ||
+     in_array('eai', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_eairesources', 'Exam Aid Instructor Resources', 'sos_dashboard_eai_resources_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('ed', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_edsupport', 'ED Resources', 'sos_dashboard_ed_resources_widget_function','dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('finance', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_finresources', 'Finance Resources', 'sos_dashboard_fin_resources_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('hr', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_hr', 'HR Resources', 'sos_dashboard_hr_resources_widget_function','dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('marketing', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_marketing', 'Marketing Support', 'sos_dashboard_mkt_resources_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('president', $user_roles, true) ||
+     in_array('hr', $user_roles, true) ||
+     in_array('ed', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('president', $user_roles, true) ||
+     in_array('hr', $user_roles, true) ||
+     in_array('eai', $user_roles, true) ||
+     in_array('ed', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('ed', $user_roles, true) ||
+     in_array('eai', $user_roles, true) ||
+     in_array('coordinator', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_archivedmaterials', 'Archived Materials', 'sos_dashboard_archived_materials_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('ed', $user_roles, true) ||
+     in_array('finance', $user_roles, true) ||
+     in_array('eai', $user_roles, true) ||
+     in_array('coordinator', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_refund', 'Refund Request Form', 'sos_dashboard_refund_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('eai', $user_roles, true) ||
+     in_array('coordinator', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_faq', 'Frequently Asked Questions', 'sos_dashboard_faq_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('eai', $user_roles, true) ||
+     in_array('coordinator', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_eatemplate', 'Exam Aid Template', 'sos_dashboard_ea_template_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('finance', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_financemastersheet', 'Finance Mastersheet', 'sos_dashboard_fin_mastersheets_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('finance', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_quickbook', 'Quickbook Links', 'sos_dashboard_quickbook_links_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('finance', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_financestatement', 'Budget and Income Statements', 'sos_dashboard_fin_statements_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('marketing', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_fb', 'Facebook', 'sos_dashboard_fb_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('marketing', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_ig', 'Instagram', 'sos_dashboard_ig_widget_function', 'dashboard', 'side');
+}
+
+if ( in_array('administrator', $user_roles, true) ||
+     in_array('marketing', $user_roles, true) ) {
+     add_meta_box('sos_dashboard_twitter', 'Twitter', 'sos_dashboard_twitter_widget_function', 'dashboard', 'side');
+}
+
+
+
+/*
+//more than one role it doesn't work well
+
 //per role
 if ( in_array('administrator', $user_roles, true) ) {
   add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
@@ -513,8 +642,7 @@ elseif (in_array('marketing', $user_roles, true)) {
 }
 
 
-/*
-
+//old
   // President
   if ( current_user_can( 'publish_posts' ) ) {
     add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
