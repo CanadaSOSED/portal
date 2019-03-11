@@ -48,8 +48,10 @@ $container = get_theme_mod( 'understrap_container_type' );
 		<div class="container"><!--container-->
 			<div class="navbar-brand" id="topNav">
 				<div>
-					<a href="<?php echo network_site_url(); ?>" class="navbar-logo">
-					<img class="mr" src="https://studentsofferingsupport.ca/wp-content/uploads/2018/08/new-logo.png" />
+					<!--<a href="<?php echo network_site_url(); ?>" class="navbar-logo">-->
+					<a href="<?php echo "https://studentsofferingsupport.ca" ?>" class="navbar-logo">
+					<!--<img class="mr" src="https://studentsofferingsupport.ca/wp-content/uploads/2018/08/new-logo.png" /> -->
+					<img class="mr" src="<?php echo get_stylesheet_directory_uri(); ?>/img/new-logo.png" />
 					</a>
 				</div>
 				<div>

@@ -49,9 +49,11 @@ $container = get_theme_mod( 'understrap_container_type' );
 			<!--<div class="navbar-brand"> -joanna new menu -->
 			<div class="navbar-brand" id="topNav">
 				<div> <!-- joanna new menu -->
-					<a href="<?php echo network_site_url(); ?>" class="navbar-logo">
+					<!--<a href="<?php echo network_site_url(); ?>" class="navbar-logo"> -->
+					<a href="<?php echo "https://studentsofferingsupport.ca/"; ?>" class="navbar-logo">
 					<!--<img class="mr-3" src="<?php echo get_template_directory_uri(); ?>/img/sos-logo-white.svg" /> - joanna new menu -->
-					<img class="mr" src="https://studentsofferingsupport.ca/wp-content/uploads/2018/08/new-logo.png" />
+					<!--<img class="mr" src="https://studentsofferingsupport.ca/wp-content/uploads/2018/08/new-logo.png" /> -->
+					<img class="mr" src="<?php echo get_stylesheet_directory_uri(); ?>/img/new-logo.png" />
 					</a>
 				</div><!-- joanna new menu -->
 				<div><!-- joanna new menu -->
