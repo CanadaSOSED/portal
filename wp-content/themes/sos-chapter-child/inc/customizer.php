@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @param object $wp_customize Customizer reference.
  */
-if ( ! function_exists( 'understrap_customize_remove' ) ) {	
+if ( ! function_exists( 'understrap_customize_remove' ) ) {
 
 	function understrap_customize_remove( $wp_customize ) {
 
@@ -30,7 +30,9 @@ if ( ! function_exists( 'understrap_customize_remove' ) ) {
 		$wp_customize->remove_section( 'custom_css' );
 		$wp_customize->remove_control( 'background_color' );
 		$wp_customize->remove_control( 'blogdescription' );
-		$wp_customize->remove_control( 'site_icon' );
+		/* 2019-03-15 - ismara - leaving the site_icon at Theme Customization enabling us to have SOS logo at browser tabs
+    $wp_customize->remove_control( 'site_icon' );
+    */
 	}
 }
 add_action( 'customize_register', 'understrap_customize_remove', 20 );
@@ -40,14 +42,14 @@ add_action( 'customize_register', 'understrap_customize_remove', 20 );
  *
  * @param object $wp_customize Customizer reference.
  */
-if ( ! function_exists( 'understrap_customize_register' ) ) {	
+if ( ! function_exists( 'understrap_customize_register' ) ) {
 
 	function understrap_customize_register( $wp_customize ) {
 
 		/**
 		 * Setup Color Scheme Overrides
 		**/
-		 
+
 		// add the section to contain the settings
 		$wp_customize->add_section( 'textcolors' , array(
 		    'title' =>  'Color Scheme',
@@ -55,49 +57,49 @@ if ( ! function_exists( 'understrap_customize_register' ) ) {
 
 		// Primary color ( h1, h2, h4. h6, widget headings, nav, links, footer )
 		$txtcolors[] = array(
-		    'slug'=>'primary', 
+		    'slug'=>'primary',
 		    'default' => '#000',
 		    'label' => 'Primary Color'
 		);
-		 
+
 		// secondary color ( site description, sidebar headings, h3, h5, nav links on hover )
 		$txtcolors[] = array(
-		    'slug'=>'secondary', 
+		    'slug'=>'secondary',
 		    'default' => '#000',
 		    'label' => 'Secondary Color'
 		);
 
 		// accent color ( borders, highlights etc. )
 		$txtcolors[] = array(
-		    'slug'=>'accent', 
+		    'slug'=>'accent',
 		    'default' => '#000',
 		    'label' => 'Accent Color'
 		);
 
 		// Button color
 		$txtcolors[] = array(
-		    'slug'=>'btn_color', 
+		    'slug'=>'btn_color',
 		    'default' => '#008AB7',
 		    'label' => 'Button Color'
 		);
-		 
+
 		// Button color ( hover, active )
 		$txtcolors[] = array(
-		    'slug'=>'hover_button_color', 
+		    'slug'=>'hover_button_color',
 		    'default' => '#9e4059',
 		    'label' => 'Button Color (on hover)'
 		);
-		 
+
 		// link color
 		$txtcolors[] = array(
-		    'slug'=>'link_color', 
+		    'slug'=>'link_color',
 		    'default' => '#008AB7',
 		    'label' => 'Link Color'
 		);
-		 
+
 		// link color ( hover, active )
 		$txtcolors[] = array(
-		    'slug'=>'hover_link_color', 
+		    'slug'=>'hover_link_color',
 		    'default' => '#9e4059',
 		    'label' => 'Link Color (on hover)'
 		);
@@ -105,12 +107,12 @@ if ( ! function_exists( 'understrap_customize_register' ) ) {
 
 		// add the settings and controls for each color
 		foreach( $txtcolors as $txtcolor ) {
-		 
+
 		    // SETTINGS
 		    $wp_customize->add_setting(
 		        $txtcolor['slug'], array(
 		            'default' => $txtcolor['default'],
-		            'type' => 'option', 
+		            'type' => 'option',
 		            'capability' => 'edit_theme_options'
 		        )
 		    );
@@ -118,8 +120,8 @@ if ( ! function_exists( 'understrap_customize_register' ) ) {
 		    $wp_customize->add_control(
 		        new WP_Customize_Color_Control(
 		            $wp_customize,
-		            $txtcolor['slug'], 
-		            array('label' => $txtcolor['label'], 
+		            $txtcolor['slug'],
+		            array('label' => $txtcolor['label'],
 		            'section' => 'textcolors',
 		            'settings' => $txtcolor['slug'])
 		        )
@@ -141,7 +143,7 @@ function tcx_customizer_css() {
 
 	// primary color
 	$primary_color = get_option( 'primary' );
-	 
+
 	// secondary color
 	$secondary_color = get_option( 'secondary' );
 
@@ -150,13 +152,13 @@ function tcx_customizer_css() {
 
 	// button color
 	$button_color = get_option( 'button_color' );
-	 
+
 	// hover or active button color
 	$hover_button_color = get_option( 'hover_button_color' );
-	 
+
 	// link color
 	$link_color = get_option( 'link_color' );
-	 
+
 	// hover or active link color
 	$hover_link_color = get_option( 'hover_link_color' );
 
