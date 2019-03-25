@@ -54,6 +54,36 @@ $container = get_theme_mod( 'understrap_container_type' );
 	</div>
 </section>
 
+<!-- 2019-03-25 - ismara - adding new logos -->
+<section id="partners">
+	<div class="wrapper pt-3 pb-2">
+		<div class="row d-flex justify-content-center">
+			<div class="col-8 col-md-10">
+				<h3 class="mb-3 text-center">Thank You to our Sponsors:</h3>
+				<hr class="w-25" />
+			</div>
+			<div class="row d-flex justify-content-center">
+				<div class=" col-sm-2 col-md-2 ml-md-1 d-sm-flex align-middle justify-content-center my-1 my-sm-0" style="padding-bottom:10px;">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="" title="princeton-review-logo">
+				</div>
+				<div class=" col-sm-2 col-md-2 d-sm-flex align-middle my-1 my-sm-0" style="padding-bottom:10px;">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/talentegg_logo2.svg" class="" title="talentegg-logo">
+				</div>
+				<div class=" col-sm-2 col-md-2 d-sm-flex align-middle my-1 my-sm-0" style="padding-bottom:10px;">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
+				</div>
+				<div class=" col-sm-2 col-md-2 d-sm-flex align-middle my-1 my-sm-0" style="padding-bottom:10px;">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/lush_logo_black.svg" class="" title="lush-logo">
+				</div>
+				<div class=" col-sm-2 col-md-2 d-sm-flex align-middle my-1 my-sm-0" style="padding-bottom:10px;">
+					<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/blueprint.svg" class="" title="myblueprint-logo">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--
 <section id="partners">
 	<div class="container pt-3 pb-2">
 		<div class="row d-flex justify-content-center">
@@ -62,17 +92,18 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<hr class="w-25" />
 				<div class="row d-flex justify-content-center">
 
-					<div class=" col-sm-6 col-md-5 ml-md-1 d-sm-flex align-middle justify-content-center my-2 my-sm-0">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
-					</div>
-					<div class=" col-sm-6 col-md-6 d-sm-flex align-middle my-2 my-sm-0">
-							<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="w-50" title="princeton-review-logo">
-					</div>
+										<div class=" col-sm-6 col-md-5 ml-md-1 d-sm-flex align-middle justify-content-center my-2 my-sm-0">
+												<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/minute-logo.svg" class="" title="minute-school-logo">
+										</div>
+										<div class=" col-sm-6 col-md-6 d-sm-flex align-middle my-2 my-sm-0">
+												<img src="<?php echo get_stylesheet_directory_uri(); ?>/img/princeton-logo.svg" class="w-50" title="princeton-review-logo">
+										</div>
 
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+-->
 
 <?php get_footer(); ?>

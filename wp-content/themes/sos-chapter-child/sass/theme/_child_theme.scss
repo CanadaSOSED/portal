@@ -71,11 +71,15 @@ a.accent{
 	height: 2rem;
 }
 
-.navbar-caption{
-	font-size: 14px;
-	padding-top: 3px;
-}
+.navbar-caption {
+  /* 2019-03-25 - ismara - changing blogname at header
+  font-size: 14px;
+  padding: 3px;*/
+  font-style: italic;
+  font-size: 16px;
+  padding: 1em 1em;
 
+}
 
 //////////////////////////////////////////////////////////////////////
 // Woocommerce Category Archive Product Page (aka - Sessions)

@@ -2640,3 +2640,19 @@ function my_trips_content() {
  }
 
  add_filter('gform_field_validation_1_3','dob_validate_date_birthday', 10, 4);
+
+
+// <!-- 2019-03-22 - ismara - Add Go Back button to My Trips - to do list - Creating shortcode to be used at pages-->
+ function back_to_mytrip_shortcode() {
+//     if(is_page(array('pre-departure-webinar', 'pre-departure-course', 'medical-fitness-form',
+//                      'trip-pdf-upload', 'trip-waiver-upload', 'policies-and-procedures','volunteer-outreach-form' )))
+//     {
+        $active = get_active_blog_for_user( get_current_user_id() );
+        if ( $active ) {
+          $mytrip_path = $active->siteurl . '/my-account/my-trips';
+          echo ('<div style="text-align:right;"> <input class="GoBackButton" type="button" value="< Back to My trip" onclick="window.location.href=\'' . $mytrip_path .'\'" /></div>');
+        }
+//     }
+
+ }
+ add_shortcode( 'back_to_mytrip', 'back_to_mytrip_shortcode' );
