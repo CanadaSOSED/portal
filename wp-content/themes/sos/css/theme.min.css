@@ -10107,3 +10107,24 @@ a.accent {
   .wpcf7 .wpcf7-validation-errors {
     color: #dc3545;
     border: 1px solid #e9ecef; }
+
+
+    /* 2019-03-22 - ismara - Add Go Back button to My Trips - to do list */
+input.GoBackButton {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #0f425c;
+    color: #fff;
+    border: 1px solid #0f425c;
+    border-radius: 10px;
+    -moz-box-shadow:: 6px 6px 5px #999;
+    -webkit-box-shadow:: 6px 6px 5px #999;
+    box-shadow:: 6px 6px 5px #999;
+}
+input.GoBackButton:hover {
+    color: #ffffff;
+    background: #0f425c;
+    border: 1px solid #fff;
+    opacity:0.8;
+}
