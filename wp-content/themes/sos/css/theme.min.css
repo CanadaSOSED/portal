@@ -9975,9 +9975,14 @@ body {
   height: 2rem; }
 
 .navbar-caption {
+  /* 2019-03-25 - ismara - changing blogname at header
   font-size: 14px;
-  padding-top: 3px; }
+  padding: 3px;*/
+  font-style: italic;
+  font-size: 16px;
+  padding: 1em 1em;
 
+}
 
 
 /*ismara*/
