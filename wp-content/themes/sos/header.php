@@ -48,18 +48,22 @@ $container = get_theme_mod( 'understrap_container_type' );
 		<div class="container"><!--container-->
 			<div class="navbar-brand" id="topNav">
 				<div>
-					<a href="<?php echo network_site_url(); ?>" class="navbar-logo">
-					<img class="mr" src="https://studentsofferingsupport.ca/wp-content/uploads/2018/08/new-logo.png" />
+					<!--<a href="<?php echo network_site_url(); ?>" class="navbar-logo">-->
+					<a href="<?php echo "https://studentsofferingsupport.ca" ?>" class="navbar-logo">
+					<!--<img class="mr" src="https://studentsofferingsupport.ca/wp-content/uploads/2018/08/new-logo.png" /> -->
+					<img class="mr" src="<?php echo get_stylesheet_directory_uri(); ?>/img/new-logo.png" />
 					</a>
 				</div>
-				<div>
-					<a class="navbar-caption" href="<?php bloginfo('url'); ?>" ><?php bloginfo( 'name' ); ?></a> <!--This gets the blog name-->
-				</div>
-				<div>
-					<?php
-						get_template_part( 'header', 'top' );
-					?>
-				</div>
+        <div style="text-align:right;"> <!-- 2019-03-25 - ismara - changing blogname at header -->
+				  <div style="margin-bottom:15px;">
+					  <a class="navbar-caption" href="<?php bloginfo('url'); ?>" ><?php bloginfo( 'name' ); ?></a> <!--This gets the blog name-->
+				  </div>
+				  <div>
+					  <?php
+						  get_template_part( 'header', 'top' );
+					  ?>
+				  </div>
+        </div><!-- 2019-03-25 - ismara - changing blogname at header -->
 			</div>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>

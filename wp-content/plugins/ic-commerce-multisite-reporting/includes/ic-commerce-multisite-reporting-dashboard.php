@@ -1932,7 +1932,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 		*/
 		function get_top_customer_list($prefix = '',$shop_order_status = array(),$start_date = '',$end_date = ''){
 			global $wpdb;
-			$per_page 	= 20;
+			$per_page 	= 20000; /* 2019-03-13 - ismara - we need all customers */
 
 			$sql = "SELECT SUM(postmeta1.meta_value) AS 'Total'
 					,postmeta2.meta_value AS 'BillingEmail'

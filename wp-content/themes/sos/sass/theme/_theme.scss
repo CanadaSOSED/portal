@@ -26,9 +26,14 @@ body{
 	height: 2rem;
 }
 
-.navbar-caption{
-	font-size: 14px;
-	padding-top: 3px;
+.navbar-caption {
+  /* 2019-03-25 - ismara - changing blogname at header
+  font-size: 14px;
+  padding: 3px;*/
+  font-style: italic;
+  font-size: 16px;
+  padding: 1em 1em;
+
 }
 
 .custom-select{
@@ -101,7 +106,7 @@ a.accent{
 		transition: all .35 ease-in;
 		transform: scale(1);
 		overflow: hidden;
-		box-shadow: 
+		box-shadow:
 		&:hover{
 			transform: scale(1.005);
 		}
@@ -129,15 +134,15 @@ a.accent{
 		display: block;
 	}
 }
- 
-#support-us{ 
+
+#support-us{
 	background-image: linear-gradient(0deg, rgba(0, 0, 0, .5) 0%, rgba(0, 0, 0, .3) 100%), url('../img/outreach-2.jpg');
 	background-repeat: no-repeat;
 	background-position: bottom left, center;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
-	background-size: cover; 
+	background-size: cover;
 
 	h2{
 		color: $white !important;
