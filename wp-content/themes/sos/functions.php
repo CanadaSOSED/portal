@@ -2650,7 +2650,7 @@ function my_trips_content() {
         $active = get_active_blog_for_user( get_current_user_id() );
         if ( $active ) {
           $mytrip_path = $active->siteurl . '/my-account/my-trips';
-          echo ('<div style="text-align:right;"> <input class="GoBackButton" type="button" value="< Back to My trip" onclick="window.location.href=\'' . $mytrip_path .'\'" /></div>');
+          echo ('<div style="text-align:right;"> <input class="GoBackButton" type="button" value="< Back to My Trip" onclick="window.location.href=\'' . $mytrip_path .'\'" /></div>');
         }
 //     }
 
