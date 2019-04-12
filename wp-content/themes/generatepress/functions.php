@@ -105,38 +105,79 @@ function tu_remove_footer_area() {
 
 // ismara - 2018/04/30 - Append Nav with more itens (my courses / Dashboard / logout / SOS campus links
 function add_item_register_menu( $items, $args ) {
-   if ( $args->theme_location != 'primary' ) {
-      return $items;
-   }
-
-// ismara - 2018-08-08 - fixing the dashboard menu at the training
-if ( is_user_logged_in() ) {
-/*    if( current_user_can('edit_post') || current_user_can('vpid') ) {
-			  $items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-courses">' . __( 'My Courses' ) . '</a></li>';
-        $items .= '<li><a class="nav-link link dropdown-item" href="'. get_dashboard_url() .'">' . __( 'My Chapter Admin' ) . '</a></li>';
-        $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
-    } else { */
- 			  $active = get_active_blog_for_user( get_current_user_id() );
-
+		if ( $args->theme_location != 'primary' ) {
+				return $items;
+		}
+		if ( is_user_logged_in() ) {
+				$active = get_active_blog_for_user( get_current_user_id() );
+				$items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'My Account' ) . '</a></li>';
 				$items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-courses">' . __( 'My Courses' ) . '</a></li>';
-				if ( $active )
-				  $items .= '<li><a class="nav-link link dropdown-item" href="'. get_admin_url( $active->blog_id, $path, $scheme ) .'">' . __( 'My Chapter Admin' ) . '</a></li>';
-				else
-				  $items .= '<li><a class="nav-link link dropdown-item" href="'. user_admin_url( $path, $scheme ) .'">' . __( 'My Chapter Admin' ) . '</a></li>';
-
-        $items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
-//    }
-
- } else {
-	     $items .= '<li><a class="nav-link link dropdown-item" href="'. network_site_url() .'">' . __( 'SOS Campus' ) . '</a></li>';
-
-  //   $items .= '<li><a class="nav-link link dropdown-item" href="http://localhost/sosportal/toronto/my-account/">' . __( 'Login' ) . '</a></li>';
-//		 $items .= '<li><a class="nav-link link dropdown-item" href="http://localhost/sosportal/toronto/my-account/">' . __( 'Sign Up' ) . '</a></li>';
-     //$items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'Sign Up' ) . '</a></li>';
- }
-
- return $items;
+				if ($active->id != 32) //active blog is not SOS Training
+						$items .= '<li><a class="nav-link link dropdown-item" href="'. get_admin_url( $active->blog_id, $path, $scheme ) .'">' . __( 'My Chapter Admin' ) . '</a></li>';
+				$items .= '<li><a class="nav-link link dropdown-item" href="' . wp_logout_url() . '">' . __( 'Log Out' ) . '</a></li>';
+		}
+		else {
+				$items .= '<li><a class="nav-link link dropdown-item" href="'. get_site_url() .'/my-account">' . __( 'Login' ) . '</a></li>';
+				$items .= '<li><a class="nav-link link dropdown-item" href="'. network_site_url() .'">' . __( 'SOS Campus' ) . '</a></li>';
+		}
+		return $items;
 }
 
 add_filter( 'wp_nav_menu_items', 'add_item_register_menu', 199, 2 );
 // ismara - 2018/04/30 - end
+
+//ismara 2019/04/10 - My account for training
+function woo_my_account_order() {
+   if( current_user_can('edit_posts')  || current_user_can('vpid') ) {
+//user has a role
+    	   $myorder = array(
+           'dashboard'          => __( 'Welcome', 'woocommerce' ),
+           'admin'              => __( 'My Training Admin' ),
+ 					 'my-courses'          => __( 'My Courses', 'woocommerce' ),
+           'edit-account'       => __( 'Account Details', 'woocommerce' ),
+    		   'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+    } else {
+//user has NO role
+           $myorder = array(
+             'dashboard'          => __( 'Welcome', 'woocommerce' ),
+             'my-courses'          => __( 'My Courses', 'woocommerce' ),
+             'edit-account'       => __( 'Account Details', 'woocommerce' ),
+      	   	 'customer-logout'    => __( 'Logout', 'woocommerce' ),
+    	   );
+    }
+	  return $myorder;
+}
+add_filter( 'woocommerce_account_menu_items', 'woo_my_account_order');
+
+// My Account Tab Merged (Payment-Methods + Edit-Address into Edit-Account)
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_payment_methods');
+add_action( 'woocommerce_account_edit-account_endpoint', 'woocommerce_account_edit_address');
+
+//New Tabs
+add_filter ( 'woocommerce_account_menu_items', 'extra_links' );
+function extra_links( $menu_links ){
+  if( current_user_can('edit_posts') || current_user_can('vpid') ) {
+     $new = array( 'admin' => 'Admin', 'my-courses' => 'My Courses' );
+  } else {
+     $new = array( 'my-courses' => 'My Courses' );
+  }
+	$menu_links = array_slice( $menu_links, 0, 8, true )
+	+ $new
+	+ array_slice( $menu_links, 8, NULL, true );
+	return $menu_links;
+}
+
+add_action( 'init', 'add_admin_endpoint' );
+function add_admin_endpoint() {
+    add_rewrite_endpoint( 'admin', EP_ROOT | EP_PAGES );
+}
+
+add_action( 'woocommerce_account_admin_endpoint', 'admin_content' );
+function admin_content() {
+  echo '<p>Click the link below to access your Chapter Admin:</p>';
+  $url = admin_url();
+  $link = "<strong><a href='{$url}'>Volunteer Dashboard</a></strong>";
+  echo $link;
+}
+//ismara - 2019/04/10 - end
