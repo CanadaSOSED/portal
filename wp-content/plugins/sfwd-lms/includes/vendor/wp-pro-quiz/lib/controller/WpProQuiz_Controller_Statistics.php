@@ -49,11 +49,13 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		$categoryMapper = new WpProQuiz_Model_CategoryMapper();
 		$formMapper = new WpProQuiz_Model_FormMapper();
 		
-		$questions = $questionMapper->fetchAll($quizId);
+		$quiz = $quizMapper->fetch($quizId);
+
+		$questions = $questionMapper->fetchAll($quiz);
 		$category = $categoryMapper->fetchAll();
 		$categoryEmpty = new WpProQuiz_Model_Category();
 		
-		$categoryEmpty->setCategoryName(__('No category', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN));
+		$categoryEmpty->setCategoryName(__('No category', 'learndash'));
 		
 		$list = array();
 		$cats = array();
@@ -136,7 +138,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		if(!$quiz->isStatisticsOn())
 			return false;
 		
-		$values = $this->makeDataList($quizId, $array, $userId, $quiz->getQuizModus());
+		$values = $this->makeDataList($quiz, $array, $userId, $quiz->getQuizModus());
 		$formValues = $this->makeFormData($quiz, $userId, isset($this->_post['forms']) ? $this->_post['forms'] : null);
 		
 		if($values === false)
@@ -213,11 +215,11 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		return $formArray;
 	}
 	
-	private function makeDataList($quizId, $array, $userId, $modus) {
+	private function makeDataList($quiz, $array, $userId, $modus) {
 		
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
 		
-		$question = $questionMapper->fetchAllList($quizId, array('id', 'points'));
+		$question = $questionMapper->fetchAllList($quiz, array('id', 'points'));
 
 		$ids = array();
 		
@@ -250,7 +252,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		
 		foreach($array as $k => $v) {
 			$s = new WpProQuiz_Model_Statistic();
-			$s->setQuizId($quizId);
+			$s->setQuizId($quiz->getId());
 			$s->setQuestionId($k);
 			$s->setUserId($userId);
 			$s->setHintCount(isset($v['tip']) ? 1 : 0);
@@ -567,7 +569,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 			/*@var $model WpProQuiz_Model_StatisticFormOverview */
 			
 			if(!$model->getUserId())
-				$model->setUserName(__('Anonymous', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN));
+				$model->setUserName(__('Anonymous', 'learndash'));
 			
 			$sum = $model->getCorrectCount() + $model->getIncorrectCount();
 			$result = round((100 * $model->getPoints() / ($sum * $maxPoints / $sumQuestion)), 2).'%';
@@ -614,9 +616,9 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 			/*@var $model WpProQuiz_Model_StatisticHistory */
 			
 			if(!$model->getUserId())
-				$model->setUserName(__('Anonymous', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN));
+				$model->setUserName(__('Anonymous', 'learndash'));
 			else if($model->getUserName() == '')
-				$model->setUserName(__('Deleted user', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN));
+				$model->setUserName(__('Deleted user', 'learndash'));
 			
 			$sum = $model->getCorrectCount() + $model->getIncorrectCount();
 			$result = round(100 * $model->getPoints() / $model->getGPoints(), 2).'%';
@@ -686,7 +688,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 				$output[$statistic->getCategoryId()] = array(
 					'questions' => array(),
 					'categoryId' => $statistic->getCategoryId(),
-					'categoryName' => $statistic->getCategoryId() ? $statistic->getCategoryName() : esc_html__('No category', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN)
+					'categoryName' => $statistic->getCategoryId() ? $statistic->getCategoryName() : esc_html__('No category', 'learndash')
 				);
 			}
 			
@@ -762,7 +764,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 					$essay_post_status = get_post_status( intval( $question_item['statistcAnswerData']['graded_id'] ) );
 					if ( $essay_post_status == 'not_graded' ) {
 						$question_item['incorrect'] = 0;
-						$question_item['result'] = esc_html__( 'Ungraded', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN );
+						$question_item['result'] = esc_html__( 'Ungraded', 'learndash' );
 					}
 				}
 			} 
@@ -781,7 +783,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 		$view->avg = $avg;
 		$view->statisticModel = $statisticRefMapper->fetchByRefId($refIdUserId, $quizId, $avg);
 		
-		$view->userName = esc_html__('Anonymous', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN);
+		$view->userName = esc_html__('Anonymous', 'learndash');
 		
 		if($view->statisticModel->getUserId()) {
 			$userInfo = get_userdata($view->statisticModel->getUserId());
@@ -789,7 +791,7 @@ class WpProQuiz_Controller_Statistics extends WpProQuiz_Controller_Controller {
 			if($userInfo !== false)
 				$view->userName = $userInfo->user_login.' ('.$userInfo->display_name.')';
 			else 
-				$view->userName = esc_html__('Deleted user', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN);
+				$view->userName = esc_html__('Deleted user', 'learndash');
 		}
 		
 		if(!$avg) {

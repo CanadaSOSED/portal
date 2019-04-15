@@ -294,7 +294,7 @@ function learndash_certificate_options_metabox( $certificate ) {
 		$learndash_certificate_options_selected['pdf_page_format'] = 'LETTER';
 
 	if ( !isset( $learndash_certificate_options_selected['pdf_page_orientation'] ) )
-		$learndash_certificate_options_selected['pdf_page_orientation'] = PDF_PAGE_ORIENTATION;
+		$learndash_certificate_options_selected['pdf_page_orientation'] = 'L';
 	
 	wp_nonce_field( plugin_basename( __FILE__ ), 'learndash_certificates_nonce' );
 

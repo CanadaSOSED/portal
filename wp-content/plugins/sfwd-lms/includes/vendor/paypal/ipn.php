@@ -108,7 +108,7 @@ try {
 	$verified = $listener->processIpn();
 	ld_ipn_debug( 'Post method check completed.' );
 } catch ( Exception $e ) {
-	error_log( $e->getMessage() );
+	ld_ipn_debug( 'Post method error: <pre>'. print_r($e->getMessage(), true) .'</pre>' );
 	ld_ipn_debug( 'Found Exception. Ending Script.' );
 	exit(0);
 }

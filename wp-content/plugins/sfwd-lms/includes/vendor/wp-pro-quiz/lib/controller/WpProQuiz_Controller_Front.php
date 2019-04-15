@@ -53,10 +53,10 @@ class WpProQuiz_Controller_Front {
 
 			wp_localize_script('wpProQuiz_front_javascript', 'WpProQuizGlobal', array(
 				'ajaxurl' => str_replace(array("http:", "https:"), array("",""), admin_url('admin-ajax.php')),
-				'loadData' => esc_html__('Loading', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-				'questionNotSolved' => esc_html__('You must answer this question.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-				'questionsNotSolved' => sprintf( esc_html_x('You must answer all questions before you can complete the %s.', 'You must answer all questions before you can complete the quiz.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
-				'fieldsNotFilled' => esc_html__('All fields have to be filled.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN)
+				'loadData' => esc_html__('Loading', 'learndash'),
+				'questionNotSolved' => esc_html__('You must answer this question.', 'learndash'),
+				'questionsNotSolved' => sprintf( esc_html_x('You must answer all questions before you can complete the %s.', 'You must answer all questions before you can complete the quiz.', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
+				'fieldsNotFilled' => esc_html__('All fields have to be filled.', 'learndash')
 			));
 			
 			wp_enqueue_script(
@@ -84,10 +84,10 @@ class WpProQuiz_Controller_Front {
 					'wpProQuiz_front_javascript_toplist', 
 					'WpProQuizGlobal', array(
 						'ajaxurl' => str_replace(array("http:", "https:"), array("",""), admin_url('admin-ajax.php')),
-						'loadData' => esc_html__('Loading', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-						'questionNotSolved' => esc_html__('You must answer this question.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-						'questionsNotSolved' => sprintf( esc_html_x('You must answer all questions before you can complete the %s.', 'You must answer all questions before you can complete the quiz.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' )),
-						'fieldsNotFilled' => esc_html__('All fields have to be filled.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN)
+						'loadData' => esc_html__('Loading', 'learndash'),
+						'questionNotSolved' => esc_html__('You must answer this question.', 'learndash'),
+						'questionsNotSolved' => sprintf( esc_html_x('You must answer all questions before you can complete the %s.', 'You must answer all questions before you can complete the quiz.', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' )),
+						'fieldsNotFilled' => esc_html__('All fields have to be filled.', 'learndash')
 					)
 				);
 			}
@@ -105,22 +105,38 @@ class WpProQuiz_Controller_Front {
 		}
 	}
 
-	public function shortcode($attr) {
-		
-		global $learndash_shortcode_used;
-		$learndash_shortcode_used = true;
-		
-		$id = $attr[0];
-		$content = '';
+	public function shortcode($attr = array(), $content = '' ) {
 
-		if(!$this->_settings->isJsLoadInHead()) {
+		global $learndash_shortcode_used, $learndash_shortcode_atts;
+		$learndash_shortcode_used = true;
+
+		if ( ( isset( $attr[0] ) ) && ( ! empty( $attr[0] ) ) ) {
+			if ( ! isset( $attr['quiz_pro_id'] ) ) {
+				$attr['quiz_pro_id'] = intval( $attr[0] );
+				unset( $attr[0] );
+			}
+		}
+
+		$attr = shortcode_atts(
+			array(
+				'quiz_id'     => 0,
+				'course_id'   => 0,
+				'quiz_pro_id' => 0,
+			),
+			$attr
+		);
+
+		//$content = '';
+
+		if ( ! $this->_settings->isJsLoadInHead() ) {
 			$this->loadJsScripts();
 		}
 
-		if(is_numeric($id)) {
+		if ( ! empty( $attr['quiz_pro_id'] ) ) {
 			ob_start();
 
-			$this->handleShortCode($id);
+			$learndash_shortcode_atts['LDAdvQuiz'] = $attr;
+			$this->handleShortCode( $attr );
 
 			$content = ob_get_contents();
 
@@ -134,7 +150,16 @@ class WpProQuiz_Controller_Front {
 		return $content;
 	}
 
-	public function handleShortCode($id) {
+	public function handleShortCode( $atts = array() ) {
+		$atts = shortcode_atts(
+			array(
+				'quiz_id'     => 0,
+				'course_id'   => 0,
+				'quiz_pro_id' => 0,
+			),
+			$atts
+		);
+
 		$view = new WpProQuiz_View_FrontQuiz();
 
 		$quizMapper = new WpProQuiz_Model_QuizMapper();
@@ -142,28 +167,34 @@ class WpProQuiz_Controller_Front {
 		$categoryMapper = new WpProQuiz_Model_CategoryMapper();
 		$formMapper = new WpProQuiz_Model_FormMapper();
 
-		$quiz = $quizMapper->fetch($id);
+		$quiz = $quizMapper->fetch( $atts['quiz_pro_id'] );
+		$quiz_post_id = $quiz->getPostId();
+		if ( ( ! empty( $atts['quiz_id'] ) ) && ( intval( $quiz_post_id ) !== intval( $atts['quiz_id'] ) ) ) {
+			$quiz->setPostId( intval( $atts['quiz_id'] ) );
+		}
 
 		$maxQuestion = false;
 
-		if($quiz->isShowMaxQuestion() && $quiz->getShowMaxQuestionValue() > 0) {
+		if ( ( $quiz->isShowMaxQuestion() ) && ( $quiz->getShowMaxQuestionValue() > 0 ) ) {
 
 			$value = $quiz->getShowMaxQuestionValue();
 
-			if($quiz->isShowMaxQuestionPercent()) {
-				$count = $questionMapper->count($id);
+			if ( $quiz->isShowMaxQuestionPercent() ) {
+				$count = $questionMapper->count( $atts['quiz_pro_id'] );
 
-				$value = ceil($count * $value / 100);
+				$value = ceil( $count * $value / 100 );
 			}
 
-			$question = $questionMapper->fetchAll($id, true, $value);
+			//$question = $questionMapper->fetchAll( $atts['quiz_pro_id'], true, $value );
+			$question = $questionMapper->fetchAll( $quiz, true, $value );
 			$maxQuestion = true;
 
 		} else {
-			$question = $questionMapper->fetchAll($id);
+			//$question = $questionMapper->fetchAll( $atts['quiz_pro_id'] );
+			$question = $questionMapper->fetchAll( $quiz );
 		}
 
-		if(empty($quiz) || empty($question)) {
+		if ( ( empty( $quiz ) ) || ( empty( $question ) ) ) {
 			echo '';
 
 			return;
@@ -171,13 +202,16 @@ class WpProQuiz_Controller_Front {
 
 		$view->quiz = $quiz;
 		$view->question = $question;
-		$view->category = $categoryMapper->fetchByQuiz($quiz->getId());
-		$view->forms = $formMapper->fetch($quiz->getId());
 
-		if($maxQuestion)
+		$view->category = $categoryMapper->fetchByQuiz( $quiz );
+
+		$view->forms = $formMapper->fetch( $atts['quiz_pro_id'] );
+
+		if ( $maxQuestion ) {
 			$view->showMaxQuestion();
-		else
+		} else {
 			$view->show();
+		}
 	}
 
 	public function shortcodeToplist($attr) {
@@ -261,8 +295,9 @@ class WpProQuiz_Controller_Front {
 		$formMapper = new WpProQuiz_Model_FormMapper();
 
 		$quiz = $quizMapper->fetch($id);
+		$quiz->setPostId( absint( $quiz_post_id ) );
 
-		if($quiz->isShowMaxQuestion() && $quiz->getShowMaxQuestionValue() > 0) {
+		if ( $quiz->isShowMaxQuestion() && $quiz->getShowMaxQuestionValue() > 0) {
 
 			$value = $quiz->getShowMaxQuestionValue();
 
@@ -272,10 +307,10 @@ class WpProQuiz_Controller_Front {
 				$value = ceil($count * $value / 100);
 			}
 
-			$question = $questionMapper->fetchAll($id, true, $value);
+			$question = $questionMapper->fetchAll( $quiz, true, $value );
 
 		} else {
-			$question = $questionMapper->fetchAll($id);
+			$question = $questionMapper->fetchAll($quiz);
 		}
 
 		if(empty($quiz) || empty($question)) {
@@ -284,7 +319,7 @@ class WpProQuiz_Controller_Front {
 
 		$view->quiz = $quiz;
 		$view->question = $question;
-		$view->category = $categoryMapper->fetchByQuiz($quiz->getId());
+		$view->category = $categoryMapper->fetchByQuiz( $quiz );
 		$view->forms = $formMapper->fetch($quiz->getId());
 
 		return json_encode($view->getQuizData());

@@ -1321,7 +1321,7 @@
 			},
 
 			uploadFile: function( event ) {
-				console.log('click event[%o]', event);
+				//console.log('click event[%o]', event);
 				
 				var question_id = event.currentTarget.id.replace('uploadEssaySubmit_', '');
 				var file = $( '#uploadEssay_' + question_id )[0].files[0];
@@ -1755,10 +1755,12 @@
 					//}
 					
 					responses[question_id] = readResponses(name, data, $this, $questionList, true);
-					
+					responses[question_id]['question_pro_id'] = data['id'];
+					responses[question_id]['question_post_id'] = data['question_post_id'];
+
 					plugin.methode.CookieSaveResponse(question_id, question_index, data.type, responses[question_id]);
 				});
-
+				//console.log('responses[%o]', responses);
 				config.checkAnswers = {list: list, responses: responses, endCheck:endCheck, finishQuiz:finishQuiz};
 
 				if(finishQuiz) {
@@ -1767,7 +1769,7 @@
 					plugin.methode.showSpinner();
 				}
 
-				//console.log('config[%o]', config.quizId);
+				//console.log('config.json[%o]', config.json);
 
 				plugin.methode.ajax({
 					action: 'ld_adv_quiz_pro_ajax',
@@ -2057,7 +2059,17 @@
 					jQuery.support.cors = true;
 				}
 
-				//$.post(WpProQuizGlobal.ajaxurl, data, success, dataType);
+				if (data['quiz'] === undefined) {
+					data['quiz'] = config.quiz;
+				}
+				if (data['course_id'] === undefined) {
+					data['course_id'] = config.course_id;
+				}
+				if (data['quiz_nonce'] === undefined) {
+					data['quiz_nonce'] = config.quiz_nonce;
+				}
+				//console.log('in ajax');
+				//console.log('data[%o]', data);
 				$.ajax({
 					method: 'POST',
 					type: 'POST',
@@ -2443,7 +2455,7 @@
 					plugin.methode.showSinglePage(currentPage+1);
 				});
 				
-				console.log('line 2436: adding click event for essay upload button ');
+				//console.log('line 2436: adding click event for essay upload button ');
 				$e.find('input[id^="uploadEssaySubmit"]').click(plugin.methode.uploadFile);
 				
 				// Added in LD v2.4 to allow external notification when quiz init happens.

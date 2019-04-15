@@ -73,7 +73,23 @@
 <div class="learndash_content"><?php echo $content; ?></div>
 
 <?php if ( ! $has_access ) : ?>
+	<?php 
+	/**
+	 * Filter to add custom content before the Course Payment Button.
+	 *
+	 * @since 2.5.8
+	 */
+	do_action( 'learndash-course-payment-buttons-before', $course_id, $user_id ); 
+	?>
 	<?php echo learndash_payment_buttons( $post ); ?>
+	<?php 
+	/**
+	 * Filter to add custom content after the Course Payment Button.
+	 *
+	 * @since 2.5.8
+	 */
+	do_action( 'learndash-course-payment-buttons-after', $course_id, $user_id ); 
+	?>
 <?php endif; ?>
 
 <?php if ( ( isset( $materials ) ) && ( ! empty( $materials ) ) ) : ?>

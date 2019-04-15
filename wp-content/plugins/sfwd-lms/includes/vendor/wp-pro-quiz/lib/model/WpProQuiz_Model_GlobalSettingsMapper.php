@@ -64,7 +64,7 @@ class WpProQuiz_Model_GlobalSettingsMapper extends WpProQuiz_Model_Mapper {
 		if($e === null) {
 			$e['to'] = '';
 			$e['from'] = '';
-			$e['subject'] = sprintf( esc_html_x('LearnDash %1$s: One user completed a %2$s', 'LearnDash Quiz: One user completed a quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
+			$e['subject'] = sprintf( esc_html_x('LearnDash %1$s: One user completed a %2$s', 'LearnDash Quiz: One user completed a quiz', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
 			$e['html'] = false;
 			$e['message'] = sprintf( esc_html_x('LearnDash %s
 
@@ -73,7 +73,7 @@ The user "$username" has completed "$quizname" the %s.
 Points: $points
 Result: $result
 
-', 'placeholders: Quiz, quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ));
+', 'placeholders: Quiz, quiz', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ));
 		
 		}
 		
@@ -96,7 +96,7 @@ Result: $result
 		
 		if($e === null) {
 			$e['from'] = '';
-			$e['subject'] = sprintf( esc_html_x('LearnDash %1$s: One user completed a %2$s', 'LearnDash Quiz: One user completed a quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
+			$e['subject'] = sprintf( esc_html_x('LearnDash %1$s: One user completed a %2$s', 'LearnDash Quiz: One user completed a quiz', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
 			$e['html'] = false;
 			$e['message'] = sprintf( esc_html_x('LearnDash %s
 			
@@ -105,7 +105,7 @@ You have completed the %s "$quizname".
 Points: $points
 Result: $result
 
-', 'placeholders: Quiz, quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
+', 'placeholders: Quiz, quiz', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
 		
 		}
 		

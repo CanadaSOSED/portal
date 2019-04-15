@@ -24,6 +24,22 @@ function learndash_admin_head() {
 add_action( 'admin_head', 'learndash_admin_head' );
 
 
+/**
+ * Add the LearnDash post type to the admin body class
+ *
+ * @since 2.5.8
+ */
+function learndash_admin_body_class( $class = '' ) {
+	global $learndash_post_types;
+	
+	$screen = get_current_screen();
+	if ( in_array( $screen->id, $learndash_post_types ) ) {
+		$class .= ' learndash-post-type ' . $screen->post_type;
+	}
+	
+	return $class;
+}
+add_filter( 'admin_body_class', 'learndash_admin_body_class' );
 
 /**
  * Hide top level menu when there are no submenus
@@ -55,7 +71,11 @@ function learndash_load_admin_resources() {
 	global $learndash_post_types, $learndash_pages;;
 	global $learndash_assets_loaded;
 
-	if ( in_array( @$_GET['page'], $learndash_pages ) || in_array( @$_GET['post_type'], $learndash_post_types ) || $pagenow == 'post.php' && in_array( $post->post_type, $learndash_post_types ) ) {
+	if ( 
+		( ( isset( $_GET['page'] ) ) && ( in_array( $_GET['page'], $learndash_pages ) ) )
+		|| ( ( isset( $_GET['post_type'] ) ) && ( in_array( $_GET['post_type'], $learndash_post_types ) ) ) 
+		|| ( ( $pagenow == 'post.php' ) && ( in_array( $post->post_type, $learndash_post_types ) ) ) 
+		) {
 		wp_enqueue_style( 
 			'learndash_style', 
 			LEARNDASH_LMS_PLUGIN_URL . 'assets/css/style'. ( ( defined( 'LEARNDASH_SCRIPT_DEBUG' ) && ( LEARNDASH_SCRIPT_DEBUG === true ) ) ? '' : '.min') .'.css',
@@ -71,7 +91,7 @@ function learndash_load_admin_resources() {
 			LEARNDASH_SCRIPT_VERSION_TOKEN 
 		);
 		$learndash_assets_loaded['styles']['sfwd-module-style'] = __FUNCTION__;	
-		
+
 		if ( ( $pagenow == 'edit.php' ) && ( in_array( $typenow, array( 'sfwd-essays', 'sfwd-assignment', 'sfwd-topic', 'sfwd-quiz' ) ) ) ) {
 			wp_enqueue_script( 
 				'sfwd-module-script', 
@@ -84,11 +104,10 @@ function learndash_load_admin_resources() {
 			wp_localize_script( 'sfwd-module-script', 'sfwd_data', array() );
 		}
 	}
-
-	if ( $pagenow == 'post.php' && $post->post_type == 'sfwd-quiz' || $pagenow == 'post-new.php' && @$_GET['post_type'] == 'sfwd-quiz' ) {
+	if ( ( in_array( $pagenow, array( 'post.php', 'post-new.php') ) ) && ( $post->post_type == 'sfwd-quiz' ) ) {
 		wp_enqueue_script( 
-			'wpProQuiz_admin_javascript', 
-			plugins_url('js/wpProQuiz_admin'. ( ( defined( 'LEARNDASH_SCRIPT_DEBUG' ) && ( LEARNDASH_SCRIPT_DEBUG === true ) ) ? '' : '.min') .'.js', WPPROQUIZ_FILE),
+			'wpProQuiz_admin_javascript',
+			plugins_url( 'js/wpProQuiz_admin' . ( ( defined( 'LEARNDASH_SCRIPT_DEBUG' ) && ( LEARNDASH_SCRIPT_DEBUG === true ) ) ? '' : '.min') . '.js', WPPROQUIZ_FILE ),
 			array( 'jquery' ),
 			LEARNDASH_SCRIPT_VERSION_TOKEN,
 			true
@@ -96,7 +115,7 @@ function learndash_load_admin_resources() {
 		$learndash_assets_loaded['scripts']['wpProQuiz_admin_javascript'] = __FUNCTION__;
 	}
 
-	if ( $pagenow == 'post-new.php' && @$_GET['post_type'] == 'sfwd-lessons' || $pagenow == 'post.php' && @get_post( @$_GET['post'] )->post_type == 'sfwd-lessons' ) {
+	if ( ( in_array( $pagenow, array( 'post.php', 'post-new.php') ) ) && ( $post->post_type == 'sfwd-lessons' ) ) {
 		wp_enqueue_style( 
 			'ld-datepicker-ui-css', 
 			LEARNDASH_LMS_PLUGIN_URL . 'assets/css/jquery-ui'. ( ( defined( 'LEARNDASH_SCRIPT_DEBUG' ) && ( LEARNDASH_SCRIPT_DEBUG === true ) ) ? '' : '.min') .'.css',
@@ -105,8 +124,11 @@ function learndash_load_admin_resources() {
 		);
 		$learndash_assets_loaded['styles']['ld-datepicker-ui-css'] = __FUNCTION__;
 	}
-	
-	if ( ($pagenow == 'admin.php') && (@$_GET['page'] == 'ldAdvQuiz') && (@$_GET['module'] == 'statistics') )  {
+
+	if ( 
+		( ( $pagenow == 'admin.php' ) && ( isset( $_GET['page'] ) ) && ( $_GET['page'] == 'ldAdvQuiz') )
+		&& ( ( isset( $_GET['module'] ) ) && ( $_GET['module'] == 'statistics' ) ) 
+		) {
 		wp_enqueue_style( 
 			'ld-datepicker-ui-css', 
 			LEARNDASH_LMS_PLUGIN_URL . 'assets/css/jquery-ui'. ( ( defined( 'LEARNDASH_SCRIPT_DEBUG' ) && ( LEARNDASH_SCRIPT_DEBUG === true ) ) ? '' : '.min') .'.css',
@@ -350,57 +372,57 @@ function remove_categories_column( $cols ) {
  *
  * @since 2.1.0
  *
- * @param  string 	$column_name
- * @param  int 		$id
+ * @param string $column_name   Name of the column.
+ * @param int    $assignment_id ID of the assigment.
  */
 function manage_asigned_assignment_columns( $column_name, $assignment_id ) {
 	switch ( $column_name ) {
 		case 'approval_status':
-			
 			$assignment_lesson_id = intval( get_post_meta( $assignment_id, 'lesson_id', true ) );
-			if ( !empty( $assignment_lesson_id ) ) {
+			if ( ! empty( $assignment_lesson_id ) ) {
 				$approval_status_flag = learndash_is_assignment_approved_by_meta( $assignment_id );
-				if ( $approval_status_flag == 1 ) {
-					$approval_status_label = esc_html__( 'Approved', 'learndash' );
+				if ( 1 == $approval_status_flag ) {
+					$approval_status_label = _x( 'Approved', 'Assignment approval status', 'learndash' );
 				} else {
 					$approval_status_flag = 0;
-					$approval_status_label = esc_html__( 'Not Approved', 'learndash' );
+					$approval_status_label = _x( 'Not Approved', 'Assignment approval status', 'learndash' );
 				}
-				$approval_status_url = admin_url( 'edit.php?post_type='.@$_GET['post_type'].'&approval_status='. $approval_status_flag );
-		
-				echo '<a " href="'. $approval_status_url .'">'. $approval_status_label .'</a>';
-				if ( $approval_status_flag != 1 ) {
-					?> <button id="assignment_approve_<?php echo $assignment_id ?>" class="small assignment_approve_single"><?php esc_html_e('approve', 'learndash'); ?></button><?php
+				$approval_status_url = admin_url( 'edit.php?post_type=' . @$_GET['post_type'] . '&approval_status=' . $approval_status_flag );
+
+				echo '<a href="' . esc_url( $approval_status_url ) . '">' . esc_html( $approval_status_label ) . '</a>';
+				if ( 1 != $approval_status_flag ) {
+					?>
+					<button id="assignment_approve_<?php echo esc_attr( $assignment_id ); ?>" class="small assignment_approve_single"><?php esc_html_e( 'approve', 'learndash' ); ?></button>
+					<?php
 				}
 			}
 			break;
-			
+
 		case 'approval_points':
 			if ( learndash_assignment_is_points_enabled( $assignment_id ) ) {
 				$max_points = 0;
-			
+
 				$assignment_settings_id = intval( get_post_meta( $assignment_id, 'lesson_id', true ) );
-				if (!empty( $assignment_settings_id ) ) {
+				if ( ! empty( $assignment_settings_id ) ) {
 					$max_points = learndash_get_setting( $assignment_settings_id, 'lesson_assignment_points_amount' );
-				} 
-			
+				}
+
 				$current_points = get_post_meta( $assignment_id, 'points', true );
-				if ( ( $current_points == 'Pending' ) || ( $current_points == '' ) ) {
+				if ( ! is_numeric( $current_points ) ) {
 					$approval_status_flag = learndash_is_assignment_approved_by_meta( $assignment_id );
-					if ( $approval_status_flag != 1 ) {
-						$current_points = '<input id="assignment_points_'. $assignment_id .'" class="small-text" type="number" value="0" max="'. $max_points .'" min="0" step="1" name="assignment_points['. $assignment_id .']" />';
+					if ( 1 != $approval_status_flag ) {
+						$current_points = '<input id="assignment_points_' . $assignment_id . '" class="small-text" type="number" value="0" max="' . $max_points . '" min="0" step="1" name="assignment_points[' . $assignment_id . ']" />';
 					} else {
 						$current_points = '0';
 					}
 				}
-				echo sprintf( esc_html_x('%1$s / %2$s', 'placeholders: current points / maximum point for assignment', 'learndash'), $current_points, $max_points);
-			
+				echo sprintf( _x( '%1$s / %2$s', 'placeholders: current points / maximum point for assignment', 'learndash'), $current_points, $max_points );
 			} else {
-				esc_html_e('Not Enabled', 'learndash');
-			}		
+				esc_html_x( 'Not Enabled', 'Points for assignment not enabled', 'learndash' );
+			}
 			break;
-			
-		default:	
+
+		default:
 			break;
 	}
 }
@@ -421,11 +443,26 @@ function manage_asigned_course_columns( $column_name, $id ) {
 	
 	switch ( $column_name ) {
 		case 'shortcode':
-		echo '<strong>[ld_quiz quiz_id="'. $id . '"]</strong>';
-			$quiz_pro = learndash_get_setting( $id, 'quiz_pro', true );
-			if ( ! empty( $quiz_pro) ) {
-				echo '<br />or [LDAdvQuiz '.$quiz_pro.']';
-			} 
+			$valid_quiz = false;
+			$quiz_pro_id = learndash_get_setting( $id, 'quiz_pro', true );
+			$quiz_pro_id = absint( $quiz_pro_id );
+			if ( ! empty( $quiz_pro_id ) ) {
+				$quiz_mapper = new WpProQuiz_Model_QuizMapper();
+				$quiz_pro     = $quiz_mapper->fetch( $quiz_pro_id );
+				if ( ( is_a( $quiz_pro, 'WpProQuiz_Model_Quiz' ) ) && ( $quiz_pro_id === $quiz_pro->getId() ) ) {
+					$valid_quiz = true;
+					echo '<strong>[ld_quiz quiz_id="'. $id . '"]</strong>';
+					echo '<br />[LDAdvQuiz ' . $quiz_pro_id . ']';
+					echo '<br />[LDAdvQuiz_toplist ' . $quiz_pro_id . ']';
+				}
+			}
+
+			if ( false === $valid_quiz ) {
+				?><span class="ld-error"><?php esc_html_e( 'Missing ProQuiz Associated Settings.', 'learndadsh' ); ?></span><?php
+			}
+
+
+
 			break;
 		case 'course':
 			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
@@ -692,7 +729,7 @@ function restrict_listings_by_course( $post_type, $location = '') {
 			echo "<option value=''>". sprintf( esc_html_x( 'Show All %s', 'Show All Courses Option Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'courses' ) ).'</option>';
 
 			foreach ( $query_posts_course->posts as $p ) {
-				echo '<option value='. $p->ID, ( @$_GET['course_id'] == $p->ID ? ' selected="selected"' : '').'>' . $p->post_title .'</option>';
+				echo '<option value='. $p->ID, ( ( ( isset( $_GET['course_id'] ) ) && ( intval( $_GET['course_id'] ) == intval( $p->ID ) ) ) ? ' selected="selected"' : '' ) .'>' . $p->post_title .'</option>';
 			}
 			echo '</select>';
 		
@@ -868,7 +905,12 @@ function restrict_listings_by_course( $post_type, $location = '') {
 			foreach ( $query_posts_quiz->posts as $p ) {
 				$quiz_pro_id = get_post_meta( $p->ID, 'quiz_pro_id', true );
 				if ( !empty( $quiz_pro_id ) ) {
-					echo '<option value="'. $quiz_pro_id .'" '. selected( @$_GET['quiz_id'], $quiz_pro_id, false) .'>' . $p->post_title .'</option>';
+					if ( ( isset( $_GET['quiz_id'] ) ) && ( ! empty( $_GET['quiz_id'] ) ) ) {
+						$is_Selected = selected( absint( $_GET['quiz_id'] ) , absint( $quiz_pro_id ), false );
+					} else {
+						$is_Selected = '';
+					}
+					echo '<option value="'. $quiz_pro_id .'" '. $is_Selected .'>' . $p->post_title .'</option>';
 				}
 			}
 			echo '</select>';
@@ -989,21 +1031,21 @@ function course_table_filter( $query ) {
 		
 	} else if ( $typenow == 'sfwd-lessons' ) {
 		if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
-			//if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
+			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {	
 				$course_steps_by_type = learndash_course_get_steps_by_type( intval( $_GET['course_id'] ), $typenow );
 				if ( !empty( $course_steps_by_type ) ) {
 					$q_vars['post__in'] = $course_steps_by_type;
 					$q_vars['orderby'] = 'post__in';
 				}
 				
-			//} else {
-			//	if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
-			//
-			//	$q_vars['meta_query'][] = array(
-			//		'key' 		=> 	'course_id',
-			//		'value'		=> 	intval( $_GET['course_id'] ),
-			//	);
-			//}
+			} else {
+				if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
+			
+				$q_vars['meta_query'][] = array(
+					'key' 		=> 	'course_id',
+					'value'		=> 	intval( $_GET['course_id'] ),
+				);
+			}
 		}
 		if ( ( isset( $_GET['post_tag'] ) ) && ( !empty( $_GET['post_tag'] ) ) ) {
 			$post_tag = esc_attr( $_GET['post_tag'] );
@@ -1028,7 +1070,7 @@ function course_table_filter( $query ) {
 		
 		if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
 
-			//if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
+			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {	
 				$course_steps_by_type = learndash_course_get_steps_by_type( intval( $_GET['course_id'] ), $typenow );
 				if ( !empty( $course_steps_by_type ) ) {
 					$q_vars['post__in'] = $course_steps_by_type;
@@ -1036,41 +1078,38 @@ function course_table_filter( $query ) {
 					
 				}
 				
-			//} else {
-			//	if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
-			//
-			//	$q_vars['meta_query'][] = array(
-			//		'key' 		=> 	'course_id',
-			//		'value'		=> 	intval($_GET['course_id']),
-			//	);
-			//}
+			} else {
+				if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
+			
+				$q_vars['meta_query'][] = array(
+					'key' 		=> 	'course_id',
+					'value'		=> 	intval($_GET['course_id']),
+				);
+			}
 		}
 		
 		if ( ( isset( $_GET['lesson_id'] ) ) && ( !empty( $_GET['lesson_id'] ) ) ) {
-			$HAS_LESSONS = false;
-			//if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 				$lesson_topics = learndash_course_get_children_of_step( intval( $_GET['course_id'] ), intval( $_GET['lesson_id'] ), $typenow );
 				if ( !empty( $lesson_topics ) ) {
 					$HAS_LESSONS = true;
 					$q_vars['post__in'] = $lesson_topics;
 				}
-			//} 
+			} else {
 			
-			//if ( $HAS_LESSONS === false ) {
-			//	if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
-			//
-			//	$q_vars['meta_query'][] = array(
-			//		'key' 		=> 	'lesson_id',
-			//		'value'		=> 	intval( $_GET['lesson_id'] ),
-			//	);
-			//}
+				if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
+			
+				$q_vars['meta_query'][] = array(
+					'key' 		=> 	'lesson_id',
+					'value'		=> 	intval( $_GET['lesson_id'] ),
+				);
+			}
 		}
-		//error_log('q_vars<pre>'. print_r($q_vars, true) .'</pre>');
 		$q_vars['relation'] = 'AND';
 		
 	} else if ( $typenow == 'sfwd-quiz' ) {
 
-		//if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 			if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
 				$quiz_ids = array();
 				if ( ( isset( $_GET['lesson_id'] ) ) && ( !empty( $_GET['lesson_id'] ) ) ) {
@@ -1085,28 +1124,25 @@ function course_table_filter( $query ) {
 					$q_vars['post__in'] = array(0);
 				}
 			}
-		//} else {
-		//	if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
-		//		if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
-		//
-		//		$q_vars['meta_query'][] = array(
-		//			'key' => 'course_id',
-		//			'value'	=> intval($_GET['course_id']),
-		//		);
-		//	}
-		//
-		//	if ( ( isset( $_GET['lesson_id'] ) ) && ( !empty( $_GET['lesson_id'] ) ) ) {
-		//		if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
-		//
-		//		$q_vars['meta_query'][] = array(
-		//			'key' 		=> 	'lesson_id',
-		//			'value'		=> 	intval( $_GET['lesson_id'] ),
-		//		);
-		//	}
-		//	error_log('q_vars<pre>'. print_r($q_vars, true ) .'</pre>');
-		//	
-		//	
-		//}
+		} else {
+			if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
+				if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
+		
+				$q_vars['meta_query'][] = array(
+					'key' => 'course_id',
+					'value'	=> intval($_GET['course_id']),
+				);
+			}
+		
+			if ( ( isset( $_GET['lesson_id'] ) ) && ( !empty( $_GET['lesson_id'] ) ) ) {
+				if ( !isset( $q_vars['meta_query'] ) ) $q_vars['meta_query'] = array();
+		
+				$q_vars['meta_query'][] = array(
+					'key' 		=> 	'lesson_id',
+					'value'		=> 	intval( $_GET['lesson_id'] ),
+				);
+			}
+		}
 	} else if ( $typenow == 'sfwd-assignment' ) {
 		
 		if ( ( isset( $_GET['approval_status'] ) ) && ( $_GET['approval_status'] == 1 ) ) {
@@ -1280,13 +1316,13 @@ function learndash_patent_course_and_lesson_id_save( $post_id ) {
 
 	if ( 'sfwd-lessons' == $_POST['post_type'] || 'sfwd-quiz' == $_POST['post_type'] || 'sfwd-topic' == $_POST['post_type'] ) {
 		if ( isset( $_POST[ $_POST['post_type'].'_course'] ) ) {
-			update_post_meta( $post_id, 'course_id', @$_POST[ $_POST['post_type'].'_course'] );
+			update_post_meta( $post_id, 'course_id', (int)$_POST[ $_POST['post_type'].'_course'] );
 		}
 	}
 
 	if ( 'sfwd-topic' == $_POST['post_type'] || 'sfwd-quiz' == $_POST['post_type'] ) {
 		if ( isset( $_POST[ $_POST['post_type'].'_lesson'] ) ) {
-			update_post_meta( $post_id, 'lesson_id', @$_POST[ $_POST['post_type'].'_lesson'] );
+			update_post_meta( $post_id, 'lesson_id', (int)$_POST[ $_POST['post_type'].'_lesson'] );
 		}
 	}
 
@@ -1294,7 +1330,7 @@ function learndash_patent_course_and_lesson_id_save( $post_id ) {
 		global $wpdb;
 
 		if ( isset( $_POST[ $_POST['post_type'].'_course'] ) ) {
-			$course_id = get_post_meta( $post_id, 'course_id', true );
+			$course_id = (int)get_post_meta( $post_id, 'course_id', true );
 		}
 
 		if ( ! empty( $course_id ) ) {
@@ -1305,7 +1341,7 @@ function learndash_patent_course_and_lesson_id_save( $post_id ) {
 					$post_course_id = learndash_get_setting( $post_with_lesson, 'course' );
 
 					if ( $post_course_id != $course_id ) {
-						learndash_update_setting( $post_with_lesson, 'course', $course_id );
+						learndash_update_setting( $post_with_lesson, 'course', (int)$course_id );
 
 						$quizzes_under_lesson_topic = $wpdb->get_col( $wpdb->prepare( 
 						"SELECT post_id FROM ". $wpdb->postmeta ." WHERE meta_key = %s AND meta_value = %d", 'lesson_id',  $posts_with_lesson ) );
@@ -1313,7 +1349,7 @@ function learndash_patent_course_and_lesson_id_save( $post_id ) {
 							foreach ( $quizzes_under_lesson_topic as $quiz_post_id ) {
 								$quiz_course_id = learndash_get_setting( $quiz_post_id, 'course' );
 								if ( $course_id != $quiz_course_id ) {
-									learndash_update_setting( $quiz_course_id, 'course', $course_id );
+									learndash_update_setting( $quiz_course_id, 'course', (int)$course_id );
 								}
 							}
 						}
@@ -1425,7 +1461,13 @@ function learndash_quizzes_inline_actions( $actions, $post ) {
 		}
 
 		$statistics_link = admin_url( 'admin.php?page=ldAdvQuiz&module=statistics&id='.$pro_quiz_id.'&post_id='.$post->ID );
-		$questions_link = admin_url( 'admin.php?page=ldAdvQuiz&module=question&quiz_id='.$pro_quiz_id.'&post_id='.$post->ID );
+
+		if ( ( true === is_data_upgrade_quiz_questions_updated() ) && ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Builder', 'enabled' ) === 'yes' ) ) {
+			$questions_link = admin_url( 'edit.php?post_type=' . learndash_get_post_type_slug( 'question' ) . '&quiz_id=' . $post->ID );
+		} else {
+			$questions_link = admin_url( 'admin.php?page=ldAdvQuiz&module=question&quiz_id='.$pro_quiz_id.'&post_id='.$post->ID );
+		}
+		
 		$leaderboard_link = admin_url( 'admin.php?page=ldAdvQuiz&module=toplist&id='.$pro_quiz_id.'&post_id='.$post->ID );
 
 		$actions['questions'] = "<a href='".$questions_link."'>".__( 'Questions', 'learndash' ).'</a>';
@@ -1601,24 +1643,30 @@ add_filter( "manage_category_custom_column", 'learndash_manage_category_custom_c
 
 
 function learndash_delete_all_data() {
-	global $wpdb, $learndash_post_types, $learndash_taxonomies, $learndash_db_tables;
+	global $wpdb, $learndash_post_types, $learndash_taxonomies;
 	
-	// USER META SETTINGS
-	//////////////////////////////
-	
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key='_sfwd-course_progress'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key='_sfwd-quizzes'" );
-	
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'completed_%'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'course_%_access_from'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'course_completed_%'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'learndash_course_expired_%'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'learndash_group_users_%'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'learndash_group_leaders_%'" );
-	
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key = 'ld-upgraded-user-meta-courses'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key = 'ld-upgraded-user-meta-quizzes'" );
-	$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key = 'course_points'" );
+	/**
+	 * Under Multisite we don't even want to remove user data. This is because users and usermeta
+	 * is shared. Removing the LD user data could result in lost information for other sites. 
+	 */
+	if ( ! is_multisite() ) {
+		// USER META SETTINGS
+		//////////////////////////////
+		
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key='_sfwd-course_progress'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key='_sfwd-quizzes'" );
+		
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'completed_%'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'course_%_access_from'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'course_completed_%'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'learndash_course_expired_%'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'learndash_group_users_%'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key LIKE 'learndash_group_leaders_%'" );
+		
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key = 'ld-upgraded-user-meta-courses'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key = 'ld-upgraded-user-meta-quizzes'" );
+		$wpdb->query( 'DELETE FROM '. $wpdb->usermeta ." WHERE meta_key = 'course_points'" );
+	}
 
 	// CUSTOM OPTIONS
 	//////////////////////////////
@@ -1676,10 +1724,13 @@ function learndash_delete_all_data() {
 
 	// CUSTOM DB TABLES
 	//////////////////////////////
-	foreach( $learndash_db_tables as $table_name ) {
-		$table_name = $wpdb->prefix . $table_name;
-		if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
-			$wpdb->query( 'DROP TABLE '. $table_name);
+	$learndash_db_tables = LDLMS_DB::get_tables();
+	if ( ! empty( $learndash_db_tables ) ) {
+		foreach( $learndash_db_tables as $table_name ) {
+			//$table_name = $wpdb->prefix . $table_name;
+			if ( $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+				$wpdb->query( 'DROP TABLE '. $table_name);
+			}
 		}
 	}
 	
@@ -1747,7 +1798,6 @@ function learndash_delete_all_data() {
 
 	$ld_template_dir = $url_link_arr['basedir'] . '/template';
 	learndash_recursive_rmdir( $ld_template_dir );
-
 }
 
 
@@ -1900,9 +1950,13 @@ function learndash_add_user_nav_filter( $which = '' ) {
 
 			$filter_output .= '<select '. $lazy_load_data .' name="course_id" id="course_id" class="postform" style="max-width: 200px;">';
 			$filter_output .= '<option value="">'. sprintf( esc_html_x( 'Show All %s', 'Show All Courses Option Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'courses' ) ) . '</option>';
-
+			if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
+				$selected_course_id = intval( $_GET['course_id'] );
+			} else {
+				$selected_course_id = 0;
+			}
 			foreach ( $query_posts_course->posts as $p ) {
-				$filter_output .= '<option value="'. $p->ID .'" '.  selected( @$_GET['course_id'], $p->ID, false ) .'>' . $p->post_title .'</option>';
+				$filter_output .= '<option value="'. $p->ID .'" '.  selected( $selected_course_id, $p->ID, false ) .'>' . $p->post_title .'</option>';
 			}
 			$filter_output .= '</select>';
 	
@@ -1968,8 +2022,13 @@ function learndash_add_user_nav_filter( $which = '' ) {
 				$filter_output .= '<select '. $lazy_load_data .' name="group_id" id="group_id" class="postform" style="max-width: 200px;">';
 				$filter_output .= '<option value="">'. esc_html__( 'Show All Groups', 'learndash' ) . '</option>';
 
+				if ( ( isset( $_GET['group_id'] ) ) && ( !empty( $_GET['group_id'] ) ) ) {
+					$selected_group_id = intval( $_GET['group_id'] );
+				} else {
+					$selected_group_id = 0;
+				}
 				foreach ( $query_user_groups->posts as $p ) {
-					$filter_output .= '<option value="'. $p->ID .'" '. selected( @$_GET['group_id'], $p->ID, false ) .'>' . $p->post_title .'</option>';
+					$filter_output .= '<option value="'. $p->ID .'" '. selected( $selected_group_id, $p->ID, false ) .'>' . $p->post_title .'</option>';
 				}
 				$filter_output .= '</select>';
 	

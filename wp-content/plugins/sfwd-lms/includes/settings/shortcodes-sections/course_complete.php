@@ -1,28 +1,46 @@
 <?php
-if ( ( class_exists( 'LearnDash_Shortcodes_Section' ) ) && ( !class_exists( 'LearnDash_Shortcodes_Section_course_complete' ) ) ) {
+/**
+ * LearnDash Shortcode Section for Course Complete.
+ *
+ * @package LearnDash
+ * @subpackage Settings
+ */
+
+if ( ( class_exists( 'LearnDash_Shortcodes_Section' ) ) && ( ! class_exists( 'LearnDash_Shortcodes_Section_course_complete' ) ) ) {
+	/**
+	 * Class to create the settings page.
+	 */
 	class LearnDash_Shortcodes_Section_course_complete extends LearnDash_Shortcodes_Section {
 
-		function __construct( $fields_args = array() ) {
+		/**
+		 * Public constructor for class.
+		 * 
+		 * @param array $fields_args Field Args.
+		 */
+		public function __construct( $fields_args = array() ) {
 			$this->fields_args = $fields_args;
 
 			$this->shortcodes_section_key 			= 	'course_complete';
 			$this->shortcodes_section_title 		= 	sprintf( esc_html_x( '%s Complete', 'placeholder: Course', 'learndash' ), LearnDash_Custom_Label::get_label( 'course' ) );
 			$this->shortcodes_section_type			=	2;
-			$this->shortcodes_section_description	=	sprintf( esc_html_x( 'This shortcode shows the content if the user has completed the %s. The shortcode can be used on <strong>any</strong> page or widget area.', 'placeholders: course', 'learndash' ), LearnDash_Custom_Label::label_to_lower( 'course' ) );
-			
-			parent::__construct(); 
+			$this->shortcodes_section_description	=	sprintf( esc_html_x( 'This shortcode shows the content if the user has completed the %s. The shortcode can be used on any page or widget area.', 'placeholders: course', 'learndash' ), LearnDash_Custom_Label::label_to_lower( 'course' ) );
+
+			parent::__construct();
 		}
-		
-		function init_shortcodes_section_fields() {
+
+		/**
+		 * Initialize the shortcode fields.
+		 */
+		public function init_shortcodes_section_fields() {
 			$this->shortcodes_option_fields = array(
 				'message'	=>	array(
-					'id'			=>	$this->shortcodes_section_key . '_message',
-					'name'  		=> 	'message', 
-					'type'  		=> 	'textarea',
-					'label' 		=> 	esc_html__('Message shown to user', 'learndash'),
-					'help_text'		=>	esc_html__('Message shown to user', 'learndash'),
-					'value' 		=> 	'',
-					'required'		=>	'required'
+					'id'			=> $this->shortcodes_section_key . '_message',
+					'name'  		=> 'message', 
+					'type'  		=> 'textarea',
+					'label' 		=> esc_html__('Message shown to user', 'learndash'),
+					'help_text'		=> esc_html__('Message shown to user', 'learndash'),
+					'value' 		=> '',
+					'required'		=> 'required'
 				),
 				'course_id' => array(
 					'id'			=>	$this->shortcodes_section_key . '_course_id',

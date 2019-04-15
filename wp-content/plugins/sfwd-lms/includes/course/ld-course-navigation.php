@@ -30,7 +30,7 @@ function learndash_previous_post_link( $prevlink='', $url = false ) {
 	} else if ( $post->post_type == 'sfwd-topic' ) {
 		$link_name = sprintf( esc_html_x( 'Previous %s', 'Previous Topic Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'topic' ) );
 		
-		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 			$course_id = learndash_get_course_id( $post );
 			$lesson_id = learndash_course_get_single_parent_step( $course_id, $post->ID );
 		} else {
@@ -107,7 +107,7 @@ function learndash_next_post_link( $prevlink='', $url = false, $post = null ) {
 	} else if ( $post->post_type == 'sfwd-topic' ) {
 		$link_name = sprintf( esc_html_x( 'Next %s', 'Next Topic Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'topic' ) );
 
-		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 			$course_id = learndash_get_course_id( $post->ID );
 			$lesson_id = learndash_course_get_single_parent_step( $course_id, $post->ID );
 		} else {
@@ -193,7 +193,7 @@ function learndash_quiz_continue_link( $id ) {
 	global $status, $pageQuizzes;
 
 	$course_id = learndash_get_course_id( $id );
-	if ( ( !empty( $course_id ) ) && ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) ) {	
+	if ( ( !empty( $course_id ) ) && ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) ) {	
 		$lesson_id = learndash_course_get_single_parent_step( $course_id, $id );
 		if ( empty( $lesson_id ) ) {
 			$url = get_permalink( $course_id );
@@ -450,12 +450,15 @@ function learndash_get_lesson_list( $id = null, $atts = array() ) {
 	global $wpdb;
 
 	$lessons = sfwd_lms_get_post_options( 'sfwd-lessons' );
-	$course_options = get_post_meta( $course_id, '_sfwd-courses', true );
-	$course_orderby = @$course_options['sfwd-courses_course_lesson_orderby'];
-	$course_order = @$course_options['sfwd-courses_course_lesson_order'];
+	//$course_options = get_post_meta( $course_id, '_sfwd-courses', true );
+	//$course_orderby = @$course_options['sfwd-courses_course_lesson_orderby'];
+	//$course_order = @$course_options['sfwd-courses_course_lesson_order'];	
+	//$orderby = ( empty( $course_orderby) ) ? $lessons['orderby'] : $course_orderby;
+	//$order = ( empty( $course_order) ) ? $lessons['order'] : $course_order;
 
-	$orderby = ( empty( $course_orderby) ) ? $lessons['orderby'] : $course_orderby;
-	$order = ( empty( $course_order) ) ? $lessons['order'] : $course_order;
+	$course_lessons_args = learndash_get_course_lessons_order( $course_id );
+	$orderby = ( isset( $course_lessons_args[ 'orderby' ] ) ) ? $course_lessons_args[ 'orderby' ] : 'title';
+	$order = ( isset( $course_lessons_args[ 'order' ] ) ) ? $course_lessons_args[ 'order' ] : 'ASC';
 
 	switch ( $orderby ) {
 		case 'title': $orderby = 'title'; break;
@@ -474,7 +477,7 @@ function learndash_get_lesson_list( $id = null, $atts = array() ) {
 	
 	$lessons_args = array_merge( $lessons_args, $atts );
 	
-	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
+	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 		$ld_course_steps_object = LDLMS_Factory_Post::course_steps( $course_id );
 		$ld_course_steps_object->load_steps();
 		$course_steps = $ld_course_steps_object->get_steps('t');
@@ -537,12 +540,16 @@ function learndash_get_topic_list( $for_lesson_id = null, $course_id = null ) {
 
 			if ( !empty( $course_id ) ) {
 
-				$course_options = get_post_meta( $course_id, '_sfwd-courses', true );
-				$course_orderby = @$course_options['sfwd-courses_course_lesson_orderby'];
-				$course_order = @$course_options['sfwd-courses_course_lesson_order'];
+				//$course_options = get_post_meta( $course_id, '_sfwd-courses', true );
+				//$course_orderby = @$course_options['sfwd-courses_course_lesson_orderby'];
+				//$course_order = @$course_options['sfwd-courses_course_lesson_order'];
 
-				$orderby = ( empty( $course_orderby ) ) ? $lessons_options['orderby'] : $course_orderby;
-				$order = ( empty( $course_order ) ) ? $lessons_options['order'] : $course_order;
+				//$orderby = ( empty( $course_orderby ) ) ? $lessons_options['orderby'] : $course_orderby;
+				//$order = ( empty( $course_order ) ) ? $lessons_options['order'] : $course_order;
+
+				$course_lessons_args = learndash_get_course_lessons_order( $course_id );
+				$orderby = ( isset( $course_lessons_args[ 'orderby' ] ) ) ? $course_lessons_args[ 'orderby' ] : 'title';
+				$order = ( isset( $course_lessons_args[ 'order' ] ) ) ? $course_lessons_args[ 'order' ] : 'ASC';
 			}
 		} else {
 			$orderby = 'name';
@@ -562,7 +569,7 @@ function learndash_get_topic_list( $for_lesson_id = null, $course_id = null ) {
 			$topics_query_args['meta_compare'] 	= 	'=';
 		}
 
-		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
+		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {	
 			if ( !empty( $course_id ) ) {
 
 				$ld_course_steps_object = LDLMS_Factory_Post::course_steps( $course_id );
@@ -593,7 +600,7 @@ function learndash_get_topic_list( $for_lesson_id = null, $course_id = null ) {
 				$topics_array = array();
 			
 				foreach ( $topics as $topic ) {
-					if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+					if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 						$course_id = learndash_get_course_id( $topic->ID );
 						$lesson_id = learndash_course_get_single_parent_step( $course_id, $topic->ID );
 					} else {
@@ -601,6 +608,8 @@ function learndash_get_topic_list( $for_lesson_id = null, $course_id = null ) {
 					}
 					
 					if ( ! empty( $lesson_id ) ) {
+						// Need to clear out the post_content before transient storage. 
+						$topic->post_content = 'EMPTY';
 						$topics_array[ $lesson_id ][] = $topic;
 					}
 				}
@@ -723,7 +732,7 @@ function learndash_get_global_quiz_list_OLD( $id = null ){
 			$quizzes_new = array();
 
 			foreach ( $quizzes as $k => $quiz ) {
-				if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+				if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 					$course_id = learndash_get_course_id( $quiz->ID );
 					$quiz_lesson = learndash_course_get_single_parent_step( $course_id, $quiz->ID );
 				} else {
@@ -821,7 +830,7 @@ function learndash_get_course_lessons_list( $course = null, $user_id = null, $le
 	);
 	$opt = wp_parse_args( $lessons_args, $opt );
 
-	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
+	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {	
 		$ld_course_steps_object = LDLMS_Factory_Post::course_steps( $course->ID );
 		
 		$lesson_ids = $ld_course_steps_object->get_children_steps( $course->ID, $opt['post_type'] );
@@ -884,7 +893,7 @@ function learndash_get_course_quiz_list( $course = null, $user_id = null ) {
 		'user_id' => $user_id
 	);
 
-	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
+	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {	
 		$ld_course_steps_object = LDLMS_Factory_Post::course_steps( $course->ID );
 		
 		$lesson_ids = $ld_course_steps_object->get_children_steps( $course->ID, $opt['post_type'] );
@@ -948,7 +957,7 @@ function learndash_get_lesson_quiz_list( $lesson, $user_id = null, $course_id = 
 	);
 
 
-	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
+	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {	
 		$ld_course_steps_object = LDLMS_Factory_Post::course_steps( $course_id );
 		if ( $ld_course_steps_object ) {
 			$quiz_ids = $ld_course_steps_object->get_children_steps( $lesson->ID, $opt['post_type'] );

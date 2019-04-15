@@ -1,0 +1,62 @@
+{
+	"name": "learndash",
+	"description": "LearnDash LMS",
+	"repository": "https://github.com/learndash",
+	"private": true,
+	"version": "2.7.0",
+	"devDependencies": {
+		"babel-core": "^6.26.0",
+		"babel-minify": "^0.5.0",
+		"babel-preset-env": "^1.7.0",
+		"cssnano": "^4.1.7",
+		"cssnano-preset-advanced": "^4.0.5",
+		"eslint": "^5.9.0",
+		"eslint-config-wordpress": "^2.0.0",
+		"postcss-cli": "^6.0.1",
+		"rimraf": "^2.6.2"
+	},
+	"scripts": {
+		"build": "npm run build:ld && npm run build:proquiz",
+		"build:ld": "npm run build:ldcss && npm run build:ldjs",
+		"build:proquiz": "npm run build:proquizcss && npm run build:proquizjs",
+		"build:ldcss": "npm run rimraf:ldcss && npm run minify:ldcss",
+		"build:ldjs": "npm run rimraf:ldjs && npm run minify:ldjs && npm run rename:ldjs && npm run rimraf:ldcleanup",
+		"build:proquizcss": "npm run rimraf:proquizcss && npm run minify:proquizcss",
+		"build:proquizjs": "npm run rimraf:proquizjs && npm run minify:proquizjs && npm run rename:proquizjs && npm run rimraf:proquizcleanup",
+		"minify:ldcss": "postcss assets/css/*.css --use cssnano --dir=assets/css --ext min.css --verbose --no-map",
+		"minify:ldjs": "minify assets/js/ --out-dir assets/js/min",
+		"rename:ldjs": "node ./assets/scripts/process-minified-js.js",
+		"rimraf:ldcss": "rimraf assets/css/*.min.css",
+		"rimraf:ldjs": "rimraf assets/js/*.min.js",
+		"rimraf:ldcleanup": "rimraf assets/js/min",
+		"minify:proquizcss": "postcss includes/vendor/wp-pro-quiz/css/*.css --use cssnano --dir=includes/vendor/wp-pro-quiz/css --ext min.css --verbose --no-map",
+		"minify:proquizjs": "minify includes/vendor/wp-pro-quiz/js --out-dir includes/vendor/wp-pro-quiz/js/min --builtIns false",
+		"rename:proquizjs": "node ./assets/scripts/process-minified-js --quiz",
+		"rimraf:proquizcss": "rimraf includes/vendor/wp-pro-quiz/css/*.min.css",
+		"rimraf:proquizjs": "rimraf includes/vendor/wp-pro-quiz/js/*.min.js",
+		"rimraf:proquizcleanup": "rimraf includes/vendor/wp-pro-quiz/js/min",
+		"eslint": "npm run eslint:ld && npm run eslint:proquiz",
+		"eslint:ld": "eslint assets/js/*.js --ignore-pattern /assets/js/*.min.js",
+		"eslint:proquiz": "eslint includes/vendor/wp-pro-quiz/js/*.js --ignore-pattern /includes/vendor/wp-pro-quiz/js/*.min.js",
+		"eslint:fix": "npm run eslint:fixld && npm run eslint:fixproquiz",
+		"eslint:fixld": "eslint assets/js/*.js --fix --ignore-pattern /assets/js/*.min.js",
+		"eslint:fixproquiz": "eslint includes/vendor/wp-pro-quiz/js/*.js --fix --ignore-pattern /includes/vendor/wp-pro-quiz/js/*.min.js"
+	},
+	"babel": {
+		"presets": [
+			"env"
+		]
+	},
+	"cssnano": {
+		"preset": "advanced"
+	},
+	"eslintConfig": {
+		"extends": "wordpress",
+		"root": true,
+		"env": {
+			"jest": true,
+			"node": true,
+			"es6": true
+		}
+	}
+}

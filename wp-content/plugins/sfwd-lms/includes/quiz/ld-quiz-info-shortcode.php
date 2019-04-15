@@ -142,37 +142,50 @@ add_shortcode( 'quizinfo', 'learndash_quizinfo' );
 
 /**
  * Shortcode that displays the requested course information
- * 
+ *
  * @since 2.1.0
- * 
- * @param  array $attr shortcode attributes
- * @return string      shortcode output
+ *
+ * @param array $attr shortcode attributes.
+ *
+ * @return string shortcode output
  */
 function learndash_courseinfo( $attr ) {
 	global $learndash_shortcode_used;
 	$learndash_shortcode_used = true;
-	
+
 	$shortcode_atts = shortcode_atts(
-			array(
-				'show'      => '', //name, cumulative_score, completed_on
-				'user_id'   => '',
-				'course_id' => '',
-				'format'    => 'F j, Y, g:i a',
-				'decimals' 	=> 2
-			), 
-			$attr
-		);
+		array(
+			'show'      => 'course_title',
+			'user_id'   => '',
+			'course_id' => '',
+			'format'    => 'F j, Y, g:i a',
+			'decimals'  => 2,
+		),
+		$attr
+	);
 
-	//extract( $shortcode_atts );
+	$shortcode_atts['course_id'] = ! empty( $shortcode_atts['course_id'] ) ? $shortcode_atts['course_id'] : '';
+	if ( '' === $shortcode_atts['course_id'] ) {
+		if ( ( isset( $_GET['course_id'] ) ) && ( ! empty( $_GET['course_id'] ) ) ) {
+			$shortcode_atts['course_id'] = intval( $_GET['course_id'] );
+		} else {
+			$shortcode_atts['course_id'] = learndash_get_course_id();
+		}
+	}
 
-	$shortcode_atts['course_id'] = ! empty( $shortcode_atts['course_id'] ) ? $shortcode_atts['course_id'] : @$_GET['course_id'];
-	$shortcode_atts['user_id']   = ! empty( $shortcode_atts['user_id'] ) ? $shortcode_atts['user_id'] : @$_GET['user_id'];
+	$shortcode_atts['user_id']   = ! empty( $shortcode_atts['user_id'] ) ? $shortcode_atts['user_id'] : '';
+	if ( '' === $shortcode_atts['user_id'] ) {
+		if ( ( isset( $_GET['user_id'] ) ) && ( ! empty( $_GET['user_id'] ) ) ) {
+			$shortcode_atts['user_id'] = intval( $_GET['user_id'] );
+		}
+	}
 
 	if ( empty( $shortcode_atts['user_id'] ) ) {
 		$shortcode_atts['user_id'] = get_current_user_id();
-		
+
 		/**
-		 * Added logic to allow admin and group_leader to view certificate from other users. 
+		 * Added logic to allow admin and group_leader to view certificate from other users.
+		 *
 		 * @since 2.3
 		 */
 		$post_type = '';
@@ -180,16 +193,15 @@ function learndash_courseinfo( $attr ) {
 			$post_type = get_query_var( 'post_type' );
 		}
 
-		if ( $post_type == 'sfwd-certificates' ) {
-			if ( ( ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) && ( ( isset( $_GET['user'] ) ) && (!empty( $_GET['user'] ) ) ) ) {
+		if ( 'sfwd-certificates' == $post_type ) {
+			if ( ( ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) && ( ( isset( $_GET['user'] ) ) && ( ! empty( $_GET['user'] ) ) ) ) {
 				$shortcode_atts['user_id'] = intval( $_GET['user'] );
 			}
 		}
-		
 	}
 
 	if ( empty( $shortcode_atts['course_id'] ) || empty( $shortcode_atts['user_id'] ) ) {
-		return apply_filters( 'learndash_courseinfo', '', $shortcode_atts );;
+		return apply_filters( 'learndash_courseinfo', '', $shortcode_atts );
 	}
 
 	$shortcode_atts['show'] = strtolower( $shortcode_atts['show'] );
@@ -197,7 +209,13 @@ function learndash_courseinfo( $attr ) {
 	switch ( $shortcode_atts['show'] ) {
 		case 'course_title':
 			$course = get_post( $shortcode_atts['course_id'] );
-			return apply_filters( 'learndash_courseinfo', $course->post_title, $shortcode_atts );
+			if ( ( $course ) && ( is_a( $course, 'WP_Post' ) ) ) {
+				$course_title = $course->post_title;
+			} else {
+				$course_title = '';
+			}
+			return apply_filters( 'learndash_courseinfo', $course_title, $shortcode_atts );
+			break;
 
 		case 'cumulative_score':
 		case 'cumulative_points':
@@ -206,21 +224,18 @@ function learndash_courseinfo( $attr ) {
 		case 'cumulative_timespent':
 		case 'cumulative_count':
 			$field    = str_replace( 'cumulative_', '', $shortcode_atts['show'] );
-			$quizdata = get_user_meta( $shortcode_atts['user_id'], '_sfwd-quizzes', true );			
-			//global $wpdb;
-			//$quizzes = $wpdb->get_col( $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . " WHERE meta_key = 'course_id' AND meta_value = '%d'", $shortcode_atts['course_id'] ) );
+			$quizdata = get_user_meta( $shortcode_atts['user_id'], '_sfwd-quizzes', true );
 			$quizzes = learndash_course_get_steps_by_type( intval( $shortcode_atts['course_id'] ), 'sfwd-quiz' );
-			
-			if ( empty( $quizzes) ) {
+			if ( empty( $quizzes ) ) {
 				return apply_filters( 'learndash_courseinfo', 0, $shortcode_atts );
 			}
 
 			$scores = array();
 
-			if ( ( !empty( $quizdata ) ) && ( is_array( $quizdata ) ) ) {
+			if ( ( ! empty( $quizdata ) ) && ( is_array( $quizdata ) ) ) {
 				foreach ( $quizdata as $data ) {
-					if ( ( in_array( $data['quiz'], $quizzes ) ) )  {
-						if ( ( !isset( $data['course'] ) ) || ( intval( $data['course'] ) == intval( $shortcode_atts['course_id'] ) ) ) {
+					if ( ( in_array( $data['quiz'], $quizzes ) ) ) {
+						if ( ( ! isset( $data['course'] ) ) || ( intval( $data['course'] ) == intval( $shortcode_atts['course_id'] ) ) ) {
 							if ( empty( $scores[ $data['quiz'] ] ) || $scores[ $data['quiz'] ] < $data[ $field ] ) {
 								$scores[ $data['quiz'] ] = $data[ $field ];
 							}
@@ -229,7 +244,7 @@ function learndash_courseinfo( $attr ) {
 				}
 			}
 
-			if ( empty( $scores) || ! count( $scores ) ) {
+			if ( empty( $scores ) || ! count( $scores ) ) {
 				return apply_filters( 'learndash_courseinfo', 0, $shortcode_atts );
 			}
 
@@ -241,11 +256,12 @@ function learndash_courseinfo( $attr ) {
 
 			$return = number_format( $sum / count( $scores ), $shortcode_atts['decimals'] );
 
-			if ( $field == 'timespent' ) {
+			if ( 'timespent' == $field ) {
 				return apply_filters( 'learndash_courseinfo', learndash_seconds_to_time( $return ), $shortcode_atts );
 			} else {
 				return apply_filters( 'learndash_courseinfo', $return, $shortcode_atts );
 			}
+			break;
 
 		case 'aggregate_percentage':
 		case 'aggregate_score':
@@ -255,21 +271,18 @@ function learndash_courseinfo( $attr ) {
 		case 'aggregate_count':
 			$field    = substr_replace( $shortcode_atts['show'], '', 0, 10 );
 			$quizdata = get_user_meta( $shortcode_atts['user_id'], '_sfwd-quizzes', true );
-			//global $wpdb;
-			//$quizzes = $wpdb->get_col( $wpdb->prepare( 'SELECT post_id FROM ' . $wpdb->postmeta . " WHERE meta_key = 'course_id' AND meta_value = '%d'", $shortcode_atts['course_id'] ) );
 			$quizzes = learndash_course_get_steps_by_type( intval( $shortcode_atts['course_id'] ), 'sfwd-quiz' );
-			
-			if ( empty( $quizzes) ) {
+			if ( empty( $quizzes ) ) {
 				return apply_filters( 'learndash_courseinfo', 0, $shortcode_atts );
 			}
 
 			$scores = array();
-			
-			if ( ( !empty( $quizdata ) ) && ( is_array( $quizdata ) ) ) {
+
+			if ( ( ! empty( $quizdata ) ) && ( is_array( $quizdata ) ) ) {
 				foreach ( $quizdata as $data ) {
 					if ( in_array( $data['quiz'], $quizzes ) ) {
 						if ( ( empty( $scores[ $data['quiz'] ] ) || $scores[ $data['quiz'] ] < $data[ $field ] ) ) {
-							if ( ( !isset( $data['course'] ) ) || ( intval( $data['course'] ) == intval( $shortcode_atts['course_id'] ) ) ) {
+							if ( ( ! isset( $data['course'] ) ) || ( intval( $data['course'] ) == intval( $shortcode_atts['course_id'] ) ) ) {
 								$scores[ $data['quiz'] ] = $data[ $field ];
 							}
 						}
@@ -277,7 +290,7 @@ function learndash_courseinfo( $attr ) {
 				}
 			}
 
-			if ( empty( $scores) || ! count( $scores ) ) {
+			if ( empty( $scores ) || ! count( $scores ) ) {
 				return apply_filters( 'learndash_courseinfo', 0, $shortcode_atts );
 			}
 
@@ -289,7 +302,7 @@ function learndash_courseinfo( $attr ) {
 
 			$return = number_format( $sum, $shortcode_atts['decimals'] );
 
-			if ( $field == 'timespent' ) {
+			if ( 'timespent' == $field ) {
 				return apply_filters( 'learndash_courseinfo', learndash_seconds_to_time( $return ), $shortcode_atts['show'] );
 			} else {
 				return apply_filters( 'learndash_courseinfo', $return, $shortcode_atts );
@@ -298,16 +311,15 @@ function learndash_courseinfo( $attr ) {
 		case 'completed_on':
 			$completed_on = get_user_meta( $shortcode_atts['user_id'], 'course_completed_' . $shortcode_atts['course_id'], true );
 
-			if ( empty( $completed_on) ) {
+			if ( empty( $completed_on ) ) {
 				$completed_on = learndash_user_get_course_completed_date( $shortcode_atts['user_id'], $shortcode_atts['course_id'] );
-				if ( empty( $completed_on) ) {
+				if ( empty( $completed_on ) ) {
 					return apply_filters( 'learndash_courseinfo', '-', $shortcode_atts );
 				}
 			}
 
-			date_default_timezone_set( get_option( 'timezone_string' ) );
-			return apply_filters( 'learndash_courseinfo', date_i18n( $shortcode_atts['format'], $completed_on ), $shortcode_atts );
-
+			return apply_filters( 'learndash_courseinfo', learndash_adjust_date_time_display( $completed_on, $shortcode_atts['format'] ), $shortcode_atts );
+			break;
 
 		case 'course_points':
 			$course_points = learndash_get_course_points( $shortcode_atts['course_id'] );
@@ -315,7 +327,7 @@ function learndash_courseinfo( $attr ) {
 			return apply_filters( 'learndash_courseinfo', $course_points, $shortcode_atts );
 
 			break;
-			
+
 		case 'user_course_points':
 			$user_course_points = learndash_get_user_course_points( $shortcode_atts['user_id'] );
 			$user_course_points = number_format( $user_course_points, $shortcode_atts['decimals'] );
@@ -329,4 +341,3 @@ function learndash_courseinfo( $attr ) {
 }
 
 add_shortcode( 'courseinfo', 'learndash_courseinfo' );
-?>

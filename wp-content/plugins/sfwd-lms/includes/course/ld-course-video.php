@@ -348,7 +348,7 @@ if (!class_exists('Learndash_Course_Video' ) ) {
 						} else if ( strpos( $settings['lesson_video_url'], trailingslashit( get_home_url() ) ) !== false ) {
 							$this->video_data['videos_found_provider'] = 'local';
 						} else {
-							$this->video_data['videos_found_provider'] = apply_filters('ld_video_provider', $settings );
+							$this->video_data['videos_found_provider'] = apply_filters('ld_video_provider', '', $settings );
 						}
 
 						if ( ( substr( $settings['lesson_video_url'], 0, strlen('http://') ) == 'http://' ) || ( substr( $settings['lesson_video_url'], 0, strlen('https://') ) == 'https://' ) )  {
@@ -422,53 +422,56 @@ if (!class_exists('Learndash_Course_Video' ) ) {
 										$this->video_data['videos_auto_start'] = 0;
 									}
 									
+									$video_preg_pattern = '';
+
 									if ( strstr( $this->video_content, ' src="' ) ) {
 										$video_preg_pattern = '/<iframe.*src=\"(.*)\".*><\/iframe>/isU';
 									} else if ( strstr( $this->video_content, " src='" ) ) {
 										$video_preg_pattern = "/<iframe.*src=\'(.*)\'.*><\/iframe>/isU";
-									}
-									
-									preg_match( $video_preg_pattern, $this->video_content, $matches );
-									if ( ( is_array( $matches ) ) && ( isset( $matches[1] ) ) && ( !empty( $matches[1] ) ) ) {
-				
-										// Next we need to check if the video is YouTube, Vimeo, etc. so we check the matches[1]
-										if ( $this->video_data['videos_found_provider'] == 'youtube' ) {
-											$ld_video_params = apply_filters( 
-												'ld_video_params', 
-												array( 
-													'controls' => $this->video_data['videos_show_controls'],
-													'modestbranding' => 1,
-													'showinfo' => 0,
-													'rel' => 0
-												), 
-												'youtube', $this->video_content, $post, $settings 
-											);
+									} 
+									if ( ! empty( $video_preg_pattern ) ) {
+										preg_match( $video_preg_pattern, $this->video_content, $matches );
+										if ( ( is_array( $matches ) ) && ( isset( $matches[1] ) ) && ( !empty( $matches[1] ) ) ) {
 					
-											// Regardless of the filter we set this param because we need it!	
-											$ld_video_params['enablejsapi'] = '1';
-											
-											$matches_1_new = add_query_arg( $ld_video_params, $matches[1] );
-											$this->video_content = str_replace( $matches[1], $matches_1_new, $this->video_content );
-				
-											//$this->video_content = str_replace('<iframe ', '<iframe id="ld-video-player" ', $this->video_content );
+											// Next we need to check if the video is YouTube, Vimeo, etc. so we check the matches[1]
+											if ( $this->video_data['videos_found_provider'] == 'youtube' ) {
+												$ld_video_params = apply_filters( 
+													'ld_video_params', 
+													array( 
+														'controls' => $this->video_data['videos_show_controls'],
+														'modestbranding' => 1,
+														'showinfo' => 0,
+														'rel' => 0
+													), 
+													'youtube', $this->video_content, $post, $settings 
+												);
+						
+												// Regardless of the filter we set this param because we need it!	
+												$ld_video_params['enablejsapi'] = '1';
+												
+												$matches_1_new = add_query_arg( $ld_video_params, $matches[1] );
+												$this->video_content = str_replace( $matches[1], $matches_1_new, $this->video_content );
+					
+												//$this->video_content = str_replace('<iframe ', '<iframe id="ld-video-player" ', $this->video_content );
 
-										} else if ( $this->video_data['videos_found_provider'] == 'vimeo' ) {
-											
-											//$matches_1_new = add_query_arg('api', '1', $matches[1] );
-											//$return = str_replace( $matches[1], $matches_1_new, $return );
-				
-											//$return = str_replace('<iframe ', '<iframe id="ld-video-player" ', $return );
-											//$this->video_content = str_replace('<iframe ', '<iframe id="ld-video-player" ', $this->video_content );
-										} else if ( $this->video_data['videos_found_provider'] == 'wistia' ) {
+											} else if ( $this->video_data['videos_found_provider'] == 'vimeo' ) {
+												
+												//$matches_1_new = add_query_arg('api', '1', $matches[1] );
+												//$return = str_replace( $matches[1], $matches_1_new, $return );
+					
+												//$return = str_replace('<iframe ', '<iframe id="ld-video-player" ', $return );
+												//$this->video_content = str_replace('<iframe ', '<iframe id="ld-video-player" ', $this->video_content );
+											} else if ( $this->video_data['videos_found_provider'] == 'wistia' ) {
 
-										} else if ( $this->video_data['videos_found_provider'] == 'local' ) {
-											//$ld_video_params = apply_filters( 
-											//	'ld_video_params', 
-											//	array( 
-											//		'controls' => $this->video_data['videos_show_controls'],
-											//	), 
-											//	'local', $this->video_content, $post, $settings 
-											//);
+											} else if ( $this->video_data['videos_found_provider'] == 'local' ) {
+												//$ld_video_params = apply_filters( 
+												//	'ld_video_params', 
+												//	array( 
+												//		'controls' => $this->video_data['videos_show_controls'],
+												//	), 
+												//	'local', $this->video_content, $post, $settings 
+												//);
+											}
 										}
 									}
 									

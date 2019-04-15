@@ -1,4 +1,4 @@
-	<?php
+<?php
 class WpProQuiz_Model_StatisticMapper extends WpProQuiz_Model_Mapper {
 	
 	public function fetchAllByRef($statisticRefId) {

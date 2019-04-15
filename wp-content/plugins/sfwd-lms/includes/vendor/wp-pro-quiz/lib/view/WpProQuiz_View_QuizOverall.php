@@ -27,115 +27,140 @@ class WpProQuiz_View_QuizOverall extends WpProQuiz_View_View {
 .wpProQuiz_exportCheck {
 	display: none;
 }
+
+.learndash-pager a {
+	font-size: 110%;
+	padding: 3px
+}
 </style>
 <div class="wrap wpProQuiz_quizOverall" style="position: relative;">
-	<h2><?php esc_html_e('Import/Export Associated Settings', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></h2>
-	<div class="updated" style="display: none;">
-		<h3><?php esc_html_e('In case of problems', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></h3>
-		<p>
-			<?php echo sprintf( esc_html_x('If %s doesn\'t work in front-end, please try following:', 'placeholders: quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ); ?>
-		</p>
-		<p>
-			[raw][LDAdvQuiz X][/raw]
-		</p>
-		<p>
-			<?php esc_html_e('Own themes changes internal  order of filters, what causes the problems. With additional shortcode [raw] this is prevented.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?>
-		</p>
-	</div>
-	<div style="margin: 8px 0px;">
-		<a class="button-primary" style="font-weight: bold; display: none;" href="admin.php?page=ldAdvQuiz&module=styleManager"><?php esc_html_e('Style Manager', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a>
-	</div>
-	
+	<h1><?php esc_html_e( 'Import/Export Associated Settings', 'learndash' ); ?></h1>
+	<?php
+		$quiz_page = 1;
+		if ( ( isset( $_GET['paged'] ) ) && ( ! empty( $_GET['paged'] ) ) ) {
+			$quiz_page = absint( $_GET['paged'] );
+		}
+
+		if ( empty( $quiz_page ) ) {
+			$quiz_page = 1;
+		}
+
+		$quiz_per_page = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_Per_Page', 'quiz_num' );
+
+		$quiz_query_args = array(
+			'post_type'      => learndash_get_post_type_slug( 'quiz' ),
+			'post_status'    => 'any',
+			'posts_per_page' => $quiz_per_page,
+			'paged'          => $quiz_page,
+			'orderby'        => 'title',
+			'order'          => 'ASC',
+			'fields'         => 'ID',
+		);
+		$quiz_query_results = new WP_Query( $quiz_query_args );
+	?>
 	<table class="wp-list-table widefat">
 		<thead>
 			<tr>
 				<th scope="col" width="30px" class="wpProQuiz_exportCheck"><input type="checkbox" name="exportItemsAll" value="0"></th>
-				<th scope="col" width="40px"><?php esc_html_e('ID', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></th>
-				<th scope="col"><?php esc_html_e('Name', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></th>
-				<th scope="col" width="180px"><?php esc_html_e('Shortcode', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></th>
-				<th scope="col" width="180px"><?php esc_html_e('Shortcode-Leaderboard', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></th>
+				<th scope="col"><?php esc_html_e( 'Title', 'learndash' ); ?></th>
+				<th scope="col"><?php esc_html_e( 'Settings', 'learndash' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php 
-			if(count($this->quiz)) {
-			foreach ($this->quiz as $quiz) {
+				if ( ( is_a( $quiz_query_results, 'WP_Query' ) ) && ( property_exists( $quiz_query_results, 'posts' ) ) && ( ! empty( $quiz_query_results->posts ) ) ) {
+					foreach( $quiz_query_results->posts as $quiz_post ) {
+						?>
+						<tr>
+							<th class="wpProQuiz_exportCheck"><input type="checkbox" name="exportItems" value="<?php echo $quiz_post->ID; ?>"></th>
+							<td class="wpProQuiz_quizName">
+								<strong><?php echo $quiz_post->ID; ?> - <?php echo get_the_title( $quiz_post->ID ); ?></strong>
+								<?php if ( current_user_can( 'wpProQuiz_edit_quiz' ) )  { ?>
+									<div class="row-actions">								
+										<span>
+											<a href="<?php echo get_edit_post_link( $quiz_post->ID ) ?>"><?php esc_html_e( 'edit', 'learndash' ); ?></a> 
+										</span> 
+									</div>
+								<?php } ?>
+							</td>
+							<td class="wpProQuiz_quizName">
+							<?php
+							$valid_quiz_pro = false;
+							$quiz_pro_id = learndash_get_setting( $quiz_post->ID, 'quiz_pro' );
+							$quiz_pro_id = absint( $quiz_pro_id );
+							if ( ! empty( $quiz_pro_id ) ) {
+								$quiz_mapper = new WpProQuiz_Model_QuizMapper();
+								$quiz_pro     = $quiz_mapper->fetch( $quiz_pro_id );
+								if ( ( is_a( $quiz_pro, 'WpProQuiz_Model_Quiz' ) ) && ( $quiz_pro_id === $quiz_pro->getId() ) ) {
+									$valid_quiz_pro = true;
+									echo $quiz_pro_id . ' - ' . esc_attr( $quiz_pro->getName() );
+								}
+							}
+
+							if ( false === $valid_quiz_pro ) {
+								?><span class="ld-error"><?php esc_html_e( 'Missing ProQuiz Associated Settings.', 'learndadsh' ); ?></span><?php
+							}
+							?>
+							</td>
+						</tr>
+						<?php 
+					} 
+				} else { 
+					?>
+					<tr>
+					<td colspan="3" style="text-align: center; font-weight: bold; padding: 10px;"><?php esc_html_e( 'No data available', 'learndash' ); ?></td>
+					</tr>
+					<?php 
+				} 
 			?>
-			<tr>
-				<th class="wpProQuiz_exportCheck"><input type="checkbox" name="exportItems" value="<?php echo $quiz->getId(); ?>"></th>
-				<td><?php echo $quiz->getId(); ?></td>
-				<td class="wpProQuiz_quizName">
-					<strong><?php echo $quiz->getName(); ?></strong>
-					<div class="row-actions">
-						<span>
-							<a href="admin.php?page=ldAdvQuiz&module=question&quiz_id=<?php echo $quiz->getId(); ?>&post_id=<?php echo @$_GET['post_id']; ?>"><?php esc_html_e('Questions', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a> |
-						</span>
-						
-						<?php if(0 && current_user_can('wpProQuiz_edit_quiz')) { ?>
-						<span>
-							<a href="admin.php?page=ldAdvQuiz&action=addEdit&quizId=<?php echo $quiz->getId(); ?>&post_id=<?php echo @$_GET['post_id']; ?>"><?php esc_html_e('Edit', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a> |
-						</span> 
-						<?php } if(current_user_can('wpProQuiz_delete_quiz')) { ?>
-						<span>
-							<a style="color: red;" class="wpProQuiz_delete" href="admin.php?page=ldAdvQuiz&action=delete&id=<?php echo $quiz->getId(); ?>&post_id=<?php echo @$_GET['post_id']; ?>"><?php esc_html_e('Delete', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a> |
-						</span>
-						<?php } ?>
-						<span>
-							<a class="wpProQuiz_prview" href="admin.php?page=ldAdvQuiz&module=preview&id=<?php echo $quiz->getId(); ?>&post_id=<?php echo @$_GET['post_id']; ?>"><?php esc_html_e('Preview', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a> |
-						</span>
-						<?php if(current_user_can('wpProQuiz_show_statistics')) { ?>
-						<span>
-							<a href="admin.php?page=ldAdvQuiz&module=statistics&id=<?php echo $quiz->getId(); ?>&post_id=<?php echo @$_GET['post_id']; ?>"><?php esc_html_e('Statistics', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a> |
-						</span>
-						<?php } if(current_user_can('wpProQuiz_toplist_edit')) { ?>
-						<span>
-							<a href="admin.php?page=ldAdvQuiz&module=toplist&id=<?php echo $quiz->getId(); ?>&post_id=<?php echo @$_GET['post_id']; ?>"><?php esc_html_e('Leaderboard', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a>
-						</span>
-						<?php } ?>
-					</div>
-				</td>
-				<td>[LDAdvQuiz <?php echo $quiz->getId(); ?>]</td>
-				<td>
-					<?php if($quiz->isToplistActivated()) { ?>
-						[LDAdvQuiz_toplist <?php echo $quiz->getId(); ?>]
-					<?php } ?>
-				
-				</td>
-			</tr>
-			<?php } } else { ?>
-			<tr>
-				<td colspan="5" style="text-align: center; font-weight: bold; padding: 10px;"><?php esc_html_e('No data available', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></td>
-			</tr>
-			<?php } ?>
 		</tbody>
 	</table>
+	<?php
+		if ( is_a( $quiz_query_results, 'WP_Query' ) ) {
+			$pager_results = array(
+				'paged'       => $quiz_page,
+				'total_items' => absint( $quiz_query_results->found_posts ),
+				'total_pages' => absint( $quiz_query_results->max_num_pages ),
+			);
+
+			echo SFWD_LMS::get_template( 
+				'learndash_pager.php',
+				array(
+					'href_query_arg' => 'paged',
+					'pager_results' => $pager_results,
+					'pager_context' => 'course_list',
+				)
+			);
+		}
+	?>
+
+
 	<p>
 		<?php  if(current_user_can('wpProQuiz_import')) { ?>
-		<a class="button-secondary wpProQuiz_import" href="#"><?php esc_html_e('Import', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a>
+		<a class="button-secondary wpProQuiz_import" href="#"><?php esc_html_e('Import', 'learndash'); ?></a>
 		<?php } if(current_user_can('wpProQuiz_export') && count($this->quiz)) { ?>
-		<a class="button-secondary wpProQuiz_export" href="#"><?php esc_html_e('Export', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></a>
+		<a class="button-secondary wpProQuiz_export" href="#"><?php esc_html_e('Export', 'learndash'); ?></a>
 		<?php } ?>
 	</p>
 	<div class="wpProQuiz_exportList">
 		<form action="admin.php?page=ldAdvQuiz&module=importExport&action=export&noheader=true" method="POST">
-			<h3 style="margin-top: 0;"><?php esc_html_e('Export', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></h3>
-			<p><?php esc_html_e('Choose the respective Quiz, which you would like to export and press on "Start export"', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></p>
-			<ul></ul>
+			<h3 style="margin-top: 0;"><?php esc_html_e('Export', 'learndash'); ?></h3>
+			<p><?php esc_html_e('Choose the respective Quiz, which you would like to export and press on "Start export"', 'learndash'); ?></p>
 			<div style="clear: both; margin-bottom: 10px;"></div>
 			<div id="exportHidden"></div>
 			<div style="margin-bottom: 15px;">
-				<?php esc_html_e('Format:', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?>
+				<?php esc_html_e('Format:', 'learndash'); ?>
 				<label><input type="radio" name="exportType" value="wpq" checked="checked"> <?php esc_html_e('*.wpq'); ?></label>
-				<?php esc_html_e('or', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?>
+				<?php esc_html_e('or', 'learndash'); ?>
 				<label><input type="radio" name="exportType" value="xml"> <?php esc_html_e('*.xml'); ?></label>
 			</div>
-			<input class="button-primary" name="exportStart" id="exportStart" value="<?php esc_html_e('Start export', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?>" type="submit">
+			<input class="button-primary" name="exportStart" id="exportStart" value="<?php esc_html_e('Start export', 'learndash'); ?>" type="submit">
 		</form>
 	</div>
 	<div class="wpProQuiz_importList">
 		<form action="admin.php?page=ldAdvQuiz&module=importExport&action=import" method="POST" enctype="multipart/form-data">
-			<h3 style="margin-top: 0;"><?php esc_html_e('Import', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></h3>
-			<p><?php esc_html_e('Import only *.wpq or *.xml files from known and trusted sources.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></p>
+			<h3 style="margin-top: 0;"><?php esc_html_e('Import', 'learndash'); ?></h3>
+			<p><?php esc_html_e('Import only *.wpq or *.xml files from known and trusted sources.', 'learndash'); ?></p>
 			<div style="margin-bottom: 10px">
 			<?php 
 				$maxUpload = (int)(ini_get('upload_max_filesize'));
@@ -143,9 +168,9 @@ class WpProQuiz_View_QuizOverall extends WpProQuiz_View_View {
 				$memoryLimit = (int)(ini_get('memory_limit'));
 				$uploadMB = min($maxUpload, $maxPost, $memoryLimit);
 			?>
-				<input type="file" name="import" accept=".wpq,.xml" required="required"> <?php printf(__('Maximal %d MiB', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), $uploadMB); ?>
+				<input type="file" name="import" accept=".wpq,.xml" required="required"> <?php printf(__('Maximal %d MiB', 'learndash'), $uploadMB); ?>
 			</div>
-			<input class="button-primary" name="exportStart" id="exportStart" value="<?php esc_html_e('Start import', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?>" type="submit">
+			<input class="button-primary" name="exportStart" id="exportStart" value="<?php esc_html_e('Start import', 'learndash'); ?>" type="submit">
 		</form>
 	</div>
 </div>

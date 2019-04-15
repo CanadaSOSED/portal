@@ -14,6 +14,14 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 			case 'addEdit':
 				$this->addEditQuiz($get, $post);
 				break;
+			case 'getEdit':
+				return $this->getEditQuiz($get, $post);
+				break;	
+			case 'addUpdateQuiz':
+				return $this->addUpdateQuiz($get, $post);
+				break;	
+
+
 // 			case 'add':
 // 				$this->createAction();
 // 				break;
@@ -64,11 +72,13 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		
 		if(!empty($get["post_id"])) {
 			$quiz_post = get_post($get["post_id"]);
-			$this->_post["name"] = $quiz_post->post_title;
+			if ( ( !empty( $quiz_post ) ) && ( is_a( $quiz_post, 'WP_Post' ) ) ) {
+				$this->_post["name"] = $quiz_post->post_title;
+			}
 		}
 
 		if($quizId && $quizMapper->exists($quizId) == 0) {
-			WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s not found', 'Quiz not found', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'error');
+			WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s not found', 'Quiz not found', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'error');
 			
 			return;
 		}
@@ -110,10 +120,10 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 			$quiz->setId($quizId);
 				
 			if($this->checkValidit($this->_post)) {
-				if($quizId)
-					WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s edited', 'Quiz edited', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' )), 'info');
-				else
-					WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s created', 'Quiz created', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' )), 'info');
+				//if($quizId)
+				//	WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s edited', 'Quiz edited', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' )), 'info');
+				//else
+				//	WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s created', 'Quiz created', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' )), 'info');
 		
 				$quiz->setText("AAZZAAZZ");
 								
@@ -151,7 +161,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 				$prerequisiteQuizList = $prerequisiteMapper->fetchQuizIds($quizId);
 				
 			} else {
-				WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s title or %s description are not filled', 'Quiz title or quiz description are not filled', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )));
+				//WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s title or %s description are not filled', 'Quiz title or quiz description are not filled', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )));
 			}
 		} else if($quizId) {
 			$quiz = $quizMapper->fetch($quizId);
@@ -168,11 +178,221 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		$this->view->quizList 				= $quizMapper->fetchAllAsArray(array('id', 'name'), $quizId ? array($quizId) : array());
 		$this->view->captchaIsInstalled 	= class_exists('ReallySimpleCaptcha');
 		
-		$this->view->header = $quizId ? sprintf( esc_html_x('Edit %s', 'Edit quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ) : sprintf( esc_html_x('Create %s', 'Create quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ));
+		$this->view->header = $quizId ? sprintf( esc_html_x('Edit %s', 'Edit quiz', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ) : sprintf( esc_html_x('Create %s', 'Create quiz', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ));
 
 		$this->view->show($get);
 	}
 	
+	private function addUpdateQuiz( $get = null, $post = null ) {
+		if( empty( $get ) )
+			$get = $_GET;
+		if( ! empty( $post ) )
+			$this->_post = $post;
+		
+		$quizId = isset( $get['quizId'] ) ? (int)$get['quizId'] : 0;
+		
+		if( $quizId ) {
+			if(!current_user_can('wpProQuiz_edit_quiz')) {
+				wp_die(__('You do not have sufficient permissions to access this page.'));
+			}
+		} else {
+			if(!current_user_can('wpProQuiz_add_quiz')) {
+				wp_die(__('You do not have sufficient permissions to access this page.'));
+			}
+		}
+		
+		$prerequisiteMapper	= new WpProQuiz_Model_PrerequisiteMapper();
+		$quizMapper 		= new WpProQuiz_Model_QuizMapper();
+		$formMapper 		= new WpProQuiz_Model_FormMapper();
+		$templateMapper 	= new WpProQuiz_Model_TemplateMapper();
+		
+		$quiz = new WpProQuiz_Model_Quiz();
+		$forms = null;
+		$prerequisiteQuizList = array();
+		
+		if(!empty($get["post_id"])) {
+			$quiz_post = get_post($get["post_id"]);
+			if ( ( !empty( $quiz_post ) ) && ( is_a( $quiz_post, 'WP_Post' ) ) ) {
+				$this->_post["name"] = $quiz_post->post_title;
+			}
+		}
+
+		if( $quizId && $quizMapper->exists( $quizId ) == 0 ) {
+			WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s not found', 'Quiz not found', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'error');
+			
+			return;
+		}
+		
+		//error_log('post<pre>'. print_r($this->_post, true) .'</pre>');
+		//if ( isset( $this->_post['template'] ) ) {
+		//	if ( ( ( isset( $this->_post['templateSaveList'] ) ) && ( intval( $this->_post['templateSaveList'] ) ) ) 
+		//	|| ( ( isset( $this->_post['templateName'] ) )  && ( !empty( $this->_post['templateName'] ) ) ) ) {
+		//		
+		//	}
+		//}
+		if ( ( isset( $this->_post['templateName'] ) ) && ( ! empty( $this->_post['templateName'] ) ) ) {
+			$template = $this->saveTemplate();
+		}
+
+		if( isset( $this->_post['form'] ) ) {
+			if( isset( $this->_post['resultGradeEnabled'] ) ) {
+				$this->_post['result_text'] = $this->filterResultTextGrade( $this->_post );
+			}
+			
+			// Patch to only set Statistics on if post from form save. 
+			// LEARNDASH-1434 & LEARNDASH-1481
+			if ( !isset( $this->_post['statisticsOn'] ) ) {
+				$this->_post['statisticsOn'] = '0';
+				$this->_post['viewProfileStatistics'] = '0';
+			}
+				
+			$quiz = new WpProQuiz_Model_Quiz( $this->_post );
+			$quiz->setId( $quizId );
+			if ( ! empty( $get['post_id'] ) ) {
+				$quiz_post = get_post( $get['post_id'] );
+				if ( ( ! empty( $quiz_post ) ) && ( is_a( $quiz_post, 'WP_Post' ) ) ) {
+					$quiz->setPostId = $quiz_post->ID;
+				}
+			}
+				
+			if( $this->checkValidit( $this->_post ) ) {
+				//if( $quizId )
+				//	WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s edited', 'Quiz edited', 'learndash' ), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'info');
+				//else
+				//	WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s created', 'Quiz created', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' )), 'info');
+		
+				$quiz->setText("AAZZAAZZ");
+								
+				$quiz2 = $quizMapper->save($quiz);
+
+				if ( ( empty( $quizId ) ) && ( isset( $get["post_id"] ) ) && ( !empty( $get["post_id"] ) ) ) {
+					learndash_update_setting($get["post_id"], "quiz_pro", $quiz->getId());
+
+					$quiz_id_primary_new = absint( learndash_get_quiz_primary_shared( $quiz->getId(), false ) );
+					if ( empty( $quiz_id_primary_new ) ) {
+						update_post_meta( $get["post_id"], 'quiz_pro_primary_'. $quiz->getId(), $quiz->getId() );
+					}
+				}
+				
+				if ( ( isset( $get["post_id"] ) ) && ( !empty( $get["post_id"] ) ) ) {
+					if ( isset( $this->_post['viewProfileStatistics'] ) ) {
+						$quiz->setViewProfileStatistics( true );
+						update_post_meta( $get["post_id"], '_viewProfileStatistics', 1 );
+					} else {
+						$quiz->setViewProfileStatistics( false );
+						update_post_meta( $get["post_id"], '_viewProfileStatistics', 0 );
+					}
+				}
+				
+				$quizId = $quiz->getId();
+
+				$prerequisiteMapper->delete($quizId);
+					
+				if($quiz->isPrerequisite() && !empty($this->_post['prerequisiteList'])) {
+					$prerequisiteMapper->save($quizId, $this->_post['prerequisiteList']);
+					$quizMapper->activateStatitic($this->_post['prerequisiteList'], 1440);
+				}
+		
+				if(!$this->formHandler( $quiz->getId(), $this->_post ) ) {
+					$quiz->setFormActivated( false );
+					$quiz->setText(" AAZZAAZZ" );
+					$quizMapper->save( $quiz );
+				}
+				
+			} else {
+				//WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s title or %s description are not filled', 'Quiz title or quiz description are not filled', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )));
+				return false;
+			}
+		} 
+	}
+
+	private function getEditQuiz($get = null, $post = null) {	
+
+		if(empty($get))
+			$get = $_GET;
+		if(!empty($post))
+			$this->_post = $post;
+		
+		$quizId = isset($get['quizId']) ? (int)$get['quizId'] : 0;
+		
+		//if($quizId) {
+		//	if(!current_user_can('wpProQuiz_edit_quiz')) {
+		//		wp_die(__('You do not have sufficient permissions to access this page.'));
+		//	}
+		//} else {
+		//	if(!current_user_can('wpProQuiz_add_quiz')) {
+		//		wp_die(__('You do not have sufficient permissions to access this page.'));
+		//	}
+		//}
+		
+		$prerequisiteMapper	= new WpProQuiz_Model_PrerequisiteMapper();
+		$quizMapper 		= new WpProQuiz_Model_QuizMapper();
+		$formMapper 		= new WpProQuiz_Model_FormMapper();
+		$templateMapper 	= new WpProQuiz_Model_TemplateMapper();
+		
+		$quiz = new WpProQuiz_Model_Quiz();
+		$forms = null;
+		$prerequisiteQuizList = array();
+		
+		if(!empty($get["post_id"])) {
+			$quiz_post = get_post($get["post_id"]);
+			if ( ( !empty( $quiz_post ) ) && ( is_a( $quiz_post, 'WP_Post' ) ) ) {
+				$this->_post["name"] = $quiz_post->post_title;
+			}
+		}
+
+		if($quizId && $quizMapper->exists($quizId) == 0) {
+			WpProQuiz_View_View::admin_notices( esc_html__( 'Missing ProQuiz Associated Settings.', 'learndash' ), 'error' );
+			
+			$this->view = new WpProQuiz_View_QuizEdit();
+			$this->view->quiz 					= $quiz;
+			$this->view->forms 					= $forms;
+			$this->view->prerequisiteQuizList 	= $prerequisiteQuizList;
+			$this->view->templates 				= $templateMapper->fetchAll(WpProQuiz_Model_Template::TEMPLATE_TYPE_QUIZ, false);
+			$this->view->quizList 				= $quizMapper->fetchAllAsArray(array('id', 'name'), $quizId ? array($quizId) : array());
+			$this->view->captchaIsInstalled 	= class_exists('ReallySimpleCaptcha');
+			return $this->view;
+		}
+
+		if ( ( isset( $get['templateLoad'] ) ) && ( ! empty( $get['templateLoad'] ) ) && ( isset( $get['templateLoadId'] ) ) && ( ! empty( $get['templateLoadId'] ) ) ) {
+			$template = $templateMapper->fetchById( (int) $get['templateLoadId'] );
+			if ( ( $template ) && is_a( $template, 'WpProQuiz_Model_Template' ) ) {
+				$data = $template->getData();
+			
+				if ( $data !== null ) {
+					$quiz = $data['quiz'];
+					$quiz->setId( $quizId );
+					$quiz->setName($this->_post["name"]);
+					$quiz->setText("AAZZAAZZ");
+					//$quizMapper->save( $quiz );
+					//if ( empty( $quizId ) && ! empty( $get["post_id"] ) ) {
+					//	learndash_update_setting($get["post_id"], "quiz_pro", $quiz->getId());
+					//}
+					//$quizId = $quiz->getId();
+					
+					$forms = $data['forms'];
+					$prerequisiteQuizList = $data['prerequisiteQuizList'];
+				}
+			}
+		} else {
+			$quiz = $quizMapper->fetch($quizId);
+			$forms = $formMapper->fetch($quizId);
+			$prerequisiteQuizList = $prerequisiteMapper->fetchQuizIds($quizId);
+		}	
+		$this->view = new WpProQuiz_View_QuizEdit();
+		
+		$this->view->quiz 					= $quiz;
+		$this->view->forms 					= $forms;
+		$this->view->prerequisiteQuizList 	= $prerequisiteQuizList;
+		$this->view->templates 				= $templateMapper->fetchAll(WpProQuiz_Model_Template::TEMPLATE_TYPE_QUIZ, false);
+		$this->view->quizList 				= $quizMapper->fetchAllAsArray(array('id', 'name'), $quizId ? array($quizId) : array());
+		$this->view->captchaIsInstalled 	= class_exists('ReallySimpleCaptcha');
+		
+		$this->view->header = $quizId ? sprintf( esc_html_x('Edit %s', 'Edit quiz', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ) : sprintf( esc_html_x('Create %s', 'Create quiz', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ));
+
+		return $this->view;
+	}
+
 	public function checkLock() {
 		
 		
@@ -205,6 +425,13 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		$userId = get_current_user_id();
 		$data = array();
 		
+		if ( learndash_is_admin_user( $userId ) ) {
+			$bypass_course_limits_admin_users = LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Section_General_Admin_User', 'bypass_course_limits_admin_users' );
+			if ( $bypass_course_limits_admin_users == 'yes' ) {
+				return $data;
+			}
+		}
+
 		$lockMapper = new WpProQuiz_Model_LockMapper();
 		$quizMapper = new WpProQuiz_Model_QuizMapper();
 		$prerequisiteMapper = new WpProQuiz_Model_PrerequisiteMapper();
@@ -263,12 +490,24 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 				$post_quiz_ids = array();
 				foreach( $quizIds as $pro_quiz_id ) {
 					$post_quiz_id = learndash_get_quiz_id_by_pro_quiz_id( $pro_quiz_id );
-					if ( !empty( $post_quiz_id ) ) {
+					if ( ! empty( $post_quiz_id ) ) {
 						$post_quiz_ids[$post_quiz_id] = $pro_quiz_id;
 					}
 				}
 				if ( !empty( $post_quiz_ids ) ) {
-					$post_quiz_ids = learndash_is_quiz_notcomplete($userId, $post_quiz_ids, true);
+					if ( ( isset( $this->_post['course_id'] ) ) && ( ! empty( $this->_post['course_id'] ) ) ) {
+						$post_course_id = intval( $this->_post['course_id'] );
+					} else {
+						$post_course_id = 0;
+					}
+					$post_course_id = apply_filters( 
+						'learndash_quiz_prerequisite_course_check', 
+						$post_course_id, 
+						$userId, 
+						$post_quiz_ids
+					);
+
+					$post_quiz_ids = learndash_is_quiz_notcomplete($userId, $post_quiz_ids, true, -1 );
 					if ( !empty( $post_quiz_ids ) ) {
 						$quizIds = array_values( $post_quiz_ids );
 					} else {
@@ -403,14 +642,14 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		$m = new WpProQuiz_Model_QuizMapper();
 		
 		$this->view = new WpProQuiz_View_QuizEdit();
-		$this->view->header = sprintf( esc_html_x('Edit %s', 'Edit quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
+		$this->view->header = sprintf( esc_html_x('Edit %s', 'Edit quiz', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
 		
 		$forms = $formMapper->fetch($id);
 		$prerequisiteQuizList = $prerequisiteMapper->fetchQuizIds($id);
 		
 		
 		if($m->exists($id) == 0) {
-			WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s not found', 'Quiz not found', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'error');
+			WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s not found', 'Quiz not found', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'error');
 			return;
 		}
 		
@@ -425,7 +664,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 					
 			if($this->checkValidit($this->_post)) {
 				
-				WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s edited', 'Quiz edited', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' )), 'info');
+				//WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%s edited', 'Quiz edited', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' )), 'info');
 				
 				$prerequisiteMapper = new WpProQuiz_Model_PrerequisiteMapper();
 				
@@ -446,7 +685,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 				
 				return;
 			} else {
-				WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%1$s title or %2$s description are not filled', 'Quiz title or quiz description are not filled', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )) );
+				//WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%1$s title or %2$s description are not filled', 'Quiz title or quiz description are not filled', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )) );
 			}
 		} else if(isset($this->_post['template']) || isset($this->_post['templateLoad'])) {
 			if(isset($this->_post['template']))
@@ -481,7 +720,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		}
 		
 		$this->view = new WpProQuiz_View_QuizEdit();
-		$this->view->header = sprintf( esc_html_x('Create %s', 'Create quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
+		$this->view->header = sprintf( esc_html_x('Create %s', 'Create quiz', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
 		
 		$forms = null;
 		$prerequisiteQuizList = array();
@@ -499,7 +738,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 			$quizMapper = new WpProQuiz_Model_QuizMapper();
 			
 			if($this->checkValidit($this->_post)) {
-				WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('Create %s', 'Create quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ), 'info');
+				//WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('Create %s', 'Create quiz', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ), 'info');
 				$quizMapper->save($quiz);
 				
 				$id = $quizMapper->getInsertId();
@@ -518,7 +757,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 				$this->showAction();
 				return;
 			} else {
-				WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%1$s title or %2$s description are not filled', 'Quiz title or quiz description are not filled', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )) );
+				//WpProQuiz_View_View::admin_notices( sprintf( esc_html_x('%1$s title or %2$s description are not filled', 'Quiz title or quiz description are not filled', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )) );
 			}
 		} else if(isset($this->_post['template']) || isset($this->_post['templateLoad'])) {
 			if(isset($this->_post['template']))
@@ -567,36 +806,39 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		$forms = array();
 		
 		foreach($form as $f) {
-			$f['fieldname'] = trim($f['fieldname']);
+			if ( isset( $f['fieldname'] ) ) {
+				$f['fieldname'] = trim( $f['fieldname'] );
 				
-			if(empty($f['fieldname']))
-				continue;
+				if ( empty( $f['fieldname'] ) ) {
+					continue;
+				}
 				
-			if((int) $f['form_id'] && (int) $f['form_delete']) {
-				continue;
-			}
+				if ( absint( $f['form_id'] ) &&  absint( $f['form_delete'] ) ) {
+					continue;
+				}
 				
-			if($f['type'] == WpProQuiz_Model_Form::FORM_TYPE_SELECT || $f['type'] == WpProQuiz_Model_Form::FORM_TYPE_RADIO) {
-				if(!empty($f['data'])) {
-					$items = explode("\n", $f['data']);
-					$f['data'] = array();
-						
-					foreach ($items as $item) {
-						$item = trim($item);
-		
-						if(!empty($item))
-							$f['data'][] = $item;
+				if( $f['type'] == WpProQuiz_Model_Form::FORM_TYPE_SELECT || $f['type'] == WpProQuiz_Model_Form::FORM_TYPE_RADIO ) {
+					if(!empty($f['data'])) {
+						$items = explode("\n", $f['data']);
+						$f['data'] = array();
+							
+						foreach ($items as $item) {
+							$item = trim($item);
+			
+							if(!empty($item))
+								$f['data'][] = $item;
+						}
 					}
 				}
+				
+				if(empty($f['data']) || !is_array($f['data']))
+					$f['data'] = null;
+					
+				$forms[] = new WpProQuiz_Model_Form($f);
 			}
-				
-			if(empty($f['data']) || !is_array($f['data']))
-				$f['data'] = null;
-				
-			$forms[] = new WpProQuiz_Model_Form($f);
 		}
 		
-		WpProQuiz_View_View::admin_notices(__('Template stored', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), 'info');
+		//WpProQuiz_View_View::admin_notices(__('Template stored', 'learndash'), 'info');
 		
 		$data = array(
 			'quiz' => $quiz,
@@ -702,7 +944,7 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		
 		$m->deleteAll($id);
 		
-		WpProQuiz_View_View::admin_notices(sprintf( esc_html_x('%s deleted', 'Quiz deleted', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'info');
+		//WpProQuiz_View_View::admin_notices(sprintf( esc_html_x('%s deleted', 'Quiz deleted', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ) ), 'info');
 		
 		$this->showAction();
 	}
@@ -755,24 +997,29 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		$userId = get_current_user_id();
 		
 		$quiz = $quizMapper->fetch($this->_post['quizId']);
+		if ( ( isset( $POST['quiz'] ) ) && ( ! empty( $_POST['quiz'] ) ) ) {
+			if ( absint( $POST['quiz'] ) !== absint( $quiz->getPostId() ) ) {
+				$quiz->setPostId( absint( $POST['quiz'] ) );
+			}
+		}
 
-		if($quiz === null || $quiz->getId() <= 0) {
+		if ( $quiz === null || $quiz->getId() <= 0 ) {
 			exit;
 		}
 
-		$categories = $categoryMapper->fetchByQuiz($quiz->getId());
+		$categories = $categoryMapper->fetchByQuiz($quiz);
 		
-		$this->setResultCookie($quiz);
+		$this->setResultCookie( $quiz );
 		
-		$this->emailNote($quiz, $this->_post['results']['comp'], $categories);
+		$this->emailNote( $quiz, $this->_post['results']['comp'], $categories );
 		
-		if(!$this->isPreLockQuiz($quiz)) {
+		if( ! $this->isPreLockQuiz( $quiz ) ) {
 			$statistics = new WpProQuiz_Controller_Statistics();
 			$statisticRefMapper_id = $statistics->save($quiz);
-			do_action('wp_pro_quiz_completed_quiz', $statisticRefMapper_id);
+			do_action('wp_pro_quiz_completed_quiz', $statisticRefMapper_id) ;
 			
-			if($is100P)
-				do_action('wp_pro_quiz_completed_quiz_100_percent');
+			if ( $is100P )
+				do_action( 'wp_pro_quiz_completed_quiz_100_percent' );
 			
 			exit;
 		}
@@ -858,8 +1105,16 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 	private function emailNote(WpProQuiz_Model_Quiz $quiz, $result, $categories) {
 		$globalMapper = new WpProQuiz_Model_GlobalSettingsMapper();
 		
-		$adminEmail = $globalMapper->getEmailSettings();
-		$userEmail = $globalMapper->getUserEmailSettings();
+//		$adminEmail = $globalMapper->getEmailSettings();
+//		error_log('adminEmail<pre>'. print_r($adminEmail, true) .'</pre>');
+//		$userEmail = $globalMapper->getUserEmailSettings();
+//		error_log('userEmail<pre>'. print_r($userEmail, true) .'</pre>');
+		
+		$email_settings_admin = LearnDash_Settings_Section::get_section_settings_all( 'LearnDash_Settings_Quizzes_Admin_Email' );
+		//error_log('email_settings_admin<pre>'. print_r($email_settings_admin, true) .'</pre>');
+
+		$email_settings_user = LearnDash_Settings_Section::get_section_settings_all( 'LearnDash_Settings_Quizzes_User_Email' );
+		//error_log('email_settings_user<pre>'. print_r($email_settings_user, true) .'</pre>');
 		
 		$user = wp_get_current_user();
 		
@@ -878,112 +1133,103 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		}
 		
 		if($quiz->isUserEmailNotification()) {
-			$msg = str_replace(array_keys($r), $r, $userEmail['message']);
+			//$msg = str_replace(array_keys($r), $r, $userEmail['message']);
+			$msg = str_replace(array_keys($r), $r, $email_settings_user['mail_message']);
+			
 			$msg = apply_filters( 'learndash_quiz_email_note_user_message', $msg, $r, $quiz, $result, $categories );
 				
 			$headers = '';
 				
-			//if ( ( !empty( $userEmail['from'] ) ) && ( is_email( $userEmail['from'] ) ) ) {
-			//	$headers = 'From: '. $userEmail['from'];
-			//} else {
-			//	$admin_email = get_option('admin_email');
-			//	if ( !empty( $admin_email ) ) 
-			//		$headers = 'From: '. $userEmail['from'];
-			//}
-
-			if ( ( isset( $userEmail['from'] ) ) && ( !empty( $userEmail['from'] ) ) && ( is_email( $userEmail['from'] ) ) ) {
-				if ( ( !isset( $userEmail['from_name'] ) ) || ( empty( $userEmail['from_name'] ) ) ) {
-					$userEmail['from_name'] = '';
+			if ( ( isset( $email_settings_user['mail_from'] ) ) && ( !empty( $email_settings_user['mail_from'] ) ) && ( is_email( $email_settings_user['mail_from'] ) ) ) {
+				if ( ( !isset( $email_settings_user['mail_from_name'] ) ) || ( empty( $email_settings_user['mail_from_name'] ) ) ) {
+					$email_settings_user['mail_from_name'] = '';
 				
-					$email_user = get_user_by('emal', $userEmail['from'] );
-					if ( ( $email_user ) && ( $email_user instanceof WP_User ) ) {
-						$userEmail['from_name'] = $email_user->display_name;
+					$email_user = get_user_by('emal', $email_settings_user['mail_from'] );
+					if ( ( $email_user ) && ( is_a( $email_user, 'WP_User' ) ) ) {
+						$email_settings_user['mail_from_name'] = $email_user->display_name;
 					}
 				}
 				
 				$headers .= 'From: ';
-				if ( ( isset( $userEmail['from_name'] ) ) && ( !empty( $userEmail['from_name'] ) ) ) {
-					$headers .= $userEmail['from_name'] .' <'. $userEmail['from'] .'>';
+				if ( ( isset( $email_settings_user['mail_from_name'] ) ) && ( !empty( $email_settings_user['mail_from_name'] ) ) ) {
+					$headers .= $email_settings_user['mail_from_name'] .' <'. $email_settings_user['mail_from'] .'>';
 				} else {
-					$headers .= $userEmail['from'];
+					$headers .= $email_settings_user['mail_from'];
 				}
 			}
 
-			if($userEmail['html'])
-				add_filter('wp_mail_content_type', array($this, 'htmlEmailContent'));
+			if ( ( isset( $email_settings_user['mail_html'] ) ) && ( 'yes' === $email_settings_user['mail_html'] ) ) {
+				add_filter( 'wp_mail_content_type', array( $this, 'htmlEmailContent' ) );
+				$msg = wpautop( $msg );
+			}
 
 			$email_params = array(
 							"email" => $user->user_email,
-							"subject" => $userEmail['subject'],
+							"subject" => $email_settings_user['mail_subject'],
 							"msg" => $msg,
 							"headers" => $headers
 						);
 
 			$email_params = apply_filters("learndash_quiz_email", $email_params, $quiz);
+			//error_log('Quiz User Email params<pre>'. print_r($email_params, true) .'</pre>');
+			wp_mail( $email_params['email'], $email_params['subject'], $email_params['msg'], $email_params['headers'] );
 
-			wp_mail($email_params["email"], $email_params["subject"], $email_params["msg"], $email_params["headers"]);
-
-			if($userEmail['html'])
-				remove_filter('wp_mail_content_type', array($this, 'htmlEmailContent'));
+			if ( ( isset( $email_settings_user['mail_html'] ) ) && ( 'yes' === $email_settings_user['mail_html'] ) ) {
+				remove_filter( 'wp_mail_content_type', array( $this, 'htmlEmailContent' ) );
+			}
 		}
 		
 		if($quiz->getEmailNotification() == WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_ALL 
 			|| (get_current_user_id() > 0 && $quiz->getEmailNotification() == WpProQuiz_Model_Quiz::QUIZ_EMAIL_NOTE_REG_USER)) {
 			
-			$msg = str_replace(array_keys($r), $r, $adminEmail['message']);
+			$msg = str_replace( array_keys( $r ), $r, $email_settings_admin['mail_message'] );
 			$msg = apply_filters( 'learndash_quiz_email_note_admin_message', $msg, $r, $quiz, $result, $categories );
 			$headers = '';
 			
-			//if ( ( !empty( $adminEmail['from'] ) ) && ( is_email( $adminEmail['from'] ) ) ) {
-			//	$headers = 'From: '.$adminEmail['from'];
-			//} else {
-			//	$admin_email = get_option('admin_email');
-			//	if ( !empty( $admin_email ) ) 
-			//		$headers = 'From: '. $userEmail['from'];
-			//}
-			
-			
-			if ( ( !isset( $adminEmail['from'] ) ) || ( empty( $adminEmail['from'] ) ) || ( !is_email( $adminEmail['from'] ) ) ) {
-				$adminEmail['from'] = get_option( 'admin_email' );
+			if ( ( ! isset( $email_settings_admin['mail_from'] ) ) || ( empty( $email_settings_admin['mail_from'] ) ) || ( !is_email( $email_settings_admin['mail_from'] ) ) ) {
+				$email_settings_admin['mail_from'] = get_option( 'admin_email' );
 			}
 			
-			if ( ( !isset( $adminEmail['from_name'] ) ) || ( empty( $adminEmail['from_name'] ) ) ) {
-				$adminEmail['from_name'] = '';
+			if ( ( !isset( $email_settings_admin['mail_from_name'] ) ) || ( empty( $email_settings_admin['mail_from_name'] ) ) ) {
+				$email_settings_admin['mail_from_name'] = '';
 				
-				if ( !empty( $adminEmail['from'] ) ) {
-					$email_user = get_user_by('emal', $adminEmail['from'] );
-					if ( ( $email_user ) && ( $email_user instanceof WP_User ) ) {
-						$adminEmail['from_name'] = $email_user->display_name;
+				if ( ! empty( $email_settings_admin['mail_from'] ) ) {
+					$email_user = get_user_by('emal', $email_settings_admin['mail_from'] );
+					if ( ( $email_user ) && ( is_a( $email_user, 'WP_User' ) ) ) {
+						$email_settings_admin['mail_from_name'] = $email_user->display_name;
 					}
 				}
 			}
 
-			if ( !empty( $adminEmail['from'] ) ) {
+			if ( ! empty( $email_settings_admin['mail_from'] ) ) {
 				$headers .= 'From: ';
-				if ( ( isset( $adminEmail['from_name'] ) ) && ( !empty( $adminEmail['from_name'] ) ) ) {
-					$headers .= $adminEmail['from_name'] .' <'. $adminEmail['from'] .'>';
+				if ( ( isset( $email_settings_admin['mail_from_name'] ) ) && ( !empty( $email_settings_admin['mail_from_name'] ) ) ) {
+					$headers .= $email_settings_admin['mail_from_name'] .' <'. $email_settings_admin['mail_from'] .'>';
 				} else {
-					$headers .= $adminEmail['from'];
+					$headers .= $email_settings_admin['mail_from'];
 				}
 			}
 			
-			if(isset($adminEmail['html']) && $adminEmail['html'])
-				add_filter('wp_mail_content_type', array($this, 'htmlEmailContent'));
+			if ( ( isset( $email_settings_admin['mail_html'] ) ) && ( $email_settings_admin['mail_html'] ) ) {
+				add_filter( 'wp_mail_content_type', array( $this, 'htmlEmailContent' ) );
+				$msg = wpautop( $msg );
+
+			}
 			
 			$email_params = array(
-							"email" => $adminEmail['to'],
-							"subject" => $adminEmail['subject'],
-							"msg" => $msg,
-							"headers" => $headers
-						);
+				'email' => $email_settings_admin['mail_to'],
+				'subject' => $email_settings_admin['mail_subject'],
+				'msg' => $msg,
+				'headers' => $headers
+			);
 
-			$email_params = apply_filters("learndash_quiz_email_admin", $email_params, $quiz);
-
-			wp_mail($email_params["email"], $email_params["subject"], $email_params["msg"], $email_params["headers"]);
-			//wp_mail($adminEmail['to'], $adminEmail['subject'], $msg, $headers);
+			$email_params = apply_filters( 'learndash_quiz_email_admin', $email_params, $quiz);
+			//error_log('Quiz Admin Email params<pre>'. print_r($email_params, true) .'</pre>');
+			wp_mail($email_params['email'], $email_params['subject'], $email_params['msg'], $email_params['headers'] );
 			
-			if(isset($adminEmail['html']) && $adminEmail['html'])
-				remove_filter('wp_mail_content_type', array($this, 'htmlEmailContent'));
+			if ( ( isset( $email_settings_admin['mail_html'] ) ) && ( 'yes' === $email_settings_admin['mail_html'] ) ) {
+				remove_filter( 'wp_mail_content_type', array( $this, 'htmlEmailContent' ) );
+			}
 		}
 	}
 	
@@ -991,28 +1237,49 @@ class WpProQuiz_Controller_Quiz extends WpProQuiz_Controller_Controller {
 		return 'text/html';
 	}
 	
-	private function setCategoryOverview($catArray, $categories) {
-		$cats = array();
-		
-		foreach($categories as $cat) {
-			/* @var $cat WpProQuiz_Model_Category */
-			
-			if(!$cat->getCategoryId()) {
-				$cat->setCategoryName(__('Not categorized', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN));
+	private function setCategoryOverview( $category_scores = array() , $question_cats = array() ) {
+		if ( ( ! empty( $category_scores  ) ) && ( ! empty( $question_cats ) ) ) {
+			$question_categories = array();
+
+			foreach ( $question_cats as $cat ) {
+				if ( ! $cat->getCategoryId() ) {
+					$cat->setCategoryName( esc_html__( 'Not categorized', 'learndash' ) );
+				}
+
+				$question_categories[ $cat->getCategoryId() ] = $cat->getCategoryName();
 			}
-			
-			$cats[$cat->getCategoryId()] = $cat->getCategoryName();
 		}
-		
-		$a = esc_html__('Categories', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN).":\n";
-		
-		foreach($catArray as $id => $value) {
-			if(!isset($cats[$id]))
-				continue;
-			
-			$a .= '* '.str_pad($cats[$id], 35, '.').((float)$value)."%\n";
-		}
-		
-		return $a;
+
+		$output = SFWD_LMS::get_template(
+			'quiz_result_categories_email.php',
+			array(
+				'question_categories' => $question_categories,
+				'category_scores'     => $category_scores,
+			)
+		);
+		return $output;
+
+		//$cats = array();
+		//
+		//foreach($categories as $cat) {
+		//	/* @var $cat WpProQuiz_Model_Category */
+		//	
+		//	if(!$cat->getCategoryId()) {
+		//		$cat->setCategoryName(__('Not categorized', 'learndash'));
+		//	}
+		//	
+		//	$cats[$cat->getCategoryId()] = $cat->getCategoryName();
+		//}
+		//
+		//$a = esc_html__('Categories', 'learndash').":\n";
+		//
+		//foreach($catArray as $id => $value) {
+		//	if(!isset($cats[$id]))
+		//		continue;
+		//	
+		//	$a .= '* '.str_pad($cats[$id], 35, '.').((float)$value)."%\n";
+		//}
+		//
+		//return $a;
 	}
 }

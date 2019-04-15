@@ -32,18 +32,19 @@ class WpProQuiz_Model_Mapper {
 		global $wpdb;
 		
 		$this->_wpdb = $wpdb;
-		$this->_prefix = $wpdb->prefix.'wp_pro_quiz_';
+		//$this->_prefix = $wpdb->prefix . 'wp_pro_quiz_';
+		$this->_prefix = LDLMS_DB::get_table_prefix( 'wpproquiz' );
 		
-		$this->_tableQuestion = $this->_prefix.'question';
-		$this->_tableMaster = $this->_prefix.'master';
-		$this->_tableLock = $this->_prefix.'lock';
-		$this->_tableStatistic = $this->_prefix.'statistic';
-		$this->_tableToplist = $this->_prefix.'toplist';
-		$this->_tablePrerequisite = $this->_prefix.'prerequisite';
-		$this->_tableCategory = $this->_prefix.'category';
-		$this->_tableStatisticRef = $this->_prefix.'statistic_ref';
-		$this->_tableForm = $this->_prefix.'form';
-		$this->_tableTemplate = $this->_prefix.'template';
+		$this->_tableQuestion = LDLMS_DB::get_table_name( 'quiz_question' );
+		$this->_tableMaster = LDLMS_DB::get_table_name( 'quiz_master' );
+		$this->_tableLock = LDLMS_DB::get_table_name( 'quiz_lock' );
+		$this->_tableStatistic = LDLMS_DB::get_table_name( 'quiz_statistic' );
+		$this->_tableToplist = LDLMS_DB::get_table_name( 'quiz_toplist' );
+		$this->_tablePrerequisite = LDLMS_DB::get_table_name( 'quiz_prerequisite' );
+		$this->_tableCategory = LDLMS_DB::get_table_name( 'quiz_category' );
+		$this->_tableStatisticRef = LDLMS_DB::get_table_name( 'quiz_statistic_ref' );
+		$this->_tableForm = LDLMS_DB::get_table_name( 'quiz_form' );
+		$this->_tableTemplate = LDLMS_DB::get_table_name( 'quiz_template' );
 	}
 	
 	public function getInsertId() {

@@ -13,7 +13,7 @@ class WpProQuiz_Model_Category extends WpProQuiz_Model_Model {
 		return $this->_categoryId;
 	}
 	
-	public function setCategoryName($_categoryName) {
+	public function setCategoryName( $_categoryName = '' ) {
 		$this->_categoryName = (string)$_categoryName;
 		return $this;
 	}

@@ -26,7 +26,7 @@ $shortcode_atts_json = htmlspecialchars( json_encode( $shortcode_atts ) );
 	<!-- Course info shortcode -->
 	<?php if ( ( $pagenow != 'profile.php' ) && ( $pagenow != 'user-edit.php' ) ) { ?>
 		<?php if ( $courses_registered ) : ?>
-			<div id='ld_course_info_mycourses_list'>
+			<div id='ld_course_info_mycourses_list' class="ld_course_info_mycourses_list">
 				<h4><?php echo sprintf( _x( 'You are registered for the following %s', 'You are registered for the following courses', 'learndash' ), LearnDash_Custom_Label::label_to_lower( 'courses' ) ); ?></h4>
 				<div class="ld-courseregistered-content-container"><?php
 				include( 
@@ -111,7 +111,7 @@ $shortcode_atts_json = htmlspecialchars( json_encode( $shortcode_atts ) );
 
 	<?php /* Quizzes */ ?>
 	<?php if ( $quizzes ) : ?>
-		<div id="quiz_progress_details">
+		<div id="quiz_progress_details" class="quiz_progress_details">
 			<?php
 				global $learndash_assets_loaded;
 			
