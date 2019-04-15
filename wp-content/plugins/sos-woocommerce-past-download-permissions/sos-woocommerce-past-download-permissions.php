@@ -1,11 +1,11 @@
 <?php
 /**
   * Plugin Name: SOS Downloads on Existing Orders
-  * Plugin URI: 
+  * Plugin URI:
   * Description: Allows access to new downloads on existing orders.
-  * Version: 1.0 
+  * Version: 1.0
   * Author: SOS Development Team <briancaicco@gmail.com>
-  * Author URI: 
+  * Author URI:
   * License: GPL2
   *
   * Text Domain: past-downloads
@@ -69,11 +69,24 @@ class WooCommerce_Legacy_Grant_Download_Permissions {
 		}
 		$existing_download_ids = array_keys( (array) $product->get_downloads() );
 		$updated_download_ids  = array_keys( (array) $downloadable_files );
-		$new_download_ids      = array_filter( array_diff( $updated_download_ids, $existing_download_ids ) );
-		$removed_download_ids  = array_filter( array_diff( $existing_download_ids, $updated_download_ids ) );
+		if ( ! empty( $existing_download_ids ) && ! empty( $updated_download_ids )) {
+			$new_download_ids      = array_filter( array_diff( $updated_download_ids, $existing_download_ids ) );
+			$removed_download_ids  = array_filter( array_diff( $existing_download_ids, $updated_download_ids ) );
+	  }
+		else {
+			if ( ! empty( $existing_download_ids ) ) {
+				$new_download_ids      = array_filter( $updated_download_ids );
+				$removed_download_ids  = array_filter( $existing_download_ids );
+			}
+			if ( ! empty( $updated_download_ids ) ) {
+				$new_download_ids      = array_filter( $updated_download_ids );
+				$removed_download_ids  = array_filter( $existing_download_ids );
+			}
+		}
 		if ( ! empty( $new_download_ids ) || ! empty( $removed_download_ids ) ) {
 			// Determine whether downloadable file access has been granted via the typical order completion, or via the admin ajax method.
-			$existing_orders = $wpdb->get_col( $wpdb->prepare( "SELECT order_id from {$wpdb->prefix}woocommerce_downloadable_product_permissions WHERE product_id = %d GROUP BY order_id", $product_id ) );
+//			$existing_orders = $wpdb->get_col( $wpdb->prepare( "SELECT order_id from {$wpdb->prefix}woocommerce_downloadable_product_permissions WHERE product_id = %d GROUP BY order_id", $product_id ) );
+$existing_orders = $wpdb->get_col( $wpdb->prepare( "SELECT order_id from {$wpdb->prefix}woocommerce_order_itemmeta a join {$wpdb->prefix}woocommerce_order_items b on a.order_item_id=b.order_item_id WHERE meta_key = '_product_id' and meta_value = %d GROUP BY order_id", $product_id ) );
 			foreach ( $existing_orders as $existing_order_id ) {
 				$order = wc_get_order( $existing_order_id );
 				if ( $order ) {
