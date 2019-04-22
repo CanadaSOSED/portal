@@ -30,7 +30,7 @@ class WpProQuiz_Plugin_BpAchievementsV2 {
 			array(
 				'category' => 'Wp-Pro-Quiz',
 				'name' => 'wp_pro_quiz_quiz_finished', 
-				'description' => sprintf( esc_html_x('The user completed a %s.', 'The user completed a quiz.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) )
+				'description' => sprintf( esc_html_x('The user completed a %s.', 'The user completed a quiz.', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) )
 			)
 		);
 		

@@ -26,10 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 $message = '<strong>'. sprintf( esc_html_x( 'Earned %s Points:', 'placeholders: Course Label, course points', 'learndash' ), LearnDash_Custom_Label::get_label( 'course' ) ) . '</strong> '. $user_course_points;
 
 // The figure out how to display it
-if ( $shortcode_atts['context'] == 'profile' ) {
-	?><p class="learndash-course-points"><?php echo $message; ?></p><?php
-} else if ( $shortcode_atts['context'] == 'ld_profile' ) {
-	?><div id="learndash_course_points_user_message"><?php echo $message; ?></div><?php
+if ( $shortcode_atts['context'] == 'ld_profile' ) {
+	?><div id="learndash_course_points_user_message" class="learndash-course-points"><?php echo $message; ?></div><?php
 } else {
-	echo $message;
+	?><p class="learndash-course-points"><?php echo $message; ?></p><?php
 }

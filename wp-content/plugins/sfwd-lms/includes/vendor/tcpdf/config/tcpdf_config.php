@@ -42,227 +42,293 @@ if (!empty($_SERVER['SCRIPT_FILENAME']) && 'tcpdf_config.php' == basename($_SERV
 
 // If you define the constant K_TCPDF_EXTERNAL_CONFIG, the following settings will be ignored.
 
-if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
+if ( ! defined( 'K_TCPDF_EXTERNAL_CONFIG' ) ) {
 
-	// DOCUMENT_ROOT fix for IIS Webserver
-	if ((!isset($_SERVER['DOCUMENT_ROOT'])) OR (empty($_SERVER['DOCUMENT_ROOT']))) {
-		if(isset($_SERVER['SCRIPT_FILENAME'])) {
-			$_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF'])));
-		} elseif(isset($_SERVER['PATH_TRANSLATED'])) {
-			$_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0-strlen($_SERVER['PHP_SELF'])));
-		} else {
-			// define here your DOCUMENT_ROOT path if the previous fails (e.g. '/var/www')
-			$_SERVER['DOCUMENT_ROOT'] = '/';
+	if ( ! defined( 'K_PATH_MAIN' ) ) {
+		// DOCUMENT_ROOT fix for IIS Webserver.
+		if ( ( ! isset( $_SERVER['DOCUMENT_ROOT'] ) ) || ( empty( $_SERVER['DOCUMENT_ROOT'] ) ) ) {
+			if ( isset( $_SERVER['SCRIPT_FILENAME'] ) ) {
+				$_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr( $_SERVER['SCRIPT_FILENAME'], 0, 0-strlen( $_SERVER['PHP_SELF'] ) ) );
+			} else if( isset( $_SERVER['PATH_TRANSLATED'] ) ) {
+				$_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr( str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED'] ), 0, 0-strlen( $_SERVER['PHP_SELF'] ) ) );
+			} else {
+				// Define here your DOCUMENT_ROOT path if the previous fails (e.g. '/var/www')
+				$_SERVER['DOCUMENT_ROOT'] = '/';
+			}
 		}
-	}
 
-	// Automatic calculation for the following K_PATH_MAIN constant
-	$k_path_main = str_replace( '\\', '/', realpath(substr(dirname(__FILE__), 0, 0-strlen('config'))));
-	if (substr($k_path_main, -1) != '/') {
-		$k_path_main .= '/';
-	}
-
-	/**
-	 * Installation path (/var/www/tcpdf/).
-	 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
-	 */
-	define ('K_PATH_MAIN', $k_path_main);
-
-	// Automatic calculation for the following K_PATH_URL constant
-	$k_path_url = $k_path_main; // default value for console mode
-	if (isset($_SERVER['HTTP_HOST']) AND (!empty($_SERVER['HTTP_HOST']))) {
-		if(isset($_SERVER['HTTPS']) AND (!empty($_SERVER['HTTPS'])) AND strtolower($_SERVER['HTTPS'])!='off') {
-			$k_path_url = 'https://';
-		} else {
-			$k_path_url = 'http://';
+		// Automatic calculation for the following K_PATH_MAIN constant.
+		$k_path_main = str_replace( '\\', '/', realpath( substr( dirname( __FILE__ ), 0, 0-strlen( 'config' ) ) ) );
+		if ( substr( $k_path_main, -1 ) != '/' ) {
+			$k_path_main .= '/';
 		}
-		$k_path_url .= $_SERVER['HTTP_HOST'];
-		$k_path_url .= str_replace( '\\', '/', substr(K_PATH_MAIN, (strlen($_SERVER['DOCUMENT_ROOT']) - 1)));
+
+		/**
+		 * Installation path (/var/www/tcpdf/).
+		 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
+		 */
+		define( 'K_PATH_MAIN', $k_path_main );
+	} else {
+		$k_path_main = K_PATH_MAIN;
 	}
 
-	/**
-	 * URL path to tcpdf installation folder (http://localhost/tcpdf/).
-	 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
-	 */
-	define ('K_PATH_URL', $k_path_url);
+	if ( ! defined( 'K_PATH_URL' ) ) {
+		// Automatic calculation for the following K_PATH_URL constant.
+		$k_path_url = $k_path_main; // default value for console mode.
+		if ( isset( $_SERVER['HTTP_HOST'] ) && ( ! empty( $_SERVER['HTTP_HOST'] ) ) ) {
+			if ( isset( $_SERVER['HTTPS'] ) && ( ! empty( $_SERVER['HTTPS'] ) ) && strtolower( $_SERVER['HTTPS'] ) != 'off' ) {
+				$k_path_url = 'https://';
+			} else {
+				$k_path_url = 'http://';
+			}
+			$k_path_url .= $_SERVER['HTTP_HOST'];
+			$k_path_url .= str_replace( '\\', '/', substr( K_PATH_MAIN, ( strlen( $_SERVER['DOCUMENT_ROOT'] ) - 1 ) ) );
+		}
 
-	$post2pdf_conv_setting_opt = get_option('post2pdf_conv_setting_opt');
+		/**
+		 * URL path to tcpdf installation folder (http://localhost/tcpdf/).
+		 * By default it is automatically calculated but you can also set it as a fixed string to improve performances.
+		 */
+		define( 'K_PATH_URL', $k_path_url );
+	} else {
+		$k_path_url = 'K_PATH_URL';
+	}
+
+	$post2pdf_conv_setting_opt = get_option( 'post2pdf_conv_setting_opt', array() );
 
 	/**
-	 * path for PDF fonts
+	 * Path for PDF fonts
 	 * use K_PATH_MAIN.'fonts/old/' for old non-UTF8 fonts
 	 */
-	// Modified by redcocker 2011/12/27
-	//define ('K_PATH_FONTS', K_PATH_MAIN.'fonts/');
-	if (!defined('K_PATH_FONTS') && (isset($post2pdf_conv_setting_opt['font_path'])) && ($post2pdf_conv_setting_opt['font_path'] == 1)) {
-		define('K_PATH_FONTS', WP_CONTENT_DIR.'/tcpdf-fonts/');
-	} else {
-		define ('K_PATH_FONTS', K_PATH_MAIN.'fonts/');
+	if ( ! defined( 'K_PATH_FONTS' ) ) {
+		if ( ( isset( $post2pdf_conv_setting_opt['font_path'] ) ) && ( $post2pdf_conv_setting_opt['font_path'] == 1 ) ) {
+			define( 'K_PATH_FONTS', WP_CONTENT_DIR . '/tcpdf-fonts/' );
+		} else {
+			define( 'K_PATH_FONTS', K_PATH_MAIN . 'fonts/' );
+		}
 	}
 
 	/**
-	 * cache directory for temporary files (full path)
+	 * Cache directory for temporary files (full path)
 	 */
-	define ('K_PATH_CACHE', K_PATH_MAIN.'cache/');
-
-	/**
-	 * cache directory for temporary files (url path)
-	 */
-	define ('K_PATH_URL_CACHE', K_PATH_URL.'cache/');
-
-	/**
-	 *images directory
-	 */
-	// Modified by redcocker 2011/2/1
-	//define ('K_PATH_IMAGES', K_PATH_MAIN.'images/');
-	//$post2pdf_conv_setting_opt = get_option('post2pdf_conv_setting_opt'); // Move this line higher up
-	if ($post2pdf_conv_setting_opt['logo_file'] != "" && file_exists(WP_CONTENT_DIR.'/tcpdf-images/'.$post2pdf_conv_setting_opt['logo_file'])) {
-		define ('K_PATH_IMAGES', WP_CONTENT_DIR.'/tcpdf-images/');
-	} else {
-		define ('K_PATH_IMAGES', K_PATH_MAIN.'images/');
+	if ( ! defined( 'K_PATH_CACHE' ) ) {
+		define( 'K_PATH_CACHE', K_PATH_MAIN . 'cache/' );
 	}
 
 	/**
-	 * blank image
+	 * Cache directory for temporary files (url path)
 	 */
-	define ('K_BLANK_IMAGE', K_PATH_IMAGES.'_blank.png');
+	if ( ! defined( 'K_PATH_URL_CACHE' ) ) {
+		define( 'K_PATH_URL_CACHE', K_PATH_URL . 'cache/' );
+	}
 
 	/**
-	 * page format
+	 * Images directory
 	 */
-	//define ('PDF_PAGE_FORMAT', 'A4');
-	define ('PDF_PAGE_FORMAT', 'LETTER');
+	if ( ! defined( 'K_PATH_IMAGES' ) ) {
+		if ( ( isset( $post2pdf_conv_setting_opt['logo_file'] ) ) && ( ! empty( $post2pdf_conv_setting_opt['logo_file'] ) ) && ( file_exists( WP_CONTENT_DIR . '/tcpdf-images/' . $post2pdf_conv_setting_opt['logo_file'] ) ) ) {
+			define( 'K_PATH_IMAGES', WP_CONTENT_DIR . '/tcpdf-images/' );
+		} else {
+			define( 'K_PATH_IMAGES', K_PATH_MAIN . 'images/' );
+		}
+	}
 
 	/**
-	 * page orientation (P=portrait, L=landscape)
+	 * Blank image
 	 */
-	define ('PDF_PAGE_ORIENTATION', 'L');
+	if ( ! defined( 'K_BLANK_IMAGE' ) ) {
+		define( 'K_BLANK_IMAGE', K_PATH_IMAGES . '_blank.png' );
+	}
 
 	/**
-	 * document creator
+	 * Page format
 	 */
-	define ('PDF_CREATOR', 'TCPDF');
+	if ( ! defined( 'PDF_PAGE_FORMAT' ) ) {
+		define( 'PDF_PAGE_FORMAT', 'LETTER' );
+	}
 
 	/**
-	 * document author
+	 * Page orientation (P=portrait, L=landscape)
 	 */
-	define ('PDF_AUTHOR', 'TCPDF');
+	if ( ! defined( 'PDF_PAGE_ORIENTATION' ) ) {
+		define( 'PDF_PAGE_ORIENTATION', 'L' );
+	}
 
 	/**
-	 * header title
+	 * Document creator
 	 */
-	define ('PDF_HEADER_TITLE', 'TCPDF Example');
+	if ( ! defined( 'PDF_CREATOR' ) ) {
+		define( 'PDF_CREATOR', 'TCPDF' );
+	}
 
 	/**
-	 * header description string
+	 * Document author
 	 */
-	define ('PDF_HEADER_STRING', "by Nicola Asuni - Tecnick.com\nwww.tcpdf.org");
+	if ( ! defined( 'PDF_AUTHOR' ) ) {
+		define( 'PDF_AUTHOR', 'TCPDF' );
+	}
 
 	/**
-	 * image logo
+	 * Header title
 	 */
-	define ('PDF_HEADER_LOGO', 'tcpdf_logo.jpg');
+	if ( ! defined( 'PDF_HEADER_TITLE' ) ) {
+		define( 'PDF_HEADER_TITLE', 'TCPDF Example' );
+	}
 
 	/**
-	 * header logo image width [mm]
+	 * Header description string
 	 */
-	define ('PDF_HEADER_LOGO_WIDTH', 30);
+	if ( ! defined( 'PDF_HEADER_STRING' ) ) {
+		define( 'PDF_HEADER_STRING', 'by Nicola Asuni - Tecnick.com\nwww.tcpdf.org' );
+	}
 
 	/**
-	 *  document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch]
+	 * Image logo
 	 */
-	define ('PDF_UNIT', 'mm');
+	if ( ! defined( 'PDF_HEADER_LOGO' ) ) {
+		define( 'PDF_HEADER_LOGO', 'tcpdf_logo.jpg' );
+	}
 
 	/**
-	 * header margin
+	 * Header logo image width [mm]
 	 */
-	define ('PDF_MARGIN_HEADER', 5);
+	if ( ! defined( 'PDF_HEADER_LOGO_WIDTH' ) ) {
+		define( 'PDF_HEADER_LOGO_WIDTH', 30 );
+	}
 
 	/**
-	 * footer margin
+	 *  Document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch]
 	 */
-	define ('PDF_MARGIN_FOOTER', 10);
+	if ( ! defined( 'PDF_UNIT' ) ) {
+		define( 'PDF_UNIT', 'mm' );
+	}
 
 	/**
-	 * top margin
+	 * Header margin
 	 */
-	define ('PDF_MARGIN_TOP', 27);
+	if ( ! defined( 'PDF_MARGIN_HEADER' ) ) {
+		define( 'PDF_MARGIN_HEADER', 5 );
+	}
 
 	/**
-	 * bottom margin
+	 * Footer margin
 	 */
-	define ('PDF_MARGIN_BOTTOM', 25);
+	if ( ! defined( 'PDF_MARGIN_FOOTER' ) ) {
+		define( 'PDF_MARGIN_FOOTER', 10 );
+	}
 
 	/**
-	 * left margin
+	 * Top margin
 	 */
-	define ('PDF_MARGIN_LEFT', 15);
+	if ( ! defined( 'PDF_MARGIN_TOP' ) ) {
+		define( 'PDF_MARGIN_TOP', 27 );
+	}
 
 	/**
-	 * right margin
+	 * Bottom margin
 	 */
-	define ('PDF_MARGIN_RIGHT', 15);
+	if ( ! defined( 'PDF_MARGIN_BOTTOM' ) ) {
+		define( 'PDF_MARGIN_BOTTOM', 25 );
+	}
 
 	/**
-	 * default main font name
+	 * Left margin
 	 */
-	define ('PDF_FONT_NAME_MAIN', 'helvetica');
+	if ( ! defined( 'PDF_MARGIN_LEFT' ) ) {
+		define( 'PDF_MARGIN_LEFT', 15 );
+	}
 
 	/**
-	 * default main font size
+	 * Right margin
 	 */
-	define ('PDF_FONT_SIZE_MAIN', 10);
+	if ( ! defined( 'PDF_MARGIN_RIGHT' ) ) {
+		define( 'PDF_MARGIN_RIGHT', 15 );
+	}
 
 	/**
-	 * default data font name
+	 * Default main font name
 	 */
-	define ('PDF_FONT_NAME_DATA', 'helvetica');
+	if ( ! defined( 'PDF_FONT_NAME_MAIN' ) ) {
+		define( 'PDF_FONT_NAME_MAIN', 'helvetica' );
+	}
 
 	/**
-	 * default data font size
+	 * Default main font size
 	 */
-	define ('PDF_FONT_SIZE_DATA', 8);
+	if ( ! defined( 'PDF_FONT_SIZE_MAIN' ) ) {
+		define( 'PDF_FONT_SIZE_MAIN', 10 );
+	}
 
 	/**
-	 * default monospaced font name
+	 * Default data font name
 	 */
-	define ('PDF_FONT_MONOSPACED', 'courier');
+	if ( ! defined( 'PDF_FONT_NAME_DATA' ) ) {
+		define( 'PDF_FONT_NAME_DATA', 'helvetica' );
+	}
 
 	/**
-	 * ratio used to adjust the conversion of pixels to user units
+	 * Default data font size
 	 */
-	define ('PDF_IMAGE_SCALE_RATIO', 1.25);
+	if ( ! defined( 'PDF_FONT_SIZE_DATA' ) ) {
+		define( 'PDF_FONT_SIZE_DATA', 8 );
+	}
 
 	/**
-	 * magnification factor for titles
+	 * Default monospaced font name
 	 */
-	define('HEAD_MAGNIFICATION', 1.1);
+	if ( ! defined( 'PDF_FONT_MONOSPACED' ) ) {
+		define( 'PDF_FONT_MONOSPACED', 'courier' );
+	}
 
 	/**
-	 * height of cell repect font height
+	 * Ratio used to adjust the conversion of pixels to user units
 	 */
-	define('K_CELL_HEIGHT_RATIO', 1.25);
+	if ( ! defined( 'PDF_IMAGE_SCALE_RATIO' ) ) {
+		define( 'PDF_IMAGE_SCALE_RATIO', 1.25 );
+	}
 
 	/**
-	 * title magnification respect main font size
+	 * Magnification factor for titles
 	 */
-	define('K_TITLE_MAGNIFICATION', 1.3);
+	if ( ! defined( 'HEAD_MAGNIFICATION' ) ) {
+		define( 'HEAD_MAGNIFICATION', 1.1 );
+	}
 
 	/**
-	 * reduction factor for small font
+	 * Height of cell repect font height
 	 */
-	define('K_SMALL_RATIO', 2/3);
+	if ( ! defined( 'K_CELL_HEIGHT_RATIO' ) ) {
+		define( 'K_CELL_HEIGHT_RATIO', 1.25 );
+	}
 
 	/**
-	 * set to true to enable the special procedure used to avoid the overlappind of symbols on Thai language
+	 * Title magnification respect main font size
 	 */
-	define('K_THAI_TOPCHARS', true);
+	if ( ! defined( 'K_TITLE_MAGNIFICATION' ) ) {
+		define( 'K_TITLE_MAGNIFICATION', 1.3 );
+	}
 
 	/**
-	 * if true allows to call TCPDF methods using HTML syntax
+	 * Reduction factor for small font
+	 */
+	if ( ! defined( 'K_SMALL_RATIO' ) ) {
+		define( 'K_SMALL_RATIO', 2/3 );
+	}
+
+	/**
+	 * Set to true to enable the special procedure used to avoid the overlappind of symbols on Thai language
+	 */
+	if ( ! defined( 'K_THAI_TOPCHARS' ) ) {
+		define( 'K_THAI_TOPCHARS', true );
+	}
+
+	/**
+	 * If true allows to call TCPDF methods using HTML syntax.
 	 * IMPORTANT: For security reason, disable this feature if you are printing user HTML content.
 	 */
-	define('K_TCPDF_CALLS_IN_HTML', true);
+	if ( ! defined( 'K_TCPDF_CALLS_IN_HTML' ) ) {
+		define( 'K_TCPDF_CALLS_IN_HTML', true );
+	}
 }
 
 //============================================================+

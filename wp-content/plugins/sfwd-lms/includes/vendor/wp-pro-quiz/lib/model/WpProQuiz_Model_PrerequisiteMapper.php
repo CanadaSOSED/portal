@@ -17,11 +17,27 @@ class WpProQuiz_Model_PrerequisiteMapper extends WpProQuiz_Model_Mapper {
 	}
 	
 	public function fetchQuizIds($prerequisiteQuizId) {
-		return $this->_wpdb->get_col(
-			$this->_wpdb->prepare(
-				"SELECT quiz_id FROM {$this->_tablePrerequisite} WHERE prerequisite_quiz_id = %d", 
-			$prerequisiteQuizId)
-		);
+		$sql_str = $this->_wpdb->prepare( "SELECT quiz_id FROM {$this->_tablePrerequisite} WHERE prerequisite_quiz_id = %d", 
+			$prerequisiteQuizId);
+		
+		$quiz_pro_ids = $this->_wpdb->get_col( $sql_str );
+		if ( ! empty( $quiz_pro_ids ) ) {
+			$sql_str = "SELECT postmeta.meta_value as quiz_pro_id FROM {$this->_wpdb->posts} AS posts
+						INNER JOIN {$this->_wpdb->postmeta} as postmeta 
+						ON posts.ID = postmeta.post_id
+						WHERE 
+						posts.post_type='". learndash_get_post_type_slug( 'quiz' ) . "'
+						AND posts.post_status = 'publish'
+						AND postmeta.meta_key='quiz_pro_id'
+						AND postmeta.meta_value IN ( ". implode( ',', $quiz_pro_ids ) . " )";
+			$quiz_pro_ids = $this->_wpdb->get_col( $sql_str );
+			if ( ! empty( $quiz_pro_ids ) ) {
+				$quiz_pro_ids = array_map( 'intval', $quiz_pro_ids );
+				$quiz_pro_ids = array_unique( $quiz_pro_ids );
+			}
+		}
+
+		return ( array ) $quiz_pro_ids;
 	}
 	
 	public function save($prerequisiteQuizId, $quiz_ids) {

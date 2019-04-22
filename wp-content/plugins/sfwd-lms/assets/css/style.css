@@ -277,3 +277,19 @@ body.post-type-sfwd-topic .column-taxonomy-ld_topic_tag {
 .ld-error {
 	color: red;
 }
+
+form#learndash-settings-page-form .date-time-text {
+    display: inline-block;
+	min-width: 13em;
+}
+
+form#learndash-settings-page-form .quizzes_time_formats fieldset label {
+	margin: .25em 0 .5em !important;
+	display: inline-block;
+	line-height: 1.4em;
+}
+
+form#learndash-settings-page-form .quizzes_time_formats fieldset input[type="text"] {
+	height: 20px;
+	width: 150px;
+}

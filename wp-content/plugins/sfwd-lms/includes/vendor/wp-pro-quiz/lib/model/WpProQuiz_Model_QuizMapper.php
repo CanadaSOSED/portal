@@ -6,7 +6,8 @@ class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper
 	function __construct() {
 		parent::__construct();
 		
-		$this->_table = $this->_prefix."master";
+		//$this->_table = $this->_prefix."master";
+		$this->_table = $this->_tableMaster;
 	}
 	
 	public function delete($id) {
@@ -20,17 +21,10 @@ class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper
 	}
 	
 	public function fetch($id) {
-		$results = $this->_wpdb->get_row(
-					$this->_wpdb->prepare(
-								"SELECT 
-									* 
-								FROM
-									{$this->_table}
-								WHERE
-									id = %d",
-								$id),
-								ARRAY_A
-					);
+		$queried_object = get_queried_object();
+
+		$sql_str = $this->_wpdb->prepare("SELECT * FROM {$this->_table} WHERE id = %d", $id );
+		$results = $this->_wpdb->get_row( $sql_str, ARRAY_A );
 		
 		if($results['result_grade_enabled'])
 			$results['result_text'] = unserialize($results['result_text']);
@@ -128,7 +122,14 @@ class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper
 			'sort_categories' => (int)$data->isSortCategories(),
 			'show_category' => (int)$data->isShowCategory()
 		);
-		
+
+		/**
+		 * Convert emoji to HTML entities to allow saving in DB.
+		 *
+		 * @since 2.6.0.
+		 */
+		$set['name'] = wp_encode_emoji( $set['name'] );
+
 		if($data->getId() != 0) {
 			$result = $this->_wpdb->update(
 				$this->_table,
@@ -153,7 +154,7 @@ class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper
 				)
 			);
 		} else {
-			
+
 			$result = $this->_wpdb->insert(
 				$this->_table,
 				$set,
@@ -180,29 +181,79 @@ class WpProQuiz_Model_QuizMapper extends WpProQuiz_Model_Mapper
 		
 		$data->saveTimeLimitCookie();
 		//$data->saveViewProfileStatistics();
-		
+
+		//$quiz_post_id = $data->getPostId();
+		//error_log('in '. __FUNCTION__ );
+		//error_log('quiz_post_id['. $quiz_post_id .']');
+		//if ( ! empty( $quiz_post_id ) ) {
+		//	$quiz_array = $data->get_object_as_array();
+		//	update_post_meta( $quiz_post_id, '_proquiz', $quiz_array );
+		//} else {
+			//error_log('quiz_post_id EMPTY');
+			//error_log('data<pre>'. print_r($data, true) .'</pre>');
+		//}
+
+		//		if ( ( isset( $_POST['post_ID'] ) ) && ( ! empty( $_POST['post_ID'] ) ) ) {
+//			foreach( $set as $set_key => $set_value ) {
+//				if ( ! in_array( $set_key, array( 'name', 'text' ) ) ) {
+//					update_post_meta( $_POST['post_ID'], '_proquiz_' . $set_key, $set_value );
+//				}
+//			}
+//		}
+
 		return $data;
 	}
 	
 	public function sumQuestionPoints($id) {
 		return $this->_wpdb->get_var($this->_wpdb->prepare("SELECT SUM(points) FROM {$this->_tableQuestion} WHERE quiz_id = %d AND online = 1", $id));
 	}
+
+	public function sumQuestionPointsFromArray( $question_ids = array() ) {
+		if ( ! empty( $question_ids ) ) {
+			$sql_str = "SELECT SUM(points) FROM {$this->_tableQuestion} WHERE id IN (" . implode(',', $question_ids ) . ") AND online = 1";
+			return $this->_wpdb->get_var( $sql_str );
+		} else {
+			return 0;
+		}
+	}
 	
 	public function countQuestion($id) {
 		return $this->_wpdb->get_var($this->_wpdb->prepare("SELECT COUNT(*) FROM {$this->_tableQuestion} WHERE quiz_id = %d AND online = 1", $id));
 	}
 	
-	public function fetchAllAsArray($list, $outIds = array()) {
+	public function fetchAllAsArray( $list, $outIds = array() ) {
 		$where = ' 1 ';
-		
-		if(!empty($outIds)) {
-			$where .= ' AND id NOT IN('.implode(', ', array_map('intval', (array)$outIds)).') ';
+
+		if( !empty ($outIds ) ) {
+			$where .= ' AND id NOT IN (' . implode( ', ', array_map( 'intval', (array) $outIds ) ) . ') ';
 		}
-		
-		return $this->_wpdb->get_results(
-			"SELECT ".implode(', ', (array)$list)." FROM {$this->_tableMaster} WHERE $where ORDER BY name",
-			ARRAY_A
-		);
+		$sql_str = "SELECT " . implode( ', ', (array) $list ) . " FROM {$this->_tableMaster} WHERE $where ORDER BY name";
+
+		$quiz_list =  $this->_wpdb->get_results( $sql_str, ARRAY_A );
+		if ( ! empty( $quiz_list ) ) {
+			$quiz_pro_ids = wp_list_pluck( $quiz_list, 'id' );
+			$sql_str = "SELECT postmeta.meta_value as quiz_pro_id FROM {$this->_wpdb->posts} AS posts
+						INNER JOIN {$this->_wpdb->postmeta} as postmeta 
+						ON posts.ID = postmeta.post_id
+						WHERE 
+						posts.post_type='". learndash_get_post_type_slug( 'quiz' ) . "'
+						AND posts.post_status = 'publish'
+						AND postmeta.meta_key='quiz_pro_id'
+						AND postmeta.meta_value IN ( ". implode( ',', $quiz_pro_ids ) . " )";
+			$quiz_pro_ids = $this->_wpdb->get_col( $sql_str );
+			if ( ! empty( $quiz_pro_ids ) ) {
+				$quiz_pro_ids = array_map( 'intval', $quiz_pro_ids );
+				$quiz_pro_ids = array_unique( $quiz_pro_ids );
+
+				foreach( $quiz_list as $quiz_idx => $quiz_item ) {
+					if ( ! in_array( $quiz_item['id'], $quiz_pro_ids ) ) {
+						unset( $quiz_list[ $quiz_idx ] );
+					}
+				}
+			}
+		}
+
+		return ( array ) $quiz_list;
 	}
 	
 	public function fetchCol($ids, $col) {

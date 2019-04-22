@@ -12,16 +12,11 @@ Domain Path: /languages
 
 define('WPPROQUIZ_VERSION', '0.28');
 
-// If the WordPress 'SCRIPT_DEBUG' is set then we also set our 'WPPROQUIZ_DEV' so we are serving non-minified scripts
-//if ( ( defined( 'SCRIPT_DEBUG' ) ) && ( SCRIPT_DEBUG === true ) && ( !defined( 'WPPROQUIZ_DEV' ) ) ) {
-//	define('WPPROQUIZ_DEV', true);
-//}
-
 define('WPPROQUIZ_PATH', dirname(__FILE__));
 define('WPPROQUIZ_URL', plugins_url('', __FILE__));
 define('WPPROQUIZ_FILE', __FILE__);
-define('WPPROQUIZ_PPATH', dirname(plugin_basename(__FILE__)));
-define('WPPROQUIZ_PLUGIN_PATH', WPPROQUIZ_PATH.'/plugin');
+//define('WPPROQUIZ_PPATH', dirname(plugin_basename(__FILE__)));
+//define('WPPROQUIZ_PLUGIN_PATH', WPPROQUIZ_PATH.'/plugin');
 //define('WPPROQUIZ_TEXT_DOMAIN', 'learndash' );
 
 $uploadDir = wp_upload_dir();
@@ -31,8 +26,8 @@ define('WPPROQUIZ_CAPTCHA_URL', $uploadDir['baseurl'].'/wp_pro_quiz_captcha');
 
 spl_autoload_register('wpProQuiz_autoload');
 
-$WpProQuiz_Answer_types_labels = array();
-global $WpProQuiz_Answer_types_labels;
+//$WpProQuiz_Answer_types_labels = array();
+//global $WpProQuiz_Answer_types_labels;
 
 // This is never called. 
 //register_activation_hook(__FILE__, array('WpProQuiz_Helper_Upgrade', 'upgrade'));
@@ -78,41 +73,10 @@ function wpProQuiz_autoload($class) {
 }
 
 function wpProQuiz_pluginLoaded() {
-	
-	if ( LEARNDASH_LMS_TEXT_DOMAIN !== LEARNDASH_WPPROQUIZ_TEXT_DOMAIN ) {
-		if ((defined('LD_LANG_DIR')) && (LD_LANG_DIR)) {
-			load_plugin_textdomain( LEARNDASH_WPPROQUIZ_TEXT_DOMAIN, false, LD_LANG_DIR );
-		} else {
-			load_plugin_textdomain( LEARNDASH_WPPROQUIZ_TEXT_DOMAIN, false, WPPROQUIZ_PPATH.'/languages');
-		}
-	}
-	
-	if(get_option('wpProQuiz_version') !== WPPROQUIZ_VERSION) {
+
+	if ( get_option( 'wpProQuiz_version' ) !== WPPROQUIZ_VERSION ) {
 		WpProQuiz_Helper_Upgrade::upgrade();
 	}
-	
-	global $WpProQuiz_Answer_types_labels;
-	$WpProQuiz_Answer_types_labels = array(
-		'single' 				=> 	esc_html__('Single choice', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-		'multiple' 				=>	esc_html__('Multiple choice', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-		'free_answer'			=>	esc_html__('"Free" choice', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-		'sort_answer'			=>	esc_html__('"Sorting" choice', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-		'matrix_sort_answer' 	=>	esc_html__('"Matrix Sorting" choice', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-		'cloze_answer'			=>	esc_html__('Fill in the blank', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-		'assessment_answer' 	=>	esc_html__('Assessment', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-		'essay'					=>	esc_html__('Essay / Open Answer', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN)
-	);
-	
-	
-// 	//ACHIEVEMENTS Version 2.x.x
-// 	if(defined('ACHIEVEMENTS_IS_INSTALLED') && ACHIEVEMENTS_IS_INSTALLED === 1 && defined('ACHIEVEMENTS_VERSION')) {
-// 		$version = ACHIEVEMENTS_VERSION;
-// 		if($version{0} == '2') {
-// 			new WpProQuiz_Plugin_BpAchievementsV2();
-// 		}
-// 	}
-
-	
 }
 
 function wpProQuiz_achievementsV3() {
@@ -122,15 +86,6 @@ function wpProQuiz_achievementsV3() {
 }
 
 add_action('dpa_ready', 'wpProQuiz_achievementsV3');
-
-// //ACHIEVEMENTS Version 2.x.x
-// $bpAchievementsV2_path = realpath(ABSPATH.PLUGINDIR.'/achievements/loader.php');
-
-// if($bpAchievementsV2_path !== false) {
-// 	register_deactivation_hook($bpAchievementsV2_path, array('WpProQuiz_Plugin_BpAchievementsV2', 'deinstall'));
-// 	register_activation_hook($bpAchievementsV2_path, array('WpProQuiz_Plugin_BpAchievementsV2', 'install'));
-// }
-
 
 /**
  * Format the Quiz Cloze type answers into an array to be used when comparing responses. 

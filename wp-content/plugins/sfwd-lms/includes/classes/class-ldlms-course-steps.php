@@ -1,90 +1,181 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * LearnDash Course Steps Questions Class.
+ *
+ * @package LearnDash
+ * @subpackage Course
+ */
 
-if ( !class_exists( 'LDLMS_Course_Steps' ) ) {	
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+if ( ! class_exists( 'LDLMS_Course_Steps' ) ) {
+
+	/**
+	 * Class for LearnDash Course Steps.
+	 */
 	class LDLMS_Course_Steps {
 
+		/**
+		 * Course ID for use in this instance.
+		 *
+		 * @var integer $course_id
+		 */
 		private $course_id = 0;
+
+		/**
+		 * Course Steps Loaded flag.
+		 *
+		 * @var boolean $steps_loaded Set to false initially. Set to true once course
+		 * steps have been loaded.
+		 */
 		private $steps_loaded = false;
+
+		/**
+		 * Course Steps are dirty.
+		 *
+		 * @var boolean $steps_dirty Set to false initially but can be set to true if the
+		 * dirty meta is read in and it true.
+		 */
+		private $steps_dirty = false;
+
+		/**
+		 * Course Steps array.
+		 *
+		 * @var array $steps Array of course steps.
+		 */
 		protected $steps = array();
-		protected $steps_post_types = array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz' );
-		
-		function __construct( $course_id = 0 ) {
-			if ( !empty( $course_id ) ) {
+
+		/**
+		 * Course post types
+		 *
+		 * @var array $steps_post_types Course post types.
+		 */
+		protected $steps_post_types = array();
+
+		/**
+		 * Public constructor for class.
+		 *
+		 * @since 2.6.0
+		 * @param integer $course_id Course post ID.
+		 */
+		public function __construct( $course_id = 0 ) {
+			if ( ! empty( $course_id ) ) {
 				$this->course_id = absint( $course_id );
-			} 
+
+				$this->steps_post_types = LDLMS_Post_Types::get_post_types( 'course_steps' );
+			}
 		}
-				
-		function load_steps() {
-				if ( !$this->steps_loaded ) {
+
+		/**
+		 * Load Quiz Questions.
+		 */
+		public function load_steps() {
+			if ( ! $this->steps_loaded ) {
 				$this->steps_loaded = true;
-				
+
 				if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
-					$this->steps = get_post_meta( $this->course_id, 'ld_course_steps', true ); 
+					$this->steps = get_post_meta( $this->course_id, 'ld_course_steps', true );
 				}
 
-				if ( !is_array( $this->steps ) ) $this->steps = array();
-						
-				if ( !empty( $this->steps['h'] ) ) {
+				if ( ! is_array( $this->steps ) ) {
+					$this->steps = array();
+				}
+
+				if ( ! empty( $this->steps['h'] ) ) {
 					if ( $this->is_steps_dirty() ) {
 						$this->steps['h'] = $this->validate_steps( $this->steps['h'] );
+						$this->set_steps( $this->steps['h'] );
 						$this->clear_steps_dirty();
 					}
 				} else {
-					// Note here since we are loading the steps via legacy methods we don't need to validate
+					// Note here since we are loading the steps via legacy methods we don't need to validate.
 					$this->steps['h'] = $this->load_steps_legacy();
-				} 
-				
+				}
+
 				$this->build_steps();
 			}
-			//error_log('steps<pre>'. print_r($this->steps, true) .'</pre>');
 		}
 
-		function set_steps_dirty( ) {
-			if ( !empty( $this->course_id ) ) {
+		/**
+		 * Sets the Course steps dirty flag and will force the steps to be
+		 * reloaded from queries.
+		 */
+		public function set_steps_dirty() {
+			if ( ! empty( $this->course_id ) ) {
+				$this->steps_dirty = true;
 				update_post_meta( $this->course_id, 'ld_course_steps_dirty', $this->course_id );
 			}
 		}
-		
-		function is_steps_dirty() {
-			if ( !empty( $this->course_id ) ) {
-				$is_dirty = get_post_meta( $this->course_id, 'ld_course_steps_dirty', true );
-				if ( $is_dirty == $this->course_id ) {
-					return true;
+
+		/**
+		 * Check if the steps dirty flag is set.
+		 */
+		public function is_steps_dirty() {
+			// If the steps_dirty boolean has been previously set to try it save a call to postmeta.
+			if ( false === $this->steps_dirty ) {
+				if ( ! empty( $this->course_id ) ) {
+					$is_dirty = get_post_meta( $this->course_id, 'ld_course_steps_dirty', true );
+					if ( absint( $is_dirty ) === absint( $this->course_id ) ) {
+						$this->steps_dirty = true;
+					}
 				}
 			}
+
+			return $this->steps_dirty;
 		}
-		
-		function clear_steps_dirty() {
-			if ( !empty( $this->course_id ) ) {
+
+		/**
+		 * Clear the steps dirty flag.
+		 */
+		public function clear_steps_dirty() {
+			if ( ! empty( $this->course_id ) ) {
+				$this->steps_dirty = false;
 				delete_post_meta( $this->course_id, 'ld_course_steps_dirty' );
 			}
 		}
 
-		function get_steps_count() {
+		/**
+		 * Get the total steps course for the course.
+		 */
+		public function get_steps_count() {
 			$course_steps_count = 0;
-			
-			$this->get_steps('t');
 
-			if ( isset( $this->steps['t']['sfwd-lessons'] ) )
+			$this->get_steps( 't' );
+
+			if ( isset( $this->steps['t']['sfwd-lessons'] ) ) {
 				$course_steps_count += count( $this->steps['t']['sfwd-lessons'] );
-			if ( isset( $this->steps['t']['sfwd-topic'] ) )
+			}
+			if ( isset( $this->steps['t']['sfwd-topic'] ) ) {
 				$course_steps_count += count( $this->steps['t']['sfwd-topic'] );
-			
-			if ( ( isset( $this->steps['h']['sfwd-quiz'] ) ) && ( !empty( $this->steps['h']['sfwd-quiz'] ) ) )
-				$course_steps_count += 1;
-			
+			}
+			if ( ( isset( $this->steps['h']['sfwd-quiz'] ) ) && ( ! empty( $this->steps['h']['sfwd-quiz'] ) ) ) {
+				$course_steps_count++;
+			}
+
 			return $course_steps_count;
 		}
 
-		function build_steps() {
-			if ( !isset( $this->steps['h'] ) ) $this->steps['h'] = array();
-			if ( !isset( $this->steps['t'] ) ) $this->steps['t'] = array();
-			if ( !isset( $this->steps['r'] ) ) $this->steps['r'] = array();
-			if ( !isset( $this->steps['l'] ) ) $this->steps['l'] = array();
-		
-			if ( !empty( $this->steps['h'] ) ) {
-		
+		/**
+		 * Build Course Steps nodes.
+		 */
+		protected function build_steps() {
+			if ( ! isset( $this->steps['h'] ) ) {
+				$this->steps['h'] = array();
+			}
+			if ( ! isset( $this->steps['t'] ) ) {
+				$this->steps['t'] = array();
+			}
+			if ( ! isset( $this->steps['r'] ) ) {
+				$this->steps['r'] = array();
+			}
+			if ( ! isset( $this->steps['l'] ) ) {
+				$this->steps['l'] = array();
+			}
+
+			if ( ! empty( $this->steps['h'] ) ) {
+
 				if ( empty( $this->steps['t'] ) ) {
 					$this->steps['t'] = $this->steps_grouped_by_type( $this->steps['h'] );
 				}
@@ -92,80 +183,86 @@ if ( !class_exists( 'LDLMS_Course_Steps' ) ) {
 				if ( empty( $this->steps['l'] ) ) {
 					$this->steps['l'] = $this->steps_grouped_linear( $this->steps['h'] );
 				}
-			
-				//$course_steps_combined_keys = $this->steps_combined_keys( $this->steps['h'] );
-				//if ( !empty( $course_steps_combined_keys ) ) {
-				//	$this->steps['combined_keys'] = $course_steps_combined_keys;
-				//	error_log('combined_keys<pre>'. print_r($this->steps['combined_keys'], true) .'</pre>');
-				//}
-			
-			
+
 				if ( empty( $this->steps['r'] ) ) {
 					$this->steps['r'] = $this->steps_grouped_reverse_keys( $this->steps['h'] );
-					//error_log('steps[r]<pre>'. print_r($this->steps['r'], true) .'</pre>');
 				}
 			}
 		}
 
-		function validate_steps( $steps = array() ) {
-			if ( !empty( $steps ) ) {
-				foreach( $steps as $steps_type => $steps_type_set ) {
-					if ( ( is_array( $steps_type_set ) ) && (!empty( $steps_type_set ) ) ) {
+		/**
+		 * Validate Course Steps nodes and items.
+		 *
+		 * @since 2.5.0
+		 * @param array $steps Current steps nodes and items.
+		 */
+		protected function validate_steps( $steps = array() ) {
+			if ( ! empty( $steps ) ) {
+				foreach ( $steps as $steps_type => $steps_type_set ) {
+					if ( ( is_array( $steps_type_set ) ) && ( ! empty( $steps_type_set ) ) ) {
 						$steps_query_args = array(
-							'post_type' 		=> 	$steps_type,
-							'post__in'			=>	array_keys( $steps_type_set ),
-							'posts_per_page' 	=> 	-1,
-							'post_status' 		=> 	'publish',
-							'fields'			=>	'ids',
-							'orderby' 			=> 	'post__in', 
+							'post_type'      => $steps_type,
+							'post__in'       => array_keys( $steps_type_set ),
+							'posts_per_page' => -1,
+							'post_status'    => 'publish',
+							'fields'         => 'ids',
+							'orderby'        => 'post__in',
 						);
 
 						$steps_query = new WP_Query( $steps_query_args );
-						if ( ( $steps_query instanceof WP_Query ) && ( property_exists( $steps_query, 'posts' ) ) && ( !empty( $steps_query->posts ) ) ) {	
+						if ( ( $steps_query instanceof WP_Query ) && ( property_exists( $steps_query, 'posts' ) ) && ( ! empty( $steps_query->posts ) ) ) {
 							$step_ids_diff = array_diff( array_keys( $steps_type_set ), $steps_query->posts );
-							if ( !empty( $step_ids_diff ) ) {
-								foreach( $step_ids_diff as $step_id_diff ) {
-									unset( $steps[$steps_type][$step_id_diff] );
-									unset( $steps_type_set[$step_id_diff] );
+							if ( ! empty( $step_ids_diff ) ) {
+								foreach ( $step_ids_diff as $step_id_diff ) {
+									unset( $steps[ $steps_type ][ $step_id_diff ] );
+									unset( $steps_type_set[ $step_id_diff ] );
 								}
 							}
 						}
 
-						if ( !empty( $steps_type_set ) ) {
-							foreach( $steps_type_set as $step_id => $step_id_set ) {
-								if ( ( is_array( $step_id_set ) ) && ( !empty( $step_id_set ) ) ) {
-									$steps[$steps_type][$step_id] = $this->validate_steps( $step_id_set );
+						if ( ! empty( $steps_type_set ) ) {
+							foreach ( $steps_type_set as $step_id => $step_id_set ) {
+								if ( ( is_array( $step_id_set ) ) && ( ! empty( $step_id_set ) ) ) {
+									$steps[ $steps_type ][ $step_id ] = $this->validate_steps( $step_id_set );
 								}
 							}
 						}
 					}
 				}
 			}
-			
+
 			return $steps;
 		}
 
-		// This converts the normal hierachy steps into an array groups be the post type. This is easier for search.
-		function steps_grouped_by_type( $steps ) {
+		/**
+		 * This converts the normal hierachy steps into an array groups be the post type. This is easier for search.
+		 *
+		 * @since 2.5.0
+		 * @param array $steps Array of Course steps nodes and items.
+		 * @return array Array of steps by type.
+		 */
+		protected function steps_grouped_by_type( $steps = array() ) {
 			$steps_by_type = array();
-			
-			if ( !empty( $steps ) ) {
-				foreach( $steps as $steps_type => $steps_type_set ) {
-					if ( !isset( $steps_by_type[$steps_type] ) ) 
-						$steps_by_type[$steps_type] = array();
-					
-					if ( ( is_array( $steps_type_set ) ) && (!empty( $steps_type_set ) ) ) {
-						foreach( $steps_type_set as $step_id => $step_id_set ) {
-							$steps_by_type[$steps_type][] = $step_id;
-							if ( ( is_array( $step_id_set ) ) && ( !empty( $step_id_set ) ) ) {
+
+			if ( ! empty( $steps ) ) {
+				foreach ( $steps as $steps_type => $steps_type_set ) {
+					if ( ! isset( $steps_by_type[ $steps_type ] ) ) {
+						$steps_by_type[ $steps_type ] = array();
+					}
+
+					if ( ( is_array( $steps_type_set ) ) && ( ! empty( $steps_type_set ) ) ) {
+						foreach ( $steps_type_set as $step_id => $step_id_set ) {
+							$steps_by_type[ $steps_type ][] = $step_id;
+							if ( ( is_array( $step_id_set ) ) && ( ! empty( $step_id_set ) ) ) {
 								$sub_steps = $this->steps_grouped_by_type( $step_id_set );
-								if ( !empty( $sub_steps ) ) {
-									foreach( $sub_steps as $sub_step_type => $sub_step_ids ) {
-										if ( !isset( $steps_by_type[$sub_step_type] ) ) 
-											$steps_by_type[$sub_step_type] = array();
-										
-										if ( !empty( $sub_step_ids ) ) {
-											$steps_by_type[$sub_step_type] = array_merge( $steps_by_type[$sub_step_type], $sub_step_ids );
+								if ( ! empty( $sub_steps ) ) {
+									foreach ( $sub_steps as $sub_step_type => $sub_step_ids ) {
+										if ( ! isset( $steps_by_type[ $sub_step_type ] ) ) {
+											$steps_by_type[ $sub_step_type ] = array();
+										}
+
+										if ( ! empty( $sub_step_ids ) ) {
+											$steps_by_type[ $sub_step_type ] = array_merge( $steps_by_type[ $sub_step_type ], $sub_step_ids );
 										}
 									}
 								}
@@ -174,81 +271,103 @@ if ( !class_exists( 'LDLMS_Course_Steps' ) ) {
 					}
 				}
 			}
-			
+
 			return $steps_by_type;
 		}
 
-		function steps_grouped_linear( $steps ) {
+		/**
+		 * Group Steps linear.
+		 *
+		 * @since 2.5.0
+		 * @param array $steps Array of Course step nodes and items.
+		 * @return array Array of steps by linear.
+		 */
+		protected function steps_grouped_linear( $steps = array() ) {
 			$steps_linear = array();
-			
-			if ( !empty( $steps ) ) {
-				foreach( $steps as $steps_type => $steps_type_set ) {
-					if ( !isset( $steps_by_type[$steps_type] ) ) 
-					if ( ( is_array( $steps_type_set ) ) && (!empty( $steps_type_set ) ) ) {
-						foreach( $steps_type_set as $step_id => $step_id_set ) {
-							$steps_linear[] = $steps_type .':'. $step_id;
-							if ( ( is_array( $step_id_set ) ) && ( !empty( $step_id_set ) ) ) {
-								$sub_steps = $this->steps_grouped_linear( $step_id_set );
-								if ( !empty( $sub_steps ) ) {
-									$steps_linear = array_merge( $steps_linear, $sub_steps );
+
+			if ( ! empty( $steps ) ) {
+				foreach ( $steps as $steps_type => $steps_type_set ) {
+					if ( ! isset( $steps_by_type[ $steps_type ] ) ) {
+						if ( ( is_array( $steps_type_set ) ) && ( ! empty( $steps_type_set ) ) ) {
+							foreach ( $steps_type_set as $step_id => $step_id_set ) {
+								$steps_linear[] = $steps_type . ':' . $step_id;
+								if ( ( is_array( $step_id_set ) ) && ( ! empty( $step_id_set ) ) ) {
+									$sub_steps = $this->steps_grouped_linear( $step_id_set );
+									if ( ! empty( $sub_steps ) ) {
+										$steps_linear = array_merge( $steps_linear, $sub_steps );
+									}
 								}
 							}
 						}
 					}
 				}
 			}
-			
+
 			return $steps_linear;
 		}
 
-		function steps_grouped_reverse_keys( $steps ) {
+		/**
+		 * Group Steps reversed keys.
+		 *
+		 * @since 2.5.0
+		 * @param array $steps Array of Course step nodes and items.
+		 * @return array Array of steps.
+		 */
+		protected function steps_grouped_reverse_keys( $steps = array() ) {
 			$steps_reversed = $this->_steps_reverse_keys_walk( $steps );
-			if ( !empty( $steps_reversed ) ) {
-				foreach( $steps_reversed as $reversed_key => $reversed_set ) {
-					if ( !empty( $reversed_set ) ) {
-						$steps_reversed[$reversed_key] = $this->_flatten_item_parent_steps( $reversed_set );
+			if ( ! empty( $steps_reversed ) ) {
+				foreach ( $steps_reversed as $reversed_key => $reversed_set ) {
+					if ( ! empty( $reversed_set ) ) {
+						$steps_reversed[ $reversed_key ] = $this->_flatten_item_parent_steps( $reversed_set );
 					} else {
-						$steps_reversed[$reversed_key] = array();
+						$steps_reversed[ $reversed_key ] = array();
 					}
 				}
 			}
-			
+
 			return $steps_reversed;
 		}
 
-		function _steps_reverse_keys_walk( $steps, $parent_tree = array() ) {
+		/**
+		 * Internal utility function to reverse walk the Course steps nodes and items
+		 */
+		private function _steps_reverse_keys_walk( $steps, $parent_tree = array() ) {
 			$steps_reversed = array();
 
-			if ( !empty( $steps ) ) {
-				foreach( $steps as $steps_type => $steps_type_set ) {
-					
-					if ( ( is_array( $steps_type_set ) ) && (!empty( $steps_type_set ) ) ) {
-						foreach( $steps_type_set as $step_id => $step_id_set ) {
+			if ( ! empty( $steps ) ) {
+				foreach ( $steps as $steps_type => $steps_type_set ) {
+
+					if ( ( is_array( $steps_type_set ) ) && ( ! empty( $steps_type_set ) ) ) {
+						foreach ( $steps_type_set as $step_id => $step_id_set ) {
 							$steps_parents = array();
-							$steps_parents[$steps_type.':'.$step_id] = $parent_tree;
-							
-							if ( ( is_array( $step_id_set ) ) && ( !empty( $step_id_set ) ) ) {
+							$steps_parents[ $steps_type . ':' . $step_id ] = $parent_tree;
+
+							if ( ( is_array( $step_id_set ) ) && ( ! empty( $step_id_set ) ) ) {
 								$sub_steps = $this->_steps_reverse_keys_walk( $step_id_set, $steps_parents );
-								if ( !empty( $sub_steps ) ) {
+								if ( ! empty( $sub_steps ) ) {
 									$steps_parents = array_merge( $steps_parents, $sub_steps );
 								}
 							}
-							
-							if ( !empty( $steps_parents ) ) {
+
+							if ( ! empty( $steps_parents ) ) {
 								$steps_reversed = array_merge( $steps_reversed, $steps_parents );
 							}
 						}
 					}
 				}
 			}
-			return $steps_reversed;			
+
+			return $steps_reversed;
 		}
 
-		function _flatten_item_parent_steps( $steps = array() ) {
+		/**
+		 * Internal utility function to reverse parent keys of the Course nodes and items.
+		 */
+		private function _flatten_item_parent_steps( $steps = array() ) {
 			$flattened_steps = array();
-			
-			if ( !empty( $steps ) ) {
-				foreach( $steps as $a_step_key => $a_steps ) {
+
+			if ( ! empty( $steps ) ) {
+				foreach ( $steps as $a_step_key => $a_steps ) {
 					$flattened_steps[] = $a_step_key;
 					$sub_steps = $this->_flatten_item_parent_steps( $a_steps );
 					if ( !empty( $sub_steps ) ) {
@@ -256,233 +375,182 @@ if ( !class_exists( 'LDLMS_Course_Steps' ) ) {
 					}
 				}
 			}
+
 			return $flattened_steps;
 		}
 
-
-		/*
-		function steps_combined_keys( $steps, $parent_type = '' ) {
-			if ( $parent_type == 'sfwd-lessons' ) {
-				$steps_by_type = array(
-					'sfwd-topic' 	=> 	array(),
-					'sfwd-quiz'		=>	array()
-				);
-			} else if ( $parent_type == 'sfwd-topic' ) {
-				$steps_by_type = array(
-					'sfwd-quiz'		=>	array()
-				);
-			} else if ( $parent_type == 'sfwd-quiz' ) {
-				$steps_by_type = array();
-			} else if ( empty( $parent_type ) ) {
-				$steps_by_type = array(
-					'sfwd-lessons' 	=> 	array(),
-					'sfwd-quiz'		=>	array()
-				);
-			}
-			
-			if ( !empty( $steps ) ) {
-				foreach( $steps as $steps_type => $steps_type_set ) {
-					if ( !isset( $steps_by_type[$steps_type] ) ) 
-						//$steps_by_type[$steps_type] = array();
-					
-					if ( ( is_array( $steps_type_set ) ) && (!empty( $steps_type_set ) ) ) {
-						foreach( $steps_type_set as $step_id => $step_id_set ) {
-							$steps_by_type[$steps_type.':'.$step_id] = array();
-							
-							if ( ( is_array( $step_id_set ) ) && ( !empty( $step_id_set ) ) ) {
-								$sub_steps = $this->steps_combined_keys( $step_id_set, $steps_type );
-								if ( !empty( $sub_steps ) ) {
-									$steps_by_type[$steps_type.':'.$step_id] = $sub_steps;
-								}
-							}
-						}
-					}
-				}
-			}
-			
-			return $steps_by_type;
-			
-		}
-		*/
-						
-		function set_steps( $course_steps = array() ) {
-			if ( !empty( $this->course_id ) ) {
-				//$this->steps_old = $this->steps;
+		/**
+		 * Set Course steps.
+		 * This is generally called when editing the course and the course steps has been changed.
+		 *
+		 * @since 2.5.0
+		 * @param array $course_steps Array of Course steps.
+		 */
+		public function set_steps( $course_steps = array() ) {
+			if ( ! empty( $this->course_id ) ) {
 				$this->steps = array();
 				$this->steps['h'] = $course_steps;
-				//$this->steps['h'] = $this->validate_steps( $this->steps['h'] );
 
 				$this->build_steps();
 
 				if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) != 'yes' ) {
-					//if ( !empty( $this->steps['l'] ) ) {
-						$this->set_step_to_course_legacy();
-					//}
+					$this->set_step_to_course_legacy();
 				} else {
 					$this->set_step_to_course();
 					update_post_meta( $this->course_id, 'ld_course_steps', $this->steps ); 
 				}
 			}
 		}
-		
+
+		/**
+		 * Get Course steps by node type.
+		 *
+		 * @since 2.5.0
+		 * @param string $steps_type Course Steps node type.
+		 * @return array of Course Step items found in node.
+		 */
 		function get_steps( $steps_type = 'h' ) {
 			$this->load_steps();
-			//error_log('steps<pre>'. print_r($this->steps, true) .'</pre>');
-			
-			if ( isset( $this->steps[$steps_type] ) ) {
-				return $this->steps[$steps_type];
+
+			if ( isset( $this->steps[ $steps_type ] ) ) {
+				return $this->steps[ $steps_type ];
+			} elseif ( 'all' === $steps_type ) {
+				return $this->steps;
 			}
-			
+
 			return array();
 		}
-		
+
 		/**
-		 * This function sets a post_meta association for the various steps within the course. 
-		 * The new association is 'ld_course_XXX' where 'XXX' is the course ID. 
+		 * This function sets a post_meta association for the various steps within the course.
+		 * The new association is 'ld_course_XXX' where 'XXX' is the course ID.
+		 *
+		 * @since 2.5.0
 		 */
 		function set_step_to_course() {
 			global $wpdb;
-				
+
 			$course_steps_new = array();
-			
-			if ( ( isset( $this->steps['t'] ) ) && ( !empty( $this->steps['t'] ) ) ) {
-				foreach( $this->steps['t'] as $step_type => $step_type_set ) {
-					if ( !empty( $step_type_set ) ) {
+
+			if ( ( isset( $this->steps['t'] ) ) && ( ! empty( $this->steps['t'] ) ) ) {
+				foreach ( $this->steps['t'] as $step_type => $step_type_set ) {
+					if ( ! empty( $step_type_set ) ) {
 						$course_steps_new = array_merge( $course_steps_new, $step_type_set );
 					}
 				}
 			}
-			if ( !empty( $course_steps_new ) ) {
+			if ( ! empty( $course_steps_new ) ) {
 				sort( $course_steps_new, SORT_NUMERIC );
 			}
-			
-			$sql_str = $wpdb->prepare( "SELECT post_id as post_id FROM ". $wpdb->postmeta ." WHERE meta_key LIKE %s", 'ld_course_'. $this->course_id );
+
+			$sql_str = $wpdb->prepare( "SELECT post_id as post_id FROM " . $wpdb->postmeta . " WHERE meta_key LIKE %s", 'ld_course_' . $this->course_id );
 			$course_steps_old = $wpdb->get_col( $sql_str );
-			if ( !empty( $course_steps_old ) ) {
+			if ( ! empty( $course_steps_old ) ) {
 				sort( $course_steps_old, SORT_NUMERIC );
 			}
 
 			$course_steps_intersect = array_intersect( $course_steps_new, $course_steps_old );
-			//error_log('course_steps_intersect<pre>'. print_r($course_steps_intersect, true) .'</pre>');
 
-			// Add Steps
+			// Add Steps.
 			$course_steps_add = array_diff( $course_steps_new, $course_steps_intersect );
-			if ( !empty( $course_steps_add ) ) {
-				$course_steps_add_chunks = array_chunk ( $course_steps_add, LEARNDASH_LMS_DEFAULT_CB_INSERT_CHUNK_SIZE );
-				foreach( $course_steps_add_chunks as $insert_post_ids ) {
+			if ( ! empty( $course_steps_add ) ) {
+				$course_steps_add_chunks = array_chunk( $course_steps_add, LEARNDASH_LMS_DEFAULT_CB_INSERT_CHUNK_SIZE );
+				foreach ( $course_steps_add_chunks as $insert_post_ids ) {
 					$insert_sql_str = "";
-					foreach( $insert_post_ids as $post_id ) {
-						if ( !empty( $insert_sql_str ) ) $insert_sql_str .= ',';
-						
-						$insert_sql_str .= "(". $post_id .", 'ld_course_". $this->course_id ."', $this->course_id)";
+					foreach ( $insert_post_ids as $post_id ) {
+						if ( ! empty( $insert_sql_str ) ) {
+							$insert_sql_str .= ',';
+						}
+
+						$insert_sql_str .= "(" . $post_id . ", 'ld_course_" . $this->course_id . "'," . $this->course_id . ")";
 					}
-					if ( !empty( $insert_sql_str ) ) {
-						$insert_sql_str = "INSERT INTO ". $wpdb->postmeta ." (`post_id`, `meta_key`, `meta_value`) VALUES " . $insert_sql_str;
+					if ( ! empty( $insert_sql_str ) ) {
+						$insert_sql_str = "INSERT INTO " . $wpdb->postmeta . " (`post_id`, `meta_key`, `meta_value`) VALUES " . $insert_sql_str;
 						$wpdb->query( $insert_sql_str );
 					}
 				}
 			}
 
-
-			// Remove Steps
+			// Remove Steps.
 			$course_steps_remove = array_diff( $course_steps_old, $course_steps_intersect );
-			if ( !empty( $course_steps_remove ) ) {
-				$delete_sql_str = "DELETE FROM ". $wpdb->postmeta ." WHERE meta_key LIKE 'ld_course_". $this->course_id ."' AND post_id IN (". implode(',', $course_steps_remove ) .")";
+			if ( ! empty( $course_steps_remove ) ) {
+				$delete_sql_str = "DELETE FROM " . $wpdb->postmeta . " WHERE meta_key LIKE 'ld_course_" . $this->course_id . "' AND post_id IN (" . implode(',', $course_steps_remove ) . ")";
 				$wpdb->query( $delete_sql_str );
 			}
-			
-			
-			// secondary processing here we need to determine all the primary associations for this course and remove any items no longer associated.
-			// For example prior to v2.5 you may have a course ID #123. The course has a lesson, topic and global quiz. Each of these items will have
-			// a post_meta reference 'course_id'. Now in v2.5 the course steps are stored into a collection or nodes. But if for example the quiz is 
-			// remove we need to also remove the legacy 'course_id' association. 
-			
-			//$sql_str = $wpdb->prepare( "SELECT post_id as post_id FROM ". $wpdb->postmeta ." WHERE meta_key = %s AND meta_value = %d", 'course_id', $this->course_id );
-			$sql_str = $wpdb->prepare( "SELECT posts.ID as post_id FROM ". $wpdb->posts ." as posts
-				INNER JOIN ". $wpdb->postmeta ." as postmeta 
+
+			/**
+			 * Secondary processing here we need to determine all the primary associations for this course and remove any items no longer associated.
+			 * For example prior to v2.5 you may have a course ID #123. The course has a lesson, topic and global quiz. Each of these items will have
+			 * a post_meta reference 'course_id'. Now in v2.5 the course steps are stored into a collection or nodes. But if for example the quiz is
+			 * remove we need to also remove the legacy 'course_id' association.
+			 */
+			$sql_str = $wpdb->prepare( "SELECT posts.ID as post_id FROM " . $wpdb->posts . " as posts
+				INNER JOIN " . $wpdb->postmeta . " as postmeta 
 				ON posts.ID = postmeta.post_id 
 				WHERE 1=1
-				AND posts.post_type IN (". "'". implode("','", $this->steps_post_types) . "'" . ")
+				AND posts.post_type IN (" . "'" . implode("','", $this->steps_post_types ) . "'" . ")
 				AND postmeta.meta_key = %s 
-				AND postmeta.meta_value = %d", 'course_id', $this->course_id 
+				AND postmeta.meta_value = %d",
+				'course_id', $this->course_id
 			);
-			//error_log('sql_str['. $sql_str .']');
-			
+
 			$course_steps_primary = $wpdb->get_col( $sql_str );
-			if ( !empty( $course_steps_primary ) ) {
+			if ( ! empty( $course_steps_primary ) ) {
 				$course_steps_primary = array_map( 'intval', $course_steps_primary );
 			}
 
 			$course_steps_primary_intersect = array_intersect( $course_steps_new, $course_steps_primary );
-			
+
 			$course_steps_primary_remove = array_diff( $course_steps_primary, $course_steps_primary_intersect );
-			if ( !empty( $course_steps_primary_remove ) ) {
-				$delete_sql_str = "DELETE FROM ". $wpdb->postmeta ." WHERE meta_key = 'course_id' AND post_id IN (". implode(',', $course_steps_primary_remove ) .")";
+			if ( ! empty( $course_steps_primary_remove ) ) {
+				$delete_sql_str = "DELETE FROM " . $wpdb->postmeta . " WHERE meta_key = 'course_id' AND post_id IN (" . implode(',', $course_steps_primary_remove ) . ")";
 				$wpdb->query( $delete_sql_str );
 			}
 		}
-		
-		function set_step_to_course_legacy() {
+
+		/**
+		 * Set Steps to Course Legacy.
+		 * This is used when the Course Option Share Steps is not used.
+		 *
+		 * @since 2.5.0
+		 */
+		protected function set_step_to_course_legacy() {
 			global $wpdb;
-				
+
 			$course_steps_new = array();
-			
-			if ( ( isset( $this->steps['t'] ) ) && ( !empty( $this->steps['t'] ) ) ) {
-				foreach( $this->steps['t'] as $step_type => $step_type_set ) {
-					if ( !empty( $step_type_set ) ) {
+
+			if ( ( isset( $this->steps['t'] ) ) && ( ! empty( $this->steps['t'] ) ) ) {
+				foreach ( $this->steps['t'] as $step_type => $step_type_set ) {
+					if ( ! empty( $step_type_set ) ) {
 						$this->set_step_to_course_order( $step_type_set );
 						$course_steps_new = array_merge( $course_steps_new, $step_type_set );
 					}
 				}
 			}
-			
-			// Finally we set the Course order to Menu Order/ASC so we can retain te ordering
+
+			// Finally we set the Course order to Menu Order/ASC so we can retain te ordering.
 			learndash_update_setting( $this->course_id, 'course_lesson_orderby', 'menu_order' );
 			learndash_update_setting( $this->course_id, 'course_lesson_order', 'ASC' );
 
-			if ( !empty( $course_steps_new ) ) {
+			if ( ! empty( $course_steps_new ) ) {
 				sort( $course_steps_new, SORT_NUMERIC );
 			}
-			
-			//$sql_str = $wpdb->prepare( "SELECT post_id as post_id FROM ". $wpdb->postmeta ." WHERE meta_key = %s AND meta_value = %s", 'course_id', $this->course_id );
-			$sql_str = $wpdb->prepare( "SELECT posts.ID as post_id FROM ". $wpdb->posts ." as posts
-				INNER JOIN ". $wpdb->postmeta ." as postmeta 
-				ON posts.ID = postmeta.post_id 
-				WHERE 1=1
-				AND posts.post_type IN (". "'". implode("','", $this->steps_post_types) . "'" . ")
-				AND postmeta.meta_key = %s 
-				AND postmeta.meta_value = %d", 'course_id', $this->course_id 
+
+			$sql_str = $wpdb->prepare( "SELECT posts.ID as post_id FROM " . $wpdb->posts . " as posts INNER JOIN " . $wpdb->postmeta . " as postmeta ON posts.ID = postmeta.post_id WHERE 1=1 AND posts.post_type IN (" . "'" . implode("','", $this->steps_post_types ) . "'" . ") AND postmeta.meta_key = %s AND postmeta.meta_value = %d",
+				'course_id', $this->course_id
 			);
 			$course_steps_old = $wpdb->get_col( $sql_str );
-						
-			if ( !empty( $course_steps_old ) ) {
-				//sort( $course_steps_old, SORT_NUMERIC );
+
+			if ( ! empty( $course_steps_old ) ) {
 				$course_steps_old = array_map( 'intval', $course_steps_old );
 			}
 
 			$course_steps_intersect = array_intersect( $course_steps_new, $course_steps_old );
-			//error_log('course_steps_intersect<pre>'. print_r($course_steps_intersect, true) .'</pre>');
 
-			// Add Steps
+			// Add Steps.
 			$course_steps_add = array_diff( $course_steps_new, $course_steps_intersect );
-			if ( !empty( $course_steps_add ) ) {
-				/*
-				$course_steps_add_chunks = array_chunk ( $course_steps_add, LEARNDASH_LMS_DEFAULT_CB_INSERT_CHUNK_SIZE );
-				foreach( $course_steps_add_chunks as $insert_post_ids ) {
-					$insert_sql_str = "";
-					foreach( $insert_post_ids as $post_id ) {
-						if ( !empty( $insert_sql_str ) ) $insert_sql_str .= ',';
-						
-						$insert_sql_str .= "(". $post_id .", 'course_id', $this->course_id)";
-					}
-					if ( !empty( $insert_sql_str ) ) {
-						$insert_sql_str = "INSERT INTO ". $wpdb->postmeta ." (`post_id`, `meta_key`, `meta_value`) VALUES " . $insert_sql_str;
-						$wpdb->query( $insert_sql_str );
-					}
-				}
-				*/
+			if ( ! empty( $course_steps_add ) ) {
 				foreach( $course_steps_add as $post_id ) {
-					//update_post_meta( $post_id, 'course_id', $this->course_id );
 					learndash_update_setting( $post_id, 'course', $this->course_id );
 				}
 			}
@@ -491,14 +559,8 @@ if ( !class_exists( 'LDLMS_Course_Steps' ) ) {
 			// Remove Steps
 			$course_steps_remove = array_diff( $course_steps_old, $course_steps_intersect );
 			if ( !empty( $course_steps_remove ) ) {
-				//$delete_sql_str = "DELETE FROM ". $wpdb->postmeta ." WHERE meta_key = 'course_id' AND meta_value='". $this->course_id ."' AND post_id IN (". implode(',', $course_steps_remove ) .")";
-				//$delete_sql_str = "DELETE FROM ". $wpdb->postmeta ." WHERE meta_key = 'lesson_id' AND meta_value='". $this->course_id ."' AND post_id IN (". implode(',', $course_steps_remove ) .")";
-				//$wpdb->query( $delete_sql_str );
 				foreach( $course_steps_remove as $post_id ) {
-					//delete_post_meta( $post_id, 'course_id' );
 					learndash_update_setting( $post_id, 'course', 0 );
-					
-					//delete_post_meta( $post_id, 'lesson_id' );
 					learndash_update_setting( $post_id, 'lesson', 0 );
 				}
 			}

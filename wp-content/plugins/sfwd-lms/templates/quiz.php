@@ -34,18 +34,40 @@
  * @package LearnDash\Quiz
  */
 
-if( ! empty( $lesson_progression_enabled ) && ! is_quiz_accessable( null, $post ) ) {
-    if ( empty( $quiz_settings['lesson'] ) ) {
-        echo sprintf( wp_kses_post( _x( 'Please go back and complete the previous %s.<br/>', 'placeholder lesson', 'learndash' ) ), LearnDash_Custom_Label::label_to_lower('lesson') );
-    } else {
-        echo sprintf( wp_kses_post( _x( 'Please go back and complete the previous %s.<br/>', 'placeholder topic', 'learndash' ) ), LearnDash_Custom_Label::label_to_lower('topic') );
-    }
+if ( ! empty( $lesson_progression_enabled ) ) {
+
+	$last_incomplete_step = is_quiz_accessable( null, $post, true );
+	if ( 1 !== $last_incomplete_step ) {
+		if ( is_a( $last_incomplete_step, 'WP_Post' ) ) {
+			if ( $last_incomplete_step->post_type === learndash_get_post_type_slug( 'topic' ) ) {
+				echo sprintf(
+					// translators: placeholders: topic URL.
+					esc_html_x( 'Please go back and complete the previous %s.', 'placeholders: topic URL', 'learndash' ),
+					'<a class="learndash-link-previous-incomplete" href="' . learndash_get_step_permalink( $last_incomplete_step->ID, $course_id ) . '">' . LearnDash_Custom_Label::label_to_lower('topic') . '</a>'
+				);
+			} elseif ( $last_incomplete_step->post_type === learndash_get_post_type_slug( 'lesson' ) ) {
+				echo sprintf(
+					// translators: placeholders: lesson URL.
+					esc_html_x( 'Please go back and complete the previous %s.', 'placeholders: lesson URL', 'learndash' ),
+					'<a class="learndash-link-previous-incomplete" href="' . learndash_get_step_permalink( $last_incomplete_step->ID, $course_id ) . '">' . LearnDash_Custom_Label::label_to_lower( 'lesson' ) . '</a>'
+				);
+			} elseif ( $last_incomplete_step->post_type === learndash_get_post_type_slug( 'quiz' ) ) {
+				echo sprintf(
+					// translators: placeholders: quiz URL.
+					esc_html_x( 'Please go back and complete the previous %s.', 'placeholders: quiz URL', 'learndash' ),
+					'<a class="learndash-link-previous-incomplete" href="' . learndash_get_step_permalink( $last_incomplete_step->ID, $course_id ) . '">' . LearnDash_Custom_Label::label_to_lower( 'quiz' ) . '</a>'
+				);
+			} else {
+				echo esc_html__( 'Please go back and complete the previous step.', 'learndash' );
+			}
+		}
+	}
 }
 
-if ( $show_content ) {
+ if ( $show_content ) {
 	if ( ( isset( $materials ) ) && ( !empty( $materials ) ) ) : 
 		?>
-		<div id="learndash_topic_materials" class="learndash_topic_materials">
+		<div id="learndash_quiz_materials" class="learndash_quiz_materials">
 			<h4><?php printf( _x( '%s Materials', 'Quiz Materials Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'quiz' ) ); ?></h4>
 			<p><?php echo $materials; ?></p>
 		</div>

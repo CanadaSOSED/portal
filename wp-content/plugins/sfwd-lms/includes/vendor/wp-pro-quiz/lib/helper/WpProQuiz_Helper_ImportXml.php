@@ -5,7 +5,7 @@ class WpProQuiz_Helper_ImportXml {
 	
 	public function setImportFileUpload($file) {
 		if(!is_uploaded_file($file['tmp_name'])) {
-			$this->setError(__('File was not uploaded', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN));
+			$this->setError(__('File was not uploaded', 'learndash'));
 			return false;
 		}
 	
@@ -28,7 +28,7 @@ class WpProQuiz_Helper_ImportXml {
 		$xml = @simplexml_load_string($this->_content);
 
 		if($xml === false) {
-			$this->_error = esc_html__('XML could not be loaded.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN);			
+			$this->_error = esc_html__('XML could not be loaded.', 'learndash');			
 			return false;
 		}
 		
@@ -41,7 +41,7 @@ class WpProQuiz_Helper_ImportXml {
 		$i = 0;
 		
 		if($xml === false) {
-			$this->_error = esc_html__('XML could not be loaded.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN);
+			$this->_error = esc_html__('XML could not be loaded.', 'learndash');
 			return false;
 		}
 		
@@ -79,46 +79,55 @@ class WpProQuiz_Helper_ImportXml {
 		return base64_encode(gzcompress($this->_content));
 	}
 	
-	public function saveImport($ids) {
-		$quizMapper = new WpProQuiz_Model_QuizMapper();
+	public function saveImport( $ids ) {
+		$quizMapper     = new WpProQuiz_Model_QuizMapper();
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
 		$categoryMapper = new WpProQuiz_Model_CategoryMapper();
-		$formMapper = new WpProQuiz_Model_FormMapper();
+		$formMapper     = new WpProQuiz_Model_FormMapper();
 		
 		$data = $this->getImportData();
 		$categoryArray = $categoryMapper->getCategoryArrayForImport();
 		
-		foreach($data['master'] as $quiz) {
-			if(get_class($quiz) !== 'WpProQuiz_Model_Quiz')
+		foreach ( $data['master'] as $quiz ) {
+			if ( get_class($quiz) !== 'WpProQuiz_Model_Quiz' ) {
 				continue;
-			
-			$oldId = $quiz->getId();
-			
-			if($ids !== false && !in_array($oldId, $ids))
-				continue;
-			
-			$quiz->setId(0);
-			
-			$quizMapper->save($quiz);
-			
-			$user_id = get_current_user_id();
-			$quiz_post_id = wp_insert_post( array( 'post_title' => $quiz->getName(), 'post_type' => 'sfwd-quiz', 'post_status' => 'publish', 'post_author' => $user_id ) );
-			learndash_update_setting($quiz_post_id, "quiz_pro", $quiz->getId());
-			
-			if(isset($data['forms']) && isset($data['forms'][$oldId])) {
-				$sort = 0;
-				
-				foreach($data['forms'][$oldId] as $form) {
-					$form->setQuizId($quiz->getId());
-					$form->setSort($sort++);
-				}
-				
-				$formMapper->update($data['forms'][$oldId]);
 			}
-			
+
+			$oldId = $quiz->getId();
+
+			if ( $ids !== false && ! in_array( $oldId, $ids ) ) {
+				continue;
+			}
+
+			$quiz->setId (0 );
+
+			$quizMapper->save( $quiz );
+
+			$user_id = get_current_user_id();
+			$quiz_post_id = wp_insert_post(
+				array(
+					'post_title' => $quiz->getName(),
+					'post_type' => 'sfwd-quiz',
+					'post_status' => 'publish',
+					'post_author' => $user_id
+				)
+			);
+			learndash_update_setting( $quiz_post_id, "quiz_pro", $quiz->getId() );
+
+			if( isset( $data['forms'] ) && isset( $data['forms'][ $oldId ] ) ) {
+				$sort = 0;
+
+				foreach( $data['forms'][ $oldId ] as $form ) {
+					$form->setQuizId( $quiz->getId() );
+					$form->setSort( $sort++ );
+				}
+
+				$formMapper->update( $data['forms'][ $oldId ] );
+			}
+
 			$sort = 0;
-			
-			foreach($data['question'][$oldId] as $question) {
+
+			foreach( $data['question'][ $oldId ] as $question ) {
 			
 				if(get_class($question) !== 'WpProQuiz_Model_Question')
 					continue;
@@ -141,7 +150,26 @@ class WpProQuiz_Helper_ImportXml {
 					}
 				}
 				
-				$questionMapper->save($question);
+				$question = $questionMapper->save( $question );
+				
+				$question_post_array = array(
+					'post_type'    => learndash_get_post_type_slug( 'question' ),
+					'post_title'   => $question->getTitle(),
+					'post_content' => $question->getQuestion(),
+					'post_status'  => 'publish',
+					'post_author'  => $user_id,
+					'menu_order'   => $sort,
+				);
+				$question_post_array = wp_slash( $question_post_array );
+				$question_post_id = wp_insert_post( $question_post_array );
+				if ( ! empty( $question_post_id ) ) {
+					update_post_meta( $question_post_id, 'points', absint( $question->getPoints() ) );
+					update_post_meta( $question_post_id, 'question_type', $question->getAnswerType() );
+					update_post_meta( $question_post_id, 'question_pro_id', absint( $question->getId() ) );
+
+					learndash_update_setting( $question_post_id, 'quiz', $quiz_post_id );
+					add_post_meta( $question_post_id, 'ld_quiz_id', $quiz_post_id );
+				}
 			}
 		}
 		
@@ -246,6 +274,8 @@ class WpProQuiz_Helper_ImportXml {
 	private function createQuizModel($xml) {
 		$model = new WpProQuiz_Model_Quiz();
 		
+		$quizId = $xml->attributes()->id;
+
 		$model->setName(trim($xml->title));
 		$model->setText(trim($xml->text));
 		$model->setTitleHidden($xml->title->attributes()->titleHidden == 'true');
@@ -414,6 +444,17 @@ class WpProQuiz_Helper_ImportXml {
 				if($attr !== null) {
 					$answerModel->setCorrect($attr->correct == 'true');
 					$answerModel->setPoints($attr->points);
+
+					if ( 'essay' === $model->getAnswerType() ) {
+						$answerModel->setGraded('1');
+						if ( isset( $attr->gradedType ) ) {
+							$answerModel->setGradedType( $attr->gradedType );
+						}
+
+						if ( isset( $attr->gradingProgression ) ) {
+							$answerModel->setGradingProgression( $attr->gradingProgression );
+						}
+					}
 				}
 				
 				$answerModel->setAnswer(trim($answer->answerText));

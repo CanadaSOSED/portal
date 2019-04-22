@@ -112,26 +112,37 @@ foreach ( $course_progress as $course_id => $coursep ) {
 				}
 			?>
 			<div id="learndash-profile-course-details-container-<?php echo $course_id ?>" class="learndash-profile-course-details-container" style="display:none">
+				<?php
+					SFWD_LMS::get_template(
+						'course_details_admin',
+						array(
+							'user_id'          => $user_id,
+							'course_id'        => $course_id,
+							'course_progress'  => isset( $course_progress[ $course_id ] ) ? $course_progress[ $course_id ] : array(),
+						),
+						true
+					);
+				?>
 				<input id="learndash-mark-course-complete-<?php echo $course_id ?>" type="checkbox" <?php echo $course_checked; ?> class="learndash-mark-course-complete" data-name="<?php echo htmlspecialchars( json_encode( $user_course_progress, JSON_FORCE_OBJECT ) ) ?>" <?php echo $unchecked_children_message ?> /><label for="learndash-mark-course-complete-<?php echo $course_id ?>"><?php echo sprintf( _x('%s All Complete', 'Course All Complete', 'learndash'), LearnDash_Custom_Label::get_label( 'course' ) ) ?></label><br />
 				<?php
-					include( 
-						SFWD_LMS::get_template( 
-							'course_navigation_admin', 
-							array( 
-								'course_id' 		=> 	$course_id, 
-								'course' 			=> 	$course, 
-								'course_progress' 	=> 	$course_progress,
-								'lessons' 			=> 	$lessons, 
-								'course_quiz_list'	=>	$course_quiz_list,
-								'user_id'			=>	$user_id,
-								'widget' 			=>	array(
-															'show_widget_wrapper' => true,
-															'current_lesson_id' => 0,
-															'current_step_id' => 0
-														)
-							), 
-							null, 
-							true 
+					include(
+						SFWD_LMS::get_template(
+							'course_navigation_admin',
+							array(
+								'course_id'        => $course_id,
+								'course'           => $course,
+								'course_progress'  => $course_progress,
+								'lessons'          => $lessons,
+								'course_quiz_list' => $course_quiz_list,
+								'user_id'          => $user_id,
+								'widget'           => array(
+									'show_widget_wrapper' => true,
+									'current_lesson_id'   => 0,
+									'current_step_id'     => 0,
+								),
+							),
+							null,
+							true
 						)
 					);
 				?>

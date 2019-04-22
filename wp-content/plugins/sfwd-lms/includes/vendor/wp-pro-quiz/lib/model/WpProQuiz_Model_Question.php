@@ -2,6 +2,7 @@
 
 class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 	protected $_id = 0;
+	protected $_questionPostId = 0;
 	protected $_quizId = 0;
 	protected $_sort = 0;
 	protected $_title = '';
@@ -40,6 +41,14 @@ class WpProQuiz_Model_Question extends WpProQuiz_Model_Model {
 
 	public function getId() {
 		return $this->_id;
+	}
+
+	public function setQuestionPostId( $question_post_id = 0 ) {
+		$this->_questionPostId = absint( $question_post_id );
+	}
+
+	public function getQuestionPostId() {
+		return $this->_questionPostId;
 	}
 
 	public function setQuizId( $_quizId ) {

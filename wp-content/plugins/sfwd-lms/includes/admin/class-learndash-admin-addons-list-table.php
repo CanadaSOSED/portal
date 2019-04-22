@@ -1,75 +1,98 @@
-<?php 
-if ( !class_exists( 'WP_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+<?php
+/**
+ * LearnDash Settings Page Add-ons.
+ *
+ * @package LearnDash
+ * @subpackage Add-on Updates
+ */
+
+if ( ! class_exists( 'WP_List_Table' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
-if ( !class_exists( 'WP_Plugin_Install_List_Table' ) ) {
-    require_once( ABSPATH . 'wp-admin/includes/class-wp-plugin-install-list-table.php' );
+if ( ! class_exists( 'WP_Plugin_Install_List_Table' ) ) {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-plugin-install-list-table.php' );
 }
 
-if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Learndash_Admin_Addons_List_Table') ) ) {
+if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( ! class_exists( 'Learndash_Admin_Addons_List_Table' ) ) ) {
+	/**
+	 * Class to create Addons list table.
+	 */
 	class Learndash_Admin_Addons_List_Table extends WP_Plugin_Install_List_Table {
 
-		var $filters 	= array();
-		var $per_page 	= 10;
-		var $columns 	= array();
+		var $filters       = array();
+		var $per_page      = 10;
+		var $columns       = array();
 		var $addon_updater = null;
-		var $group_id	= 0;
+		var $group_id      = 0;
 
-		var $tabs 		= array();
-		var $current_tab= 'learndash';
+		var $tabs        = array();
+		var $current_tab = 'learndash';
 
-	    function __construct() {
-	        global $status, $page;
+		/**
+		 * List table constructor.
+		 */
+		public function __construct() {
+			global $status, $page;
 
-	        //Set parent defaults
-	        parent::__construct( 
+			// Set parent defaults.
+			parent::__construct(
 				array(
-	            	'singular'  => 	'addon',     	//singular name of the listed records
-	            	'plural'    => 	'addons',    	//plural name of the listed records
-	            	'ajax'      => 	true        	//does this table support ajax?
-	        	) 
-			);
-			
-			$this->tabs = array(
-				'learndash' 	=> array(
-					'label' => 	esc_html__( 'LearnDash', 'learndash' ),
-					'url'	=>	add_query_arg('tab', 'learndash' )
-				),
-			    'third-party' => array(
-					'label'	=>	esc_html__( 'Third Party', 'learndash' ),
-					'url'	=>	add_query_arg('tab', 'third-party' ),
+					'singular' => 'addon',
+					'plural'   => 'addons',
+					'ajax'     => true,
 				)
 			);
 
-			if ( ( isset( $_GET['tab'] ) ) && ( !empty( $_GET['tab'] ) ) ) {
+			$this->tabs = array(
+				'learndash' => array(
+					'label' => esc_html__( 'LearnDash', 'learndash' ),
+					'url'   => add_query_arg( 'tab', 'learndash' ),
+				),
+				'third-party' => array(
+					'label' => esc_html__( 'Third Party', 'learndash' ),
+					'url'   => add_query_arg( 'tab', 'third-party' ),
+				),
+			);
+
+			if ( ( isset( $_GET['tab'] ) ) && ( ! empty( $_GET['tab'] ) ) ) {
 				$current_tab = esc_attr( $_GET['tab'] );
-				if ( isset( $this->tabs[$current_tab] ) )
+				if ( isset( $this->tabs[$current_tab] ) ) {
 					$this->current_tab = $current_tab;
-			}
-		}
-		
-		function prepare_items() {
-			if ( $this->current_tab == 'learndash' ) {
-				$this->prepare_items_learndash();
-			} else if ( $this->current_tab == 'third-party' ) {
-				$this->prepare_items_third_party();
-			 } else {
-				$this->items = apply_filters('learndash_addon_tab_items_'. $this->current_tab, array() );
+				}
 			}
 		}
 
+		/**
+		 * Prepare Items.
+		 */
+		public function prepare_items() {
+			if ( 'learndash' === $this->current_tab ) {
+				$this->prepare_items_learndash();
+			} else if ( 'third-party' === $this->current_tab ) {
+				$this->prepare_items_third_party();
+			} else {
+				$this->items = apply_filters( 'learndash_addon_tab_items_' . $this->current_tab, array() );
+			}
+		}
+
+		/**
+		 * Prepare items LearnDash.
+		 */
 		public function prepare_items_learndash() {
 			$this->addon_updater = new LearnDash_Addon_Updater();
 			$this->items = $this->addon_updater->get_addon_plugins();
-			if ( !empty( $this->items ) ) {
-				foreach( $this->items as $item_slug => $item ) {
+			if ( ! empty( $this->items ) ) {
+				foreach ( $this->items as $item_slug => $item ) {
 					if ( ( isset( $item['show-add-on'] ) ) && ( $item['show-add-on'] == 'no' ) ) {
-						unset( $this->items[$item_slug] );
+						unset( $this->items[ $item_slug ] );
 					}
 				}
 			}
 		}
 
+		/**
+		 * Prepare Items Third Party.
+		 */
 		public function prepare_items_third_party() {
 			include( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
@@ -85,16 +108,16 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 				'fields' => array(
 					'last_updated' => true,
 					'icons' => true,
-					'active_installs' => true
+					'active_installs' => true,
 				),
+
 				// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
 				'locale' => get_user_locale(),
 				'installed_plugins' => array_keys( $installed_plugins ),
 			);
 
-			//$args['search'] = 'LearnDash';
 			$args['tag'] = sanitize_title_with_dashes( 'LearnDash' );
-			
+
 			$api = plugins_api( 'query_plugins', $args );
 
 			if ( is_wp_error( $api ) ) {
@@ -136,21 +159,27 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 				) );
 			}
 		}
-		
+
+		/**
+		 * Display Rows.
+		 */
 		public function display_rows() {
-			if ( $this->current_tab == 'learndash' ) {
+			if ( 'learndash' == $this->current_tab ) {
 				$this->display_rows_learndash();
-			} else if ( $this->current_tab == 'third-party' ) {
+			} else if ( 'third-party' == $this->current_tab ) {
 				parent::display_rows();
-			 } else {
-				do_action('learndash_addon_display_rows_'. $this->current_tab );
+			} else {
+				do_action( 'learndash_addon_display_rows_' . $this->current_tab );
 			}
 		}
-		
+
+		/**
+		 * Display Rows LearnDash.
+		 */
 		public function display_rows_learndash() {
 			$plugins_allowedtags = array(
-				'a' => array( 'href' => array(),'title' => array(), 'target' => array() ),
-				'abbr' => array( 'title' => array() ),'acronym' => array( 'title' => array() ),
+				'a' => array( 'href' => array(), 'title' => array(), 'target' => array() ),
+				'abbr' => array( 'title' => array() ), 'acronym' => array( 'title' => array() ),
 				'code' => array(), 'pre' => array(), 'em' => array(),'strong' => array(),
 				'ul' => array(), 'ol' => array(), 'li' => array(), 'p' => array(), 'br' => array()
 			);
@@ -172,7 +201,11 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 
 				$author = wp_kses( $plugin['author'], $plugins_allowedtags );
 				if ( ! empty( $author ) ) {
-					$author = ' <cite>' . sprintf( __( 'By %s' ), $author ) . '</cite>';
+					$author = ' <cite>' . sprintf(
+						// translators: placeholder Author.
+						__( 'By %s' ),
+						$author
+					) . '</cite>';
 				}
 
 				$action_links = array();
@@ -180,7 +213,7 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 				if ( current_user_can( 'install_plugins' ) || current_user_can( 'update_plugins' ) ) {
 					if ( isset( $plugin['plugin_status'] ) ) {
 						$status = $plugin['plugin_status'];
-					
+
 						switch ( $status['status'] ) {
 							case 'install':
 								if ( $status['url'] ) {
@@ -188,14 +221,14 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 									$action_links[] = '<a class="install-now button" data-slug="' . esc_attr( $plugin['slug'] ) . '" href="' . esc_url( $status['url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Install %s now' ), $name ) ) . '" data-name="' . esc_attr( $name ) . '">' . __( 'Install Now' ) . '</a>';
 								}
 								break;
-				
+
 							case 'update_available':
 								if ( $status['url'] ) {
 									/* translators: 1: Plugin name and version */
 									$action_links[] = '<a class="update-now button aria-button-if-js" data-plugin="' . esc_attr( $status['file'] ) . '" data-slug="' . esc_attr( $plugin['slug'] ) . '" href="' . esc_url( $status['url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Update %s now' ), $name ) ) . '" data-name="' . esc_attr( $name ) . '">' . __( 'Update Now' ) . '</a>';
 								}
 								break;
-				
+
 							case 'latest_installed':
 							case 'newer_installed':
 								if ( is_plugin_active( $status['file'] ) ) {
@@ -209,14 +242,14 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 										'action'      => 'activate',
 										'plugin'      => $status['file'],
 									), network_admin_url( 'plugins.php' ) );
-				
+
 									if ( is_network_admin() ) {
 										$button_text  = __( 'Network Activate' );
 										/* translators: %s: Plugin name */
 										$button_label = _x( 'Network Activate %s', 'plugin' );
 										$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
 									}
-				
+
 									$action_links[] = sprintf(
 										'<a href="%1$s" class="button activate-now" aria-label="%2$s">%3$s</a>',
 										esc_url( $activate_url ),
@@ -231,28 +264,25 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 					}
 				}
 
-				$details_link   = self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] .
-									'&amp;TB_iframe=true&amp;width=600&amp;height=550' );
+				$details_link   = self_admin_url( 'plugin-install.php?tab=plugin-information&amp;plugin=' . $plugin['slug'] . '&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
 				/* translators: 1: Plugin name and version. */
 				$action_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox open-plugin-details-modal" aria-label="' . esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
 
-				
-				if ( !empty( $plugin['icons']['svg'] ) ) {
+				if ( ! empty( $plugin['icons']['svg'] ) ) {
 					$plugin_icon_url = $plugin['icons']['svg'];
-				} elseif ( !empty( $plugin['icons']['2x'] ) ) {
+				} elseif ( ! empty( $plugin['icons']['2x'] ) ) {
 					$plugin_icon_url = $plugin['icons']['2x'];
-				} elseif ( !empty( $plugin['icons']['1x'] ) ) {
+				} elseif ( ! empty( $plugin['icons']['1x'] ) ) {
 					$plugin_icon_url = $plugin['icons']['1x'];
 				} else {
 					$plugin_icon_url = $plugin['icons']['default'];
 				}
-				
-				if ( ( !empty( $plugin_icon_url ) ) && ( substr( $plugin_icon_url, 0, 2 ) != '//' ) ) {
-					$plugin_icon_url = LEARNDASH_LMS_PLUGIN_URL .$plugin_icon_url;
+
+				if ( ( ! empty( $plugin_icon_url ) ) && ( substr( $plugin_icon_url, 0, 2 ) != '//' ) ) {
+					$plugin_icon_url = LEARNDASH_LMS_PLUGIN_URL . $plugin_icon_url;
 				}
-				
-				
+
 				$last_updated_timestamp = strtotime( $plugin['last_updated'] );
 			?>
 			<div class="plugin-card plugin-card-<?php echo sanitize_html_class( $plugin['slug'] ); ?>">
@@ -261,7 +291,7 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 						<h3>
 							<a href="<?php echo esc_url( $details_link ); ?>" class="thickbox open-plugin-details-modal">
 							<?php echo $title; ?>
-							<img src="<?php echo esc_attr( $plugin_icon_url ) ?>" class="plugin-icon" alt="">
+							<img src="<?php echo esc_attr( $plugin_icon_url ); ?>" class="plugin-icon" alt="">
 							</a>
 						</h3>
 					</div>
@@ -278,15 +308,21 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 					</div>
 				</div>
 				<?php
-				if ( ( isset( $plugin['upgrade_notice']['content'][$plugin['version']] ) ) && ( !empty( $plugin['upgrade_notice']['content'][$plugin['version']] ) ) ) {
-					if ( ( isset( $plugin['plugin_status']['status'] ) ) && ( $plugin['plugin_status']['status'] == 'update_available' ) ) {
-						?><div class="plugin-card-upgrade-notice"><span style="display: block; background-color: #d54e21; padding: 10px; color: #f9f9f9; margin-top: 10px"><?php echo esc_html( $plugin['upgrade_notice']['content'][$plugin['version']] ); ?></span></div><?php
+				if ( ( isset( $plugin['upgrade_notice']['content'][ $plugin['version'] ] ) ) && ( !empty( $plugin['upgrade_notice']['content'][ $plugin['version'] ] ) ) ) {
+					if ( ( isset( $plugin['plugin_status']['status'] ) ) && ( 'update_available' === $plugin['plugin_status']['status'] ) ) {
+						?><div class="plugin-card-upgrade-notice"><span style="display: block; background-color: #d54e21; padding: 10px; color: #f9f9f9; margin-top: 10px"><?php echo esc_html( $plugin['upgrade_notice']['content'][ $plugin['version'] ] ); ?></span></div><?php
 					}
 				}
 				?>
 				<div class="plugin-card-bottom">
 					<div class="column-updated">
-						<strong><?php _e( 'Last Updated:' ); ?></strong> <?php printf( esc_html_x( '%s ago', 'placeholder: human relative date time', 'learndash' ), human_time_diff( $last_updated_timestamp ) ); ?>
+						<strong><?php _e( 'Last Updated:' ); ?></strong> <?php 
+						printf(
+							// translators: placeholder: Human relative date time.
+							esc_html_x( '%s ago', 'placeholder: human relative date time', 'learndash' ),
+							human_time_diff( $last_updated_timestamp )
+						); 
+						?>
 					</div>
 					<div class="column-compatibility">
 						<?php
@@ -306,17 +342,21 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 			<?php
 			}
 
-			// Close off the group divs of the last one
+			// Close off the group divs of the last one.
 			if ( ! empty( $group ) ) {
 				echo '</div></div>';
 			}
 		}
 
-		protected function display_tablenav( $which ) {
-		}
-		
 		/**
-		 *
+		 * display_tablenav.
+		 */
+		protected function display_tablenav( $which ) {
+			// Empty function
+		}
+
+		/**
+		 * Get Views.
 		 * @global array $tabs
 		 * @global string $tab
 		 *
@@ -325,17 +365,17 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 		protected function get_views() {
 			$display_tabs = array();
 
-			$this->tabs = apply_filters('learndash_addon_tabs', $this->tabs );
-			
+			$this->tabs = apply_filters( 'learndash_addon_tabs', $this->tabs );
+
 			foreach ( (array) $this->tabs as $action => $tab_set ) {
 				$current_link_attributes = ( $action === $this->current_tab ) ? ' class="current" aria-current="page"' : '';
-				$new_tab = ( ( isset( $tab_set['new_tab'] ) ) && ( $tab_set['new_tab'] == true ) ) ? ' target="_blank" ' : ''; 
- 				$display_tabs['plugin-install-'. $action] = '<a href="'. $tab_set['url'] .'" '. $current_link_attributes .' '. $new_tab .'>'. $tab_set['label'] .'</a>';
+				$new_tab = ( ( isset( $tab_set['new_tab'] ) ) && ( true === $tab_set['new_tab'] ) ) ? ' target="_blank" ' : ''; 
+				$display_tabs['plugin-install-' . $action] = '<a href="' . $tab_set['url'] . '" ' . $current_link_attributes . ' ' . $new_tab . '>' . $tab_set['label'] . '</a>';
 			}
 
 			return $display_tabs;
 		}
-		
+
 		/**
 		 * Override parent views so we can use the filter bar display.
 		 */
@@ -358,30 +398,28 @@ if ( ( class_exists( 'WP_Plugin_Install_List_Table' ) ) && ( !class_exists('Lear
 					}
 					?>
 				</ul>
-
-				<?php //$this->install_search_form(); ?>
+				<?php
+				if (  'learndash' === $this->current_tab ) {
+					$this->show_update_button();
+				}
+				?>
 			</div>
 			<?php
 		}
 
-		/*
-		function install_search_form( $deprecated = true ) {
-			$type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
-			$term = isset( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
-			?><form class="search-form search-plugins" method="get">
-				<input type="hidden" name="tab" value="search" />
-				<label class="screen-reader-text" for="typeselector"><?php _e( 'Search plugins by:' ); ?></label>
-				<select name="type" id="typeselector">
-					<option value="term"<?php selected( 'term', $type ); ?>><?php _e( 'Keyword' ); ?></option>
-					<option value="tag"<?php selected( 'tag', $type ); ?>><?php _ex( 'Tag', 'Plugin Installer' ); ?></option>
-				</select>
-				<label><span class="screen-reader-text"><?php _e( 'Search Plugins' ); ?></span>
-					<input type="search" name="s" value="<?php echo esc_attr( $term ) ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search plugins...' ); ?>" />
-				</label>
-				<?php submit_button( __( 'Search Plugins' ), 'hide-if-js', false, false, array( 'id' => 'search-submit' ) ); ?>
-			</form><?php
+		/**
+		 * Show the force update button.
+		 */
+		public function show_update_button() {
+			$page_url = add_query_arg(
+				array(
+					'page'       => esc_attr( $_GET['page'] ),
+					'repo_reset' => '1',
+				),
+				'admin.php'
+			);
+			echo '<a href="' . $page_url . '" id="learndash-updater" class="button button-primary" style=" float: right; margin: 13px 0;">'. __( 'Check Updates', 'learndash' ) . '</a>';
 		}
-		*/
 	}
 }
 

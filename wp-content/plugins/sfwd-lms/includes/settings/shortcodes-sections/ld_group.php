@@ -33,15 +33,24 @@ if ( ( class_exists( 'LearnDash_Shortcodes_Section' ) ) && ( !class_exists( 'Lea
 					'value' 		=> 	'',
 					'class'			=>	'small-text'
 				),
+				'user_id' => array(
+					'id'			=>	$this->shortcodes_section_key . '_user_id',
+					'name'  		=> 	'user_id', 
+					'type'  		=> 	'number',
+					'label' 		=> 	esc_html__( 'User ID', 'learndash' ),
+					'help_text'		=>	esc_html__('Enter specific User ID. Leave blank for current User.', 'learndash' ),
+					'value' 		=> 	'',
+					'class'			=>	'small-text'
+				),
 			);
-		
-			if ( ( !isset( $this->fields_args['post_type'] ) ) || ( $this->fields_args['post_type'] != 'groups' ) ) {
-				$this->shortcodes_option_fields['group_id']['required'] 	= 'required';	
-				$this->shortcodes_option_fields['group_id']['help_text']	= esc_html__( 'Enter single Group ID.', 'learndash' );
-			} 
-		
+
+			if ( ( ! isset( $this->fields_args['post_type'] ) ) || ( 'groups' != $this->fields_args['post_type'] ) ) {
+				$this->shortcodes_option_fields['group_id']['required'] = 'required';	
+				$this->shortcodes_option_fields['group_id']['help_text'] = esc_html__( 'Enter single Group ID.', 'learndash' );
+			}
+
 			$this->shortcodes_option_fields = apply_filters( 'learndash_settings_fields', $this->shortcodes_option_fields, $this->shortcodes_section_key );
-			
+
 			parent::init_shortcodes_section_fields();
 		}
 	}

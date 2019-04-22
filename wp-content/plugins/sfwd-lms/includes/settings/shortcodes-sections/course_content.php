@@ -30,7 +30,7 @@ if ( ( class_exists( 'LearnDash_Shortcodes_Section' ) ) && ( !class_exists( 'Lea
 					'name'  		=> 	'num', 
 					'type'  		=> 	'number',
 					'label' 		=> 	sprintf( esc_html_x('%s Per Page', 'placeholders: lessons', 'learndash' ), LearnDash_Custom_Label::get_label( 'lessons' ) ),
-					'help_text'		=>	sprintf( esc_html_x( '%s per page. Default is is taken from %s. Set to zero for all.', 'placeholders: lessons, course', 'learndash' ), LearnDash_Custom_Label::get_label( 'lessons' ), LearnDash_Custom_Label::label_to_lower( 'course' ) ),
+					'help_text'		=>	sprintf( esc_html_x( 'Default %d. Set to zero for all.', 'placeholders: default per page', 'learndash' ), LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_Per_Page', 'per_page' ) ),
 					'value' 		=> 	'',
 					'class'			=>	'small-text',
 					'attrs'			=>	array(

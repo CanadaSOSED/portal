@@ -84,10 +84,10 @@ add_action( 'wp_enqueue_scripts', 'learndash_load_resources', apply_filters( 'le
 function learndash_unload_resources() {
 	global $learndash_shortcode_used;
 	global $learndash_assets_loaded;
-	
+
 	// If we are showing a known LD post type then leave it all. 
 	global $learndash_post_types;
-	if ( ( is_singular( $learndash_post_types ) ) || ( $learndash_shortcode_used == true ) ) {
+	if ( ( is_singular( $learndash_post_types ) ) || ( false !== $learndash_shortcode_used ) ) {
 		return;
 	}
 

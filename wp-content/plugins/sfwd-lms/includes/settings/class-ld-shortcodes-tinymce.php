@@ -3,7 +3,7 @@ if ( !class_exists( 'LearnDash_Shortcodes_TinyMCE' ) ) {
 
 	class LearnDash_Shortcodes_TinyMCE {
 
-		protected $post_types = array( 'sfwd-courses', 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz', 'sfwd-certificates', 'page', 'post' );
+		protected $post_types = array( 'sfwd-courses', 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz', 'sfwd-question', 'sfwd-certificates', 'page', 'post' );
 
 		function __construct() {
 		

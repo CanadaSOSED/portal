@@ -23,7 +23,7 @@
  * @return string    		id of course
  */
 function learndash_get_course_id( $id = null, $bypass_cb = false ) {
-	global $post;
+	//global $post;
 
 	if ( is_object( $id ) && $id->ID ) {
 		$p = $id;
@@ -33,12 +33,27 @@ function learndash_get_course_id( $id = null, $bypass_cb = false ) {
 	}
 
 	if ( empty( $id ) ) {
-		if ( ! is_single() || is_home() ) {
-			return false;
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			//return false;
+		} else {
+			if ( is_admin() ) {
+				global $parent_file, $post_type, $pagenow;
+				if ( ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) || ( ! in_array( $post_type, array( 'sfwd-courses', 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz' ) ) ) ) {
+					return false;
+				}
+
+			} else if ( ! is_single() || is_home() ) {
+				return false;
+			}
 		}
 
-		$id = $post->ID;
-		$p = $post;
+		$post = get_post( get_the_id() );
+		if ( ( $post ) && ( $post instanceof WP_Post ) ) {
+			$id = $post->ID;
+			$p = $post;
+		} else {
+			return false;
+		}
 	}
 
 	if ( empty( $p->ID ) ) {
@@ -51,26 +66,33 @@ function learndash_get_course_id( $id = null, $bypass_cb = false ) {
 
 	// Somewhat a kludge. Here we try ans assume the course_id being handled. 
 	if ( ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) && ( $bypass_cb === false ) ) {	
-	
-		$course_slug = get_query_var( 'sfwd-courses' );
-		if ( !empty( $course_slug ) ) {
-			//$course_post = get_page_by_path( $course_slug, OBJECT, 'sfwd-courses' );
-			$course_post = learndash_get_page_by_path( $course_slug, 'sfwd-courses' );
-			if ( ( $course_post ) && ( $course_post instanceof WP_Post ) ) {
-				return $course_post->ID;
+		if ( ! is_admin() ) {
+			$course_slug = get_query_var( 'sfwd-courses' );
+			if ( ! empty( $course_slug ) ) {
+				//$course_post = get_page_by_path( $course_slug, OBJECT, 'sfwd-courses' );
+				$course_post = learndash_get_page_by_path( $course_slug, 'sfwd-courses' );
+				if ( ( $course_post ) && ( $course_post instanceof WP_Post ) ) {
+					return $course_post->ID;
+				}
 			}
-		} else if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
+		}
+
+		if ( ( isset( $_GET['course_id'] ) ) && ( ! empty( $_GET['course_id'] ) ) ) {
 			return intval( $_GET['course_id'] );
-		} else if ( ( isset( $_POST['course_id'] ) ) && ( !empty( $_POST['course_id'] ) ) ) {
+		} else if ( ( isset( $_GET['course'] ) ) && ( ! empty( $_GET['course'] ) ) ) {
+			return intval( $_GET['course'] );
+		} else if ( ( isset( $_POST['course_id'] ) ) && ( ! empty( $_POST['course_id'] ) ) ) {
 			return intval( $_POST['course_id'] );
-		} else if ( ( isset( $_GET['post'] ) ) && ( !empty( $_GET['post'] ) ) ) {
+		} else if ( ( isset( $_POST['course'] ) ) && ( ! empty( $_POST['course'] ) ) ) {
+			return intval( $_POST['course'] );
+		} else if ( ( isset( $_GET['post'] ) ) && ( ! empty( $_GET['post'] ) ) ) {
 			if ( get_post_type( intval( $_GET['post'] ) ) == 'sfwd-courses' ) {
 				return intval( $_GET['post'] );
 			}
 		}
 	}
-	
-	return get_post_meta( $id, 'course_id', true );
+
+	return (int)get_post_meta( $id, 'course_id', true );
 }
 
 
@@ -288,19 +310,7 @@ function sfwd_lms_has_access_fn( $post_id, $user_id = null ) {
 	} else {
 		$course_access_list = array();
 	}
-	
-	//if ( in_array( $user_id, $course_access_list ) ) {
-	//	return true;
-	//}
-	
-	//$user_has_group_access = learndash_user_group_enrolled_to_course( $user_id, $course_id );
-	//if ( $user_has_group_access ) {
-	//	$expired = ld_course_access_expired( $course_id, $user_id );
-	//	return ! $expired; //True if not expired.
-	//} 
-	
-	//return false;
-	
+		
 	if ( in_array( $user_id, $course_access_list ) || learndash_user_group_enrolled_to_course( $user_id, $course_id ) ) {
 		$expired = ld_course_access_expired( $course_id, $user_id );
 		return ! $expired; //True if not expired.
@@ -353,15 +363,42 @@ function ld_course_access_expired( $course_id, $user_id ) {
 
 		if ( time() >= $course_access_upto ) {
 			/**
-			 * As of LearnDash 2.3.0.3 we store the GMT timestamp as the meta value. In prior versions we stored 1
-			*/
-			update_user_meta( $user_id, 'learndash_course_expired_'.$course_id, time() );
-			ld_update_course_access( $user_id, $course_id, true );
-			$delete_course_progress = learndash_get_setting( $course_id, 'expire_access_delete_progress' );
-			if ( ! empty( $delete_course_progress) ) {
-				learndash_delete_course_progress( $course_id, $user_id );
+			 * Filter to control processing the user course expiration.
+			 *
+			 * @since 2.6.2
+			 * @param boolean true.
+			 * @param integer $user_id User ID.
+			 * @param integer $course_id, Course ID.
+			 * @param integer $course_access_upto Timestamp when user course access is to expire.
+			 *
+			 * If return true then processing will continue. If false returned then abort and false returned to calling function.
+			 */
+			if ( apply_filters( 'learndash_process_user_course_access_expire', true, $user_id, $course_id, $course_access_upto ) ) { 
+
+				/**
+				 * As of LearnDash 2.3.0.3 we store the GMT timestamp as the meta value. In prior versions we stored 1
+				*/
+				update_user_meta( $user_id, 'learndash_course_expired_' . $course_id, time() );
+				ld_update_course_access( $user_id, $course_id, true );
+
+				/**
+				 * Action fired when the user course access expired.
+				 *
+				 * @since 2.6.2
+				 *
+				 * @param integer $user_id User ID.
+			 	 * @param integer $course_id, Course ID.
+				 */
+				do_action( 'learndash_user_course_access_expired', $user_id, $course_id );
+
+				$delete_course_progress = learndash_get_setting( $course_id, 'expire_access_delete_progress' );
+				if ( ! empty( $delete_course_progress) ) {
+					learndash_delete_course_progress( $course_id, $user_id );
+				}
+				return true;
+			} else {
+				return false;
 			}
-			return true;
 		} else {
 			return false;
 		}
@@ -459,15 +496,89 @@ function ld_course_access_expires_on( $course_id, $user_id ) {
  *
  * @since 2.1.0
  * 
- * @param  int $course_id
- * @param  int $user_id  
- * @return string
+ * @param int $course_id Course ID to check.
+ * @param int $user_id User ID to check.
+ * @return int
  */
 function ld_course_access_from( $course_id, $user_id ) {
-	return get_user_meta( $user_id, 'course_'.$course_id.'_access_from', true );
+	static $courses = array();
+
+	// If Shared Steps enabled we need to ensure both Course ID and User ID and not empty.
+	if ( 'yes' === LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) ) {
+		if ( ( empty( $course_id ) ) || ( empty( $user_id ) ) ) {
+			return false;
+		}
+	}
+
+	if ( ! isset( $courses[ $course_id ][ $user_id ] ) ) {
+		if ( ! isset( $courses[ $course_id ] ) ) {
+			$courses[ $course_id ] = array();
+		}
+		$courses[ $course_id ][ $user_id ] = false;
+
+		$courses[ $course_id ][ $user_id ] = (int) get_user_meta( $user_id, 'course_' . $course_id . '_access_from', true );
+		if ( empty( $courses[ $course_id ][ $user_id ] ) ) {
+			if ( ( 'open' === learndash_get_course_meta_setting( $course_id, 'course_price_type' ) ) && ( apply_filters( 'learndash_course_open_set_user_access_from', true, $user_id, $course_id ) ) ) {
+				$enrolled_groups = learndash_user_group_enrolled_to_course_from( $user_id, $course_id );
+				if ( empty( $enrolled_groups ) ) {
+					$course_activity_args = array(
+						'course_id'        => $course_id,
+						'user_id'          => $user_id,
+						'post_id'          => $course_id,
+						'activity_type'    => 'course',
+					);
+
+					$course_activity = learndash_get_user_activity( $course_activity_args );
+					if ( ( ! empty( $course_activity ) ) && ( is_object( $course_activity ) ) ) {
+						if ( ( property_exists( $course_activity, 'activity_started' ) ) && ( ! empty( $course_activity->activity_started ) ) ) {
+							$courses[ $course_id ][ $user_id ] = intval( $course_activity->activity_started );
+							update_user_meta( $user_id, 'course_' . $course_id . '_access_from', $courses[ $course_id ][ $user_id ] );
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return $courses[ $course_id ][ $user_id ];
 }
 
+/**
+ * Update the course access time for a user.
+ *
+ * @since 2.6.0
+ *
+ * @param int   $course_id Course ID for update.
+ * @param int   $user_id User ID for update.
+ * @param mixed $access Value can be a date string (YYYY-MM-DD hh:mm:ss or integer value.
+ * @param bool  $is_gmt If $access value is GMT (true) or relative to site timezone (false).
+ *
+ * @return bool Returns true if success.
+ */
+function ld_course_access_update( $course_id, $user_id, $access = '', $is_gmt = false ) {
+	if ( ( ! empty( $course_id ) ) && ( ! empty( $user_id ) ) && ( ! empty( $access ) ) ) {
 
+		if ( ! is_numeric( $access ) ) {
+			// If we a non-numberic value like a date stamp Y-m-d hh:mm:ss we want to convert it to a GMT timestamp.
+			$access_time = learndash_get_timestamp_from_date_string( $access, !$is_gmt );
+		} elseif ( is_string( $access ) ) {
+			if ( ! $is_gmt ) {
+				$access = get_gmt_from_date( $access, 'Y-m-d H:i:s' );
+			}
+			$access_time = strtotime( $access );
+		} else {
+			return false;
+		}
+
+		if ( ( ! empty( $access_time ) ) && ( $access_time > 0 ) ) {
+			// We don't allow dates greater than now.
+			if ( $access_time > time() ) {
+				$access_time = time();
+			}
+			return update_user_meta( $user_id, 'course_' . $course_id . '_access_from', $access_time );
+		}
+	}
+}
 
 /**
  * Update list of courses users has access to
@@ -484,8 +595,8 @@ function ld_update_course_access( $user_id, $course_id, $remove = false ) {
 		return;
 	}
 
-	$meta = get_post_meta( $course_id, '_sfwd-courses', true );
-	$access_list = $meta['sfwd-courses_course_access_list'];
+	$meta = learndash_get_setting( $course_id );
+	$access_list = $meta['course_access_list'];
 	if ( ( !empty( $access_list ) ) && ( is_string( $access_list ) ) ) {
 		$access_list = explode( ',', $access_list );
 		$access_list = array_map( 'intval', $access_list );
@@ -512,17 +623,11 @@ function ld_update_course_access( $user_id, $course_id, $remove = false ) {
 			)
 		); 
 	} else {
-	
+
 		$access_list = array_diff( $access_list, array( $user_id ) );
 		delete_user_meta( $user_id, 'course_'. $course_id .'_access_from' );
 	}
 
-//  Leaving this out for now
-//	$meta_access_user_ids = get_course_users_access_from_meta( $course_id );
-//	if ( !empty( $meta_access_user_ids ) ) {
-//		$access_list = array_merge( $access_list, $meta_access_user_ids );
-//	}
-	
 	if ( !empty( $access_list ) ) {
 		$access_list = array_map( 'intval', $access_list );
 		$access_list = array_unique( $access_list );
@@ -530,10 +635,8 @@ function ld_update_course_access( $user_id, $course_id, $remove = false ) {
 	} else {
 		$access_list = '';
 	}
+	learndash_update_setting( $course_id, 'course_access_list', $access_list );
 
-	$meta['sfwd-courses_course_access_list'] = $access_list;
-	update_post_meta( $course_id, '_sfwd-courses', $meta );
-	
 	/**
 	 * Run actions after a users list of courses is updated
 	 * 
@@ -560,10 +663,13 @@ function ld_update_course_access( $user_id, $course_id, $remove = false ) {
  * @param  int 	$user_id  
  * @return int  timestamp
  */
-function ld_lesson_access_from( $lesson_id, $user_id ) {
+function ld_lesson_access_from( $lesson_id, $user_id, $course_id = null ) {
 	$return = null;
 
-	$course_id = learndash_get_course_id( $lesson_id );
+	if ( is_null( $course_id ) ) {
+		$course_id = learndash_get_course_id( $lesson_id );
+	}
+	
 	$courses_access_from = ld_course_access_from( $course_id, $user_id );
 	if ( empty( $courses_access_from ) ) {
 		$courses_access_from = learndash_user_group_enrolled_to_course_from( $user_id, $course_id );
@@ -1066,20 +1172,24 @@ function learndash_course_content_shortcode( $atts ) {
 	$atts = shortcode_atts( $atts_defaults, $atts );
 	
 	if ( empty( $atts['course_id'] ) ) {
-		return '';
+		$course_id = learndash_get_course_id();
+		if ( empty( $course_id ) ) {
+			return '';
+		}
+		$atts['course_id'] = intval( $course_id );
 	}
 
 	if ( isset( $_GET['ld-courseinfo-lesson-page'] ) ) {
 		$atts['paged'] = intval( $_GET['ld-courseinfo-lesson-page'] );
 	} 
 
-	$course_id = $atts['course_id'];
+	$course_id = intval( $atts['course_id'] );
 
 	$course = $post = get_post( $course_id );
 
-	if ( ! is_singular() || $post->post_type != 'sfwd-courses' ) {
-		return '';
-	}
+//	if ( ! is_singular() || $post->post_type != 'sfwd-courses' ) {
+//		return '';
+//	}
 
 	if ( is_user_logged_in() )
 		$user_id = get_current_user_id();
@@ -1090,7 +1200,7 @@ function learndash_course_content_shortcode( $atts ) {
 	$lesson_progression_enabled = false;
 
 	$course_settings = learndash_get_setting( $course );
-	$lesson_progression_enabled  = learndash_lesson_progression_enabled();
+	$lesson_progression_enabled  = learndash_lesson_progression_enabled( $course_id );
 	$courses_options = learndash_get_option( 'sfwd-courses' );
 	$lessons_options = learndash_get_option( 'sfwd-lessons' );
 	$quizzes_options = learndash_get_option( 'sfwd-quiz' );
@@ -1279,7 +1389,7 @@ function learndash_update_user_activity( $args = array() ) {
 			$update_types_array = $types_array;
 
 			$update_ret = $wpdb->update( 
-				$wpdb->prefix. 'learndash_user_activity', 
+				LDLMS_DB::get_table_name( 'user_activity' ), 
 				$update_values_array,
 				array(
 					'activity_id' => $args['activity_id']
@@ -1301,7 +1411,7 @@ function learndash_update_user_activity( $args = array() ) {
 		$types_array[] = '%d';
 				
 		$insert_ret = $wpdb->insert( 
-			$wpdb->prefix. 'learndash_user_activity', 
+			LDLMS_DB::get_table_name( 'user_activity' ), 
 			$values_array,
 			$types_array
 		);
@@ -1324,7 +1434,7 @@ function learndash_update_user_activity( $args = array() ) {
 function learndash_get_user_activity( $args = array() ) {
 	global $wpdb;
 	
-	$element = Learndash_Admin_Settings_Data_Upgrades::get_instance();
+	$element = Learndash_Admin_Data_Upgrades::get_instance();
 	
 	if ( !isset( $args['course_id'] ) )
 		$args['course_id'] = 0;
@@ -1332,16 +1442,16 @@ function learndash_get_user_activity( $args = array() ) {
 	if ( $args['activity_type'] == 'quiz' ) {
 		$data_settings_quizzes = $element->get_data_settings('user-meta-quizzes');
 		if ( version_compare( $data_settings_quizzes['version'], '2.5', '>=') ) {
-			$sql_str = $wpdb->prepare("SELECT * FROM ". $wpdb->prefix ."learndash_user_activity WHERE user_id=%d AND course_id=%d AND post_id=%d AND activity_type=%s AND activity_completed=%d LIMIT 1", $args['user_id'], $args['course_id'], $args['post_id'], $args['activity_type'], $args['activity_completed'] );
+			$sql_str = $wpdb->prepare("SELECT * FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE user_id=%d AND course_id=%d AND post_id=%d AND activity_type=%s AND activity_completed=%d LIMIT 1", $args['user_id'], $args['course_id'], $args['post_id'], $args['activity_type'], $args['activity_completed'] );
 		} else {
-			$sql_str = $wpdb->prepare("SELECT * FROM ". $wpdb->prefix ."learndash_user_activity WHERE user_id=%d AND post_id=%d AND activity_type=%s AND activity_completed=%d LIMIT 1", $args['user_id'], $args['post_id'], $args['activity_type'], $args['activity_completed'] );
+			$sql_str = $wpdb->prepare("SELECT * FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE user_id=%d AND post_id=%d AND activity_type=%s AND activity_completed=%d LIMIT 1", $args['user_id'], $args['post_id'], $args['activity_type'], $args['activity_completed'] );
 		}
 	} else {
 		$data_settings_courses = $element->get_data_settings('user-meta-courses');
 		if ( version_compare( $data_settings_courses['version'], '2.5', '>=') ) {
-			$sql_str = $wpdb->prepare("SELECT * FROM ". $wpdb->prefix ."learndash_user_activity WHERE user_id=%d AND course_id=%d AND post_id=%d AND activity_type=%s LIMIT 1", $args['user_id'], $args['course_id'], $args['post_id'], $args['activity_type'] );
+			$sql_str = $wpdb->prepare("SELECT * FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE user_id=%d AND course_id=%d AND post_id=%d AND activity_type=%s LIMIT 1", $args['user_id'], $args['course_id'], $args['post_id'], $args['activity_type'] );
 		} else {
-			$sql_str = $wpdb->prepare("SELECT * FROM ". $wpdb->prefix ."learndash_user_activity WHERE user_id=%d AND post_id=%d AND activity_type=%s LIMIT 1", $args['user_id'], $args['post_id'], $args['activity_type'] );
+			$sql_str = $wpdb->prepare("SELECT * FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE user_id=%d AND post_id=%d AND activity_type=%s LIMIT 1", $args['user_id'], $args['post_id'], $args['activity_type'] );
 		}
 	}
 	//error_log('sql_str['. $sql_str .']');
@@ -1367,7 +1477,7 @@ function learndash_get_user_activity_meta( $activity_id = 0, $activity_meta_key 
 	
 	if ( !empty( $activity_meta_key ) ) {
 	
-		$meta_sql_str = $wpdb->prepare("SELECT * FROM ". $wpdb->prefix ."learndash_user_activity_meta WHERE activity_id=%d AND activity_meta_key=%s", $activity_id, $activity_meta_key);
+		$meta_sql_str = $wpdb->prepare("SELECT * FROM " . LDLMS_DB::get_table_name( 'user_activity_meta' ) . " WHERE activity_id=%d AND activity_meta_key=%s", $activity_id, $activity_meta_key);
 		$activity_meta = $wpdb->get_row( $meta_sql_str );
 		if ( !empty($activity_meta ) ) {
 			if ( $return_activity_meta_value_only == true ) {
@@ -1379,7 +1489,7 @@ function learndash_get_user_activity_meta( $activity_id = 0, $activity_meta_key 
 		return $activity_meta;
 	} else {
 		// Here we return ALL meta for the given activity_id
-		$meta_sql_str = $wpdb->prepare("SELECT * FROM ". $wpdb->prefix ."learndash_user_activity_meta WHERE activity_id=%d", $activity_id);
+		$meta_sql_str = $wpdb->prepare( "SELECT * FROM " . LDLMS_DB::get_table_name( 'user_activity_meta' ) . " WHERE activity_id=%d", $activity_id);
 		return $wpdb->get_results( $meta_sql_str );
 	}
 }
@@ -1393,7 +1503,7 @@ function learndash_update_user_activity_meta( $activity_id = 0, $meta_key = '', 
 	$activity = learndash_get_user_activity_meta( $activity_id, $meta_key, false);	
 	if ( null !== $activity ) {
 		$wpdb->update( 
-			$wpdb->prefix ."learndash_user_activity_meta",
+			LDLMS_DB::get_table_name( 'user_activity_meta' ),
 			array(
 				'activity_id'			=>	$activity_id,
 				'activity_meta_key'		=>	$meta_key,
@@ -1414,7 +1524,7 @@ function learndash_update_user_activity_meta( $activity_id = 0, $meta_key = '', 
 		
 	} else {
 		$wpdb->insert( 
-			$wpdb->prefix ."learndash_user_activity_meta",
+			LDLMS_DB::get_table_name( 'user_activity_meta' ),
 			array(
 				'activity_id'			=>	$activity_id,
 				'activity_meta_key'		=>	$meta_key,
@@ -1434,13 +1544,13 @@ function learndash_delete_user_activity( $activity_id = 0 ) {
 	
 	if ( !empty( $activity_id ) ) {
 		$wpdb->delete( 
-			$wpdb->prefix .'learndash_user_activity',
+			LDLMS_DB::get_table_name( 'user_activity' ),
 			array( 'activity_id' => $activity_id ),
 			array( '%d' )
 		);
 
 		$wpdb->delete( 
-			$wpdb->prefix .'learndash_user_activity_meta',
+			LDLMS_DB::get_table_name( 'user_activity_meta' ),
 			array( 'activity_id' => $activity_id ),
 			array( '%d' )
 		);
@@ -1528,7 +1638,7 @@ function learndash_get_users_for_course( $course_id = 0, $query_args = array(), 
 		$query_args['role__not_in'] = array('administrator');
 	}
 	
-	$course_price_type = get_course_meta_setting( $course_id, 'course_price_type' );
+	$course_price_type = learndash_get_course_meta_setting( $course_id, 'course_price_type' );
 	
 	if ($course_price_type == 'open') {
 		
@@ -1537,10 +1647,10 @@ function learndash_get_users_for_course( $course_id = 0, $query_args = array(), 
 		
 	} else {
 	
-		$course_access_list = get_course_meta_setting( $course_id, 'course_access_list');
+		$course_access_list = learndash_get_course_meta_setting( $course_id, 'course_access_list');
 		$course_user_ids = array_merge( $course_user_ids, $course_access_list );
 
-		$course_access_users = get_course_users_access_from_meta( $course_id );
+		$course_access_users = learndash_get_course_users_access_from_meta( $course_id );
 		$course_user_ids = array_merge( $course_user_ids, $course_access_users );
 		
 		$course_groups_users = get_course_groups_users_access( $course_id );
@@ -1549,7 +1659,7 @@ function learndash_get_users_for_course( $course_id = 0, $query_args = array(), 
 		if ( !empty( $course_user_ids ) )
 			$course_user_ids = array_unique( $course_user_ids );
 
-		$course_expired_access_users = get_course_expired_access_from_meta( $course_id );
+		$course_expired_access_users = learndash_get_course_expired_access_from_meta( $course_id );
 		if ( !empty( $course_expired_access_users ) )
 			$course_user_ids = array_diff( $course_access_list, $course_expired_access_users );
 
@@ -1567,7 +1677,7 @@ function learndash_get_users_for_course( $course_id = 0, $query_args = array(), 
 	if ( !empty( $course_user_ids ) ) {
 		
 		// Finally we spin through this list of user_ids and check for expired access. 
-		$course_expire_access = get_course_meta_setting( $course_id, 'expire_access' );
+		$course_expire_access = learndash_get_course_meta_setting( $course_id, 'expire_access' );
 		if ( !empty( $course_expire_access ) ) {
 		
 			$expired_user_ids = array();
@@ -1640,7 +1750,7 @@ function learndash_set_users_for_course( $course_id = 0, $course_users_new = arr
 
 
 // Get all users with explicit 'course_XX_access_from' access
-function get_course_users_access_from_meta( $course_id = 0 ) {
+function learndash_get_course_users_access_from_meta( $course_id = 0 ) {
 	global $wpdb;
 	
 	$course_user_ids = array();
@@ -1655,7 +1765,7 @@ function get_course_users_access_from_meta( $course_id = 0 ) {
 }
 
 // Get all the users for a given course_id that have 'learndash_course_expired_XX' user meta records. 
-function get_course_expired_access_from_meta( $couese_id = 0 ) {
+function learndash_get_course_expired_access_from_meta( $course_id = 0 ) {
 	global $wpdb;
 	
 	$expired_user_ids = array();
@@ -1672,7 +1782,7 @@ function get_course_expired_access_from_meta( $couese_id = 0 ) {
 
 // Utility function to att the course settings in meta. Better than having this over inline over and over again. 
 // @TODO Need to convert all references to get_post_meta for '_sfwd-courses' to use this function.
-function get_course_meta_setting( $course_id = 0, $setting_key = '' ) {
+function learndash_get_course_meta_setting( $course_id = 0, $setting_key = '' ) {
 	$course_settings = array();
 	
 	if ( empty( $course_id ) ) return $course_settings;
@@ -1738,79 +1848,70 @@ function learndash_get_course_steps( $course_id = 0, $include_post_types = array
 	$steps_all = array();
 	
 	if ( !empty( $course_id ) ) {
-		// Just a loop to initialize each post_type set
-		foreach( $include_post_types as $post_type ) {
-			$steps[$post_type] = array();
-		}
+		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
+			foreach( $include_post_types as $post_type ) {
+				$steps[$post_type] = learndash_course_get_steps_by_type( $course_id, $post_type );
+			}
+		} else {
+			if ( ( in_array( 'sfwd-lessons', $include_post_types ) ) || ( in_array( 'sfwd-topic', $include_post_types ) ) ) {
+				$lesson_steps_query_args = array(
+					'post_type' 		=> 'sfwd-lessons',
+					'posts_per_page' 	=> 	-1,
+					'post_status' 		=> 	'publish',
+					'fields'			=>	'ids',
+					'meta_query' 		=> 	array(
+						array(
+							'key'     	=> 'course_id',
+							'value'   	=> intval($course_id),
+							'compare' 	=> '=',
+							'type'		=>	'NUMERIC'
+						)
+					)
+				);
 
-		//if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {	
-			$ld_course_steps_object = LDLMS_Factory_Post::course_steps( $course_id );
-			if ( $ld_course_steps_object ) {
-				$course_steps_t = $ld_course_steps_object->get_steps('t');
-				if ( !empty( $course_steps_t ) ) {
-					foreach( $include_post_types as $post_type ) {
-						if ( isset( $course_steps_t[$post_type] ) ) {
-							$steps[$post_type] = $course_steps_t[$post_type];
-						}
+				$lesson_steps_query = new WP_Query( $lesson_steps_query_args );
+				if ($lesson_steps_query->have_posts()) {
+					$steps['sfwd-lessons'] = $lesson_steps_query->posts;
+				}
+			} 
+
+			// For Topics we still require the parent lessons items
+			if ( in_array( 'sfwd-topic', $include_post_types ) ) {
+			
+				if ( !empty( $steps['sfwd-lessons'] ) ) {
+					$topic_steps_query_args = array(
+						'post_type' 		=> 'sfwd-topic',
+						'posts_per_page' 	=> 	-1,
+						'post_status' 		=> 	'publish',
+						'fields'			=>	'ids',
+						'meta_query' 		=> 	array(
+							array(
+								'key'     	=> 'course_id',
+								'value'   	=> intval($course_id),
+								'compare' 	=> '=',
+								'type'		=>	'NUMERIC'
+							)
+						)
+					);
+
+					if ( ( isset( $steps['sfwd-lessons'] ) ) && ( !empty( $steps['sfwd-lessons'] ) ) ) {
+						$topic_steps_query_args['meta_query'][] = array(
+							'key'     	=> 'lesson_id',
+							'value'   	=> $steps['sfwd-lessons'],
+							'compare' 	=> 'IN',
+							'type'		=>	'NUMERIC'
+						);
 					}
+
+					$topic_steps_query = new WP_Query( $topic_steps_query_args );
+					if ($topic_steps_query->have_posts()) {
+						$steps['sfwd-topic'] = $topic_steps_query->posts;
+					}
+				} else {
+					$steps['sfwd-topic'] = array();
 				}
 			}
-		//} else {
-		//	if ( ( in_array( 'sfwd-lessons', $include_post_types ) ) || ( in_array( 'sfwd-topic', $include_post_types ) ) ) {
-		//		$lesson_steps_query_args = array(
-		//			'post_type' 		=> 'sfwd-lessons',
-		//			'posts_per_page' 	=> 	-1,
-		//			'post_status' 		=> 	'publish',
-		//			'fields'			=>	'ids',
-		//			'meta_query' 		=> 	array(
-		//				array(
-		//					'key'     	=> 'course_id',
-		//					'value'   	=> intval($course_id),
-		//					'compare' 	=> '=',
-		//					'type'		=>	'NUMERIC'
-		//				)
-		//			)
-		//		);
-		//
-		//		$lesson_steps_query = new WP_Query( $lesson_steps_query_args );
-		//		if ($lesson_steps_query->have_posts()) {
-		//			$steps['sfwd-lessons'] = $lesson_steps_query->posts;
-		//		}
-		//	} 
-		//
-		//	// For Topics we still require the parent lessons items
-		//	if ( ( in_array( 'sfwd-topic', $include_post_types ) ) && ( !empty( $steps['sfwd-lessons'] ) ) ) {
-		//		$topic_steps_query_args = array(
-		//			'post_type' 		=> 'sfwd-topic',
-		//			'posts_per_page' 	=> 	-1,
-		//			'post_status' 		=> 	'publish',
-		//			'fields'			=>	'ids',
-		//			'meta_query' 		=> 	array(
-		//				array(
-		//					'key'     	=> 'course_id',
-		//					'value'   	=> intval($course_id),
-		//					'compare' 	=> '=',
-		//					'type'		=>	'NUMERIC'
-		//				)
-		//			)
-		//		);
-		//
-		//		if ( ( isset( $steps['sfwd-lessons'] ) ) && ( !empty( $steps['sfwd-lessons'] ) ) ) {
-		//			$topic_steps_query_args['meta_query'][] = array(
-		//				'key'     	=> 'lesson_id',
-		//				'value'   	=> $steps['sfwd-lessons'],
-		//				'compare' 	=> 'IN',
-		//				'type'		=>	'NUMERIC'
-		//			);
-		//		}
-		//
-		//		//error_log( 'topic_steps_query_args<pre>'. print_r($topic_steps_query_args, true) .'</pre>' );
-		//		$topic_steps_query = new WP_Query( $topic_steps_query_args );
-		//		if ($topic_steps_query->have_posts()) {
-		//			$steps['sfwd-topic'] = $topic_steps_query->posts;
-		//		}
-		//	} 
-		//}
+		}
 	}
 	
 	foreach( $include_post_types as $post_type ) {
@@ -1900,7 +2001,7 @@ add_filter('sfwd-courses_display_options', function( $options, $location ) {
 }, 1, 2);
 
 function learndash_update_course_users_groups( $user_id, $course_id, $access_list, $remove ) {
-	if ( ( !empty( $user_id ) ) && ( !empty( $course_id ) ) ) {
+	if ( ( !empty( $user_id ) ) && ( !empty( $course_id ) ) && ( $remove !== true ) ) {
 		
 		$course_groups = learndash_get_course_groups( $course_id, true );
 		if ( !empty( $course_groups ) ) {
@@ -1918,10 +2019,10 @@ add_action( 'learndash_update_course_access', 'learndash_update_course_users_gro
 
 function learndash_user_get_course_completed_date( $user_id = 0, $course_id = 0 ) {
 	$completed_on_timestamp = 0;
-	if ( ( !empty( $user_id ) ) && ( !empty( $course_id ) ) ) {
-		$completed_on = get_user_meta( $user_id, 'course_completed_' . $course_id, true );
+	if ( ( ! empty( $user_id ) ) && ( !empty( $course_id ) ) ) {
+		$completed_on_timestamp = get_user_meta( $user_id, 'course_completed_' . $course_id, true );
 
-		if ( empty( $completed_on) ) {
+		if ( empty( $completed_on_timestamp ) ) {
 			$activity_query_args = array(
 				'post_ids'		=>	$course_id,
 				'user_ids'		=>	$user_id,
@@ -1930,14 +2031,14 @@ function learndash_user_get_course_completed_date( $user_id = 0, $course_id = 0 
 			);
 			
 			$activity = learndash_reports_get_activity( $activity_query_args );
-			//error_log('activity<pre>'. print_r($activity, true) .'</pre>');
-			if ( !empty( $activity['results'] ) ) {
+			if ( ! empty( $activity['results'] ) ) {
 				foreach( $activity['results'] as $activity_item ) {
 					if ( property_exists( $activity_item, 'activity_completed' ) ) {
 						$completed_on_timestamp = $activity_item->activity_completed;
 
 						// To make the next check easier we update the user meta.
 						update_user_meta( $user_id, 'course_completed_' . $course_id, $completed_on_timestamp );
+						break;
 					}
 				}
 			}
@@ -1974,18 +2075,51 @@ function learndash_course_get_single_parent_step( $course_id = 0, $step_id = 0, 
 	$parent_step_id = 0;
 	
 	if ( ( !empty( $course_id ) ) && ( !empty( $step_id ) ) ) {
-		$ld_course_steps_object = LDLMS_Factory_Post::course_steps( intval( $course_id ) );
-		if ( $ld_course_steps_object ) {
-			$parent_step_id = $ld_course_steps_object->get_parent_step_id( $step_id, $step_type );
+		if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
+			$ld_course_steps_object = LDLMS_Factory_Post::course_steps( intval( $course_id ) );
+			if ( $ld_course_steps_object ) {
+				$parent_step_id = $ld_course_steps_object->get_parent_step_id( $step_id, $step_type );
+			}
+		} else {
+			if ( empty( $step_type ) ) {
+				$parent_step_id	= get_post_meta( $step_id, 'lesson_id', true );
+			} else {
+				// We only have two nested post types: Topics and quizzes. 
+				$step_id_post_type = get_post_type( $step_id );
+			
+				// A topic only has one parent, a lesson.
+				if ( $step_id_post_type == 'sfwd-topic' ) {
+					$parent_step_id	= get_post_meta( $step_id, 'lesson_id', true );
+					
+				} else if ( $step_id_post_type == 'sfwd-quiz' ) {
+					$lesson_id = $topic_id = 0;
+					$parent_step_id = get_post_meta( $step_id, 'lesson_id', true );
+					if ( !empty( $parent_step_id ) ) {
+						$parent_step_id_post_type = get_post_type( $parent_step_id );
+						if ( $parent_step_id_post_type == 'sfwd-topic' ) {
+							$topic_id = $parent_step_id;
+							$lesson_id = get_post_meta( $topic_id, 'lesson_id', true );
+						} else if ( $parent_step_id_post_type == 'sfwd-lessons' ) {
+							$lesson_id = $parent_step_id;
+						}
+
+						if ( $step_type == 'sfwd-lessons' ) {
+							$parent_step_id = $lesson_id;
+						} else if ( $step_type == 'sfwd-topic' ) {
+							$parent_step_id = $topic_id;
+						} else {
+							$parent_step_id = 0;
+						}
+					} 
+				}
+			}
 		}
 	}
 	
 	return $parent_step_id;
 }
 
-
-
-function learndash_course_get_steps_by_type( $course_id = 0, $step_type = '' ) {
+function learndash_course_get_steps_by_type_ORG1( $course_id = 0, $step_type = '' ) {
 	$course_steps_return = array();
 	
 	if ( ( !empty( $course_id ) ) && ( !empty( $step_type ) ) ) {
@@ -1999,6 +2133,68 @@ function learndash_course_get_steps_by_type( $course_id = 0, $step_type = '' ) {
 	}
 		
 	return $course_steps_return;	
+}
+
+function learndash_course_get_steps_by_type( $course_id = 0, $step_type = '' ) {
+	$course_steps_return = array();
+	
+	if ( ( !empty( $course_id ) ) && ( !empty( $step_type ) ) ) {
+		if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
+		
+			$ld_course_steps_object = LDLMS_Factory_Post::course_steps( intval( $course_id ) );
+			if ( $ld_course_steps_object ) {
+				$course_steps_t = $ld_course_steps_object->get_steps('t');
+				if ( ( isset( $course_steps_t[$step_type] ) ) && ( !empty( $course_steps_t[$step_type] ) ) ) {
+					$course_steps_return = $course_steps_t[$step_type];
+				}
+			}
+		} else {
+			$transient_key = "learndash_course_". $course_id .'_'. $step_type;
+			$course_steps_return = learndash_get_valid_transient( $transient_key );
+			if ( $course_steps_return === false ) {
+				$lesson_order = learndash_get_course_lessons_order( $course_id );
+				$steps_query_args = array(
+					'post_type' 		=> $step_type, 
+					'posts_per_page' 	=> 	-1, 
+					'post_status' 		=> 	'publish',
+					'fields'			=>	'ids',
+					'order'             =>  isset( $lesson_order['order'] ) ? $lesson_order['order'] : false,
+					'orderby'           =>  isset( $lesson_order['orderby'] ) ? $lesson_order['orderby'] : false,
+					'meta_query' 		=> 	array(
+												array(
+													'key'     	=> 'course_id',
+													'value'   	=> intval( $course_id ),
+													'compare' 	=> '=',
+												)
+											)
+				);
+				/**
+				 * Filter to allow override of query.
+				 * 
+				 * @since 2.6.0
+				 * 
+				 * @param array   $steps_query_args Array of WP_Query args.
+				 * @param integer $course_id Course ID to get steps for.
+				 * @param string  $step_type Steps post type. Could be 'sfwd-lessons', 'sfwd-topics' etc.
+				 * 
+				 * @return Array of query args.
+				 */
+				$steps_query_args = apply_filters( 'learndash_course_steps_by_type', $steps_query_args, $course_id, $step_type );
+				if ( ! empty( $steps_query_args ) ) {
+					$steps_query = new WP_Query( $steps_query_args );
+
+					if ( $steps_query->have_posts() ) {
+						$course_steps_return = $steps_query->posts;
+					} else {
+						$course_steps_return = array();
+					}
+					set_transient( $transient_key, $course_steps_return, MINUTE_IN_SECONDS );
+				}
+			}
+		}
+	}
+		
+	return $course_steps_return;
 }
 
 function learndash_course_get_children_of_step( $course_id = 0, $step_id = 0, $child_type = '' ) {
@@ -2083,35 +2279,6 @@ function learndash_filter_lesson_options( $options, $location, $values ) {
 //add_filter( 'sfwd-topic_display_settings', 'learndash_filter_lesson_options', 10, 3 );
 //add_filter( 'sfwd-quiz_display_settings', 'learndash_filter_lesson_options', 10, 3 );
 
-
-
-/**
- * Used when editing Lesson, Topic or Quiz post items. This filter is needed to add 
- * the 'course_id' parameter back to the edit URL after the post is submitted (saved).
- * 
- * @since 2.5 
- */
-function leandash_redirect_post_location( $location = '' ) {
-	if ( ( is_admin() ) && ( !empty( $location ) ) ) {
-		
-		global $typenow;
-		
-		if ( ( $typenow == 'sfwd-lessons' ) || ( $typenow == 'sfwd-topic' ) || ( $typenow == 'sfwd-quiz' ) ) {
-			if ( ( isset( $_POST['ld-course-switcher'] ) ) && ( !empty( $_POST['ld-course-switcher'] ) ) ) {
-				$post_args = wp_parse_args( $_POST['ld-course-switcher'], array() );
-				if ( ( isset( $post_args['course_id'] ) ) && ( !empty( $post_args['course_id'] ) ) ) {
-					$location = add_query_arg( 'course_id', intval( $post_args['course_id'] ), $location );
-				}
-			}
-		}
-	}
-	
-	return $location;
-}
-add_filter('redirect_post_location', 'leandash_redirect_post_location', 10, 2 );
-
-
-
 /**
  * Action hook called when a post is moved to trash or untrashed. 
  * 
@@ -2122,14 +2289,19 @@ add_filter('redirect_post_location', 'leandash_redirect_post_location', 10, 2 );
 function  learndash_transition_course_step_post_status( $new_status, $old_status, $post ) {
 	global $wpdb;
 	
-	if ( ( !empty( $post ) ) && ( is_a( $post, 'WP_Post' ) ) && ( in_array( $post->post_type, array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz' ) ) ) === true ) {
+	if ( $new_status !== $old_status ) {
+		if ( ( !empty( $post ) ) && ( is_a( $post, 'WP_Post' ) ) && ( in_array( $post->post_type, array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz' ) ) ) === true ) {
+			$sql_str = "SELECT meta_value FROM " . $wpdb->postmeta . " WHERE post_id = " . $post->ID . " AND (meta_key = 'course_id' OR meta_key LIKE 'ld_course_%')";
 
-		$sql_str = $wpdb->prepare( "SELECT meta_value FROM ". $wpdb->postmeta ." WHERE post_id = %d AND meta_key LIKE %s", $post->ID, 'ld_course_%' );
-		$course_ids = $wpdb->get_col( $sql_str );
-		if ( !empty( $course_ids ) ) {
-			foreach( $course_ids as $course_id ) {
-				$course_steps_object = LDLMS_Factory_Post::course_steps( $course_id );
-				$course_steps_object->set_steps_dirty();
+			$course_ids = $wpdb->get_col( $sql_str );
+			if ( !empty( $course_ids ) ) {
+				$course_ids = array_unique( $course_ids );
+				foreach( $course_ids as $course_id ) {
+					$course_steps_object = LDLMS_Factory_Post::course_steps( $course_id );
+					if ( ( is_object( $course_steps_object ) ) && (is_a( $course_steps_object, 'LDLMS_Course_Steps' ) ) ) {
+						$course_steps_object->set_steps_dirty();
+					}
+				}
 			}
 		}
 	}
@@ -2240,9 +2412,13 @@ function learndash_get_page_by_path( $slug = '', $post_type = '' ) {
 function learndash_get_course_lessons_per_page( $course_id = 0 ) {
 	$course_lessons_per_page = 0;
 	
+	$lessons_options = learndash_get_option( 'sfwd-lessons' );
+	if ( isset( $lessons_options['posts_per_page'] ) ) {
+		$course_lessons_per_page = intval( $lessons_options['posts_per_page'] );
+	}
+	
 	if ( !empty( $course_id ) ) {
 		$course_settings = learndash_get_setting( intval( $course_id ) );
-		$lessons_options = learndash_get_option( 'sfwd-lessons' );
 		
 		if ( ( isset( $course_settings['course_lesson_per_page'] ) ) && ( $course_settings['course_lesson_per_page'] == 'CUSTOM' ) && ( isset( $course_settings['course_lesson_per_page_custom'] ) ) ) {
 			$course_lessons_per_page = intval( $course_settings['course_lesson_per_page_custom'] );
@@ -2316,3 +2492,69 @@ function learndash_course_lessons_list_pager( $query_result = null, $pager_conte
 }
 add_action( 'learndash_course_lessons_list_pager', 'learndash_course_lessons_list_pager', 10, 2 );
 
+
+/**
+ * Utility function to get the Course Lessons order. 
+ * The course lessons order can be set in the course or globally defined in 
+ * the lesson options. This function will check all logic and return the 
+ * correct setting.
+ *
+ * @param $course_id int the course_id to get the per_page value from
+ * @return $course_lessons_order int will be the calculated lessons per page or zero
+ *
+ * @since 2.5.4
+ */
+function learndash_get_course_lessons_order( $course_id = 0 ) {
+	$course_lessons_args = array( 'order' => '', 'orderby' => '' );
+	
+	if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {	
+		$course_lessons_args['orderby'] = 'post__in';
+		return $course_lessons_args;
+		
+	} else {
+		$lessons_options = learndash_get_option( 'sfwd-lessons' );
+		if ( ( isset( $lessons_options['order'] ) ) && ( !empty( $lessons_options['order'] ) ) ) 
+			$course_lessons_args['order'] = $lessons_options['order'];
+
+		if ( ( isset( $lessons_options['orderby'] ) ) && ( !empty( $lessons_options['orderby'] ) ) ) 
+			$course_lessons_args['orderby'] = $lessons_options['orderby'];
+	}
+
+	if ( !empty( $course_id ) ) {
+		$course_settings = learndash_get_setting( $course_id );
+		if ( ( isset( $course_settings['course_lesson_order'] ) ) && ( !empty( $course_settings['course_lesson_order'] ) ) ) 
+			$course_lessons_args['order'] = $course_settings['course_lesson_order'];
+
+		if ( ( isset( $course_settings['course_lesson_orderby'] ) ) && ( !empty( $course_settings['course_lesson_orderby'] ) ) ) 
+			$course_lessons_args['orderby'] = $course_settings['course_lesson_orderby'];
+	}	
+	
+	return $course_lessons_args;
+}
+
+/**
+ * Utility function to convert the standard comma separated list of user IDs
+ * used for the course_access_list field. The conversion is to trim and ensure
+ * the values are integer and not empty. 
+ * 
+ * @since 2.5.9
+ * @param string $course_access_list_str String of comma separated user IDs. 
+ * @param boolean $return_array True/False bool to return string or array. 
+ * 
+ * @return string $course_access_list_str
+ */
+function learndash_convert_course_access_list( $course_access_list_str = '', $return_array = false ) {
+	if ( ! empty( $course_access_list_str ) ) {
+		$course_access_list_array = explode( ',', $course_access_list_str );
+		$course_access_list_array = array_map( 'intval', $course_access_list_array );
+		$course_access_list_array = array_unique( $course_access_list_array, SORT_NUMERIC );
+		$course_access_list_array = array_diff( $course_access_list_array, array( 0 ) );
+		if ( true !== $return_array ) {
+			$course_access_list_str = implode( ',', $course_access_list_array );
+		}
+	} else if ( true === $return_array ) {
+		$course_access_list_str = array();
+	}
+
+	return $course_access_list_str;
+}

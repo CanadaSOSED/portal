@@ -119,7 +119,7 @@ class WpProQuiz_Controller_Admin {
 
 		// If the results is not present then abort. 
 		if ( !isset( $_POST['results'] ) ) {
-			return array('text' => esc_html__('An error has occurred.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), 'clear' => true);
+			return array('text' => esc_html__('An error has occurred.', 'learndash'), 'clear' => true);
 		}
 		
 		// Loop over the 'results' items. We verify and tally the points+correct counts as well as the student response 'data'. When we get to the 'comp' results element
@@ -171,29 +171,29 @@ class WpProQuiz_Controller_Admin {
 		$isRtl = isset($wp_locale->is_rtl) ? $wp_locale->is_rtl : false;
 		
 		$translation_array = array(
-			'delete_msg' => sprintf( esc_html_x('Do you really want to delete the %s/question?', 'Do you really want to delete the quiz/question?', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
-			'no_title_msg' => esc_html__('Title is not filled!', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_question_msg' => esc_html__('No question deposited!', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_correct_msg' => esc_html__('Correct answer was not selected!', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_answer_msg' => esc_html__('No answer deposited!', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_quiz_start_msg' => sprintf( esc_html_x('No %s description filled!', 'No quiz description filled!', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
-			'fail_grade_result' => esc_html__('The percent values in result text are incorrect.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_nummber_points' => esc_html__('No number in the field "Points" or less than 1', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_nummber_points_new' => esc_html__('No number in the field "Points" or less than 0', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_selected_quiz' => sprintf( esc_html_x('No %s selected', 'No quiz selected', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
-			'reset_statistics_msg' => esc_html__('Do you really want to reset the statistic?', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_data_available' => esc_html__('No data available', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_sort_element_criterion' => esc_html__('No sort element in the criterion', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'dif_points' => esc_html__('"Different points for every answer" is not possible at "Free" choice', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'category_no_name' => esc_html__('You must specify a name.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'confirm_delete_entry' => esc_html__('This entry should really be deleted?', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'not_all_fields_completed' => esc_html__('Not all fields completed.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'temploate_no_name' => esc_html__('You must specify a template name.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'no_delete_answer' => esc_html__('Cannot delete only answer', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
+			'delete_msg' => sprintf( esc_html_x('Do you really want to delete the %s/question?', 'Do you really want to delete the quiz/question?', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
+			'no_title_msg' => esc_html__('Title is not filled!', 'learndash'),
+			'no_question_msg' => esc_html__('No question deposited!', 'learndash'),
+			'no_correct_msg' => esc_html__('Correct answer was not selected!', 'learndash'),
+			'no_answer_msg' => esc_html__('No answer deposited!', 'learndash'),
+			'no_quiz_start_msg' => sprintf( esc_html_x('No %s description filled!', 'No quiz description filled!', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
+			'fail_grade_result' => esc_html__('The percent values in result text are incorrect.', 'learndash'),
+			'no_nummber_points' => esc_html__('No number in the field "Points" or less than 1', 'learndash'),
+			'no_nummber_points_new' => esc_html__('No number in the field "Points" or less than 0', 'learndash'),
+			'no_selected_quiz' => sprintf( esc_html_x('No %s selected', 'No quiz selected', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
+			'reset_statistics_msg' => esc_html__('Do you really want to reset the statistic?', 'learndash'),
+			'no_data_available' => esc_html__('No data available', 'learndash'),
+			'no_sort_element_criterion' => esc_html__('No sort element in the criterion', 'learndash'),
+			'dif_points' => esc_html__('"Different points for every answer" is not possible at "Free" choice', 'learndash'),
+			'category_no_name' => esc_html__('You must specify a name.', 'learndash'),
+			'confirm_delete_entry' => esc_html__('This entry should really be deleted?', 'learndash'),
+			'not_all_fields_completed' => esc_html__('Not all fields completed.', 'learndash'),
+			'temploate_no_name' => esc_html__('You must specify a template name.', 'learndash'),
+			'no_delete_answer' => esc_html__('Cannot delete only answer', 'learndash'),
 				
 				
-			'closeText'         => esc_html__('Close', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'currentText'       => esc_html__('Today', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
+			'closeText'         => esc_html__('Close', 'learndash'),
+			'currentText'       => esc_html__('Today', 'learndash'),
 			'monthNames'        => array_values($wp_locale->month),
 			'monthNamesShort'   => array_values($wp_locale->month_abbrev),
 			'dayNames'          => array_values($wp_locale->weekday),
@@ -225,7 +225,7 @@ class WpProQuiz_Controller_Admin {
 	}
 	
 	public function register_page() {
-		$quiz_title = sprintf( esc_html_x('Advanced %s', 'Advanced Quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::get_label( 'quiz' ) );
+		$quiz_title = sprintf( esc_html_x('Advanced %s', 'Advanced Quiz', 'learndash'), LearnDash_Custom_Label::get_label( 'quiz' ) );
 	    $page = add_submenu_page(
 			"edit.php?post_type=sfwd-quiz", 
 			$quiz_title, 

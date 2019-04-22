@@ -45,14 +45,20 @@ if ( ! class_exists( 'SFWD_CPT' ) ) {
 					'not_found_in_trash'	=> sprintf( esc_html_x( 'No %s found in Trash', 'placeholder: Post Name', 'learndash' ), $this->post_name ),
 					'parent_item_colon'		=> sprintf( esc_html_x( 'Parent %s', 'placeholder: Post Name', 'learndash' ), $this->post_name ),
 					'menu_name'				=> $this->post_name,
+					'item_published'		=>	sprintf( esc_html_x( '%s Published', 'placeholder: Post Name', 'learndash' ), $this->post_name ),
+					'item_published_privately' => sprintf( esc_html_x( '%s Published Privately', 'placeholder: Post Name', 'learndash' ), $this->post_name ),
+					'item_reverted_to_draft' => sprintf( esc_html_x( '%s Reverted to Draft', 'placeholder: Post Name', 'learndash' ), $this->post_name ),
+					'item_scheduled'		=>	sprintf( esc_html_x( '%s Scheduled', 'placeholder: Post Name', 'learndash' ), $this->post_name ),
+					'item_updated'			=>	sprintf( esc_html_x( '%s Updated', 'placeholder: Post Name', 'learndash' ), $this->post_name ),
 				),
 				'public' => true,
 				'rewrite' => array( 
 					'slug' => $this->slug_name, 
 					'with_front' => false,
+					//'feeds' => false,
 				),
 				'show_ui' => true,
-				'has_archive' => true,
+				'has_archive' => false,
 				'show_in_nav_menus' => true,
 				'supports' => array(
 					'title',
@@ -292,13 +298,16 @@ if ( ! class_exists( 'SFWD_CPT' ) ) {
 				);
 			}
 
-			if ( ( isset( $query['include'] ) ) && ( !empty( $query['include'] ) ) ) {
+			if ( ( isset( $query['post__in'] ) ) && ( !empty( $query['post__in'] ) ) ) {
+				if ( is_string( $query['post__in'] ) ) {
+					$query['post__in'] = explode(',', $query['post__in'] );
+				} 
+			} else if ( ( isset( $query['include'] ) ) && ( !empty( $query['include'] ) ) ) {
 				$query['post__in'] = explode(',', $query['include'] );
 				$query['post__in'] = array_map( 'trim', $query['post__in'] );
 				unset( $query['include'] );
 			}
 
-			//error_log('query<pre>'. print_r($query, true) .'</pre>');
 			$query_posts = new WP_Query( $query );
 			if ( $query_posts->have_posts() ) {
 				$posts = $query_posts->posts;
@@ -341,7 +350,7 @@ if ( ! class_exists( 'SFWD_CPT' ) ) {
 					if ( ! learndash_is_lesson_notcomplete( $user_id, array( $post->ID => 1 ), $course_id ) ) {
 						$status = 'completed';
 					} else {
-						$ld_lesson_access_from = ld_lesson_access_from( $post->ID, $user_id );
+						$ld_lesson_access_from = ld_lesson_access_from( $post->ID, $user_id, $course_id );
 
 						if ( empty( $ld_lesson_access_from ) ) {
 							$status = 'notcompleted';
@@ -448,12 +457,12 @@ if ( ! class_exists( 'SFWD_CPT' ) ) {
 		 */
 		static function show_content( $post ) {
 			if ( $post->post_type == 'sfwd-quiz' ) {
-				//if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+				if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 					$course_id = learndash_get_course_id( $post );
 					$lesson_id = learndash_course_get_single_parent_step( $course_id, $post->ID );
-					//} else {
-					//$lesson_id = learndash_get_setting( $post, 'lesson' );
-					//}
+				} else {
+					$lesson_id = learndash_get_setting( $post, 'lesson' );
+				}
 				return empty( $lesson_id );
 			} else {
 				return true;
@@ -494,6 +503,7 @@ if ( ! class_exists( 'SFWD_CPT' ) ) {
 						'wrapper'         => 'div',
 						'title'           => 'h4',
 						'topic_list_type' => 'dots',
+						'post__in'		  => '',
 					), 
 					$atts 
 				) 
@@ -504,7 +514,7 @@ if ( ! class_exists( 'SFWD_CPT' ) ) {
 
 			add_shortcode( 'loop', array( $this, 'loop_shortcode' ) );
 
-			$template = "[loop post_type='$post_type' posts_per_page='$posts_per_page' meta_key='{$meta_key}' meta_value='{$meta_value}' order='$order' orderby='$orderby' taxonomy='$taxonomy' tax_field='$tax_field' tax_terms='$tax_terms' topic_list_type='" . $topic_list_type . "']"
+			$template = "[loop post_type='$post_type' posts_per_page='$posts_per_page' meta_key='{$meta_key}' meta_value='{$meta_value}' order='$order' orderby='$orderby' taxonomy='$taxonomy' tax_field='$tax_field' tax_terms='$tax_terms' post__in='". $post__in ."' topic_list_type='" . $topic_list_type . "']"
 			. "<$wrapper id=post-\$id><$title><a {learndash_completed_class} href='{the_permalink}'>{the_title}</a>{sub_title}</$title>"
 			. "</$wrapper>[/loop]";
 

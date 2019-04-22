@@ -88,7 +88,7 @@ class nss_plugin_updater_sfwd_lms {
 	 */
 	function check_notice() {
 		//add_action( 'admin_notices', array( &$this, 'admin_notice' ));
-		if ( @$_REQUEST['page'] == 'nss_plugin_license-'.$this->code.'-settings' ) {
+		if ( ( isset( $_REQUEST['page'] ) ) && ( @$_REQUEST['page'] == 'nss_plugin_license-'.$this->code.'-settings' ) ) {
 			$this->check_update( array( ) );
 		}
 
@@ -111,7 +111,13 @@ class nss_plugin_updater_sfwd_lms {
 	function time_to_recheck() {
 		$nss_plugin_check = get_option( 'nss_plugin_check_'.$this->slug );
 
-		if ( empty( $nss_plugin_check) || ( ! empty( $_REQUEST['pluginupdate'] ) && $_REQUEST['pluginupdate'] == $this->code ) || ! empty( $_GET['force-check'] ) || $nss_plugin_check <= time() - 12 * 60 * 60  || @$_REQUEST['page'] == 'nss_plugin_license-'.$this->code.'-settings' ) {
+		if ( ( empty( $nss_plugin_check ) )  
+		 || ( ! empty( $_REQUEST['pluginupdate'] ) && $_REQUEST['pluginupdate'] == $this->code ) 
+		 || ( ! empty( $_GET['force-check'] ) )
+		 || ( $nss_plugin_check <= time() - 12 * 60 * 60 )
+		 || ( 
+			 ( isset( $_REQUEST['page'] ) ) && ( $_REQUEST['page'] == 'nss_plugin_license-' . $this->code . '-settings' ) 
+			 ) ) {
 			$this->reset();
 			return true;
 		} else {
@@ -576,3 +582,8 @@ class nss_plugin_updater_sfwd_lms {
 	}
 
 }
+add_action( 'learndash_init', function() {
+	$nss_plugin_updater_plugin_remote_path = 'https://support.learndash.com/';
+	$nss_plugin_updater_plugin_slug = basename( dirname( dirname( __FILE__ ) ) ) . '/sfwd_lms.php';
+	new nss_plugin_updater_sfwd_lms( $nss_plugin_updater_plugin_remote_path, $nss_plugin_updater_plugin_slug );
+} );

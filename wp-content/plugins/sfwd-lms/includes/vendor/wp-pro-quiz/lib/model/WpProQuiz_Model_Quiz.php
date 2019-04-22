@@ -106,19 +106,30 @@ class WpProQuiz_Model_Quiz extends WpProQuiz_Model_Model {
 	protected $_questionsPerPage = 0;
 	protected $_sortCategories = false;
 	protected $_showCategory = false;
-	
-	public function setId($_id) {
-		$this->_id = (int)$_id;
-		
-		$this->_quiz_post_id = learndash_get_quiz_id_by_pro_quiz_id( $this->_id );
-		
+
+	public function setId( $_id = 0 ) {
+		$this->_id = (int) $_id;
+
+		if ( empty( $this->_quiz_post_id ) ) {
+			$this->_quiz_post_id = learndash_get_quiz_id_by_pro_quiz_id( $this->_id );
+		}
+
 		return $this;
 	}
-	
+
 	public function getId() {
 		return $this->_id;
 	}
-		
+	
+	public function setPostId( $post_id ) {
+		$this->_quiz_post_id = (int)$post_id;
+		return $this;
+	}
+
+	public function getPostId() {
+		return $this->_quiz_post_id;
+	}
+
 	public function setName($_name) {
 		$this->_name = (string)$_name;
 		return $this;

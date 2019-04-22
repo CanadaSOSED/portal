@@ -1,0 +1,12 @@
+{
+	"name"       : "learndash/learndash",
+	"description": "LearnDash LMS Plugin - Turn your WordPress site into a learning management system.",
+	"type"       : "wordpress-plugin",
+	"homepage"   : "https://www.learndash.com",
+	"license"    : "proprietary",
+	"require-dev": {
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.4.3",
+		"phpcompatibility/phpcompatibility-wp": "*",
+		"wp-coding-standards/wpcs": "^1"
+	}
+}

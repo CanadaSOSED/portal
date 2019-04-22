@@ -6,7 +6,8 @@ class WpProQuiz_Model_LockMapper extends WpProQuiz_Model_Mapper {
 	public function __construct() {
 		parent::__construct();
 	
-		$this->_table = $this->_prefix.'lock';
+		//$this->_table = $this->_prefix.'lock';
+		$this->_table = $this->_tableLock;
 	}
 	
 	public function insert(WpProQuiz_Model_Lock $lock) {

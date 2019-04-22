@@ -302,50 +302,50 @@ if ( !class_exists( 'Learndash_Admin_Data_Reports_Courses' ) ) {
 		function set_report_headers() {
 			$this->data_headers									=	array();
 			$this->data_headers['user_id']  					= 	array( 
-																		'label'		=>	'user_id',
+																		'label'		=>	esc_html__( 'user_id', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 			$this->data_headers['user_name'] 					= 	array( 
-																		'label'		=>	'name',
+																		'label'		=>	esc_html__( 'name', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 
 			$this->data_headers['user_email'] 					=	array( 
-																		'label'		=>	'email',
+																		'label'		=>	esc_html__( 'email', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 																	
 			$this->data_headers['course_id'] 					= 	array( 
-																		'label'		=>	'course_id',
+																		'label'		=>	esc_html__( 'course_id', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 			$this->data_headers['course_title'] 				= 	array( 
-																		'label'		=>	'course_title',
+																		'label'		=>	esc_html__( 'course_title', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 
 			$this->data_headers['course_steps_completed'] 		= 	array( 
-																		'label'		=>	'steps_completed',
+																		'label'		=>	esc_html__( 'steps_completed', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 			$this->data_headers['course_steps_total'] 			= 	array( 
-																		'label'		=>	'steps_total',
+																		'label'		=>	esc_html__( 'steps_total', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 			$this->data_headers['course_completed'] 			= 	array( 
-																		'label'		=>	'course_completed',
+																		'label'		=>	esc_html__( 'course_completed', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 			$this->data_headers['course_completed_on']			=	array( 
-																		'label'		=>	'course_completed_on',
+																		'label'		=>	esc_html__( 'course_completed_on', 'learndash' ),
 																		'default'	=>	'',
 																		'display'	=>	array( $this, 'report_column' )
 																	);

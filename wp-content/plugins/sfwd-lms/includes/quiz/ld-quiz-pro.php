@@ -107,42 +107,49 @@ class LD_QuizPro {
 	 * @return string  JSON representation of checked answers
 	 */
 	function checkAnswers( $data ) {
-		
+
 		//error_log('in '. __FUNCTION__ );
 		//error_log('_POST<pre>'. print_r($_POST, true) .'</pre>');
-		
-		if (is_user_logged_in() )
-			$user_id	= 	get_current_user_id();
-		else
-			$user_id	=	0;
-		
-		if ( isset( $data['quizId'] ) )
-			$id 		= 	$data['quizId'];
-		else
-			$id			= 	0;
 
-		if ( isset( $data['quiz'] ) )
-			$quiz_post_id 		= 	$data['quiz'];
-		else
-			$quiz_post_id		= 	0;
-		
-		if ( ( !isset( $data['quiz_nonce'] ) ) || ( !wp_verify_nonce( $data['quiz_nonce'], 'sfwd-quiz-nonce-' . $quiz_post_id . '-'. $id .'-'. $user_id ) ) ) {
+		if ( is_user_logged_in() ) {
+			$user_id = get_current_user_id();
+		} else {
+			$user_id = 0;
+		}
+
+		if ( isset( $data['quizId'] ) ) {
+			$id = absint( $data['quizId'] );
+		} else {
+			$id = 0;
+		}
+
+		if ( isset( $data['quiz'] ) ) {
+			$quiz_post_id = absint( $data['quiz'] );
+		} else {
+			$quiz_post_id = 0;
+		}
+
+		if ( ( ! isset( $data['quiz_nonce'] ) ) || ( ! wp_verify_nonce( $data['quiz_nonce'], 'sfwd-quiz-nonce-' . $quiz_post_id . '-' . $id . '-' . $user_id ) ) ) {
 			//wp_send_json_error();
 			die();
 		}
-		
-		$view       = new WpProQuiz_View_FrontQuiz();
+
+		$view = new WpProQuiz_View_FrontQuiz();
 		$quizMapper = new WpProQuiz_Model_QuizMapper();
-		$quiz       = $quizMapper->fetch( $id );
+		$quiz = $quizMapper->fetch( $id );
+		if ( $quiz_post_id !== absint( $quiz->getPostId() ) ) {
+			$quiz->setPostId( $quiz_post_id );
+		}
+
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
 		$categoryMapper = new WpProQuiz_Model_CategoryMapper();
 		$formMapper     = new WpProQuiz_Model_FormMapper();
 
-		$questionModels = $questionMapper->fetchAll( $id );
+		$questionModels = $questionMapper->fetchAll( $quiz );
 
 		$view->quiz     = $quiz;
 		$view->question = $questionModels;
-		$view->category = $categoryMapper->fetchByQuiz( $quiz->getId() );
+		$view->category = $categoryMapper->fetchByQuiz( $quiz );
 
 		$question_count = count( $questionModels );
 		ob_start();
@@ -414,7 +421,11 @@ class LD_QuizPro {
 							
 								$userResponse[ $answerIndex ] =  stripslashes( trim( $userResponse[ $answerIndex ] ) );
 								if ( apply_filters('learndash_quiz_question_cloze_answers_to_lowercase', true ) ) {
-									$user_answer_formatted = strtolower( $userResponse[ $answerIndex ] );
+									if ( function_exists( 'mb_strtolower' ) ) {
+										$user_answer_formatted = mb_strtolower( $userResponse[ $answerIndex ] );
+									} else {
+										$user_answer_formatted = strtolower( $userResponse[ $answerIndex ] );
+									}
 								} else {
 									$user_answer_formatted = $userResponse[ $answerIndex ];
 								}
@@ -679,6 +690,14 @@ class LD_QuizPro {
 		 * @param  string $quiz->post_content
 		 */
 		$content = apply_filters( 'ldadvquiz_the_content', $quiz->post_content );
+
+		/**
+		 * Added call to do_shortcode to process any shortcodes within the quiz content.
+		 *
+		 * @since 2.6.0
+		 */
+		$content = do_shortcode( $content );
+
 		$content = str_replace( ']]>', ']]&gt;', $content );
 		return "<div class='wpProQuiz_description'>" . $content . '</div>';
 	}
@@ -693,24 +712,6 @@ class LD_QuizPro {
 	 * @param  string $msg Debugging message
 	 */
 	function debug( $msg ) {
-		$original_log_errors = ini_get( 'log_errors' );
-		$original_error_log  = ini_get( 'error_log' );
-		ini_set( 'log_errors', true );
-		ini_set( 'error_log', dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'debug.log' );
-
-		global $processing_id;
-
-		if ( empty( $processing_id ) ) {
-			$processing_id = time();
-		}
-
-		if ( isset( $_GET['debug'] ) || ! empty( $this->debug ) ) {
-			error_log( "[$processing_id] " . print_r( $msg, true ) );
-		}
-		//Comment This line to stop logging debug messages.
-
-		ini_set( 'log_errors', $original_log_errors );
-		ini_set( 'error_log', $original_error_log );
 	}
 
 
@@ -781,12 +782,29 @@ class LD_QuizPro {
 		}		
 
 		$course_id = 0;
+		$lesson_id = 0;
+		$topic_id = 0;
 		
 		if ( ( isset( $quizdata['course'] ) ) && ( $quizdata['course'] instanceof WP_Post ) ) {
 			$course_post = $quizdata['course'];
 			unset( $quizdata['course'] );
 			$quizdata['course'] = intval($course_post->ID);
 			$course_id = $quizdata['course'];
+		}
+		if ( ( isset( $quizdata['lesson'] ) ) && ( $quizdata['lesson'] instanceof WP_Post ) ) {
+			$lesson_post = $quizdata['lesson'];
+			unset( $quizdata['lesson'] );
+			$quizdata['lesson'] = intval($lesson_post->ID);
+			$lesson_id = $quizdata['lesson'];
+		}
+		if ( ( isset( $quizdata['topic'] ) ) && ( $quizdata['topic'] instanceof WP_Post ) ) {
+			$topic_post = $quizdata['topic'];
+			unset( $quizdata['topic'] );
+			$quizdata['topic'] = intval($topic_post->ID);
+			$topic_id = $quizdata['topic'];
+		}
+
+		if ( ( isset( $quizdata['course'] ) ) && ( ! empty( $quizdata['course'] ) ) ) {
 			$quizdata['steps_completed'] = learndash_course_get_completed_steps($user->ID, $quizdata['course']);
 
 			// Update the Course if this quiz has.
@@ -837,9 +855,8 @@ class LD_QuizPro {
 	 */
 	function wp_pro_quiz_completed( $statistic_ref_id = 0) {
 		
-		$this->debug( $_POST );
-		$this->debug( $_SERVER );
-
+		//error_log('_POST<pre>'. print_r($_POST, true) .'</pre>');
+		
 		$quiz_id   = isset( $_POST['quizId'] ) ? intval( $_POST['quizId'] ) : null;
 		$score     = isset( $_POST['results']['comp']['correctQuestions'] ) ? $_POST['results']['comp']['correctQuestions'] : null;
 		$points    = isset( $_POST['results']['comp']['points'] ) ? $_POST['results']['comp']['points'] : null;
@@ -850,8 +867,17 @@ class LD_QuizPro {
 			return;
 		}
 
+		$quizMapper = new WpProQuiz_Model_QuizMapper();
+		$quiz = $quizMapper->fetch( $quiz_id );
+		if ( ( $quiz ) && ( is_a( $quiz, 'WpProQuiz_Model_Quiz' ) ) ) {
+			if ( ( isset( $_POST['quiz'] ) ) && ( ! empty( $_POST['quiz'] ) ) ) {
+				$quiz->setPostId( absint( $_POST['quiz'] ) );
+			} else {
+				
+			}
+		}
 		$questionMapper = new WpProQuiz_Model_QuestionMapper();
-		$questions  = $questionMapper->fetchAll( $quiz_id );
+		$questions  = $questionMapper->fetchAll( $quiz );
 		if ( is_array( $questions ) ) {
 			$questions_count = count( $questions );
 		}
@@ -872,8 +898,6 @@ class LD_QuizPro {
 				);
 			}
 		}
-
-		$this->debug( $questions );
 
 		if ( empty( $result) ) {
 			$total_points = 0;
@@ -937,22 +961,6 @@ class LD_QuizPro {
 		$pass = ( $result >= $passingpercentage) ? 1 : 0;
 		$quiz = get_post( $ld_quiz_id );
 
-		$this->debug(
-			array(
-				'quiz' 				=> 	$ld_quiz_id,
-				'quiz_title' 		=> 	$quiz->post_title,
-				'score' 			=> 	$score,
-				'count' 			=> 	$questions_count,
-				'pass' 				=> 	$pass,
-				'rank' 				=> 	'-',
-				'time' 				=> 	time(),
-				'pro_quizid' 		=> 	$quiz_id,
-				'course'			=>	$courseid,
-				'lesson'			=>	$lessonid,
-				'topic'				=>	$topicid,
-			)
-		);
-
 		$quizdata = array(
 			'quiz' 					=> 	$ld_quiz_id,
 			'score' 				=> 	$score,
@@ -972,7 +980,6 @@ class LD_QuizPro {
 			'has_graded'   			=> 	( $has_graded ) ? true : false,
 			'statistic_ref_id' 		=> 	$statistic_ref_id
 		);
-		//error_log('quizdata<pre>'. print_r($quizdata, true) .'</pre>');
 		
 		//On the timestamps below we divide against 1000 because they were generated via JavaScript which uses milliseconds. 
 		if ( isset( $_POST['results']['comp']['quizStartTimestamp'] ) )
@@ -984,8 +991,6 @@ class LD_QuizPro {
 		if ( $graded ) {
 			$quizdata['graded'] = $graded;
 		}
-
-		$this->debug( $quizdata );
 
 		$usermeta[] = $quizdata;
 
@@ -1013,13 +1018,6 @@ class LD_QuizPro {
 
 		update_user_meta( $user_id, '_sfwd-quizzes', $usermeta );
 
-		if ( ! empty( $courseid ) ) {
-			// Remove use of second argument here as the function exepect this to be a lesson_id and we are for some reason passing the ProQuiz ID.
-			learndash_ajax_mark_complete( $ld_quiz_id /*, $quiz_id */);
-		}
-
-		learndash_process_mark_complete( $user_id, $ld_quiz_id, false, $courseid );
-
 		/**
 		 * Does the action 'learndash_quiz_completed'
 		 *
@@ -1028,9 +1026,31 @@ class LD_QuizPro {
 		 * @param  array  	$quizdata
 		 * @param  object  $current_user
 		 */
-		global $current_user;
 		
-		do_action( 'learndash_quiz_completed', $quizdata, $current_user ); //Hook for completed quiz
+		/**
+		 * Changed in 2.6.0. If the quiz has essay type questions that are not
+		 * auto-graded we don't send out the 'learndash_quiz_completed' action.
+		 */
+		$send_quiz_completed = true;
+		if ( ( isset( $quizdata['has_graded'] ) ) && ( true === $quizdata['has_graded'] ) ) {
+			if ( ( isset( $quizdata['graded'] ) ) && ( ! empty( $quizdata['graded'] ) ) ) {
+				foreach ( $quizdata['graded'] as $grade_item ) {
+					if ( ( isset( $grade_item['status'] ) ) && ( $grade_item['status'] !== 'graded' ) ) {
+						$send_quiz_completed = false;
+					}
+				}
+			}
+		} 
+
+		if ( true === $send_quiz_completed ) {
+			if ( ! empty( $courseid ) ) {
+				learndash_process_mark_complete( $user_id, $ld_quiz_id, false, $courseid );
+			}
+
+			do_action( 'learndash_quiz_completed', $quizdata, get_user_by( 'id', $user_id ) ); 
+		} else if ( defined( 'LEARNDASH_QUIZ_ESSAY_SUBMIT_COMPLETED' ) && LEARNDASH_QUIZ_ESSAY_SUBMIT_COMPLETED === true ) {
+			do_action( 'learndash_quiz_completed', $quizdata, get_user_by( 'id', $user_id ) );
+		}
 	}
 
 
@@ -1045,7 +1065,6 @@ class LD_QuizPro {
 	 */
 	function get_ld_quiz_id( $pro_quizid ) {
 		$quizzes = SFWD_SlickQuiz::get_all_quizzes();
-		//$this->debug( $quizzes);
 
 		foreach ( $quizzes as $quiz ) {
 			$quizmeta = get_post_meta( $quiz->ID, '_sfwd-quiz', true );
@@ -1236,17 +1255,24 @@ class LD_QuizPro {
 			//To fix issues with plugins using get_current_screen
 
 			$quizId = 0;
-
+			$post_id = 0;
 			if ( ! empty( $_GET['post'] ) ) {
-				$quizId = intval( learndash_get_setting( $_GET['post'], 'quiz_pro', true ) );
+				$post_id = intval( $_GET['post'] );
+				$quizId = intval( learndash_get_setting( $post_id, 'quiz_pro', true ) );
 
 				/**
 				 * Filter whether advance quiz is disabled or not
 				 *
 				 * @param  bool
 				 */
-				if ( apply_filters( 'learndash_disable_advance_quiz', false, get_post( $_GET['post'] ) ) ) {
+				if ( apply_filters( 'learndash_disable_advance_quiz', false, $post_id ) ) {
 					return '';
+				}
+			} else {
+				global $post;
+				if ( ( is_a( $post, 'WP_Post' ) ) && ( $post->post_type == 'sfwd-quiz' ) ) {
+					//error_log('post<pre>'. print_r($post, true) .'</pre>');
+					$post_id = $post->ID;
 				}
 			}
 
@@ -1256,7 +1282,8 @@ class LD_QuizPro {
 			$pro_quiz->route( array(
 				'action' => 'addEdit',
 				'quizId' => $quizId,
-				'post_id' => @$_GET['post'] ),
+				'post_id' => $post_id,
+			),
 				$_post
 			);
 			$return = ob_get_clean();
@@ -1309,9 +1336,10 @@ class LD_QuizPro {
 
 		$quizId   = intval( learndash_get_setting( $post_id, 'quiz_pro', true ) );
 		$pro_quiz = new WpProQuiz_Controller_Quiz();
-		ob_start();
-		$pro_quiz->route( array( 'action' => 'addEdit', 'quizId' => $quizId, 'post_id' => $post_id) );
-		ob_get_clean();
+		//ob_start();
+		//$pro_quiz->route( array( 'action' => 'addEdit', 'quizId' => $quizId, 'post_id' => $post_id) );
+		//ob_get_clean();
+		$pro_quiz->route( array( 'action' => 'addUpdateQuiz', 'quizId' => $quizId, 'post_id' => $post_id) );
 
 		if ( ! empty( $_POST['templateLoad'] ) && ! empty( $_POST['templateLoadId'] ) ) {
 			$url = admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '&templateLoad=' . rawurlencode( $_POST['templateLoad'] ) . '&templateLoadId=' . $_POST['templateLoadId'];
@@ -1413,7 +1441,7 @@ class LD_QuizPro {
 					<div id="wpProQuiz_user_content" style="margin-top: 20px;"></div>
 			
 					<div id="wpProQuiz_loadUserData" class="wpProQuiz_blueBox" style="background-color: #F8F5A8; display: none; margin: 50px;">
-						<img alt="load" src="data:image/gif;base64,R0lGODlhEAAQAPYAAP///wAAANTU1JSUlGBgYEBAQERERG5ubqKiotzc3KSkpCQkJCgoKDAwMDY2Nj4+Pmpqarq6uhwcHHJycuzs7O7u7sLCwoqKilBQUF5eXr6+vtDQ0Do6OhYWFoyMjKqqqlxcXHx8fOLi4oaGhg4ODmhoaJycnGZmZra2tkZGRgoKCrCwsJaWlhgYGAYGBujo6PT09Hh4eISEhPb29oKCgqioqPr6+vz8/MDAwMrKyvj4+NbW1q6urvDw8NLS0uTk5N7e3s7OzsbGxry8vODg4NjY2PLy8tra2np6erS0tLKyskxMTFJSUlpaWmJiYkJCQjw8PMTExHZ2djIyMurq6ioqKo6OjlhYWCwsLB4eHqCgoE5OThISEoiIiGRkZDQ0NMjIyMzMzObm5ri4uH5+fpKSkp6enlZWVpCQkEpKSkhISCIiIqamphAQEAwMDKysrAQEBJqamiYmJhQUFDg4OHR0dC4uLggICHBwcCAgIFRUVGxsbICAgAAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAAHjYAAgoOEhYUbIykthoUIHCQqLoI2OjeFCgsdJSsvgjcwPTaDAgYSHoY2FBSWAAMLE4wAPT89ggQMEbEzQD+CBQ0UsQA7RYIGDhWxN0E+ggcPFrEUQjuCCAYXsT5DRIIJEBgfhjsrFkaDERkgJhswMwk4CDzdhBohJwcxNB4sPAmMIlCwkOGhRo5gwhIGAgAh+QQJCgAAACwAAAAAEAAQAAAHjIAAgoOEhYU7A1dYDFtdG4YAPBhVC1ktXCRfJoVKT1NIERRUSl4qXIRHBFCbhTKFCgYjkII3g0hLUbMAOjaCBEw9ukZGgidNxLMUFYIXTkGzOmLLAEkQCLNUQMEAPxdSGoYvAkS9gjkyNEkJOjovRWAb04NBJlYsWh9KQ2FUkFQ5SWqsEJIAhq6DAAIBACH5BAkKAAAALAAAAAAQABAAAAeJgACCg4SFhQkKE2kGXiwChgBDB0sGDw4NDGpshTheZ2hRFRVDUmsMCIMiZE48hmgtUBuCYxBmkAAQbV2CLBM+t0puaoIySDC3VC4tgh40M7eFNRdH0IRgZUO3NjqDFB9mv4U6Pc+DRzUfQVQ3NzAULxU2hUBDKENCQTtAL9yGRgkbcvggEq9atUAAIfkECQoAAAAsAAAAABAAEAAAB4+AAIKDhIWFPygeEE4hbEeGADkXBycZZ1tqTkqFQSNIbBtGPUJdD088g1QmMjiGZl9MO4I5ViiQAEgMA4JKLAm3EWtXgmxmOrcUElWCb2zHkFQdcoIWPGK3Sm1LgkcoPrdOKiOCRmA4IpBwDUGDL2A5IjCCN/QAcYUURQIJIlQ9MzZu6aAgRgwFGAFvKRwUCAAh+QQJCgAAACwAAAAAEAAQAAAHjIAAgoOEhYUUYW9lHiYRP4YACStxZRc0SBMyFoVEPAoWQDMzAgolEBqDRjg8O4ZKIBNAgkBjG5AAZVtsgj44VLdCanWCYUI3txUPS7xBx5AVDgazAjC3Q3ZeghUJv5B1cgOCNmI/1YUeWSkCgzNUFDODKydzCwqFNkYwOoIubnQIt244MzDC1q2DggIBACH5BAkKAAAALAAAAAAQABAAAAeJgACCg4SFhTBAOSgrEUEUhgBUQThjSh8IcQo+hRUbYEdUNjoiGlZWQYM2QD4vhkI0ZWKCPQmtkG9SEYJURDOQAD4HaLuyv0ZeB4IVj8ZNJ4IwRje/QkxkgjYz05BdamyDN9uFJg9OR4YEK1RUYzFTT0qGdnduXC1Zchg8kEEjaQsMzpTZ8avgoEAAIfkECQoAAAAsAAAAABAAEAAAB4iAAIKDhIWFNz0/Oz47IjCGADpURAkCQUI4USKFNhUvFTMANxU7KElAhDA9OoZHH0oVgjczrJBRZkGyNpCCRCw8vIUzHmXBhDM0HoIGLsCQAjEmgjIqXrxaBxGCGw5cF4Y8TnybglprLXhjFBUWVnpeOIUIT3lydg4PantDz2UZDwYOIEhgzFggACH5BAkKAAAALAAAAAAQABAAAAeLgACCg4SFhjc6RhUVRjaGgzYzRhRiREQ9hSaGOhRFOxSDQQ0uj1RBPjOCIypOjwAJFkSCSyQrrhRDOYILXFSuNkpjggwtvo86H7YAZ1korkRaEYJlC3WuESxBggJLWHGGFhcIxgBvUHQyUT1GQWwhFxuFKyBPakxNXgceYY9HCDEZTlxA8cOVwUGBAAA7AAAAAAAAAAAA">
+						<img alt="load" src="<?php echo admin_url('/images/wpspin_light.gif'); ?>" />
 						<?php esc_html_e('Loading', 'learndash'); ?>
 					</div>
 				</div>
@@ -1470,3 +1498,90 @@ class LD_QuizPro {
 }
 
 new LD_QuizPro();
+
+/**
+ * LearnDash return all global Quizzes.
+ *
+ * This function will query and return all global.
+ * A GLOBAL Quizzes is:
+ * 1. Quizzes not associated with a Course.
+ *
+ * @since 2.6
+ *
+ * @param boolean $bypass_transient Force By Pass of transient caching.
+ * @return array Quiz ids.
+ */
+function learndash_get_non_course_qizzes( $bypass_transient = false ) {
+	global $wpdb;
+
+	$global_quiz_ids = array();
+
+	$transient_key = 'learndash_global_quiz_ids';
+	if ( ! $bypass_transient ) {
+		$global_quiz_ids_transient = learndash_get_valid_transient( $transient_key );
+	} else {
+		$global_quiz_ids_transient = false;
+	}
+
+	if ( false === $global_quiz_ids_transient ) {
+
+		$global_quiz_ids_query_str = "SELECT posts.ID FROM {$wpdb->posts} as posts 
+			LEFT JOIN {$wpdb->postmeta} as postmeta1 ON posts.ID = postmeta1.post_id AND postmeta1.meta_key LIKE 'ld_course%'
+			LEFT JOIN {$wpdb->postmeta} as postmeta2 ON posts.ID = postmeta2.post_id AND postmeta2.meta_key = 'course_id'
+			WHERE posts.post_type = 'sfwd-quiz' 
+				AND ( postmeta1.post_id IS NULL AND postmeta2.post_id IS NULL )";
+
+		$global_quiz_ids = $wpdb->get_col( $global_quiz_ids_query_str );
+		set_transient( $transient_key, $global_quiz_ids, MINUTE_IN_SECONDS );
+	} else {
+		$global_quiz_ids = $global_quiz_ids_transient;
+	}
+
+	return $global_quiz_ids;
+}
+
+/**
+ * LearnDash return all open Quizzes.
+ *
+ * This function will query and return all open Quizzes.
+ * An OPEN Quiz is:
+ * 1. Not associated with a Course.
+ * 2. The Quiz settiing "Only registered users are allowed to start the quiz" is NOT set.
+ *
+ * @since 2.6
+ *
+ * @param boolean $bypass_transient Force By Pass of transient caching.
+ * @return array Quiz ids.
+ */
+function learndash_get_open_quizzes( $bypass_transient = false ) {
+	global $wpdb;
+
+	$open_quiz_ids = array();
+
+	$transient_key = 'learndash_global_quiz_ids';
+	if ( ! $bypass_transient ) {
+		$open_quiz_ids_transient = learndash_get_valid_transient( $transient_key );
+	} else {
+		$open_quiz_ids_transient = false;
+	}
+
+	if ( false === $open_quiz_ids_transient ) {
+
+		$global_quiz_ids = learndash_get_non_course_qizzes();
+		if ( ! empty( $global_quiz_ids ) ) {
+			$open_quiz_ids_query_str = "SELECT posts.ID FROM {$wpdb->posts} as posts 
+				LEFT JOIN {$wpdb->postmeta} as postmeta1 ON posts.ID = postmeta1.post_id AND postmeta1.meta_key = 'quiz_pro_id'
+				LEFT JOIN {$wpdb->prefix}wp_pro_quiz_master as quiz_master ON postmeta1.meta_value = quiz_master.id 
+				WHERE posts.post_type = 'sfwd-quiz' 
+					AND posts.ID IN (" . implode( ',', $global_quiz_ids) . ")
+					AND quiz_master.start_only_registered_user = 0";
+
+			$open_quiz_ids = $wpdb->get_col( $open_quiz_ids_query_str );
+			set_transient( $transient_key, $open_quiz_ids, MINUTE_IN_SECONDS );
+		}
+	} else {
+		$open_quiz_ids = $open_quiz_ids_transient;
+	}
+
+	return $open_quiz_ids;
+}

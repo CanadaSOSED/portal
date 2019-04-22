@@ -1,19 +1,40 @@
 <?php
-if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( !class_exists( 'LearnDash_Settings_Page_Courses_Shortcodes' ) ) ) {
+/**
+ * LearnDash Settings Page Courses Shortcodes.
+ *
+ * @package LearnDash
+ * @subpackage Settings
+ */
+
+if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDash_Settings_Page_Courses_Shortcodes' ) ) ) {
+	/**
+	 * Class to create the settings page.
+	 */
 	class LearnDash_Settings_Page_Courses_Shortcodes extends LearnDash_Settings_Page {
 
-		function __construct() {
+		/**
+		 * Public constructor for class
+		 */
+		public function __construct() {
 
-			$this->parent_menu_page_url		=	'edit.php?post_type=sfwd-courses';
-			$this->menu_page_capability		=	LEARNDASH_ADMIN_CAPABILITY_CHECK;
-			$this->settings_page_id 		= 	'courses-shortcodes';
-			$this->settings_page_title 		= 	sprintf( esc_html_x( '%s Shortcodes', 'Course Shortcodes Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'course' ) );
-			$this->settings_columns			=	1;
+			$this->parent_menu_page_url = 'edit.php?post_type=sfwd-courses';
+			$this->menu_page_capability = LEARNDASH_ADMIN_CAPABILITY_CHECK;
+			$this->settings_page_id     = 'courses-shortcodes';
+			$this->settings_page_title  = sprintf(
+				// translators: placeholder: Course.
+				esc_html_x( '%s Shortcodes', 'Course Shortcodes Label', 'learndash' ),
+				LearnDash_Custom_Label::get_label( 'course' )
+			);
+			$this->settings_columns     = 1;
 
-			parent::__construct(); 
+			parent::__construct();
 		}
 
-		function show_settings_page() {
+		/**
+		 * Show settiings page output.
+		 */
+
+		public function show_settings_page() {
 			?>
 			<div  id='course-shortcodes'  class='wrap'>
 				<h1><?php printf( esc_html_x( '%s Shortcodes', 'Course Shortcodes Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'course' ) ); ?></h1>
@@ -22,7 +43,7 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( !class_exists( 'LearnDas
 						<div class='inside' style='margin: 11px 0; padding: 0 12px 12px;'>
 						<?php
 						echo '<b>' . esc_html__( 'Shortcode Options', 'learndash' ) . '</b>
-							<p>' . sprintf( esc_html_x( 'You may use shortcodes to add information to any page/%1$s/%2$s/%2$s. Here are built-in shortcodes for displaying relavent user information.', 'placeholders: course, lesson, quiz', 'learndash' ), LearnDash_Custom_Label::label_to_lower( 'course' ), LearnDash_Custom_Label::label_to_lower( 'lesson' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )) . '</p>
+							<p>' . sprintf( esc_html_x( 'You may use shortcodes to add information to any page/%1$s/%2$s/%3$s. Here are built-in shortcodes for displaying relavent user information.', 'placeholders: course, lesson, quiz', 'learndash' ), LearnDash_Custom_Label::label_to_lower( 'course' ), LearnDash_Custom_Label::label_to_lower( 'lesson' ), LearnDash_Custom_Label::label_to_lower( 'quiz' )) . '</p>
 
 							<p  class="ld-shortcode-header">[ld_profile]</p>
 							<p>' . sprintf( esc_html_x( 'Displays user\'s enrolled %1$s, %2$s progress, %3$s scores, and achieved certificates. This shortcode can take following parameters:', 'placeholder: courses, course, quiz', 'learndash' ), LearnDash_Custom_Label::label_to_lower( 'courses' ), LearnDash_Custom_Label::label_to_lower( 'course' ), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ) . '</p>
@@ -91,7 +112,7 @@ LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Section_Perm
 		                    <p class="ld-shortcode-header">[student]</p>
 							<p>' . sprintf( wp_kses_post( _x( 'This shortcode shows the content if the user is enrolled in the %s. The shortcode can be used on <strong>any</strong> page or widget area. This shortcode can take following parameters:', 'placeholders: course', 'learndash' ) ), LearnDash_Custom_Label::label_to_lower( 'course' ) ) . '</p>
 							<ul>
-							<li><b>course_id</b>: ' . sprintf( wp_kses_post( _x( 'Optional. Show content if the student has access to a specific course. Example: <b>[student course_id="10"]insert any content[/student]</b>', 'placeholders: courses, courses', 'learndash' ) ), LearnDash_Custom_Label::label_to_lower( 'course' ) ) . '</li>
+							<li><b>course_id</b>: ' . sprintf( wp_kses_post( _x( 'Optional. Show content if the student has access to a specific %s. Example: <b>[student course_id="10"]insert any content[/student]</b>', 'placeholders: courses, courses', 'learndash' ) ), LearnDash_Custom_Label::label_to_lower( 'course' ) ) . '</li>
 							</ul><br>
 							
 							<p class="ld-shortcode-header">[course_complete]</p><p>' . sprintf( wp_kses_post( _x( 'This shortcode shows the content if the user has completed the %s. The shortcode can be used on <strong>any</strong> page or widget area. This shortcode can take following parameters:', 'placeholders: course', 'learndash' ) ), LearnDash_Custom_Label::label_to_lower( 'course' ) ) . '</p>
@@ -129,7 +150,7 @@ LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Section_Perm
 							<li><b>group_id</b>: ' . wp_kses_post( __( 'Required. Show content if the student has access to a specific group. Example: <b>[ld_group group_id="16"]insert any content[/ld_group]</b>', 'learndash' ) ) . '</li>
 							</ul><br />
 
-		                    <p id="shortcode_ld_video" class="ld-shortcode-header">[ld_video]</p><p>' . sprintf( wp_kses_post( _x( 'This shortcode is used on %s and %s where Video Progression is enabled. The video player will be added above the content. This shortcode allows positioning the player elsewhere within the content. This shortcode does not take any parameters.', 'learndash' ) ), LearnDash_Custom_Label::get_label( 'lessons' ), LearnDash_Custom_Label::get_label( 'topics' ) ) . '</p><br />
+		                    <p id="shortcode_ld_video" class="ld-shortcode-header">[ld_video]</p><p>' . sprintf( wp_kses_post( _x( 'This shortcode is used on %1$s and %2$s where Video Progression is enabled. The video player will be added above the content. This shortcode allows positioning the player elsewhere within the content. This shortcode does not take any parameters.', 'learndash' ) ), LearnDash_Custom_Label::get_label( 'lessons' ), LearnDash_Custom_Label::get_label( 'topics' ) ) . '</p><br />
 
 							
 							<p class="ld-shortcode-header">[learndash_payment_buttons]</p>
@@ -155,7 +176,6 @@ LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Section_Perm
 			</div>
 			<?php
 		}
-		
 	}
 }
 add_action( 'learndash_settings_pages_init', function() {

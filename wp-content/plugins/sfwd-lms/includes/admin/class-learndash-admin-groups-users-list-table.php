@@ -87,7 +87,7 @@ if ( !class_exists('Learndash_Admin_Groups_Users_List_Table') ) {
 		}
 		
 		function column_group_actions( $item ) {
-			$element = Learndash_Admin_Settings_Data_Upgrades::get_instance();
+			$element = Learndash_Admin_Data_Upgrades::get_instance();
 			$data_settings_courses = $element->get_data_settings('user-meta-courses');
 			$data_settings_quizzes = $element->get_data_settings('user-meta-quizzes');
 			

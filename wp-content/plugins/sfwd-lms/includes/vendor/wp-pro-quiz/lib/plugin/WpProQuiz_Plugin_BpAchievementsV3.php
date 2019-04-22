@@ -3,8 +3,8 @@ class WpProQuiz_Plugin_BpAchievementsV3 extends DPA_Extension {
 	
 	public function __construct() {
 		$this->actions = array(
-			'wp_pro_quiz_completed_quiz' => sprintf( esc_html_x('The user completed a %s.', 'The user completed a quiz.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
-			'wp_pro_quiz_completed_quiz_100_percent' => sprintf( esc_html_x('The user completed a %s with 100 percent.', 'The user completed a quiz with 100 percent.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' )),
+			'wp_pro_quiz_completed_quiz' => sprintf( esc_html_x('The user completed a %s.', 'The user completed a quiz.', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
+			'wp_pro_quiz_completed_quiz_100_percent' => sprintf( esc_html_x('The user completed a %s with 100 percent.', 'The user completed a quiz with 100 percent.', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' )),
 		);
 		
 		$this->contributors = array(
@@ -15,10 +15,10 @@ class WpProQuiz_Plugin_BpAchievementsV3 extends DPA_Extension {
 			)
 		);
 		
-		$this->description     = sprintf( esc_html_x('A powerful and beautiful %s plugin for WordPress.', 'A powerful and beautiful quiz plugin for WordPress.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
+		$this->description     = sprintf( esc_html_x('A powerful and beautiful %s plugin for WordPress.', 'A powerful and beautiful quiz plugin for WordPress.', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) );
 		$this->id              = 'wp-pro-quiz';
 		$this->image_url       = WPPROQUIZ_URL.'/img/wp_pro_quiz.jpg';
-		$this->name            = esc_html__( 'WP-Pro-Quiz', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN );
+		$this->name            = esc_html__( 'WP-Pro-Quiz', 'learndash' );
 		//$this->rss_url         = '';
 		$this->small_image_url = WPPROQUIZ_URL.'/img/wp_pro_quiz_small.jpg';
 		$this->version         = 5;

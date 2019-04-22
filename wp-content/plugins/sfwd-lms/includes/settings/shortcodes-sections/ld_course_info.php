@@ -141,7 +141,7 @@ if ( ( class_exists( 'LearnDash_Shortcodes_Section' ) ) && ( !class_exists( 'Lea
 					'value' 		=> 	'',
 					'options'		=>	array(
 											''		 	=>	esc_html__('Date Taken (default) - Order by date taken', 'learndash'),
-											'title'		 =>	esc_html__('Title (default) - Order by post title', 'learndash'),
+											'title'		 =>	esc_html__('Title - Order by post title', 'learndash'),
 											'ID'		 =>	esc_html__('ID - Order by post id', 'learndash'),
 											'date'		 =>	esc_html__('Date - Order by post date', 'learndash'),
 											'menu_order' =>	esc_html__('Menu - Order by Page Order Value', 'learndash'),

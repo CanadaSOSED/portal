@@ -152,6 +152,11 @@ function learndash_groups_post_content() {
 		'not_found_in_trash' => esc_html__( 'No LearnDash Group found in the Trash', 'learndash' ),
 		'parent_item_colon'  => '',
 		'menu_name'          => esc_html__( 'LearnDash Groups', 'learndash' ),
+		'item_published'	 =>	esc_html__( 'Group Published', 'learndash' ),
+		'item_published_privately' => esc_html__( 'Group Published Privately', 'learndash' ),
+		'item_reverted_to_draft' => esc_html__( 'Group Reverted to Draft', 'learndash' ),
+		'item_scheduled'	 =>	esc_html__( 'Group Scheduled', 'learndash' ),
+		'item_updated'		 =>	esc_html__( 'Group Updated', 'learndash' ),
 	);
 
 	$capabilities = array(
@@ -179,19 +184,23 @@ function learndash_groups_post_content() {
 	}
 
 	$args = array(
-		'labels'              => $labels,
-		'description'         => esc_html__( 'Holds LearnDash user Groups', 'learndash' ),
-		'public'              => false,
-		'menu_position'       => 10,
-		'show_in_menu'        => true,
-		'show_in_nav_menus'   => false,
-		'supports'            => array( 'title', 'editor'), //, 'custom-fields', 'author'
-		'has_archive'         => false,
-		'exclude_from_search' => true,
-		'publicly_queryable'  => false,
-		'show_ui'             => true,
-		'capabilities'        => $capabilities,
-		'map_meta_cap'        => true,
+		'labels'              	=> $labels,
+		'description'         	=> esc_html__( 'Holds LearnDash user Groups', 'learndash' ),
+		'public'              	=> false,
+		'menu_position'       	=> 10,
+		'show_in_menu'        	=> true,
+		'show_in_nav_menus'   	=> false,
+		'supports'            	=> array( 'title', 'editor' ), //, 'custom-fields', 'author'
+		'has_archive'         	=> false,
+		'exclude_from_search' 	=> true,
+		'publicly_queryable'  	=> false,
+		'show_ui'             	=> true,
+		'capability_type'       => 'group', 
+		'capabilities'        	=> $capabilities,
+		'map_meta_cap'        	=> true,
+		'show_in_rest' 			=> LearnDash_REST_API::enabled( 'groups' ) || LearnDash_REST_API::gutenberg_enabled( 'groups' ),
+		//'rest_base' 			=> LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Section_Permalinks', 'courses' ),
+		'rest_controller_class' => LearnDash_REST_API::get_controller( 'groups' ),
 	);
 
 	/**
@@ -202,44 +211,22 @@ function learndash_groups_post_content() {
 	$args = apply_filters( 'learndash_post_args_groups', $args );
 	$args = apply_filters( 'learndash-cpt-options', $args, 'groups' );
 	
+	/**
+	 * Filter via the common 'learndash_post_args' used for most all other 
+	 * post_types in LearnDash
+	 *
+	 * @since 2.5.8
+	 */
+	// Removed. The world is not ready for this filter. 
+	//$post_args = array( 'groups' => $args );
+	//$post_args = apply_filters( 'learndash_post_args', $post_args );
+	//if ( isset( $post_args['groups'] ) ) 
+	//	$args = $post_args['groups'];
+	
 	register_post_type( 'groups', $args );
-
 }
 
 add_action( 'init', 'learndash_groups_post_content' );
-
-
-
-/**
- * Set 'updated' admin messages for Groups post type
- * 
- * @since 2.1.0
- * 
- * @param  array $messages
- * @return array $messages
- */
-function learndash_group_updated_messages( $messages ) {
-	global $post, $post_ID;
-
-	$messages['groups'] = array(
-		0  => '', // Unused. Messages start at index 1.
-		1  => sprintf( esc_html__( 'LearnDash Group updated.', 'learndash' ), esc_url( get_permalink( $post_ID ) ) ),
-		2  => esc_html__( 'Custom field updated.', 'learndash' ),
-		3  => esc_html__( 'Custom field deleted.', 'learndash' ),
-		4  => esc_html__( 'LearnDash Group updated.', 'learndash' ),
-		5  => isset( $_GET['revision'] ) ? sprintf( esc_html__( 'LearnDash Group restored to revision from %s', 'learndash' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, /* translators: %s: date and time of the revision */
-		6  => sprintf( esc_html__( 'Group published.', 'learndash' ), esc_url( get_permalink( $post_ID ) ) ),
-		7  => esc_html__( 'LearnDash Group saved.', 'learndash' ),
-		8  => sprintf( esc_html__( 'LearnDash Group submitted. ', 'learndash' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
-		9  => sprintf( wp_kses_post( __( 'LearnDash Group scheduled for: <strong>%1$s</strong>. ', 'learndash' ) ), date_i18n( esc_html__( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( get_permalink( $post_ID ) ) ), // translators: Publish box date format, see http://php.net/date
-		10 => sprintf( esc_html__( 'Group draft updated.', 'learndash' ), esc_url( add_query_arg( 'preview', 'true', get_permalink( $post_ID ) ) ) ),
-	);
-
-	return $messages;
-}
-
-add_filter( 'post_updated_messages', 'learndash_group_updated_messages' );
-
 
 
 /**
@@ -705,7 +692,7 @@ function learndash_set_administrators_group_ids( $user_id, $leader_groups_new = 
 function learndash_get_groups( $id_only = false, $current_user_id = 0 ) {
 
 	if ( empty( $current_user_id ) ) {
-		if ( !is_user_logged_in() ) return $course_ids;
+		if ( !is_user_logged_in() ) return array();
 		$current_user_id = get_current_user_id();
 	}
 
@@ -1116,23 +1103,6 @@ function learndash_set_groups_administrators( $group_id = 0, $group_leaders_new 
 		$transient_key = "learndash_group_leaders_" . $group_id;
 		delete_transient( $transient_key );
 	}
-}
-
-
-/**
- * Is user a group leader
- *
- * @since 2.1.0
- * 
- * @param  int|object  $user
- * @return bool
- */
-function is_group_leader( $user ) {
-	if ( function_exists( '_deprecated_function' ) ) {
-		_deprecated_function( __FUNCTION__, '2.3', 'learndash_is_group_leader_user()' );
-	}
-	
-	return learndash_is_group_leader_user( $user );
 }
 
 /**

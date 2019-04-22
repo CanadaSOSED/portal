@@ -12,7 +12,7 @@ class WpProQuiz_View_StyleManager extends WpProQuiz_View_View {
 	<form method="post">
 		<div id="poststuff">
 			<div class="postbox">
-				<h3 class="hndle"><?php esc_html_e('Front', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN); ?></h3>
+				<h3 class="hndle"><?php esc_html_e('Front', 'learndash'); ?></h3>
 				<div class="wrap wpProQuiz_quizEdit">
 					<table class="form-table">
 						<tbody>
