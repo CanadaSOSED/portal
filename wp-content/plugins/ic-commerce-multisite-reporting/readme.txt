@@ -1,8 +1,8 @@
 === Woocommerce Multisite Reports  ===
 Tags: woocommerce, reports, woocommerce reports, woocommerce sales report,administration, wordpress e-commerce, ecommerce, management, reporting, analysis, sales report, products, mis report, sales orders, customers, graphs, charts, sales summary
 Requires at least: WordPress 4.4 or above
-Tested up to: 4.8
-Stable tag: 1.1
+Tested up to: 5.1.1
+Stable tag: 2.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -15,7 +15,7 @@ WordPress multi-site reporting plug-in idea is to get consolidated various summa
 * Administrator and Shop Manager Users can see the sales data of assigned sites.
 * Report can filter by dates and sites.
 
-Plugin is compatible with WooCommerce 3.0+ and is tested on 3.2.6 version.
+Plugin is compatible with WooCommerce 3.0+ and is tested on 3.5.6 version.
 
 == Installation ==
 
@@ -25,6 +25,28 @@ Plugin is compatible with WooCommerce 3.0+ and is tested on 3.2.6 version.
 * Access the settings page from WordPress backend under WooCommerce Ultimate Reports section.
 
 == Changelog ==
+
+= 2.1 =
+* New: Compatible with latest WooCommerce 3.5.6 and WordPress 5.1.1 versions.
+* Fix: Internal Bug fixes.
+
+= 2.1 =
+* New: Compatible with latest WooCommerce 3.5.0 and WordPress 4.9.8 versions.
+* Fix: Internal Bug fixes.
+
+= 2.0 =
+* New: Compatible with latest WooCommerce 3.4.5 and WordPress 4.9.8 versions.
+* New: Compatible with latest php Version 7.1.
+* New: Added multi currency column on dashboard for multi-currency.
+* Fix: Other Bug fixes.
+
+= 1.3 =
+* New: New: Compatibility with WooCommerce 3.4.1 and WordPress 4.9.6
+* Fix: Other minor fixes.
+
+= 1.2 =
+* New: Compatible with WooCommerce 3.3.5 and WordPress 4.9.5
+* Fix: Some minor fixes.
 
 = 1.1 =
 * New: Compatible with latest WooCommerce 3.2.6 and WordPress 4.9.1 versions.

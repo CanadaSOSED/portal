@@ -3,18 +3,18 @@
 Plugin Name: WooCommerce Mutlisite Reporting
 Author: Deepak Shah
 Description: WordPress multi-site reporting plug-in idea is to get consolidated various summaries on single dashboard.
-Version: 1.1
+Version: 2.2
 Author URL: http://woochamps.com/
 
-Copyright: © 2017 - http://woochamps.com/ - All Rights Reserved
+Copyright: © 2019 - http://woochamps.com/ - All Rights Reserved
 
 Text Domain: icwoocommerce_textdomains
 Domain Path: /languages/
 
-Tested WooCommerce Version: 3.2.6
-Tested Wordpress Version: 4.9.1
+Tested WooCommerce Version: 3.5.6
+Tested Wordpress Version: 5.1.1
 
-Last Update Date: Jan 08, 2018
+Last Update Date: March 18, 2019
 **/ 
  
 if(!class_exists('IC_Commerce_Mutlisite_Reporting')){

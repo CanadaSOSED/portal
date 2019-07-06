@@ -98,7 +98,7 @@ function set_site_data(userblog_id){
 		dataType	: "json",
 		data		: form_data,
 		success		:function(response) {
-			console.log(response);
+			//console.log(response);
 						
 			$(".ic_dashboard").fadeIn('slow');
 			var summary_boxes = response.summary_boxes;
@@ -108,6 +108,8 @@ function set_site_data(userblog_id){
 			
 			var chart_data = response.chart_data;
 			pie_chart(chart_data,'site_wise_sales_chart');
+			
+			console.log(chart_data);
 			
 			reset_form();
 		},
