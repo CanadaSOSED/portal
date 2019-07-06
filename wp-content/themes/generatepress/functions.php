@@ -181,3 +181,29 @@ function admin_content() {
   echo $link;
 }
 //ismara - 2019/04/10 - end
+
+
+//ismara 2019/06/26 - Custom field for User - Chapter information - it will be dinamically created based on the blogs
+add_filter('acf/load_field/name=user_chapter', 'acf_dinamically_user_chapter_value');
+function acf_dinamically_user_chapter_value($field) {
+	 $args = array(
+			'site__not_in' => '5,29,30,31,32',
+			'orderby' => 'blogname'
+ 	 );
+	 // Here we grab the blogs using the arguments originated from the shortcode
+	 $get_custom_blogs = get_sites($args);
+	 // If we have blogs, proceed
+	 if ($get_custom_blogs) {
+		  // Foreach found custom blog, we build the option using the [key] => [value] fashion
+		  foreach ($get_custom_blogs as $custom_blog) {
+			  	$Chapter[str_replace('&#039;', '', $custom_blog->blogname)] = str_replace('&#039;', '', $custom_blog->blogname);
+		  }
+	 // If we don't have blogs, halt! Lets use a generic not found option
+	 } else {
+		  // Just a generic option to inform nothing was found
+		  $Chapter['No blogs found'] = 'No blogs found';
+ 	 }
+    $field['choices'] = $Chapter;
+    return $field;
+}
+//ismara - 2019/06/26 - end
