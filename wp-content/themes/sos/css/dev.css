@@ -26,7 +26,7 @@
 
 #tripGallery ul { list-style-type: none; }
 
-.#ripGallery ul li { display: inline; }
+#ripGallery ul li { display: inline; }
 
 /* Woocommerce Endpoint Links */
 .woocommerce-MyAccount-navigation ul {
@@ -246,6 +246,12 @@
 /*****************Landing Page***********************/
 /*******************Joanna***************************/
 
+div#examAids {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 #examAids {
   background-image: url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/16131211/exam-bg-blue.jpg');
   background-color: #0f425c;
@@ -272,13 +278,92 @@
   margin-bottom: 10px;
 }
 
-@media screen and (min-width: 1024px) {
-  #selector {
-    margin-top: 10px;
-    margin-left: 12rem;
-    margin-bottom: 10px;
+@media screen and (min-width: 768px){
+  #examAids p {
+    padding: 2em;
   }
 
+  #outreachTrips p {
+    padding: 2em;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1020px){
+  select#chapters-list {
+    margin-left: 10rem;
+    width: 300px;
+}
+}
+
+@media screen and (min-width: 1024px){
+  select#chapters-list {
+    margin-left: 3rem;
+    width: 300px;
+}
+}
+
+@media screen and (min-width: 1440px){
+  select#chapters-list {
+    margin-left: 5rem;
+    width: 400px;
+}
+}
+
+@media screen and (min-width: 1500px) and (max-width: 2000px){
+  select#chapters-list {
+    width: 400px;
+}
+
+  #examAids p {
+    padding: 5em;
+  }
+
+  #outreachTrips p {
+    padding: 5em;
+  }
+}
+
+@media screen and (min-width: 2560px){
+  select#chapters-list {
+    margin-left: 20rem;
+    width: 400px;
+  }
+
+  #examAids p {
+    padding: 5em;
+  }
+
+  #outreachTrips p {
+    padding: 5em;
+  }
+
+  .progBoxes {
+    padding-left: 6rem;
+  }
+
+  .progBoxes #examAids {
+    margin-right: 4rem;
+  }
+}
+
+@media screen and (max-width: 1024px){
+  div.mainNav {
+      padding: 0em;
+      margin-right: 0;
+      margin-left: 0;
+  }
+}
+
+@media screen and (min-width: 2000px){
+  .container {
+    max-width: 2000px;
+}
+}
+
+div#outreachTrips {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #outreachTrips {
@@ -357,8 +442,6 @@ color: black;
 
 div.mainNav {
   background-color: #535353;
-  margin-right: 9rem;
-  margin-left: 9rem;
   padding-right: 2em;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -367,20 +450,29 @@ div.mainNav {
   border-bottom: 4px solid rgb(71, 71, 71);
 }
 
+@media screen and (min-width: 1241px){
+  div.mainNav {
+    margin-right: 9rem;
+    margin-left: 9rem;
+  }
+}
+
 div.mainNav .social-icons ul {
   padding-left: 1.2rem;
 }
 
-@media screen (max-width: 415px) {
+@media screen and (max-width: 415px) {
   div.mainNav {
     padding: 123em;
   }
 }
 
+/*Small Laptop */
 @media screen and (max-width: 1024px) {
   div.mainNav {
     padding: 0em;
   }
+
 }
 
 .social-icons {

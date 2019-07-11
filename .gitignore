@@ -11,6 +11,9 @@ wp-content/uploads/
 wp-content/wp-cache-config.php
 wp-content/plugins/hello.php
 wp-content/themes/sos/_bak/
+wp-config-local.php
+wp-config-local1.php
+wp-activate.php
 
 /.htaccess
 /license.txt
@@ -48,3 +51,5 @@ Temporary Items
 
 .sass-cache/
 *.css.map
+
+#Testing

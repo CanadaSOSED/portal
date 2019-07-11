@@ -12,28 +12,30 @@ get_header(); ?>
 
 <section class="progBoxes">
 	<div class="row">
-		<div class="col-sm-6 col-md-5 ml-md-6" id="examAids">
+		<div class="col-sm-6 col-md-10 col-lg-5 ml-md-4 ml-lg-4 ml-xl-6" id="examAids">
 				<h1 style="color: #fff; text-align: center;"><strong>Exam Aid Sessions</strong></h1>
 				<h2 style="color: #fff; text-align: center; margin-bottom: 30px;">CONQUER EXAMAPHOBIA. </h2>
-				<p style="color: #fff; font-size: 1.2em;">Designed by students, for students and taught by A+ Instructors<br> to help you boost your marks.</br></br> Enter your next exam with confidence! Over 100,000 students have been supported by Exam Aid Sessions and 96% would recommend a session to a friend!</p>
-				<div id="selector">
-					<select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
-	        <option> Select Your Campus </option>
-	            <?php sos_chapters_list_option_box(); ?>
-	        </select>
-				</div>
+				
+				<select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
+				<option> Select Your Campus </option>
+					<?php sos_chapters_list_option_box(); ?>
+				</select>
+			
+				<p class="homeText" style="color: #fff; font-size: 1.2em;">Designed by students, for students and taught by A+ Instructors<br> to help you boost your marks.</br></br> 
+				Enter your next exam with confidence! Over 100,000 students have been supported by Exam Aid Sessions and 96% would recommend a session to a friend!</p>
     </div>
-		<div class="col-sm-6 col-md-5" id="outreachTrips">
+		<div class="col-sm-6 col-md-10 col-lg-5 ml-md-4 ml-lg-0" id="outreachTrips">
 				<h1 style="color: #fff; text-align: center;"><strong>Outreach Trips</strong></h1>
 				<h2 style="color: #fff; text-align: center; margin-bottom: 30px;">TRANSFORMATIONAL TRAVEL.</h2>
-				<p style="color: #fff; font-size: 1.2em;">This is an immersive experience which will make you think twice about the world and your role in it.</p>
-				<p style="color: #fff; font-size: 1.2em;">Outreach Trips last 2 weeks and enable reciprocal exchange between student participants and host communities, rooted in principles of social responsibility, local ownership, and participatory development.</p>
-				<div id="selector">
-					<select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
-	        <option> Select Your Campus </option>
-	            <?php sos_chapters_list_option_box(); ?>
-	        </select>
-				</div>
+
+				<select id="chapters-list" class="custom-select" onchange="document.location.href=this.options[this.selectedIndex].value;">
+				<option> Select Your Campus </option>
+					<?php sos_chapters_list_option_box(); ?>
+				</select>
+
+				<p class="homeText" style="color: #fff; font-size: 1.2em;">This is an immersive experience which will make you think twice about the world and your role in it.</br></br>
+Outreach Trips last 2 weeks and enable reciprocal exchange between student participants and host communities, rooted in principles of social responsibility, local ownership, and participatory development.
+</p>
 		</div>
   </div>
 </section>
