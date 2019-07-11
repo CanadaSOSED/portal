@@ -1,89 +1,131 @@
 <?php
-if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( !class_exists( 'LearnDash_Settings_Page_Addons' ) ) ) {
+/**
+ * LearnDash Settings Page Add-ons.
+ *
+ * @since 2.5.4
+ *
+ * @package LearnDash
+ * @subpackage Settings
+ */
+
+if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( ! class_exists( 'LearnDash_Settings_Page_Addons' ) ) ) {
+	/**
+	 * Class to create the settings page.
+	 */
 	class LearnDash_Settings_Page_Addons extends LearnDash_Settings_Page {
 
-		function __construct() {
-			//$this->settings_screen_id		= 	'admin_page_learndash_lms_addons';
-			//$this->parent_menu_page_url		=	'learndash-lms';
-			$this->parent_menu_page_url		=	'admin.php?page=learndash_lms_addons';
-			$this->menu_page_capability		=	LEARNDASH_ADMIN_CAPABILITY_CHECK;
-			$this->settings_page_id 		= 	'learndash_lms_addons';
-			$this->settings_page_title 		= 	esc_html__( 'LearnDash Add-ons', 'learndash' );
-			$this->settings_tab_title		=	esc_html__( 'Add-ons', 'learndash' );
-			$this->settings_tab_priority	=	0;
+		/**
+		 * Public constructor for class
+		 */
+		public function __construct() {
+			$this->parent_menu_page_url  = 'admin.php?page=learndash_lms_addons';
+			$this->menu_page_capability  = LEARNDASH_ADMIN_CAPABILITY_CHECK;
+			$this->settings_page_id      = 'learndash_lms_addons';
+			$this->settings_page_title   = esc_html__( 'LearnDash Add-ons', 'learndash' );
+			$this->settings_tab_title    = esc_html__( 'Add-ons', 'learndash' );
+			$this->settings_tab_priority = 0;
 
 			// Override action with custom plugins function for add-ons.
 			add_action( 'install_plugins_pre_plugin-information', array( $this, 'shows_addon_plugin_information' ) );
 			add_filter( 'learndash_submenu_last', array( $this, 'submenu_item' ), 200 );
 
 			add_filter( 'learndash_admin_tab_sets', array( $this, 'learndash_admin_tab_sets' ), 10, 3 );
-			
-			parent::__construct(); 
+
+			parent::__construct();
 		}
-		
+
+		/**
+		 * Control visibility of submenu items based on lisence status
+		 *
+		 * @since 2.5.5
+		 *
+		 * @param array $submenu Submenu item to check.
+		 * @return array $submenu
+		 */
 		public function submenu_item( $submenu ) {
-			if ( !isset( $submenu[$this->settings_page_id] ) ) {
+			if ( ! isset( $submenu[ $this->settings_page_id ] ) ) {
 				$license_status = get_option( 'nss_plugin_remote_license_sfwd_lms' );
 				if ( isset( $license_status['value'] ) ) {
 					$license_status = $license_status['value'];
-					if ( !empty( $license_status ) && ( $license_status != 'false') && ( $license_status != 'not_found' ) ) {
-						$submenu[$this->settings_page_id] = array(
-				        	'name' => $this->settings_tab_title,
-				        	'cap'  => $this->menu_page_capability, 
-				        	'link' => $this->parent_menu_page_url,
-				    	);
+					if ( ! empty( $license_status ) && ( 'false' !== $license_status ) && ( 'not_found' !== $license_status ) ) {
+						$submenu[ $this->settings_page_id ] = array(
+							'name' => $this->settings_tab_title,
+							'cap'  => $this->menu_page_capability,
+							'link' => $this->parent_menu_page_url,
+						);
 					}
 				}
 			}
 
-		    return $submenu;
+			return $submenu;
 		}
-				
-		function get_admin_page_title() {
-			return apply_filters( 'learndash_admin_page_title', '<h1>'. $this->settings_page_title . '</h1>' );
+
+		/**
+		 * Filter for page title wrapper.
+		 *
+		 * @since 2.5.5
+		 */
+		public function get_admin_page_title() {
+			return apply_filters( 'learndash_admin_page_title', '<h1>' . $this->settings_page_title . '</h1>' );
 		}
-		
-		function load_settings_page() {
+
+		/**
+		 * Action function called when Add-ons page is loaded.
+		 *
+		 * @since 2.5.5
+		 */
+		public function load_settings_page() {
 			require_once LEARNDASH_LMS_PLUGIN_DIR . '/includes/admin/class-learndash-admin-addons-list-table.php';
-			
+
 			wp_enqueue_style( 'plugin-install' );
 			wp_enqueue_script( 'plugin-install' );
 			wp_enqueue_script( 'updates' );
-			
-			add_thickbox();			
+
+			add_thickbox();
 		}
-		
-		function learndash_admin_tab_sets( $tab_set = array(), $tab_key = '', $current_page_id = '' ) {
-			if ( ( !empty( $tab_set ) ) && ( !empty( $tab_key ) ) && ( !empty( $current_page_id ) ) ) {
+
+		/**
+		 * Hide the tab menu items if on add-one page.
+		 *
+		 * @since 2.5.5
+		 *
+		 * @param array  $tab_set Tab Set.
+		 * @param string $tab_key Tab Key.
+		 * @param string $current_page_id ID of shown page.
+		 *
+		 * @return array $tab_set
+		 */
+		public function learndash_admin_tab_sets( $tab_set = array(), $tab_key = '', $current_page_id = '' ) {
+			if ( ( ! empty( $tab_set ) ) && ( ! empty( $tab_key ) ) && ( ! empty( $current_page_id ) ) ) {
 				if ( 'admin_page_learndash_lms_addons' == $current_page_id ) {
-					//$tab_set = array();
-					//add_action( 'admin_footer', 'learndash_select_menu' );
-					?><style> h1.nav-tab-wrapper { display: none; }</style><?php
+					?>
+					<style> h1.nav-tab-wrapper { display: none; }</style>
+					<?php
 				}
-			} 
+			}
 			return $tab_set;
 		}
 
-		function show_settings_page() {
-			
+		/**
+		 * Custom display function for page content.
+		 *
+		 * @since 2.5.5
+		 */
+		public function show_settings_page() {
+
 			?>
 			<div class="wrap learndash-settings-page-wrap">
 
 				<?php settings_errors(); ?>
 
-				<?php do_action('learndash_settings_page_before_title', $this->settings_screen_id ); ?>
-				<?php echo $this->get_admin_page_title() ?>
-				<?php do_action('learndash_settings_page_after_title', $this->settings_screen_id ); ?>
+				<?php do_action( 'learndash_settings_page_before_title', $this->settings_screen_id ); ?>
+				<?php echo $this->get_admin_page_title(); ?>
+				<?php do_action( 'learndash_settings_page_after_title', $this->settings_screen_id ); ?>
 				
-				<?php do_action('learndash_settings_page_before_form', $this->settings_screen_id ); ?>
+				<?php do_action( 'learndash_settings_page_before_form', $this->settings_screen_id ); ?>
 				<div id="plugin-filter-xxx">
 				<?php echo $this->get_admin_page_form( true ); ?>
-				<?php do_action('learndash_settings_page_inside_form_top', $this->settings_screen_id ); ?>
-
-					<?php //settings_fields( $this->settings_page_id );  ?>
-					<?php //wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>
-					<?php //wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false ); ?>
-
+				<?php do_action( 'learndash_settings_page_inside_form_top', $this->settings_screen_id ); ?>
 					<?php
 						$wp_list_table = new Learndash_Admin_Addons_List_Table();
 						$wp_list_table->prepare_items();
@@ -91,13 +133,14 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( !class_exists( 'LearnDas
 						$wp_list_table->views();
 						$wp_list_table->display();
 					?>
-				<?php do_action('learndash_settings_page_inside_form_bottom', $this->settings_screen_id ); ?>
+				<?php do_action( 'learndash_settings_page_inside_form_bottom', $this->settings_screen_id ); ?>
 				<?php echo $this->get_admin_page_form( false ); ?>
 				</div>
-				<?php do_action('learndash_settings_page_after_form', $this->settings_screen_id ); ?>
+				<?php do_action( 'learndash_settings_page_after_form', $this->settings_screen_id ); ?>
 			</div>
 			<?php
-			/* The following is needed to trigger the wp-admin/js/updates.js logic in 
+			/**
+			 * The following is needed to trigger the wp-admin/js/updates.js logic in
 			 * wp.updates.updatePlugin() where is checks for specific pagenow values
 			 * but doesn't leave any option for externals.
 			 */
@@ -107,7 +150,7 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( !class_exists( 'LearnDas
 			</script>
 			<?php
 		}
-		
+
 		/**
 		 * Display plugin information in dialog box form.
 		 *
@@ -115,68 +158,100 @@ if ( ( class_exists( 'LearnDash_Settings_Page' ) ) && ( !class_exists( 'LearnDas
 		 *
 		 * @global string $tab
 		 */
-		function shows_addon_plugin_information() {
+		public function shows_addon_plugin_information() {
 			if ( empty( $_REQUEST['plugin'] ) ) {
 				return;
 			}
 
 			$addon_updater = new LearnDash_Addon_Updater();
 			$plugin_readme_information = $addon_updater->get_plugin_information( esc_attr( $_REQUEST['plugin'] ) );
-			//error_log('plugin_information<pre>'. print_r($plugin_readme_information, true) .'</pre>');
 
-			if ( empty( $plugin_readme_information ) ) return;
-			
+			if ( empty( $plugin_readme_information ) ) {
+				return;
+			}
+
 			$api = new StdClass();
-			foreach( $plugin_readme_information as $_k => $_s ) {
-				$api->$_k = $_s;	
+			foreach ( $plugin_readme_information as $_k => $_s ) {
+				$api->$_k = $_s;
 			}
 
 			$plugins_allowedtags = array(
-				'a' => array( 'href' => array(), 'title' => array(), 'target' => array() ),
-				'abbr' => array( 'title' => array() ), 'acronym' => array( 'title' => array() ),
-				'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
-				'div' => array( 'class' => array() ), 'span' => array( 'class' => array() ),
-				'p' => array(), 'br' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
-				'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
-				'img' => array( 'src' => array(), 'class' => array(), 'alt' => array() ),
-				'blockquote' => array( 'cite' => true ),
+				'a' => array(
+					'href' => array(),
+					'title' => array(),
+					'target' => array(),
+				),
+				'abbr' => array(
+					'title' => array(),
+				),
+				'acronym' => array(
+					'title' => array(),
+				),
+				'code' => array(),
+				'pre' => array(),
+				'em' => array(),
+				'strong' => array(),
+				'div' => array(
+					'class' => array(),
+				),
+				'span' => array(
+					'class' => array(),
+				),
+				'p' => array(),
+				'br' => array(),
+				'ul' => array(),
+				'ol' => array(),
+				'li' => array(),
+				'h1' => array(),
+				'h2' => array(),
+				'h3' => array(),
+				'h4' => array(),
+				'h5' => array(),
+				'h6' => array(),
+				'img' => array(
+					'src' => array(),
+					'class' => array(),
+					'alt' => array(),
+				),
+				'blockquote' => array(
+					'cite' => true,
+				),
 			);
 
 			$plugins_section_titles = array(
-				'description'  => _x( 'Description',  'Plugin installer section title' ),
+				'description'  => _x( 'Description', 'Plugin installer section title' ),
 				'installation' => _x( 'Installation', 'Plugin installer section title' ),
-				'faq'          => _x( 'FAQ',          'Plugin installer section title' ),
-				'screenshots'  => _x( 'Screenshots',  'Plugin installer section title' ),
-				'changelog'    => _x( 'Changelog',    'Plugin installer section title' ),
-				'reviews'      => _x( 'Reviews',      'Plugin installer section title' ),
-				'other_notes'  => _x( 'Other Notes',  'Plugin installer section title' )
+				'faq'          => _x( 'FAQ', 'Plugin installer section title' ),
+				'screenshots'  => _x( 'Screenshots', 'Plugin installer section title' ),
+				'changelog'    => _x( 'Changelog', 'Plugin installer section title' ),
+				'reviews'      => _x( 'Reviews', 'Plugin installer section title' ),
+				'other_notes'  => _x( 'Other Notes', 'Plugin installer section title' ),
 			);
 
-			// Sanitize HTML
+			// Sanitize HTML.
 			foreach ( (array) $api->sections as $section_name => $content ) {
-				$api->sections[$section_name] = wp_kses( $content, $plugins_allowedtags );
+				$api->sections[ $section_name ] = wp_kses( $content, $plugins_allowedtags );
 			}
-			
+
 			foreach ( array( 'version', 'author', 'requires', 'tested', 'homepage', 'downloaded', 'slug' ) as $key ) {
 				if ( isset( $api->$key ) ) {
 					$api->$key = wp_kses( $api->$key, $plugins_allowedtags );
 				}
 			}
-			//error_log('api<pre>'. print_r($api, true) .'</pre>');
-			
+
 			$section = isset( $_REQUEST['section'] ) ? wp_unslash( $_REQUEST['section'] ) : 'description'; // Default to the Description tab, Do not translate, API returns English.
 			if ( empty( $section ) || ! isset( $api->sections[ $section ] ) ) {
 				$section_titles = array_keys( (array) $api->sections );
 				$section = reset( $section_titles );
 			}
-			
+
 			if ( ( isset( $_GET['tab'] ) ) && ( !empty( $_GET['tab'] ) ) ) {
 				$tab = esc_attr( $_GET['tab'] );
 			} else {
 				$tab = 'plugin-information';
 			}
 			$_tab = $tab;
-			
+
 			$section = isset( $_REQUEST['section'] ) ? wp_unslash( $_REQUEST['section'] ) : 'description'; // Default to the Description tab, Do not translate, API returns English.
 			if ( empty( $section ) || ! isset( $api->sections[ $section ] ) ) {
 				$section_titles = array_keys( (array) $api->sections );

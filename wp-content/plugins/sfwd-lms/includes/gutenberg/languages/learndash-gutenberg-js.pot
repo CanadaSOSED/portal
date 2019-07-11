@@ -1,0 +1,1143 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"X-Generator: babel-plugin-makepot\n"
+
+#: blocks/ld-course-complete/index.js:59
+#: blocks/ld-course-content/index.js:67
+#: blocks/ld-course-expire-status/index.js:79
+#: blocks/ld-course-info/index.js:121
+#: blocks/ld-course-inprogress/index.js:58
+#: blocks/ld-course-list/index.js:190
+#: blocks/ld-course-notstarted/index.js:59
+#: blocks/ld-course-progress/index.js:73
+#: blocks/ld-courseinfo/index.js:211
+#: blocks/ld-group/index.js:55
+#: blocks/ld-lesson-list/index.js:179
+#: blocks/ld-payment-buttons/index.js:62
+#: blocks/ld-profile/index.js:88
+#: blocks/ld-quiz-list/index.js:179
+#: blocks/ld-student/index.js:58
+#: blocks/ld-topic-list/index.js:179
+#: blocks/ld-user-course-points/index.js:61
+#: blocks/ld-user-groups/index.js:60
+#: blocks/ld-usermeta/index.js:139
+#: blocks/ld-visitor/index.js:55
+msgid "Settings"
+msgstr ""
+
+#: blocks/ld-course-complete/index.js:69
+#: blocks/ld-course-expire-status/index.js:117
+#: blocks/ld-course-info/index.js:350
+#: blocks/ld-course-inprogress/index.js:68
+#: blocks/ld-course-list/index.js:400
+#: blocks/ld-course-notstarted/index.js:69
+#: blocks/ld-course-progress/index.js:98
+#: blocks/ld-courseinfo/index.js:199
+#: blocks/ld-group/index.js:64
+#: blocks/ld-profile/index.js:168
+#: blocks/ld-student/index.js:67
+#: blocks/ld-user-course-points/index.js:64
+#: blocks/ld-user-groups/index.js:79
+#: blocks/ld-usermeta/index.js:127
+msgid "User ID"
+msgstr ""
+
+#: blocks/ld-course-complete/index.js:70
+#: blocks/ld-course-expire-status/index.js:89
+#: blocks/ld-course-info/index.js:125
+#: blocks/ld-course-inprogress/index.js:69
+#: blocks/ld-course-notstarted/index.js:70
+#: blocks/ld-course-progress/index.js:83
+#: blocks/ld-courseinfo/index.js:158
+#: blocks/ld-group/index.js:65
+#: blocks/ld-student/index.js:68
+#: blocks/ld-user-course-points/index.js:65
+#: blocks/ld-user-groups/index.js:64
+#: blocks/ld-usermeta/index.js:110
+msgid "Enter specific User ID. Leave blank for current User."
+msgstr ""
+
+#: blocks/ld-course-content/index.js:107
+msgid "[course_content] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-course-content/index.js:84
+#: blocks/ld-course-expire-status/index.js:108
+#: blocks/ld-course-info/index.js:341
+#: blocks/ld-course-list/index.js:391
+#: blocks/ld-course-progress/index.js:89
+#: blocks/ld-courseinfo/index.js:190
+#: blocks/ld-lesson-list/index.js:367
+#: blocks/ld-payment-buttons/index.js:72
+#: blocks/ld-profile/index.js:159
+#: blocks/ld-quiz-list/index.js:367
+#: blocks/ld-topic-list/index.js:367
+#: blocks/ld-user-course-points/index.js:71
+#: blocks/ld-user-groups/index.js:70
+#: blocks/ld-usermeta/index.js:118
+msgid "Preview"
+msgstr ""
+
+#: blocks/ld-course-content/index.js:88
+#: blocks/ld-course-expire-status/index.js:112
+#: blocks/ld-course-info/index.js:345
+#: blocks/ld-course-list/index.js:395
+#: blocks/ld-course-progress/index.js:93
+#: blocks/ld-courseinfo/index.js:194
+#: blocks/ld-lesson-list/index.js:371
+#: blocks/ld-payment-buttons/index.js:76
+#: blocks/ld-profile/index.js:163
+#: blocks/ld-quiz-list/index.js:371
+#: blocks/ld-topic-list/index.js:371
+#: blocks/ld-user-course-points/index.js:75
+#: blocks/ld-user-groups/index.js:74
+#: blocks/ld-usermeta/index.js:122
+msgid "Show Preview"
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:101
+msgid "Label After"
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:102
+msgid "The label prefix shown after access has expired"
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:118
+#: blocks/ld-course-info/index.js:351
+#: blocks/ld-course-list/index.js:401
+#: blocks/ld-course-progress/index.js:99
+#: blocks/ld-courseinfo/index.js:200
+#: blocks/ld-profile/index.js:169
+#: blocks/ld-user-course-points/index.js:81
+#: blocks/ld-user-groups/index.js:80
+#: blocks/ld-usermeta/index.js:128
+msgid "Enter a User ID to test preview"
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:137
+msgid "[ld_course_expire_status] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:95
+msgid "Label Before"
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:96
+msgid "The label prefix shown before the access expires"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:156
+#: blocks/ld-course-list/index.js:181
+#: blocks/ld-lesson-list/index.js:171
+#: blocks/ld-quiz-list/index.js:171
+#: blocks/ld-topic-list/index.js:171
+msgid "Show Thumbnail"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:279
+msgid "per page"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:288
+#: blocks/ld-course-list/index.js:194
+#: blocks/ld-lesson-list/index.js:190
+#: blocks/ld-profile/index.js:99
+#: blocks/ld-quiz-list/index.js:190
+#: blocks/ld-topic-list/index.js:190
+msgid "Order by"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:292
+msgid "Date Taken (default) - Order by date taken"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:296
+#: blocks/ld-course-list/index.js:202
+#: blocks/ld-lesson-list/index.js:198
+#: blocks/ld-profile/index.js:107
+#: blocks/ld-quiz-list/index.js:198
+#: blocks/ld-topic-list/index.js:198
+msgid "Title - Order by post title"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:300
+#: blocks/ld-course-list/index.js:198
+#: blocks/ld-lesson-list/index.js:194
+#: blocks/ld-profile/index.js:103
+#: blocks/ld-quiz-list/index.js:194
+#: blocks/ld-topic-list/index.js:194
+msgid "ID - Order by post id. (default)"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:303
+#: blocks/ld-course-list/index.js:206
+#: blocks/ld-lesson-list/index.js:202
+#: blocks/ld-profile/index.js:111
+#: blocks/ld-quiz-list/index.js:202
+#: blocks/ld-topic-list/index.js:202
+msgid "Date - Order by post date"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:307
+#: blocks/ld-course-list/index.js:210
+#: blocks/ld-lesson-list/index.js:206
+#: blocks/ld-profile/index.js:115
+#: blocks/ld-quiz-list/index.js:206
+#: blocks/ld-topic-list/index.js:206
+msgid "Menu - Order by Page Order Value"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:315
+#: blocks/ld-course-list/index.js:218
+#: blocks/ld-lesson-list/index.js:214
+#: blocks/ld-profile/index.js:123
+#: blocks/ld-quiz-list/index.js:214
+#: blocks/ld-topic-list/index.js:214
+msgid "Order"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:319
+#: blocks/ld-course-list/index.js:222
+#: blocks/ld-lesson-list/index.js:218
+#: blocks/ld-profile/index.js:127
+#: blocks/ld-quiz-list/index.js:218
+#: blocks/ld-topic-list/index.js:218
+msgid "DESC - highest to lowest values (default)"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:323
+#: blocks/ld-course-list/index.js:226
+#: blocks/ld-lesson-list/index.js:222
+#: blocks/ld-profile/index.js:131
+#: blocks/ld-quiz-list/index.js:222
+#: blocks/ld-topic-list/index.js:222
+msgid "ASC - lowest to highest values"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:367
+msgid "[ld_course_info] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:145
+#: blocks/ld-lesson-list/index.js:141
+#: blocks/ld-quiz-list/index.js:141
+#: blocks/ld-topic-list/index.js:141
+msgid "Grid Settings"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:149
+#: blocks/ld-lesson-list/index.js:145
+#: blocks/ld-quiz-list/index.js:145
+#: blocks/ld-topic-list/index.js:145
+msgid "Show Grid"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:154
+msgid "Show Progress Bar"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:159
+#: blocks/ld-lesson-list/index.js:150
+#: blocks/ld-quiz-list/index.js:150
+#: blocks/ld-topic-list/index.js:150
+msgid "Columns"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:173
+#: blocks/ld-lesson-list/index.js:163
+#: blocks/ld-quiz-list/index.js:163
+#: blocks/ld-topic-list/index.js:163
+msgid "Show Content"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:242
+msgid "My Courses"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:335
+#: blocks/ld-lesson-list/index.js:311
+#: blocks/ld-quiz-list/index.js:311
+#: blocks/ld-topic-list/index.js:311
+msgid "WP Category Settings"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:339
+#: blocks/ld-lesson-list/index.js:315
+#: blocks/ld-quiz-list/index.js:315
+#: blocks/ld-topic-list/index.js:315
+msgid "WP Category Slug"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:352
+#: blocks/ld-lesson-list/index.js:328
+#: blocks/ld-quiz-list/index.js:328
+#: blocks/ld-topic-list/index.js:328
+msgid "WP Category Selector"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:353
+#: blocks/ld-lesson-list/index.js:329
+#: blocks/ld-quiz-list/index.js:329
+#: blocks/ld-topic-list/index.js:329
+msgid "shows a WP category dropdown."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:369
+#: blocks/ld-lesson-list/index.js:345
+#: blocks/ld-quiz-list/index.js:345
+#: blocks/ld-topic-list/index.js:345
+msgid "WP Tag Settings"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:373
+#: blocks/ld-lesson-list/index.js:349
+#: blocks/ld-quiz-list/index.js:349
+#: blocks/ld-topic-list/index.js:349
+msgid "WP Tag Slug"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:380
+#: blocks/ld-lesson-list/index.js:356
+#: blocks/ld-quiz-list/index.js:356
+#: blocks/ld-topic-list/index.js:356
+msgid "WP Tag ID"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:428
+msgid "[ld_course_list] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-course-progress/index.js:118
+msgid "[learndash_course_progress] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:103
+msgid "Cumulative Score"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:107
+msgid "Cumulative Points"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:111
+msgid "Possible Cumulative Total Points"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:115
+msgid "Cumulative Percentage"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:119
+msgid "Cumulative Time Spent"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:123
+msgid "Aggregate Percentage"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:127
+msgid "Aggregate Score"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:131
+msgid "Aggregate Points"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:135
+msgid "Possible Aggregate Total Points"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:139
+msgid "Aggregate Time Spent"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:168
+msgid "Format"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:169
+msgid "This can be used to change the date format. Default: \"F j, Y, g:i a."
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:180
+msgid "Decimals"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:181
+msgid "Number of decimal places to show. Default is 2."
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:233
+msgid "[courseinfo] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:84
+msgid "Show"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:87
+msgid "Title"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:99
+msgid "Completed On (date)"
+msgstr ""
+
+#: blocks/ld-group/index.js:36
+msgid "LearnDash Group"
+msgstr ""
+
+#: blocks/ld-group/index.js:37
+msgid "This block shows the content if the user is enrolled into the Group."
+msgstr ""
+
+#: blocks/ld-group/index.js:58
+msgid "Group ID"
+msgstr ""
+
+#: blocks/ld-group/index.js:59
+msgid "Group ID (required)"
+msgstr ""
+
+#: blocks/ld-group/index.js:76
+msgid "Group ID is required."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:397
+msgid "[ld_lesson_list] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-payment-buttons/index.js:119
+msgid "[learndash_payment_buttons] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-payment-buttons/index.js:39
+msgid "LearnDash Payment Buttons"
+msgstr ""
+
+#: blocks/ld-profile/index.js:148
+msgid "Show Profile Link"
+msgstr ""
+
+#: blocks/ld-profile/index.js:185
+msgid "[ld_profile] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-profile/index.js:39
+msgid "LearnDash Profile"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:397
+msgid "[ld_quiz_list] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-student/index.js:38
+msgid "LearnDash Student"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:397
+msgid "[ld_topic_list] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-user-course-points/index.js:80
+msgid "Preview User ID"
+msgstr ""
+
+#: blocks/ld-user-course-points/index.js:97
+msgid "[ld_user_course_points] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-user-groups/index.js:35
+msgid "LearnDash User Groups"
+msgstr ""
+
+#: blocks/ld-user-groups/index.js:36
+msgid ""
+"This block displays the list of groups users are assigned to as users or "
+"leaders."
+msgstr ""
+
+#: blocks/ld-user-groups/index.js:96
+msgid "[user_groups] output shown here"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:155
+msgid "[usermeta] shortcode output shown here"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:35
+msgid "LearnDash User meta"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:36
+msgid "This block displays User meta field"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:64
+msgid "Field"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:67
+msgid "User Login"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:71
+msgid "User Display Name"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:75
+msgid "User Nicename"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:79
+msgid "User First Name"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:83
+msgid "User Last Name"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:87
+msgid "User Nickname"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:91
+msgid "User Email"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:95
+msgid "User URL"
+msgstr ""
+
+#: blocks/ld-usermeta/index.js:99
+msgid "User Description"
+msgstr ""
+
+#: blocks/ld-visitor/index.js:39
+msgid "LearnDash Visitor"
+msgstr ""
+
+#: blocks/ld-course-complete/index.js:39
+msgctxt "placeholder: Course"
+msgid "LearnDash %s Complete"
+msgstr ""
+
+#: blocks/ld-course-content/index.js:39
+msgctxt "placeholder: Course"
+msgid "LearnDash %s Content"
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:38
+msgctxt "placeholder: Course"
+msgid "LearnDash %s Expire Status"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:136
+msgctxt "placeholder: Course"
+msgid "Show %s Progess"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:216
+msgctxt "placeholder: Course"
+msgid "%s Progress"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:40
+msgctxt "placeholder: Course"
+msgid "LearnDash %s Info [ld_course_info]"
+msgstr ""
+
+#: blocks/ld-course-inprogress/index.js:38
+msgctxt "placeholder: Course"
+msgid "LearnDash %s In Progress"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:273
+msgctxt "placeholder: Course"
+msgid "%s Category Settings"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:277
+msgctxt "placeholder: Course"
+msgid "%s Category Slug"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:290
+msgctxt "placeholder: Course"
+msgid "%s Category Selector"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:307
+msgctxt "placeholder: Course"
+msgid "%s Tag Settings"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:311
+msgctxt "placeholder: Course"
+msgid "%s Tag Slug"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:318
+msgctxt "placeholder: Course"
+msgid "%s Tag ID"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:346
+msgctxt "placeholder: Course"
+msgid "%s Category ID"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:40
+msgctxt "placeholder: Course"
+msgid "LearnDash %s List"
+msgstr ""
+
+#: blocks/ld-course-notstarted/index.js:39
+msgctxt "placeholder: Course"
+msgid "LearnDash %s Not Started"
+msgstr ""
+
+#: blocks/ld-course-notstarted/index.js:62
+msgctxt "placeholder: Course"
+msgid "%s ID"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:39
+msgctxt "placeholder: Course"
+msgid "LearnDash %s Info [courseinfo]"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:40
+msgctxt "placeholder: Course"
+msgid "This block displays %s related information"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:91
+msgctxt "placeholder: Course"
+msgid "Earned %s Points"
+msgstr ""
+
+#: blocks/ld-courseinfo/index.js:95
+msgctxt "placeholder: Course"
+msgid "Total User %s Points"
+msgstr ""
+
+#: blocks/ld-payment-buttons/index.js:40
+msgctxt "placeholder: Course"
+msgid "This block the %s payment buttons"
+msgstr ""
+
+#: blocks/ld-profile/index.js:138
+msgctxt "placeholder: Course"
+msgid "Show Earned %s Points"
+msgstr ""
+
+#: blocks/ld-profile/index.js:143
+msgctxt "placeholder: Course"
+msgid "Expand All %s Sections"
+msgstr ""
+
+#: blocks/ld-course-complete/index.js:40
+msgctxt "placeholders: course"
+msgid ""
+"This block shows the content if the user is enrolled into the %s and it is "
+"completed."
+msgstr ""
+
+#: blocks/ld-course-expire-status/index.js:39
+msgctxt "placeholders: course"
+msgid "This block displays the user %s access expire date."
+msgstr ""
+
+#: blocks/ld-course-notstarted/index.js:40
+msgctxt "placeholders: course"
+msgid ""
+"This block shows the content if the user is enrolled into the %s but not "
+"yet started."
+msgstr ""
+
+#: blocks/ld-course-progress/index.js:45
+msgctxt "placeholders: course"
+msgid "This block displays users progress bar for the %1$s."
+msgstr ""
+
+#: blocks/ld-student/index.js:39
+msgctxt "placeholders: course"
+msgid "This block shows the content if the user is enrolled in the %s."
+msgstr ""
+
+#: blocks/ld-user-course-points/index.js:38
+msgctxt "placeholders: course"
+msgid "This block shows the earned %s points for the user."
+msgstr ""
+
+#: blocks/ld-visitor/index.js:40
+msgctxt "placeholders: course"
+msgid "This block shows the content if the user is not enrolled into the %s."
+msgstr ""
+
+#: blocks/ld-course-complete/index.js:62
+#: blocks/ld-course-content/index.js:70
+#: blocks/ld-course-expire-status/index.js:82
+#: blocks/ld-course-inprogress/index.js:61
+#: blocks/ld-course-progress/index.js:76
+#: blocks/ld-courseinfo/index.js:148
+#: blocks/ld-lesson-list/index.js:182
+#: blocks/ld-payment-buttons/index.js:65
+#: blocks/ld-quiz-list/index.js:182
+#: blocks/ld-student/index.js:61
+#: blocks/ld-topic-list/index.js:182
+#: blocks/ld-visitor/index.js:58
+msgctxt "Course ID"
+msgid "%s ID"
+msgstr ""
+
+#: blocks/ld-course-complete/index.js:63
+#: blocks/ld-course-content/index.js:71
+#: blocks/ld-course-expire-status/index.js:83
+#: blocks/ld-course-inprogress/index.js:62
+#: blocks/ld-course-notstarted/index.js:63
+#: blocks/ld-course-progress/index.js:77
+#: blocks/ld-courseinfo/index.js:149
+#: blocks/ld-payment-buttons/index.js:66
+#: blocks/ld-student/index.js:62
+#: blocks/ld-visitor/index.js:59
+msgctxt "placeholders: course, course"
+msgid "Enter single %1$s ID. Leave blank if used within a %2$s."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:183
+#: blocks/ld-quiz-list/index.js:183
+#: blocks/ld-topic-list/index.js:183
+msgctxt "placeholders: course, course"
+msgid "Enter single %1$s ID to limit listing. Leave blank if used within a %2$s."
+msgstr ""
+
+#: blocks/ld-course-complete/index.js:85
+#: blocks/ld-course-inprogress/index.js:85
+#: blocks/ld-course-notstarted/index.js:86
+#: blocks/ld-payment-buttons/index.js:94
+#: blocks/ld-student/index.js:84
+#: blocks/ld-visitor/index.js:75
+msgctxt "placeholders: Course, Course"
+msgid "%1$s ID is required when not used within a %2$s."
+msgstr ""
+
+#: blocks/ld-course-content/index.js:40
+msgctxt "placeholders: Course"
+msgid "This block displays the %1$s Content table."
+msgstr ""
+
+#: blocks/ld-course-content/index.js:76
+#: blocks/ld-lesson-list/index.js:229
+#: blocks/ld-profile/index.js:91
+msgctxt "placeholder: Lessons"
+msgid "%s per page"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:267
+msgctxt "placeholder: Lessons"
+msgid "shows a %s category dropdown."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:288
+msgctxt "placeholder: Lessons"
+msgid "shows %s with mentioned tag slug."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:295
+msgctxt "placeholder: Lessons"
+msgid "shows %s with mentioned tag ID."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:316
+msgctxt "placeholder: Lessons"
+msgid "shows %s with mentioned WP category slug."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:323
+msgctxt "placeholder: Lessons"
+msgid "shows %s with mentioned category ID."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:350
+msgctxt "placeholder: Lessons"
+msgid "shows %s with mentioned WP tag slug."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:357
+msgctxt "placeholder: Lessons"
+msgid "shows %s with mentioned WP tag ID."
+msgstr ""
+
+#: blocks/ld-course-content/index.js:77
+#: blocks/ld-course-info/index.js:280
+#: blocks/ld-course-list/index.js:234
+#: blocks/ld-lesson-list/index.js:230
+#: blocks/ld-profile/index.js:92
+#: blocks/ld-quiz-list/index.js:230
+#: blocks/ld-topic-list/index.js:230
+msgctxt "placeholder: default per page"
+msgid "Leave empty for default (%d) or 0 to show all items."
+msgstr ""
+
+#: blocks/ld-course-info/index.js:41
+msgctxt "placeholders: courses"
+msgid "This block shows the %s and progress for the user."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:246
+msgctxt "placeholders: courses"
+msgid "Show All %s (default)"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:250
+msgctxt "placeholders: courses"
+msgid "Show Enrolled %s only"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:254
+msgctxt "placeholders: courses"
+msgid "Show not-Enrolled %s only"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:41
+msgctxt "placeholders: courses"
+msgid "This block shows a list of %s."
+msgstr ""
+
+#: blocks/ld-course-info/index.js:131
+msgctxt "placeholder: Courses"
+msgid "Show Registered %s"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:152
+msgctxt "placeholder: Courses"
+msgid "Registered %s"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:233
+msgctxt "placeholder: Courses"
+msgid "%s per page"
+msgstr ""
+
+#: blocks/ld-course-list/index.js:278
+msgctxt "placeholder: Courses"
+msgid "shows %s with mentioned category slug."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:291
+msgctxt "placeholder: Courses"
+msgid "shows a %s category dropdown."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:312
+msgctxt "placeholder: Courses"
+msgid "shows %s with mentioned tag slug."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:319
+msgctxt "placeholder: Courses"
+msgid "shows %s with mentioned tag ID."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:340
+msgctxt "placeholder: Courses"
+msgid "shows %s with mentioned WP category slug."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:347
+msgctxt "placeholder: Courses"
+msgid "shows %s with mentioned category ID."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:374
+msgctxt "placeholder: Courses"
+msgid "shows %s with mentioned WP tag slug."
+msgstr ""
+
+#: blocks/ld-course-list/index.js:381
+msgctxt "placeholder: Courses"
+msgid "shows %s with mentioned WP tag ID."
+msgstr ""
+
+#: blocks/ld-course-info/index.js:141
+msgctxt "placeholder: Quiz"
+msgid "Show %s Attempts"
+msgstr ""
+
+#: blocks/ld-course-info/index.js:275
+msgctxt "placeholder: Quiz"
+msgid "%s Attempts"
+msgstr ""
+
+#: blocks/ld-profile/index.js:153
+msgctxt "placeholder: Quiz"
+msgid "Show User Quiz Attempts"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:249
+msgctxt "placeholder: Quiz"
+msgid "%s Category Settings"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:253
+msgctxt "placeholder: Quiz"
+msgid "%s Category Slug"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:266
+msgctxt "placeholder: Quiz"
+msgid "%s Category Selector"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:283
+msgctxt "placeholder: Quiz"
+msgid "%s Tag Settings"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:287
+msgctxt "placeholder: Quiz"
+msgid "%s Tag Slug"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:294
+msgctxt "placeholder: Quiz"
+msgid "%s Tag ID"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:322
+msgctxt "placeholder: Quiz"
+msgid "%s Category ID"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:40
+msgctxt "placeholder: Quiz"
+msgid "LearnDash %s List"
+msgstr ""
+
+#: blocks/ld-course-inprogress/index.js:39
+msgctxt "placeholder: course"
+msgid ""
+"This block shows the content if the user is enrolled into the %s but not "
+"yet completed."
+msgstr ""
+
+#: blocks/ld-course-progress/index.js:44
+msgctxt "LearnDash Course Progress"
+msgid "LearnDash %s Progress"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:249
+msgctxt "placeholder: Lesson"
+msgid "%s Category Settings"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:253
+msgctxt "placeholder: Lesson"
+msgid "%s Category Slug"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:266
+msgctxt "placeholder: Lesson"
+msgid "%s Category Selector"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:283
+msgctxt "placeholder: Lesson"
+msgid "%s Tag Settings"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:287
+msgctxt "placeholder: Lesson"
+msgid "%s Tag Slug"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:294
+msgctxt "placeholder: Lesson"
+msgid "%s Tag ID"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:322
+msgctxt "placeholder: Lesson"
+msgid "%s Category ID"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:40
+msgctxt "placeholder: Lesson"
+msgid "LearnDash %s List"
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:41
+msgctxt "placeholders: lessons"
+msgid "This block shows a list of %s."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:254
+msgctxt "placeholder: lessons"
+msgid "shows %s with mentioned category slug."
+msgstr ""
+
+#: blocks/ld-lesson-list/index.js:261
+msgctxt "placeholder: lessons"
+msgid "shows %s with mentioned category ID."
+msgstr ""
+
+#: blocks/ld-profile/index.js:40
+msgctxt "placeholder: courses, course, quiz"
+msgid ""
+"Displays user's enrolled %1$s, %2$s progress, %3$s scores, and achieved "
+"certificates."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:41
+msgctxt "placeholders: quizzes"
+msgid "This block shows a list of %s."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:229
+msgctxt "placeholder: Quizzess"
+msgid "%s per page"
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:254
+msgctxt "placeholder: quizzes"
+msgid "shows %s with mentioned category slug."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:288
+msgctxt "placeholder: quizzes"
+msgid "shows %s with mentioned tag slug."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:267
+msgctxt "placeholder: Quizzes"
+msgid "shows a %s category dropdown."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:295
+msgctxt "placeholder: Quizzes"
+msgid "shows %s with mentioned tag ID."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:316
+msgctxt "placeholder: Quizzes"
+msgid "shows %s with mentioned WP category slug."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:323
+msgctxt "placeholder: Quizzes"
+msgid "shows %s with mentioned category ID."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:350
+msgctxt "placeholder: Quizzes"
+msgid "shows %s with mentioned WP tag slug."
+msgstr ""
+
+#: blocks/ld-quiz-list/index.js:357
+msgctxt "placeholder: Quizzes"
+msgid "shows %s with mentioned WP tag ID."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:249
+msgctxt "placeholder: Topic"
+msgid "%s Category Settings"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:253
+msgctxt "placeholder: Topic"
+msgid "%s Category Slug"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:283
+msgctxt "placeholder: Topic"
+msgid "%s Tag Settings"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:287
+msgctxt "placeholder: Topic"
+msgid "%s Tag Slug"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:294
+msgctxt "placeholder: Topic"
+msgid "%s Tag ID"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:322
+msgctxt "placeholder: Topic"
+msgid "%s Category ID"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:40
+msgctxt "placeholder: Topic"
+msgid "LearnDash %s List"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:41
+msgctxt "placeholders: topics"
+msgid "This block shows a list of %s."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:229
+msgctxt "placeholder: Topics"
+msgid "%s per page"
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:295
+msgctxt "placeholder: Topics"
+msgid "shows %s with mentioned tag ID."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:316
+msgctxt "placeholder: Topics"
+msgid "shows %s with mentioned WP category slug."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:323
+msgctxt "placeholder: Topics"
+msgid "shows %s with mentioned category ID."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:350
+msgctxt "placeholder: Topics"
+msgid "shows %s with mentioned WP tag slug."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:357
+msgctxt "placeholder: Topics"
+msgid "shows %s with mentioned WP tag ID."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:254
+msgctxt "placeholder: topics"
+msgid "shows %s with mentioned category slug."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:261
+msgctxt "placeholder: topics"
+msgid "shows %s with mentioned category ID."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:267
+msgctxt "placeholder: topics"
+msgid "shows a %s category dropdown."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:288
+msgctxt "placeholder: topics"
+msgid "shows %s with mentioned tag slug."
+msgstr ""
+
+#: blocks/ld-topic-list/index.js:266
+msgctxt "placeholder: topic"
+msgid "%s Category Selector"
+msgstr ""
+
+#: blocks/ld-user-course-points/index.js:37
+msgctxt "LearnDash User Course Points"
+msgid "LearnDash User %s Points"
+msgstr ""

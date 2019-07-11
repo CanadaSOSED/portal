@@ -44,3 +44,61 @@ table.learndash-admin-user-courses td.col-steps {
 table.learndash-admin-user-courses td.col-dates {
 	width: 35%;
 }
+
+/* Data Upgrade screens */
+table#learndash-data-upgrades .learndash-data-upgrades-name {
+	font-weight: bold;
+}
+table#learndash-data-upgrades td.learndash-data-upgrades-button-container {
+	width: 10%;
+}
+
+table#learndash-data-upgrades td.learndash-data-upgrades-status-container {
+	width: 90%;
+}
+
+table#learndash-data-upgrades .progress-label-complete {
+	color: green;
+}
+
+table#learndash-data-upgrades .progress-label-in-progress {
+	color: inherit;
+}
+
+table#learndash-data-upgrades .progress-label-in-complete {
+	color: red;
+}
+
+table#learndash-data-upgrades .learndash-skipped {
+	width: 100%;
+	color: red;
+}
+
+table#learndash-data-upgrades .learndash-skipped ol {
+	color: red; 
+	max-height: 100px; 
+	overflow: auto;
+	margin: 5px 0;
+	list-style-position: inside;
+}
+
+table#learndash-data-upgrades .learndash-skipped ol li {
+	margin-left: 10px;
+}
+
+.wpProQuiz_quizEdit .learndash-quiz-prerequisite-list-left,
+.wpProQuiz_quizEdit .learndash-quiz-prerequisite-list-right {
+	width: 45%;
+	min-width: 200px; 
+}
+
+.wpProQuiz_quizEdit .learndash-quiz-prerequisite-list-center {
+	width: 100px;
+	min-width: 100px; 
+	max-width: 100px; 
+}
+
+.wpProQuiz_quizEdit td.learndash-quiz-prerequisite-list-left select.learndash-quiz-prerequisite-list,
+.wpProQuiz_quizEdit td.learndash-quiz-prerequisite-list-right select.learndash-quiz-prerequisite-list {
+	width: 100%;
+}

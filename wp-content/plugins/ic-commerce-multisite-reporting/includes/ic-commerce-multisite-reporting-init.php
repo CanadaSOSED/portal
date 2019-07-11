@@ -260,9 +260,13 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Init')){
 		*/
 		function wp_before_admin_bar_render(){
 			global $wp_admin_bar;
+			if(!function_exists('switch_to_blog')){
+				return true;
+			}
 			if(isset($wp_admin_bar->user->blogs)){
 				foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
 					$blog_id = $blog->userblog_id;
+
 					switch_to_blog( $blog_id);
 
 					$parent  	= 'blog-' . $blog_id;

@@ -64,22 +64,26 @@
 			?>
 			<?php echo isset( $v['percentage'] ) ? " - <span style='color:". $passstatus ."'>". $v['percentage'] ."%</span>" : '' ?>
 			<?php if ( ( ( $user_id == get_current_user_id() ) || ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) && ( !empty( $certificateLink ) ) ) {
-					if ( ( ( isset( $v['pass'] ) ) && ( $v['pass'] == 1 ) )
-						&& ( ( isset( $v['percentage'] ) && $v['percentage'] >= $certificate_threshold * 100 ) ) 
-						|| ( ( isset( $v['count'] ) ) && ( intval($v['count'] ) ) 
-						&& ( isset( $v['score'] ) ) && ( intval( $v['score'] ) )
-						&& ( ( intval( $v['score'] ) / intval( $v['count'] ) ) >= $certificate_threshold ) )
-				 	) { 
-						
+					if ( 
+						( ( isset( $v['pass'] ) ) && ( $v['pass'] == 1 ) )
+						&&
+						( ( isset( $v['percentage'] ) && $v['percentage'] >= ( $certificate_threshold * 100 ) ) ) 
+						||
+						(
+							 ( isset( $v['count'] ) ) && ( intval($v['count'] ) )
+							&& ( isset( $v['score'] ) ) && ( intval( $v['score'] ) )
+							&& ( ( intval( $v['score'] ) / intval( $v['count'] ) ) >= ( $certificate_threshold * 100 ) )
+						)
+					) {
 						$certificateLink = add_query_arg( array('time' => $v['time'] ), $certificateLink );
-						//if ( ( isset( $v['course'] ) ) && ( intval( $v['course'] ) != learndash_get_course_id( $quiz, true ) ) ) {
-						//	$certificateLink = add_query_arg( array('course_id' => $v['course'] ), $certificateLink );
-						//}
-						
-					?> - <a href='<?php echo $certificateLink ?>' target='_blank'><?php echo __( 'Certificate', 'learndash' ); ?></a><?php } ?>					
+						?>
+						 - <a href='<?php echo $certificateLink ?>' target='_blank'><?php echo __( 'Certificate', 'learndash' ); ?></a>
+						<?php
+					} 
+					?>					
 			<?php
 			}
-			
+
 			if ( ( $user_id == get_current_user_id() ) || ( learndash_is_admin_user() ) || ( learndash_is_group_leader_user() ) ) {
 				if ( ( !isset( $v['statistic_ref_id'] ) ) || ( empty( $v['statistic_ref_id'] ) ) ) {
 					$v['statistic_ref_id'] = learndash_get_quiz_statistics_ref_for_quiz_attempt( $user_id, $v );

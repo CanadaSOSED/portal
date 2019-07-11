@@ -14,10 +14,10 @@ class WpProQuiz_Controller_Preview extends WpProQuiz_Controller_Controller {
 		
 		wp_localize_script('wpProQuiz_front_javascript', 'WpProQuizGlobal', array(
 			'ajaxurl' => str_replace(array("http:", "https:"), array("",""), admin_url('admin-ajax.php')),
-			'loadData' => esc_html__('Loading', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'questionNotSolved' => esc_html__('You must answer this question.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN),
-			'questionsNotSolved' => sprintf( esc_html_x('You must answer all questions before you can complete the %s.', 'You must answer all questions before you can complete the quiz.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
-			'fieldsNotFilled' => esc_html__('All fields have to be filled.', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN)
+			'loadData' => esc_html__('Loading', 'learndash'),
+			'questionNotSolved' => esc_html__('You must answer this question.', 'learndash'),
+			'questionsNotSolved' => sprintf( esc_html_x('You must answer all questions before you can complete the %s.', 'You must answer all questions before you can complete the quiz.', 'learndash'), LearnDash_Custom_Label::label_to_lower( 'quiz' ) ),
+			'fieldsNotFilled' => esc_html__('All fields have to be filled.', 'learndash')
 		));
 		
 		//wp_enqueue_style(
@@ -57,7 +57,7 @@ class WpProQuiz_Controller_Preview extends WpProQuiz_Controller_Controller {
 				$value = ceil($count * $value / 100);
 			}
 				
-			$question = $questionMapper->fetchAll($id, true, $value);
+			$question = $questionMapper->fetchAll($quiz, true, $value);
 				
 		} else {
 			$question = $questionMapper->fetchAll($id);
@@ -65,7 +65,7 @@ class WpProQuiz_Controller_Preview extends WpProQuiz_Controller_Controller {
 		
 		$view->quiz = $quiz;
 		$view->question = $question;
-		$view->category = $categoryMapper->fetchByQuiz($quiz->getId());
+		$view->category = $categoryMapper->fetchByQuiz( $quiz );
 		$view->forms = $formMapper->fetch($quiz->getId());
 		
 		$view->show(true);

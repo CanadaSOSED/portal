@@ -486,6 +486,7 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 						</div>
 					</div>
 
+<!--ismara - adding Session type and removing top countries-->
 					<div class="row">
 						<div class="col-md-12">
 							<div class="ic_box">
@@ -539,7 +540,42 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 					</div>
 
 				</div>
+
+                <style type="text/css">
+                	th.total_sales, th.quantity, th.order_currency, th.Total, th.Count,th.total_amount, th.OrderCount, th.site_name, th.CompanyName,th.BillingEmail{ width:20%;}
+                </style>
             <?php
+		}
+
+		function get_option($prefix = '',$option = ''){
+			global $wpdb;
+
+			$options_table = $prefix.'options';
+
+			$wpdb->options = $options_table;
+
+			$value = wp_cache_get( $option, $options_table );
+
+			if ( false === $value ) {
+				$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM $wpdb->options WHERE option_name = %s LIMIT 1", $option ) );
+
+				// Has to be get_row instead of get_var because of funkiness with 0, false, null values
+				if ( is_object( $row ) ) {
+					$value = $row->option_value;
+					wp_cache_add( $option, $value, $options_table );
+				} else { // option does not exist, so we must cache its non-existence
+					if ( ! is_array( $notoptions ) ) {
+						 $notoptions = array();
+					}
+					$notoptions[$option] = true;
+					wp_cache_set( $prefix.'notoptions', $notoptions, $options_table );
+
+					/** This filter is documented in wp-includes/option.php */
+					return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
+				}
+			}
+
+			return apply_filters( "option_{$option}", maybe_unserialize( $value ), $option );
 		}
 
 		/*
@@ -595,9 +631,20 @@ if(!class_exists('IC_Commerce_Mutlisite_Reporting_Dashboard')){
 			$site_wise_sales 							= $this->get_site_wise_sales('total',$shop_order_status,$start_date,$end_date);
 			$return['site_wise_sales'] 					= $site_wise_sales;
 
-			if($userblog_id != 'all'){
+			$price_args = array();
+			$wc_currency = get_woocommerce_currency();
+			$price_args['currency'] = $wc_currency;
 
-				switch_to_blog( $blog_id);
+			if($userblog_id != 'all'){
+				switch_to_blog($blog_id);
+
+				$this->constants['prefix'] 				= $this->get_blog_prefix($blog_id,$base_prefix);
+				$prefix									= $this->constants['prefix'];
+
+
+				$wc_currency = $this->get_option($prefix,'woocommerce_currency');
+				$price_args['currency'] = $wc_currency;
+
 				if (!current_user_can('manage_woocommerce')){
 					$return['summary_boxes']['total_refunded_amount']	= '';
 					$return['summary_boxes']['total_refunded_count']	= '';
@@ -644,7 +691,6 @@ $return['summary_boxes']['total_sales_completed_count']		= '';
 					$return['summary_boxes']['top_products_grid']		= '';
 					$return['summary_boxes']['sales_order_status_grid']	= '';
 					$return['summary_boxes']['top_categories_grid']		= '';
-					$return['summary_boxes']['top_session_types_grid']		= '';
 					$return['summary_boxes']['top_countries_grid']		= '';
 					$return['summary_boxes']['top_customers_grid']		= '';
 					$return['summary_boxes']['top_coupons_grid']		= '';
@@ -653,10 +699,9 @@ $return['summary_boxes']['total_sales_completed_count']		= '';
 					$return['site_wise_sales']							= array();
 					return $return;
 				}
-				restore_current_blog();
 
-				$this->constants['prefix'] 				= $this->get_blog_prefix($blog_id,$base_prefix);
-				$prefix									= $this->constants['prefix'];
+
+
 
 				$order_sales							= $this->get_order_sales('total',$prefix,$shop_order_status,$start_date,$end_date);
 				$order_refunded							= $this->get_order_refunded('total',$prefix,$start_date,$end_date);
@@ -664,6 +709,7 @@ $return['summary_boxes']['total_sales_completed_count']		= '';
 				$top_products							= $this->get_top_product_list($shop_order_status,$prefix,$start_date,$end_date);
 				$sales_order_status						= $this->get_sales_order_status($prefix,$shop_order_status,$start_date,$end_date);
 				$top_categories							= $this->get_category_list($prefix,$shop_order_status,$start_date,$end_date);
+//--ismara - adding session type
 				$top_session_types							= $this->get_session_type_list($prefix,$shop_order_status,$start_date,$end_date);
 				$top_countries							= $this->get_top_billing_country($prefix,$shop_order_status,$start_date,$end_date);
 				$top_customers							= $this->get_top_customer_list($prefix,$shop_order_status,$start_date,$end_date);
@@ -671,7 +717,6 @@ $return['summary_boxes']['total_sales_completed_count']		= '';
 
 				$return['order_sales_amount'] 			= isset($order_sales->amount) ? $order_sales->amount : 0;
 				$return['order_sales_count'] 			= isset($order_sales->order_count) ? $order_sales->order_count : 0;
-
 
 				$return['order_refunded_amount'] 		= isset($order_refunded->amount) ? $order_refunded->amount : 0;
 				$return['order_refunded_count'] 		= isset($order_refunded->order_count) ? $order_refunded->order_count : 0;
@@ -692,6 +737,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$return['top_products'] 				= $top_products;
 				$return['sales_order_status'] 			= $sales_order_status;
 				$return['top_categories'] 				= $top_categories;
+//-ismara - adding Session types
 				$return['top_session_types'] 				= $top_session_types;
 				$return['top_countries'] 				= $top_countries;
 				$return['top_customers'] 				= $top_customers;
@@ -742,11 +788,12 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
         $return['total_sales_completed_count'] 			= isset($order_sales_completed->total_count) ? $order_sales_completed->total_count : 0;
         /* END - CUSTOMIZATION MULTISITE REPORT */
 
-
 				$order_shipping							= $this->get_total_shipping('total',$prefix,$shop_order_status,$start_date,$end_date);
 
 				$return['shipping_amount'] 				= isset($order_shipping->total) ? $order_shipping->total : 0;
 				$return['shipping_count'] 				= isset($order_shipping->quantity) ? $order_shipping->quantity : 0;
+
+				restore_current_blog();
 
 			}else{
 
@@ -794,6 +841,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$return['top_products'] 				= array();
 				$return['sales_order_status'] 			= array();
 				$return['top_categories'] 				= array();
+//--ismara --adding session types
 				$return['top_session_types'] 				= array();
 				$return['top_countries'] 				= array();
 				$return['top_customers'] 				= array();
@@ -824,7 +872,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 					$return['tax_amount'] 					= isset($order_tax->total_amount) ? ($return['tax_amount']  + $order_tax->total_amount) 	: $return['tax_amount'];
 					$return['tax_count'] 					= isset($order_tax->total_count) ? ($return['tax_count']  + $order_tax->total_count) : $return['tax_count'];
 
-					//2018-04-18 - ismaraalvim - begin - adding new taxes
+          //2018-04-18 - ismaraalvim - begin - adding new taxes
 					$order_taxreceived								= $this->get_total_taxreceived("total","_line_total","fee",$prefix,$shop_order_status,$start_date,$end_date);
 					$return['taxreceived_amount'] 					= isset($order_taxreceived->total_amount) ? ($return['taxreceived_amount']  + $order_taxreceived->total_amount) 	: $return['taxreceived_amount'];
 					$return['taxreceived_count'] 					= isset($order_taxreceived->total_count) ? ($return['taxreceived_count']  + $order_taxreceived->total_count) : $return['taxreceived_count'];
@@ -879,9 +927,10 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 					$top_categories							= $this->get_category_list($prefix,$shop_order_status,$start_date,$end_date);
 					$return['top_categories']				= $this->join_two_array($return['top_categories'],$top_categories);
 
+//--ismara- adding session type
 					$top_session_types							= $this->get_session_type_list($prefix,$shop_order_status,$start_date,$end_date);
 					$return['top_session_types']				= $this->join_two_array($return['top_session_types'],$top_session_types);
-
+//--ismara-end - session type
 					$top_countries							= $this->get_top_billing_country($prefix,$shop_order_status,$start_date,$end_date);
 					$return['top_countries']				= $this->join_two_array($return['top_countries'],$top_countries);
 
@@ -902,15 +951,15 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$i++;
 			}
 
-			$return['summary_boxes']['total_refunded_amount']	= wc_price($return['total_refunded_amount']);
+			$return['summary_boxes']['total_refunded_amount']	= wc_price($return['total_refunded_amount'],$price_args);
 			$return['summary_boxes']['total_refunded_count']	= $count_prefix.$return['total_refunded_count'];
-			$return['summary_boxes']['total_sales_amount']		= wc_price($return['total_sales_amount']);
+			$return['summary_boxes']['total_sales_amount']		= wc_price($return['total_sales_amount'],$price_args);
 			$return['summary_boxes']['total_sales_count']		= $count_prefix.$return['total_sales_count'];
 
-			$return['summary_boxes']['order_discount_amount']	= wc_price($return['order_discount_amount']);
+			$return['summary_boxes']['order_discount_amount']	= wc_price($return['order_discount_amount'],$price_args);
 			$return['summary_boxes']['order_discount_count']	= $count_prefix.$return['order_discount_count'];
 
-			$return['summary_boxes']['tax_amount']				= wc_price($return['tax_amount']);
+			$return['summary_boxes']['tax_amount']				= wc_price($return['tax_amount'],$price_args);
 			$return['summary_boxes']['tax_count']				= $count_prefix.$return['tax_count'];
 
 			//2018-04-18 - ismaraalvim - begin - adding new taxes
@@ -938,27 +987,27 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			$return['summary_boxes']['total_sales_completed_count']		= $count_prefix.$return['total_sales_completed_count'];
       /* END - CUSTOMIZATION MULTISITE REPORT */
 
-
-			$return['summary_boxes']['shipping_amount']			= wc_price($return['shipping_amount']);
+			$return['summary_boxes']['shipping_amount']			= wc_price($return['shipping_amount'],$price_args);
 			$return['summary_boxes']['shipping_count']			= $count_prefix.$return['shipping_count'];
 
-			$return['summary_boxes']['site_wise_sales_grid']	= $this->get_grid('site_wise_sales',	$return['site_wise_sales'],		__('Site not found.','icwoocommerce_textdomains'));
-			$return['summary_boxes']['low_stock_product_grid']	= $this->get_grid('low_stock_product',	$return['low_stock_product'],	__('Low level stock not found.','icwoocommerce_textdomains'));
-			$return['summary_boxes']['zero_stock_products_grid']= $this->get_grid('zero_stock_products',$return['zero_stock_products'],	__('Zero level stock not found.','icwoocommerce_textdomains'));
+			$return['summary_boxes']['site_wise_sales_grid']	= $this->get_grid('site_wise_sales',	$return['site_wise_sales'],		__('Site not found.','icwoocommerce_textdomains'),$wc_currency);
+			$return['summary_boxes']['low_stock_product_grid']	= $this->get_grid('low_stock_product',	$return['low_stock_product'],	__('Low level stock not found.','icwoocommerce_textdomains'),$wc_currency);
+			$return['summary_boxes']['zero_stock_products_grid']= $this->get_grid('zero_stock_products',$return['zero_stock_products'],	__('Zero level stock not found.','icwoocommerce_textdomains'),$wc_currency);
 
-			$return['summary_boxes']['top_products_grid']		= $this->get_grid('top_products',		$return['top_products'],		__('Products not found.','icwoocommerce_textdomains'));
+			$return['summary_boxes']['top_products_grid']		= $this->get_grid('top_products',		$return['top_products'],		__('Products not found.','icwoocommerce_textdomains'),$wc_currency);
 
-			$return['summary_boxes']['sales_order_status_grid']	= $this->get_grid('sales_order_status',	$return['sales_order_status'], __('Order Status not found.','icwoocommerce_textdomains'));
+			$return['summary_boxes']['sales_order_status_grid']	= $this->get_grid('sales_order_status',	$return['sales_order_status'], __('Order Status not found.','icwoocommerce_textdomains'),$wc_currency);
 
-			$return['summary_boxes']['top_categories_grid']		= $this->get_grid('top_categories',	$return['top_categories'],		__('Categories not found.','icwoocommerce_textdomains'));
+			$return['summary_boxes']['top_categories_grid']		= $this->get_grid('top_categories',	$return['top_categories'],		__('Categories not found.','icwoocommerce_textdomains'),$wc_currency);
 
+      //--ismara- adding session type
 			$return['summary_boxes']['top_session_types_grid']		= $this->get_grid('top_session_types',	$return['top_session_types'],		__('Types not found.','icwoocommerce_textdomains'));
 
-			$return['summary_boxes']['top_countries_grid']		= $this->get_grid('top_countries',	$return['top_countries'],		__('Countries not found.','icwoocommerce_textdomains'));
+			$return['summary_boxes']['top_countries_grid']		= $this->get_grid('top_countries',	$return['top_countries'],		__('Countries not found.','icwoocommerce_textdomains'),$wc_currency);
 
-			$return['summary_boxes']['top_customers_grid']		= $this->get_grid('top_customers',	$return['top_customers'],		__('Customers not found.','icwoocommerce_textdomains'));
+			$return['summary_boxes']['top_customers_grid']		= $this->get_grid('top_customers',	$return['top_customers'],		__('Customers not found.','icwoocommerce_textdomains'),$wc_currency);
 
-			$return['summary_boxes']['top_coupons_grid']		= $this->get_grid('top_coupons',	$return['top_coupons'],			__('Coupons not found.','icwoocommerce_textdomains'));
+			$return['summary_boxes']['top_coupons_grid']		= $this->get_grid('top_coupons',	$return['top_coupons'],			__('Coupons not found.','icwoocommerce_textdomains'),$wc_currency);
 
 			return $return;
 		}
@@ -978,54 +1027,61 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				case "site_wise_sales":
 					$columns['blogname'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['count'] 				= __('Order Count','icwoocommerce_textdomains');
-					$columns['amoount'] 			= __('Order Amount','icwoocommerce_textdomains'); /* from site name to order amount - CUSTOMIZATION MULTISITE REPORT */
+					$columns['amoount'] 			= __('Order Amount','icwoocommerce_textdomains');/* from site name to order amount - CUSTOMIZATION MULTISITE REPORT */
 					break;
 				case "low_stock_product":
 				case "zero_stock_products":
 					$columns['stock_product_name'] 	= __('Product Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains');/* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 					$columns['product_stock'] 		= __('Stock Count','icwoocommerce_textdomains');
 					break;
 				case "top_products":
 					$columns['product_name'] 		= __('Product Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains');/* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['order_currency'] 		= __('Currency','icwoocommerce_textdomains');
 					$columns['quantity'] 			= __('Quantity Sold','icwoocommerce_textdomains');
 					$columns['total_sales'] 		= __('Sales Amount','icwoocommerce_textdomains');
 					break;
 				case "sales_order_status":
 					$columns['Status'] 				= __('Order Status','icwoocommerce_textdomains');
 					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['order_currency'] 		= __('Currency','icwoocommerce_textdomains');
 					$columns['Count'] 				= __('Order Count','icwoocommerce_textdomains');
-					$columns['Total'] 				= __('Order Amount','icwoocommerce_textdomains'); /* add order - CUSTOMIZATION MULTISITE REPORT */
+					$columns['Total'] 				= __('Order Amount','icwoocommerce_textdomains');/* add order - CUSTOMIZATION MULTISITE REPORT */
 					break;
 				case "top_categories":
 					$columns['category_name'] 		= __('Category Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains');/* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['order_currency'] 		= __('Currency','icwoocommerce_textdomains');
 					$columns['quantity'] 			= __('Quantity Sold','icwoocommerce_textdomains');
 					$columns['total_amount'] 		= __('Sales Amount','icwoocommerce_textdomains');
 					break;
+          //--ismara- adding session type
 					case "top_session_types":
 						$columns['session_type_name'] 		= __('Session Type Name','icwoocommerce_textdomains');
 						$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
 						$columns['quantitiy'] 			= __('Quantity Sold','icwoocommerce_textdomains');
 						$columns['total_amount'] 				= __('Sales Amount','icwoocommerce_textdomains');
 						break;
+        //-- ismara- end session type
 				case "top_countries":
 					$columns['BillingCountry'] 		= __('Country Name','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains');/* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['order_currency'] 		= __('Currency','icwoocommerce_textdomains');
 					$columns['OrderCount'] 			= __('Order Count','icwoocommerce_textdomains');
-					$columns['Total'] 				= __('Order Amount','icwoocommerce_textdomains'); /* add order - CUSTOMIZATION MULTISITE REPORT */
+					$columns['Total'] 				= __('OrderAmount','icwoocommerce_textdomains');/* add order - CUSTOMIZATION MULTISITE REPORT */
 					break;
 				case "top_customers":
-					$columns['billing_name'] 		= __('Customer Name','icwoocommerce_textdomains'); /* from billing to Customer - CUSTOMIZATION MULTISITE REPORT */
-					/*$columns['CompanyName'] 		= __('Company Name','icwoocommerce_textdomains');*/
-					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
-					$columns['BillingEmail'] 		= __('Email','icwoocommerce_textdomains'); /* from billing to __ - CUSTOMIZATION MULTISITE REPORT */
+					$columns['billing_name'] 		= __('Customer Name','icwoocommerce_textdomains');/* from billing to Customer - CUSTOMIZATION MULTISITE REPORT */
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains');/* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					/*$columns['CompanyName'] 		= __('Company Name','icwoocommerce_textdomains'); */
+					$columns['BillingEmail'] 		= __('Email','icwoocommerce_textdomains');/* from billing to __ - CUSTOMIZATION MULTISITE REPORT */
 					$columns['OrderCount'] 			= __('Order Count','icwoocommerce_textdomains');
 					break;
 				case "top_coupons":
 					$columns['order_item_name'] 	= __('Coupon Code','icwoocommerce_textdomains');
-					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains'); /* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['site_name'] 			= __('Chapter Name','icwoocommerce_textdomains');/* from site to chapter - CUSTOMIZATION MULTISITE REPORT */
+					$columns['order_currency'] 		= __('Currency','icwoocommerce_textdomains');
 					$columns['Count'] 				= __('Coupon Used Count','icwoocommerce_textdomains');
 					$columns['Total'] 				= __('Amount','icwoocommerce_textdomains');
 					break;
@@ -1049,7 +1105,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			*
 			* return $output
 		*/
-		function get_grid($retport_name = '',$items = array(),$item_not_found_text = ''){
+		function get_grid($retport_name = '',$items = array(),$item_not_found_text = '',$wc_currency = 'USD'){
 			$output = "";
 			if(count($items) > 0){
 				$columns = $this->get_columns($retport_name);
@@ -1073,13 +1129,13 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 											case "total_amount":
 											case "total_sales":
 												$td_class .= " align_right";
-												break;
+	break;
 											default;
 												break;
 										endswitch;
 										$th_value 	= $value;
 										$output 	.= "\n\t<th class=\"{$td_class}\">{$th_value}</th>";
-									endforeach;
+endforeach;
 							$output .= '</tr>';
 						$output .= '</thead>';
 						$output .= '<tbody>';
@@ -1088,38 +1144,34 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 									if($i%2 == 1){$alternate = "alternate ";}else{$alternate = "";};
 
-									$output .= '<tr class="'.$alternate.'row_'.$i.'">';
-										foreach($columns as $key => $value):
+									$output .= '<tr class="'.$alternate.'row_'.$i.'">';																foreach($columns as $key => $value):
 											$td_class = $key;
 											$td_style = '';
 											$td_value = '';
 
-											switch($key):
-												case "blogname":
+											switch($key):																						case "blogname":
 													$td_value = isset($order_item[$key]) ? $order_item[$key] : '';
 													break;
 												case "count":
 												case "Count":
-												case "OrderCount":
-												case "product_stock":
-												case "quantity":
-													$td_class .= " align_right";
+												case "OrderCount":																				case "product_stock":
+												case "quantity":																					$td_class .= " align_right";
 													$td_value = isset($order_item[$key]) ? $order_item[$key] : '';
 													break;
 												case "amoount":
 												case "Total":
 												case "total_amount":
-												case "total_sales":
-													$td_class .= " align_right";
+												case "total_sales":																					$td_class .= " align_right";
 													$td_value = isset($order_item[$key]) ? $order_item[$key] : 0;
-													$td_value = wc_price($td_value);
+													$order_currency = isset($order_item['order_currency']) ? $order_item['order_currency'] : $wc_currency;
+													$td_value = wc_price($td_value,array('currency'=>$order_currency));
 													break;
 												default:
 													$td_value = isset($order_item[$key]) ? $order_item[$key] : '';
 													break;
 											endswitch;
 											$output .= "<td class=\"{$td_class}\"{$td_style}>{$td_value}</td>\n";
-										endforeach;
+endforeach;
 									$output .= '</tr>';
 									$i++;
 							}
@@ -1156,12 +1208,13 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			foreach($blogs as $blog){
 
 				$blog_id 								= $blog->userblog_id;
-				$prefix 								= $this->get_blog_prefix($blog_id,$base_prefix);
+				$prefix 								 = $this->get_blog_prefix($blog_id,$base_prefix);
+				$woocommerce_currency 				   = $this->get_option($prefix,'woocommerce_currency');
 
-				$return 								= array();
+				$return 								 = array();
 
 				$order_sales							= $this->get_order_sales('total',$prefix,$shop_order_status,$start_date,$end_date);
-				$order_refunded							= $this->get_order_refunded('total',$prefix,$start_date,$end_date);
+				$order_refunded						 = $this->get_order_refunded('total',$prefix,$start_date,$end_date);
 				$part_order_refunded					= $this->get_part_order_refunded('total',$prefix,$shop_order_status,$start_date,$end_date);
 
 				$return['order_sales_amount'] 			= isset($order_sales->amount) ? $order_sales->amount : 0;
@@ -1187,8 +1240,9 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$items[$blog_id]['amoount'] 			= $return['total_sales_amount'];
 				$items[$blog_id]['count'] 				= $return['total_sales_count'];
 
-				$items[$blog_id]['refunded_amount'] 	= $return['total_refunded_amount'];
-				$items[$blog_id]['refunded_count'] 		= $return['total_refunded_count'];
+				$items[$blog_id]['order_currency'] 	   = $woocommerce_currency ;
+				$items[$blog_id]['refunded_amount'] 	  = $return['total_refunded_amount'];
+				$items[$blog_id]['refunded_count'] 	   = $return['total_refunded_count'];
 			}
 
 			return $items;
@@ -1223,13 +1277,19 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			$sql .= " , COUNT(*) 					AS order_count";
 
-			$sql .= "  FROM {$prefix}posts 			AS posts";
+			$sql .= ", order_currency.meta_value 	AS order_currency";
+
+			$sql .= "  FROM {$prefix}posts 	AS posts";
 
 			$sql .= " LEFT JOIN  {$prefix}postmeta as order_total ON order_total.post_id = posts.ID";
+
+			$sql .= " LEFT JOIN  {$prefix}postmeta as order_currency ON order_currency.post_id = posts.ID";
 
 			$sql .= " WHERE  post_type = 'shop_order'";
 
 			$sql .= " AND order_total.meta_key = '_order_total'";
+
+			$sql .= " AND order_currency.meta_key = '_order_currency'";
 
 			if($type == "today") 		$sql .= " AND DATE(posts.post_date) = '{$today_date}'";
 
@@ -1253,7 +1313,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$items =  $wpdb->get_row($sql);
 			}
 
-//			error_log($sql);
+			//error_log($sql);
 
 			return $items;
 		}
@@ -1398,6 +1458,8 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			,SUM(woocommerce_order_itemmeta2.meta_value)	AS total_sales
 
 
+			, order_currency.meta_value 	AS order_currency
+
 			FROM 		{$prefix}woocommerce_order_items 		as woocommerce_order_items
 			LEFT JOIN	{$prefix}posts							as posts 						ON posts.ID										=	woocommerce_order_items.order_id
 			LEFT JOIN	{$prefix}woocommerce_order_itemmeta 	as woocommerce_order_itemmeta 	ON woocommerce_order_itemmeta.order_item_id		=	woocommerce_order_items.order_item_id
@@ -1406,12 +1468,16 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			";
 
+			$sql .= " LEFT JOIN  {$prefix}postmeta as order_currency ON order_currency.post_id = posts.ID";
+
 			$sql .= "
 			WHERE
 			posts.post_type 								=	'shop_order'
 			AND woocommerce_order_itemmeta.meta_key			=	'_qty'
 			AND woocommerce_order_itemmeta2.meta_key		=	'_line_total'
 			AND woocommerce_order_itemmeta3.meta_key 		=	'_product_id'";
+
+			$sql .= " AND order_currency.meta_key = '_order_currency'";
 
 			$url_shop_order_status	= "";
 
@@ -1426,7 +1492,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			$sql .= "
 
-			GROUP BY  product_id
+			GROUP BY  product_id,order_currency.meta_value
 			Order By total_sales DESC
 			LIMIT {$per_page}";
 
@@ -1579,8 +1645,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			if($type == "today_yesterday"){
 				$sql .= " GROUP BY group_date";
-				$items =  $wpdb->get_results($sql);
-			}else{
+				$items =  $wpdb->get_results($sql);						}else{
 				$items =  $wpdb->get_row($sql);
 			}
 
@@ -1652,7 +1717,6 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 
 		}
-
 
 		/*
 			* Function Name get_total_shipping
@@ -1739,10 +1803,15 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			COUNT(postmeta.meta_value) AS 'Count'
 			,SUM(postmeta.meta_value) AS 'Total'";
 			$sql .= "  ,posts.post_status As 'Status' ,posts.post_status As 'StatusID'";
+
+			$sql .= ", order_currency.meta_value 	AS order_currency";
+
 			$sql .= "  FROM {$prefix}posts as posts";
 
 			$sql .= "
-			LEFT JOIN  {$prefix}postmeta as postmeta ON postmeta.post_id=posts.ID
+			LEFT JOIN  {$prefix}postmeta as postmeta ON postmeta.post_id=posts.ID";
+			$sql .= " LEFT JOIN  {$prefix}postmeta as order_currency ON order_currency.post_id = posts.ID";
+			$sql .= "
 			WHERE postmeta.meta_key = '_order_total'  AND posts.post_type='shop_order' ";
 
 			if ($start_date != NULL &&  $end_date !=NULL){
@@ -1754,7 +1823,9 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$sql .= " AND  posts.post_status IN ('{$in_shop_order_status}')";
 			}
 
-			$sql .= " Group BY posts.post_status ORDER BY Total DESC";
+			$sql .= " AND order_currency.meta_key = '_order_currency'";
+
+			$sql .= " Group BY posts.post_status,order_currency.meta_value ORDER BY Total DESC";
 
 			$order_items = $wpdb->get_results($sql);
 
@@ -1802,10 +1873,12 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			$sql .= " SELECT ";
 			$sql .= " SUM(woocommerce_order_itemmeta_product_qty.meta_value) AS quantity";
 			$sql .= " ,SUM(woocommerce_order_itemmeta_product_line_total.meta_value) AS total_amount";
-			$sql .= " ,IFNULL(terms_product_id.term_id,'0') AS category_id";
-			$sql .= " ,IFNULL(terms_product_id.name,'DELETED') AS category_name";
-			$sql .= " ,IFNULL(term_taxonomy_product_id.parent,'0') AS parent_category_id";
-			$sql .= " ,IFNULL(terms_parent_product_id.name,'') AS parent_category_name";
+			$sql .= " ,terms_product_id.term_id AS category_id";
+			$sql .= " ,terms_product_id.name AS category_name";
+			$sql .= " ,term_taxonomy_product_id.parent AS parent_category_id";
+			$sql .= " ,terms_parent_product_id.name AS parent_category_name";
+
+			$sql .= ", order_currency.meta_value 	AS order_currency";
 
 			$sql .= " FROM {$prefix}woocommerce_order_items as woocommerce_order_items";
 
@@ -1822,13 +1895,17 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			$sql .= " LEFT JOIN  {$prefix}posts as posts ON posts.id=woocommerce_order_items.order_id";
 
+			$sql .= " LEFT JOIN  {$prefix}postmeta as order_currency ON order_currency.post_id = posts.ID";
+
 			$sql .= " WHERE 1*1 ";
 			$sql .= " AND woocommerce_order_items.order_item_type 					= 'line_item'";
 			$sql .= " AND woocommerce_order_itemmeta_product_id.meta_key 			= '_product_id'";
 			$sql .= " AND woocommerce_order_itemmeta_product_qty.meta_key 			= '_qty'";
 			$sql .= " AND woocommerce_order_itemmeta_product_line_total.meta_key 	= '_line_total'";
-			$sql .= " AND (term_taxonomy_product_id.taxonomy= 'product_cat' or term_taxonomy_product_id.taxonomy is null)";
+			$sql .= " AND term_taxonomy_product_id.taxonomy 						= 'product_cat'";
 			$sql .= " AND posts.post_type 											= 'shop_order'";
+
+			$sql .= " AND order_currency.meta_key = '_order_currency'";
 
 			$url_shop_order_status	= "";
 
@@ -1841,7 +1918,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 				$sql .= " AND DATE(posts.post_date) BETWEEN '{$start_date}' AND '{$end_date}'";
 			}
 
-			$sql .= " GROUP BY category_id";
+			$sql .= " GROUP BY category_id,order_currency.meta_value";
 			$sql .= " Order By total_amount DESC";
 			$sql .= " LIMIT {$per_page}";
 
@@ -1856,7 +1933,6 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			return $return;
 
 		}
-
 
 		/*
 			* Function Name get_top_billing_country
@@ -1879,17 +1955,21 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			$sql = "
 			SELECT SUM(postmeta1.meta_value) AS 'Total'
 			,postmeta2.meta_value AS 'BillingCountry'
-			,Count(*) AS 'OrderCount'
+			,Count(*) AS 'OrderCount'";
 
+			$sql .= ", order_currency.meta_value 	AS order_currency";
+			$sql .= "
 			FROM {$prefix}posts as posts
 			LEFT JOIN  {$prefix}postmeta as postmeta1 ON postmeta1.post_id=posts.ID
 			LEFT JOIN  {$prefix}postmeta as postmeta2 ON postmeta2.post_id=posts.ID";
-
+			$sql .= " LEFT JOIN  {$prefix}postmeta as order_currency ON order_currency.post_id = posts.ID";
 			$sql .= "
 			WHERE
 			posts.post_type			=	'shop_order'
 			AND postmeta1.meta_key	=	'_order_total'
 			AND postmeta2.meta_key	=	'_billing_country'";
+
+			$sql .= " AND order_currency.meta_key = '_order_currency'";
 
 			$url_shop_order_status	= "";
 
@@ -1903,7 +1983,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			}
 
 			$sql .= "
-			GROUP BY  postmeta2.meta_value
+			GROUP BY  postmeta2.meta_value ,order_currency.meta_value
 			Order By Total DESC
 			LIMIT {$per_page}";
 
@@ -1977,7 +2057,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 
 			$sql .= " GROUP BY  postmeta2.meta_value
 			Order By OrderCount DESC
-			LIMIT {$per_page}"; /* order by order count instead of Total*/
+			LIMIT {$per_page}";/* order by order count instead of Total*/
 
 			$order_items = $wpdb->get_results($sql );
 
@@ -2012,7 +2092,10 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			woocommerce_order_items.order_item_name,
 			SUM(woocommerce_order_itemmeta.meta_value) As 'Total',
 			woocommerce_order_itemmeta.meta_value AS 'coupon_amount' ,
-			Count(*) AS 'Count'
+			Count(*) AS 'Count' ";
+
+			$sql .= ", order_currency.meta_value 	AS order_currency";
+			$sql .= "
 			FROM {$prefix}woocommerce_order_items as woocommerce_order_items
 			LEFT JOIN	{$prefix}posts						as posts 						ON posts.ID										=	woocommerce_order_items.order_id
 			LEFT JOIN  {$prefix}woocommerce_order_itemmeta 	as woocommerce_order_itemmeta	ON woocommerce_order_itemmeta.order_item_id		=	woocommerce_order_items.order_item_id";
@@ -2023,12 +2106,13 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 					LEFT JOIN  {$prefix}term_taxonomy 		as term_taxonomy 		ON term_taxonomy.term_taxonomy_id	=	term_relationships.term_taxonomy_id";
 				}
 			}
+			$sql .= " LEFT JOIN  {$prefix}postmeta as order_currency ON order_currency.post_id = posts.ID";
 			$sql .= "
-
 			WHERE
 			posts.post_type 								=	'shop_order'
 			AND woocommerce_order_items.order_item_type		=	'coupon'
 			AND woocommerce_order_itemmeta.meta_key			=	'discount_amount'";
+			$sql .= " AND order_currency.meta_key = '_order_currency'";
 
 			$url_shop_order_status	= "";
 			if(count($shop_order_status)>0){
@@ -2041,7 +2125,7 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			}
 
 			$sql .= "
-			Group BY woocommerce_order_items.order_item_name
+			Group BY woocommerce_order_items.order_item_name,order_currency.meta_value
 			ORDER BY Total DESC
 			LIMIT {$per_page}";
 
@@ -2055,8 +2139,6 @@ $return['total_sales_count'] 			= $return['order_sales_count'];
 			return $return;
 
 		}
-
-
 
 
 
@@ -2562,7 +2644,6 @@ function get_order_sales_completed($type = 'total',$prefix = '',$shop_order_stat
 /*--------------------------------------------------------------------------------------------------------*/
 /* END - CUSTOMIZATION MULTISITE REPORT */
 /*--------------------------------------------------------------------------------------------------------*/
-
 
 
 

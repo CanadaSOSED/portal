@@ -1,3 +1,8 @@
+.learndash-settings-page-wrap .error,
+.learndash-settings-page-wrap .error a {
+	color: red;
+}
+
 a.learndash-description-link {
 	color: #000;
 	text-decoration: none;
@@ -5,4 +10,12 @@ a.learndash-description-link {
 
 span.learndash-description {
 	display: none;
+}
+
+.ld-setting-field-sub {
+	padding-top: 5px;
+}
+
+.ld-setting-field-sub input[type="button"] {
+	margin-right: 5px;
 }

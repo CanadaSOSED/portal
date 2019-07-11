@@ -44,10 +44,17 @@
 	<div class="profile_info clear_both">
 		<div class="profile_avatar">
 			<?php echo get_avatar( $current_user->user_email, 96 ); ?>
-			<div class="profile_edit_profile" align="center">
-                <a href='<?php echo get_edit_user_link(); ?>'><?php esc_html_e( 'Edit profile', 'learndash' ); ?></a>
-            </div>
-        </div>
+			<?php
+			
+			if ( ( current_user_can( 'read' ) ) && ( isset( $shortcode_atts['profile_link'] ) ) && ( true === $shortcode_atts['profile_link'] ) && ( apply_filters( 'learndash_show_profile_link', $shortcode_atts['profile_link'] ) ) ) {
+				?>
+				<div class="profile_edit_profile" align="center">
+					<a href='<?php echo get_edit_user_link(); ?>'><?php esc_html_e( 'Edit profile', 'learndash' ); ?></a>
+				</div>
+				<?php
+			}
+			?>
+		</div>
 
 		<div class="learndash_profile_details">
 			<?php if ( ( ! empty( $current_user->user_lastname) ) || ( ! empty( $current_user->user_firstname ) ) ): ?>
@@ -121,7 +128,8 @@
 								</div>
 							</div>
 
-							<?php if ( ! empty( $quiz_attempts[ $course_id ] ) ) : ?>
+							<?php if ( ( ! empty( $quiz_attempts[ $course_id ] ) ) && ( isset( $shortcode_atts['show_quizzes'] ) ) && ( true === $shortcode_atts['show_quizzes'] ) && ( apply_filters( 'learndash_show_profile_quizzes', $shortcode_atts['show_quizzes'] ) ) ) { ?>
+
 								<div class="learndash_profile_quizzes clear_both">
 
 									<div class="learndash_profile_quiz_heading">
@@ -201,7 +209,7 @@
 									<?php endforeach; ?>
 
 								</div>
-							<?php endif; ?>
+							<?php } ?>
 
 						</div>
 					</h4>

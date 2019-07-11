@@ -94,7 +94,7 @@ if ( ( class_exists( 'LearnDash_Shortcodes_Section' ) ) && ( !class_exists( 'Lea
 				
 			);
 			
-			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) != 'yes' ) {
+			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) != 'yes' ) {
 				foreach( $this->shortcodes_option_fields['orderby']['options'] as $option_key => $option_label ) {
 					if ( empty( $option_key ) ) {
 						unset( $this->shortcodes_option_fields['orderby']['options'][$option_key] );

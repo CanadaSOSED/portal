@@ -78,7 +78,32 @@ if ( ( class_exists( 'LearnDash_Shortcodes_Section' ) ) && ( !class_exists( 'Lea
 											'yes'	=>	esc_html__('Yes', 'learndash')
 										)
 				),
-				
+
+				'profile_link' => array(
+					'id'			=> $this->shortcodes_section_key . 'profile_link',
+					'name'  		=> 'profile_link', 
+					'type'  		=> 'select',
+					'label' 		=> esc_html__( 'Show Profile Link', 'learndash' ),
+					'help_text'		=> esc_html__( 'Show Profile Link', 'learndash' ),
+					'value' 		=>  'yes',
+					'options'		=> array(
+										'' => esc_html__( 'Yes', 'learndash' ),
+										'no' =>	esc_html__( 'No', 'learndash' ),
+										)
+				),
+
+				'show_quizzes' => array(
+					'id'			=>	$this->shortcodes_section_key . 'show_quizzes',
+					'name'  		=> 	'show_quizzes', 
+					'type'  		=> 	'select',
+					'label' 		=> 	esc_html__( 'Show User Quiz Attempts', 'learndash' ),
+					'help_text'		=>	esc_html__( 'Show User Quiz Attempts', 'learndash' ),
+					'value' 		=> 	'yes',
+					'options'		=>	array(
+											'' => esc_html__( 'Yes', 'learndash' ),
+											'no' =>	esc_html__( 'No', 'learndash' )
+										)
+				),
 			);
 		
 			$this->shortcodes_option_fields = apply_filters( 'learndash_settings_fields', $this->shortcodes_option_fields, $this->shortcodes_section_key );

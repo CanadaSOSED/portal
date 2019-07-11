@@ -337,7 +337,7 @@ function learndash_upload_assignment_init( $post_id, $fname ) {
 	$points_enabled = learndash_get_setting( $post, 'lesson_assignment_points_enabled' );
 
 	if ( $points_enabled == 'on' ) {
-		$assignment_meta['points'] = esc_html_x( 'Pending', 'Assignment upload default value for points', 'learndash' );
+		$assignment_meta['points'] = 'pending';
 	}
 
 	$assignment = array(
@@ -349,6 +349,7 @@ function learndash_upload_assignment_init( $post_id, $fname ) {
 	);
 
 	$assignment_post_id = wp_insert_post( $assignment );
+	$auto_approve       = learndash_get_setting( $post, 'auto_approve_assignment' );
 
 	if ( $assignment_post_id ) {
 		foreach ( $assignment_meta as $key => $value ) {
@@ -365,9 +366,12 @@ function learndash_upload_assignment_init( $post_id, $fname ) {
 		 * @param array 	$assignment_meta 		Assignment meta data
 		 */
 		do_action( 'learndash_assignment_uploaded', $assignment_post_id, $assignment_meta );
+
+		if ( empty( $auto_approve ) ) {
+			wp_safe_redirect( get_permalink( $post->ID ), 303 );
+			exit();
+		}
 	}
-	
-	$auto_approve = learndash_get_setting( $post, 'auto_approve_assignment' );
 
 	if ( ! empty( $auto_approve ) ) {
 		learndash_approve_assignment( $current_user->ID, $post_id, $assignment_post_id );
@@ -394,13 +398,19 @@ function learndash_upload_assignment_init( $post_id, $fname ) {
  * @return int|obj		$post_id The post ID or WP_Post object.
  */
 function learndash_assignments_comments_open( $open, $post_id ) {
-	$post = get_post( $post_id );
+	if ( 'sfwd-assignment' === get_post_type( $post_id ) ) { 
+		$comment_status = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Assignments_CPT', 'comment_status' );
+		if ( 'yes' === $comment_status ) {
 
-	if ( empty( $open ) && @$post->post_type == 'sfwd-assignment' ) {
-		if ( is_numeric( $post_id ) ) {
-			global $wpdb;
-			$wpdb->query( "UPDATE $wpdb->posts SET comment_status = 'open' WHERE ID = '" . $post_id . "'" );
-			$open = true;
+			if ( empty( $open ) ) {
+				if ( is_numeric( $post_id ) ) {
+					global $wpdb;
+					$wpdb->query( "UPDATE $wpdb->posts SET comment_status = 'open' WHERE ID = '" . $post_id . "'" );
+					$open = true;
+				}
+			}
+		} else {
+			$open = false;
 		}
 	}
 	
@@ -1194,6 +1204,26 @@ add_action( 'wp', 'learndash_assignment_permissions' ); //, 0, 3 );
  * @since 2.1.0
  */
 function learndash_register_assignment_upload_type() {
+
+	$exclude_from_search = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Assignments_CPT', 'exclude_from_search' );
+	if ( 'yes' === $exclude_from_search ) {
+		$exclude_from_search = true;
+	} else {
+		$exclude_from_search = false; 
+	}
+	$publicly_queryable = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Assignments_CPT', 'publicly_queryable' );
+	if ( 'yes' === $publicly_queryable ) {
+		$publicly_queryable = true;
+	} else {
+		$publicly_queryable = false; 
+	}
+	$comment_status = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Assignments_CPT', 'comment_status' );
+	if ( 'yes' === $comment_status ) {
+		$comment_status = true;
+	} else {
+		$comment_status = false; 
+	}
+
 	$labels = array(
 		'name' => esc_html__( 'Assignments', 'learndash' ), 
 		'singular_name' => esc_html__( 'Assignment', 'learndash' ), 
@@ -1214,20 +1244,31 @@ function learndash_register_assignment_upload_type() {
 		$show_in_admin_bar = false;
 	}
 
+	$supports = array( 'title', 'comments', 'author' );
+	if ( true !== $comment_status ) {
+		$supports = array_diff( $supports, array('comments') );
+	}
+
+	$rewrite = array( 'slug' => 'assignment' );
+	if ( true !== $publicly_queryable ) {
+		$rewrite = false;
+	}
+
 	$args = array(
 		'labels' => $labels, 
 		'hierarchical' => false, 
-		'supports' => array( 'title', 'comments', 'author' ), 
-		'public' => true, 
+		'supports' => $supports,
+		'public' => $publicly_queryable, 
 		'show_ui' => true, 
 		'show_in_menu' => true, 
 		'show_in_nav_menus' => false, 
 		'show_in_admin_bar'	=>	$show_in_admin_bar,
-		'publicly_queryable' => true, 
-		'exclude_from_search' => true, 
+		'publicly_queryable' => $publicly_queryable, 
+		'exclude_from_search' => $exclude_from_search, 
 		'has_archive' => false, 
-		'query_var' => true,
-		'rewrite' => array( 'slug' => 'assignment' ), 
+		'show_in_rest' => false,
+		'query_var' => $publicly_queryable,
+		'rewrite' => $rewrite, 
 		'capability_type' => 'assignment', 
 		'capabilities' => array( 
 			'read_post' => 'read_assignment', 
@@ -1316,14 +1357,12 @@ function learndash_before_delete_assignment( $post_id ) {
 
 add_action( 'before_delete_post', 'learndash_before_delete_assignment' );
 
-
-
 /**
  * Echo the number of points awarded on the front end
  *
  * Displayed on single lessons under the submitted assignment
  *
- * @param $assignment_id
+ * @param int $assignment_id ID of the assignment.
  *
  * @return string
  */
@@ -1331,34 +1370,67 @@ function learndash_assignment_points_awarded( $assignment_id ) {
 	$points_enabled = learndash_assignment_is_points_enabled( $assignment_id );
 
 	if ( $points_enabled ) {
-		$current = get_post_meta( $assignment_id, 'points', true );
+		$current = learndash_get_assignment_points_awarded( $assignment_id );
 
-		if ( is_numeric( $current ) ) {
-			$assignment_settings_id = intval( get_post_meta( $assignment_id, 'lesson_id', true ) );
-			$max_points = learndash_get_setting( $assignment_settings_id, 'lesson_assignment_points_amount' );
-			$max_points = intval( $max_points );
-			if ( !empty( $max_points ) ) {
-				$percentage = ( intval( $current ) / intval( $max_points ) ) * 100;
-				$percentage = round( $percentage, 2 );
-			} else {
-				$percentage = 0.00;
-			}
-			
-			$current = apply_filters(
-				'learndash_points_awarded_output_format',
-				sprintf(
-					'(%d/%d) %d&#37; ',
-					$current,
-					$max_points,
-					$percentage
-				),
+		/**
+		 * Filter the output of the awarded points of an assignment.
+		 * 
+		 * @param string $current Points awarded values or translatable string.
+		 */
+		return apply_filters( 'learndash_points_awarded_output', sprintf( esc_html_x( 'Points Awarded: %s', 'placeholder: points awarded values (30/100) 30%', 'learndash'), $current ), $current );
+	}
+}
+
+/**
+ * Get the value of the awarded assignment points.
+ * 
+ * If the assignment hasn't been approved or graded, the translatable string 'Pending' is returned.
+ * Otherwise, the awarded points and percentage achieved are returned.
+ *
+ * @since 2.6.4
+ * 
+ * @param int $assignment_id ID of the assignment.
+ *
+ * @return string
+ */
+function learndash_get_assignment_points_awarded( $assignment_id) {
+	$current = get_post_meta( $assignment_id, 'points', true );
+
+	// We can't compare against the actual post meta value because it was a translatable string until 2.6.4
+	if ( ( ! empty( $current ) ) && ( ! is_numeric( $current ) ) ) {
+		return esc_html_x( 'Pending', 'Assignment upload default value for points', 'learndash' );
+	}
+
+	if ( is_numeric( $current ) ) {
+		$assignment_settings_id = intval( get_post_meta( $assignment_id, 'lesson_id', true ) );
+		$max_points = learndash_get_setting( $assignment_settings_id, 'lesson_assignment_points_amount' );
+		$max_points = intval( $max_points );
+		if ( ! empty( $max_points ) ) {
+			$percentage = ( intval( $current ) / intval( $max_points ) ) * 100;
+			$percentage = round( $percentage, 2 );
+		} else {
+			$percentage = 0.00;
+		}
+		
+		/**
+		 * Filter the output format of the awarded points of an assignment.
+		 * 
+		 * @param string $current    Achieved points.
+		 * @param int    $max_points Maximum points.
+		 * @param int    $percentage Percentage of achieved points/maximum points.
+		 */
+		return apply_filters(
+			'learndash_points_awarded_output_format',
+			sprintf(
+				'(%1$d/%2$d) %3$d&#37; ',
 				$current,
 				$max_points,
 				$percentage
-			);
-		}
-
-		return apply_filters( 'learndash_points_awarded_output', sprintf( esc_html_x( 'Points Awarded: %s', 'placeholder: points awarded values (30/100) 30%', 'learndash'), $current ), $current );
+			),
+			$current,
+			$max_points,
+			$percentage
+		);
 	}
 }
 
@@ -1462,6 +1534,17 @@ function learndash_check_upload( $uploadfiles = array(), $post_id = 0  ) {
 				
 				$learndash_assignment_upload_error_message .= esc_html__( 'The uploaded file type is not allowed.', 'learndash' );
 				return false;
+			}
+		}
+
+		if ( isset( $post_settings['assignment_upload_limit_count'] ) ) {
+			$assignment_upload_limit_count = intval( $post_settings['assignment_upload_limit_count'] );
+			if ( $assignment_upload_limit_count > 0 ) {
+				$assignments = learndash_get_user_assignments( $post_id, get_current_user_id() );
+				if ( ( ! empty( $assignments ) ) && ( count( $assignments ) >= $assignment_upload_limit_count ) ) {
+					$learndash_assignment_upload_error_message .= esc_html__( 'Number of allowed assignment uploads reached.', 'learndash' );
+					return false;
+				}
 			}
 		}
 	} 

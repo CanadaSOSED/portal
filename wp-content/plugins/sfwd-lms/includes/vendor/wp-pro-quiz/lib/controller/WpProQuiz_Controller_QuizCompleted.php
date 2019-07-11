@@ -26,7 +26,7 @@ class WpProQuiz_Controller_QuizCompleted {
 			return;
 		}
 		
-		$categories = $categoryMapper->fetchByQuiz($quiz->getId());
+		$categories = $categoryMapper->fetchByQuiz( $quiz );
 		$userId = get_current_user_id();
 		$resultInPercent = floor($this->data['results']['comp']['result']);
 		
@@ -240,29 +240,50 @@ class WpProQuiz_Controller_QuizCompleted {
 		return 'text/html';
 	}
 	
-	private function setCategoryOverview($catArray, $categories) {
-		$cats = array();
-	
-		foreach($categories as $cat) {
-			/* @var $cat WpProQuiz_Model_Category */
-				
-			if(!$cat->getCategoryId()) {
-				$cat->setCategoryName(__('Not categorized', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN));
+	private function setCategoryOverview( $category_scores = array() , $question_cats = array() ) {
+		if ( ( ! empty( $category_scores  ) ) && ( ! empty( $question_cats ) ) ) {
+			$question_categories = array();
+
+			foreach ( $question_cats as $cat ) {
+				if ( ! $cat->getCategoryId() ) {
+					$cat->setCategoryName( esc_html__( 'Not categorized', 'learndash' ) );
+				}
+
+				$question_categories[ $cat->getCategoryId() ] = $cat->getCategoryName();
 			}
-				
-			$cats[$cat->getCategoryId()] = $cat->getCategoryName();
 		}
-	
-		$a = esc_html__('Categories', LEARNDASH_WPPROQUIZ_TEXT_DOMAIN).":\n";
-	
-		foreach($catArray as $id => $value) {
-			if(!isset($cats[$id]))
-				continue;
-				
-			$a .= '* '.str_pad($cats[$id], 35, '.').((float)$value)."%\n";
-		}
-	
-		return $a;
+
+		$output = SFWD_LMS::get_template(
+			'quiz_result_categories_email.php',
+			array(
+				'question_categories' => $question_categories,
+				'category_scores'     => $category_scores,
+			)
+		);
+		return $output;
+
+		//$cats = array();
+		//
+		//foreach($categories as $cat) {
+		//	/* @var $cat WpProQuiz_Model_Category */
+		//	
+		//	if(!$cat->getCategoryId()) {
+		//		$cat->setCategoryName(__('Not categorized', 'learndash'));
+		//	}
+		//	
+		//	$cats[$cat->getCategoryId()] = $cat->getCategoryName();
+		//}
+		//
+		//$a = esc_html__('Categories', 'learndash').":\n";
+		//
+		//foreach($catArray as $id => $value) {
+		//	if(!isset($cats[$id]))
+		//		continue;
+		//	
+		//	$a .= '* '.str_pad($cats[$id], 35, '.').((float)$value)."%\n";
+		//}
+		//
+		//return $a;
 	}
 	
 	private function isPreLockQuiz(WpProQuiz_Model_Quiz $quiz) {

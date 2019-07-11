@@ -2,14 +2,12 @@ jQuery(document).ready(function() {
 	var selectors_array = [];
 	jQuery('.learndash-binary-selector').each(function() {
 		var selector_id = jQuery(this).prop('id');
-		//console.log('selector_id[%o]', selector_id);
-		
-		selectors_array[selector_id] = new learndash_binary_selector(this);
-		selectors_array[selector_id].init();
+		if (typeof selector_id !== 'undefined') {		
+			selectors_array[selector_id] = new learndash_binary_selector(this);
+			selectors_array[selector_id].init();
+		}
 	});
-	//console.log('selectors_array[%o]', selectors_array);
 });
-
 
 function learndash_binary_selector(selector_div) {
 	var self = this;
@@ -85,12 +83,11 @@ function learndash_binary_selector(selector_div) {
 				if (typeof section_el === 'undefined') {
 					return;
 				}
-				
 				var selector_html_id = jQuery(self.selector_div).attr('id');
-				if (typeof selector_html_id === 'undefined')
+				if ( typeof selector_html_id === 'undefined' ) {
 					return;
+				}
 				
-
 				if (jQuery(search_el).hasClass('learndash-binary-selector-search-left')) {
 					var position = 'left';
 				} else if (jQuery(search_el	).hasClass('learndash-binary-selector-search-right')) {
@@ -119,7 +116,7 @@ function learndash_binary_selector(selector_div) {
 				search_values[position]['query_data']['query_vars'] = self.selector_data['query_vars'];
 				
 				// Set and clear the search query var. Will be used to hold the search value passed via AJAX
-				search_values[position]['query_data']['query_vars']['search'] = '';
+				//search_values[position]['query_data']['query_vars']['search'] = '';
 				
 				search_values[position]['query_data']['position'] = position;
 				search_values[position]['query_data']['selector_class'] = self.selector_data['selector_class'];
@@ -131,12 +128,9 @@ function learndash_binary_selector(selector_div) {
 				// Grab the current value of the search input and store it as part of our data.
 				search_values[position]['current_value'] = jQuery(search_el).val();
 
-				//console.log('search_values[%o][%o]', position, search_values);
-				
 				//--------------			
 				
 				if (interval_ref != '') {
-					//console.log('interval_ref[%o]', interval_ref);	
 					clearInterval(interval_ref);
 				}
 								
@@ -156,7 +150,6 @@ function learndash_binary_selector(selector_div) {
 								'action': 'learndash_binary_selector_pager',
 								'query_data': search_values[position]['query_data'],
 							};
-							//console.log('CLEAR: post_data[%o]', post_data);
 
 							jQuery.ajax({
 								type: "POST",
@@ -168,25 +161,33 @@ function learndash_binary_selector(selector_div) {
 									//console.log('init: error HTTP Status['+jqXHR.status+'] '+errorThrown);
 								},
 								success: function(reply_data) {
-									//console.log('reply_data[%o]', reply_data);
-							
 									if (typeof reply_data['html_options'] !== 'undefined') {
 										jQuery('.learndash-binary-selector-items', section_el).empty().append(reply_data['html_options'])
+									}
+									var section_pager_el = jQuery('ul.learndash-binary-selector-pager', section_el);
+									if (typeof section_pager_el !== 'undefined') {
+										jQuery(section_pager_el).show();
+										if (typeof reply_data['pager'] !== 'undefined') {
+											self.selector_data[position]['pager'] = reply_data['pager'];
+											self.update_pager( section_pager_el, self.selector_data[position]['pager'] );	
+											self.update_legend();
+										}
 									}
 								}
 							});
 						
-							if (jQuery('.learndash-binary-selector-pager', section_el).length) {
-								jQuery('.learndash-binary-selector-pager', section_el).show();
-							}
+							//if (jQuery('.learndash-binary-selector-pager', section_el).length) {
+							//	jQuery('.learndash-binary-selector-pager', section_el).show();
+							//}
 						}
 					} else {
 						
-						if (jQuery('.learndash-binary-selector-pager', section_el).length) {
-							jQuery('.learndash-binary-selector-pager', section_el).hide();
-						}
+						//if (jQuery('.learndash-binary-selector-pager', section_el).length) {
+						//	jQuery('.learndash-binary-selector-pager', section_el).hide();
+						//}
 						
 						if ( ( search_values[position]['current_value'].length >= 3 ) && ( search_values[position]['query_data']['query_vars']['search'] != search_values[position]['current_value'] ) ) {
+							
 							search_values[position]['query_data']['query_vars']['search'] = search_values[position]['current_value'];
 
 							//query_data_parsed['data_query']['s'] = search_value;
@@ -194,10 +195,9 @@ function learndash_binary_selector(selector_div) {
 							//search_values[position]['query_data']['query_vars']['search'] = search_value;
 
 							var post_data = {
-								'action': 'learndash_binary_selector_search',
+								'action': 'learndash_binary_selector_pager',
 								'query_data': search_values[position]['query_data'],
 							};
-							//console.log('post_data[%o]', post_data);
 							
 							jQuery.ajax({
 								type: "POST",
@@ -209,11 +209,23 @@ function learndash_binary_selector(selector_div) {
 									//console.log('init: error HTTP Status['+jqXHR.status+'] '+errorThrown);
 								},
 								success: function(reply_data) {
-							
-									//console.log('reply_data[%o]', reply_data);
-							
 									if (typeof reply_data['html_options'] !== 'undefined') {
 										jQuery('.learndash-binary-selector-items', section_el).empty().append(reply_data['html_options'])
+									} else {
+										jQuery('.learndash-binary-selector-items', section_el).empty().append('');
+									}
+
+									if (typeof reply_data['pager'] !== 'undefined') {
+										var section_pager_el = jQuery('.learndash-binary-selector-pager', section_el);
+										if (typeof section_pager_el !== 'undefined') {
+											jQuery(section_pager_el).show();
+											self.selector_data[position]['pager'] = reply_data['pager'];
+											self.update_pager(section_pager_el, reply_data['pager']);
+											self.update_legend();
+										}
+									} else {
+										var section_pager_el = jQuery('.learndash-binary-selector-pager', section_el);
+										jQuery(section_pager_el).hide();
 									}
 								}
 							});
@@ -253,8 +265,6 @@ function learndash_binary_selector(selector_div) {
 		var selector_html_id = jQuery(self.selector_div).attr('id');
 		if (typeof selector_html_id === 'undefined')
 			return;
-
-
 
 		var section_pager_el = jQuery(clicked_el).parents('ul.learndash-binary-selector-pager');
 		if ( typeof section_pager_el === 'undefined' ) {
@@ -307,13 +317,11 @@ function learndash_binary_selector(selector_div) {
 		}
 
 		query_data['selected_ids'] = self.get_selector_form_element(true);
-		//console.log('query_data[%o]', query_data);
 		
 		var post_data = {
 			'action': 'learndash_binary_selector_pager',
 			'query_data': query_data,
 		};
-		//console.log('post_data[%o]', post_data);
 		
 		jQuery.ajax({
 			type: "POST",
@@ -325,7 +333,6 @@ function learndash_binary_selector(selector_div) {
 				//console.log('init: error HTTP Status['+jqXHR.status+'] '+errorThrown);
 			},
 			success: function(reply_data) {
-				//console.log('reply_data[%o]', reply_data);
 				
 				if (typeof reply_data['html_options'] !== 'undefined') {
 					jQuery('.learndash-binary-selector-items', section_el).empty().append(reply_data['html_options'])
@@ -346,7 +353,6 @@ function learndash_binary_selector(selector_div) {
 	}
 	
 	this.update_pager = function( section_pager_el, section_pager_data ) {
-		//console.log('section_pager_data[%o]', section_pager_data);
 		
 		if ( typeof section_pager_el !== 'undefined' ) {
 			if ( typeof section_pager_data['current_page'] !== 'undefined' )
@@ -421,7 +427,6 @@ function learndash_binary_selector(selector_div) {
 					jQuery(option_left_el, self.selector_div).prop('disabled', true);
 
 					var data_id = jQuery(option_left_el).attr('data-value');
-					//console.log('data_id[%o]', data_id);
 					if (data_id != '') {
 						items_changed.push(data_id);
 					}
@@ -429,25 +434,12 @@ function learndash_binary_selector(selector_div) {
 			});
 		} 	
 		
-		//console.log('items_changed[%o]', items_changed);
-		
-		// When moving items from left to right we appended. So now we want to sort these right side items
-		//if (added2right == true) {
-		//	self.sort_right_options();
-		//}
 		self.update_selected_form_element( 'add', items_changed );
-		
-		// Once the element selected ids is updated we also update the right-side total items display count
-		//var total_items_count = self.selected_items.length;
-		//console.log('total_items_count[%o]', total_items_count);
-		//jQuery('.learndash-binary-selector-items-right .learndash-binary-selector-pager-info span.total_items span.total_items_count', self.selector_div).html( total_items_count );
-		//jQuery('.learndash-binary-selector-items-right .learndash-binary-selector-pager-info span.total_items', self.selector_div).show();
 	}
 
 	this.remove_selected_items = function(e) {
 		e.preventDefault();
 
-		//var added2right = false;
 		var items_changed = [];
 		
 		if ((jQuery('.learndash-binary-selector-items-left', self.selector_div).length) && (jQuery('.learndash-binary-selector-items-right', self.selector_div).length)) {
@@ -455,7 +447,6 @@ function learndash_binary_selector(selector_div) {
 				var option_right_el = jQuery(this);
 
 				var data_id = jQuery(option_right_el).attr('data-value');
-				//console.log('data_id[%o]', data_id);
 				if (data_id != '') {
 					items_changed.push(data_id);
 				}
@@ -539,11 +530,9 @@ function learndash_binary_selector(selector_div) {
 
 		if (return_raw == false) {
 			self.selected_items = JSON.parse(selected_items);
-			//console.log('self.selected_items[%o]', self.selected_items);
 
 			// The returned 'type' from JSON.parse() is an object. We want to convert this to an array to better manage adding, removing items
 			self.selected_items = jQuery.map(self.selected_items, function(el) { return parseInt(el) });
-			//console.log('self.selected_items[%o]', self.selected_items);
 			
 			return self.selected_items;
 		} else {
@@ -552,8 +541,8 @@ function learndash_binary_selector(selector_div) {
 	}
 
 	this.save_selector_form_element = function( ) {
-		//self.selected_items = self.selected_items.concat( item_ids );
 		jQuery('input.learndash-binary-selector-form-element', self.selector_div).val(JSON.stringify(self.selected_items));
+		jQuery('input.learndash-binary-selector-form-changed', self.selector_div).val('1');
 	}
 
 	this.sort_right_options = function() {
@@ -583,8 +572,6 @@ function learndash_binary_selector(selector_div) {
 				return;
 			}
 			self.selector_data = JSON.parse(element_data);
-			//console.log('selector_data[%o]', self.selector_data);
-			
 		}
 		return self.selector_data;
 	}
@@ -625,7 +612,6 @@ function learndash_binary_selector(selector_div) {
 			'action': 'learndash_binary_selector_lazy_loader',
 			'query-data': query_data
 		};
-		//console.log('post_data[%o]', post_data);
 
 		jQuery.ajax({
 			type: "POST",

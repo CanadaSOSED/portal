@@ -145,11 +145,6 @@ if ( !class_exists( 'LearnDash_Permalinks' ) ) {
 		function post_type_link( $post_link = '', $post = null, $leavename  = false, $sample = false ) {
 			global $pagenow;
 			
-//			error_log('in '. __FUNCTION__ );
-//			error_log('post_link['. $post_link .']');
-//			error_log('leavename['. $leavename .']');
-//			error_log('sample['. $sample .']');
-			
 			if ( ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Section_Permalinks', 'nested_urls' ) == 'yes' ) && ( in_array( $post->post_type, array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz' ) ) ) ) {
 				
 				// If we are viewing one of the list tables we only effect the link if the course_id URL param is set
@@ -203,11 +198,12 @@ if ( !class_exists( 'LearnDash_Permalinks' ) ) {
 					//$course_id = learndash_get_course_id( $topic->ID );
 					$course_id = apply_filters( 'learndash_post_link_course_id', learndash_get_course_id( $topic->ID ), $post_link, $post );
 					if ( !empty( $course_id ) ) {
-						//if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
+						if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 							$lesson_id = learndash_course_get_single_parent_step( $course_id, $topic->ID );
-						//} else {
-						//	learndash_get_lesson_id( $topic->ID );
-						//}
+						} else {
+							$lesson_id = learndash_get_lesson_id( $topic->ID );
+						}
+
 						if ( !empty( $lesson_id ) ) {
 							$course = get_post( $course_id );
 							$lesson = get_post( $lesson_id );
@@ -248,26 +244,28 @@ if ( !class_exists( 'LearnDash_Permalinks' ) ) {
 							$quiz_parents = array();
 							
 							$url_part_new = '/'. $courses_cpt->rewrite['slug'] .'/'. $course->post_name;
-//								if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'enabled' ) == 'yes' ) {
-								$quiz_parents = learndash_course_get_all_parent_step_ids( $course_id, $quiz->ID );
-//								} else {
-//									$lesson_id = learndash_get_lesson_id( $quiz->ID );
-//									$lessons_cpt = get_post_type_object( 'sfwd-lessons' );
-//									$topics_cpt = get_post_type_object( 'sfwd-topic' );
-//			
-//									if ( !empty( $lesson_id ) ) {
-//										if ( get_post_type( $lesson_id ) == $topics_cpt->name ) {
-//											$step_parents[] = $lesson_id;
-//						
-//											$lesson_id = learndash_get_lesson_id( $lesson_id );
-//											if ( !empty( $lesson_id ) ) {
-//												if ( get_post_type( $lesson_id ) == $lessons_cpt->name ) {
-//													$step_parents[] = $lesson_id;
-//												}
-//											}
-//										}
-//									}
-//								}
+							if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
+							$quiz_parents = learndash_course_get_all_parent_step_ids( $course_id, $quiz->ID );
+							} else {
+								$lesson_id = learndash_get_lesson_id( $quiz->ID );
+								//$lessons_cpt = get_post_type_object( 'sfwd-lessons' );
+								//$topics_cpt = get_post_type_object( 'sfwd-topic' );
+		
+								if ( !empty( $lesson_id ) ) {
+									if ( get_post_type( $lesson_id ) == $topics_cpt->name ) {
+										$topic_id = $lesson_id;
+										//$quiz_parents[] = $lesson_id;
+
+										$lesson_id = learndash_get_lesson_id( $topic_id );
+										if ( !empty( $lesson_id ) ) {
+											if ( get_post_type( $lesson_id ) == $lessons_cpt->name ) {
+												$quiz_parents[] = $lesson_id;
+												$quiz_parents[] = $topic_id;
+											}
+										}
+									}
+								}
+							}
 
 							if ( !empty( $quiz_parents ) ) {
 								foreach( $quiz_parents as $quiz_parent_id ) {
@@ -345,18 +343,19 @@ if ( !class_exists( 'LearnDash_Permalinks' ) ) {
 				if ( ( !empty( $post_type_name ) ) && ( in_array( $post_type_name, array( 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz' ) ) ) ) {
 					if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
 
-						$course_id = 0;
-					
-						//if ( $post_type_name == 'sfwd-quiz') {
-						//	if ( ( isset( $_GET['course_id'] ) ) && ( !empty( $_GET['course_id'] ) ) ) {
-						//		$course_id = intval( $_GET['course_id'] );
-						//	}
-						//} else {
-							$course_id = learndash_get_course_id( $post_id );
-						//}
+						$course_id = 0;					
+						$course_id = learndash_get_course_id( $post_id );
 						if ( !empty( $course_id ) ) {
 							$link = add_query_arg( 'course_id', $course_id, $link );
 						}
+					}
+				}
+
+				if ( ( ! empty( $post_type_name ) ) && ( in_array( $post_type_name, LDLMS_Post_Types::get_post_types( 'quiz_questions' ) ) ) ) {
+					$quiz_id = 0;
+					$quiz_id = learndash_get_quiz_id( $post_id );
+					if ( ! empty( $quiz_id ) ) {
+						$link = add_query_arg( 'quiz_id', $quiz_id, $link );
 					}
 				}
 			}
@@ -452,3 +451,36 @@ function learndash_get_step_permalink( $step_id = 0, $step_course_id = null ) {
 		return $step_permalink;
 	}
 }
+
+
+/**
+ * Used when editing Lesson, Topic, Quiz or Question post items. This filter is needed to add 
+ * the 'course_id' parameter back to the edit URL after the post is submitted (saved).
+ * 
+ * @since 2.5 
+ */
+function learndash_redirect_post_location( $location = '' ) {
+	if ( ( is_admin() ) && ( !empty( $location ) ) ) {
+		
+		global $typenow;
+		
+		if ( ( $typenow == 'sfwd-lessons' ) || ( $typenow == 'sfwd-topic' ) || ( $typenow == 'sfwd-quiz' ) ) {
+			if ( ( isset( $_POST['ld-course-switcher'] ) ) && ( !empty( $_POST['ld-course-switcher'] ) ) ) {
+				$post_args = wp_parse_args( $_POST['ld-course-switcher'], array() );
+				if ( ( isset( $post_args['course_id'] ) ) && ( !empty( $post_args['course_id'] ) ) ) {
+					$location = add_query_arg( 'course_id', intval( $post_args['course_id'] ), $location );
+				}
+			}
+		} elseif ( $typenow == 'sfwd-question' ) {
+			if ( ( isset( $_POST['ld-quiz-switcher'] ) ) && ( ! empty( $_POST['ld-quiz-switcher'] ) ) ) {
+				$post_args = wp_parse_args( $_POST['ld-quiz-switcher'], array() );
+				if ( ( isset( $post_args['quiz_id'] ) ) && ( ! empty( $post_args['quiz_id'] ) ) ) {
+					$location = add_query_arg( 'quiz_id', absint( $post_args['quiz_id'] ), $location );
+				}
+			}
+		}
+	}
+	
+	return $location;
+}
+add_filter('redirect_post_location', 'learndash_redirect_post_location', 10, 2 );

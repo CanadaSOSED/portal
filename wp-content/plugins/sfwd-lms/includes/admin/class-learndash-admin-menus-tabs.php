@@ -1,26 +1,46 @@
 <?php
-if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
+/**
+ * LearnDash Settings Admin Menus and Tabs class.
+ *
+ * @package LearnDash
+ */
+
+if ( ! class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
+	/**
+	 * Class to create the settings section.
+	 */
 	class Learndash_Admin_Menus_Tabs {
 
+		/**
+		 * Holder variable for instances of this class.
+		 *
+		 * @var object $instance Instance of this class oabject.
+		 */
 		private static $instance;
-		
+
 		protected $admin_tab_sets = array();
 		public $admin_tab_priorities = array(
-			'private'	=>	0,
-			'high'		=>	10,
-			'normal'	=>	20,
-			'taxonomy'	=>	30,
-			'misc'		=>	40
+			'private'  => 0,
+			'high'     => 10,
+			'normal'   => 20,
+			'taxonomy' => 30,
+			'misc'     => 100,
 		);
-		
-		function __construct() {
+
+		/**
+		 * Public constructor for class
+		 */
+		public function __construct() {
 			// We first add this hook so we are calling 'admin_menu' early.
 			add_action( 'admin_menu', array( $this, 'learndash_admin_menu_early' ), 0 );
 
-			// Then within the 'wp_loaded' handler we add another hook into 'admin_menu' to be in the last-est
-			// position where we add all the misc menu items 
+			/**
+			 * Then within the 'wp_loaded' handler we add another hook into
+			 * 'admin_menu' to be in the last-est position where we add all
+			 * the misc menu items.
+			 */
 			add_action( 'wp_loaded', array( $this, 'wp_loaded' ), 1000 );
-			
+
 			add_action( 'all_admin_notices', array( $this, 'learndash_admin_tabs' ) );
 		}
 
@@ -32,25 +52,28 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 			return self::$instance;
 		}
 
-		
-		// We hook into the 'wp_loaded' action which comes just before the 'admin_menu' action. The reason for this
-		// we want to add a special 'admin_menu' and ensure it is the last action taken on the menu. 
-		function wp_loaded() {
-			
+		/**
+		 * We hook into the 'wp_loaded' action which comes just before the
+		 * 'admin_menu' action. The reason for this we want to add a special
+		 * 'admin_menu' and ensure it is the last action taken on the menu.
+		 */
+		public function wp_loaded() {
+
 			global $wp_filter;
 
 			/***********************************************************************
 			admin_menu
 			************************************************************************/
 			// Set a default priority.
-			
+
 			$top_priority = 100;
-			if ( defined( 'LEARNDASH_SUBMENU_SETTINGS_PRIORITY' ) ) 
+			if ( defined( 'LEARNDASH_SUBMENU_SETTINGS_PRIORITY' ) ) {
 				$top_priority = intval( LEARNDASH_SUBMENU_SETTINGS_PRIORITY );
-			
+			}
+
 			$top_priority = apply_filters( 'learndash_submenu_settings_priority', $top_priority );
-			
-			// Check to see of there are existing 'admin_menu' actions. 
+
+			// Check to see of there are existing 'admin_menu' actions.
 			/*
 			if ( ( isset( $wp_filter['admin_menu'] ) ) && ( property_exists( $wp_filter['admin_menu'], 'callbacks' ) ) && ( !empty( $wp_filter['admin_menu']->callbacks ) ) ) {
 
@@ -63,7 +86,6 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 			}
 			*/
 			add_action( 'admin_menu', array( $this, 'learndash_admin_menu_last' ), $top_priority );
-
 
 			/***********************************************************************
 			learndash_menu_args
@@ -82,13 +104,13 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 			*/
 		}
 
-		function learndash_menu_args( $menu_args = array() ) {
-			if ( ( is_array( $menu_args['admin_tabs'] ) ) && ( !empty( $menu_args['admin_tabs'] ) ) ) {
-				foreach( $menu_args['admin_tabs'] as &$admin_tab_item ) {
+		public function learndash_menu_args( $menu_args = array() ) {
+			if ( ( is_array( $menu_args['admin_tabs'] ) ) && ( ! empty( $menu_args['admin_tabs'] ) ) ) {
+				foreach ( $menu_args['admin_tabs'] as &$admin_tab_item ) {
 
-					// Similar to the logic from admin_menu above. 
+					// Similar to the logic from admin_menu above.
 					// We need to convert the 'edit.php?post_type=sfwd-courses&page=sfwd-lms_sfwd_lms.php_post_type_sfwd-courses'
-					// menu_links to 'admin.php?page=learndash_lms_settings' so all the LearnDash > Settings tabs connect 
+					// menu_links to 'admin.php?page=learndash_lms_settings' so all the LearnDash > Settings tabs connect
 					// to that menu instead.
 					if ( $admin_tab_item['menu_link'] == 'edit.php?post_type=sfwd-courses&page=sfwd-lms_sfwd_lms.php_post_type_sfwd-courses' ) {
 						$admin_tab_item['menu_link'] = 'admin.php?page=learndash_lms_settings';
@@ -136,66 +158,70 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 		
 		
 		function add_admin_tab_set( $menu_slug, $menu_item ) {
-			
-			if ( ( $menu_slug == 'edit.php?post_type=sfwd-courses' ) 
-			 || ( $menu_slug == 'edit.php?post_type=sfwd-lessons' )
- 			 || ( $menu_slug == 'edit.php?post_type=sfwd-topic' )
-			 || ( $menu_slug == 'edit.php?post_type=sfwd-certificates' )
-			 || ( $menu_slug == 'edit.php?post_type=sfwd-quiz' )
-			 || ( $menu_slug == 'edit.php?post_type=sfwd-assignment' )
-			 || ( $menu_slug == 'edit.php?post_type=sfwd-transactions' )
-			 || ( $menu_slug == 'edit.php?post_type=groups' ) ) {
-								
-			 	if ( !isset( $admin_tab_sets[$menu_slug] ) ) $admin_tab_sets[$menu_slug] = array();
+			global $learndash_post_types;
 
-				foreach( $menu_item as $menu_item_section ) {
-					$url_parts = parse_url( html_entity_decode( $menu_item_section[2] ) );
-					if ( ( isset( $url_parts['query'] ) ) && ( !empty( $url_parts['query'] ) ) )
-						parse_str( $url_parts['query'], $link_params );
-					else {
-						$link_params = array(
-							'post_type'	=>	'',
-							'taxonomy'	=>	''
-						);
-					}
-					
-					// Add New - We add in the 0 position
-					if ( substr( $menu_item_section[2], 0, strlen( 'post-new.php?' ) ) == 'post-new.php?' ) {
-						
-						$this->admin_tab_sets[$menu_slug][0] = array(
-							'id'	=> 	$link_params['post_type'],
-							'name'	=>	$menu_item_section[0],
-							'cap'	=>	$menu_item_section[1],
-							'link'	=>	$menu_item_section[2]
-						);
-					} 
-
-					// Edit - We add in the 1 position
-					else if ( substr( $menu_item_section[2], 0, strlen( 'edit.php?' ) ) == 'edit.php?' ) {
-						$this->admin_tab_sets[$menu_slug][1] = array(
-							'id'	=> 	'edit-'. $link_params['post_type'],
-							'name'	=>	$menu_item_section[0],
-							'cap'	=>	$menu_item_section[1],
-							'link'	=>	$menu_item_section[2]
-						);
+			$url_parts = parse_url( $menu_slug );
+			if ( ( isset( $url_parts['path'] ) ) && ( 'edit.php' == $url_parts['path'] ) && ( isset( $url_parts['query'] ) ) && ( ! empty( $url_parts['query'] ) ) ) {
+				$menu_query_args = array();
+				parse_str( $url_parts['query'], $menu_query_args );
+				if ( ( isset( $menu_query_args['post_type'] ) ) && ( in_array( $menu_query_args['post_type'], $learndash_post_types ) ) ) {
+					if ( ! isset( $admin_tab_sets[ $menu_slug ] ) ) {
+						$admin_tab_sets[ $menu_slug ] = array();
 					}
 
-					else if ( substr( $menu_item_section[2], 0, strlen( 'edit-tags.php?' ) ) == 'edit-tags.php?' ) {
-						$this->add_admin_tab_item(
-							$menu_slug,
-							array(
-								'id'	=> 	'edit-'. $link_params['taxonomy'],
+					foreach ( $menu_item as $menu_item_section ) {
+						$url_parts = parse_url( html_entity_decode( $menu_item_section[2] ) );
+						if ( ( isset( $url_parts['query'] ) ) && ( ! empty( $url_parts['query'] ) ) ) {
+							parse_str( $url_parts['query'], $link_params );
+						} else {
+							$link_params = array(
+								'post_type'	=> $menu_query_args['post_type'],
+								'taxonomy'	=> '',
+							);
+						}
+
+						// Add New - We add in the 0 position.
+						if ( ( substr( $menu_item_section[2], 0, strlen( 'post-new.php?' ) ) == 'post-new.php?' )&& ( 'sfwd-assignment' !== $menu_query_args['post_type'] ) ) {
+
+							$this->admin_tab_sets[$menu_slug][0] = array(
+								'id'	=> 	$link_params['post_type'],
 								'name'	=>	$menu_item_section[0],
 								'cap'	=>	$menu_item_section[1],
 								'link'	=>	$menu_item_section[2]
-							),
-							40
-						);
+							);
+						} 
+
+						// Edit - We add in the 1 position
+						else if ( substr( $menu_item_section[2], 0, strlen( 'edit.php?' ) ) == 'edit.php?' ) {
+							$this->admin_tab_sets[$menu_slug][1] = array(
+								'id'	=> 	'edit-'. $link_params['post_type'],
+								'name'	=>	$menu_item_section[0],
+								'cap'	=>	$menu_item_section[1],
+								'link'	=>	$menu_item_section[2]
+							);
+						}
+
+						else if ( substr( $menu_item_section[2], 0, strlen( 'edit-tags.php?' ) ) == 'edit-tags.php?' ) {
+							$menu_priority = 40;
+							if ( $menu_query_args['post_type'] == 'sfwd-quiz' ) {
+								$menu_priority = 23;
+							}
+							$this->add_admin_tab_item(
+								$menu_slug,
+								array(
+									'id'	=> 	'edit-' . $link_params['taxonomy'],
+									'name'	=>	$menu_item_section[0],
+									'cap'	=>	$menu_item_section[1],
+									'link'	=>	$menu_item_section[2]
+								),
+								$menu_priority
+							);
+						}
 					}
 				}
 			}
 		}
-		
+
 		function add_admin_tab_item( $menu_slug, $menu_item, $menu_priority = 20 ) {
 			
 			if ( !isset( $this->admin_tab_sets[$menu_slug] ) ) $this->admin_tab_sets[$menu_slug] = array();
@@ -222,74 +248,104 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 			global $submenu, $menu;
 
 			$add_submenu = array();
-	
-			if ( current_user_can('edit_courses') ) {
+
+			if ( current_user_can( 'edit_courses' ) ) {
 				if ( isset( $submenu['edit.php?post_type=sfwd-courses'] ) ) {
 					$add_submenu['sfwd-courses'] = array(
 						'name' 	=> LearnDash_Custom_Label::get_label( 'courses' ),
 						'cap'	=> 'edit_courses',
 						'link'	=> 'edit.php?post_type=sfwd-courses',
 					);
-					$this->add_admin_tab_set('edit.php?post_type=sfwd-courses', $submenu['edit.php?post_type=sfwd-courses'] );
+					$this->add_admin_tab_set( 'edit.php?post_type=sfwd-courses', $submenu['edit.php?post_type=sfwd-courses'] );
 				}
-				
+
 				if ( isset( $submenu['edit.php?post_type=sfwd-lessons'] ) ) {
 					$add_submenu['sfwd-lessons'] = array(
 						'name' 	=> LearnDash_Custom_Label::get_label( 'lessons' ),
 						'cap'	=> 'edit_courses',
 						'link'	=> 'edit.php?post_type=sfwd-lessons',
 					);
-					$this->add_admin_tab_set('edit.php?post_type=sfwd-lessons', $submenu['edit.php?post_type=sfwd-lessons'] );
+					$this->add_admin_tab_set( 'edit.php?post_type=sfwd-lessons', $submenu['edit.php?post_type=sfwd-lessons'] );
 				}
-				
+
 				if ( isset( $submenu['edit.php?post_type=sfwd-topic'] ) ) {
 					$add_submenu['sfwd-topic'] = array(
 						'name' 	=> LearnDash_Custom_Label::get_label( 'topics' ),
 						'cap'	=> 'edit_courses',
 						'link'	=> 'edit.php?post_type=sfwd-topic',
 					);
-					$this->add_admin_tab_set('edit.php?post_type=sfwd-topic', $submenu['edit.php?post_type=sfwd-topic'] );
+					$this->add_admin_tab_set( 'edit.php?post_type=sfwd-topic', $submenu['edit.php?post_type=sfwd-topic'] );
 				}
-				
+
 				if ( isset( $submenu['edit.php?post_type=sfwd-quiz'] ) ) {
 					$add_submenu['sfwd-quiz'] = array(
 						'name' 	=> LearnDash_Custom_Label::get_label( 'quizzes' ),
 						'cap'	=> 'edit_courses',
 						'link'	=> 'edit.php?post_type=sfwd-quiz',
 					);
-					$this->add_admin_tab_set('edit.php?post_type=sfwd-quiz', $submenu['edit.php?post_type=sfwd-quiz'] );
+					$this->add_admin_tab_set( 'edit.php?post_type=sfwd-quiz', $submenu['edit.php?post_type=sfwd-quiz'] );
 				}
-				
+
+				if ( ( true === is_data_upgrade_quiz_questions_updated() ) && ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Builder', 'enabled' ) === 'yes' ) ) {
+					if ( isset( $submenu['edit.php?post_type='. learndash_get_post_type_slug( 'question' ) ] ) ) {
+						$add_submenu['sfwd-question'] = array(
+							'name' 	=> LearnDash_Custom_Label::get_label( 'questions' ),
+							'cap'	=> 'edit_courses',
+							'link'	=> add_query_arg(
+								'post_type',
+								learndash_get_post_type_slug( 'question' ),
+								'edit.php'
+							),
+						);
+						if ( isset( $_GET['quiz_id'] ) ) {
+							$quiz_id = absint( $_GET['quiz_id'] );
+							if ( ! empty( $quiz_id ) ) {
+								foreach( $submenu['edit.php?post_type=' . learndash_get_post_type_slug( 'question' ) ] as &$link ) {
+									$link[2] = add_query_arg( 'quiz_id', $quiz_id, $link[2] );
+								}
+							}
+						}
+
+						$this->add_admin_tab_set(
+							add_query_arg(
+								'post_type',
+								learndash_get_post_type_slug( 'question' ),
+								'edit.php'
+							),
+							$submenu['edit.php?post_type=' . learndash_get_post_type_slug( 'question' ) ] );
+					}
+				}
+
 				if ( isset( $submenu['edit.php?post_type=sfwd-certificates'] ) ) {
 					$add_submenu['sfwd-certificates'] = array(
 						'name' 	=> esc_html_x( 'Certificates', 'Certificates Menu Label', 'learndash' ),
 						'cap'	=> 'edit_courses',
 						'link'	=> 'edit.php?post_type=sfwd-certificates',
 					);
-					$this->add_admin_tab_set('edit.php?post_type=sfwd-certificates', $submenu['edit.php?post_type=sfwd-certificates'] );
+					$this->add_admin_tab_set( 'edit.php?post_type=sfwd-certificates', $submenu['edit.php?post_type=sfwd-certificates'] );
 				}
 			}
-		
-			if ( current_user_can('edit_assignments') ) {
+
+			if ( current_user_can( 'edit_assignments' ) ) {
 				if ( isset( $submenu['edit.php?post_type=sfwd-assignment'] ) ) {
 					$add_submenu['sfwd-assignment'] = array(
 						'name' 	=> esc_html_x( 'Assignments', 'Assignments Menu Label', 'learndash' ),
 						'cap'	=> 'edit_assignments',
 						'link'	=> 'edit.php?post_type=sfwd-assignment',
 					);
-					$this->add_admin_tab_set('edit.php?post_type=sfwd-assignment', $submenu['edit.php?post_type=sfwd-assignment'] );
-					$this->admin_tab_sets['edit.php?post_type=sfwd-assignment'] = array();
+					$this->add_admin_tab_set( 'edit.php?post_type=sfwd-assignment', $submenu['edit.php?post_type=sfwd-assignment'] );
+					//$this->admin_tab_sets['edit.php?post_type=sfwd-assignment'] = array();
 				}
 			}
-		
-			if ( current_user_can('edit_groups') ) {
+
+			if ( current_user_can( 'edit_groups' ) ) {
 				if ( isset( $submenu['edit.php?post_type=groups'] ) ) {
 					$add_submenu['groups'] = array(
 						'name' 	=> esc_html_x( 'Groups', 'Groups Menu Label', 'learndash' ),
 						'cap'	=> 'edit_groups',
 						'link'	=> 'edit.php?post_type=groups',
 					);
-					$this->add_admin_tab_set('edit.php?post_type=groups', $submenu['edit.php?post_type=groups'] );
+					$this->add_admin_tab_set( 'edit.php?post_type=groups', $submenu['edit.php?post_type=groups'] );
 				}
 			}
 
@@ -300,7 +356,7 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 					'link'	=> 'edit.php?post_type=sfwd-essays',
 				);
 			}
-			
+
 			 /**
 			 * Filter submenu array before it is registered
 			 *
@@ -309,7 +365,7 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 			 * @param  array  $add_submenu
 			 */
 			$add_submenu = apply_filters( 'learndash_submenu', $add_submenu );
-			
+
 			if (!empty( $add_submenu ) ) {
 				add_menu_page(
 					esc_html__( 'LearnDash LMS', 'learndash' ),
@@ -389,45 +445,54 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 		 *
 		 * @since 2.1.0
 		 */
-		function learndash_admin_tabs() {
+		public function learndash_admin_tabs() {
 			if ( ! is_admin() ) {
 				return;
 			}
-            global $submenu, $menu;
+			global $submenu, $menu;
 			global $learndash_current_page_link;
 			$learndash_current_page_link = '';
 
 			$current_screen = get_current_screen();
-			
-			$current_page_id = $current_screen->id; 
+			$current_page_id = $current_screen->id;
 
 			$current_screen_parent_file = $current_screen->parent_file;
 			if ( $current_screen_parent_file == 'learndash-lms' ) {
-				if ( $current_screen->id == 'learndash-lms_page_learndash-lms-reports' )
+				if ( $current_screen->id == 'learndash-lms_page_learndash-lms-reports' ) {
 					$current_screen_parent_file = 'admin.php?page=learndash-lms-reports';
+				}
 
 				// See LEARNDASH-581:
 				// In a normal case when viewing the LearnDash > Courses > All Courses tab the screen ID is set to 'edit-sfwd-courses' and the parent_file is set ''edit.php?post_type=sfwd-courses'.
 				// However when the Admin Menu Editor plugin is installed it somehow sets the parent_file to 'learndash-lms'. So below we need to change the value back. Note this is just for the 
 				// listing URL. The Add New and other tabs are not effected. 
-				if ( $current_screen->id == 'edit-sfwd-courses' )
+				if ( 'edit-sfwd-courses' == $current_screen->id ) {
 					$current_screen_parent_file = 'edit.php?post_type=sfwd-courses';
+				}
 
-				if ( $current_screen->id == 'edit-sfwd-lessons' )
+				if ( 'edit-sfwd-lessons' == $current_screen->id ) {
 					$current_screen_parent_file = 'edit.php?post_type=sfwd-lessons';
+				}
 
-				if ( $current_screen->id == 'edit-sfwd-topic' )
+				if ( 'edit-sfwd-topic' == $current_screen->id ) {
 					$current_screen_parent_file = 'edit.php?post_type=sfwd-topic';
+				}
 
-				if ( $current_screen->id == 'edit-sfwd-quiz' )
+				if ( 'edit-sfwd-quiz' == $current_screen->id ) {
 					$current_screen_parent_file = 'edit.php?post_type=sfwd-quiz';
+				}
 
-				if ( $current_screen->id == 'edit-sfwd-certificates' )
+				if ( 'edit-sfwd-question' == $current_screen->id ) {
+					$current_screen_parent_file = 'edit.php?post_type=sfwd-question';
+				}
+
+				if ( 'edit-sfwd-certificates' == $current_screen->id ) {
 					$current_screen_parent_file = 'edit.php?post_type=sfwd-certificates';
+				}
 
-				if ( $current_screen->id == 'edit-groups' )
+				if ( 'edit-groups' == $current_screen->id ) {
 					$current_screen_parent_file = 'edit.php?post_type=groups';
-
+				}
 
 			}
 
@@ -439,7 +504,8 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 				} else if ( !empty( $post_id ) ) {
 					$current_page_id = $current_page_id .'_edit';
 				}
-			
+
+				/*
 				$this->add_admin_tab_item(
 					'edit.php?post_type=sfwd-quiz',
 					array(
@@ -448,8 +514,9 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 						'id'			=> 	'sfwd-quiz_page_ldAdvQuiz_globalSettings',
 						'cap'			=> 	'wpProQuiz_change_settings',
 					),
-					$this->admin_tab_priorities['high']
+					$this->admin_tab_priorities['normal']
 				);
+				*/
 				$this->add_admin_tab_item(
 					'edit.php?post_type=sfwd-quiz',
 					array(
@@ -458,7 +525,7 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 						'id'				=> 	'edit-sfwd-essays',
 						'parent_menu_link'	=> 	'edit.php?post_type=sfwd-quiz',
 					),
-					$this->admin_tab_priorities['high']
+					$this->admin_tab_priorities['normal']
 				);
 				$this->add_admin_tab_item(
 					'edit.php?post_type=sfwd-quiz',
@@ -468,13 +535,16 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 						'id'			=> 	'sfwd-quiz_page_ldAdvQuiz',
 						'cap'			=> 	'wpProQuiz_export',
 					),
-					$this->admin_tab_priorities['high']
+					$this->admin_tab_priorities['normal']
 				);
 			}
-			
+
 			// Somewhat of a kludge. The essays are shown within the quiz post type menu section. So we can't just use
-			// the default logic. But we can (below) copy the quiz tab items to a new tab set for essays. 
+			// the default logic. But we can (below) copy the quiz tab items to a new tab set for essays.
 			if ( $current_screen_parent_file == 'edit.php?post_type=sfwd-essays' ) {
+				if ( $current_screen_parent_file != 'admin.php?page=learndash_lms_settings' ) {	
+					do_action('learndash_admin_tabs_set', $current_screen_parent_file, $this );
+				}
 
 				$post_id = ! empty( $_GET['post_id'] ) ? $_GET['post_id'] : ( empty( $_GET['post'] ) ? 0 : $_GET['post'] );
 				if ( !empty( $post_id ) ) {
@@ -482,63 +552,90 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 				}
 
 				$this->admin_tab_sets['edit.php?post_type=sfwd-essays'] = array();
-				
-				foreach( $this->admin_tab_sets['edit.php?post_type=sfwd-quiz'] as $menu_key => $menu_item ) {
+
+				foreach ( $this->admin_tab_sets['edit.php?post_type=sfwd-quiz'] as $menu_key => $menu_item ) {
 					$this->admin_tab_sets['edit.php?post_type=sfwd-essays'][$menu_key] = $menu_item;
 				}
-			} 
-			
-			if ( $current_screen_parent_file == 'edit.php?post_type=sfwd-quiz' ) {	
-			
+			}
+
+			if ( $current_screen_parent_file == 'edit.php?post_type=sfwd-quiz' ) {
+
 				if ( empty( $post_id ) && ! empty( $_GET['quiz_id'] ) && $current_page_id == 'admin_page_ldAdvQuiz' ) {
 					$post_id = learndash_get_quiz_id_by_pro_quiz_id( $_GET['quiz_id'] );
 				}
-			
+
 				if ( ! empty( $post_id ) ) {
 					$quiz_id = learndash_get_setting( $post_id, 'quiz_pro', true );
 					if ( ! empty( $quiz_id ) ) {
-			
+
 						$this->add_admin_tab_item(
 							$current_screen->parent_file,
 							array(
 								'link'			=> 	'post.php?post='. $post_id .'&action=edit',
 								'name'			=> 	sprintf( esc_html_x( 'Edit %s', 'Edit Quiz Label', 'learndash' ), LearnDash_Custom_Label::get_label( 'quiz' ) ),
 								'id'			=> 	'sfwd-quiz_edit',
-							)
+							),
+							$this->admin_tab_priorities['misc']
 						);
-						
+
+						if ( ( true === is_data_upgrade_quiz_questions_updated() ) && ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Quizzes_Builder', 'enabled' ) === 'yes' ) ) {
+							$question_tab_url = add_query_arg(
+								array(
+									'post_type' => learndash_get_post_type_slug( 'question' ),
+									'quiz_id' => $post_id
+								), 
+								'edit.php'
+							);
+						} else {
+							$question_tab_url = add_query_arg(
+								array(
+									'page' => 'ldAdvQuiz',
+									'module' => 'question',
+									'quiz_id' => $quiz_id,
+									'post_id' => $post_id,
+								),
+								'admin.php'
+							);
+						}
 						$this->add_admin_tab_item(
 							$current_screen->parent_file,
 							array(
-								'link'			=> 	'admin.php?page=ldAdvQuiz&module=question&quiz_id='. $quiz_id .'&post_id='. $post_id,
-								'name'			=>  esc_html_x( 'Questions', 'Quiz Questions Tab Label', 'learndash' ),
-								'id'			=> 	'sfwd-quiz_page_ldAdvQuiz_question',
-							)
+								'link' => $question_tab_url,
+								'name' => sprintf(
+									// translators: placeholder: Questions.
+									esc_html_x( '%s', 'Quiz Questions Tab Label', 'learndash' ),
+									LearnDash_Custom_Label::get_label( 'questions' )
+								),
+								'id'   => 'sfwd-quiz_page_ldAdvQuiz_question',
+							),
+							$this->admin_tab_priorities['misc']
 						);
-						
+
 						$this->add_admin_tab_item(
 							$current_screen->parent_file,
 							array(
 								'link'			=> 	'admin.php?page=ldAdvQuiz&module=statistics&id='. $quiz_id .'&post_id='. $post_id,
 								'name'			=>  esc_html_x( 'Statistics', 'Quiz Statistics Tab Label', 'learndash' ),
 								'id'			=> 	'sfwd-quiz_page_ldAdvQuiz_statistics',
-							)
+							),
+							$this->admin_tab_priorities['misc']
 						);
-						
+
 						$this->add_admin_tab_item(
 							$current_screen->parent_file,
 							array(
 								'link'			=> 	'admin.php?page=ldAdvQuiz&module=toplist&id='. $quiz_id .'&post_id='. $post_id,
 								'name'			=>  esc_html_x( 'Leaderboard', 'Quiz Leaderboard Tab Label', 'learndash' ),
 								'id'			=> 	'sfwd-quiz_page_ldAdvQuiz_toplist',
-							)
+							),
+							$this->admin_tab_priorities['misc']
 						);
 					}
 				}
 			}
-			
+
 			if ( ( $current_screen_parent_file == 'admin.php?page=learndash-lms-reports' ) || ( $current_screen_parent_file == 'edit.php?post_type=sfwd-transactions' ) ) {	
-						
+
 				$this->add_admin_tab_item(
 					$current_screen_parent_file,
 					array(
@@ -547,7 +644,7 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 						'cap'			=> 	LEARNDASH_ADMIN_CAPABILITY_CHECK, 
 					),
 					$this->admin_tab_priorities['high']
-					);
+				);
 
 				$this->add_admin_tab_item(
 					$current_screen_parent_file,
@@ -559,7 +656,7 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 					),
 					$this->admin_tab_priorities['high']
 				);
-				
+
 				if ( $current_screen_parent_file == 'edit.php?post_type=sfwd-transactions' ) {	
 					$post_id = ! empty( $_GET['post_id'] ) ? $_GET['post_id'] : ( empty( $_GET['post'] ) ? 0 : $_GET['post'] );
 					if ( !empty( $post_id ) )
@@ -617,7 +714,7 @@ if ( !class_exists( 'Learndash_Admin_Menus_Tabs' ) ) {
 				}
 			}
 
-			if ( $current_screen_parent_file != 'admin.php?page=learndash_lms_settings' ) {	
+			if ( ( $current_screen_parent_file != 'edit.php?post_type=sfwd-essays' ) && ( $current_screen_parent_file != 'admin.php?page=learndash_lms_settings' ) ) {	
 				do_action('learndash_admin_tabs_set', $current_screen_parent_file, $this );
 			}
 

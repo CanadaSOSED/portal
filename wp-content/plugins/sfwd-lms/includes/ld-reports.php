@@ -899,7 +899,7 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 	  && ( ( !empty( $query_args['post_ids'] ) ) || ( !empty( $query_args['user_ids'] ) ) ) ) {
 
 		$sql_str_joins 	= " INNER JOIN ". $wpdb->posts ." as posts ";
-		$sql_str_joins  .= " LEFT JOIN ". $wpdb->prefix ."learndash_user_activity as ld_user_activity ON users.ID=ld_user_activity.user_id AND posts.ID=ld_user_activity.post_id ";	
+		$sql_str_joins  .= " LEFT JOIN " . LDLMS_DB::get_table_name( 'user_activity' ) . " as ld_user_activity ON users.ID=ld_user_activity.user_id AND posts.ID=ld_user_activity.post_id ";	
 		
 //		if ( $ACTIVITY_STATUS_HAS_NULL === true ) {
 //			// AND ( ld_user_activity.activity_status IN (0,1)  OR ld_user_activity.activity_status IS NULL )  
@@ -916,13 +916,10 @@ function learndash_reports_get_activity( $query_args = array(), $current_user_id
 //		}
 		
 	} else {
-		$sql_str_joins  = " LEFT JOIN ". $wpdb->prefix ."learndash_user_activity as ld_user_activity ON users.ID=ld_user_activity.user_id ";	
+		$sql_str_joins  = " LEFT JOIN " . LDLMS_DB::get_table_name( 'user_activity' ) . " as ld_user_activity ON users.ID=ld_user_activity.user_id ";	
 		$sql_str_joins  .= " LEFT JOIN ". $wpdb->posts ." as posts ON posts.ID=ld_user_activity.post_id ";	
 	}
-	
-//	$sql_str_joins  .= " LEFT JOIN ". $wpdb->prefix ."learndash_user_activity_meta as ld_user_activity_meta_steps_total ON ld_user_activity_meta_steps_total.activity_id=ld_user_activity.activity_id AND ld_user_activity_meta_steps_total.activity_meta_key='steps_total' \r\n";
-//	$sql_str_joins  .= " LEFT JOIN ". $wpdb->prefix ."learndash_user_activity_meta as ld_user_activity_meta_steps_completed ON ld_user_activity_meta_steps_completed.activity_id=ld_user_activity.activity_id AND ld_user_activity_meta_steps_completed.activity_meta_key='steps_completed' \r\n";
-		
+			
 	$sql_str_where  = " WHERE 1=1 ";
 	
 	if ( !empty( $query_args['user_ids'] ) ) {
@@ -1233,11 +1230,11 @@ function learndash_report_clear_by_activity_ids( $activity_ids = array() ) {
 	global $wpdb;
 
 	if ( !empty( $activity_ids ) ) {
-		$sql_str = "DELETE FROM ". $wpdb->prefix ."learndash_user_activity_meta WHERE activity_id IN (". implode(',', $activity_ids) .") ";
+		$sql_str = "DELETE FROM " . LDLMS_DB::get_table_name( 'user_activity_meta' ) . " WHERE activity_id IN (". implode(',', $activity_ids) .") ";
 		//error_log('sql_str['. $sql_str .']');
 		$wpdb->query( $sql_str );
 		
-		$sql_str = "DELETE FROM ". $wpdb->prefix ."learndash_user_activity WHERE activity_id IN (". implode(',', $activity_ids) .") ";
+		$sql_str = "DELETE FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE activity_id IN (". implode(',', $activity_ids) .") ";
 		//error_log('sql_str['. $sql_str .']');
 		$wpdb->query( $sql_str );
 	}
@@ -1257,7 +1254,7 @@ function learndash_activity_clear_mismatched_users() {
 	global $wpdb;
 	
 	$sql_str = "SELECT DISTINCT lua.user_id 
-	FROM {$wpdb->prefix}learndash_user_activity as lua
+	FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " as lua
 	LEFT JOIN {$wpdb->usermeta} as um1 ON lua.user_id = um1.user_id AND um1.meta_key = '{$wpdb->prefix}capabilities'
 	LEFT JOIN {$wpdb->users} as users ON lua.user_id = users.ID
 	WHERE 1=1
@@ -1282,9 +1279,8 @@ function learndash_activity_clear_mismatched_users() {
 function learndash_activity_clear_mismatched_posts() {
 	global $wpdb;
 	
-	$sql_str = "SELECT DISTINCT ". $wpdb->prefix ."learndash_user_activity.post_id 
-	FROM ". $wpdb->prefix ."learndash_user_activity 
-	LEFT JOIN ". $wpdb->posts ." ON ". $wpdb->prefix ."learndash_user_activity.post_id=". $wpdb->posts .".ID
+	$sql_str = "SELECT DISTINCT " . LDLMS_DB::get_table_name( 'user_activity' ) . ".post_id 
+	FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " LEFT JOIN ". $wpdb->posts . " ON " . LDLMS_DB::get_table_name( 'user_activity' ) . ".post_id=" . $wpdb->posts .".ID
 	WHERE ". $wpdb->posts .".ID is NULL";
 	//error_log('sql_str['. $sql_str .']');
 	
@@ -1310,7 +1306,7 @@ function learndash_report_get_activity_by_user_id( $user_id = 0, $activity_types
 	
 	if ( empty( $user_id ) ) return;
 
-	$sql_str = "SELECT activity_id FROM ". $wpdb->prefix ."learndash_user_activity WHERE user_id=". intval( $user_id );
+	$sql_str = "SELECT activity_id FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE user_id=". intval( $user_id );
 
 	if ( !empty( $activity_types ) ) {
 		if ( !is_array( $activity_types ) ) {
@@ -1340,7 +1336,7 @@ function learndash_report_get_activity_by_post_id( $post_id = 0, $activity_types
 	
 	if ( empty( $post_id ) ) return;
 
-	$sql_str = "SELECT activity_id FROM ". $wpdb->prefix ."learndash_user_activity WHERE post_id=". intval( $post_id );
+	$sql_str = "SELECT activity_id FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE post_id=". intval( $post_id );
 
 	if ( !empty( $activity_types ) ) {
 		if ( !is_array( $activity_types ) ) {
@@ -1465,7 +1461,7 @@ function learndash_get_user_quiz_attempts( $user_id = 0, $quiz_id = 0) {
 	global $wpdb;
 	
 	if ( ( !empty( $user_id ) ) || ( !empty( $quiz_id ) ) ) {
-		$sql_str = $wpdb->prepare( "SELECT activity_id, activity_started, activity_completed FROM ". $wpdb->prefix .'learndash_user_activity WHERE user_id=%d AND post_id=%d and activity_type=%s ORDER BY activity_id, activity_started ASC', $user_id, $quiz_id, 'quiz' );
+		$sql_str = $wpdb->prepare( "SELECT activity_id, activity_started, activity_completed FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE user_id=%d AND post_id=%d and activity_type=%s ORDER BY activity_id, activity_started ASC", $user_id, $quiz_id, 'quiz' );
 		//error_log('sql_str['. $sql_str .']');
 		return $wpdb->get_results( $sql_str );
 	}
@@ -1524,7 +1520,7 @@ function learndash_get_user_course_attempts( $user_id = 0, $course_id = 0) {
 	global $wpdb;
 	
 	if ( ( !empty( $user_id ) ) || ( !empty( $course_id ) ) ) {
-		$sql_str = $wpdb->prepare( "SELECT activity_id, activity_started, activity_completed, activity_updated FROM ". $wpdb->prefix .'learndash_user_activity WHERE user_id=%d AND post_id=%d and activity_type=%s ORDER BY activity_id, activity_started ASC', $user_id, $course_id, 'course' );
+		$sql_str = $wpdb->prepare( "SELECT activity_id, activity_started, activity_completed, activity_updated FROM " . LDLMS_DB::get_table_name( 'user_activity' ) . " WHERE user_id=%d AND post_id=%d and activity_type=%s ORDER BY activity_id, activity_started ASC", $user_id, $course_id, 'course' );
 		//error_log('sql_str['. $sql_str .']');
 		return $wpdb->get_results( $sql_str );
 	}
@@ -1572,7 +1568,7 @@ function learndash_get_activity_meta_fields( $activity_id = 0, $activity_meta_ke
 	
 	if ( !empty( $activity_id ) ) {
 	
-		$sql_str = $wpdb->prepare("SELECT activity_meta_key, activity_meta_value FROM ". $wpdb->prefix ."learndash_user_activity_meta WHERE activity_id=%d", $activity_id);
+		$sql_str = $wpdb->prepare( "SELECT activity_meta_key, activity_meta_value FROM ". LDLMS_DB::get_table_name( 'user_activity_meta' ) . " WHERE activity_id=%d", $activity_id );
 		$activity_meta_raw = $wpdb->get_results( $sql_str );
 
 		// If we have some rows returned we want to restructure the meta to be proper key => value array pairs. 

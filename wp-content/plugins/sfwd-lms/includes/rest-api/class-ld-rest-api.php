@@ -1,15 +1,11 @@
 <?php
-if ( !defined( 'LEARNDASH_REST_API_ENABLED' ) ) {
-	define( 'LEARNDASH_REST_API_ENABLED', false );
-} 
-
 if ( !defined( 'LEARNDASH_REST_API_NAMESPACE' ) ) {
 	define( 'LEARNDASH_REST_API_NAMESPACE', 'ldlms' );
 } 
 
-//if ( !defined('LEARNDASH_REST_API_VERSION' ) ) {
-//	define( 'LEARNDASH_REST_API_VERSION', 'v1' );
-//} 
+define( 'LEARNDASH_REST_API_DIR', dirname( __FILE__) );
+
+require_once LEARNDASH_LMS_PLUGIN_DIR . 'includes/gutenberg/lib/class-ld-rest-gutenberg-posts-controller.php';
 
 if ( !class_exists( 'LearnDash_REST_API' ) ) {
 	class LearnDash_REST_API {
@@ -19,92 +15,95 @@ if ( !class_exists( 'LearnDash_REST_API' ) ) {
 		 */
 		private static $instance;
 
-		//private static $api_versions = array( 'v1' );
-		//private static $api_version_instances = array( );
-
 		private $controllers = array();
-		
+
 		function __construct() {
 			$this->controllers = array(
 				// v1 controllers.
-				'LD_REST_Posts_Courses_Controller' 			=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-posts-courses-controller.php',
-				'LD_REST_Posts_Lessons_Controller' 			=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-posts-lessons-controller.php',
-				'LD_REST_Posts_Topics_Controller'			=>	dirname( __FILE__ ) . '/v1/class-ld-rest-posts-topics-controller.php',
-				'LD_REST_Posts_Quizzes_Controller'			=>	dirname( __FILE__ ) . '/v1/class-ld-rest-posts-quizzes-controller.php',
+				'LD_REST_Courses_Controller_V1' 	=> 	array(
+																'register_routes' => false,
+																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-courses-controller.php',
+															),
+				'LD_REST_Lessons_Controller_V1' 	=> 	array(
+																'register_routes' => false,
+																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-lessons-controller.php',
+															),
+				'LD_REST_Topics_Controller_V1' 	=> 	array(
+																'register_routes' => false,
+																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-topics-controller.php',
+															),
+				'LD_REST_Quizzes_Controller_V1' 	=> 	array(
+																'register_routes' => false,
+																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-quizzes-controller.php',
+															),
+				'LD_REST_Groups_Controller_V1' 	=> 	array(
+																'register_routes' => false,
+																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-groups-controller.php',
+															),
+
+				'LD_REST_Users_Groups_Controller_V1' 	=> 	array(
+																'register_routes' => true,
+																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-users-groups-controller.php',
+															),
+				'LD_REST_Users_Courses_Controller_V1' 	=> 	array(
+																'register_routes' => true,
+																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-users-courses-controller.php',
+															),
+				//'LD_REST_Users_Course_Progress_Controller_V1' 	=> 	array(
+				//												'register_routes' => true,
+				//												'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-users-course-progress-controller.php',
+				//											),
+				//'LD_REST_Users_Quiz_Attempts_Controller_V1' 	=> 	array(
+				//												'register_routes' => true,
+				//												'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-users-quiz-attempts-controller.php',
+				//											),
+
+
+//				'LD_REST_Users_Controller_V1' 			=> 	array(
+//																'register_routes' => true,
+//																'file' => LEARNDASH_REST_API_DIR . '/v1/class-ld-rest-users-controller.php',
+//															),
+															
+				//'LD_REST_Terms_Course_Category_Controller_V1' 	=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-course-category-controller.php',
+				//'LD_REST_Terms_Course_Tag_Controller_V1' 		=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-course-tag-controller.php',
+				//'LD_REST_Terms_Lesson_Category_Controller_V1' 	=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-lesson-category-controller.php',
+				//'LD_REST_Terms_Lesson_Tag_Controller_V1' 		=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-lesson-tag-controller.php',
+				//'LD_REST_Terms_Topic_Category_Controller_V1' 	=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-topic-category-controller.php',
+				//'LD_REST_Terms_Topic_Tag_Controller_V1' 		=> 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-topic-tag-controller.php',
 			);
 
-			// These are needed because we are calling before the LD Settings init process has fired. 
-			// @todo figure out a better solution than calling the following twice. 
-//			do_action('learndash_settings_sections_fields_init');
-//			do_action('learndash_settings_sections_init');
-			
-			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Taxonomies', 'ld_course_category' ) == 'yes') {
-				$this->controllers['LD_REST_Terms_Course_Category_Controller'] 	= dirname( __FILE__ ) . '/v1/class-ld-rest-terms-course-category-controller.php';
-			}
-			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Courses_Taxonomies', 'ld_course_tag' ) == 'yes') {
-				$this->controllers['LD_REST_Terms_Course_Tag_Controller']		= dirname( __FILE__ ) . '/v1/class-ld-rest-terms-course-tag-controller.php';
-			}
-			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Lessons_Taxonomies', 'ld_lesson_category' ) == 'yes') {
-				$this->controllers['LD_REST_Terms_Lesson_Category_Controller']	= dirname( __FILE__ ) . '/v1/class-ld-rest-terms-lesson-category-controller.php';
-			}
-			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Lessons_Taxonomies', 'ld_lesson_tag' ) == 'yes') {
-				$this->controllers['LD_REST_Terms_Lesson_Tag_Controller']		= dirname( __FILE__ ) . '/v1/class-ld-rest-terms-lesson-tag-controller.php';
-			}
-			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Topics_Taxonomies', 'ld_topic_category' ) == 'yes') {
-				$this->controllers['LD_REST_Terms_Topic_Category_Controller']	= 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-topic-category-controller.php';
-			}
-			if ( LearnDash_Settings_Section::get_section_setting('LearnDash_Settings_Topics_Taxonomies', 'ld_topic_tag' ) == 'yes' ) {
-				$this->controllers['LD_REST_Terms_Topic_Tag_Controller']	= 	dirname( __FILE__ ) . '/v1/class-ld-rest-terms-topic-tag-controller.php';
-			}
-						
+			//add_filter( 'learndash_post_args', array( $this, 'filter_post_args' ), 1 );
 			add_action( 'rest_api_init', array( $this, 'rest_api_init' ), 10 );
-			
-			add_filter( 'learndash_post_args', array( $this, 'filter_post_args' ), 1 );
 		}			
-		
-		function rest_api_init() {
 
-			if ( ( defined( 'LEARNDASH_REST_API_ENABLED' ) ) && ( LEARNDASH_REST_API_ENABLED === true ) ) {
+		/**
+		 * Init function to all the LearnDash REST API namespace and endpoints.
+		 */
+		public function rest_api_init() {
 
-				$this->controllers = apply_filters('learndash-rest-api-controllers', $this->controllers );
-				if ( !empty( $this->controllers ) ) {
+			if ( self::enabled() ) {
 
+				$this->controllers = apply_filters( 'learndash-rest-api-controllers', $this->controllers );
+				if ( ! empty( $this->controllers ) ) {
 					include_once( dirname( __FILE__ ) . '/v1/class-ld-rest-posts-controller.php' );
-					include_once( dirname( __FILE__ ) . '/v1/class-ld-rest-terms-controller.php' );
-				
-					foreach ( $this->controllers as $controller => $file ) {
-					
-						if ( file_exists( $file ) ) {
-							include_once( $file );
-					
-							$this->$controller = new $controller();
-							$this->$controller->register_routes();
-						}
-					}
-				}
-			}
-		}
+					include_once( dirname( __FILE__ ) . '/v1/class-ld-rest-users-controller.php' );
 
-		function filter_post_args( $post_args = array() ) {
-			if ( ( !defined( 'LEARNDASH_REST_API_ENABLED' ) ) || ( LEARNDASH_REST_API_ENABLED !== true ) ) {
-			
-				if ( !empty( $post_args ) ) {
-					foreach( $post_args as $post_args_key => $post_args_set ) {
-						if ( ( isset( $post_args_set['fields'] ) ) && ( !empty( $post_args_set['fields'] ) ) ) {
-							foreach( $post_args_set['fields'] as $fields_key => $field_args ) {
-								if ( isset( $field_args['show_in_rest'] ) )
-									unset( $post_args[$post_args_key]['fields'][$fields_key]['show_in_rest'] );
-								if ( isset( $field_args['rest_args'] ) )
-									unset( $post_args[$post_args_key]['fields'][$fields_key]['rest_args'] );
+					//include_once( dirname( __FILE__ ) . '/v1/class-ld-rest-terms-controller.php' );
+
+					foreach ( $this->controllers as $controller_class => $set ) {
+
+						if ( ( isset( $set['file'] ) ) && ( ! empty( $set['file'] ) ) && ( file_exists( $set['file'] ) ) ) {
+							include_once( $set['file'] );
+
+							if ( ( isset( $set['register_routes'] ) ) && ( $set['register_routes'] === true ) ) {
+								$this->$controller_class = new $controller_class();
+								$this->$controller_class->register_routes();
 							}
 						}
 					}
 				}
-			}			
-			
-			return $post_args;
+			}
 		}
-
 
 		/**
 		 * Returns the *Singleton* instance of this class.
@@ -120,16 +119,87 @@ if ( !class_exists( 'LearnDash_REST_API' ) ) {
 		}
 
 		/**
-		  * Override class function for 'this'.
-		  *
-		  * This function handles out Singleton logic in 
-		  * @return reference to current instance
-		  */
+		* Override class function for 'this'.
+		* This function handles out Singleton logic. 
+		* @return reference to current instance
+		*/
 		static function this() {
 			return self::$instance;
 		}
+
+		static function enabled(  $post_type = ''  ) {
+			$return = false;
+
+			if ( ( defined( 'LEARNDASH_REST_API_ENABLED' ) ) && ( true === LEARNDASH_REST_API_ENABLED ) ) {
+				if ( LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Section_General_REST_API', 'enabled' ) === 'yes' ) {
+					$return = true;
+				}
+			}
+
+			return apply_filters('learndash_rest_api_enabled', $return, $post_type );
+		}
+
+		static function gutenberg_enabled(  $post_type = ''  ) {
+			$return = false;
+
+			if ( ( defined( 'LEARNDASH_GUTENBERG' ) ) && ( LEARNDASH_GUTENBERG === true ) ) {
+				$return = true;
+			}
+
+			return apply_filters('learndash_gutenberg_enabled', $return, $post_type );
+		}
+
+		static function get_controller( $post_type = '' ) {
+			$rest_controller = '';
+
+			if ( ! empty( $post_type ) ) {
+				switch( $post_type ) {
+					case 'sfwd-courses':
+						if ( self::enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Courses_Controller_V1';
+						} else if ( self::gutenberg_enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
+						}
+						break;
+
+					case 'sfwd-lessons':
+						if ( self::enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Lessons_Controller_V1';
+						} else if ( self::gutenberg_enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
+						}
+						break;
+
+					case 'sfwd-topic':
+						if ( self::enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Topics_Controller_V1';
+						} else if ( self::gutenberg_enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
+						}
+						break;
+
+					case 'sfwd-quiz':
+						if ( self::enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Quizzes_Controller_V1';
+						} else if ( self::gutenberg_enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
+						}
+						break;
+
+					case 'groups':
+						if ( self::enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Groups_Controller_V1';
+						} else if ( self::gutenberg_enabled( $post_type ) ) {
+							$rest_controller = 'LD_REST_Posts_Gutenberg_Controller';
+						}
+						break;
+					
+					default:
+						break;
+				}
+			}
+			return $rest_controller;
+		}
 	}
 }
-add_action( 'learndash_settings_sections_init', function() {
-	LearnDash_REST_API::get_instance();
-}, 99 );
+LearnDash_REST_API::get_instance();

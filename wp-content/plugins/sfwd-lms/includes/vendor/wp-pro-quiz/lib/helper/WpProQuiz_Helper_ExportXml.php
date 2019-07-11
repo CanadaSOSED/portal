@@ -1,25 +1,28 @@
 <?php
 class WpProQuiz_Helper_ExportXml {
-	
-	public function export($ids) {
-		
-		$dom = new DOMDocument('1.0', 'utf-8');
-		
-		$root = $dom->createElement('wpProQuiz');
-		
-		$dom->appendChild($root);
-		
-		$header = $dom->createElement('header');
-		$header->setAttribute('version', WPPROQUIZ_VERSION);
-		$header->setAttribute('exportVersion', 1);
-		
-		$root->appendChild($header);
-		$data = $dom->createElement('data');
-		
-		$quizMapper = new WpProQuiz_Model_QuizMapper();
-		$questionMapper = new WpProQuiz_Model_QuestionMapper();
-		$formMapper = new WpProQuiz_Model_FormMapper();
 
+	public function export( $ids ) {
+
+		$dom = new DOMDocument( '1.0', 'utf-8' );
+
+		$root = $dom->createElement( 'wpProQuiz' );
+
+		$dom->appendChild( $root );
+
+		$header = $dom->createElement( 'header' );
+		$header->setAttribute( 'version', WPPROQUIZ_VERSION );
+		$header->setAttribute( 'exportVersion', 1 );
+		$header->setAttribute( 'ld_version', LEARNDASH_VERSION );
+		$header->setAttribute( 'LEARNDASH_SETTINGS_DB_VERSION', LEARNDASH_SETTINGS_DB_VERSION );
+
+		$root->appendChild( $header );
+		$data = $dom->createElement( 'data' );
+
+		$quizMapper     = new WpProQuiz_Model_QuizMapper();
+		$questionMapper = new WpProQuiz_Model_QuestionMapper();
+		$formMapper     = new WpProQuiz_Model_FormMapper();
+
+		/*
 		foreach($ids as $id) {
 			$quizModel = $quizMapper->fetch($id);
 			
@@ -43,18 +46,49 @@ class WpProQuiz_Helper_ExportXml {
 			
 			$data->appendChild($quizElement);
 		}
-		
-		$root->appendChild($data);
-		
+		*/
+
+		foreach ( $ids as $quiz_post_id ) {
+			$quiz_post_id = absint( $quiz_post_id );
+			if ( ! empty( $quiz_post_id ) ) {
+				$quiz_pro_id = learndash_get_setting( $quiz_post_id, 'quiz_pro' );
+				if ( ! empty( $quiz_pro_id ) ) {
+					$quizModel = $quizMapper->fetch( $quiz_pro_id );
+					if ( ( $quizModel ) && ( is_a( $quizModel, 'WpProQuiz_Model_Quiz' ) ) && ( $quizModel->getId() > 0 ) ) {				$quizModel->setPostId( $quiz_post_id );
+						$questionModel = $questionMapper->fetchAll( $quizModel );
+
+						$forms = array();
+						if ( $quizModel->isFormActivated() ) {
+							$forms = $formMapper->fetch( $quizModel->getId() );
+						}
+
+						$quizElement = $this->getQuizElement( $dom, $quizModel, $forms );
+
+						$quizElement->appendChild( $questionsElement = $dom->createElement( 'questions' ) );
+
+						foreach( $questionModel as $model ) {
+							$questionElement = $this->createQuestionElement( $dom, $model );
+							$questionsElement->appendChild( $questionElement );
+						}
+
+						$data->appendChild( $quizElement );
+					}
+
+					$root->appendChild( $data );
+				}
+			}
+		}
+
 		return $dom->saveXML();
 	}
-	
+
 	/**
 	 * @param DOMDocument $dom
 	 * @param WpProQuiz_Model_Quiz $quiz
 	 */
 	private function getQuizElement($dom, $quiz, $forms) {
 		$quizElement = $dom->createElement('quiz');
+		//$quizElement->setAttribute( 'id', $quiz->getId());
 		
 		$title = $dom->createElement('title');
 		$title->appendChild($dom->createCDATASection($quiz->getName()));
@@ -227,6 +261,11 @@ class WpProQuiz_Helper_ExportXml {
 				$answerElement->setAttribute('points', $answer->getPoints());
 				$answerElement->setAttribute('correct', $this->booleanToTrueOrFalse($answer->isCorrect()));
 				
+				if ( 'essay' === $question->getAnswerType() ) {
+					$answerElement->setAttribute('gradingProgression', $answer->getGradingProgression());
+					$answerElement->setAttribute('gradedType', $answer->getGradedType());
+				}
+
 				$answerText = $dom->createElement('answerText');
 				$answerText->setAttribute('html', $this->booleanToTrueOrFalse($answer->isHtml()));
 				$answerText->appendChild($dom->createCDATASection($answer->getAnswer()));

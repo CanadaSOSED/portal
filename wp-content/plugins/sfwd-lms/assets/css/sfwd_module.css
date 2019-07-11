@@ -196,11 +196,13 @@
 	background-color: #EEE;
 	margin: 5px 0 5px 0 !important;
 }
+/*
 .sfwd input[type="button"] {
 	border-radius: 5px;
 	padding: 10px;
 	font-size: 15px;
 }
+*/
 .sfwd_settings_left {
 	float: left;
 	padding: 0px;

@@ -310,7 +310,8 @@ function sos_dashboard_twitter_widget_function( $post, $callback_args ) {
 // Chapter Resources - Admin and president
 //////////////////////////////////////////////////////////////////////
 function sos_dashboard_chapter_resources_widget_function( $post, $callback_args ) {
-  echo "<p>Here is a link to the general Chapter Resources folder. In it, you will see HQ'd folder (filled with resources per department and general SOS policies) and Chapter folders. Please save all SOS related materials in your Chapter's folder - and feel free to peruse the other Chapter folders to see what your SOS family members are up to!</p>";
+//  echo "<p>Here is a link to the general Chapter Resources folder. In it, you will see HQ'd folder (filled with resources per department and general SOS policies) and Chapter folders. Please save all SOS related materials in your Chapter's folder - and feel free to peruse the other Chapter folders to see what your SOS family members are up to!</p>";
+  echo "<p>Here is a link to CHAPTER RESOURCES, a folder curated by SOS HQ and filled with resources for each department. Click for Exam Aid Templates, Outreach Trip Pictures,  SOS Policies and much much more!</p>";
   echo '<p><hr/></p>';
   echo "<p><a class='button button-primary button-large' target='_blank' rel='noopener noreferrer' href='https://drive.google.com/open?id=0B-cl0XfKOoxHM0xvendZY096eG8 '>Access Resources</a></p>";
 }
@@ -424,15 +425,18 @@ else {
 //all of them
 add_meta_box('sos_dashboard_training', 'Training Resources','sos_dashboard_training_widget_function', 'dashboard', 'normal');
 add_meta_box('sos_dashboard_help', 'Portal Knowledge Base ', 'sos_dashboard_knowledgebase_widget_function','dashboard', 'normal');
+add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'normal'); //For all roles after laura's request - 2019-04-19
 add_meta_box('sos_dashboard_finance', 'Chapter Finance Forms ', 'sos_dashboard_finance_widget_function','dashboard', 'normal');
 add_meta_box('sos_dashboard_princeton', 'Princeton Review Discount ', 'sos_dashboard_princeton_widget_function','dashboard', 'normal');
 
-//roles per resource
-if ( in_array('administrator', $user_roles, true) ||
-     in_array('president', $user_roles, true) ) {
-  add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
-}
 
+//roles per resource
+
+//For all roles after laura's request - 2019-04-19
+//if ( in_array('administrator', $user_roles, true) ||
+//     in_array('president', $user_roles, true) ) {
+//  add_meta_box('sos_dashboard_chapresources', 'Chapter Resources', 'sos_dashboard_chapter_resources_widget_function', 'dashboard', 'side');
+//}
 if ( in_array('administrator', $user_roles, true) ||
      in_array('ambassador', $user_roles, true) ) {
      add_meta_box('sos_dashboard_ambassador', 'Brand Ambassador', 'sos_dashboard_amb_resources_widget_function','dashboard', 'side');
@@ -486,13 +490,14 @@ if ( in_array('administrator', $user_roles, true) ||
      add_meta_box('sos_dashboard_application_responses', 'Application Responses' , 'sos_dashboard_application_responses_widget_function' , 'dashboard' , 'side');
 }
 
-if ( in_array('administrator', $user_roles, true) ||
-     in_array('president', $user_roles, true) ||
-     in_array('hr', $user_roles, true) ||
-     in_array('eai', $user_roles, true) ||
-     in_array('ed', $user_roles, true) ) {
-     add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
-}
+//disable after Laura's request in 2019-04-19
+//if ( in_array('administrator', $user_roles, true) ||
+//     in_array('president', $user_roles, true) ||
+//     in_array('hr', $user_roles, true) ||
+//     in_array('eai', $user_roles, true) ||
+//     in_array('ed', $user_roles, true) ) {
+//     add_meta_box('sos_dashboard_eaiform', 'Instructor Profile Form', 'sos_dashboard_eai_form_widget_function', 'dashboard', 'side');
+//}
 
 if ( in_array('administrator', $user_roles, true) ||
      in_array('ed', $user_roles, true) ||
@@ -2650,7 +2655,7 @@ function my_trips_content() {
         $active = get_active_blog_for_user( get_current_user_id() );
         if ( $active ) {
           $mytrip_path = $active->siteurl . '/my-account/my-trips';
-          echo ('<div style="text-align:right;"> <input class="GoBackButton" type="button" value="< Back to My trip" onclick="window.location.href=\'' . $mytrip_path .'\'" /></div>');
+          echo ('<div style="text-align:right;"> <input class="GoBackButton" type="button" value="< Back to My Trip" onclick="window.location.href=\'' . $mytrip_path .'\'" /></div>');
         }
 //     }
 
