@@ -52,7 +52,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 			</div><!--col end -->
 			<div class="col-lg-4 col-sm-6">
 				<nav class="navbar">
-					<div class="nav-item" style="margin-left: 12rem;"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
+					<div class="nav-item" id="footerPrivacy"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
 				</nav>
 			</div><!--col end -->
 		</div><!-- row end -->
