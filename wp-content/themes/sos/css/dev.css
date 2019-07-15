@@ -278,6 +278,28 @@ div#examAids {
   margin-bottom: 10px;
 }
 
+@media screen and (min-width: 320px) and (max-width: 600px){
+  #partners img {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+@media screen and (min-width:320px) and (max-width: 767px){
+  select#chapters-list {
+    margin-left: 5rem;
+    width: 300px;
+}
+
+  #examAids p {
+    padding: 1.5em;
+  }
+
+  #outreachTrips p {
+    padding: 1.5em;
+  }
+}
+
 @media screen and (min-width: 768px){
   #examAids p {
     padding: 2em;
@@ -888,7 +910,23 @@ div.mainNav .social-icons ul {
   color: #d1d1d1;
 }
 
+div#footerPrivacy {
+  margin-left: 9rem;
+}
+
 .socialFooter ul li{
   display: inline-block;
   margin-right: 5px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 767px){
+
+  #copyright-wrapper p {
+    margin-left: 1em;
+  }
+
+  div#footerPrivacy {
+    margin-left: 1rem;
+  }
+
 }
