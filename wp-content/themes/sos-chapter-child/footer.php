@@ -21,7 +21,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 				<ul>
 					<li><a style="color:inherit;" href="https://faq.soscampus.com/contact-us/"><strong>Email Us</strong></a></li>
 					<li>(289)-210-1855</li>
-          <!--ismara - 2018-12-26 - improving FAQ/KB/HQ sites -->
+					<!--ismara - 2018-12-26 - improving FAQ/KB/HQ sites -->
 					<li>Monitored 9-5pm EST M-F</li>
 					<!--<li><a style="color:inherit;" href="mailto:info@studentsofferingsupport.ca">info@studentsofferingsupport.ca</a></li>-->
 					<li>720 Bathurst Street - Suite 410,<br>Toronto, Ontario M5S 2R4</li>
@@ -52,7 +52,7 @@ $container = get_theme_mod( 'understrap_container_type' );
 			</div><!--col end -->
 			<div class="col-lg-4 col-sm-6">
 				<nav class="navbar">
-					<div class="nav-item" style="margin-left: 12rem;"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
+					<div class="nav-item" id="footerPrivacy"><a class="nav-link" href="<?php echo network_site_url(); ?>/privacy-policy">Privacy Policy</a></div>
 				</nav>
 			</div><!--col end -->
 		</div><!-- row end -->
