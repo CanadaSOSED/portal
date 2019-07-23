@@ -2825,6 +2825,8 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 								'name' => $u->display_name,
 								'email' => $u->user_email,
 								//ismara 2019/06/26 - Custom field for User - Chapter information - it will be dinamically created based on the blogs
+								'first_name' => $u->first_name,
+								'last_name' => $u->last_name,
 								'chapter_origin' => get_user_meta( $user_id, 'user_chapter', true ),
 								//ismara 2019/06/26 - end
 								'course_id' => $c,
@@ -3185,6 +3187,8 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 									'name' 			=>	$u->display_name,
 									'email' 		=>	$u->user_email,
 									//ismara 2019/06/26 - Custom field for User - Chapter information - it will be dinamically created based on the blogs
+									'first_name' => $u->first_name,
+									'last_name' => $u->last_name,
 									'chapter_origin' => get_user_meta( $user_id, 'user_chapter', true ),
 									//ismara 2019/06/26 - end
 									'quiz_id' 		=>	$v['quiz'],
@@ -3204,6 +3208,8 @@ if ( ! class_exists( 'SFWD_LMS' ) ) {
 								'name' => $u->display_name,
 								'email' => $u->user_email,
 								//ismara 2019/06/26 - Custom field for User - Chapter information - it will be dinamically created based on the blogs
+								'first_name' => $u->first_name,
+								'last_name' => $u->last_name,
 								'chapter_origin' => get_user_meta( $user_id, 'user_chapter', true ),
 								//ismara 2019/06/26 - end
 								'quiz_id' => esc_html__( 'No attempts',
