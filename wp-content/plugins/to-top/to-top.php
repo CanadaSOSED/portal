@@ -5,7 +5,7 @@
  * Description:       To Top plugin allows the visitor as well as admin to easily scroll back to the top of the page, with fully customizable options and ability to use image.
  * Author:            Catch Plugins
  * Author URI:        https://catchplugins.com/
- * Version:           1.6
+ * Version:           1.8.1
  * License:           GNU General Public License, version 3 (GPLv3)
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       to-top
@@ -35,6 +35,20 @@
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
+}
+
+// Define Version
+define( 'TOTOP_VERSION', '1.8.1' );
+
+// The URL of the directory that contains the plugin
+if ( !defined( 'TOTOP_URL' ) ) {
+	define( 'TOTOP_URL', plugin_dir_url( __FILE__ ) );
+}
+
+
+// The absolute path of the directory that contains the file
+if ( !defined( 'TOTOP_PATH' ) ) {
+	define( 'TOTOP_PATH', plugin_dir_path( __FILE__ ) );
 }
 
 /**
@@ -118,8 +132,6 @@ function to_top_default_options( $option = null ) {
 		'image_width'				=> '65',
 		'image_alt'					=> '',
 
-
-
 		//Advanced Settings
 		'location'					=> 'bottom-right',
 		'margin_x'					=> '20',
@@ -141,3 +153,9 @@ function to_top_default_options( $option = null ) {
 		return $default_options[ $option ];
 	}
 }
+
+/* Adds Catch Themes tab in Add theme page and Themes by Catch Themes in Customizer's change theme option. */
+require_once TOTOP_PATH . '/admin/inc/our-themes.php';
+
+/* Adds Catch Plugins tab in Add theme page.  */
+require_once TOTOP_PATH . '/admin/inc/our-plugins.php';

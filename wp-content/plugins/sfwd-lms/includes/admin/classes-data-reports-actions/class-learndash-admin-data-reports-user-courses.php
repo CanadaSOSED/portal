@@ -318,6 +318,16 @@ if ( !class_exists( 'Learndash_Admin_Data_Reports_Courses' ) ) {
 																		'display'	=>	array( $this, 'report_column' )
 																	);
 //ismara 2019/06/26 - Custom field for User - Chapter information - it will be dinamically created based on the blogs
+			$this->data_headers['first_name'] 				= 	array(
+														'label'		=>	esc_html__( 'first_name', 'learndash' ),
+														'default'	=>	'',
+														'display'	=>	array( $this, 'report_column' )
+															);
+			$this->data_headers['last_name'] 				= 	array(
+														'label'		=>	esc_html__( 'last_name', 'learndash' ),
+														'default'	=>	'',
+														'display'	=>	array( $this, 'report_column' )
+													);
 			$this->data_headers['chapter_origin']			=	array(
 																		'label'		=>	esc_html__( 'chapter_origin', 'learndash' ),
 																		'default'	=>	'',
@@ -438,6 +448,18 @@ if ( !class_exists( 'Learndash_Admin_Data_Reports_Courses' ) ) {
 					break;
 
 //ismara 2019/06/26 - Custom field for User - Chapter information - it will be dinamically created based on the blogs
+					case 'first_name':
+						if ( $report_user instanceof WP_User ) {
+							$column_value = $report_user->first_name;
+							$column_value = str_replace("’", "'", $column_value );
+						}
+						break;
+					case 'last_name':
+						if ( $report_user instanceof WP_User ) {
+							$column_value = $report_user->last_name;
+							$column_value = str_replace("’", "'", $column_value );
+						}
+						break;
 					case 'chapter_origin':
 						if ( $report_user instanceof WP_User ) {
 							$column_value = $report_user->user_chapter;

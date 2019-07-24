@@ -2,7 +2,7 @@
 Contributors: spwebguy
 Tags: tab, tabs, accordion, shortcode, content, responsive, responsive tab
 Requires at least: 3.6
-Tested up to: 4.9
+Tested up to: 5.2.2
 Stable tag: trunk
 License: GPL2
 License URI: http://www.gnu.org/licenses/gpl.html
@@ -10,17 +10,15 @@ License URI: http://www.gnu.org/licenses/gpl.html
 A responsive & clean way to display your content. Create new tabs in no-time (custom type) and copy-paste the shortcode into any post/page.
 
 == Description ==
-This plugin adds a “Tabs” section to the admin panel which allows you to create tabbed content for your website the easy way. You can quickly add your content to your different tabs, choose a color, a breakpoint, re-order them at anytime and display them anywhere with a simple shortcode. What you see is what you get, and it’s totally free.
+This plugin adds a “Tabs” section to the admin panel which allows you to create tabbed content for your website the easy way. You can quickly add your content to your different tabs, choose a color, re-order them at anytime and display them anywhere with a simple shortcode. What you see is what you get, and it’s totally free.
 
 = No limitation for the Free version =
 The free version of the Responsive Tabs plugin is **not limited**.
 
-The [PRO version](http://wpdarko.com/items/responsive-tabs-pro/) adds new features such as new styling settings and **icons** (from font-awesome).
+The [PRO version](https://wpdarko.com/items/responsive-tabs-pro/) adds new features such as new styling settings and **icons** (from font-awesome).
 
 = Fully translatable =
 * POT files included (/lang/)
-* French translation included
-* Spanish translation included
 
 = Available fields =
 * Title
@@ -34,7 +32,7 @@ The [PRO version](http://wpdarko.com/items/responsive-tabs-pro/) adds new featur
 Go to [the plugin's documentation](https://wpdarko.zendesk.com/hc/en-us/articles/206303537-Get-started-with-the-Responsive-Tabs-plugin) if you need more information on how to use this plugin.
 
 = Support =
-Find help in [our forums](http://wpdarko.com/support/) for this plugin (we’ll answer you fast, promise).
+Find help in [our forums](https://wpdarko.com/ask-for-support/) for this plugin (we’ll answer you fast, promise).
 
 == Installation ==
 
@@ -52,18 +50,16 @@ Go to [the plugin's documentation](https://wpdarko.zendesk.com/hc/en-us/articles
 = No limitation for the Free version =
 The free version of the Responsive Tabs plugin is **not limited**.
 
-The [PRO version](http://wpdarko.com/items/responsive-tabs-pro/) adds new features such as new styling settings and **icons** (from font-awesome).
+The [PRO version](https://wpdarko.com/items/responsive-tabs-pro/) adds new features such as new styling settings and **icons** (from font-awesome).
 
 = Fully translatable =
 * POT files included (/lang/)
-* French translation included
-* Spanish translation included
 
 = Usage =
 Go to [the plugin's documentation](https://wpdarko.zendesk.com/hc/en-us/articles/206303537-Get-started-with-the-Responsive-Tabs-plugin) if you need more information on how to use this plugin.
 
 = Support =
-Find help in [our forums](http://wpdarko.com/support/) for this plugin (we’ll answer you fast, promise).
+Find help in [our forums](https://wpdarko.com/ask-for-support/) for this plugin (we’ll answer you fast, promise).
 
 == Screenshots ==
 1. Displaying the tabs (front view)
@@ -72,6 +68,14 @@ Find help in [our forums](http://wpdarko.com/support/) for this plugin (we’ll 
 4. Finding the shortcode (admin view)
 
 == Changelog ==
+= 4.0.0 =
+* Adds a new admin interface (faster and more intuitive).
+* Adds tab labels background setting.
+* Adds Instant preview to see what the tab sets look like without refreshing the page or publishing a post.
+* Fixes various PHP errors.
+* Fixes repeatable WordPress text editor.
+* Fixes checkbox issues when adding more tabs to a tab set.
+
 = 3.3.1 =
 * Fix Add Media button issue
 
