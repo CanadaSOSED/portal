@@ -1,0 +1,234 @@
+#adminmenu .menu-icon-sp_wp_carousel .wp-menu-image img {
+    width: 22px;
+    padding: 7px 0;
+    height: 20px;
+}
+
+.spwpcp-gallery-list li{
+    display: inline;
+    margin: 5px;
+}
+.js .tmce-active .wp-editor-area{color:#000000}
+
+
+/* Help Page */
+.sp-wpcp-text-center{
+    text-align: center;
+}
+.sp-wpcp-help .wp-badge{
+    border: none;
+    background: url(../img/wpcp-icon-256.png) right no-repeat;
+    background-size: 100px 100px;
+    box-shadow: none;
+    height: auto;
+    top: -75px;
+}
+.about-wrap.sp-wpcf-upgrade [class$="-col"] .col+.col{
+    margin-left: 0;
+}
+.about-wrap.sp-wpcf-upgrade .about-text{
+    min-height: 60px;
+}
+.about-wrap.sp-wpcf-upgrade hr {
+    order: 0;
+    height: 0;
+    margin: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+.sp-wpcf-upgrade .headline-feature.feature-video,
+.sp-wpcp-help .headline-feature.feature-video {
+    position: relative;
+    margin: 40px 0;
+    padding-bottom: 56.25%;
+    width: 100%;
+    max-width: 100%;
+    height: 0;
+    text-align: center;
+}
+.sp-wpcf-upgrade .headline-feature.feature-video iframe,
+.sp-wpcp-help .headline-feature.feature-video iframe{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.sp-wpcp-help .feature-section .sp-wpcp-feature{
+    background-color: #fff;
+    padding: 20px 20px;
+    border: 1px solid #ddd;
+}
+.sp-wpcp-help .feature-section .sp-wpcp-feature h3{
+    font-size: 16px;
+    margin-top: 18px;
+}
+
+.sp-wpcp-help .feature-section i.sp-wpcp-font-icon{
+    font-size: 30px;
+    display: block;
+    color: #18AFB9;
+    font-family: fontawesome;
+    font-style: normal;
+}
+@media (max-width: 500px) {
+    .sp-wpcp-help .wp-badge {
+        background-position-x: center;
+        top: 0;
+    }
+}
+/**
+ Upgrade Page CSS
+**/
+.sp-wpc-text-center{
+    text-align: center;
+}
+.sp-wpcf-upgrade > h1 {
+    font-size: 2.5em;
+    color: #444;
+    font-weight: 300;
+}
+.sp-wpcf-upgrade > h1 span {
+    font-weight: 400;
+}
+.sp-wpcf-upgrade .about-text {
+    margin-bottom: 0;
+}
+.sp-wpcf-upgrade ul {
+    margin-top: 0;
+}
+.sp-wpcf-upgrade .wp-badge{
+    border: none;
+    background: url(../img/premium-logo.png) no-repeat;
+    background-size: 150px 150px;
+    box-shadow: none;
+    top: 0px;
+    padding-right: 8px;
+}
+.sp-wpcf-upgrade .feature-section .sp-wpc-feature{
+    background-color: #fff;
+    padding: 20px 20px;
+    border: 1px solid #ddd;
+}
+.sp-wpcf-upgrade .feature-section .sp-wpc-feature h3{
+    font-size: 16px;
+    margin-top: 18px;
+}
+
+.sp-wpcf-upgrade .feature-section i.fa{
+    font-size: 30px;
+    display: block;
+    color: #22afba;
+}
+.sp-wpcf-upgrade .sp-wpc-pro-features .feature-section span.dashicons{
+    font-size: 22px;
+    color: #fff;
+    background-color: #22afba;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.sp-wpcf-upgrade .sp-wpc-pro-features .feature-section{
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.sp-wpcf-upgrade .sp-wpc-pro-features .feature-section .sp-wpc-feature h3{
+    margin-top:0;
+}
+.sp-wpcf-upgrade .sp-wpc-pro-features .feature-section .sp-wpc-feature p{
+    margin-bottom:0;
+}
+.sp-wpcf-upgrade .sp-wpc-pro-features .feature-section .sp-wpc-feature{
+    box-shadow: 0 0 10px 0 #dddddd;
+    margin: 4px;
+    border: 0 solid;
+}
+.sp-wpcf-upgrade .sp-wpc-pro-features .feature-section.three-col .col{
+    min-width: 32%;
+    max-width: 32%;
+    margin-top: 20px;
+    display: flex;
+    align-self: auto;
+}
+.sp-wpcf-upgrade .sp-wpc-pro-features .sp-wpc-pro-subtitle{
+    font-size: 1.2em;
+    margin-bottom: 26px;
+}
+
+.sp-wpcf-upgrade .sp-wpc-upgrade-sticky-footer{
+    position: fixed;
+    bottom: 0;
+    background: #fff;
+    width: calc(100% - 195px);
+    z-index: 9;
+    margin-left: -25px;
+    text-align: center;
+    border: 1px solid #dfdfdf;
+    padding: 15px 0;
+    border-bottom: none;
+}
+.sp-wpcf-upgrade .sp-wpcp-promo-video-title,
+.sp-wpcf-upgrade .sp-wpc-pro-features h2{
+    font-size: 2.2em;
+    font-weight: 400;
+}
+
+.sp-wpcp-join-community h2 {
+    font-size: 2em;
+}
+.sp-wpcf-upgrade .sp-wpc-upgrade-sticky-footer h3{
+    margin-top: 17px;
+    margin-bottom: 20px;
+}
+
+.sp-wpcf-upgrade .sp-wpc-upgrade-sticky-footer a.button{
+    margin: 0 8px;
+}
+
+.sp-wpcf-upgrade .wpcf-upgrade-btn {
+    display: inline-block;
+    padding: 0 20px 0 0;
+}
+.sp-wpcf-upgrade a.wpcf-upgrade-btn,
+.sp-wpcf-upgrade .wpcf-upgrade-btn a {
+    text-decoration: none;
+    text-align: center;
+    font-size: 16px;
+}
+.sp-wpcf-upgrade .wpcf-upgrade-btn a:focus {
+    outline: 0;
+}
+.sp-wpcf-upgrade a.wpcf-upgrade-btn,
+.sp-wpcf-upgrade ul li.wpcf-upgrade-btn:first-child a{
+    background: #7cc048;
+    padding: 0 15px;
+    line-height: 46px;
+    display: block;
+    color: #fff;
+    border-radius: 3px;
+}
+.sp-wpcf-upgrade ul li.wpcf-upgrade-btn:last-child a{
+    text-decoration: underline;
+}
+.sp-wpcf-upgrade ul li.wpcf-upgrade-btn a i{
+    margin-left: 4px;
+}
+.sp-wpcf-upgrade ul li.wpcf-upgrade-btn:last-child a i{
+    font-size: 14px;
+}
+.sp-wpcf-upgrade a.wpcf-upgrade-btn{
+    display: inline-block;
+}
+/* Responsive CSS */
+@media (max-width: 960px) {
+    .sp-wpc-help .sp-wpc-upgrade-sticky-footer {
+        width: calc(100%);
+    }
+}
+@media (max-width: 500px) {
+    .sp-wpcf-upgrade .wp-badge {
+        background-position-x: center;
+    }
+}

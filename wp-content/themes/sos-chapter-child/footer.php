@@ -38,7 +38,21 @@ $container = get_theme_mod( 'understrap_container_type' );
 			</div><!--col end -->
 			<div class="col-sm-6 col-md-4 col-lg-3">
 				<h5>About Us</h5>
-				<p style="color:#919191;">Students Offering Support is a community of student changemakers delivering transformational learning programs, across Canada and around the world. We’ve been a registered charity since 2008, driven by a one-of-a-kind social enterprise model that creates win-win-win solutions for our volunteers, participants, and communities at large.</p>
+				<!--ismara - 2019-03-28 - footer for woc pages -->
+				<?php
+				if (strpos( get_site_url(), 'windsofchange' ) == false)
+				{
+				?>
+								<p style="color:#919191;">Students Offering Support is a community of student changemakers delivering transformational learning programs, across Canada and around the world. We�ve been a registered charity since 2008, driven by a one-of-a-kind social enterprise model that creates win-win-win solutions for our volunteers, participants, and communities at large.</p>
+				<?php
+				}
+				else {
+				?>
+				        <p style="color:#919191;">Winds of Change is a program of Canada SOS, a national charity assisting global access to education since 2004.</p>
+				<?php
+				}
+				?>
+				<!--end - ismara - 2019-03-28 - footer for woc pages -->
 			</div><!--col end -->
 		</div><!-- row end -->
 	</div><!-- container end -->
