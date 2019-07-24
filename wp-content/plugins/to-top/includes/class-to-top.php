@@ -69,7 +69,11 @@ class To_Top {
 	public function __construct() {
 
 		$this->plugin_name = 'to-top';
-		$this->version = '1.5.4';
+		if ( defined( 'TOTOP_VERSION' ) ) {
+			$this->version = TOTOP_VERSION;
+		} else {
+			$this->version = '1.8';
+		}
 
 		$this->load_dependencies();
 		$this->set_locale();
