@@ -55,6 +55,22 @@ $container = get_theme_mod( 'understrap_container_type' );
 					<!--<img class="mr" src="https://studentsofferingsupport.ca/wp-content/uploads/2018/08/new-logo.png" /> -->
 					<img class="mr" src="<?php echo get_stylesheet_directory_uri(); ?>/img/new-logo.png" />
 					</a>
+
+					<!-- ismara - 2019-03-28 - header (logo) for woc pages -->
+						<?php
+								if (strpos( get_site_url(), 'windsofchange' ) == true)
+								{
+						?>
+						<div style="display:inline-block;">
+							<a href="<?php echo "http://www.windsofchangecanada.com/"; ?>" target="_blank" class="navbar-logo_woc">
+							<img class="mr" src="<?php echo get_stylesheet_directory_uri(); ?>/img/woc-logo.png" />
+							</a>
+						</div><!-- joanna new menu -->
+						<?php
+								}
+								?>
+						<!--end - ismara - 2019-03-28 - header (logo) for woc pages -->
+
 				</div><!-- joanna new menu -->
 				<div style="text-align:right;"> <!-- 2019-03-25 - ismara - changing blogname at header -->
 				  <div style="margin-bottom:15px;"><!-- joanna new menu -->
