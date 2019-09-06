@@ -291,6 +291,46 @@ h2.display_name {margin-top: 5px;}
 /*end - ismara - 2018-07-19 session improvments*/
 
 
+/****************************************************/
+/********* ismara - 2019-03-28 - woc pages**********/
+#bcg_banner {
+  background-image: linear-gradient(0deg, rgba(3,21,35,0.6) 0%, rgba(3, 21, 34, 0.5) 100%),url('https://s3-ca-central-1.amazonaws.com/sos.uploads/wp-content/uploads/2018/08/16021659/Copy-of-f.jpg');
+  background-color: #efefef;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
+#gray1 {
+  background-color: #efefef;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  padding: 20px;
+  margin-right: 20px;
+}
+
+#gray1 h1 {
+  color: #0f425c !important;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+#gray1 p {
+  color: #0f425c !important;
+  margin-bottom: 40px;
+}
+
+.partners-woc {
+  padding: 2em;
+  margin-bottom: 1em;
+}
+/*********end - ismara - 2019-03-28 - woc pages**********/
 
 
 /****************************************************/
@@ -393,6 +433,13 @@ color: black;
   height: 6.5rem;
   margin-left: 15px;
 }
+
+/********* ismara - 2019-03-28 - woc pages**********/
+.navbar-logo_woc img {
+  height: 10.5rem;
+  margin-left: 15px;
+}
+/********* end - ismara - 2019-03-28 - woc pages**********/
 
 div.mainNav {
   background-color: #535353;
