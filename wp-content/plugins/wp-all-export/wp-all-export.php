@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: WP All Export
-Plugin URI: http://www.wpallimport.com/export/
+Plugin URI: http://www.wpallimport.com/upgrade-to-wp-all-export-pro/?utm_source=export-plugin-free&utm_medium=wp-plugins-page&utm_campaign=upgrade-to-pro
 Description: Export any post type to a CSV or XML file. Edit the exported data, and then re-import it later using WP All Import.
-Version: 1.1.5
+Version: 1.2.4
 Author: Soflyy
 */
 
@@ -11,6 +11,13 @@ require_once(__DIR__.'/classes/CdataStrategyFactory.php');
 
 if( ! defined( 'PMXE_SESSION_COOKIE' ) )
 	define( 'PMXE_SESSION_COOKIE', '_pmxe_session' );
+
+// Enable error reporting in development
+if(getenv('WPAE_DEV')) {
+    error_reporting(E_ALL ^ E_DEPRECATED );
+    ini_set('display_errors', 1);
+    // xdebug_disable();
+}
 
 /**
  * Plugin root dir with forward slashes as directory separator regardless of actuall DIRECTORY_SEPARATOR value
@@ -52,7 +59,7 @@ else {
 	 */
 	define('PMXE_PREFIX', 'pmxe_');
 
-	define('PMXE_VERSION', '1.1.5');
+	define('PMXE_VERSION', '1.2.4');
 
 	define('PMXE_EDITION', 'free');
 
@@ -140,11 +147,96 @@ else {
 		 */
 		const CRON_DIRECTORY =  WP_ALL_EXPORT_CRON_DIRECTORY;
 
-		public static $session = null;		
+        const LANGUAGE_DOMAIN = 'wp_all_export_plugin';
+
+        public static $session = null;
 
 		public static $capabilities = 'manage_options';
-		
-		/**
+
+        private static $hasActiveSchedulingLicense = null;
+
+        public static $cache_key = '';
+
+        /**
+         * Class constructor containing dispatching logic
+         * @param string $rootDir Plugin root dir
+         * @param string $pluginFilePath Plugin main file
+         */
+        protected function __construct() {
+
+            require_once (self::ROOT_DIR . '/classes/installer.php');
+
+            $installer = new PMXE_Installer();
+            $installer->checkActivationConditions();
+
+            $plugin_basename = plugin_basename( __FILE__ );
+
+            self::$cache_key = md5( 'edd_plugin_' . sanitize_key( $plugin_basename ) . '_version_info' );
+
+            // uncaught exception doesn't prevent plugin from being activated, therefore replace it with fatal error so it does
+            //set_exception_handler(create_function('$e', 'trigger_error($e->getMessage(), E_USER_ERROR);'));
+
+            // register autoloading method
+            spl_autoload_register(array($this, 'autoload'));
+
+            // register helpers
+            if (is_dir(self::ROOT_DIR . '/helpers')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/helpers/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
+                require_once $filePath;
+            }
+
+            // init plugin options
+            $option_name = get_class($this) . '_Options';
+            $options_default = PMXE_Config::createFromFile(self::ROOT_DIR . '/config/options.php')->toArray();
+            $current_options = get_option($option_name, array());
+            $this->options = array_intersect_key($current_options, $options_default) + $options_default;
+            $this->options = array_intersect_key($options_default, array_flip(array('info_api_url'))) + $this->options; // make sure hidden options apply upon plugin reactivation
+            if ('' == $this->options['cron_job_key']) $this->options['cron_job_key'] = wp_all_export_url_title(wp_all_export_rand_char(12));
+
+            if ($current_options !== $this->options) {
+                update_option($option_name, $this->options);
+            }
+            register_activation_hook(self::FILE, array($this, 'activation'));
+
+            // register action handlers
+            if (is_dir(self::ROOT_DIR . '/actions')) if (is_dir(self::ROOT_DIR . '/actions')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/actions/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
+                require_once $filePath;
+                $function = $actionName = basename($filePath, '.php');
+                if (preg_match('%^(.+?)[_-](\d+)$%', $actionName, $m)) {
+                    $actionName = $m[1];
+                    $priority = intval($m[2]);
+                } else {
+                    $priority = 10;
+                }
+                add_action($actionName, self::PREFIX . str_replace('-', '_', $function), $priority, 99); // since we don't know at this point how many parameters each plugin expects, we make sure they will be provided with all of them (it's unlikely any developer will specify more than 99 parameters in a function)
+            }
+
+            // register filter handlers
+            if (is_dir(self::ROOT_DIR . '/filters')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/filters/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
+                require_once $filePath;
+                $function = $actionName = basename($filePath, '.php');
+                if (preg_match('%^(.+?)[_-](\d+)$%', $actionName, $m)) {
+                    $actionName = $m[1];
+                    $priority = intval($m[2]);
+                } else {
+                    $priority = 10;
+                }
+                add_filter($actionName, self::PREFIX . str_replace('-', '_', $function), $priority, 99); // since we don't know at this point how many parameters each plugin expects, we make sure they will be provided with all of them (it's unlikely any developer will specify more than 99 parameters in a function)
+            }
+
+            // register shortcodes handlers
+            if (is_dir(self::ROOT_DIR . '/shortcodes')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/shortcodes/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
+                $tag = strtolower(str_replace('/', '_', preg_replace('%^' . preg_quote(self::ROOT_DIR . '/shortcodes/', '%') . '|\.php$%', '', $filePath)));
+                add_shortcode($tag, array($this, 'shortcodeDispatcher'));
+            }
+
+            // register admin page pre-dispatcher
+            add_action('admin_init', array($this, 'adminInit'));
+            add_action('admin_init', array($this, 'fix_db_schema'));
+            add_action('init', array($this, 'init'));
+
+        }
+
+        /**
 		 * Return singletone instance
 		 * @return PMXE_Plugin
 		 */
@@ -155,9 +247,20 @@ else {
 			return self::$instance;
 		}
 
-		static public function getEddName(){
-			return 'WP All Export';
-		}
+        static public function getSchedulingName(){
+            return 'Automatic Scheduling';
+        }
+
+        static public function hasActiveSchedulingLicense() {
+
+            if(is_null(self::$hasActiveSchedulingLicense)) {
+                $scheduling = \Wpae\Scheduling\Scheduling::create();
+                $hasActiveSchedulingLicense = $scheduling->checkLicense();
+                self::$hasActiveSchedulingLicense = $hasActiveSchedulingLicense;
+            }
+
+            return self::$hasActiveSchedulingLicense;
+        }
 
 		/**
 		 * Common logic for requestin plugin info fields
@@ -227,78 +330,6 @@ else {
 			return ($this->isNetwork()) ? $wpdb->base_prefix : $wpdb->prefix;
 		}
 
-		/**
-		 * Class constructor containing dispatching logic
-		 * @param string $rootDir Plugin root dir
-		 * @param string $pluginFilePath Plugin main file
-		 */
-		protected function __construct() {
-
-			require_once (self::ROOT_DIR . '/classes/installer.php');
-			
-			$installer = new PMXE_Installer();
-			$installer->checkActivationConditions();
-			
-			// uncaught exception doesn't prevent plugin from being activated, therefore replace it with fatal error so it does
-			//set_exception_handler(create_function('$e', 'trigger_error($e->getMessage(), E_USER_ERROR);'));
-
-			// register autoloading method
-			spl_autoload_register(array($this, 'autoload'));
-
-			// register helpers
-			if (is_dir(self::ROOT_DIR . '/helpers')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/helpers/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
-				require_once $filePath;
-			}			
-
-			// init plugin options
-			$option_name = get_class($this) . '_Options';
-			$options_default = PMXE_Config::createFromFile(self::ROOT_DIR . '/config/options.php')->toArray();
-			$this->options = array_intersect_key(get_option($option_name, array()), $options_default) + $options_default;
-			$this->options = array_intersect_key($options_default, array_flip(array('info_api_url'))) + $this->options; // make sure hidden options apply upon plugin reactivation								
-			if ('' == $this->options['cron_job_key']) $this->options['cron_job_key'] = wp_all_export_url_title(wp_all_export_rand_char(12));
-
-			update_option($option_name, $this->options);
-			$this->options = get_option(get_class($this) . '_Options');
-			register_activation_hook(self::FILE, array($this, 'activation'));
-
-			// register action handlers
-			if (is_dir(self::ROOT_DIR . '/actions')) if (is_dir(self::ROOT_DIR . '/actions')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/actions/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
-				require_once $filePath;
-				$function = $actionName = basename($filePath, '.php');
-				if (preg_match('%^(.+?)[_-](\d+)$%', $actionName, $m)) {
-					$actionName = $m[1];
-					$priority = intval($m[2]);
-				} else {
-					$priority = 10;
-				}
-				add_action($actionName, self::PREFIX . str_replace('-', '_', $function), $priority, 99); // since we don't know at this point how many parameters each plugin expects, we make sure they will be provided with all of them (it's unlikely any developer will specify more than 99 parameters in a function)
-			}
-
-			// register filter handlers
-			if (is_dir(self::ROOT_DIR . '/filters')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/filters/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
-				require_once $filePath;
-				$function = $actionName = basename($filePath, '.php');
-				if (preg_match('%^(.+?)[_-](\d+)$%', $actionName, $m)) {
-					$actionName = $m[1];
-					$priority = intval($m[2]);
-				} else {
-					$priority = 10;
-				}
-				add_filter($actionName, self::PREFIX . str_replace('-', '_', $function), $priority, 99); // since we don't know at this point how many parameters each plugin expects, we make sure they will be provided with all of them (it's unlikely any developer will specify more than 99 parameters in a function)
-			}
-
-			// register shortcodes handlers
-			if (is_dir(self::ROOT_DIR . '/shortcodes')) foreach (PMXE_Helper::safe_glob(self::ROOT_DIR . '/shortcodes/*.php', PMXE_Helper::GLOB_RECURSE | PMXE_Helper::GLOB_PATH) as $filePath) {
-				$tag = strtolower(str_replace('/', '_', preg_replace('%^' . preg_quote(self::ROOT_DIR . '/shortcodes/', '%') . '|\.php$%', '', $filePath)));
-				add_shortcode($tag, array($this, 'shortcodeDispatcher'));
-			}
-			
-			// register admin page pre-dispatcher
-			add_action('admin_init', array($this, 'adminInit'));
-			add_action('admin_init', array($this, 'fix_db_schema'));
-			add_action('init', array($this, 'init'));
-		}	
-
 		public function init(){
 			$this->load_plugin_textdomain();
 		}
@@ -361,12 +392,37 @@ else {
 							'is_user' => is_user_admin(),
 						);
 						add_filter('current_screen', array($this, 'getAdminCurrentScreen'));
-						add_filter('admin_body_class', create_function('', 'return "' . 'wpallexport-plugin";'));
+                        add_filter('admin_body_class',
+                            function() {
+                                return 'wpallexport-plugin';
+                            }
+                        );
 
 						$controller = new $controllerName();
 						if ( ! $controller instanceof PMXE_Controller_Admin) {
-							throw new Exception("Administration page `$page` matches to a wrong controller type.");
-						}
+                            throw new Exception("Administration page `$page` matches to a wrong controller type.");
+                        }
+
+                            if($controller instanceof PMXE_Admin_Manage && ($action == 'update' || $action == 'template' || $action == 'options') && isset($_GET['id'])) {
+                                $addons = new \Wpae\App\Service\Addons\AddonService();
+                                $exportId = intval($_GET['id']);
+
+                                $export = new \PMXE_Export_Record();
+                                $export->getById($exportId);
+
+                                $cpt = $export->options['cpt'];
+                                if (!is_array($cpt)) {
+                                    $cpt = array($cpt);
+                                }
+
+                                if (
+                                    ((in_array('users', $cpt) || in_array('shop_customer', $cpt)) && !$addons->isUserAddonActive()) ||
+                                    ($export->options['export_type'] == 'advanced' && $export->options['wp_query_selector'] == 'wp_user_query' && !$addons->isUserAddonActive())
+                                ) {
+                                    die(\__('The User Export Add-On Pro is required to run this export. You can download the add-on here: <a href="http://www.wpallimport.com/portal/" target="_blank">http://www.wpallimport.com/portal/</a>', \PMXE_Plugin::LANGUAGE_DOMAIN));
+                                }
+                            }
+
 
 						if ($this->_admin_current_screen->is_ajax) { // ajax request						
 							$controller->$action();
@@ -388,7 +444,8 @@ else {
 			}
 		}
 
-		/**
+
+        /**
 		 * Dispatch shorttag: create corresponding controller instance and call its index method
 		 * @param array $args Shortcode tag attributes
 		 * @param string $content Shortcode tag content
@@ -447,71 +504,77 @@ else {
 			return $this->_admin_current_screen;
 		}
 
-		/**
-		 * Autoloader
-		 * It's assumed class name consists of prefix folloed by its name which in turn corresponds to location of source file
-		 * if `_` symbols replaced by directory path separator. File name consists of prefix folloed by last part in class name (i.e.
-		 * symbols after last `_` in class name)
-		 * When class has prefix it's source is looked in `models`, `controllers`, `shortcodes` folders, otherwise it looked in `core` or `library` folder
-		 *
-		 * @param string $className
-		 * @return bool
-		 */
-		public function autoload($className) {
+        /**
+         * Autoloader
+         * It's assumed class name consists of prefix folloed by its name which in turn corresponds to location of source file
+         * if `_` symbols replaced by directory path separator. File name consists of prefix folloed by last part in class name (i.e.
+         * symbols after last `_` in class name)
+         * When class has prefix it's source is looked in `models`, `controllers`, `shortcodes` folders, otherwise it looked in `core` or `library` folder
+         *
+         * @param string $className
+         * @return bool
+         */
+        public function autoload($className) {
 
-			$is_prefix = false;
-			$filePath = str_replace('_', '/', preg_replace('%^' . preg_quote(self::PREFIX, '%') . '%', '', strtolower($className), 1, $is_prefix)) . '.php';
-			if ( ! $is_prefix) { // also check file with original letter case
-				$filePathAlt = $className . '.php';
-			}
-			foreach ($is_prefix ? array('models', 'controllers', 'shortcodes', 'classes') : array('libraries') as $subdir) {
-				$path = self::ROOT_DIR . '/' . $subdir . '/' . $filePath;
-				if (is_file($path)) {
-					require $path;
-					return TRUE;
-				}
-				if ( ! $is_prefix) {
-					$pathAlt = self::ROOT_DIR . '/' . $subdir . '/' . $filePathAlt;
-					if(strpos($className, '_') !== false) {
-						$pathAlt = str_replace('_',DIRECTORY_SEPARATOR, $pathAlt);
-					}
-					if (is_file($pathAlt)) {
-						require $pathAlt;
-						return TRUE;
-					}
-				}
-			}
+            $is_prefix = false;
+            $filePath = str_replace('_', '/', preg_replace('%^' . preg_quote(self::PREFIX, '%') . '%', '', strtolower($className), 1, $is_prefix)) . '.php';
+            if ( ! $is_prefix) { // also check file with original letter case
+                $filePathAlt = $className . '.php';
+            }
+            foreach ($is_prefix ? array('models', 'controllers', 'shortcodes', 'classes') : array('libraries') as $subdir) {
+                $path = self::ROOT_DIR . '/' . $subdir . '/' . $filePath;
+                if (is_file($path)) {
+                    require_once $path;
+                    return TRUE;
+                }
+                if ( ! $is_prefix) {
+                    $pathAlt = self::ROOT_DIR . '/' . $subdir . '/' . $filePathAlt;
+                    if(strpos($className, '_') !== false) {
+                        $pathAlt = $this->lreplace('_',DIRECTORY_SEPARATOR, $pathAlt);
+                    }
+                    if (is_file($pathAlt)) {
+                        require_once $pathAlt;
+                        return TRUE;
+                    }
+                }
+            }
+            if($className === 'CdataStrategyFactory') {
+                //TODO: Move this to a namespace
+                require_once (self::ROOT_DIR . '/classes/CdataStrategyFactory.php');
+            }
 
-			if(strpos($className, '\\') !== false){
-				// project-specific namespace prefix
-				$prefix = 'Wpae\\';
 
-				// base directory for the namespace prefix
-				$base_dir = self::ROOT_DIR . '/src/';
+            if(strpos($className, '\\') !== false){
 
-				// does the class use the namespace prefix?
-				$len = strlen($prefix);
-				if (strncmp($prefix, $className, $len) !== 0) {
-					// no, move to the next registered autoloader
-					return;
-				}
+                // project-specific namespace prefix
+                $prefix = 'Wpae\\';
 
-				// get the relative class name
-				$relative_class = substr($className, $len);
+                // base directory for the namespace prefix
+                $base_dir = self::ROOT_DIR . '/src/';
 
-				// replace the namespace prefix with the base directory, replace namespace
-				// separators with directory separators in the relative class name, append
-				// with .php
-				$file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+                // does the class use the namespace prefix?
+                $len = strlen($prefix);
+                if (strncmp($prefix, $className, $len) !== 0) {
+                    // no, move to the next registered autoloader
+                    return;
+                }
 
-				// if the file exists, require it
-				if (file_exists($file)) {
-					require $file;
-				}
-			}
-			
-			return FALSE;
-		}
+                // get the relative class name
+                $relative_class = substr($className, $len);
+
+                // replace the namespace prefix with the base directory, replace namespace
+                // separators with directory separators in the relative class name, append
+                // with .php
+                $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
+
+                // if the file exists, require it
+                if (file_exists($file)) {
+                    require_once $file;
+                }
+            }
+
+            return FALSE;
+        }
 
 		/**
 		 * Get plugin option
@@ -554,7 +617,7 @@ else {
 		 */
 		public function activation() {
 			// uncaught exception doesn't prevent plugin from being activated, therefore replace it with fatal error so it does
-			set_exception_handler(create_function('$e', 'trigger_error($e->getMessage(), E_USER_ERROR);'));
+            set_exception_handler(function($e) {trigger_error($e->getMessage(), E_USER_ERROR); });
 
 			// create plugin options
 			$option_name = get_class($this) . '_Options';
@@ -658,7 +721,7 @@ else {
 				$wpdb->query("ALTER TABLE {$table} ADD `parent_id` BIGINT(20) NOT NULL DEFAULT 0;");
 			}
 			if ( ! $export_post_type ){				
-				$wpdb->query("ALTER TABLE {$table} ADD `export_post_type` VARCHAR(64) NOT NULL DEFAULT '';");
+				$wpdb->query("ALTER TABLE {$table} ADD `export_post_type` TEXT NOT NULL DEFAULT '';");
 			}
 
 			update_option( "wp_all_export_db_version", PMXE_VERSION );
@@ -790,9 +853,15 @@ else {
 				'created_at_version' => '',
         		'export_variations' => XmlExportEngine::VARIABLE_PRODUCTS_EXPORT_PARENT_AND_VARIATION,
 				'export_variations_title' => XmlExportEngine::VARIATION_USE_PARENT_TITLE,
-				'show_cdata_in_preview' => 0,
 				'include_header_row' => 1,
-				'wpml_lang' => 'all'
+				'wpml_lang' => 'all',
+                'enable_export_scheduling' => 'false',
+                'scheduling_enable' => false,
+                'scheduling_weekly_days' => '',
+                'scheduling_run_on' => 'weekly',
+                'scheduling_monthly_day' => '',
+                'scheduling_times' => array(),
+                'scheduling_timezone' => 'UTC'
 			);
 		}		
 
@@ -800,11 +869,37 @@ else {
 			return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') ? true : false ;
 		}
 
-	}
+        public static function encode( $value ){
+            return base64_encode(md5(AUTH_SALT) . $value . md5(md5(AUTH_SALT)));
+        }
 
-	PMXE_Plugin::getInstance();	
+        public static function decode( $encoded ){
+            return preg_match('/^[a-f0-9]{32}$/', $encoded) ? $encoded : str_replace(array(md5(AUTH_SALT), md5(md5(AUTH_SALT))), '', base64_decode($encoded));
+        }
+
+
+        /**
+         * Replace last occurence of string
+         * Used in autoloader, that's not muved in string class
+         *
+         * @param $search
+         * @param $replace
+         * @param $subject
+         * @return mixed
+         */
+        private function lreplace($search, $replace, $subject){
+            $pos = strrpos($subject, $search);
+            if($pos !== false){
+                $subject = substr_replace($subject, $replace, $pos, strlen($search));
+            }
+            return $subject;
+        }
+    }
+
+	PMXE_Plugin::getInstance();
 
 	// Include the api front controller
 	include_once('wpae_api.php');
-	
+
 }
+
