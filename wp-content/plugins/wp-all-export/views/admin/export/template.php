@@ -1,5 +1,4 @@
 <h2 class="wpallexport-wp-notices"></h2>
-
 <div class="wpallexport-wrapper">
     <div class="wpallexport-header">
         <div class="wpallexport-logo"></div>
@@ -8,10 +7,10 @@
             <h2><?php _e('Export to XML / CSV', 'wp_all_export_plugin'); ?></h2>
         </div>
         <div class="wpallexport-links">
-            <a href="http://www.wpallimport.com/support/"
+            <a href="http://www.wpallimport.com/support/?utm_source=export-plugin-free&utm_medium=help&utm_campaign=premium-support"
 			   target="_blank"><?php _e('Support', 'wp_all_export_plugin'); ?></a> |
 			<a
-				href="http://www.wpallimport.com/documentation/"
+				href="http://www.wpallimport.com/documentation/?utm_source=export-plugin-free&utm_medium=help&utm_campaign=docs"
                 target="_blank"><?php _e('Documentation', 'wp_all_export_plugin'); ?></a>
         </div>
     </div>
@@ -48,9 +47,10 @@
 				<input type="hidden" name="export_only_modified_stuff" value="<?php echo $post['export_only_modified_stuff'];?>" />
 				<input type="hidden" name="export_only_new_stuff" value="<?php echo $post['export_only_new_stuff'];?>" />
 
-				<?php 
+				<?php
+                $addons = new \Wpae\App\Service\Addons\AddonService();
 				$selected_post_type = '';
-				if (XmlExportUser::$is_active):
+				if ($addons->isUserAddonActive() && XmlExportUser::$is_active):
 					$selected_post_type = empty($post['cpt'][0]) ? 'users' : $post['cpt'][0];
 				endif;
 				if (XmlExportComment::$is_active):
@@ -97,7 +97,7 @@
 																	<input type="hidden" name="cc_type[]" value="<?php echo $field_type; ?>"/>
 																	<input type="hidden" name="cc_options[]" value="<?php echo (!empty($field_options)) ? $field_options : 0; ?>"/>
 																	<input type="hidden" name="cc_value[]" value="<?php echo esc_attr($post['cc_value'][$ID]); ?>"/>
-																	<input type="hidden" name="cc_name[]" value="<?php echo esc_attr($field_name); ?>"/>
+																	<input type="hidden" name="cc_name[]" value="<?php echo XmlExportEngine::sanitizeFieldName(esc_attr($field_name)); ?>"/>
 																	<input type="hidden" name="cc_settings[]" value="<?php echo (!empty($post['cc_settings'][$ID])) ? esc_attr($post['cc_settings'][$ID]) : 0; ?>"/>
 																</div>
 															</li>
@@ -121,7 +121,7 @@
 														?>
 														<li>
 															<div class="custom_column" rel="<?php echo ($i + 1);?>">
-																<label class="wpallexport-xml-element"><?php echo $field['name']; ?></label>
+																<label class="wpallexport-xml-element"><?php echo XmlExportEngine::sanitizeFieldName($field['name']); ?></label>
 																<input type="hidden" name="ids[]" value="1"/>
 																<input type="hidden" name="cc_label[]" value="<?php echo $field['label']; ?>"/>
 																<input type="hidden" name="cc_php[]" value="0"/>																		
@@ -358,7 +358,7 @@
 											<div class="wpallexport-clear"></div>
 											<div class="input export_to_xls_upgrade_notice" style="vertical-align:middle; position: relative; margin-top: 48px;">														
 												<span class="wpallexport-free-edition-notice">									
-													<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=wordpress.org&utm_medium=wooco+orders&utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the Pro edition of WP All Export to Export to Excel','wp_all_export_plugin');?></a>
+													<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=export-plugin-free&utm_medium=upgrade-notice&utm_campaign=export-excel"><?php _e('Upgrade to the Pro edition of WP All Export to Export to Excel','wp_all_export_plugin');?></a>
 													<p><?php _e('If you already own it, remove the free edition and install the Pro edition.','wp_all_export_plugin');?></p>
 												</span>														
 											</div>
@@ -493,7 +493,7 @@
 
 								<textarea id="wp_all_export_main_code" name="wp_all_export_main_code"><?php echo "<?php\n\n?>";?></textarea>						
 								<div class="wpallexport-free-edition-notice" style="margin: 15px 0;">
-									<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=wordpress.org&utm_medium=custom-php&utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the Pro edition of WP All Export to use Custom PHP Functions','wp_all_export_plugin');?></a>
+									<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=export-plugin-free&utm_medium=upgrade-notice&utm_campaign=custom-php"><?php _e('Upgrade to the Pro edition of WP All Export to use Custom PHP Functions','wp_all_export_plugin');?></a>
 									<p><?php _e('If you already own it, remove the free edition and install the Pro edition.','wp_all_export_plugin');?></p>
 								</div>
 								<div class="input" style="margin-top: 10px;">
@@ -548,14 +548,14 @@
 
 				<div class="input custom_xml_upgrade_notice wpallexport-custom-xml-template" style="vertical-align:middle; position: relative; top: -5px;">
 					<span class="wpallexport-free-edition-notice" style="margin: 0 0 10px;">									
-						<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=wordpress.org&utm_medium=wooco+orders&utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the Pro edition of WP All Export to Export Custom XML','wp_all_export_plugin');?></a>
+						<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=export-plugin-free&utm_medium=upgrade-notice&utm_campaign=custom-xml"><?php _e('Upgrade to the Pro edition of WP All Export to Export Custom XML','wp_all_export_plugin');?></a>
 						<p><?php _e('If you already own it, remove the free edition and install the Pro edition.','wp_all_export_plugin');?></p>
 					</span>
 				</div>
 
 				<div class="input custom_xml_upgrade_notice wpallexport-google-merchants-template" style="vertical-align:middle; position: relative; top: -5px;">
 					<span class="wpallexport-free-edition-notice" style="margin: 0 0 10px;">
-						<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=wordpress.org&utm_medium=google+merchant+center&utm_campaign=free+wp+all+export+plugin"><?php _e('Upgrade to the Pro edition of WP All Export to Export To Google Merchant Center','wp_all_export_plugin');?></a>
+						<a class="upgrade_link" target="_blank" href="https://www.wpallimport.com/checkout/?edd_action=add_to_cart&download_id=118611&edd_options%5Bprice_id%5D=1&utm_source=export-plugin-free&utm_medium=upgrade-notice&utm_campaign=google-merchant-center"><?php _e('Upgrade to the Pro edition of WP All Export to Export To Google Merchant Center','wp_all_export_plugin');?></a>
 						<p><?php _e('If you already own it, remove the free edition and install the Pro edition.','wp_all_export_plugin');?></p>
 					</span>
 				</div>
@@ -583,40 +583,40 @@
                 <a href="http://soflyy.com/" target="_blank"
                    class="wpallexport-created-by"><?php _e('Created by', 'wp_all_export_plugin'); ?> <span></span></a>
 
-			</form>			
-			
-		</td>
-		
-		<td class="right template-sidebar" style="position: relative; width: 18%; right: 0px; padding: 0;">										
+            </form>
 
-			<fieldset id="available_data" class="optionsset rad4">
+        </td>
 
-				<div class="title"><?php _e('Available Data', 'wp_all_export_plugin'); ?></div>				
+        <td class="right template-sidebar" style="position: relative; width: 18%; right: 0px; padding: 0;">
 
-				<div class="wpallexport-xml resetable"> 					
+            <fieldset id="available_data" class="optionsset rad4 wpae_available_data">
 
-					<ul>
+                <div class="title"><?php _e('Available Data', 'wp_all_export_plugin'); ?></div>
 
-						<?php echo $available_data_view; ?>
+                <div class="wpallexport-xml resetable">
 
-					</ul>		
-										
-				</div>					
+                    <ul>
 
-			</fieldset>	
-		</td>	
-	</tr>
+                        <?php echo $available_data_view; ?>
 
-</table>	
+                    </ul>
+
+                </div>
+
+            </fieldset>
+        </td>
+    </tr>
+
+</table>
 
 <fieldset class="optionsset column rad4 wp-all-export-edit-column">
-				
-    <div class="title"><span
-            class="wpallexport-add-row-title"><?php _e('Add Field To Export', 'wp_all_export_plugin'); ?></span><span
-            class="wpallexport-edit-row-title"><?php _e('Edit Export Field', 'wp_all_export_plugin'); ?></span></div>
 
-	<?php include_once 'template/add_new_field.php'; ?>
-	
+    <div class="title"><span
+            class="wpallexport-add-row-title" style="font-size: 14px;"><?php _e('Add Field To Export', 'wp_all_export_plugin'); ?></span><span
+            class="wpallexport-edit-row-title" style="font-size: 14px;"><?php _e('Edit Export Field', 'wp_all_export_plugin'); ?></span></div>
+
+    <?php include_once 'template/add_new_field.php'; ?>
+
 </fieldset>
 
 <fieldset class="optionsset column rad4 wp-all-export-custom-xml-help">

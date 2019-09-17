@@ -60,7 +60,7 @@
 
 			global $wpdb;
 			$table_prefix = $wpdb->prefix;
-			$meta_keys = $wpdb->get_results("SELECT DISTINCT {$table_prefix}postmeta.meta_key FROM {$table_prefix}postmeta, {$table_prefix}posts WHERE {$table_prefix}postmeta.post_id = {$table_prefix}posts.ID AND {$table_prefix}posts.post_type IN ('" . implode('\',\'', $post_type) . "') AND {$table_prefix}postmeta.meta_key NOT LIKE '_edit%' LIMIT 500");			
+			$meta_keys = $wpdb->get_results("SELECT DISTINCT {$table_prefix}postmeta.meta_key FROM {$table_prefix}postmeta, {$table_prefix}posts WHERE {$table_prefix}postmeta.post_id = {$table_prefix}posts.ID AND {$table_prefix}posts.post_type IN ('" . implode('\',\'', $post_type) . "') AND {$table_prefix}postmeta.meta_key NOT LIKE '_edit%' LIMIT 1000");
 
 			$_existing_meta_keys = array();
 			if ( ! empty($meta_keys)){
@@ -145,18 +145,11 @@
             }
             else
             {
-                // Check if export was created before v1.4.2-beta-2.0
-                if ( PMXE_Plugin::isExistingExport("1.4.2-beta-2.0") ){
-                    // Do not change date fields for exports created before v1.4.2-beta-2.0
-                    $post_date = $defaultFormat ? date($defaultFormat, $timestamp) : $timestamp;
-                }
-                else
-                {
-                    if ( in_array(XmlExportEngine::$exportOptions['xml_template_type'], array('custom', 'XmlGoogleMerchants')) ){
-                        $post_date = date("Y-m-d H:i:s", $timestamp);
-                    } else {
-                        $post_date = date("Y-m-d", $timestamp);
-                    }
+
+                if ( in_array(XmlExportEngine::$exportOptions['xml_template_type'], array('custom', 'XmlGoogleMerchants')) ){
+                    $post_date = date("Y-m-d H:i:s", $timestamp);
+                } else {
+                    $post_date = date("Y-m-d", $timestamp);
                 }
             }
             return $post_date;

@@ -1,5 +1,5 @@
-<?php		
-	$l10n = array(
+<?php
+$l10n = array(
 		'confirm_and_run'    => __('Confirm & Run Export', 'wp_all_export_plugin'),
 		'save_configuration' => __('Save Export Configuration', 'wp_all_export_plugin')	
 	);
@@ -22,7 +22,7 @@
 				<h2><?php _e('Export to XML / CSV', 'wp_all_export_plugin'); ?></h2>					
 			</div>
 			<div class="wpallexport-links">
-				<a href="http://www.wpallimport.com/support/" target="_blank"><?php _e('Support', 'wp_all_export_plugin'); ?></a> | <a href="http://www.wpallimport.com/documentation/" target="_blank"><?php _e('Documentation', 'wp_all_export_plugin'); ?></a>
+				<a href="http://www.wpallimport.com/support/?utm_source=export-plugin-free&utm_medium=help&utm_campaign=premium-support" target="_blank"><?php _e('Support', 'wp_all_export_plugin'); ?></a> | <a href="http://www.wpallimport.com/documentation/?utm_source=export-plugin-free&utm_medium=help&utm_campaign=docs" target="_blank"><?php _e('Documentation', 'wp_all_export_plugin'); ?></a>
 			</div>
 		</div>	
 		<div class="clear"></div>		
@@ -50,9 +50,11 @@
 					<form class="confirm <?php echo ! $isWizard ? 'edit' : '' ?>" method="post" style="float:right;">							
 
 						<?php wp_nonce_field('update-export', '_wpnonce_update-export') ?>
-						<input type="hidden" name="is_confirmed" value="1" />	
+						<input type="hidden" name="is_confirmed" value="1" />
+                        <input type="hidden" name="record-count" class="wpae-record-count" value="0" />
 
-						<input type="submit" class="rad10 wp_all_export_confirm_and_run" value="<?php _e('Confirm & Run Export', 'wp_all_export_plugin') ?>" <?php if (empty(PMXE_Plugin::$session->found_posts)):?>style="display:none;"<?php endif;?>/>
+
+                        <input type="submit" class="rad10 wp_all_export_confirm_and_run" value="<?php _e('Confirm & Run Export', 'wp_all_export_plugin') ?>" <?php if (empty(PMXE_Plugin::$session->found_posts)):?>style="display:none;"<?php endif;?>/>
 					</form>	
 
 				</div>					
@@ -61,9 +63,10 @@
 
 				<form class="<?php echo ! $isWizard ? 'edit' : 'options' ?> choose-export-options" method="post" enctype="multipart/form-data" autocomplete="off" <?php echo ! $isWizard ? 'style="overflow:visible;"' : '' ?>>
 
-					<?php 
+					<?php
+                    $addons = new \Wpae\App\Service\Addons\AddonService();
 					$selected_post_type = '';
-					if (XmlExportUser::$is_active): 
+					if ($addons->isUserAddonActive() && XmlExportUser::$is_active):
 						$selected_post_type = empty($post['cpt'][0]) ? 'users' : $post['cpt'][0];
 					endif;
 					if (XmlExportComment::$is_active):
@@ -80,6 +83,7 @@
 					<input type="hidden" name="taxonomy_to_export" value="<?php echo $post['taxonomy_to_export'];?>">
 					<input type="hidden" name="wpml_lang" value="<?php echo $post['wpml_lang'];?>" />
 					<input type="hidden" id="export_variations" name="export_variations" value="<?php echo XmlExportEngine::getProductVariationMode();?>" />
+                    <input type="hidden" name="record-count" class="wpae-record-count" value="0" />
 
 					<?php XmlExportFiltering::render_filtering_block( $engine, $isWizard, $post ); ?>							
 

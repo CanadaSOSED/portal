@@ -144,6 +144,8 @@ final class PMXE_Wpallimport
 				'is_update_parent' => 0,
 				'is_update_attachments' => 0,
 				'is_update_acf' => 0,
+                'is_update_comment_status' => 0,
+                'import_img_tags' => 1,
 				'update_acf_logic' => 'only',
 				'acf_list' => '',					
 				'is_update_product_type' => 1,
@@ -243,12 +245,12 @@ final class PMXE_Wpallimport
 				self::$templateOptions['pmwi_order']['is_update_taxes'] = 0;
 				self::$templateOptions['pmwi_order']['is_update_refunds'] = 0;
 				self::$templateOptions['pmwi_order']['is_update_total'] = 0;
-        self::$templateOptions['pmwi_order']['is_guest_matching'] = 1;
+                self::$templateOptions['pmwi_order']['is_guest_matching'] = 1;
 				self::$templateOptions['pmwi_order']['status'] = 'wc-pending';
 				self::$templateOptions['pmwi_order']['billing_source'] = 'existing';
 				self::$templateOptions['pmwi_order']['billing_source_match_by'] = 'username';
 				self::$templateOptions['pmwi_order']['shipping_source'] = 'guest';
-        self::$templateOptions['pmwi_order']['copy_from_billing'] = 1;
+                self::$templateOptions['pmwi_order']['copy_from_billing'] = 1;
 				self::$templateOptions['pmwi_order']['products_repeater_mode'] = 'csv';
 				self::$templateOptions['pmwi_order']['products_repeater_mode_separator'] = '|';
 				self::$templateOptions['pmwi_order']['products_source'] = 'existing';
@@ -480,7 +482,9 @@ final class PMXE_Wpallimport
 			else
 			{
 				$element_name = strtolower((!empty($options['cc_name'][$ID])) ? preg_replace('/[^a-z0-9_]/i', '', $options['cc_name'][$ID]) : 'untitled_' . $ID);
-			}			
+			}
+
+			if (empty($element_name)) $element_name = 'undefined' . $ID;
 
 			$element_type = $options['cc_type'][$ID];
 
@@ -495,7 +499,7 @@ final class PMXE_Wpallimport
 							$required_add_ons['PMWI_Plugin'] = array(
 								'name' => 'WooCommerce Add-On Pro',
 								'paid' => true,
-								'url'  => 'http://www.wpallimport.com/woocommerce-product-import/'
+								'url'  => 'http://www.wpallimport.com/woocommerce-product-import/?utm_source=export-plugin-free&utm_medium=upgrade-notice&utm_campaign=import-wooco-products-template'
 							);
 						}
 
@@ -511,7 +515,7 @@ final class PMXE_Wpallimport
 						$required_add_ons['PMAI_Plugin'] = array(
 							'name' => 'ACF Add-On Pro',
 							'paid' => true,
-							'url'  => 'http://www.wpallimport.com/advanced-custom-fields/?utm_source=wordpress.org&utm_medium=wpai-import-template&utm_campaign=free+wp+all+export+plugin'
+							'url'  => 'http://www.wpallimport.com/advanced-custom-fields/?utm_source=export-plugin-free&utm_medium=upgrade-notice&utm_campaign=import-acf-template'
 						);
 					}
 
@@ -528,11 +532,14 @@ final class PMXE_Wpallimport
 
 				default:
 
+				    $addons = new \Wpae\App\Service\Addons\AddonService();
 					XmlExportCpt::prepare_import_template( $options, self::$templateOptions, $cf_list, $attr_list, $taxs_list, $element_name, $ID);
 					
 					XmlExportMediaGallery::prepare_import_template( $options, self::$templateOptions, $element_name, $ID);
 
-					XmlExportUser::prepare_import_template( $options, self::$templateOptions, $element_name, $ID);
+					if($addons->isUserAddonActive()) {
+                        XmlExportUser::prepare_import_template($options, self::$templateOptions, $element_name, $ID);
+                    }
 
                     XmlExportTaxonomy::prepare_import_template( $options, self::$templateOptions, $element_name, $ID);
 

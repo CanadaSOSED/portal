@@ -549,6 +549,232 @@ function only_allow_3($valid, $value, $field, $input) {
   return $valid;
 }
 
+
+
+ // ismara - begin - 2019/09/16 - Follow up emails from Session date
+ add_action('init','followup_email_recurring_schedule');
+ add_action('followup_email_recurring_cron_job','followup_email_recurring_cron_function');
+
+ function followup_email_recurring_cron_function(){
+   global $wpdb;
+   global $post;
+   global $followup;
+
+   $base_prefix	= $wpdb->base_prefix;
+   $blog_id = get_current_blog_id();
+   $prefix	= $wpdb->get_blog_prefix($blog_id,$base_prefix);
+
+   $current_day = time();
+
+   //1 day before
+   $all_followup	= get_orders_followup_list($prefix,$followup_days_field = '1_day_before',$interval = '-1',$unit = 'DAY');
+   foreach($all_followup as $followup){
+     $post= get_post($followup->product_id);
+     setup_postdata($post);
+
+     $to = get_field('_billing_email',$followup->ORDER_ID);
+     $email_subject = get_field('1_day_before_email_subject', 'options');
+     $email_body = get_field('1_day_before_email_body', 'options');
+     $headers = array('Content-Type: text/html; charset=UTF-8');
+
+     if ( !empty($email_subject) && !empty($email_body)) {
+       wp_mail( $to, $email_subject, $email_body, $headers );
+     }
+   }
+
+   //1 day after
+   $all_followup	= get_orders_followup_list($prefix,$followup_days_field = '1_day_after',$interval = '1',$unit = 'DAY');
+   foreach($all_followup as $followup){
+     $post= get_post($followup->product_id);
+     setup_postdata($post);
+
+     $to = get_field('_billing_email',$followup->order_id);
+     $email_subject = get_field('1_day_after_email_subject', 'options');
+     $email_body = get_field('1_day_after_email_body', 'options');
+     $headers = array('Content-Type: text/html; charset=UTF-8');
+
+     if ( !empty($email_subject) && !empty($email_body)) {
+       wp_mail( $to, $email_subject, $email_body, $headers );
+     }
+   }
+
+   //1 week after
+   $all_followup	= get_orders_followup_list($prefix,$followup_days_field = '1_week_after',$interval = '1',$unit = 'WEEK');
+   foreach($all_followup as $followup){
+     $post= get_post($followup->product_id);
+     setup_postdata($post);
+
+     $to = get_field('_billing_email',$followup->order_id);
+     $email_subject = get_field('1_week_after_email_subject', 'options');
+     $email_body = get_field('1_week_after_email_body', 'options');
+     $headers = array('Content-Type: text/html; charset=UTF-8');
+
+     if ( !empty($email_subject) && !empty($email_body)) {
+       wp_mail( $to, $email_subject, $email_body, $headers );
+     }
+   }
+
+   //1 month after
+   $all_followup	= get_orders_followup_list($prefix,$followup_days_field = '1_month_after',$interval = '1',$unit = 'MONTH');
+   foreach($all_followup as $followup){
+     $post= get_post($followup->product_id);
+     setup_postdata($post);
+
+     $to = get_field('_billing_email',$followup->order_id);
+     $email_subject = get_field('1_month_after_email_subject', 'options');
+     $email_body = get_field('1_month_after_email_body', 'options');
+     $headers = array('Content-Type: text/html; charset=UTF-8');
+
+     if ( !empty($email_subject) && !empty($email_body)) {
+       wp_mail( $to, $email_subject, $email_body, $headers );
+     }
+   }
+
+   //2 month after
+   $all_followup	= get_orders_followup_list($prefix,$followup_days_field = '2_months_after',$interval = '2',$unit = 'MONTH');
+   foreach($all_followup as $followup){
+     $post= get_post($followup->product_id);
+     setup_postdata($post);
+
+     $to = get_field('_billing_email',$followup->order_id);
+     $email_subject = get_field('2_months_after_email_subject', 'options');
+     $email_body = get_field('2_months_after_email_body', 'options');
+     $headers = array('Content-Type: text/html; charset=UTF-8');
+
+     if ( !empty($email_subject) && !empty($email_body)) {
+       wp_mail( $to, $email_subject, $email_body, $headers );
+     }
+   }
+
+   wp_reset_postdata();
+ }
+
+ function followup_email_recurring_schedule(){
+
+     if(!wp_next_scheduled('followup_email_recurring_cron_job')){
+         wp_schedule_event (time(), 'daily', 'followup_email_recurring_cron_job');
+     }
+ }
+
+
+ function get_orders_followup_list($prefix = '',$followup_days_field = '',$interval = '',$unit = ''){
+   global $wpdb;
+
+   $sql ="";
+
+   $sql .= " SELECT ";
+   $sql .= " woocommerce_order.id as order_id,woocommerce_order.post_status, woocommerce_order_itemmeta.meta_value as product_id,";
+   $sql .= " woocommerce_product_date.meta_value as session_date, product_followup_days.meta_key as followup_days";
+
+   $sql .= " FROM (select * from {$prefix}posts where woocommerce_order.post_type='shop_order' and post_date>='20190901')woocommerce_order ";
+
+   $sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_items where order_item_type = 'line_item') woocommerce_order_item ON woocommerce_order.id=woocommerce_order_item.order_id";
+   $sql .= " LEFT JOIN (select * from  {$prefix}woocommerce_order_itemmeta where meta_key= '_product_id') woocommerce_order_itemmeta ON woocommerce_order_itemmeta.order_item_id=woocommerce_order_item.order_item_id";
+   $sql .= " left join (select * from {$prefix}postmeta where meta_key='session_date') woocommerce_product_date on woocommerce_product_date.post_id=woocommerce_order_itemmeta.meta_value";
+   $sql .= " left join (select * from {$prefix}postmeta where meta_key='{$followup_days_field}' and meta_value=1) product_followup_days on product_followup_days.post_id=woocommerce_order_itemmeta.meta_value";
+
+   $sql .= " WHERE 1*1 ";
+   $sql .= " AND woocommerce_order.post_status NOT IN ('wc-cancelled','wc-failed','wc-refunded','trash') ";
+   $sql .= " AND DATE_ADD(woocommerce_product_date.meta_value, INTERVAL {$interval} {$unit}) = Date(Now()) ";
+
+   $sql .= " Order By ORDER_ID";
+
+   $return = $wpdb->get_results($sql);
+   return $return;
+ }
+
+
+ // SHORTCODES
+ //Site name
+ function chapter_name_shortcode() {
+   return get_bloginfo('name');
+ }
+ add_shortcode( 'chapter_name', 'chapter_name_shortcode' );
+
+ //Participant name
+ function participant_name_shortcode() {
+   global $followup;
+   $order = wc_get_order( $followup->order_id );
+   $user = $order->get_user();
+   if ($user->first_name != "") {
+     $participant = $user->first_name. " ". $user->last_name;
+   } else {
+     $participant = $user->user_login;
+   }
+
+   return $participant;
+ }
+ add_shortcode( 'participant_name', 'participant_name_shortcode' );
+
+ //Product name
+ function product_name_shortcode() {
+   global $post;
+   if(get_post_type($post) == 'product'){
+     return get_the_title($post);
+   }
+ }
+ add_shortcode( 'product_name', 'product_name_shortcode' );
+
+ //Product location
+ function product_location_shortcode() {
+   global $post;
+   if(get_post_type($post) == 'product'){
+     return get_field('session_location',$post->ID);
+   }
+ }
+ add_shortcode( 'product_location', 'product_location_shortcode' );
+
+ //Product Date
+ function product_date_shortcode() {
+   global $post;
+   if(get_post_type($post) == 'product'){
+     return get_field('session_date',$post->ID);
+   }
+ }
+ add_shortcode( 'product_date', 'product_date_shortcode' );
+
+ //Product time
+ function product_time_shortcode() {
+   global $post;
+   if(get_post_type($post) == 'product'){
+     return get_field('session_time',$post->ID);
+   }
+ }
+ add_shortcode( 'product_time', 'product_time_shortcode' );
+
+ //Product facebook event
+ function product_fb_shortcode() {
+   global $post;
+   if(get_post_type($post) == 'product'){
+     return get_field('session_fb_event',$post->ID);
+   }
+ }
+ add_shortcode( 'product_fb', 'product_fb_shortcode' );
+
+ //Product Instructors
+ function product_instructor_shortcode() {
+   global $post;
+   $list = '';
+   if(get_post_type($post) == 'product'){
+     $instructors = get_field('session_instructor',$post->ID);
+     if ($instructors) {
+       foreach($instructors as $instructor)
+       {
+         if ($instructor['user_firstname'] != "") {
+           $list = $list. "-". $instructor['user_firstname']. " ". $instructor['user_lastname'];
+         } else {
+           $list = $list. "-". $instructor['nickname'];
+         }
+       }
+       $list = $list. "-";
+     }
+   }
+   return $list;
+ }
+ add_shortcode( 'product_instructor', 'product_instructor_shortcode' );
+ // ismara - end - 2019/09/16 - Follow up emails from Session date
+
+
 @include 'inc/post-type-opportunities.php';
 @include 'inc/widgets.php';
 @include 'inc/breadcrumbs.php';
