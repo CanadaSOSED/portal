@@ -8,6 +8,7 @@
  */
 class EPKB_Utilities {
 
+	static $wp_options_cache = array();
 
 	/**************************************************************************************************************************
 	 *
@@ -29,7 +30,7 @@ class EPKB_Utilities {
 		}
 
 		// ensure post_id is valid
-		$post_id = EPKB_Utilities::sanitize_int( $post_id );
+		$post_id = self::sanitize_int( $post_id );
 		if ( empty($post_id) ) {
 			return null;
 		}
@@ -220,7 +221,7 @@ class EPKB_Utilities {
 			return null;
 		}
 
-		$days = date_diff($date1_dt, $date2_dt)->days;
+		$days = (int)date_diff($date1_dt, $date2_dt)->format("%r%a");
 
 		return $days === false ? null : $days;
 	}
@@ -342,7 +343,7 @@ class EPKB_Utilities {
 						<p> " . wp_kses_post($message) . "</p>
 					</span>
 				</div>
-				<div class='epkb-close-notice fa fa-window-close'></div>
+				<div class='epkb-close-notice epkbfa epkbfa-window-close'></div>
 			</div>";
 	}
 
@@ -467,9 +468,10 @@ class EPKB_Utilities {
 	 * Decode and sanitize form fields.
 	 *
 	 * @param $form
+	 * @param $all_fields_specs
 	 * @return array
 	 */
-	public static function sanitize_form( $form ) {
+	public static function retrieve_and_sanitize_form( $form, $all_fields_specs ) {
 		if ( empty($form) ) {
 			return array();
 		}
@@ -480,7 +482,7 @@ class EPKB_Utilities {
 		// now sanitize each field
 		$sanitized_fields = array();
 		foreach( $submitted_fields as $submitted_key => $submitted_value ) {
-			if ( $submitted_key == 'sidebar_main_page_intro_text' ) {   // TODO should be more generic (using E-LAY specs?)
+			if ( ! empty($all_fields_specs[$submitted_key]['type']) && $all_fields_specs[$submitted_key]['type'] == EPKB_Input_Filter::WP_EDITOR ) {
 				$sanitized_fields[$submitted_key] = wp_kses_post( $submitted_value );
 			} else {
 				$sanitized_fields[$submitted_key] = sanitize_text_field( $submitted_value );
@@ -530,6 +532,25 @@ class EPKB_Utilities {
 		return $value === null ? $default : ( $sanitize && is_scalar($value) ? sanitize_text_field( $value ) : $value );
 	}
 
+	/**
+	 * Check if Aaccess Manager is considered active.
+	 *
+	 * @return bool
+	 */
+	public static function is_amag_on() {
+		/** @var $wpdb Wpdb */
+		global $wpdb;
+
+		if ( defined( 'AMAG_PLUGIN_NAME' ) ) {
+			return true;
+		}
+
+		$table = $wpdb->prefix . 'am'.'gr_kb_groups';
+		$result = $wpdb->get_var( "SHOW TABLES LIKE '" . $table ."'" );
+
+		return ( ! empty($result) && ( $table == $result ) );
+	}
+
 
 	/**************************************************************************************************************************
 	 *
@@ -570,10 +591,8 @@ class EPKB_Utilities {
 		/** @var $wpdb Wpdb */
 		global $wpdb;
 
-		static $wp_options_cache = array();
-
-		if ( isset($wp_options_cache[$option_name]) ) {
-			return $wp_options_cache[$option_name];
+		if ( isset(self::$wp_options_cache[$option_name]) ) {
+			return self::$wp_options_cache[$option_name];
 		}
 
 		// retrieve specific KB option
@@ -592,7 +611,7 @@ class EPKB_Utilities {
 			return $default;
 		}
 
-		$wp_options_cache[$option_name] = $option;
+		self::$wp_options_cache[$option_name] = $option;
 
 		return $option;
 	}
@@ -652,6 +671,8 @@ class EPKB_Utilities {
 			EPKB_Logging::add_log( 'Failed to update option', $option_name );
 			return new WP_Error( '435', 'Failed to update option ' . $option_name );
 		}
+
+		self::$wp_options_cache[$option_name] = $option_value;
 
 		return $option_value;
 	}
@@ -783,7 +804,7 @@ class EPKB_Utilities {
 
 		// delete specific KB option
 		if ( false === $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->postmeta WHERE post_id = %d and meta_key = '%s'", $post_id, $meta_key ) ) ) {
-			EPKB_Logging::add_log("Could not delete post '" . EPKB_Utilities::get_variable_string($meta_key) . "'' metadata: ", $post_id);
+			EPKB_Logging::add_log( "Could not delete post '" . self::get_variable_string($meta_key) . "'' metadata: ", $post_id);
 			return false;
 		}
 
@@ -798,7 +819,7 @@ class EPKB_Utilities {
 	 *************************************************************************************************************************/
 
     /**
-     * Get all existing KB categories for given taxonomy.
+     * Get all existing KB categories.
      *
      * @param $kb_id
      * @param string $order_by
@@ -827,7 +848,7 @@ class EPKB_Utilities {
     public static function get_kb_category( $kb_id, $kb_category_id ) {
 	    $term = get_term_by('id', $kb_category_id, EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ) );
 	    if ( empty($term) || ! $term instanceof WP_Term ) {
-		    EPKB_Logging::add_log("Category is not KB Category: " . $kb_category_id . "(35)", $kb_id);
+		    EPKB_Logging::add_log( "Category is not KB Category: " . $kb_category_id . "(35)", $kb_id);
 		    return false;
 	    }
 
@@ -844,7 +865,7 @@ class EPKB_Utilities {
 	public static function get_kb_category_by_slug( $kb_id, $kb_category_slug ) {
 		$term = get_term_by('slug', $kb_category_slug, EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ) );
 		if ( empty($term) || ! $term instanceof WP_Term ) {
-			EPKB_Logging::add_log("Category is not KB Category: " . $kb_category_slug . "(34)", $kb_id);
+			EPKB_Logging::add_log( "Category is not KB Category: " . $kb_category_slug . "(34)", $kb_id);
 			return false;
 		}
 
@@ -1094,6 +1115,22 @@ class EPKB_Utilities {
 		return array_diff_assoc($array1, $array2);
 	}
 
+	/**
+	 * Get current user.
+	 *
+	 * @return null|WP_User
+	 */
+	public static function get_current_user() {
+
+		$user = wp_get_current_user();
+
+		// is user not logged in? user ID is 0 if not logged
+		if ( empty($user) || ! $user instanceof WP_User || empty($user->ID) ) {
+			$user = null;
+		}
+
+		return $user;
+	}
 
 	/**
 	 * Output inline CSS style based on configuration.
@@ -1188,8 +1225,20 @@ class EPKB_Utilities {
 		return trim($output) . '"';
 	}
 
-	public static function is_wpml_enabled() {
-		$wpml_enabled = EPKB_Utilities::get_wp_option( EPKB_Settings_Controller::EPKB_WPML_ON, false );
-		return $wpml_enabled === 'true';
+	/**
+	 * Is WMPL enabled? Only for KB CORE. ADD-ONs to call this function in core
+	 * @param array $kb_config
+	 * @return bool
+	 */
+	public static function is_wpml_enabled( $kb_config=array() ) {
+		return ! empty($kb_config['wpml_is_enabled']) && $kb_config['wpml_is_enabled'] === 'on' && ! defined( 'AMAG_PLUGIN_NAME' );
+	}
+
+	public static function is_advanced_search_enabled( $kb_config ) {
+		return defined('AS'.'EA_PLUGIN_NAME') &&
+		       $kb_config['kb_articles_common_path'] != 'demo-1-knowledge-base-basic-layout' &&
+		       $kb_config['kb_articles_common_path'] != 'demo-2-knowledge-base-basic-layout' &&
+		       $kb_config['kb_articles_common_path'] != 'demo-3-knowledge-base-tabs-layout' &&
+		       $kb_config['kb_articles_common_path'] != 'demo-4-knowledge-base-tabs-layout';
 	}
 }

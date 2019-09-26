@@ -25,7 +25,7 @@ class EPKB_Templates_Various {
 		}
 
 		// for WPML filter categories and articles given active language
-		if ( EPKB_Utilities::is_wpml_enabled() ) {
+		if ( EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
 			$category_seq_data = EPKB_WPML::apply_category_language_filter( $category_seq_data );
 			$articles_seq_data = EPKB_WPML::apply_article_language_filter( $articles_seq_data );
 		}

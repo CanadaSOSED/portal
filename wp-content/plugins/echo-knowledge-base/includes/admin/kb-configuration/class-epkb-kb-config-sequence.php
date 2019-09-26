@@ -61,18 +61,18 @@ class EPKB_KB_Config_Sequence {
 			// update the sequence of articles based on user actions
 			$new_sequence = $this->get_new_sequence();
 			if ( $new_sequence === false ) {
-				EPKB_Utilities::ajax_show_error_die(__( 'Could not save category sequence', 'echo-knowledge-base' ) . ' (4)');
+				EPKB_Utilities::ajax_show_error_die(__( 'Could not save category sequence. Please try again later.', 'echo-knowledge-base' ) . ' (4)');
 			}
 
 			// NOTE: Uncategorized (0) category will not be ordered.
 			$orig_categories_obj = $this->update_categories_order( $kb_id, $new_sequence );
 			if ( $orig_categories_obj === false ) {
-				EPKB_Utilities::ajax_show_error_die(__( 'Could not save category sequence', 'echo-knowledge-base' ) . ' (5)' );
+				EPKB_Utilities::ajax_show_error_die(__( 'Could not save category sequence. Please try again later.', 'echo-knowledge-base' ) . ' (5)' );
 			}
 
 			$result = EPKB_Utilities::save_kb_option( $kb_id, EPKB_Categories_Admin::KB_CATEGORIES_SEQ_META, $orig_categories_obj->ids_array, true );
 			if ( is_wp_error( $result ) ) {
-				EPKB_Utilities::ajax_show_error_die(__( 'Could not save category sequence', 'echo-knowledge-base' ) . ' (6)' );
+				EPKB_Utilities::ajax_show_error_die(__( 'Could not save category sequence. Please try again later.', 'echo-knowledge-base' ) . ' (6)' );
 			}
 		} else {
 			$category_admin = new EPKB_Categories_Admin();

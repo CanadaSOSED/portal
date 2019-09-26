@@ -88,6 +88,7 @@ class EPKB_Articles_CPT_Setup {
 				'labels'            => $labels,
 				'show_ui'           => $show_post_in_ui,
 				'show_admin_column' => $show_post_in_ui,
+				'show_in_nav_menus' => $show_post_in_ui,
 				'query_var'         => $taxonomy_name,
 				'show_in_rest'      => true,
 				'rewrite'           => array(
@@ -143,10 +144,11 @@ class EPKB_Articles_CPT_Setup {
 		}
 
 		/** setup Custom Post Type */
-		$post_type_name = 'KB: ' . $kb_config['kb_name'];
+		$post_type_name = _x( $kb_config['kb_name'], 'post type general name', 'echo-knowledge-base' );
+		$post_type_name = empty($post_type_name) ? 'Knowledge Base' : $post_type_name;
 		$labels = array(
-				'name'               => _x( $post_type_name, 'post type general name', 'echo-knowledge-base' ),
-				'singular_name'      => _x( 'Article', 'post type singular name', 'echo-knowledge-base' ),
+				'name'               => $post_type_name,
+				'singular_name'      => $post_type_name . ' - ' . _x( 'Article', 'post type singular name', 'echo-knowledge-base' ),
 				'add_new'            => _x( 'Add New Article', 'Articles', 'echo-knowledge-base' ),
 				'add_new_item'       => __( 'Add New Article', 'echo-knowledge-base' ),
 				'edit_item'          => __( 'Edit Article', 'echo-knowledge-base' ),

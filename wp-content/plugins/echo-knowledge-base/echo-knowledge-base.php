@@ -3,7 +3,7 @@
  * Plugin Name: Knowledge Base for Documents and FAQs
  * Plugin URI: https://www.echoknowledgebase.com
  * Description: Echo Knowledge Base is super easy to configure, works well with themes and can handle a variety of article hierarchies.
- * Version: 4.3.0
+ * Version: 4.6.1
  * Author: Echo Plugins
  * Author URI: https://www.echoknowledgebase.com
  * Text Domain: echo-knowledge-base
@@ -39,7 +39,7 @@ final class Echo_Knowledge_Base {
 	/* @var Echo_Knowledge_Base */
 	private static $instance;
 
-	public static $version = '4.3.0';
+	public static $version = '4.6.1';
 	public static $plugin_dir;
 	public static $plugin_url;
 	public static $plugin_file = __FILE__;
@@ -108,14 +108,16 @@ final class Echo_Knowledge_Base {
 	 */
 	private function setup_plugin() {
 
-        // process action request if any
-		if ( isset($_REQUEST['action']) ) {
-			$this->handle_action_request();
+		$action = EPKB_Utilities::get('action', '', false);
+
+		// process action request if any
+		if ( ! empty($action) ) {
+			$this->handle_action_request( $action );
 		}
 
 		// handle AJAX front & back-end requests (no admin, no admin bar)
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			$this->handle_ajax_requests();
+			$this->handle_ajax_requests( $action );
 			return;
 		}
 
@@ -141,19 +143,20 @@ final class Echo_Knowledge_Base {
 
 	/**
 	 * Handle plugin actions here such as saving settings
+	 * @param $action
 	 */
-	private function handle_action_request() {
+	private function handle_action_request( $action ) {
 
-		if ( empty($_REQUEST['action']) || ! EPKB_KB_Handler::is_kb_request() ) {
+		if ( empty($action) || ! EPKB_KB_Handler::is_kb_request() ) {
 			return;
 		}
 
-		if ( $_REQUEST['action'] == 'add-tag' ) {  // adding category term
+		if ( $action == 'add-tag' ) {  // adding category term
 			new EPKB_Categories_Admin();
 			return;
 		}
 
-		if ( $_REQUEST['action'] == 'epkb_download_debug_info' ) {
+		if ( $action == 'epkb_download_debug_info' ) {
 			new EPKB_Settings_Controller();
 			return;
 		}
@@ -161,32 +164,33 @@ final class Echo_Knowledge_Base {
 
 	/**
 	 * Handle AJAX requests coming from front-end and back-end
+	 * @param $action
 	 */
-	private function handle_ajax_requests() {
+	private function handle_ajax_requests( $action ) {
 
-        if ( empty($_REQUEST['action']) ) {
+        if ( empty($action) ) {
             return;
         }
 
-		if ( $_REQUEST['action'] == 'epkb-search-kb' ) {  // user searching KB
+		if ( $action == 'epkb-search-kb' ) {  // user searching KB
 			new EPKB_KB_Search();
 			return;
-		} else if ( in_array($_REQUEST['action'],
+		} else if ( in_array($action,
 			array( 'epkb_change_main_page_config_ajax', 'epkb_change_article_page_config_ajax',
 				'epkb_change_one_config_param_ajax', 'epkb_save_kb_config_changes', 'epkb_change_article_category_sequence',
 				'epkb_close_upgrade_message') ) ) {
 			new EPKB_KB_Config_Controller();
 			return;
-		} else if ( in_array($_REQUEST['action'],
-				array( 'epkb_send_feedback', 'epkb_toggle_debug', 'epkb_close_welcome_header', 'epkb_save_wpml_settings' ) ) ) {
+		} else if ( in_array($action,
+				array( 'epkb_send_feedback', 'epkb_toggle_debug', 'epkb_save_wpml_settings' ) ) ) {
 			new EPKB_Settings_Controller();
 			return;
 		}
 
-		$epkb_taxonomy = empty($_REQUEST['action']) ? '' : preg_replace('/[^A-Za-z0-9 \-_]/', '', $_REQUEST['action']);
+		$epkb_taxonomy = empty($action) ? '' : preg_replace('/[^A-Za-z0-9 \-_]/', '', $action);
 		$epkb_taxonomy = empty($epkb_taxonomy) ? '' :  str_replace('add-', '', $epkb_taxonomy);
 
-		if ( $_REQUEST['action'] == 'delete-tag' || $_REQUEST['action'] == 'inline-save-tax' || EPKB_KB_Handler::is_kb_taxonomy( $epkb_taxonomy ) ) {
+		if ( $action == 'delete-tag' || $action == 'inline-save-tax' || EPKB_KB_Handler::is_kb_taxonomy( $epkb_taxonomy ) ) {
 			new EPKB_Categories_Admin();
 			return;
 		}
@@ -209,13 +213,13 @@ final class Echo_Knowledge_Base {
 
 		// KB Config page needs front-page CSS resources
 		if ( $is_kb_request && isset($_REQUEST['page']) && $_REQUEST['page'] == 'epkb-kb-configuration' ) {
+			add_action( 'admin_enqueue_scripts', 'epkb_load_admin_kb_config_script' );
 			add_action( 'admin_enqueue_scripts', 'epkb_kb_config_load_public_css' );
 		}
 
 		// admin core classes
 		require_once self::$plugin_dir . 'includes/admin/admin-menu.php';
 		require_once self::$plugin_dir . 'includes/admin/admin-functions.php';
-		new EPKB_Welcome_Screen();
 
 		// admin other classes
 		$classes = array(

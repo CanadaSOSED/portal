@@ -202,7 +202,7 @@ class EPKB_KB_Config_Controller {
 		}
 
 		$target_type = sanitize_text_field( $_POST['target_type'] );
-		if ( ! in_array( $target_type, array('layout', 'style', 'search box style', 'colors', 'demo' ) ) ) {
+		if ( ! in_array( $target_type, array('layout', 'style', 'search box style', 'colors', 'demo', 'advanced_search_box_style' ) ) ) {
 			$this->ajax_show_error_die(__( 'Invalid type. Please refresh your page', 'echo-knowledge-base' ));
 		}
 
@@ -216,11 +216,19 @@ class EPKB_KB_Config_Controller {
 		}
 		$kb_config['kb_main_page_layout'] = $chosen_main_page_layout;
 
+		$is_adv_search = EPKB_Utilities::is_advanced_search_enabled( $kb_config );
+		$add_on_style_names = array();
+		if ( $is_adv_search ) {
+			$add_on_style_names = apply_filters( 'epkb_advanced_search_box_style_names', array() );
+		}
+
 		$target_name = sanitize_text_field( $_POST['target_name'] );
 		if ( ( $target_type == 'layout' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_main_page_layout_names()) ) ||
 		     ( $target_type == 'style' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_main_page_style_names( $kb_config )) ) ||
 		     ( $target_type == 'search_box_style' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_search_box_style_names( $kb_config )) ) ||
-		     ( $target_type == 'colors' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_colors_names()) ) ) {
+		     ( $target_type == 'colors' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_colors_names()) ) ||
+		     ( $target_type == 'advanced_search_box_style' && ! in_array($target_name, array_keys($add_on_style_names)))
+		) {
 			$this->ajax_show_error_die(__( 'Invalid parameters. Please refresh your page.', 'echo-knowledge-base' ));
 		}
 
@@ -287,6 +295,18 @@ class EPKB_KB_Config_Controller {
 			$message = $this->get_color_change_msg( $target_name );
 		}
 
+		// get new advanced search style
+		if ( $target_type == 'advanced_search_box_style' ) {  // TODO implement for core search too
+			$reset_style_config  = EPKB_KB_Config_Layouts::get_advanced_search_style_set( 'mp', $target_name );
+			$kb_config = array_merge($kb_config, $reset_style_config);
+			$kb_config_page = new EPKB_KB_Config_Page( $kb_config );
+			$colors_tab_output = $kb_config_page->get_main_page_colors_form();
+			$text_output = $kb_config_page->get_main_page_text_form();
+			$style_tab_output = $kb_config_page->get_main_page_styles_form();
+			$advanced_search_style = empty($add_on_style_names[$target_name]) ? 'basic' : $add_on_style_names[$target_name];
+			$message .= __( 'Advanced Search Style was set to', 'echo-knowledge-base' ) . ' ' . ucfirst($advanced_search_style) . '. ';
+		}
+
 		if ( empty($style_tab_output) || empty($colors_tab_output) ) {
 			$this->ajax_show_error_die( $this->get_target_error_msg( $target_type ) );
 		}
@@ -343,8 +363,14 @@ class EPKB_KB_Config_Controller {
 		$kb_config = $this->populate_kb_config_from_form( $kb_id, $current_kb_config );
 
 		$target_type = sanitize_text_field( $_POST['target_type'] );
-		if ( ! in_array( $target_type, array('layout', 'style', 'search box style', 'colors', 'demo' ) ) ) {
+		if ( ! in_array( $target_type, array('layout', 'style', 'search box style', 'colors', 'demo', 'advanced_search_box_style' ) ) ) {
 			$this->ajax_show_error_die(__( 'Invalid type. Please refresh your page', 'echo-knowledge-base' ));
+		}
+
+		$is_adv_search = EPKB_Utilities::is_advanced_search_enabled( $kb_config );
+		$add_on_style_names = array();
+		if ( $is_adv_search ) {
+			$add_on_style_names = apply_filters( 'epkb_advanced_search_box_style_names', array() );
 		}
 
 		// validate change type
@@ -352,7 +378,9 @@ class EPKB_KB_Config_Controller {
 		if ( ( $target_type == 'layout' && ! in_array($target_name, array_keys(EPKB_KB_Config_Layouts::get_article_page_layout_names()) ) ) ||
 		     ( $target_type == 'style' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_article_page_style_names( $kb_config )) ) ||
 		     ( $target_type == 'search_box_style' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_search_box_style_names( $kb_config )) ) ||
-		     ( $target_type == 'colors' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_colors_names()) ) ) {
+		     ( $target_type == 'colors' && ! in_array($target_name, EPKB_KB_Config_Layouts::get_colors_names()) ) ||
+		     ( $target_type == 'advanced_search_box_style' && ! in_array($target_name, array_keys($add_on_style_names))) )
+		{
 			$this->ajax_show_error_die(__( 'Invalid parameters. Please refresh your page.', 'echo-knowledge-base' ));
 		}
 
@@ -438,6 +466,18 @@ class EPKB_KB_Config_Controller {
 			$this->ajax_show_error_die( $this->get_target_error_msg( $target_type ) . ' (22)' );
 		}
 
+		// get new advanced search style
+		if ( $target_type == 'advanced_search_box_style' ) {  // TODO implement for core search too
+			$reset_style_config  = EPKB_KB_Config_Layouts::get_advanced_search_style_set( 'ap', $target_name );
+			$kb_config = array_merge($kb_config, $reset_style_config);
+			$kb_config_page = new EPKB_KB_Config_Page( $kb_config );
+			$colors_tab_output = $kb_config_page->get_article_page_colors_form( true );
+			$text_tab_output = $kb_config_page->get_article_page_text_form( true );
+			$style_tab_output = $kb_config_page->get_article_page_styles_form( true );
+			$advanced_search_style = empty($add_on_style_names[$target_name]) ? 'basic' : $add_on_style_names[$target_name];
+			$message .= __( 'Advanced Search Style was set to', 'echo-knowledge-base' ) . ' ' . ucfirst($advanced_search_style) . '. ';
+		}
+
 		// update Article Page layout
 		$kb_config_page = new EPKB_KB_Config_Page( $kb_config );
 		$article_page_output = $kb_config_page->display_article_page_layout_preview();
@@ -453,7 +493,11 @@ class EPKB_KB_Config_Controller {
 		$option_name = substr($target_name, -1);
 		$option_name = empty($option_name) ? '' : ', ' . __( 'Option', 'echo-knowledge-base' ) . $option_name;
 		$theme_name = substr($target_name, 0, strlen($target_name) - 1);
+		if ( $theme_name == 'demo_' ) {
+			$theme_name = 'Installation Defaults';
+		}
 		$color_theme_name = ( empty($theme_name) ? $target_name : $theme_name ) . $option_name;
+
 		return 'Colors were set to ' . ucfirst($color_theme_name) . '. ';
 	}
 
@@ -493,7 +537,8 @@ class EPKB_KB_Config_Controller {
 		}
 
 		// retrieve user input
-		$form_fields = empty($_POST['form']) ? array() : EPKB_Utilities::sanitize_form( $_POST['form'] );
+		$field_specs = $this->retrieve_all_kb_specs( $kb_id );
+		$form_fields = empty($_POST['form']) ? array() : EPKB_Utilities::retrieve_and_sanitize_form( $_POST['form'], $field_specs );
 		if ( empty($form_fields) ) {
 			EPKB_Logging::add_log("form fields missing");
 			$this->ajax_show_error_die(__( 'Form fields missing. Please refresh your browser', 'echo-knowledge-base' ));
@@ -502,24 +547,9 @@ class EPKB_KB_Config_Controller {
 			$this->ajax_show_error_die(__( 'Some form fields are missing. Please refresh your browser and try again or contact support', 'echo-knowledge-base' ));
 		}
 
-		$field_specs = EPKB_KB_Config_Specs::get_fields_specification( $kb_id );
 		$input_handler = new EPKB_Input_Filter();
-		$new_kb_config = $input_handler->retrieve_form_fields( $form_fields, $field_specs, $orig_config );
+		$new_kb_config = $input_handler->retrieve_and_sanitize_form_fields( $form_fields, $field_specs, $orig_config );
 
-		// let add-ons to process the input
-		// TODO remove this version
-		$result = apply_filters( 'epkb_kb_config_save_input', $kb_id, $form_fields, $new_kb_config['kb_main_page_layout'] );
-		if ( is_wp_error( $result ) ) {
-			/* @var $result WP_Error */
-			$message = $result->get_error_data();
-			if ( empty($message) ) {
-				$this->ajax_show_error_die( $result->get_error_message(), __( 'Could not save the new configuration (1)', 'echo-knowledge-base' ) );
-			} else {
-				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Configuration NOT saved due to following problems:', 'echo-knowledge-base' ) );
-			}
-		}
-		
-		// TODO keep this version (and enforce in the future)
 		$result = apply_filters( 'epkb_kb_config_save_input_v2', '', $kb_id, $form_fields, $new_kb_config['kb_main_page_layout'] );
 		if ( is_wp_error( $result ) ) {
 			/* @var $result WP_Error */
@@ -542,8 +572,9 @@ class EPKB_KB_Config_Controller {
 
         $new_kb_config['kb_articles_common_path'] = $this->process_common_path( $orig_config, $form_fields, $kb_id );
 
-		// ensure kb id is preserved
+		// ensure kb id and WPML is preserved
 		$new_kb_config['id'] = $kb_id;
+		$new_kb_config['wpml_is_enabled'] = $orig_config['wpml_is_enabled'];
 
 		// ensure no other KB has the same common article path
 		$all_kb_configs = epkb_get_instance()->kb_config_obj->get_kb_configs();
@@ -566,7 +597,7 @@ class EPKB_KB_Config_Controller {
 		}
 
 		// save category icons
-		$result = $this->save_categories_icons( $kb_id, $form_fields, $new_kb_config['kb_main_page_layout'] );
+		$result = $this->save_categories_icons( $kb_id, $form_fields, $new_kb_config['kb_main_page_layout'], $new_kb_config );
 		if ( is_wp_error( $result ) ) {
 			$this->ajax_show_error_die( $result->get_error_message(), __( 'Could not save category icons', 'echo-knowledge-base' ) );
 		}
@@ -633,11 +664,11 @@ class EPKB_KB_Config_Controller {
 	private function populate_kb_config_from_form( $kb_id, $orig_kb_config ) {
 
 		// get user input
-		$form_fields = empty($_POST['form']) ? array() : EPKB_Utilities::sanitize_form( $_POST['form'] );
+		$feature_specs = $this->retrieve_all_kb_specs( $kb_id );
+		$form_fields = empty($_POST['form']) ? array() : EPKB_Utilities::retrieve_and_sanitize_form( $_POST['form'], $feature_specs );
 
-		$feature_specs = EPKB_KB_Config_Specs::get_fields_specification( $kb_id );
 		$input_handler = new EPKB_Input_Filter();
-		$new_kb_config = $input_handler->retrieve_form_fields( $form_fields, $feature_specs, $orig_kb_config );
+		$new_kb_config = $input_handler->retrieve_and_sanitize_form_fields( $form_fields, $feature_specs, $orig_kb_config );
 		$new_kb_config = $this->retrieve_add_on_kb_config( $kb_id, $form_fields, $new_kb_config );
 
 		$articles_display_sequence = empty($_POST['articles_sequence_new_value']) ? '' : EPKB_Utilities::sanitize_english_text( $_POST['articles_sequence_new_value'] );
@@ -647,7 +678,26 @@ class EPKB_KB_Config_Controller {
 
 		return $new_kb_config;
 	}
-	
+
+	/**
+	 * Merge core KB config with add-ons KB specs
+	 * @param $kb_id
+	 * @return array
+	 */
+	private function retrieve_all_kb_specs( $kb_id ) {
+
+		$feature_specs = EPKB_KB_Config_Specs::get_fields_specification( $kb_id );
+
+		// get add-on configuration from user changes if applicable
+		$add_on_specs = apply_filters( 'epkb_add_on_config_specs', array() );
+		if ( ! is_array($add_on_specs) || is_wp_error( $add_on_specs )) {
+			$this->ajax_show_error_die(__( 'Could not change KB specs. (8)', 'echo-knowledge-base' ));
+		}
+
+		// merge core and add-on specs
+		return array_merge( $add_on_specs, $feature_specs );
+	}
+
 	/**
 	 * Merge core KB config with add-ons KB config
 	 *
@@ -664,7 +714,7 @@ class EPKB_KB_Config_Controller {
 		}
 
 		// merge core and add-on configuration
-		return array_merge( $add_on_config, $kb_config );
+		return array_merge( $kb_config, $add_on_config );
 	}
 
 	private function is_page_reload( $orig_settings, $new_settings, $spec ) {
@@ -772,10 +822,10 @@ class EPKB_KB_Config_Controller {
 	 * @param $kb_id
 	 * @param $form_fields
 	 * @param $main_page_layout
-	 *
+	 * @param $kb_config
 	 * @return true|WP_Error
 	 */
-	private function save_categories_icons( $kb_id, $form_fields, $main_page_layout ) {
+	private function save_categories_icons( $kb_id, $form_fields, $main_page_layout, $kb_config ) {
 
 		// Elegant Layout has its own data (for now)
 		if ( in_array($main_page_layout, array(EPKB_KB_Config_Layouts::GRID_LAYOUT, EPKB_KB_Config_Layouts::SIDEBAR_LAYOUT)) ) {
@@ -806,6 +856,7 @@ class EPKB_KB_Config_Controller {
 			return new WP_Error(11, 'Invalid input (122)');
 		}
 
+		// collect icons for KB categories
 		$new_categories_icons = array();
 		foreach( $user_input as $name_category ) {
 			$name_category = explode('=', $name_category);
@@ -816,10 +867,37 @@ class EPKB_KB_Config_Controller {
 			$category_id = $name_category[1];
 			if ( ! EPKB_Utilities::is_positive_or_zero_int( $category_id ) || strlen($icon_name) > 50 ||
 			     ( EPKB_Utilities::substr($icon_name, 0, strlen('ep_font_icon_')) !== 'ep_font_icon_' &&
-			       EPKB_Utilities::substr($icon_name, 0, strlen('fa-')) !== 'fa-' ) ) {
+			       EPKB_Utilities::substr($icon_name, 0, strlen('fa-')) !== 'fa-' &&
+			       EPKB_Utilities::substr($icon_name, 0, strlen('epkbfa-')) !== 'epkbfa-'
+
+			     )
+			) {
 				return new WP_Error(11, 'Invalid input (323)');
 			}
 			$new_categories_icons[$category_id] = $icon_name;
+		}
+
+		// for WPML we need to keep the other language categories in the array
+		if ( EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
+
+			// get all KB categories
+			$all_kb_categories = EPKB_Utilities::get_kb_categories( $kb_id );
+			if ( $all_kb_categories === null ) {
+				return new WP_Error(11, 'Could not retrieve KB categories (302)');
+			}
+
+			$all_kb_categories_ids = array();
+			foreach ( $all_kb_categories as $all_kb_category ) {
+				$all_kb_categories_ids[] = $all_kb_category->term_id;
+			}
+
+			// add back existing category icons
+			$categories_icons = EPKB_Utilities::get_kb_option( $kb_id, EPKB_Icons::CATEGORIES_ICONS, array(), true );
+			foreach( $categories_icons as $category_id => $icon_name ) {
+				if ( in_array($category_id, $all_kb_categories_ids) && ! in_array($category_id, array_keys($new_categories_icons)) ) {
+					$new_categories_icons[$category_id] = $icon_name;
+				}
+			}
 		}
 
 		// save new icons

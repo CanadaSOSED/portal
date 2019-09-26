@@ -42,10 +42,10 @@ echo '<div class="eckb-navigation-back  ' . //$kb_config['back_navigation_hover'
 
 if ( $kb_config['back_navigation_mode'] == 'navigate_kb_main_page' ) {
 	echo '<div class="eckb-navigation-button">';
-        echo '<a href="' . esc_url(EPKB_KB_Handler::get_first_kb_main_page_url( $kb_config )) . '" ' . $button_style2 . '">' . esc_html($kb_config['back_navigation_text']) .  '</a>';
+    echo '<a href="' . esc_url(EPKB_KB_Handler::get_first_kb_main_page_url( $kb_config )) . '" ' . $button_style2 . '>' . esc_html($kb_config['back_navigation_text']) .  '</a>';
     echo '</div>';
 } else {
-    echo '<div class="eckb-navigation-button"' . $button_style2 . ' onclick="history.go(-1);" >' . esc_html($kb_config['back_navigation_text']) . '</div>';
+    echo '<div class="eckb-navigation-button" ' . $button_style2 . ' onclick="history.go(-1);" >' . esc_html($kb_config['back_navigation_text']) . '</div>';
 }
 
 echo '</div>';

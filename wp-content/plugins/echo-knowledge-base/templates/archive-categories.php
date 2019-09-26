@@ -26,9 +26,9 @@ $template_style1 = EPKB_Utilities::get_inline_style(
 
 // Future Options
 $preset_style                = $kb_config['templates_for_kb_category_archive_page_style'];
-$category_archive_title_icon = 'fa fa-folder-open';
+$category_archive_title_icon = 'epkbfa epkbfa-folder-open';
 $read_more                   = 'Read More';
-$read_more_icon              = 'fa fa-long-arrow-right';
+$read_more_icon              = 'epkbfa epkbfa-long-arrow-right';
 
 $category_title = single_cat_title( '', false );
 $category_title = empty($category_title) ? '' : $category_title;     ?>
@@ -39,10 +39,10 @@ $category_title = empty($category_title) ? '' : $category_title;     ?>
         <header class="eckb-category-archive-header">
             <div class="eckb-category-archive-title">
                 <h1>
+	                <span class="eckb-category-archive-title-icon <?php esc_attr_e($category_archive_title_icon); ?>"></span>
 	                <span class="eckb-category-archive-title-desc"><?php echo esc_html($kb_config['templates_for_kb_category_archive_page_heading_description']); ?></span>
 	                <span class="eckb-category-archive-title-name"><?php echo esc_html($category_title); ?></span>
                 </h1>
-                <span class="eckb-category-archive-title-icon <?php esc_attr_e($category_archive_title_icon); ?>"></span>
             </div>            <?php
 
             epkb_archive_category_description();
@@ -65,10 +65,10 @@ $category_title = empty($category_title) ? '' : $category_title;     ?>
                 $categories_esc       = '<span class="eckb-article-meta-name">Categories: </span>' . get_the_category_list(', ');
 
                 // linked articles have their own icon
-	            $article_title_icon = 'fa-file-text-o';
+	            $article_title_icon = 'epkbfa-file-text-o';
 	            if ( has_filter('eckb_single_article_filter' ) ) {
 		            $article_title_icon = apply_filters( 'eckb_article_icon_filter', $article_title_icon, $post->ID );
-		            $article_title_icon = empty( $article_title_icon ) ? 'fa-file-text-o' : $article_title_icon;
+		            $article_title_icon = empty( $article_title_icon ) ? 'epkbfa-file-text-o' : $article_title_icon;
 	            }       ?>
 
                 <article class="eckb-article-container" id="post-<?php the_ID(); ?>">
@@ -78,7 +78,7 @@ $category_title = empty($category_title) ? '' : $category_title;     ?>
                     <div class="eckb-article-header">
                         <div class="eckb-article-title">
                             <h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-                            <span class="eckb-article-title-icon fa <?php esc_attr_e($article_title_icon); ?>"></span>
+                            <span class="eckb-article-title-icon epkbfa <?php esc_attr_e($article_title_icon); ?>"></span>
                         </div>
                         <div class="eckb-article-metadata">
                             <ul>

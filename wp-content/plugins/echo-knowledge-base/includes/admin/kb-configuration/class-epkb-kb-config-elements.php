@@ -537,7 +537,7 @@ class EPKB_KB_Config_Elements {
                                        value="<?php echo esc_attr( $key ); ?>"					                <?php
                                        echo $checked; ?> />
 	                            <label class="<?php echo esc_html( $args['label_class'] )?> config-col-10" for="<?php echo $id.$ix; ?>">
-		                            <i class="fa <?php echo esc_html( $key );  ?>"></i>
+		                            <i class="epkbfa <?php echo esc_html( $key );  ?>"></i>
 		                            <span class="epkb-label"><?php echo EPKB_Icons::format_font_awesome_icon_name( $label );        ?></span>
 	                            </label>
                             </div>
@@ -890,7 +890,7 @@ class EPKB_KB_Config_Elements {
 	 *
 	 * @param array $args
 	 */
-	public function submit_button( $args = array() ) {
+	public function submit_button( $args = array(), $return_html=false ) {
 		$defaults = array(
 			'label'        => 'Save',
 			'id'           => '',
@@ -898,7 +898,11 @@ class EPKB_KB_Config_Elements {
 			'input_class'  => '',
 			'main_class'   => '',
 		);
-		$args = $this->add_defaults( $args, $defaults );		?>
+		$args = $this->add_defaults( $args, $defaults );
+		
+		if ( $return_html ) {
+			ob_start();
+		} 		?>
 
 		<div class="config-input-group">
 			<div class="submit <?php echo esc_html( $args['main_class'] )?>">
@@ -907,5 +911,11 @@ class EPKB_KB_Config_Elements {
 				<input type="submit" id="<?php echo esc_html( $args['id'] )?>" class="<?php echo esc_html( $args['input_class'] )?>" value="<?php echo esc_html( $args['label'] )?>" />
 			</div>
 		</div>		<?php
+		
+		if ( $return_html ) {
+			return ob_get_clean();
+		}
+		
+		return '';
 	}
 }

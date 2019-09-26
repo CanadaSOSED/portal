@@ -89,7 +89,7 @@ class EPKB_KB_Config_DB {
 			}
 
 			// with WPML we need to trigger hook to have configuration names translated
-			if ( EPKB_Utilities::is_wpml_enabled() ) {
+			if ( EPKB_Utilities::is_wpml_enabled( $config ) ) {
 				$config = get_option( self::KB_CONFIG_PREFIX . $kb_id );
 			}
 
@@ -150,7 +150,7 @@ class EPKB_KB_Config_DB {
 
 	/**
 	 * GET KB configuration from the WP Options table. If not found then return ERROR.
-	 * Logs all errors so the caller doesn't need to.
+	 * Logs all errors so the caller does not need to.
 	 *
 	 * @param String $kb_id to get configuration for
 	 * @return array|WP_Error return current KB configuration
@@ -181,7 +181,7 @@ class EPKB_KB_Config_DB {
 		}
 
 		// with WPML we need to trigger hook to have configuration names translated
-		if ( EPKB_Utilities::is_wpml_enabled() ) {
+		if ( EPKB_Utilities::is_wpml_enabled( $config ) ) {
 			$config = get_option( self::KB_CONFIG_PREFIX . $kb_id );
 		}
 

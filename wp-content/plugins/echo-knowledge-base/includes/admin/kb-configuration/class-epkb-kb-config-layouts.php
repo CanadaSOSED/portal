@@ -5,8 +5,8 @@ class EPKB_KB_Config_Layouts {
 	const KB_ARTICLE_PAGE_NO_LAYOUT = 'Article';
 	const SIDEBAR_LAYOUT = 'Sidebar';
 	const GRID_LAYOUT = 'Grid';
-	const KB_DEFAULT_LAYOUT_STYLE = 'Boxed';
-	const KB_DEFAULT_COLORS_STYLE = 'black-white2';
+	const KB_DEFAULT_LAYOUT_STYLE = 'Demo1';
+	const KB_DEFAULT_COLORS_STYLE = 'demo_1';
 
 	/**
 	 * Get all known layouts including add-ons
@@ -36,8 +36,10 @@ class EPKB_KB_Config_Layouts {
 	 * @return string
 	 */
 	public static function get_kb_main_page_layout_name( $kb_config ) {
+		$chosen_main_page_layout = EPKB_Utilities::post('epkb_chosen_main_page_layout');
 		$layout = empty($kb_config['kb_main_page_layout']) || ! in_array($kb_config['kb_main_page_layout'], self::get_main_page_layout_names() )
-						? EPKB_KB_Config_Layout_Basic::LAYOUT_NAME : $kb_config['kb_main_page_layout'];
+						? EPKB_KB_Config_Layout_Basic::LAYOUT_NAME
+						: (  empty($chosen_main_page_layout) ? $kb_config['kb_main_page_layout'] : $chosen_main_page_layout );
 		return $layout;
 	}
 
@@ -230,6 +232,7 @@ class EPKB_KB_Config_Layouts {
 				'red2'          => 'red2',
 				'red3'          => 'red3',
 				'red4'          => 'red4',
+				'demo_1'        => 'demo_1',
 
 		);
 		return apply_filters( 'epkb_colors_names', $core_colors );
@@ -275,6 +278,10 @@ class EPKB_KB_Config_Layouts {
 
 	public static function get_article_page_colors_set( $layout_name, $set_name ) {
 		return apply_filters( 'epkb_article_page_colors_set', array(), $layout_name, $set_name );
+	}
+
+	public static function get_advanced_search_style_set( $pix, $set_name ) {
+		return apply_filters( 'epkb_kb_advanced_search_style_set', array(), $pix, $set_name );
 	}
 
 	public static function get_max_layout_level( $layout ) {

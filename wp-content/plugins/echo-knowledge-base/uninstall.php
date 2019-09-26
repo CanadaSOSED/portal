@@ -19,6 +19,5 @@ flush_rewrite_rules(false);
 // TODO if user explicitly specifies: delete_option( 'epkb_categories_icons' );
 // epkb_categories_sequence, epkb_articles_sequence
 
-delete_option( 'epkb_show_welcome_header' );
 delete_option( 'epkb_error_log' );
 delete_option( 'epkb_flush_rewrite_rules' );

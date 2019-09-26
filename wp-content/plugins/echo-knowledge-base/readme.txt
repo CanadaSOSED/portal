@@ -4,8 +4,8 @@ Plugin URI: https://www.echoknowledgebase.com
 Contributors: echoplugins
 Tags: knowledge base, documentation, knowledgebase, documents, faqs, help, admin, plugin, articles
 Requires at least: 4.0
-Tested up to: 5.0
-Stable tag: 4.3.0
+Tested up to: 5.2
+Stable tag: 4.6.1
 License: GPL2+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,7 +17,10 @@ Professional WordPress Knowledge Base plugin for articles, documents and FAQs. I
 
 Help your users and customers find documents and faqs with a well-organized knowledge base that also looks professional.
 
-[youtube https://www.youtube.com/watch?v=2cm0y96eHKY]
+See our knowledgebase demos [here](https://www.echoknowledgebase.com/demo-1-knowledge-base-basic-layout/ "KB Demos") and our knowledgebase documentation [here](https://www.echoknowledgebase.com/documentation/ "KB documentation")
+
+
+[youtube https://www.youtube.com/watch?v=9x1njLJvgOc]
 
 
 = Features of the knowledgebase plugin include: =
@@ -36,7 +39,7 @@ Help your users and customers find documents and faqs with a well-organized know
 * Looks great on phones and tablets.
 * Knowledgebase Articles and Categories are CPTs.
 * It also works perfectly with or without Gutenberg.
-* WPML compatible
+* Compatible with WPML, Elementor, Visual Composer, and others.
 
 = Additional Benefits =
 * Start right way with a basic Knowledge Base created during plugin installation. No coding required.
@@ -51,10 +54,6 @@ Help your users and customers find documents and faqs with a well-organized know
 * Software manuals
 
 
-See a live demo of our knowledgebase [here](https://www.echoknowledgebase.com/documentation/ "KB documentation") and additional designs [here](https://www.echoknowledgebase.com/kb-demo/ "KB demo") .
-
-
-
 > <strong>GO FURTHER WITH ADD-ONS</strong>
 >
 >
@@ -66,6 +65,10 @@ See a live demo of our knowledgebase [here](https://www.echoknowledgebase.com/do
 > Create [Multiple Knowledge Bases](https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases), one for each product, service, topic or department. Each Knowledgebase has separate articles, URLs, KB Main Page and admin screens. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases/).
 >
 >
+> <strong>Advanced Search</strong><br>
+> Enhance users search experience and view search analytics including popular searches and no results searches. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/advanced-search/).
+>
+>
 > <strong>Widgets</strong><br>
 > Add Knowledgebase Search, Most Recent Articles and other Widgets and Shortcodes to your articles, sidebars and pages. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/widgets/).
 >
@@ -75,9 +78,11 @@ See a live demo of our knowledgebase [here](https://www.echoknowledgebase.com/do
 >
 >
 > <strong>Access Manager</strong><br>
-> [Access Manager](https://www.echoknowledgebase.com/wordpress-plugin/access-manager/) allows administrators, companies, and organizations to control and restrict access to their Knowledge Base.
+> [Access Manager](https://www.echoknowledgebase.com/wordpress-plugin/access-manager/) allows administrators, companies, and organizations to control and restrict access to their private Knowledge Base. Grant permission based on roles and groups.
 >
 
+
+Subscribe to our [Newsletter](https://www.echoknowledgebase.com/subscribe-to-our-newsletter/ "KB Newsletter") to learn about new features, to receive special offers and more.
 
 == Installation ==
 
@@ -135,6 +140,37 @@ We support the current major release and one past major release of the following
 
 
 == Changelog ==
+
+= 4.6.1, Sept 15, 2019 =
+* Update: Chrome HTML engine build 77 broke CSS. Apply temporary fix it.
+
+= 4.6.0, Aug 3, 2019 =
+* New: Category links 
+* Update: Changed CPT Name and removed the KB prefix.
+* Update: Added aria label.
+* Update: Improve initial KB setup and defaults.
+* Fix: Category archive page title icon alignment.
+* Fix: Minor issues
+
+= 4.5.0, April 4, 2019 =
+* Update: Overview page to show KB status, help and new features.
+* Improved: Do not trigger preview when still configuring KB (longer wait)
+
+= 4.4.3, Feb 20, 2019 =
+* Fix: WPML settings affected after saving KB configuration.
+
+= 4.4.2, Feb 18, 2019 =
+* Updates: adjusting configuration for add-ons
+* Fix: Minor issues
+
+= 4.4.1, Dec 26, 2018 =
+* Fix: PHP issue with upper case Self:: reference
+* Fix: Minor issues
+
+= 4.4.0, Dec 25, 2018 =
+* Update: Preparation for FAQ feature
+* Fix: compatibility with Gutenberg
+* Fix: Minor issues
 
 = 4.3.0, Dec 13, 2018 =
 * New: Make article updates compatible with Gutenberg

@@ -60,12 +60,6 @@ class EPKB_KB_Config_Specs {
 				'internal'    => true,
 				'default'     => $kb_id
 			),
-			/* 'default_category_id' => array(
-				'label'       => 'default_category_id',
-				'type'        => EPKB_Input_Filter::ID,
-				'internal'    => true,
-				'default'     => 0
-			), */
 			'status' => array(
 				'label'       => 'status',
 				'type'        => EPKB_Input_Filter::ENUMERATION,
@@ -123,9 +117,13 @@ class EPKB_KB_Config_Specs {
 				'label'       => __( 'Main Page Category Link', 'echo-knowledge-base' ),
 				'name'        => 'kb_main_page_category_link',
 				'type'        => EPKB_Input_Filter::SELECTION,
-				'options'     => array('default' => 'Default', 'category_archive' => 'Category Archive Page' ),
+				'options'     =>
+					array(
+						'default'          => 'Article Page with Sidebar',
+						'category_archive' => 'Category Archive Page'
+					),
 				'default'     => 'default',
-				'info'        => __( 'Whether on the KB Main Page each Category should link to its Category Archive Page.' ),
+				'info'        => __( 'Determines whether each Category on the KB Main Page should link to its Category Archive Page.' ),
 			),
 			'kb_article_page_layout' => array(
 				'label'       => __( 'Article Page Layout', 'echo-knowledge-base' ),
@@ -170,9 +168,16 @@ class EPKB_KB_Config_Specs {
 					'current_theme_templates'    => __( 'Current Theme Templates Used for Posts and Pages' ),
 					'kb_templates'       => __( 'Knowledge Base Templates Designed for Articles' ),
 				),
-				'default'     => 'current_theme_templates'
+				'default'     => 'kb_templates'
 			),
-			
+			'wpml_is_enabled' => array(
+					'label'       => __( 'WPML is enabled', 'echo-knowledge-base' ),
+					'name'        => 'wpml_is_enabled',
+					'info'        => __( 'If selected, WPML features will become available for this KB.' ),
+					'type'        => EPKB_Input_Filter::CHECKBOX,
+					'internal'    => true,  // field update handled separately
+					'default'     => 'off'
+			),
 
 			/******************************************************************************
 			 *
@@ -187,7 +192,7 @@ class EPKB_KB_Config_Specs {
 				'name'        => 'templates_display_main_page_main_title',
 				'info'        => __( 'If KB Template is active, then choose whether or not to display the Main title on the main page.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
-				'default'     => 'on'
+				'default'     => 'off'
 			),
             'templates_for_kb_padding_top' => array(
                 'label'       => __( 'Top', 'echo-knowledge-base' ),
@@ -196,7 +201,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '30'
+                'default'     => '0'
             ),
             'templates_for_kb_padding_bottom' => array(
                 'label'       => __( 'Bottom', 'echo-knowledge-base' ),
@@ -214,7 +219,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '4'
+                'default'     => '0'
             ),
             'templates_for_kb_padding_right' => array(
                 'label'       => __( 'Right', 'echo-knowledge-base' ),
@@ -223,7 +228,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '4'
+                'default'     => '0'
             ),
             'templates_for_kb_margin_top' => array(
                 'label'       => __( 'Top', 'echo-knowledge-base' ),
@@ -232,7 +237,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '4'
+                'default'     => '0'
             ),
             'templates_for_kb_margin_bottom' => array(
                 'label'       => __( 'Bottom', 'echo-knowledge-base' ),
@@ -250,7 +255,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '4'
+                'default'     => '0'
             ),
             'templates_for_kb_margin_right' => array(
                 'label'       => __( 'Right', 'echo-knowledge-base' ),
@@ -259,7 +264,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '4'
+                'default'     => '0'
             ),
 
 			//Article Page
@@ -269,14 +274,14 @@ class EPKB_KB_Config_Specs {
 				'info'        => __( 'Adds a CSS reset that nullifies all CSS being applied to KB Article elements by CSS of a current theme or installed plugins. ' .
 					'Switching on CSS reset will remove any undesirable effects from KB articles.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
-				'default'     => 'on'
+				'default'     => 'off'
 			),
 			'templates_for_kb_article_defaults'         => array(
 				'label'       => __( 'Article CSS Defaults', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_defaults',
 				'info'        => __( 'Adds a CSS defaults styling to KB article elements in a format that is the best for writing documentation.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
-				'default'     => 'on'
+				'default'     => 'off'
 			),
 			'templates_for_kb_article_padding_top'      => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
@@ -364,7 +369,7 @@ class EPKB_KB_Config_Specs {
 					'eckb-category-archive-style-4' => __( 'Style 4 ( Box )', 'echo-knowledge-base' ),
 					'eckb-category-archive-style-5' => __( 'Style 5 ( Grid )', 'echo-knowledge-base' ),
 				),
-				'default'     => 'eckb-category-archive-style-1'
+				'default'     => 'eckb-category-archive-style-2'
 			),
 			'templates_for_kb_category_archive_page_heading_description' => array(
 				'label'       => __( 'Heading Description', 'echo-knowledge-base' ),
@@ -375,7 +380,7 @@ class EPKB_KB_Config_Specs {
 				'min'         => '1',
 				'mandatory'   => false,
 				'type'        => EPKB_Input_Filter::TEXT,
-				'default'     => __( 'Category', 'echo-knowledge-base' )
+				'default'     => __( 'Category - ', 'echo-knowledge-base' )
 			),
 
 			/******************************************************************************
@@ -417,7 +422,7 @@ class EPKB_KB_Config_Specs {
 					'ep_font_icon_arrow_carrot_left'    => __( 'Arrow Carrot Left',   'echo-knowledge-base' ),
 					'ep_font_icon_arrow_carrot_right'    => __( 'Arrow Carrot Right',   'echo-knowledge-base' ),
 				),
-				'default'     => 'ep_font_icon_right_arrow'
+				'default'     => 'ep_font_icon_arrow_carrot_right'
 			),
             'breadcrumb_padding_top' => array(
                 'label'       => __( 'Top', 'echo-knowledge-base' ),
@@ -499,7 +504,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '7',
                 'min'         => '7',
                 'type'        => EPKB_Input_Filter::COLOR_HEX,
-                'default'     => '#000000'
+                'default'     => '#f7941d'
             ),
 			'breadcrumb_description_text' => array(
 				'label'       => __( 'Breadcrumb Description', 'echo-knowledge-base' ),
@@ -520,7 +525,7 @@ class EPKB_KB_Config_Specs {
 				'max'         => '50',
 				'min'         => '2',
 				'type'        => EPKB_Input_Filter::TEXT,
-				'default'     => __( 'KB Home', 'echo-knowledge-base' )
+				'default'     => __( 'Main', 'echo-knowledge-base' )
 			),
 			'breadcrumb_font_size' => array(
 				'label'       => __( 'Relative Text Size', 'echo-knowledge-base' ),
@@ -532,7 +537,7 @@ class EPKB_KB_Config_Specs {
 					'12' => _x( 'Small', 'font size', 'echo-knowledge-base' ),
 					'14' => _x( 'Medium', 'font size', 'echo-knowledge-base' ),
 					'16' => _x( 'Large', 'font size', 'echo-knowledge-base' ) ),
-				'default'     => '12'
+				'default'     => '16'
 			),
 
 
@@ -564,7 +569,7 @@ class EPKB_KB_Config_Specs {
                 'min'         => '1',
                 'mandatory'   => false,
                 'type'        => EPKB_Input_Filter::TEXT,
-                'default'     => __( '< Back', 'echo-knowledge-base' )
+                'default'     => __( '← All Topics', 'echo-knowledge-base' )
             ),
             'back_navigation_text_color' => array(
 				'label'       => __( 'Text Color', 'echo-knowledge-base' ),
@@ -574,7 +579,7 @@ class EPKB_KB_Config_Specs {
 				'max'         => '7',
 				'min'         => '7',
 				'type'        => EPKB_Input_Filter::COLOR_HEX,
-				'default'     => '#666666'
+				'default'     => '#f7941d'
 			),
 			'back_navigation_bg_color' => array(
 				'label'       => __( 'Background Color', 'echo-knowledge-base' ),
@@ -594,7 +599,7 @@ class EPKB_KB_Config_Specs {
                 'max'         => '7',
                 'min'         => '7',
                 'type'        => EPKB_Input_Filter::COLOR_HEX,
-                'default'     => '#dcdcdc'
+                'default'     => '#ffffff'
             ),
 			'back_navigation_font_size' => array(
 				'label'       => __( 'Text Size', 'echo-knowledge-base' ),
@@ -615,7 +620,7 @@ class EPKB_KB_Config_Specs {
                     'none'    => __( '-- No Border --', 'echo-knowledge-base' ),
                     'solid'   => __( 'Solid', 'echo-knowledge-base' ),
                 ),
-                'default'     => 'solid'
+                'default'     => 'none'
             ),
 			'back_navigation_border_radius' => array(
 				'label'       => __( 'Border Radius', 'echo-knowledge-base' ),
@@ -766,8 +771,8 @@ class EPKB_KB_Config_Specs {
 	 */
 	public static function shared_configuration() {
 
-		$default_style = EPKB_KB_Config_Layout_Basic::get_style_2_set();
-		$default_color = EPKB_KB_Config_Layout_Basic::color_reset_black_2();
+		$default_style = EPKB_KB_Config_Layout_Basic::demo_1_set();
+		$default_color = EPKB_KB_Config_Layout_Basic::demo_1_colors();
 
 		/**
 		 * Layout/color settings shared among layouts and color sets are listed here.
@@ -965,7 +970,7 @@ class EPKB_KB_Config_Specs {
 					'left'  => __( 'Left',  'echo-knowledge-base' ),
 					'right' => __( 'Right', 'echo-knowledge-base' )
 				),
-				'default'     => 'no_icons'
+				'default'     => 'left'
 			),
 			'section_head_category_icon_size' => array(
 				'label'       => __( 'Icon Size ( px )', 'echo-knowledge-base' ),
@@ -981,7 +986,7 @@ class EPKB_KB_Config_Specs {
 				'name'        => 'section_head_category_icon',
 				'info'        => __( 'Icon that is assigned to this Category.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
-				'options'     => EPKB_Icons::get_all_icons(),
+				'options'     => EPKB_Icons::get_epkbfa_all_icons(),
 				'default'     => 'ep_font_icon_none'
 			),
 

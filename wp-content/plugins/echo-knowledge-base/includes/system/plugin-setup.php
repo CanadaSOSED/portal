@@ -35,9 +35,9 @@ function epkb_activate_plugin_do() {
 	$plugin_version = get_option( 'epkb_version' );
 	if ( empty($plugin_version) ) {
 
-		update_option( 'epkb_show_welcome_header', true );
-		set_transient( '_epkb_plugin_installed', true, 3600 );
+		set_transient( '_epkb_plugin_installed', true, WEEK_IN_SECONDS );
 		EPKB_KB_Handler::add_new_knowledge_base( EPKB_KB_Config_DB::DEFAULT_KB_ID, $new_kb_main_page_title );  // ignore errors
+		EPKB_Utilities::save_wp_option( 'epkb_version', Echo_Knowledge_Base::$version, true );
 
 	} else {
 		EPKB_KB_Handler::update_existing_knowledge_base( EPKB_KB_Config_DB::DEFAULT_KB_ID, $new_kb_main_page_title );  // ignore errors

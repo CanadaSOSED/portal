@@ -274,5 +274,8 @@ jQuery(document).ready(function($) {
 			}
 		});
 	});
+	
+	let search_text = $( '#epkb-search-kb' ).text();
+	$( '#epkb-search-kb' ).text( search_text );
 
 });

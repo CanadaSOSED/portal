@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
             ekb_admin_page_wrap.find( '#eckb-mm-arch-links-setup-list section' ).show();
             ekb_admin_page_wrap.find( '#eckb-mm-arch-links-alltext-list section' ).show();
             $( '.eckb-no-kb-template-message' ).remove();
-        }else {
+        } else {
             disable_archive_settings();
 
         }
@@ -155,6 +155,7 @@ jQuery(document).ready(function($) {
 
                 // if KB Templates option is on then show KB Templates config fields
                 var templates_for_kb = $('#templates_for_kb input[name=templates_for_kb]:checked').val();
+
                 if ( templates_for_kb == 'kb_templates' ) {
                     $('.eckb-mm-mp-links-setup-main-template-content').addClass('epkb-mm-active');
 
@@ -231,7 +232,7 @@ jQuery(document).ready(function($) {
 
                     // Show highlight for Button clicked on
                     $( this ).parent().parent().toggleClass( 'epkb-active-page' );
-                    $( '#epkb-admin-mega-menu' ).toggle();
+                    //$( '#epkb-admin-mega-menu' ).toggle();
                 });
 
                 // 2. USER clicks on link on the left - show menu content on the right
@@ -250,6 +251,8 @@ jQuery(document).ready(function($) {
                     // hide configuration fields
                     $( '.config-option-group').removeClass( 'epkb-mm-active');
 
+
+
                     // display content on the right based on clicked on menu item
                     var linkID = $(this).attr( 'id');
                     $( '.epkb-mm-content').find( '#' + linkID + '-list' ).addClass( 'epkb-mm-active' );
@@ -261,7 +264,15 @@ jQuery(document).ready(function($) {
                     } else if ( linkID == 'eckb-mm-ap-links-organize' ) {
                         $('.eckb-mm-ap-links-organize--organize-content').addClass('epkb-mm-active');
                         $('#epkb-config-article-ordering-sidebar').show();
+                    } else if ( linkID == 'eckb-mm-mp-links-setup' ){
+	                    var templates_for_kb = $('#templates_for_kb input[name=templates_for_kb]:checked').val();
+
+	                    if ( templates_for_kb == 'kb_templates' ) {
+		                    $('.eckb-mm-mp-links-setup-main-template-content').addClass('epkb-mm-active');
+
+	                    }
                     }
+
 
                     epkb_custom_ordering();
                 });
@@ -328,7 +339,7 @@ jQuery(document).ready(function($) {
                 if ( id === 'epkb-main-page' ) {
 
                     //Show Mega Menu
-                    $( '#epkb-admin-mega-menu' ).show();
+	                display_mega_menu_with_flexbox( 'show' );
 
                     //Remove all active Sidebar links and Content.
                     $( '.epkb-mm-links' ).removeClass( 'epkb-mm-active' );
@@ -350,7 +361,7 @@ jQuery(document).ready(function($) {
                 } else if ( id === 'epkb-article-page' ) {
 
                     //Show Mega Menu
-                    $( '#epkb-admin-mega-menu' ).show();
+	                display_mega_menu_with_flexbox( 'show' );
 
                     //Remove all active Sidebar links and Content.
                     $( '.epkb-mm-links' ).removeClass( 'epkb-mm-active' );
@@ -375,7 +386,7 @@ jQuery(document).ready(function($) {
                 } else if ( id === 'epkb-archive-page' ){
 
 	                //Show Mega Menu
-	                $( '#epkb-admin-mega-menu' ).show();
+	                display_mega_menu_with_flexbox( 'show' );
 
 	                //Remove all active Sidebar links and Content.
 	                $( '.epkb-mm-links' ).removeClass( 'epkb-mm-active' );
@@ -528,17 +539,11 @@ jQuery(document).ready(function($) {
             event.preventDefault();
             event.stopPropagation();
 
-            // do not introduce slowdown unless it is number with arrows
-            if ( event.target.type != 'number' ) {
-                epkb_update_preview_on_change();
-                return;
-            }
-
             clearTimeout(slowdown_rapid_change);
             //noinspection JSUnusedAssignment
             slowdown_rapid_change = setTimeout(function () {
                 epkb_update_preview_on_change();
-            }, 1000);
+            }, 3000);
         });
 
         function epkb_update_preview_on_change() {
@@ -742,6 +747,13 @@ jQuery(document).ready(function($) {
             // remove focus so that arrow keys up/down page can be used
             $('#kb_main_page_layout input[name=kb_main_page_layout]').blur();
 
+            // show or hide Categories link on KB Main Page
+            if ( target_name === 'Grid') {
+	            $('#kb_main_page_category_link_group').show();
+            } else {
+	            $('#kb_main_page_category_link_group').hide();
+            }
+
             epkb_ajax_main_page_config_change_request( 'layout', target_name );
          });
 
@@ -756,6 +768,18 @@ jQuery(document).ready(function($) {
 
             epkb_ajax_main_page_config_change_request('style', target_name);
         });
+
+	    // ADV SEARCH STYLE: if user wants to change style, confirm it first
+	    $( '#epkb-admin-mega-menu' ).on( 'change', '#main_page_reset_search_box_style :input', function (e) {
+		    e.preventDefault();
+
+		    var target_name = e.target.value;
+
+		    // allow user to select the same option if they want to reset their changes to the same style
+		    $('#main_page_reset_search_box_style input[name=main_page_reset_search_box_style]').prop('checked', false);
+
+		    epkb_ajax_main_page_config_change_request('advanced_search_box_style', target_name);
+	    });
 
         // COLORS: if user wants to change colors
         $( '#epkb-admin-mega-menu').on( 'click', '#main_page_reset_colors :button', function (e) {
@@ -844,6 +868,10 @@ jQuery(document).ready(function($) {
                      $('#epkb-config-colors-sidebar').replaceWith(response.colors_tab_output);
                 }
 
+	            if ( target_type == 'advanced_search_box_style' ) {
+		            $('#epkb-config-text-sidebar').replaceWith(response.main_page_text_output);
+	            }
+
             }).fail( function ( response, textStatus, error )
             {
                 //noinspection JSUnresolvedVariable
@@ -918,6 +946,18 @@ jQuery(document).ready(function($) {
             epkb_ajax_article_page_config_change_request('style', target_name);
         });
 
+	    // ADV SEARCH STYLE: if user wants to change style, confirm it first
+	    $('body').on( 'change', '#article_page_reset_search_box_style :input', function (e) {
+		    e.preventDefault();
+
+		    var target_name = e.target.value;
+
+		    // allow user to select the same option if they want to reset their changes to the same style
+		    $('#article_page_reset_search_box_style input[name=article_page_reset_search_box_style]').prop('checked', false);
+
+		    epkb_ajax_article_page_config_change_request('advanced_search_box_style', target_name);
+	    });
+
         // COLORS: if user wants to change colors
         $('body').on('click', '#article_page_reset_colors :button', function (e) {
             e.preventDefault();
@@ -938,6 +978,7 @@ jQuery(document).ready(function($) {
                 epkb_kb_id: $('#epkb_kb_id').val(),
                 target_type: target_type,
                 target_name: target_name,
+                epkb_chosen_main_page_layout: $('#kb_main_page_layout input[name=kb_main_page_layout]:checked').val(),
                 epkb_chosen_article_page_layout: $('#kb_article_page_layout input[name=kb_article_page_layout]:checked').val(),
                 epkb_demo_kb: $('#epkb-layout-preview-data').is(':checked'),
                 form: $('#epkb-config-config').serialize()
@@ -1029,6 +1070,10 @@ jQuery(document).ready(function($) {
             {
                 $('#epkb-config-article-general-sidebar').replaceWith(response.article_general_tab_output);
             }
+
+	        if ( target_type == 'advanced_search_box_style' ) {
+		        $('#epkb-config-text-sidebar').replaceWith(response.main_page_text_output);
+	        }
 
             // if user changed article or category sequence on Main Page then update Article Page sequence too
             var article_page_layout = $('#kb_article_page_layout input[name=kb_article_page_layout]:checked').val();
@@ -1133,7 +1178,7 @@ jQuery(document).ready(function($) {
 			action: 'epkb_save_wpml_settings',
 			_wpnonce_epkb_save_wpml_settings: $('#_wpnonce_epkb_save_wpml_settings').val(),
 			epkb_kb_id: $('#epkb_kb_id').val(),
-			epkb_wpml_enabled: $('#epkb_wpml_enabled').is(':checked')
+            epkb_wpml_is_enabled: $('#epkb_wpml_is_enabled').is(':checked')
 		};
 
 		$.ajax({
@@ -1782,7 +1827,7 @@ jQuery(document).ready(function($) {
                              ($message ? $message : '') +
                         '</span>' +
                     '</div>' +
-                '<div class="epkb-close-notice fa fa-window-close"></div>'+
+                '<div class="epkb-close-notice epkbfa epkbfa-window-close"></div>'+
             '</div>';
     }
 
@@ -1796,31 +1841,21 @@ jQuery(document).ready(function($) {
         return typeof values[valueName] === 'undefined' ? '' : values[valueName];
     }
 
-    // hide welcome section on settings page
-    $('#epkb-config-overview-content').find( '#epkb_close_upgrade' ).on( 'click', function() {
+	/**
+	 * Show and Hide the Mega Menu with FlexBox
+	 * Since Javascript uses display block, we need to handle it now with inline CSS.
+	 *
+	 * @param {string}   display_type          The display type to handle. ( toggle, show, hide )
+	 *
+	 */
+    function display_mega_menu_with_flexbox( display_type ){
 
-        $('#epkb-config-overview-content').find( '.epkb_upgrade_message' ).hide();
-
-        var postData = {
-            action: 'epkb_close_upgrade_message'
-        };
-
-        $.ajax({
-            type: 'POST',
-            dataType: 'json',
-            url: ajaxurl,
-            data: postData
-        })
-    });
-
-    // if user comes from Welcome Page with Demo KB on - Keep last
-    if ( $('#epkb-main-page-button').hasClass('epkb-active-page') ) {
-        $( '#epkb-config-main-info').find('#epkb-main-page' ).click();
-        var templates_for_kb = $('#templates_for_kb input[name=templates_for_kb]:checked').val();
-        if ( templates_for_kb == 'kb_templates' ) {
-            $('.eckb-mm-mp-links-setup-main-template-content').addClass('epkb-mm-active');
+        if( display_type === 'show' ){
+	        $( '#epkb-admin-mega-menu' ).css( 'display', 'flex' );
         }
-        
+		if( display_type === 'hide' ){
+			$( '#epkb-admin-mega-menu' ).css( 'display', 'none' );
+		}
     }
 
     // setup dialog for WP Editor if necessary
@@ -1871,5 +1906,11 @@ jQuery(document).ready(function($) {
     $( '.epkb-config-container' ).on( 'click', '.overview-toggle', function (e) {
         $( this ).parents( '.overview-info-section').find( '.overview-content').slideToggle();
     });
+
+	//If Overview Welcome section configure KB button was clicked.
+	var query = window.location.search;
+	if (query.toLowerCase().indexOf("ekb-main-page") >= 0) {
+		$( "#epkb-main-page" ).trigger( "click" );
+	}
 
 });

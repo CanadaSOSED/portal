@@ -48,7 +48,6 @@ jQuery(document).ready(function($) {
                 });
             }
 
-            tab_toggle( '#welcome_tab_nav' , '#welcome_panel_container' );
             tab_toggle( '.add_on_container .epkb-main-nav > .epkb-admin-pages-nav-tabs', '#add_on_panels' );
             tab_toggle( '.epkb-main-nav > .epkb-admin-pages-nav-tabs', '#main_panels' );
             tab_toggle( '#help_tabs_nav', '#help_tab_panel' );
@@ -201,23 +200,6 @@ jQuery(document).ready(function($) {
             });
         });
 
-        // hide welcome section on settings page
-        epkb.find( '#close_intro' ).on( 'click', function() {
-
-            epkb.find( '.welcome_header' ).hide();
-
-            var postData = {
-                action: 'epkb_close_welcome_header'
-            };
-
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: ajaxurl,
-                data: postData
-            })
-        });
-
         // ADD-ON PLUGINS + OUR OTHER PLUGINS - PREVIEW POPUP
           (function(){
             //Open Popup larger Image
@@ -263,23 +245,6 @@ jQuery(document).ready(function($) {
                 //noinspection JSUnresolvedVariable
                 $( this ).after( '<div id="character_value" class="input_error"><p>' + epkb_vars.reduce_name_size + '</p></div>' );
             }
-        });
-
-        // toggle images on Welcome Page
-        $( '#epkb-welcome-page-img1-thumb' ).on( 'click', function() {
-            $('#epkb-welcome-page-img1').show();
-            $('#epkb-welcome-page-img2').hide();
-            $('#epkb-welcome-page-img3').hide();
-        });
-        $( '#epkb-welcome-page-img2-thumb' ).on( 'click', function() {
-            $('#epkb-welcome-page-img2').show();
-            $('#epkb-welcome-page-img1').hide();
-            $('#epkb-welcome-page-img3').hide();
-        });
-        $( '#epkb-welcome-page-img3-thumb' ).on( 'click', function() {
-            $('#epkb-welcome-page-img3').show();
-            $('#epkb-welcome-page-img1').hide();
-            $('#epkb-welcome-page-img2').hide();
         });
 
         //Info Icon for Licenses

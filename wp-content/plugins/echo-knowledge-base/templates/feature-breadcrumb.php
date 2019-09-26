@@ -72,7 +72,7 @@ $breadcrumb_style2 = EPKB_Utilities::get_inline_style( 'color:: breadcrumb_text_
             }
             echo '<span class="eckb-breadcrumb-link-icon ' . esc_html($kb_config['breadcrumb_icon_separator']) . '"></span>';
         } else {
-            echo '<span ' . $breadcrumb_style2 . ' >' . esc_html( $text ) . '</span>';
+            echo '<span aria-current="page"' . $breadcrumb_style2 . ' >' . esc_html( $text ) . '</span>';
         }
 
 		echo '	</span>';
