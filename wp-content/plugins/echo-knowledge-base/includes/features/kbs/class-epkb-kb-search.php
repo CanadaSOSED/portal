@@ -69,14 +69,14 @@ class EPKB_KB_Search {
 				$article_title_icon = 'ep_font_icon_document';
 				if ( has_filter( 'eckb_single_article_filter' ) ) {
 					$article_title_icon = apply_filters( 'eckb_article_icon_filter', $article_title_icon, $post->ID );
-					$article_title_icon = empty( $article_title_icon ) ? 'fa-file-text-o' : $article_title_icon;
+					$article_title_icon = empty( $article_title_icon ) ? 'epkbfa-file-text-o' : $article_title_icon;
 				}
 
 				$search_result .=
 					'<li>' .
 						'<a href="' .  esc_url( $article_url ) . '" class="epkb-ajax-search" data-kb-article-id="' . $post->ID . '">' .
 							'<span class="eckb-article-title" ' . $title_style . '>' .
-	                            '<i class="eckb-article-title-icon fa ' . esc_attr($article_title_icon) . ' ' . $icon_style . '"></i>' .
+	                            '<i class="eckb-article-title-icon epkbfa ' . esc_attr($article_title_icon) . ' ' . $icon_style . '"></i>' .
 								'<span>' . esc_html($post->post_title) . '</span>' .
 							'</span>' .
 						'</a>' .

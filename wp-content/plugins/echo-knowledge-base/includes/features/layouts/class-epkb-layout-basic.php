@@ -69,6 +69,9 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 					'color:: section_head_font_color,
 					 text-align::section_head_alignment'
 		);
+		$style31 = $this->get_inline_style(
+			'color:: section_head_font_color'
+		);
 		$style4 = $this->get_inline_style(
 					'color:: section_head_description_font_color,
 					 text-align::section_head_alignment'
@@ -98,11 +101,27 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 			foreach ( $this->category_seq_data as $box_category_id => $box_sub_categories ) {
 
 				$category_name = isset($this->articles_seq_data[$box_category_id][0]) ?	$this->articles_seq_data[$box_category_id][0] : '';
+
+				// Get the URL of this category
+				$category_link = get_category_link( $box_category_id );
+
 				if ( empty($category_name) ) {
 					continue;
 				}
 
-				$icon_name = empty($categories_icons[$box_category_id]) ? EPKB_Icons::DEFAULT_CATEGORY_ICON : $categories_icons[$box_category_id];
+				//Setup Category Icon
+				if ( empty($categories_icons[$box_category_id]) ) {
+					$icon_name = EPKB_Icons::DEFAULT_CATEGORY_ICON;
+				} else {
+					//IF epkbfa is in the string, then don't replace any characters.
+					if (strpos( $categories_icons[$box_category_id], 'epkbfa' ) !== false) {
+						$icon_name =  $categories_icons[$box_category_id];
+					} else {
+						//If it does not contain the epkbfa string then it's old and needs to be converted.
+						$icon_name = str_replace( 'fa-', 'epkbfa-', $categories_icons[$box_category_id] );
+					}
+				}
+
 				$icon_location = empty($this->kb_config['section_head_category_icon_location']) ? '' : $this->kb_config['section_head_category_icon_location'];
 
 				$box_sub_category_exists = false;
@@ -122,14 +141,14 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 							<!-- Icon Top / Left -->	                            <?php
 							if ( in_array( $icon_location, array('left', 'top') ) ) {
 							    $top_icon_class = $icon_location == 'top' ? 'epkb-top-cat-icon' : '';      ?>
-							    <span class="epkb-cat-icon fa <?php echo $top_icon_class . ' ' . $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
+							    <span class="epkb-cat-icon epkbfa <?php echo $top_icon_class . ' ' . $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
 							}       ?>
 
-							<span class="epkb-cat-name"><?php echo $category_name; ?></span>
+							<span class="epkb-cat-name"><a href="<?php echo esc_url( $category_link ); ?>" <?php echo $style31; ?>><?php echo $category_name; ?></a></span>
 
 							<!-- Icon Right -->     <?php
 							if ( $icon_location == 'right' ) {     ?>
-							    <span class="epkb-cat-icon fa <?php echo $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
+							    <span class="epkb-cat-icon epkbfa <?php echo $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
 							}       ?>
 
 						</div>

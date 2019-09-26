@@ -51,7 +51,8 @@ class EPKB_Articles_DB {
 			)
 		);
 
-		if ( EPKB_Utilities::is_wpml_enabled() ) {
+		$kb_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
+		if ( ! is_wp_error( $kb_config ) && EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
 			$order_by = $order_by == 'title' ? 'post_title' : 'post_modified';
 			$articles = $wpdb->get_results( " SELECT * " .
 			                                " FROM $wpdb->posts p " .

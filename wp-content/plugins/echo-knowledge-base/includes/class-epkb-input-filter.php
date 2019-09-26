@@ -32,7 +32,7 @@ class EPKB_Input_Filter {
 	const LICENSE_KEY = 'license_key';
 	const ENUMERATION = 'enumeration';  // use when input has to be from a list of values
 	const INTERNAL_ARRAY = 'internal_array';              // array of stored values
-	const WP_EDITOR = 'wp_editor';          // WP TinyMCE editor
+	const WP_EDITOR = 'wp_editor';          // WP TinyMCE editor or text that contains HTML elements
 	const URL = 'url';      // slug or url
 
 	/**
@@ -418,7 +418,7 @@ class EPKB_Input_Filter {
 	 *
 	 * @return array of name - value pairs
 	 */
-	public function retrieve_form_fields( $submitted_fields, $all_fields_specs, $orig_settings ) {
+	public function retrieve_and_sanitize_form_fields( $submitted_fields, $all_fields_specs, $orig_settings ) {
 
 		$name_values = array();
 		foreach ($all_fields_specs as $key => $spec ) {
@@ -476,7 +476,7 @@ class EPKB_Input_Filter {
 			}
 
 			$input_value = stripslashes( $input_value );
-			$name_values += array( $key => sanitize_text_field($input_value) );
+			$name_values += array( $key => ($spec['type'] == self::WP_EDITOR ? wp_kses_post($input_value) : sanitize_text_field($input_value)) );
 		}
 
 		return $name_values;

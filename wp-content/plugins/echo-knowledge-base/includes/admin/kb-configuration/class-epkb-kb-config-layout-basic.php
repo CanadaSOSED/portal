@@ -14,6 +14,7 @@ class EPKB_KB_Config_Layout_Basic {
     const LAYOUT_STYLE_1 = 'Basic';
     const LAYOUT_STYLE_2 = 'Boxed';
     const LAYOUT_STYLE_3 = 'Style3';
+    const DEMO_STYLE_1   = 'Demo1';
 
     // search box styles available for this layout
     const SEARCH_BOX_LAYOUT_STYLE_1 = 'Basic';
@@ -686,6 +687,9 @@ class EPKB_KB_Config_Layout_Basic {
             case 'red4':
                 return self::color_reset_red_4();
                 break;
+	        case 'demo_1':
+		        return self::demo_1_colors();
+		        break;
             default:
                 return self::color_reset_black_1();
                 break;
@@ -720,6 +724,7 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_divider_color'                 =>  '#DADADA',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#868686',
 			'article_font_color'                    =>  '#000000',
 			'article_icon_color'                    =>  '#B3B3B3'
 		);
@@ -730,6 +735,34 @@ class EPKB_KB_Config_Layout_Basic {
 	 *   USE AS DEFAULT FOR KB CONFIGURATION
 	 *
 	 ****************************************************************/
+	public static function demo_1_colors() {  // needs to be Public
+
+		return array(
+			//General
+			'background_color'                      =>  '#FFFFFF',
+
+			//Search Box
+			'search_title_font_color'               =>  '#FFFFFF',
+			'search_background_color'               =>  '#f7941d',
+			'search_text_input_background_color'    =>  '#FFFFFF',
+			'search_text_input_border_color'        =>  '#CCCCCC',
+			'search_btn_background_color'           =>  '#40474f',
+			'search_btn_border_color'               =>  '#F1F1F1',
+
+			//Articles Listed In Category Box
+			'section_head_font_color'               =>  '#40474f',
+			'section_head_background_color'         =>  '#FFFFFF',
+			'section_head_description_font_color'   =>  '#b3b3b3',
+			'section_body_background_color'         =>  '#FFFFFF',
+			'section_border_color'                  =>  '#F7F7F7',
+			'section_divider_color'                 =>  '#edf2f6',
+			'section_category_font_color'           =>  '#40474f',
+			'section_category_icon_color'           =>  '#f7941d',
+			'section_head_category_icon_color'      =>  '#f7941d',
+			'article_font_color'                    =>  '#459fed',
+			'article_icon_color'                    =>  '#b3b3b3'
+		);
+	}
 	public static function color_reset_black_2() {  // needs to be Public
 
 		return array(
@@ -807,7 +840,8 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_border_color'                  =>  '#7d7d7d',
 			'section_divider_color'                 =>  '#FFFFFF',
 			'section_category_font_color'           =>  '#000000',
-			'section_category_icon_color'           =>  '#868686',
+			'section_category_icon_color'           =>  '#ffffff',
+			'section_head_category_icon_color'      =>  '#ffffff',
 			'article_font_color'                    =>  '#000000',
 			'article_icon_color'                    =>  '#525252'
 		);
@@ -836,6 +870,7 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#fb8787',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -883,15 +918,16 @@ class EPKB_KB_Config_Layout_Basic {
 
 			//Articles Listed In Category Box
 			'section_head_font_color'               =>  '#CC0000',
-			'section_head_background_color'         =>  '#f4c6c6',
+			'section_head_background_color'         =>  '#ffffff',
 			'section_head_description_font_color'   =>  '#e57f7f',
 			'section_body_background_color'         =>  '#fefcfc',
 			'section_border_color'                  =>  '#F7F7F7',
-			'section_divider_color'                 =>  '#CDCDCD',
+			'section_divider_color'                 =>  '#CC0000',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#CC0000',
 			'article_font_color'                    =>  '#b3b3b3',
-			'article_icon_color'                    =>  '#b3b3b3'
+			'article_icon_color'                    =>  '#CC0000'
 		);
 	}
 	private static function color_reset_red_4() {
@@ -917,6 +953,7 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_divider_color'                 =>  '#CDCDCD',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#ffffff',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -945,6 +982,7 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#53ccfb',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -972,6 +1010,7 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#ffffff',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -991,16 +1030,17 @@ class EPKB_KB_Config_Layout_Basic {
 			'search_btn_border_color'               =>  '#DDDDDD',
 
 			//Articles Listed In Category Box
-			'section_head_font_color'               =>  '#ffffff',
-			'section_head_background_color'         =>  '#11b3f2',
+			'section_head_font_color'               =>  '#11b3f2',
+			'section_head_background_color'         =>  '#ffffff',
 			'section_head_description_font_color'   =>  '#ffffff',
-			'section_body_background_color'         =>  '#f1fbff',
+			'section_body_background_color'         =>  '#fcfcfc',
 			'section_border_color'                  =>  '#dbdbdb',
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
-			'section_category_icon_color'           =>  '#868686',
-			'article_font_color'                    =>  '#b3b3b3',
-			'article_icon_color'                    =>  '#b3b3b3'
+			'section_category_icon_color'           =>  '#11b3f2',
+			'section_head_category_icon_color'      =>  '#11b3f2',
+			'article_font_color'                    =>  '#212121',
+			'article_icon_color'                    =>  '#11b3f2'
 		);
 	}
 	private static function color_reset_blue_4() {
@@ -1026,6 +1066,7 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_divider_color'                 =>  '#CDCDCD',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#ffffff',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1052,8 +1093,9 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_body_background_color'         =>  '#FFFFFF',
 			'section_border_color'                  =>  '#dbdbdb',
 			'section_divider_color'                 =>  '#c5c5c5',
-			'section_category_font_color'           =>  '#868686',
+			'section_category_font_color'           =>  '#b1d8b4',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#b1d8b4',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1081,6 +1123,7 @@ class EPKB_KB_Config_Layout_Basic {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#ffffff',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1156,6 +1199,9 @@ class EPKB_KB_Config_Layout_Basic {
         }
 
         switch( $set_name) {
+	        case self::DEMO_STYLE_1:
+		        return self::demo_1_set();
+		        break;
             case self::LAYOUT_STYLE_2:
                 return self::get_style_2_set();
                 break;
@@ -1236,72 +1282,144 @@ class EPKB_KB_Config_Layout_Basic {
 	 *   USE AS DEFAULT FOR KB CONFIGURATION
 	 *
 	 ****************************************************************/
+	public static function demo_1_set() {
+		return array(
+
+			'templates_display_main_page_main_title'    => 'off',
+			'templates_for_kb_padding_top'              => '',
+
+			//KB Main Page -> General
+			'width'                                     =>  'epkb-full',
+			'section_font_size'                         =>  'section_medium_font',
+			'nof_columns'                               =>  'three-col',
+			'nof_articles_displayed'                    =>  8,
+			'expand_articles_icon'                      =>  'ep_font_icon_arrow_carrot_right',
+
+			//KB Main Page -> Search Box
+			'search_layout'                             =>  'epkb-search-form-1',
+			'search_input_border_width'                 =>  1,
+			'search_box_padding_top'                    =>  50,
+			'search_box_padding_bottom'                 =>  50,
+			'search_box_padding_left'                   =>  0,
+			'search_box_padding_right'                  =>  0,
+			'search_box_margin_top'                     =>  0,
+			'search_box_margin_bottom'                  =>  40,
+			'search_box_input_width'                    =>  60,
+			'search_box_results_style'                  =>  'off',
+
+			//KB Main Page -> Articles Listed in Sub-Category
+			'section_head_alignment'                =>  'left',
+			'section_head_padding_top'              =>  20,
+			'section_head_padding_bottom'           =>  20,
+			'section_head_padding_left'             =>  4,
+			'section_head_padding_right'            =>  4,
+			'section_head_category_icon_location'   => 'left',
+			'section_head_category_icon_size'       => 21,
+			'section_desc_text_on'                  =>  'off',
+			'section_border_radius'                 =>  4,
+			'section_border_width'                  =>  0,
+			'section_box_shadow'                    =>  'no_shadow',
+			'section_divider'                       =>  'on',
+			'section_divider_thickness'             =>  5,
+			'section_box_height_mode'               =>  'section_no_height',
+			'section_body_height'                   =>  350,
+			'section_body_padding_top'              =>  4,
+			'section_body_padding_bottom'           =>  4,
+			'section_body_padding_left'             =>  10,
+			'section_body_padding_right'            =>  10,
+			'section_article_underline'             =>  'on',
+			'article_list_margin'                   =>  10,
+			'article_list_spacing'                  =>  8,
+
+
+			//Features
+			/* 'back_navigation_toggle'         => 'on',
+			 'back_navigation_mode'           => 'navigate_browser_back',
+			 'back_navigation_text_color'     => '#666666',
+			 'back_navigation_bg_color'       => '#ffffff',
+			 'back_navigation_border_color'   => '#dcdcdc',
+			 'back_navigation_font_size'      => '16',
+			 'back_navigation_border'         => 'solid',
+			 'back_navigation_border_radius'  => '3',
+			 'back_navigation_border_width'   => '1',
+			 'back_navigation_margin_top'     => '4',
+			 'back_navigation_margin_bottom'  => '4',
+			 'back_navigation_margin_left'    => '4',
+			 'back_navigation_margin_right'   => '4',
+			 'back_navigation_padding_top'    => '4',
+			 'back_navigation_padding_bottom' => '4',
+			 'back_navigation_padding_left'   => '4',
+			 'back_navigation_padding_right'  => '4', */
+		);
+	}
+
+
     public static function get_style_2_set() {
-        return array(
+	return array(
 
 
-            //KB Main Page -> General
-            'width'                         =>  'epkb-boxed',
-            'section_font_size'             =>  'section_medium_font',
-	        'nof_columns'                   =>  'three-col',
-	        'nof_articles_displayed'        =>  8,
-	        'expand_articles_icon'          =>  'ep_font_icon_arrow_carrot_right',
+		//KB Main Page -> General
+		'width'                         =>  'epkb-boxed',
+		'section_font_size'             =>  'section_medium_font',
+		'nof_columns'                   =>  'three-col',
+		'nof_articles_displayed'        =>  8,
+		'expand_articles_icon'          =>  'ep_font_icon_arrow_carrot_right',
 
-            //KB Main Page -> Search Box
-	        'search_layout'                 =>  'epkb-search-form-1',
-	        'search_input_border_width'     =>  1,
-	        'search_box_padding_top'        =>  50,
-	        'search_box_padding_bottom'     =>  50,
-	        'search_box_padding_left'       =>  0,
-	        'search_box_padding_right'      =>  0,
-	        'search_box_margin_top'         =>  0,
-	        'search_box_margin_bottom'      =>  40,
-	        'search_box_input_width'        =>  80,
-	        'search_box_results_style'      =>  'off',
+		//KB Main Page -> Search Box
+		'search_layout'                 =>  'epkb-search-form-1',
+		'search_input_border_width'     =>  1,
+		'search_box_padding_top'        =>  50,
+		'search_box_padding_bottom'     =>  50,
+		'search_box_padding_left'       =>  0,
+		'search_box_padding_right'      =>  0,
+		'search_box_margin_top'         =>  0,
+		'search_box_margin_bottom'      =>  40,
+		'search_box_input_width'        =>  80,
+		'search_box_results_style'      =>  'off',
 
-            //KB Main Page -> Articles Listed in Sub-Category
-	        'section_head_alignment'        =>  'center',
-	        'section_head_padding_top'      =>  20,
-	        'section_head_padding_bottom'   =>  20,
-	        'section_head_padding_left'     =>  4,
-	        'section_head_padding_right'    =>  4,
-	        'section_desc_text_on'          =>  'off',
-	        'section_border_radius'         =>  4,
-	        'section_border_width'          =>  1,
-	        'section_box_shadow'            =>  'section_light_shadow',
-	        'section_divider'               =>  'on',
-	        'section_divider_thickness'     =>  1,
-	        'section_box_height_mode'       =>  'section_no_height',
-            'section_body_height'           =>  350,
-	        'section_body_padding_top'      =>  4,
-	        'section_body_padding_bottom'   =>  4,
-	        'section_body_padding_left'     =>  10,
-	        'section_body_padding_right'    =>  10,
-	        'section_article_underline'     =>  'on',
-	        'article_list_margin'           =>  10,
-	        'article_list_spacing'          =>  8,
+		//KB Main Page -> Articles Listed in Sub-Category
+		'section_head_alignment'        =>  'center',
+		'section_head_padding_top'      =>  20,
+		'section_head_padding_bottom'   =>  20,
+		'section_head_padding_left'     =>  4,
+		'section_head_padding_right'    =>  4,
+		'section_desc_text_on'          =>  'off',
+		'section_border_radius'         =>  4,
+		'section_border_width'          =>  1,
+		'section_box_shadow'            =>  'section_light_shadow',
+		'section_divider'               =>  'on',
+		'section_divider_thickness'     =>  1,
+		'section_box_height_mode'       =>  'section_no_height',
+		'section_body_height'           =>  350,
+		'section_body_padding_top'      =>  4,
+		'section_body_padding_bottom'   =>  4,
+		'section_body_padding_left'     =>  10,
+		'section_body_padding_right'    =>  10,
+		'section_article_underline'     =>  'on',
+		'article_list_margin'           =>  10,
+		'article_list_spacing'          =>  8,
 
 
-	        //Features
-	       /* 'back_navigation_toggle'         => 'on',
-	        'back_navigation_mode'           => 'navigate_browser_back',
-	        'back_navigation_text_color'     => '#666666',
-	        'back_navigation_bg_color'       => '#ffffff',
-	        'back_navigation_border_color'   => '#dcdcdc',
-	        'back_navigation_font_size'      => '16',
-	        'back_navigation_border'         => 'solid',
-	        'back_navigation_border_radius'  => '3',
-	        'back_navigation_border_width'   => '1',
-	        'back_navigation_margin_top'     => '4',
-	        'back_navigation_margin_bottom'  => '4',
-	        'back_navigation_margin_left'    => '4',
-	        'back_navigation_margin_right'   => '4',
-	        'back_navigation_padding_top'    => '4',
-	        'back_navigation_padding_bottom' => '4',
-	        'back_navigation_padding_left'   => '4',
-	        'back_navigation_padding_right'  => '4', */
-        );
-    }
+		//Features
+		/* 'back_navigation_toggle'         => 'on',
+		 'back_navigation_mode'           => 'navigate_browser_back',
+		 'back_navigation_text_color'     => '#666666',
+		 'back_navigation_bg_color'       => '#ffffff',
+		 'back_navigation_border_color'   => '#dcdcdc',
+		 'back_navigation_font_size'      => '16',
+		 'back_navigation_border'         => 'solid',
+		 'back_navigation_border_radius'  => '3',
+		 'back_navigation_border_width'   => '1',
+		 'back_navigation_margin_top'     => '4',
+		 'back_navigation_margin_bottom'  => '4',
+		 'back_navigation_margin_left'    => '4',
+		 'back_navigation_margin_right'   => '4',
+		 'back_navigation_padding_top'    => '4',
+		 'back_navigation_padding_bottom' => '4',
+		 'back_navigation_padding_left'   => '4',
+		 'back_navigation_padding_right'  => '4', */
+	);
+}
     
     //Not used
     private static function get_style_3_set() {

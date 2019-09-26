@@ -79,8 +79,12 @@ class EPKB_HTML_Elements {
 	 *
 	 * @param array $args Arguments for the text field
 	 */
-	public function text( $args = array() ) {
-
+	public function text( $args = array(), $return_html=false ) {
+	
+		if ( $return_html ) {
+			ob_start();
+		}
+		
 		$args = $this->add_defaults( $args );
 
 		$id             =  esc_attr( $args['name'] );
@@ -112,14 +116,15 @@ class EPKB_HTML_Elements {
 						?>
                        maxlength="<?php echo $args['max']; ?>"
 				/>
-			</div>			<?php
-			
-			if ( ! empty( $args['info'] ) ) { ?>
-				<span class='info-icon'><p class='hidden'><?php echo $args['info']; ?></p></span>			<?php 
-			}			?>
+			</div>
 
-		</li>
-		<?php
+		</li>		<?php
+
+		if ( $return_html ) {
+			return ob_get_clean();
+		}
+		
+		return '';
 	}
 
 	/**
@@ -171,9 +176,14 @@ class EPKB_HTML_Elements {
 	 * Renders an HTML Checkbox
 	 *
 	 * @param array $args
+	 * @return string
 	 */
-	public function checkbox( $args = array() ) {
-
+	public function checkbox( $args = array(), $return_html=false ) {
+	
+		if ( $return_html ) {
+			ob_start();
+		}
+		
 		$defaults = array(
 			'name'         => 'checkbox',
 			'class'        => '',
@@ -196,7 +206,12 @@ class EPKB_HTML_Elements {
 					<?php echo $checked; ?> />
 			</div>
 		</div>			<?php
-
+		
+		if ( $return_html ) {
+			return ob_get_clean();
+		}
+		
+		return '';
 	}
 
 	/**
@@ -569,9 +584,16 @@ class EPKB_HTML_Elements {
 	 * @param string $class
 	 * @param string $html - any additional hidden fields
 	 * @param bool $unique_button - is this unique button or a group of buttons - use 'ID' for the first and 'class' for the other
-
+	 *
+	 * @return string
 	 */
-	public function submit_button( $button_label, $action, $class='', $html='', $unique_button=true ) {   ?>
+	public function submit_button( $button_label, $action, $class='', $html='', $unique_button=true, $return_html=false  ) {
+
+
+		if ( $return_html ) {
+			ob_start();
+		}		?>
+		
 		<div class=" <?php echo $class; ?>">
 			<input type="hidden" id="_wpnonce_<?php echo $action; ?>" name="_wpnonce_<?php echo $action; ?>" value="<?php echo wp_create_nonce( "_wpnonce_$action" ); ?>"/>
             <input type="hidden" name="action" value="<?php echo $action; ?>"/>     <?php
@@ -582,6 +604,11 @@ class EPKB_HTML_Elements {
             }
 			echo $html;  ?>
 		</div>  <?php
+
+		if ( $return_html ) {
+			return ob_get_clean();
+		}
+		return '';
 	}
 
 	// Basic Form Elements------------------------------------------------------------------------------------------/
@@ -669,6 +696,48 @@ class EPKB_HTML_Elements {
         return '';
 	}
 
+	/**
+	 * Renders an HTML Checkbox
+	 *
+	 * @param array $args
+	 */
+	public function checkbox_basic( $args = array() ) {
+
+		$defaults = array(
+			'name'         => 'checkbox',
+			'class'        => '',
+		);
+		$args = $this->add_defaults( $args, $defaults );
+		$id             =  esc_attr( $args['name'] );
+		$checked = checked( "on", $args['value'], false );		?>
+
+		<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id; ?>">
+				<?php echo wp_kses( $args['label'], array(
+					'a' => array(
+						'href' => array(),
+						'title' => array()
+					),
+					'br' => array(),
+					'em' => array(),
+					'strong' => array(),
+				) ); ?>
+		</label>
+		<input type="checkbox"
+		       name="<?php echo $id ?>"
+		       id="<?php echo $id ?>"
+		       value="on"
+			<?php echo $checked; ?>
+		/>
+
+		<?php
+
+			if ( !empty( $args['info'] ) ) { ?>
+				<span class='info-icon'><p class='hidden'><?php echo $args['info']; ?></p></span>			<?php
+			} ?>
+
+		<?php
+	}
+
 	// Other Elements------------------------------------------------------------------------------------------/
 
 	/*
@@ -746,7 +815,7 @@ class EPKB_HTML_Elements {
                     <?php if ( isset( $args['content'] ) ) { ?>
                         <div class="epkb-body-content"><?php echo $args['content']; ?></div>
                         <?php }	?>
-	                <div class="epkb-content-toggle"><?php echo $args['toggle_text']; ?><span class="fa fa-arrow-circle-down"></span> </div>
+	                <div class="epkb-content-toggle"><?php echo $args['toggle_text']; ?><span class="epkbfa epkbfa-arrow-circle-down"></span> </div>
 
 					<?php if ( isset( $args['checkboxes'] ) ) {   ?>
                         <div class="epkb-body-checkboxes">
@@ -787,7 +856,7 @@ class EPKB_HTML_Elements {
                 <section class="epkb-toggle-box-header">
                     <h3>
                         <?php echo $args['title']; ?>
-                        <span class="epkb-toggle-box-icon fa fa-arrow-circle-down"></span>
+                        <span class="epkb-toggle-box-icon epkbfa epkbfa-arrow-circle-down"></span>
                     </h3>
 
                 </section>
@@ -810,14 +879,14 @@ class EPKB_HTML_Elements {
 
         <span id="<?php echo $args['id']; ?>" class="epkb-info-box epkb-info-toggle-closed">
 
-            <div class="epkb-info-box-icon fa fa-info-circle"></div>
+            <div class="epkb-info-box-icon epkbfa epkbfa-info-circle"></div>
 
 
             <div class="epkb-info-box-popup">
                 <div class="epkb-info-box-container">
-                    <span class="epkb-info-box-close fa fa-times"></span>
-                    <span class="epkb-info-box-icon-max fa fa-expand"></span>
-                    <span class="epkb-info-box-icon-min fa fa-compress"></span>
+                    <span class="epkb-info-box-close epkbfa epkbfa-times"></span>
+                    <span class="epkb-info-box-icon-max epkbfa epkbfa-expand"></span>
+                    <span class="epkb-info-box-icon-min epkbfa epkbfa-compress"></span>
                     <section class="epkb-info-box-header">
                         <h3><?php echo $args['title']; ?></h3>
                     </section>

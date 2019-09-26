@@ -32,7 +32,6 @@ class EPKB_Autoloader {
 
 				// ADMIN CORE
 				'epkb_admin_notices'                =>  'includes/admin/class-epkb-admin-notices.php',
-				'epkb_welcome_screen'               =>  'includes/admin/class-epkb-welcome-screen.php',
 
 				// ADMIN PLUGIN MENU PAGES
 				'epkb_settings_controller'          =>  'includes/admin/settings/class-epkb-settings-controller.php',
@@ -55,7 +54,7 @@ class EPKB_Autoloader {
 				'epkb_kb_demo_data'                 =>  'includes/admin/kb-configuration/class-epkb-kb-demo-data.php',
 				'epkb_kb_menu_configuration'        =>  'includes/admin/kb-configuration/class-epkb-kb-menu-configuration.php',
 
-				'epkb_add_ons_page'                 =>  'includes/admin/add-ons/class-epkb-add-ons-page.php',
+				'epkb_add_ons_page'                 =>  'includes/admin/class-epkb-add-ons-page.php',
 
 				// FEATURES - LAYOUT
 				'epkb_layout'                       =>  'includes/features/layouts/class-epkb-layout.php',

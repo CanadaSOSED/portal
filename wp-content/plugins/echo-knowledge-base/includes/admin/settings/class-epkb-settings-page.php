@@ -20,10 +20,7 @@ class EPKB_Settings_Page {
 			<div class="epkb-config-wrapper">
 				<div class="wrap" id="ekb_core_top_heading"></div>
 				<div class="eckb-top-notice-message"></div>          <?php
-
-				self::display_welcome_header();
 				self::display_page_details(); ?>
-
 			</div>
 		</div>
 
@@ -31,45 +28,6 @@ class EPKB_Settings_Page {
 			<p id="epkb-dialog-info-icon-msg"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></p>
 		</div>      <?php
 
-	}
-
-	/**
-	 * Display Welcome Page if plugin newly installed
-	 */
-	private static function display_welcome_header() {
-
-		$header_option = get_option( 'epkb_show_welcome_header' );
-		if ( empty( $header_option ) ) {
-			return;
-		}   ?>
-
-		<div class="welcome_header">
-			<div class="container-fluid">
-				<div class="row">
-
-					<div class="col-5">
-						<h1><?php echo esc_html__( 'Welcome to Knowledge Base for Documents and FAQs', 'echo-knowledge-base' ) . ' ' . Echo_Knowledge_Base::$version; ?></h1>
-						<p><?php
-							$i18_doc_link = '<a href="https://www.echoknowledgebase.com/documentation/" target="_blank">' .
-							                esc_html_e( 'documentation', 'echo-knowledge-base' ) . '</a>';
-							$i18_rating_link = '<a href="https://wordpress.org/support/plugin/echo-knowledge-base/reviews/?filter=5" ' .
-							   'target="_blank">' . esc_html_e( '5-stars', 'echo-knowledge-base' ) . '</a>.';
-							printf( esc_html( _x( 'Thanks for using Knowledge Base. To get started, read over the %s ' .
-							                 'and play with the settings. If you enjoy this plugin please consider telling a ' .
-											 'friend, or rating it %s ', ' document link, rating link', 'echo-knowledge-base') ),
-											$i18_doc_link, $i18_rating_link );  ?>
-						</p>
-					</div>
-					<div class="col-2">
-						<div class="logo">
-							<img src="<?php echo Echo_Knowledge_Base::$plugin_url . 'img/kb-icon.png'; ?>">
-						</div>
-						<button id="close_intro"><?php esc_html_e( 'Close', 'echo-knowledge-base' ); ?></button>
-					</div>
-
-				</div>
-			</div>
-		</div>  <?php
 	}
 
 	/**
@@ -88,19 +46,7 @@ class EPKB_Settings_Page {
 			<section class="epkb-main-nav">
 
 				<ul class="epkb-admin-pages-nav-tabs">
-					<li class="nav_tab <?php echo $debug_tab_active ? '' : 'active'; ?>">
-						<h2><span class="ep_font_icon_life_saver"></span> <?php esc_html_e( 'Help | Info', 'echo-knowledge-base' ); ?></h2>
-						<p><?php esc_html_e( 'Docs / Contact Us / About Us', 'echo-knowledge-base' ); ?></p>
-					</li>
-					<li class="nav_tab">
-						<h2><span class="ep_font_icon_comment"></span> <?php esc_html_e( 'Feedback', 'echo-knowledge-base' ); ?></h2>
-						<p><?php esc_html_e( 'Let us know what you think?', 'echo-knowledge-base' ); ?></p>
-					</li>
-					<li class="nav_tab">
-						<h2><span class="ep_font_icon_building"></span> <?php esc_html_e( 'About us', 'echo-knowledge-base' ); ?></h2>
-						<p><?php esc_html_e( 'What else do we do?', 'echo-knowledge-base' ); ?></p>
-					</li>
-					<li class="nav_tab <?php echo $debug_tab_active ? 'active' : ''; ?>">
+					<li class="nav_tab active">
 						<h2><span class="ep_font_icon_tools"></span> <?php esc_html_e( 'Debug', 'echo-knowledge-base' ); ?></h2>
 						<p><?php esc_html_e( 'Information required for support.', 'echo-knowledge-base' ); ?></p>
 					</li>
@@ -114,21 +60,7 @@ class EPKB_Settings_Page {
 
 				<!--   PLUGIN WIDE SETTINGS -->
 
-				<div class="ekb-admin-page-tab-panel container-fluid <?php echo $debug_tab_active ? '' : 'active'; ?>">  <?php
-					self::display_help();    ?>
-				</div>
-
-				<div class="ekb-admin-page-tab-panel container-fluid">   <?php
-					self::display_feedback_form( $form );       ?>
-				</div>
-
-				<div class="ekb-admin-page-tab-panel container-fluid">
-					<section>   <?php
-						self::display_other_plugins();     ?>
-					</section>
-				</div>
-
-				<div class="ekb-admin-page-tab-panel container-fluid <?php echo $debug_tab_active ? 'active' : ''; ?>">
+				<div class="ekb-admin-page-tab-panel container-fluid active">
                     <p>Enable debugging when instructed by the Echo team.</p>
                     <?php
 					self::display_debug_info( $form );       ?>
@@ -142,134 +74,6 @@ class EPKB_Settings_Page {
 			</div>
 
 		</div>	 <?php
-	}
-
-	private static function display_help() {    ?>
-		<div class="row">
-			<section class="col-3">
-				<h3><?php esc_html_e( 'Getting Started / What\'s New', 'echo-knowledge-base' ); ?></h3>
-				<p><?php esc_html_e( 'Read about what\'s new in the latest plugin update or how to get started.', 'echo-knowledge-base' ); ?></p>
-				<a class="button primary-btn"
-				   href="<?php echo admin_url( 'index.php?page=epkb-welcome-page&tab=get-started' ); ?>"><?php esc_html_e( 'Welcome Page', 'echo-knowledge-base' ); ?>
-				</a>
-			</section>
-			<section class="col-3">
-				<h3><?php esc_html_e( 'Full Documentation', 'echo-knowledge-base' ); ?></h3>
-				<p><?php esc_html_e( 'Knowledge Base that explains all plugin features.', 'echo-knowledge-base' ); ?></p>
-				<a class="button primary-btn" href="https://www.echoknowledgebase.com/documentation/"
-				   target="_blank"><?php esc_html_e( 'Knowledge Base', 'echo-knowledge-base' ); ?></a>
-			</section>
-			<section class="col-3">
-				<h3><?php esc_html_e( 'Still Need Some Help?', 'echo-knowledge-base' ); ?></h3>
-				<p><?php esc_html_e( 'If you encounter an issue or have a question, please submit your request below.', 'echo-knowledge-base' ); ?></p>
-				<a class="button primary-btn"
-				   href="https://www.echoknowledgebase.com/contact-us/?inquiry-type=technical&plugin_type=knowledge-base"
-				   target="_blank"><?php esc_html_e( 'Contact Us', 'echo-knowledge-base' ); ?></a>
-			</section>
-		</div>   <?php
-	}
-
-	/**
-	 * @param EPKB_HTML_Elements $form
-	 */
-	private static function display_feedback_form( $form ) {   ?>
-
-		<div class="form_options">
-            <div class="ekb-feedback-type-container">
-                <h4><?php _e('What best describes your inquiry?', 'echo-knowledge-base' ); ?></h4>
-                <a href="http://www.echoknowledgebase.com/contact-us/?inquiry-type=technical" class="ekb-feedback-btn"><?php _e('Technical Support', 'echo-knowledge-base' ); ?><span class="icon_tools"></span></a>
-                <a id="feature-request" class="ekb-feedback-btn"><?php _e('Feature Request', 'echo-knowledge-base' ); ?><span class="icon_lightbulb_alt"></span></a>
-            </div>
-
-			<form id="epkb_feedback_form" method="post">
-
-				<section>
-					<h3><?php esc_html_e( 'What features should we add or improve?', 'echo-knowledge-base' ); ?></h3>
-
-					<ul>				<?php
-
-						$form->text( array(
-							'label'       => __( 'Email *', 'echo-knowledge-base' ),
-							'name'        => 'your_email',
-							'info'        => __( 'If you would like to hear back from us please provide us your email.', 'echo-knowledge-base' ),
-							'type'        => EPKB_Input_Filter::TEXT,
-							'max'         => '50',
-							'label_class' => 'col-3',
-							'input_class' => 'col-4'
-						) );
-
-						$form->text( array(
-								'label'       => __( 'Name *', 'echo-knowledge-base' ),
-								'name'        => 'your_name',
-								'info'        => __( 'First name is sufficient.', 'echo-knowledge-base' ),
-								'type'        => EPKB_Input_Filter::TEXT,
-								'max'         => '50',
-								'label_class' => 'col-3',
-								'input_class' => 'col-4'
-						) );
-
-						$form->textarea( array(
-							'label'       => __( 'Your Ideas and Feedback *', 'echo-knowledge-base' ),
-							'name'        => 'your_feedback',
-							'info'        => '',
-							'type'        => EPKB_Input_Filter::TEXT,
-							'max'         => '1000',
-							'min'         => '3',
-							'label_class' => 'col-3',
-							'input_class' => 'col-4',
-							'rows'        => 7
-						) ); ?>
-
-					</ul>
-				</section>
-
-				<section style="padding-top: 20px;" class="save-settings">    <?php
-					$form->submit_button( 'Send Feedback', 'epkb_send_feedback', 'send_feedback' ); ?>
-				</section>
-
-			</form>
-
-		</div>    <?php
-	}
-
-	private static function display_other_plugins() {   ?>
-
-		<h3><?php esc_html_e( 'Our other Plugins', 'echo-knowledge-base' ); ?></h3>
-
-		<div class="preview_product">
-			<div class="top_heading">
-				<h3><?php esc_html_e( 'Show IDs', 'echo-knowledge-base' ); ?></h3>
-			</div>
-			<div class="featured_img">
-				<img src="<?php echo 'http://www.echoplugins.com/wp-content/uploads/2016/10/show_id_plugin.png'; ?>">
-			</div>
-			<div class="description">
-				<p>
-					<span><?php echo wp_kses_post( __( '<strong>Show IDs</strong> of post, pages and taxonomies.', 'echo-knowledge-base' ) ); ?></span>
-				</p>
-				<p><i><?php esc_html_e( 'Free on WordPress.org', 'echo-knowledge-base' ); ?></i></p>
-			</div>
-			<a class="button primary-btn" href="https://wordpress.org/plugins/echo-show-ids//"
-			   target="_blank"><?php esc_html_e( 'Learn More', 'echo-knowledge-base' ); ?></a>
-
-		</div>
-		<div class="preview_product">
-			<div class="top_heading">
-				<h3><?php esc_html_e( 'Content Down Arrow', 'echo-knowledge-base' ); ?></h3>
-			</div>
-			<div class="featured_img">
-				<img src="<?php echo 'http://www.echoplugins.com/wp-content/uploads/2016/10/arrow_plugin.png'; ?>">
-			</div>
-			<div class="description">
-				<p>
-					<span><?php echo wp_kses_post( __( 'Display <strong>downward-pointing arrow</strong> to indicate more content below.', 'echo-knowledge-base' ) ); ?></span>
-				</p>
-			</div>
-			<a class="button primary-btn"
-			   href="https://www.echoplugins.com/wordpress-plugins/content-down-arrow/"
-			   target="_blank"><?php esc_html_e( 'Learn More', 'echo-knowledge-base' ); ?></a>
-
-		</div>    <?php
 	}
 
 	/**
@@ -362,8 +166,6 @@ class EPKB_Settings_Page {
 
 		$output .= '</textarea>';
 
-
-
 		return $output;
 	}
 
@@ -375,7 +177,7 @@ class EPKB_Settings_Page {
 		/** @var $wpdb Wpdb */
 		global $wpdb;
 
-		$host = defined( 'WPE_APIKEY' ) ? "Host: WP Engine" : '';
+		$host = defined( 'WPE_APIKEY' ) ? "Host: WP Engine" : '<unknown>';
 		/** @var $theme_data WP_Theme */
 		$theme_data = wp_get_theme();
 		/** @noinspection PhpUndefinedFieldInspection */
@@ -399,8 +201,7 @@ class EPKB_Settings_Page {
 		WordPress Version:        <?php echo get_bloginfo( 'version' ) . "\n"; ?>
 		Permalink Structure:      <?php echo get_option( 'permalink_structure' ) . "\n"; ?>
 		Active Theme:             <?php echo $theme; ?>
-
-        <?php echo $host; ?>
+		Host:                     <?php echo $host; ?>
 
 		PHP Version:              <?php echo PHP_VERSION . "\n"; ?>
 

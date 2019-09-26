@@ -72,12 +72,22 @@ class EPKB_Upgrades {
 		        $update_config = true;
 	        }
 
+	        if ( version_compare( $last_version, '4.4.2', '<' ) ) {
+		        self::upgrade_to_v442( $kb_config );
+		        $update_config = true;
+	        }
+
 	        // store the updated KB data
 	        if ( $update_config ) {
 		        epkb_get_instance()->kb_config_obj->update_kb_configuration( $kb_config['id'], $kb_config );
 	        }
         }
     }
+
+	private static function upgrade_to_v442( &$kb_config ) {
+		$wpml_enabled = EPKB_Utilities::get_wp_option( 'epkb_wpml_enabled', false );
+		$kb_config['wpml_is_enabled'] = $wpml_enabled === 'true';
+	}
 
 	private static function upgrade_to_v311( &$kb_config ) {
 		$kb_config['breadcrumb_icon_separator'] = str_replace( 'ep_icon', 'ep_font_icon', $kb_config['breadcrumb_icon_separator'] );

@@ -3,6 +3,8 @@
         <custom-type translate="1">epkb_post_type_1</custom-type>
         <custom-type translate="1">epkb_post_type_2</custom-type>
         <custom-type translate="1">epkb_post_type_3</custom-type>
+        <custom-type translate="1">epkb_post_type_4</custom-type>
+        <custom-type translate="1">epkb_post_type_5</custom-type>
     </custom-types>
     <taxonomies>
         <taxonomy translate="1">epkb_post_type_1_category</taxonomy>
@@ -11,6 +13,10 @@
         <taxonomy translate="1">epkb_post_type_2_tag</taxonomy>
         <taxonomy translate="1">epkb_post_type_3_category</taxonomy>
         <taxonomy translate="1">epkb_post_type_3_tag</taxonomy>
+        <taxonomy translate="1">epkb_post_type_4_category</taxonomy>
+        <taxonomy translate="1">epkb_post_type_4_tag</taxonomy>
+        <taxonomy translate="1">epkb_post_type_5_category</taxonomy>
+        <taxonomy translate="1">epkb_post_type_5_tag</taxonomy>
     </taxonomies>
     <admin-texts>
         <key name="epkb_config_1">
@@ -46,6 +52,38 @@
             <key name="choose_main_topic"/>
         </key>
         <key name="epkb_config_3">
+            <key name="breadcrumb_description_text"/>
+            <key name="breadcrumb_home_text"/>
+            <key name="back_navigation_text"/>
+            <key name="last_udpated_on_text"/>
+            <key name="search_title"/>
+            <key name="search_box_hint"/>
+            <key name="search_button_name"/>
+            <key name="search_results_msg"/>
+            <key name="no_results_found"/>
+            <key name="min_search_word_size_msg"/>
+            <key name="category_empty_msg"/>
+            <key name="collapse_articles_msg"/>
+            <key name="show_all_articles_msg"/>
+            <key name="choose_main_topic"/>
+        </key>
+        <key name="epkb_config_4">
+            <key name="breadcrumb_description_text"/>
+            <key name="breadcrumb_home_text"/>
+            <key name="back_navigation_text"/>
+            <key name="last_udpated_on_text"/>
+            <key name="search_title"/>
+            <key name="search_box_hint"/>
+            <key name="search_button_name"/>
+            <key name="search_results_msg"/>
+            <key name="no_results_found"/>
+            <key name="min_search_word_size_msg"/>
+            <key name="category_empty_msg"/>
+            <key name="collapse_articles_msg"/>
+            <key name="show_all_articles_msg"/>
+            <key name="choose_main_topic"/>
+        </key>
+        <key name="epkb_config_5">
             <key name="breadcrumb_description_text"/>
             <key name="breadcrumb_home_text"/>
             <key name="back_navigation_text"/>

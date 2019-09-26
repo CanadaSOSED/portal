@@ -16,18 +16,21 @@ class EPKB_WPML {
 			$unset_category = self::remove_language_category( $box_category_id, $current_lang );
 			if ( $unset_category ) {
 				unset($category_seq_data[$box_category_id]);
+				continue;
 			}
 
 			foreach ( $box_sub_categories as $box_sub_category_id => $box_sub_sub_category ) {
 				$unset_category = self::remove_language_category( $box_sub_category_id, $current_lang );
 				if ( $unset_category ) {
 					unset($box_sub_categories[$box_sub_category_id]);
+					continue;
 				}
 
 				foreach ( $box_sub_sub_category as $box_sub_sub_category_id => $unused ) {
 					$unset_category = self::remove_language_category( $box_sub_sub_category_id, $current_lang );
 					if ( $unset_category ) {
 						unset($box_sub_sub_category[$box_sub_sub_category_id]);
+						continue;
 					}
 				}
 			}
@@ -37,8 +40,21 @@ class EPKB_WPML {
 	}
 
 	private static function remove_language_category( $category_id, $current_lang ) {
-		$args = array('element_id' => $category_id, 'element_type' => 'category' );
+		global $icl_adjust_id_url_filter_off;
+
+		$temp_icl_adjust_id_url_filter_off = $icl_adjust_id_url_filter_off;
+
+		$icl_adjust_id_url_filter_off = true;
+		$category = get_term($category_id);
+		if ( empty( $category ) || is_wp_error( $category ) || ! property_exists( $category, 'term_id' ) ) {
+			return true;
+		}
+
+		$args = array( 'element_id' => $category->term_taxonomy_id, 'element_type' => 'category' );
 		$my_category_language_code = apply_filters( 'wpml_element_language_code', null, $args );
+
+		$icl_adjust_id_url_filter_off = $temp_icl_adjust_id_url_filter_off;
+
 		return $my_category_language_code != $current_lang;
 	}
 
@@ -53,11 +69,24 @@ class EPKB_WPML {
 	}
 
 	private static function remove_language_article( &$seq_data, $category_id, $current_lang ) {
-		$args = array('element_id' => $category_id, 'element_type' => 'category' );
+
+		global $icl_adjust_id_url_filter_off;
+
+		$temp_icl_adjust_id_url_filter_off = $icl_adjust_id_url_filter_off;
+
+		$icl_adjust_id_url_filter_off = true;
+		$category = get_term($category_id);
+		if ( empty( $category ) || is_wp_error( $category ) || ! property_exists( $category, 'term_id' ) ) {
+			return true;
+		}
+
+		$args = array( 'element_id' => $category->term_taxonomy_id, 'element_type' => 'category' );
 		$my_category_language_code = apply_filters( 'wpml_element_language_code', null, $args );
 
 		if ( $my_category_language_code != $current_lang ) {
 			unset($seq_data[$category_id]);
 		}
+
+		$icl_adjust_id_url_filter_off = $temp_icl_adjust_id_url_filter_off;
 	}
 }

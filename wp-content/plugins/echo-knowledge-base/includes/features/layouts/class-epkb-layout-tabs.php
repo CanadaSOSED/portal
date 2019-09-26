@@ -232,7 +232,21 @@ class EPKB_Layout_Tabs extends EPKB_Layout {
 						continue;
 					}
 
-					$icon_name = empty($categories_icons[$box_category_id]) ? EPKB_Icons::DEFAULT_CATEGORY_ICON : $categories_icons[$box_category_id];
+					//Setup Category Icon
+					if ( empty($categories_icons[$box_category_id]) ) {
+						$icon_name = EPKB_Icons::DEFAULT_CATEGORY_ICON;
+					} else {
+						//IF epkbfa is in the string, then don't replace any characters.
+						if (strpos( $categories_icons[$box_category_id], 'epkbfa' ) !== false) {
+
+							$icon_name =  $categories_icons[$box_category_id];
+						} else {
+							//If it does not contain the epkbfa string then it's old and needs to be converted.
+							$icon_name = str_replace( 'fa-', 'epkbfa-', $categories_icons[$box_category_id] );
+						}
+					}
+
+
 					$icon_location = empty($this->kb_config['section_head_category_icon_location']) ? '' : $this->kb_config['section_head_category_icon_location'];
 
 					$category_desc = isset($this->articles_seq_data[$box_category_id][1])  && $this->kb_config['section_desc_text_on'] == 'on' ? $this->articles_seq_data[$box_category_id][1] : '';
@@ -251,14 +265,14 @@ class EPKB_Layout_Tabs extends EPKB_Layout {
 							<!-- Icon Top / Left -->	                            <?php
 							if ( in_array( $icon_location, array('left', 'top') ) ) {
 								$top_icon_class = $icon_location == 'top' ? 'epkb-top-cat-icon' : '';      ?>
-								<span class="epkb-cat-icon fa <?php echo $top_icon_class . ' ' . $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
+								<span class="epkb-cat-icon epkbfa <?php echo $top_icon_class . ' ' . $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
 							}       ?>
 
 							<span class="epkb-cat-name"><?php echo $category_name; ?></span>
 
 							<!-- Icon Right -->     <?php
 							if ( $this->kb_config['section_head_category_icon_location'] == 'right' ) {     ?>
-								<span class="epkb-cat-icon fa <?php echo $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
+								<span class="epkb-cat-icon epkbfa <?php echo $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
 							}       ?>
 
 							</div>

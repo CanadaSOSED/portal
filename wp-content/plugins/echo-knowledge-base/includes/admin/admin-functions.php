@@ -8,9 +8,8 @@
  *
  * @param int $post_id The ID of the post being saved.
  * @param object $post The post object.
- * @param bool $update Whether this is an existing post being updated or not.
  */
-function epkb_save_any_page( $post_id, $post, $update ) {
+function epkb_save_any_page( $post_id, $post ) {
 
 	// ignore autosave/revision which is not article submission; same with ajax and bulk edit
 	if ( ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || wp_is_post_autosave( $post_id ) || ( defined( 'DOING_AJAX') && DOING_AJAX ) || isset( $_REQUEST['bulk_edit'] ) ) {
@@ -60,4 +59,4 @@ function epkb_save_any_page( $post_id, $post, $update ) {
 		return;
 	}
 }
-add_action( 'save_post', 'epkb_save_any_page', 10, 3 );
+add_action( 'save_post', 'epkb_save_any_page', 10, 2 );

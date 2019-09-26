@@ -79,28 +79,31 @@ function epkb_load_admin_plugin_pages_resources() {
 					'help_text_coming'      => esc_html__('Help text is coming soon.', 'echo-knowledge-base' )
 				));
 
-	if ( EPKB_Utilities::get('page') == 'epkb-kb-configuration' ) {
-		wp_enqueue_script( 'epkb-admin-kb-config-script', Echo_Knowledge_Base::$plugin_url . 'js/admin-kb-config-script' . $suffix . '.js',
-					array('jquery',	'jquery-ui-core', 'jquery-ui-dialog', 'jquery-effects-core', 'jquery-effects-bounce'), Echo_Knowledge_Base::$version );
-		wp_localize_script( 'epkb-admin-kb-config-script', 'epkb_vars', array(
-			'msg_try_again'         => esc_html__( 'Please try again later.', 'echo-knowledge-base' ),
-			'error_occurred'        => esc_html__( 'Error occurred (14)', 'echo-knowledge-base' ),
-			'not_saved'             => esc_html__( 'Error occurred - configuration NOT saved.', 'echo-knowledge-base' ),
-			'unknown_error'         => esc_html__( 'unknown error (15)', 'echo-knowledge-base' ),
-			'reload_try_again'      => esc_html__( 'Please reload the page and try again.', 'echo-knowledge-base' ),
-			'save_config'           => esc_html__( 'Saving configuration', 'echo-knowledge-base' ),
-			'input_required'        => esc_html__( 'Input is required', 'echo-knowledge-base' ),
-			'reduce_name_size'      => esc_html__( 'Warning: Please reduce your name size. Tab will only show first 25 characters', 'echo-knowledge-base' ),
-			'archive_page'          => esc_html__( 'Archive Page configuration is available only for KB Template. Switch on KB Template to continue.', 'echo-knowledge-base' ),
-			'updating_preview'      => esc_html__( 'Updating page preview ...', 'echo-knowledge-base' ),
-			'changing_config'       => esc_html__('Changing to selected configuration...', 'echo-knowledge-base' ),
-			'switching_article_seq' => esc_html__('Switching article sequence ...', 'echo-knowledge-base' ),
-			'preview'               => esc_html__('Preview', 'echo-knowledge-base' )
-		));
-	}
-
 	wp_enqueue_script( 'wp-color-picker' );
 	wp_enqueue_style( 'wp-jquery-ui-dialog' );
+}
+
+function epkb_load_admin_kb_config_script() {
+
+	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
+	wp_enqueue_script( 'epkb-admin-kb-config-script', Echo_Knowledge_Base::$plugin_url . 'js/admin-kb-config-script' . $suffix . '.js',
+		array('jquery',	'jquery-ui-core', 'jquery-ui-dialog', 'jquery-effects-core', 'jquery-effects-bounce'), Echo_Knowledge_Base::$version );
+	wp_localize_script( 'epkb-admin-kb-config-script', 'epkb_vars', array(
+		'msg_try_again'         => esc_html__( 'Please try again later.', 'echo-knowledge-base' ),
+		'error_occurred'        => esc_html__( 'Error occurred (14)', 'echo-knowledge-base' ),
+		'not_saved'             => esc_html__( 'Error occurred - configuration NOT saved.', 'echo-knowledge-base' ),
+		'unknown_error'         => esc_html__( 'unknown error (15)', 'echo-knowledge-base' ),
+		'reload_try_again'      => esc_html__( 'Please reload the page and try again.', 'echo-knowledge-base' ),
+		'save_config'           => esc_html__( 'Saving configuration', 'echo-knowledge-base' ),
+		'input_required'        => esc_html__( 'Input is required', 'echo-knowledge-base' ),
+		'reduce_name_size'      => esc_html__( 'Warning: Please reduce your name size. Tab will only show first 25 characters', 'echo-knowledge-base' ),
+		'archive_page'          => esc_html__( 'Archive Page configuration is available only for KB Template. Switch on KB Template to continue.', 'echo-knowledge-base' ),
+		'updating_preview'      => esc_html__( 'Updating page preview ...', 'echo-knowledge-base' ),
+		'changing_config'       => esc_html__('Changing to selected configuration...', 'echo-knowledge-base' ),
+		'switching_article_seq' => esc_html__('Switching article sequence ...', 'echo-knowledge-base' ),
+		'preview'               => esc_html__('Preview', 'echo-knowledge-base' )
+	));
 }
 
 /**

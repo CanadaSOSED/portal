@@ -37,7 +37,7 @@ abstract class EPKB_Layout {
 		}
 
 		// for WPML filter categories and articles given active language
-		if ( EPKB_Utilities::is_wpml_enabled() ) {
+		if ( EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
 			$this->category_seq_data = EPKB_WPML::apply_category_language_filter( $this->category_seq_data );
 			$this->articles_seq_data = EPKB_WPML::apply_article_language_filter( $this->articles_seq_data );
 		}
@@ -99,7 +99,7 @@ abstract class EPKB_Layout {
 	 */
 	public function get_search_form() {
 
-		if ( defined('AS'.'EA_PLUGIN_NAME') ) {
+		if ( EPKB_Utilities::is_advanced_search_enabled( $this->kb_config ) ) {
 			do_action( 'eckb_advanced_search_box', $this->kb_config );
 			return;
 		}		?>
@@ -136,10 +136,15 @@ abstract class EPKB_Layout {
 			<form id="epkb_search_form" <?php echo $form_style . ' ' . $class1; ?> method="get" action="">
 
 				<div class="epkb-search-box">
-					<input type="text" <?php echo $style4; ?> id="epkb_search_terms" name="epkb_search_terms" value="" placeholder="<?php echo esc_attr( $this->kb_config['search_box_hint'] ); ?>" />
+					<input type="text" <?php echo $style4; ?> id="epkb_search_terms" aria-label="<?php echo esc_attr( $this->kb_config['search_box_hint'] ); ?>" name="epkb_search_terms" value="" placeholder="<?php echo esc_attr( $this->kb_config['search_box_hint'] ); ?>" />
 					<input type="hidden" id="epkb_kb_id" value="<?php echo $this->kb_id; ?>"/>
 					<button type="submit" id="epkb-search-kb" <?php echo $style2; ?>><?php echo esc_html( $this->kb_config['search_button_name'] ); ?> </button>
-
+					<script>
+						jQuery( "#epkb-search-kb" ).load(function() {
+							let search_text = $( '#epkb-search-kb' ).text();
+							$( '#epkb-search-kb' ).text( search_text );
+						});
+					</script>
 					<div class="loading-spinner"></div>
 				</div>
 				<div id="epkb_search_results"></div>

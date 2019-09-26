@@ -22,6 +22,9 @@ class EPKB_Articles_Admin {
 
 		// Classic Editor: post saved (cache cleared) so update article sequence
 		add_action( 'save_post', array( $this, 'update_articles_sequence_article_post_saved' ), 10, 2 );
+
+		// Post from Pending Review to Publish need to refresh post categories
+		add_action( 'pending_to_publish', array( $this, 'update_articles_sequence_article_pending_to_publish' ) );
 	}
 
 	/**
@@ -114,7 +117,7 @@ class EPKB_Articles_Admin {
 	 */
 	public function update_articles_sequence_article_categories_changed( $post_id, $terms, $tt_ids, $taxonomy, $append, $old_tt_ids ) {
 
-		if ( ! EPKB_KB_Handler::is_kb_taxonomy( $taxonomy) || empty($post_id) ) {
+		if ( ! EPKB_KB_Handler::is_kb_taxonomy( $taxonomy) || empty($post_id) || EPKB_Utilities::post('action', '', false) == 'em'.'kb_add_knowledge_base') {
 			return;
 		}
 
@@ -136,6 +139,20 @@ class EPKB_Articles_Admin {
 		$this->update_articles_sequence( $kb_id );
 	}
 
+	public function update_articles_sequence_article_pending_to_publish( $post ) {
+
+		if ( empty($post->post_type) || ! EPKB_KB_Handler::is_kb_post_type( $post->post_type ) ) {
+			return;
+		}
+
+		$kb_id = EPKB_KB_Handler::get_kb_id_from_post_type( $post->post_type );
+		if ( is_wp_error( $kb_id) ) {
+			return;
+		}
+
+		$this->update_articles_sequence( $kb_id );
+	}
+
 	/**
 	 * Update article sequence based on latest DB data.
 	 *
@@ -143,12 +160,6 @@ class EPKB_Articles_Admin {
 	 * @return bool
 	 */
 	public function update_articles_sequence( $kb_id ) {
-		static $article_sequence_updated = false;
-
-		if ( ! empty($article_sequence_updated) ) {
-			return true;
-		}
-		$article_sequence_updated = false;
 
 		// 1. get stored sequence of articles
 		$article_order_method = epkb_get_instance()->kb_config_obj->get_value( 'articles_display_sequence', $kb_id );
