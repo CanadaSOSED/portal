@@ -82,10 +82,9 @@ function acui_pmpro_post_import_single_user( $headers, $row, $user_id ){
 	if( !empty( $membership_discount_code ) && empty( $membership_code_id ) )
 		$membership_code_id = $wpdb->get_var( "SELECT id FROM $wpdb->pmpro_discount_codes WHERE `code` = '" . esc_sql( $membership_discount_code ) . "' LIMIT 1" );
 
-	if( !empty( $membership_id ) && empty( $membership_code_id ) ){
-		pmpro_changeMembershipLevel( $membership_id, $user_id );
-	}
-	elseif( !empty( $membership_code_id ) ){
+	//change membership level
+	if( !empty( $membership_id ) )
+	{
 		$custom_level = array(
 			'user_id' => $user_id,
 			'membership_id' => $membership_id,
@@ -104,14 +103,15 @@ function acui_pmpro_post_import_single_user( $headers, $row, $user_id ){
 				
 		pmpro_changeMembershipLevel( $custom_level, $user_id );
 		
+		//if membership was in the past make it inactive
 		if( $membership_status === "inactive" || ( !empty( $membership_enddate ) && $membership_enddate !== "NULL" && strtotime( $membership_enddate, current_time('timestamp') ) < current_time('timestamp') ) ){			
-			$sqlQuery = "UPDATE $wpdb->pmpro_memberships_users SET status = 'inactive' WHERE user_id = '" . $user_id . "' AND membership_id = '" . $membership_id . "'";
+			$sqlQuery = "UPDATE $wpdb->pmpro_memberships_users SET status = 'inactive' WHERE user_id = '" . $user_id . "' AND membership_id = '" . $membership_id . "'";		
 			$wpdb->query( $sqlQuery );
 			$membership_in_the_past = true;
 		}
 		
-		if( $membership_status === "active" && ( empty( $membership_enddate ) || $membership_enddate === "NULL" || strtotime( $membership_enddate, current_time( 'timestamp' ) ) >= current_time( 'timestamp' ) ) ){			
-			$sqlQuery = $wpdb->prepare( "UPDATE {$wpdb->pmpro_memberships_users} SET status = 'active' WHERE user_id = %d AND membership_id = %d", $user_id, $membership_id );
+		if( $membership_status === "active" && ( empty( $membership_enddate ) || $membership_enddate === "NULL" || strtotime( $membership_enddate, current_time('timestamp') ) >= current_time('timestamp') ) ){			
+			$sqlQuery = $wpdb->prepare( "UPDATE {$wpdb->pmpro_memberships_users} SET status = 'active' WHERE user_id = %d AND membership_id = %d", $user_id, $membership_id );		
 			$wpdb->query( $sqlQuery );
 		}
 	}
