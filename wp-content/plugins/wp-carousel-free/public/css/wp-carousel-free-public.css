@@ -4,13 +4,15 @@
 .sp-wpcp-wrapper {
 	margin-bottom: 0;
 }
+.wpcp-carousel-section.wpcp-standard .slick-list,
+.wpcp-carousel-section.wpcp-standard {
+	overflow: hidden;
+}
 .wpcp-carousel-section.wpcp-standard {
 	overflow: hidden;
 	padding-right: 2px;
-	display: none;
 }
 .wpcp-carousel-section.wpcp-standard.slick-initialized {
-	display: block;
 	position: relative;
 }
 .wpcp-carousel-section .wpcp-single-item {
@@ -53,7 +55,7 @@
 .wpcp-carousel-section .slick-slide:focus {
 	outline: none;
 }
-.wpcp-carousel-section .slick-slide {
+.wpcp-carousel-section.slick-initialized .slick-slide {
 	margin-right: 20px;    
 	float: none;
 	display: inline-block;
@@ -70,11 +72,6 @@
 /*--------------------------------------------------------------
 ## WP post Carousel
 --------------------------------------------------------------*/
-.wpcp-carousel-section:not(.wpcp-product-carousel) .wpcp-single-item {
-	border: 1px solid #e5e5e5;
-	background: #f9f9f9;
-}
-
 .wpcp-post-carousel .wpcp-single-item .wpcp-all-captions {
 	padding: 15px 20px 0;
 	overflow: hidden;
@@ -178,9 +175,6 @@
 /*--------------------------------------------------------------
 ## Product Carousel
 --------------------------------------------------------------*/
-.wpcp-carousel-section.wpcp-product-carousel .wpcp-slide-image{
-	border: 1px solid #efefef;
-}
 .wpcp-product-carousel .wpcp-single-item .wpcp-all-captions {
 	padding: 15px 20px 0;
 	overflow: hidden;

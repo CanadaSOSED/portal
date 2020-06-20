@@ -49,6 +49,14 @@ class EPKB_KB_Handler {
 		$kb_config = epkb_get_instance()->kb_config_obj->get_kb_config( $new_kb_id );
 		if ( is_wp_error( $kb_config ) || ! is_array($kb_config) ) {
 			$kb_config = EPKB_KB_Config_Specs::get_default_kb_config( $new_kb_id );
+			$kb_config['status'] = EPKB_KB_Status::BLANK;
+			// TODO Dec 2020: set defaults to these values and remove from here
+			$kb_config['article_toc_enable'] = 'on';
+			$kb_config['show_articles_before_categories'] = 'on';
+			$kb_config['article-structure-version'] = 'version-2';
+		} else if ( $kb_config['status'] == EPKB_KB_Status::BLANK ) {
+			$kb_config['status'] = EPKB_KB_Status::PUBLISHED;
+			$update_kb_config = true;
 		} else {
 			$update_kb_config = false;
 		}
@@ -61,17 +69,18 @@ class EPKB_KB_Handler {
 		}
 
 		// 2. Add a sample category and sub-category with article each if no category exists
-		$all_kb_terms = EPKB_Utilities::get_kb_categories( $new_kb_id );
-		if ( empty($all_kb_terms) ) {
-			self::create_sample_categories( $new_kb_id );
+		$all_kb_terms = EPKB_Utilities::get_kb_categories_unfiltered( $new_kb_id );
+		if ( $kb_config['status'] != EPKB_KB_Status::BLANK && empty($all_kb_terms) ) {
+			self::create_sample_categories( $new_kb_id, $kb_config['kb_main_page_layout'] );
 		}
 
-		// 3. Add KB Main Page
+		// 3. Add first KB Main page if none exists; first KB is just called Knowledge Base
 		$kb_main_pages = $kb_config['kb_main_pages'];
-		if ( empty($kb_main_pages) ) {
+		if ( $kb_config['status'] != EPKB_KB_Status::BLANK && empty($kb_main_pages) ) {
 
 			// we add new KB Page here so remove hook
 			remove_filter('save_post', 'epkb_save_any_page', 10 );
+
 			// do not process KB shortcode during KB creation
 			remove_shortcode( EPKB_KB_Handler::KB_MAIN_PAGE_SHORTCODE_NAME );
 
@@ -92,13 +101,14 @@ class EPKB_KB_Handler {
 				$kb_config['kb_name'] = $post->post_title;
 				$kb_main_pages[ $post_id ] = $post->post_title;
 				$kb_config['kb_main_pages'] = $kb_main_pages;
-				$kb_config['kb_articles_common_path'] = $post->post_name;
+				$kb_config['kb_articles_common_path'] = urldecode(sanitize_title_with_dashes( $post->post_name, '', 'save' ));
+				$kb_config['categories_display_sequence'] = 'user-sequenced';
 				$update_kb_config = true;
 			}
 		}
 
-		// 5. save new/updated KB configuration
-		if ( $update_kb_config ) {
+		// 4. save new/updated KB configuration
+		if ( $kb_config['status'] == EPKB_KB_Status::BLANK || $update_kb_config ) {
 			$result = epkb_get_instance()->kb_config_obj->update_kb_configuration( $new_kb_id, $kb_config );
 			if ( is_wp_error( $result ) ) {
 				EPKB_Logging::add_log( "Could not save configuration in the new KB", $new_kb_id, $result );
@@ -106,82 +116,231 @@ class EPKB_KB_Handler {
 			}
 		}
 
-		// let add-ons know we have a new KB; does not apply to default KB because at that time add-on is not even active
-		if ( $new_kb_id !== EPKB_KB_Config_DB::DEFAULT_KB_ID ) {
-			do_action( 'eckb_new_knowledge_base_added', $new_kb_id );
-		}
-
 		return $kb_config;
 	}
 
-	private static function create_sample_categories( $new_kb_id ) {
+	private static function create_sample_categories( $new_kb_id, $main_page_layout ) {
 
-		// FIRST CATEGORY + ARTICLES
-		$category_name = __( 'Introduction', 'echo-knowledge-base' );
-		$category2_id = self::create_sample_category( $new_kb_id, $category_name );
-		if ( empty($category2_id) ) {
-			return;
+		$add_ons_text = "<h2>". __( 'Access Manager', 'echo-knowledge-base' ) . "</h2>
+			<p>". __( 'Access Manager allows administrators, companies, and organizations to control and restrict access to their private Knowledge Base based on WordPress user accounts. Grant permission using roles and groups.', 'echo-knowledge-base' ) . " 
+			<a href='https://www.echoknowledgebase.com/wordpress-plugin/access-manager/?utm_source=plugin&utm_medium=addons&utm_content=home&utm_campaign=access-manager' target='_blank'>". __( 'Learn More', 'echo-knowledge-base' ) . "</a></p>
+
+			<h2>". __( 'Elegant Layouts', 'echo-knowledge-base' ) . "</h2>
+			<p>". __( 'Elegant Layouts adds Grid and Sidebar Layouts. Use Grid Layout or Sidebar Layout for KB Main page or combine Basic, Tabs, Grid and Sidebar layouts in a variety ways. Learn More.', 'echo-knowledge-base' ) . "
+			<a href='https://www.echoknowledgebase.com/wordpress-plugin/elegant-layouts/?utm_source=plugin&utm_medium=addons&utm_content=home&utm_campaign=elegant-layouts' target='_blank'>". __( 'Learn More', 'echo-knowledge-base' ) . "</a></p>
+			
+			<h2>". __( 'Multiple Knowledge Bases', 'echo-knowledge-base' ) . "</h2>
+			<p>". __( 'Create Multiple Knowledge Bases, one for each product, service, topic or department. Each Knowledgebase has separate articles, URLs, KB Main Page and admin screens. Learn More.', 'echo-knowledge-base' ) . "
+			<a href='https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases/?utm_source=plugin&utm_medium=addons&utm_content=home&utm_campaign=multiple-kbs' target='_blank'>". __( 'Learn More', 'echo-knowledge-base' ) . "</a></p>
+			
+			<h2>". __( 'Advanced Search', 'echo-knowledge-base' ) . "</h2>
+			<p>". __( 'Enhance users search experience and view search analytics including popular searches and no results searches. Learn More.', 'echo-knowledge-base' ) . "
+			<a href='https://www.echoknowledgebase.com/wordpress-plugin/advanced-search/?utm_source=plugin&utm_medium=addons&utm_content=home&utm_campaign=advanced-search' target='_blank'>". __( 'Learn More', 'echo-knowledge-base' ) . "</a></p>
+			
+			<h2>". __( 'Article Rating and Feedback', 'echo-knowledge-base' ) . "</h2>
+			<p>". __( 'Let your readers rate the quality of your articles and submit insightful feedback. Utilize analytics on most and least rated articles. Learn More.', 'echo-knowledge-base' ) . "
+			<a href='https://www.echoknowledgebase.com/wordpress-plugin/article-rating-and-feedback/?utm_source=plugin&utm_medium=addons&utm_content=home&utm_campaign=article-rating' target='_blank'>Learn More</a></p>
+			
+			<h2>". __( 'Widgets', 'echo-knowledge-base' ) . "</h2>
+			<p>". __( 'Add Knowledgebase Search, Most Recent Articles and other Widgets and Shortcodes to your articles, sidebars and pages. Learn More.', 'echo-knowledge-base' ) . "
+			<a href='https://www.echoknowledgebase.com/wordpress-plugin/widgets/?utm_source=plugin&utm_medium=addons&utm_content=home&utm_campaign=widgets' target='_blank'>". __( 'Learn More', 'echo-knowledge-base' ) . "</a></p>
+			
+			<h2>". __( 'Links Editor for PDFs and More', 'echo-knowledge-base' ) . "</h2>
+			<p>". __( 'Set Articles to links to PDFs, pages, posts and websites. On KB Main Page, choose icons for your articles. Learn More.', 'echo-knowledge-base' ) . "
+			<a href='https://www.echoknowledgebase.com/wordpress-plugin/links-editor-for-pdfs-and-more/?utm_source=plugin&utm_medium=addons&utm_content=home&utm_campaign=links-editor' target='_blank'>". __( 'Learn More', 'echo-knowledge-base' ) . "</a></p>";
+
+		$demo_category_parent_id = null;
+		$category_id_product_a = 0;
+		$category_name_product_a = '';
+		$category_id_product_b = 0;
+		$category_name_product_b = '';
+		$category_id_product_c = 0;
+		$category_name_product_c = '';
+		$articlex_id = 0;
+		$articlex_title = '';
+		$articley_id = 0;
+		$articley_title = '';
+		$sub_category_id_product_b = 0;
+		$sub_category_name_product_b = '';
+		$sub_category_id_product_c = 0;
+		$sub_category_name_product_c = '';
+
+		/*********** TABS TOP CATEGORIES **********/
+		if ( $main_page_layout == 'Tabs' ) {
+			$category_name_product_a = __( 'Product A', 'echo-knowledge-base' );
+			$category_id_product_a   = self::create_sample_category( $new_kb_id, $category_name_product_a );
+			if ( empty( $category_id_product_a ) ) {
+				return;
+			}
+			$demo_category_parent_id = $category_id_product_a;
+
+			$category_name_product_b = __( 'Product B', 'echo-knowledge-base' );
+			$category_id_product_b   = self::create_sample_category( $new_kb_id, $category_name_product_b );
+			if ( empty( $category_id_product_b ) ) {
+				return;
+			}
+
+			$sub_category_name_product_b = __( 'Topic B', 'echo-knowledge-base' );
+			$sub_category_id_product_b   = self::create_sample_category( $new_kb_id, $sub_category_name_product_b, $category_id_product_b );
+			if ( empty( $sub_category_id_product_b ) ) {
+				return;
+			}
+
+			$articlex_title = __( 'Article B', 'echo-knowledge-base' );
+			$articlex_id = self:: create_sample_article( $new_kb_id, $sub_category_id_product_b, $articlex_title );
+			if ( empty($articlex_id) ) {
+				return;
+			}
+
+			$category_name_product_c = __( 'Product C', 'echo-knowledge-base' );
+			$category_id_product_c   = self::create_sample_category( $new_kb_id, $category_name_product_c );
+			if ( empty( $category_id_product_c ) ) {
+				return;
+			}
+
+			$sub_category_name_product_c = __( 'Topic C', 'echo-knowledge-base' );
+			$sub_category_id_product_c   = self::create_sample_category( $new_kb_id, $sub_category_name_product_c, $category_id_product_c );
+			if ( empty( $sub_category_id_product_c ) ) {
+				return;
+			}
+
+			$articley_title = __( 'Article C', 'echo-knowledge-base' );
+			$articley_id = self:: create_sample_article( $new_kb_id, $sub_category_id_product_c, $articley_title );
+			if ( empty($articley_id) ) {
+				return;
+			}
 		}
 
-		$article1_title = __( '1. Overview', 'echo-knowledge-base' );
-		$article1_id = self:: create_sample_article( $new_kb_id, $category2_id, $article1_title );
-		if ( empty($article1_id) ) {
-			return;
-		}
-		$article2_title = __( '2. Next Steps', 'echo-knowledge-base' );
-		$article2_id = self:: create_sample_article( $new_kb_id, $category2_id, $article2_title );
-		if ( empty($article2_id) ) {
-			return;
-		}
-		$article3_title = __( '3. Conclusion', 'echo-knowledge-base' );
-		$article3_id = self:: create_sample_article( $new_kb_id, $category2_id, $article3_title );
-		if ( empty($article3_id) ) {
-			return;
-		}
-
-		// SECOND CATEGORY
-		$category1_id = self::create_sample_category( $new_kb_id, __( 'FAQs', 'echo-knowledge-base' ) );
-		if ( empty($category1_id) ) {
+		/*********** FIRST CATEGORY + ARTICLES **********/
+		$category_name_introduction = __( 'Introduction', 'echo-knowledge-base' );
+		$category_id_introduction = self::create_sample_category( $new_kb_id, $category_name_introduction, $demo_category_parent_id );
+		if ( empty($category_id_introduction) ) {
 			return;
 		}
 
 		// create sub-category
-		$category3_1_id = self::create_sample_category( $new_kb_id, __( 'Layouts', 'echo-knowledge-base' ), $category1_id );
-		if ( empty($category3_1_id) ) {
+		$category_name_apendix = __( 'Apendix', 'echo-knowledge-base' );
+		$category_id_apendix = self::create_sample_category( $new_kb_id, $category_name_apendix, $category_id_introduction );
+		if ( empty($category_id_apendix) ) {
+			return;
+		}
+
+		$article1_title = __( '1. Overview', 'echo-knowledge-base' );
+		$article1_id = self:: create_sample_article( $new_kb_id, $category_id_introduction, $article1_title );
+		if ( empty($article1_id) ) {
+			return;
+		}
+		$article2_title = __( '2. Next Steps', 'echo-knowledge-base' );
+		$article2_id = self:: create_sample_article( $new_kb_id, $category_id_introduction, $article2_title );
+		if ( empty($article2_id) ) {
+			return;
+		}
+		$article3_title = __( '3. Conclusion', 'echo-knowledge-base' );
+		$article3_id = self:: create_sample_article( $new_kb_id, $category_id_introduction, $article3_title );
+		if ( empty($article3_id) ) {
 			return;
 		}
 
 		// create article for sub-category
 		$article4_title = __( 'Category Hierarchy and Tabs Layout', 'echo-knowledge-base' );
-		$article4_id = self:: create_sample_article( $new_kb_id, $category3_1_id, $article4_title , 'Tabs Layout uses top categories for its tabs, and therefore, it cannot contain articles. Add your articles to sub-categories.');
+		$article4_id = self:: create_sample_article( $new_kb_id, $category_id_apendix, $article4_title , __( 'Tabs Layout uses top categories for its tabs, and therefore, it cannot contain articles. Add your articles to sub-categories.', 'echo-knowledge-base' ) );
 		if ( empty($article4_id) ) {
 			return;
 		}
 
-		// THIRD CATEGORY
-		$category3_id = self::create_sample_category( $new_kb_id, __( 'Other', 'echo-knowledge-base' ) );
-		if ( empty($category3_id) ) {
+		/*********** SECOND CATEGORY ************/
+		$category_name_faqs = __( 'FAQs', 'echo-knowledge-base' );
+		$category_id_faqs = self::create_sample_category( $new_kb_id, $category_name_faqs, $demo_category_parent_id );
+		if ( empty($category_id_faqs) ) {
+			return;
+		}
+
+		// create article for third category
+		$article5_title = __( 'About KB Add-ons', 'echo-knowledge-base' );
+		$article5_id = self:: create_sample_article( $new_kb_id, $category_id_faqs, $article5_title , $add_ons_text);
+		if ( empty($article5_id) ) {
+			return;
+		}
+
+		/************ THIRD CATEGORY ***********/
+		$category_name_other = __( 'Other', 'echo-knowledge-base' );
+		$category_id_other = self::create_sample_category( $new_kb_id, $category_name_other, $demo_category_parent_id );
+		if ( empty($category_id_other) ) {
+			return;
+		}
+
+		$article_other_title = __( 'Additional Resources', 'echo-knowledge-base' );
+		$article_other_id = self:: create_sample_article( $new_kb_id, $category_id_other, $article_other_title );
+		if ( empty($article3_id) ) {
 			return;
 		}
 
 		// save articles sequence data
-		$articles_array = array( $category2_id => array( '0' => $category_name, '1' => '',
+		$articles_array = array(
+								 $category_id_faqs => array( '0' => $category_name_faqs, '1' => '', $article5_id => $article5_title ),
+		                         $category_id_apendix => array( '0' => $category_name_apendix, '1' => '', $article4_id => $article4_title),
+								 $category_id_introduction => array( '0' => $category_name_introduction, '1' => '',
 		                                                 $article1_id => $article1_title, $article2_id => $article2_title, $article3_id => $article3_title),
-								 $category1_id => array(),
-								 $category3_1_id => array( '0' => 'Category hierarchy and Tabs Layout', '1' => '',
-								                           $article4_id => $article4_title),
-								 $category3_id => array());
+								 $category_id_other => array( '0' => $category_name_other, '1' => '', $article_other_id => $article_other_title ),
+							);
+
+		if ( $main_page_layout == 'Tabs' ) {
+
+			// sequence of this array has to correspond to sequence of categories
+			$articles_array = array(
+				$category_id_product_a => array( '0' => $category_name_product_a, '1' => '' ),
+				$category_id_faqs => array( '0' => $category_name_faqs, '1' => '', $article5_id => $article5_title ),
+				$category_id_apendix => array( '0' => $category_name_apendix, '1' => '', $article4_id => $article4_title),
+				$category_id_introduction => array( '0' => $category_name_introduction, '1' => '',
+				                                    $article1_id => $article1_title, $article2_id => $article2_title, $article3_id => $article3_title),
+				$category_id_other => array( '0' => $category_name_other, '1' => '', $article_other_id => $article_other_title ),
+				$category_id_product_b => array( '0' => $category_name_product_b, '1' => '' ),
+				$sub_category_id_product_b => array( '0' => $sub_category_name_product_b, '1' => '', $articlex_id => $articlex_title ),
+				$category_id_product_c => array( '0' => $category_name_product_c, '1' => '' ),
+				$sub_category_id_product_c => array( '0' => $sub_category_name_product_c, '1' => '', $articley_id => $articley_title ),
+			);
+
+		}
+
 		EPKB_Utilities::save_kb_option( $new_kb_id, EPKB_Articles_Admin::KB_ARTICLES_SEQ_META, $articles_array, true );
 
 		// save category sequence data
-		$cat_seq_meta = array( $category1_id => array(), $category2_id => array(), $category3_id => array(), $category3_1_id => array() );
+		if ( $main_page_layout == 'Tabs' ) {
+			$cat_seq_meta = array( $category_id_product_a => array( $category_id_introduction => array( $category_id_apendix => array() ), $category_id_faqs => array(), $category_id_other => array() ),
+			                       $category_id_product_b => array( $sub_category_id_product_b => array() ),
+			                       $category_id_product_c => array( $sub_category_id_product_c => array() ) );
+		} else {
+			$cat_seq_meta = array( $category_id_introduction => array( $category_id_apendix => array() ), $category_id_faqs => array(), $category_id_other => array() );
+		}
+
 		EPKB_Utilities::save_kb_option( $new_kb_id, EPKB_Categories_Admin::KB_CATEGORIES_SEQ_META, $cat_seq_meta, true );
 
 		// save new icons
 		$new_categories_icons = array();
-		$new_categories_icons[$category1_id] = 'epkbfa-book';
-		$new_categories_icons[$category2_id] = 'ep_font_icon_gears';
-		$new_categories_icons[$category3_id] = 'epkbfa-cube';
+		$new_categories_icons[$category_id_faqs] = array(
+				'type' => 'font',
+				'name' => 'epkbfa-book',
+				'image_id' => EPKB_Icons::DEFAULT_CATEGORY_IMAGE_ID,
+				'image_size' => EPKB_Icons::DEFAULT_CATEGORY_IMAGE_SIZE,
+				'image_thumbnail_url' => Echo_Knowledge_Base::$plugin_url . EPKB_Icons::DEFAULT_IMAGE_SLUG,
+				'color' => '#000000'    // FUTURE
+		);
+		$new_categories_icons[$category_id_introduction] = array(
+				'type' => 'font',
+				'name' => 'ep_font_icon_gears',
+				'image_id' => EPKB_Icons::DEFAULT_CATEGORY_IMAGE_ID,
+				'image_size' => EPKB_Icons::DEFAULT_CATEGORY_IMAGE_SIZE,
+				'image_thumbnail_url' => Echo_Knowledge_Base::$plugin_url . EPKB_Icons::DEFAULT_IMAGE_SLUG,
+				'color' => '#000000'    // FUTURE
+		);
+		$new_categories_icons[$category_id_other] = array(
+				'type' => 'font',
+				'name' => 'epkbfa-cube',
+				'image_id' => EPKB_Icons::DEFAULT_CATEGORY_IMAGE_ID,
+				'image_size' => EPKB_Icons::DEFAULT_CATEGORY_IMAGE_SIZE,
+				'image_thumbnail_url' => Echo_Knowledge_Base::$plugin_url . EPKB_Icons::DEFAULT_IMAGE_SLUG,
+				'color' => '#000000'    // FUTURE
+		);
 		$result = EPKB_Utilities::save_kb_option( $new_kb_id, EPKB_Icons::CATEGORIES_ICONS, $new_categories_icons, true );
 		if ( is_wp_error( $result ) ) {
 			return;
@@ -190,7 +349,7 @@ class EPKB_KB_Handler {
 
 	private static function create_sample_category( $new_kb_id, $category_name, $parent_id=null ) {
 
-		$args = empty($parent_id) ? array() : array( 'parent' => $parent_id );
+		$args = empty($parent_id) ? array('description' => __('Category description', 'echo-knowledge-base') ) : array( 'parent' => $parent_id, 'description' => __('Category description', 'echo-knowledge-base') );
 
 		// insert category
 		$term_id_array = wp_insert_term( $category_name, self::get_category_taxonomy_name( $new_kb_id ), $args );
@@ -209,9 +368,9 @@ class EPKB_KB_Handler {
 	private static function create_sample_article( $new_kb_id, $kb_term_id, $post_title, $post_content='' ) {
 
 		$post_content = ! empty($post_content) ? $post_content : '
-			<h2>This is a H2 heading</h2>
+			<h2>' . __( 'This is a H2 heading', 'echo-knowledge-base' ) . '</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id eu nisl nunc mi. Sed nisi lacus sed viverra tellus in hac habitasse platea. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus. Eleifend donec pretium vulputate sapien nec. Neque aliquam vestibulum morbi blandit cursus risus. Ultrices dui sapien eget mi proin sed. Massa massa ultricies mi quis hendrerit dolor. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Risus feugiat in ante metus dictum at tempor. Massa sapien faucibus et molestie ac feugiat sed lectus vestibulum. Risus nullam eget felis eget nunc lobortis. Malesuada nunc vel risus commodo viverra. Amet commodo nulla facilisi nullam. Vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat. Urna condimentum mattis pellentesque id nibh. Aliquam purus sit amet luctus. Vestibulum lorem sed risus ultricies.</p>
-			<p><em>This is an un-ordered list</em></p>
+			<p><em>' . __( 'This is an un-ordered list', 'echo-knowledge-base' ) . '</em></p>
 			<ul>
 				<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
 				<li>Aliquam tincidunt mauris eu risus.</li>
@@ -219,24 +378,24 @@ class EPKB_KB_Handler {
 			</ul>
 			<p>Sit amet luctus venenatis lectus magna fringilla urna. Arcu cursus euismod quis viverra. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Integer vitae justo eget magna fermentum iaculis eu non diam. Sit amet consectetur adipiscing elit ut aliquam purus sit amet. Quisque sagittis purus sit amet volutpat consequat mauris. Nunc faucibus a pellentesque sit. Eu non diam phasellus vestibulum lorem sed risus ultricies. Lobortis scelerisque fermentum dui faucibus in ornare quam. Libero justo laoreet sit amet cursus sit amet dictum. Sit amet mattis vulputate enim. Sit amet nisl suscipit adipiscing bibendum est ultricies. Euismod lacinia at quis risus sed vulputate odio ut enim. At tellus at urna condimentum mattis pellentesque id nibh. Sit amet nulla facilisi morbi tempus. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien et ligula. Senectus et netus et malesuada fames. Orci porta non pulvinar neque laoreet.</p>
 			<p>Risus quis varius quam quisque. Egestas dui id ornare arcu odio ut sem nulla pharetra. Porta lorem mollis aliquam ut porttitor. Quam nulla porttitor massa id neque aliquam vestibulum morbi blandit. Egestas purus viverra accumsan in nisl. Fermentum odio eu feugiat pretium nibh ipsum consequat nisl. Integer vitae justo eget magna fermentum iaculis eu. Accumsan in nisl nisi scelerisque. Id venenatis a condimentum vitae. Sed sed risus pretium quam vulputate dignissim suspendisse. Pellentesque diam volutpat commodo sed egestas egestas.</p>
-			<h3>This is a H3 heading</h3>
+			<h3>' . __( 'This is a H3 heading', 'echo-knowledge-base' ) . '</h3>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id eu nisl nunc mi. Sed nisi lacus sed viverra tellus in hac habitasse platea. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus. Eleifend donec pretium vulputate sapien nec. Neque aliquam vestibulum morbi blandit cursus risus. Ultrices dui sapien eget mi proin sed. Massa massa ultricies mi quis hendrerit dolor. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Risus feugiat in ante metus dictum at tempor. Massa sapien faucibus et molestie ac feugiat sed lectus vestibulum. Risus nullam eget felis eget nunc lobortis. Malesuada nunc vel risus commodo viverra. Amet commodo nulla facilisi nullam. Vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat. Urna condimentum mattis pellentesque id nibh. Aliquam purus sit amet luctus. Vestibulum lorem sed risus ultricies.</p>
-			<h4>This is a H4 heading</h4>
+			<h4>' . __( 'This is a H4 heading', 'echo-knowledge-base' ) . '</h4>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id eu nisl nunc mi. Sed nisi lacus sed viverra tellus in hac habitasse platea. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus. Eleifend donec pretium vulputate sapien nec. Neque aliquam vestibulum morbi blandit cursus risus. Ultrices dui sapien eget mi proin sed. Massa massa ultricies mi quis hendrerit dolor. Ullamcorper malesuada proin libero nunc consequat interdum varius sit. Risus feugiat in ante metus dictum at tempor. Massa sapien faucibus et molestie ac feugiat sed lectus vestibulum. Risus nullam eget felis eget nunc lobortis. Malesuada nunc vel risus commodo viverra. Amet commodo nulla facilisi nullam. Vel risus commodo viverra maecenas accumsan lacus vel facilisis volutpat. Urna condimentum mattis pellentesque id nibh. Aliquam purus sit amet luctus. Vestibulum lorem sed risus ultricies.</p>
-			<p><strong>This is an ordered list</strong></p>
+			<p><strong>' . __( 'This is an ordered list', 'echo-knowledge-base' ) . '</strong></p>
 			<ol>
 				<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
 				<li>Aliquam tincidunt mauris eu risus.</li>
 				<li>Vestibulum auctor dapibus neque.</li>
 			</ol>';
 
-		$post_excerpt = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id eu nisl nunc mi. Sed nisi lacus sed viverra tellus in hac habitasse platea. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus. Eleifend donec pretium vulputate sapien nec.';
+		$post_excerpt = __( 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id eu nisl nunc mi. Sed nisi lacus sed viverra tellus in hac habitasse platea. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus. Eleifend donec pretium vulputate sapien nec.', 'echo-knowledge-base' );
 
 		$my_post = array(
 			'post_title'    => $post_title,
 			'post_type'     => self::get_post_type( $new_kb_id ),
-			'post_content'  => __( $post_content, 'echo-knowledge-base' ),
-			'post_excerpt'  => __( $post_excerpt, 'echo-knowledge-base' ),
+			'post_content'  => $post_content,
+			'post_excerpt'  => $post_excerpt,
 			'post_status'   => 'publish',
 			// current user or 'post_author'   => 1,
 		);
@@ -256,80 +415,6 @@ class EPKB_KB_Handler {
 		}
 
 		return $post_id;
-	}
-
-	/**
-	 * Update KB if plugin is reactivated
-	 *
-	 * First default knowledge base has name 'Knowledge Base' with ID 1
-	 * If missing add:
-	 * - first category
-	 * - first article
-	 * - first KB main page
-	 *
-	 * @param int $new_kb_id - ID of the new KB
-	 * @param $new_kb_main_page_title
-	 * @param string $new_kb_main_page_slug
-	 * @return array|WP_Error - the new KB configuration or WP_Error
-	 */
-	public static function update_existing_knowledge_base( $new_kb_id, $new_kb_main_page_title, $new_kb_main_page_slug='' ) {
-
-		$update_kb_config = false;
-		$kb_config = epkb_get_instance()->kb_config_obj->get_kb_config( $new_kb_id );
-		if ( is_wp_error( $kb_config ) ) {
-			EPKB_Logging::add_log("Could not retrieve KB configuration (12)", $new_kb_id, $kb_config);
-			return $kb_config;
-		}
-
-		// 1. register custom post type for this knowledge base
-		$error = EPKB_Articles_CPT_Setup::register_custom_post_type( $kb_config, $new_kb_id );
-		if ( is_wp_error( $error ) ) {
-			EPKB_Logging::add_log("Could not register post type when adding a new KB", $new_kb_id, $error);
-			// ignore error and try to continue
-		}
-
-		// 2. Add first KB Main page if none exists; first KB is just called Knowledge Base
-		$kb_main_pages = $kb_config['kb_main_pages'];
-		if ( empty($kb_main_pages) ) {
-
-			// handle adding Main page here
-			remove_filter('save_post', 'epkb_save_any_page', 10 );
-
-			// we don't want to process KB shortcode during KB creation
-			remove_shortcode( EPKB_KB_Handler::KB_MAIN_PAGE_SHORTCODE_NAME );
-
-			$new_kb_main_page_slug = empty($new_kb_main_page_slug) ? $new_kb_main_page_title : '';
-			$my_post = array(
-				'post_title'    => $new_kb_main_page_title,
-				'post_name'     => $new_kb_main_page_slug,
-				'post_type'     => 'page',
-				'post_content'  => '[' . self::KB_MAIN_PAGE_SHORTCODE_NAME . ' id=' . $new_kb_id . ']',
-				'post_status'   => 'publish',
-				'comment_status' => 'closed'
-				// current user or 'post_author'   => 1,
-			);
-			$post_id = wp_insert_post( $my_post );
-			if ( is_wp_error( $post_id ) || empty($post_id) ) {
-				EPKB_Logging::add_log("Could not insert new post", $new_kb_id, $post_id);
-			} else {
-				$post = WP_Post::get_instance( $post_id );
-				$kb_main_pages[ $post_id ] = $post->post_title;
-				$kb_config['kb_main_pages'] = $kb_main_pages;
-				$kb_config['kb_articles_common_path'] = $post->post_name;
-				$update_kb_config = true;
-			}
-		}
-
-		// 3. save new/updated KB configuration
-		if ( $update_kb_config ) {
-			$result = epkb_get_instance()->kb_config_obj->update_kb_configuration( $new_kb_id, $kb_config );
-			if ( is_wp_error( $result ) ) {
-				EPKB_Logging::add_log( "Could not save configuration in the new KB", $new_kb_id, $result );
-				return $result;
-			}
-		}
-
-		return $kb_config;
 	}
 
 	/**
@@ -533,6 +618,23 @@ class EPKB_KB_Handler {
 	 */
 	public static function get_tag_taxonomy_name( $kb_id ) {
 		return self::get_post_type( $kb_id ) . self::KB_TAG_TAXONOMY_SUFFIX;
+	}
+
+	/**
+	 * Retrieve KB ID from tag or category taxonomy.
+	 * @param $taxonomy
+	 * @return bool|int|WP_Error
+	 */
+	public static function get_kb_id_from_any_taxonomy( $taxonomy ) {
+		$kb_id = self::get_kb_id_from_category_taxonomy_name( $taxonomy );
+		if ( is_wp_error($kb_id) ) {
+			$kb_id = self::get_kb_id_from_tag_taxonomy_name( $taxonomy );
+			if ( is_wp_error($kb_id) ) {
+				return new WP_Error('49', "kb_id not found");
+			}
+		}
+
+		return $kb_id;
 	}
 
 	/**

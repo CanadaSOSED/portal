@@ -24,6 +24,7 @@
             <key name="breadcrumb_home_text"/>
             <key name="back_navigation_text"/>
             <key name="last_udpated_on_text"/>
+            <key name="created_on_text"/>
             <key name="search_title"/>
             <key name="search_box_hint"/>
             <key name="search_button_name"/>
@@ -34,12 +35,14 @@
             <key name="collapse_articles_msg"/>
             <key name="show_all_articles_msg"/>
             <key name="choose_main_topic"/>
+            <key name="author_text"/>
         </key>
         <key name="epkb_config_2">
             <key name="breadcrumb_description_text"/>
             <key name="breadcrumb_home_text"/>
             <key name="back_navigation_text"/>
             <key name="last_udpated_on_text"/>
+            <key name="created_on_text"/>
             <key name="search_title"/>
             <key name="search_box_hint"/>
             <key name="search_button_name"/>
@@ -50,12 +53,14 @@
             <key name="collapse_articles_msg"/>
             <key name="show_all_articles_msg"/>
             <key name="choose_main_topic"/>
+            <key name="author_text"/>
         </key>
         <key name="epkb_config_3">
             <key name="breadcrumb_description_text"/>
             <key name="breadcrumb_home_text"/>
             <key name="back_navigation_text"/>
             <key name="last_udpated_on_text"/>
+            <key name="created_on_text"/>
             <key name="search_title"/>
             <key name="search_box_hint"/>
             <key name="search_button_name"/>
@@ -66,12 +71,14 @@
             <key name="collapse_articles_msg"/>
             <key name="show_all_articles_msg"/>
             <key name="choose_main_topic"/>
+            <key name="author_text"/>
         </key>
         <key name="epkb_config_4">
             <key name="breadcrumb_description_text"/>
             <key name="breadcrumb_home_text"/>
             <key name="back_navigation_text"/>
             <key name="last_udpated_on_text"/>
+            <key name="created_on_text"/>
             <key name="search_title"/>
             <key name="search_box_hint"/>
             <key name="search_button_name"/>
@@ -82,12 +89,14 @@
             <key name="collapse_articles_msg"/>
             <key name="show_all_articles_msg"/>
             <key name="choose_main_topic"/>
+            <key name="author_text"/>
         </key>
         <key name="epkb_config_5">
             <key name="breadcrumb_description_text"/>
             <key name="breadcrumb_home_text"/>
             <key name="back_navigation_text"/>
             <key name="last_udpated_on_text"/>
+            <key name="created_on_text"/>
             <key name="search_title"/>
             <key name="search_box_hint"/>
             <key name="search_button_name"/>
@@ -98,6 +107,7 @@
             <key name="collapse_articles_msg"/>
             <key name="show_all_articles_msg"/>
             <key name="choose_main_topic"/>
+            <key name="author_text"/>
         </key>
     </admin-texts>
 </wpml-config>

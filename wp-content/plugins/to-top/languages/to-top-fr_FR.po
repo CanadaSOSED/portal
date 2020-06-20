@@ -1,11 +1,11 @@
-# Copyright (C) 2017 Catch Plugins
+# Copyright (C) 2017-2020 Catch Plugins
 # This file is distributed under the GNU General Public License v3.
 msgid ""
 msgstr ""
 "Project-Id-Version: To Top\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/tags/_s\n"
-"POT-Creation-Date: 2019-02-22 01:16-0500\n"
-"PO-Revision-Date: 2019-03-19 08:02+0000\n"
+"POT-Creation-Date: 2020-03-17 18:23-0700\n"
+"PO-Revision-Date: 2020-03-17 18:23-0700\n"
 "Last-Translator: Hubert Desrues <hubert.desrues@gmail.com>\n"
 "Language-Team: Français\n"
 "Language: fr_FR\n"
@@ -13,13 +13,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Loco https://localise.biz/\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;esc_attr_e;esc_attr__;_nx;"
 "esc_html__;esc_html_e\n"
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Loco-Version: 2.2.1; wp-5.1.1\n"
 "X-Poedit-SearchPath-0: ..\n"
-"X-Loco-Version: 2.2.1; wp-5.1.1"
 
 #: ../admin/class-to-top-admin.php:135
 #: ../admin/partials/to-top-dashboard.php:45
@@ -35,192 +35,192 @@ msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 "Vous ne disposez pas des autorisations suffisantes pour accéder à cette page."
 
-#: ../admin/class-to-top-admin.php:285
+#: ../admin/class-to-top-admin.php:311
 msgid "To Top Options"
 msgstr "En Haut (To Top), options"
 
-#: ../admin/class-to-top-admin.php:292
+#: ../admin/class-to-top-admin.php:318
 #: ../admin/partials/to-top-dashboard.php:52
 msgid "Basic Settings"
 msgstr "Réglages de base"
 
-#: ../admin/class-to-top-admin.php:303
+#: ../admin/class-to-top-admin.php:329
 #: ../admin/partials/to-top-dashboard.php:57
 msgid "Scroll Offset (px)"
 msgstr "Décalage de défilement (px)"
 
-#: ../admin/class-to-top-admin.php:304
+#: ../admin/class-to-top-admin.php:330
 #: ../admin/partials/to-top-dashboard.php:62
 msgid "Number of pixels to be scrolled before the button appears"
 msgstr "Nombre de pixels à faire défiler avant que le bouton n'apparaisse"
 
-#: ../admin/class-to-top-admin.php:324
+#: ../admin/class-to-top-admin.php:350
 #: ../admin/partials/to-top-dashboard.php:68
 msgid "Icon Opacity (%)"
 msgstr "Opacité de l'icône (%)"
 
-#: ../admin/class-to-top-admin.php:344
+#: ../admin/class-to-top-admin.php:370
 #: ../admin/partials/to-top-dashboard.php:77
 msgid "Style"
 msgstr "Style"
 
-#: ../admin/class-to-top-admin.php:349
+#: ../admin/class-to-top-admin.php:375
 #: ../admin/partials/to-top-dashboard.php:82
 msgid "Icon Using Dashicons"
 msgstr "Icônes Dashicons"
 
-#: ../admin/class-to-top-admin.php:350
+#: ../admin/class-to-top-admin.php:376
 #: ../admin/partials/to-top-dashboard.php:83
 msgid "Icon Using Genericons"
 msgstr "Icônes Genericons"
 
-#: ../admin/class-to-top-admin.php:351
+#: ../admin/class-to-top-admin.php:377
 #: ../admin/partials/to-top-dashboard.php:84
 msgid "Icon Using Font Awesome Icons"
 msgstr "Icônes Font Awesone Icons"
 
-#: ../admin/class-to-top-admin.php:352 ../admin/class-to-top-admin.php:451
+#: ../admin/class-to-top-admin.php:378 ../admin/class-to-top-admin.php:477
 #: ../admin/partials/to-top-dashboard.php:85
 #: ../admin/partials/to-top-dashboard.php:166
 msgid "Image"
 msgstr "Image"
 
-#: ../admin/class-to-top-admin.php:364
+#: ../admin/class-to-top-admin.php:390
 #: ../admin/partials/to-top-dashboard.php:101
 msgid "Select Icon Type"
 msgstr "Sélectionner le type d'icône"
 
-#: ../admin/class-to-top-admin.php:379
+#: ../admin/class-to-top-admin.php:405
 #: ../admin/partials/to-top-dashboard.php:118
 msgid "Icon Color"
 msgstr "Couleur de l'icône"
 
-#: ../admin/class-to-top-admin.php:394
+#: ../admin/class-to-top-admin.php:420
 #: ../admin/partials/to-top-dashboard.php:128
 msgid "Icon Background Color"
 msgstr "Couleur du fond de l'icône"
 
-#: ../admin/class-to-top-admin.php:409
+#: ../admin/class-to-top-admin.php:435
 #: ../admin/partials/to-top-dashboard.php:138
 msgid "Icon Size (px)"
 msgstr "Taille de l'icône (px)"
 
-#: ../admin/class-to-top-admin.php:429
+#: ../admin/class-to-top-admin.php:455
 #: ../admin/partials/to-top-dashboard.php:147
 msgid "Border Radius (%)"
 msgstr "Rayon de bordure (%)"
 
-#: ../admin/class-to-top-admin.php:430
+#: ../admin/class-to-top-admin.php:456
 #: ../admin/partials/to-top-dashboard.php:152
 msgid "0 will make the icon background square, 50 will make it a circle"
 msgstr "0 pour une icône sur fond carré, 50 pour une icône sur fond circulaire"
 
-#: ../admin/class-to-top-admin.php:467
+#: ../admin/class-to-top-admin.php:493
 #: ../admin/partials/to-top-dashboard.php:174
 msgid "Image Width (px)"
 msgstr "Largeur de l'image (px)"
 
-#: ../admin/class-to-top-admin.php:488
+#: ../admin/class-to-top-admin.php:514
 #: ../admin/partials/to-top-dashboard.php:183
 msgid "Image Alt"
 msgstr "Image alternative"
 
-#: ../admin/class-to-top-admin.php:503
+#: ../admin/class-to-top-admin.php:529
 #: ../admin/partials/to-top-dashboard.php:195
 msgid "Advanced Settings"
 msgstr "Réglages avancés"
 
-#: ../admin/class-to-top-admin.php:514
+#: ../admin/class-to-top-admin.php:540
 #: ../admin/partials/to-top-dashboard.php:200
 msgid "Location"
 msgstr "Emplacement"
 
-#: ../admin/class-to-top-admin.php:520
+#: ../admin/class-to-top-admin.php:546
 #: ../admin/partials/to-top-dashboard.php:205
 msgid "Bottom Right"
 msgstr "Bas droit"
 
-#: ../admin/class-to-top-admin.php:521
+#: ../admin/class-to-top-admin.php:547
 #: ../admin/partials/to-top-dashboard.php:206
 msgid "Bottom Left"
 msgstr "Bas gauche"
 
-#: ../admin/class-to-top-admin.php:522
+#: ../admin/class-to-top-admin.php:548
 #: ../admin/partials/to-top-dashboard.php:207
 msgid "Top Right"
 msgstr "En haut à droite"
 
-#: ../admin/class-to-top-admin.php:523
+#: ../admin/class-to-top-admin.php:549
 #: ../admin/partials/to-top-dashboard.php:208
 msgid "Top Left"
 msgstr "En haut à gauche"
 
-#: ../admin/class-to-top-admin.php:535
+#: ../admin/class-to-top-admin.php:561
 #: ../admin/partials/to-top-dashboard.php:215
 msgid "Margin X (px)"
 msgstr "Marge X (px)"
 
-#: ../admin/class-to-top-admin.php:555
+#: ../admin/class-to-top-admin.php:581
 #: ../admin/partials/to-top-dashboard.php:224
 msgid "Margin Y (px)"
 msgstr "Marge Y (px)"
 
-#: ../admin/class-to-top-admin.php:575
+#: ../admin/class-to-top-admin.php:601
 msgid "Check to show on WP-ADMIN"
 msgstr "Cochez pour afficher sur l'administration WP"
 
-#: ../admin/class-to-top-admin.php:576
+#: ../admin/class-to-top-admin.php:602
 #: ../admin/partials/to-top-dashboard.php:238
 msgid "Button will be shown on admin section"
 msgstr "Le bouton apparaît sur les pages  d'administration"
 
-#: ../admin/class-to-top-admin.php:590
+#: ../admin/class-to-top-admin.php:616
 msgid "Check to Enable Auto Hide"
 msgstr "Cochez pour activer le Masquage automatique"
 
-#: ../admin/class-to-top-admin.php:605
+#: ../admin/class-to-top-admin.php:631
 #: ../admin/partials/to-top-dashboard.php:254
 msgid "Auto Hide Time (secs)"
 msgstr "Temporisation du Masquage automatique (secondes)"
 
-#: ../admin/class-to-top-admin.php:606
+#: ../admin/class-to-top-admin.php:632
 #: ../admin/partials/to-top-dashboard.php:259
 msgid "Button will be auto hidden after this duration in seconds, if enabled"
 msgstr "Si activé le bouton disparaît automatiquement après quelques secondes "
 
-#: ../admin/class-to-top-admin.php:626
+#: ../admin/class-to-top-admin.php:652
 msgid "Check to Hide on Small Devices"
 msgstr "Cochez pour masquer sur les petits écrans"
 
-#: ../admin/class-to-top-admin.php:627
+#: ../admin/class-to-top-admin.php:653
 #: ../admin/partials/to-top-dashboard.php:270
 msgid "Button will be hidden on small devices when the width below matches"
 msgstr ""
 "Le bouton est caché sur les petits écrans quand la largeur ci-dessous est "
 "atteinte"
 
-#: ../admin/class-to-top-admin.php:641
+#: ../admin/class-to-top-admin.php:667
 #: ../admin/partials/to-top-dashboard.php:276
 msgid "Small Device Max Width (px)"
 msgstr "Largeur maximale du petit terminal (px)"
 
-#: ../admin/class-to-top-admin.php:642
+#: ../admin/class-to-top-admin.php:668
 #: ../admin/partials/to-top-dashboard.php:281
 msgid "Button will be hidden on devices with lesser or equal width"
 msgstr ""
 "Le bouton est caché sur les écrans dont la largeur est inférieures ou égale à"
 
-#: ../admin/class-to-top-admin.php:661
+#: ../admin/class-to-top-admin.php:687
 #: ../admin/partials/to-top-dashboard.php:291
 msgid "Reset Settings"
 msgstr "Réinitialiser les réglages"
 
-#: ../admin/class-to-top-admin.php:672
+#: ../admin/class-to-top-admin.php:698
 #: ../admin/partials/to-top-dashboard.php:300
 msgid "Check to Reset All Settings"
 msgstr "Cochez pour Reremettre à zéro tous les réglages"
 
-#: ../admin/class-to-top-admin.php:673
+#: ../admin/class-to-top-admin.php:699
 msgid ""
 "Caution: All data will be lost. Refresh the page after save to view full "
 "effects."
@@ -228,12 +228,16 @@ msgstr ""
 "Attention : toutes les données vont être perdues. Rafraîchir la page après "
 "sauvegarde pour voir l'effet produit "
 
-#: ../admin/inc/our-plugins.php:6
+#: ../admin/inc/CatchThemesThemePlugin.php:109
+msgid "Themes by CatchThemes"
+msgstr "Thèmes par CatchThemes"
+
+#: ../admin/inc/CatchThemesThemePlugin.php:398
 msgctxt "Plugin Installer"
 msgid "Catch Plugins"
 msgstr "Catch Plugins"
 
-#: ../admin/inc/our-plugins.php:52
+#: ../admin/inc/CatchThemesThemePlugin.php:437
 #, php-format
 msgid ""
 "You can use any of our free plugins or premium plugins from <a href=\"%s\" "
@@ -242,9 +246,9 @@ msgstr ""
 "Vous pouvez utiliser n'importe lequel de nos plugins gratuits ou premium de "
 "<a href=\"%s\" target=\"_blank\">Catch Plugins</a>"
 
-#: ../admin/inc/our-themes.php:97
-msgid "Themes by CatchThemes"
-msgstr "Thèmes par CatchThemes"
+#: ../admin/inc/ctp-tabs-removal.php:69
+msgid "Connection Error. Please try again."
+msgstr ""
 
 #: ../admin/partials/footer.php:4
 msgid "Catch Plugins"
@@ -342,15 +346,29 @@ msgid "Dashboard"
 msgstr "Bureau"
 
 #: ../admin/partials/to-top-admin-display.php:25
-#: ../admin/partials/to-top-admin-display.php:35
+#: ../admin/partials/to-top-admin-display.php:66
 msgid "Features"
 msgstr "Fonctionnalités"
 
-#: ../admin/partials/to-top-admin-display.php:40
+#: ../admin/partials/to-top-admin-display.php:33
+msgid "Catch Themes & Catch Plugins Tabs"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:38
+msgid ""
+"If you want to turn off Catch Themes & Catch Plugins tabs option in Add "
+"Themes and Add Plugins page, please uncheck the following option."
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:43
+msgid "Turn On Catch Themes & Catch Plugin tabs"
+msgstr ""
+
+#: ../admin/partials/to-top-admin-display.php:71
 msgid "Supports all themes on WordPress"
 msgstr "Prend en charge tous les thèmes sur WordPress"
 
-#: ../admin/partials/to-top-admin-display.php:41
+#: ../admin/partials/to-top-admin-display.php:72
 msgid ""
 "You don’t have to worry if you have a slightly different or complicated "
 "theme installed on your website. It supports all the themes on WordPress and "
@@ -360,11 +378,11 @@ msgstr ""
 "compliqué sur votre site Web. Ce plugin supporte tous les thèmes WordPress "
 "et rend votre site plus attrayant et ludique."
 
-#: ../admin/partials/to-top-admin-display.php:45
+#: ../admin/partials/to-top-admin-display.php:76
 msgid "Lightweight"
 msgstr "Poids léger"
 
-#: ../admin/partials/to-top-admin-display.php:46
+#: ../admin/partials/to-top-admin-display.php:77
 msgid ""
 "It is extremely lightweight. You do not need to worry about it affecting the "
 "space and speed of your website."
@@ -372,11 +390,11 @@ msgstr ""
 "C'est extrêmement léger. Ne vous inquiétez pas, cela affectera ni l'espace "
 "de stockage ni la vitesse de votre site Web."
 
-#: ../admin/partials/to-top-admin-display.php:50
+#: ../admin/partials/to-top-admin-display.php:81
 msgid "Incredible Support"
 msgstr "Support incroyable"
 
-#: ../admin/partials/to-top-admin-display.php:51
+#: ../admin/partials/to-top-admin-display.php:82
 msgid ""
 "We have a great line of support team and support documentation. You do not "
 "need to worry about how to use the plugins we provide, just refer to our "

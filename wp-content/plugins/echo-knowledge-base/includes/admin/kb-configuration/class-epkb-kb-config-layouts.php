@@ -5,6 +5,7 @@ class EPKB_KB_Config_Layouts {
 	const KB_ARTICLE_PAGE_NO_LAYOUT = 'Article';
 	const SIDEBAR_LAYOUT = 'Sidebar';
 	const GRID_LAYOUT = 'Grid';
+	const CATEGORIES_LAYOUT = 'Categories';
 	const KB_DEFAULT_LAYOUT_STYLE = 'Demo1';
 	const KB_DEFAULT_COLORS_STYLE = 'demo_1';
 
@@ -15,7 +16,8 @@ class EPKB_KB_Config_Layouts {
 	public static function get_main_page_layout_name_value() {
 		$core_layouts = array (
 			EPKB_KB_Config_Layout_Basic::LAYOUT_NAME => __( 'Basic', 'echo-knowledge-base' ),
-			EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME  => __( 'Tabs', 'echo-knowledge-base' )
+			EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME  => __( 'Tabs', 'echo-knowledge-base' ),
+			EPKB_KB_Config_Layout_Categories::LAYOUT_NAME  => __( 'Category Focused', 'echo-knowledge-base' )
 		);
 		return apply_filters( 'epkb_layout_names', $core_layouts );
 	}
@@ -95,7 +97,8 @@ class EPKB_KB_Config_Layouts {
 	public static function get_layout_mapping() {
 		$core_layouts = array (
 			array( EPKB_KB_Config_Layout_Basic::LAYOUT_NAME => self::KB_ARTICLE_PAGE_NO_LAYOUT ),
-			array( EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME => self::KB_ARTICLE_PAGE_NO_LAYOUT )
+			array( EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME => self::KB_ARTICLE_PAGE_NO_LAYOUT ),
+			array( EPKB_KB_Config_Layout_Categories::LAYOUT_NAME => self::KB_ARTICLE_PAGE_NO_LAYOUT )
 		);
 		return apply_filters( 'epkb_layout_mapping', $core_layouts );
 	}
@@ -156,6 +159,11 @@ class EPKB_KB_Config_Layouts {
 							  EPKB_KB_Config_Layout_Tabs::LAYOUT_STYLE_2 => EPKB_KB_Config_Layout_Tabs::LAYOUT_STYLE_2 );
 							  //EPKB_KB_Config_Layout_Tabs::TABS_LAYOUT_STYLE_3 => EPKB_KB_Config_Layout_Tabs::TABS_LAYOUT_STYLE_3 );
 				break;
+			case EPKB_KB_Config_Layout_Categories::LAYOUT_NAME:
+				return array( EPKB_KB_Config_Layout_Categories::LAYOUT_STYLE_1 => EPKB_KB_Config_Layout_Categories::LAYOUT_STYLE_1,
+				              EPKB_KB_Config_Layout_Categories::LAYOUT_STYLE_2 => EPKB_KB_Config_Layout_Categories::LAYOUT_STYLE_2 );
+				//EPKB_KB_Config_Layout_Categories::TABS_LAYOUT_STYLE_3 => EPKB_KB_Config_Layout_Categories::TABS_LAYOUT_STYLE_3 );
+				break;
 		}
 	}
 
@@ -176,6 +184,7 @@ class EPKB_KB_Config_Layouts {
 		switch( $kb_article_page_layout ) {
 			case EPKB_KB_Config_Layout_Basic::LAYOUT_NAME:
 			case EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME:
+			case EPKB_KB_Config_Layout_Categories::LAYOUT_NAME:
 			default:
 				return array( EPKB_KB_Config_Layout_Basic::LAYOUT_STYLE_1 => EPKB_KB_Config_Layout_Basic::LAYOUT_STYLE_1);
 				break;
@@ -205,6 +214,13 @@ class EPKB_KB_Config_Layouts {
 				              EPKB_KB_Config_Layout_Tabs::SEARCH_BOX_LAYOUT_STYLE_2 => EPKB_KB_Config_Layout_Tabs::SEARCH_BOX_LAYOUT_STYLE_2,
 				              EPKB_KB_Config_Layout_Tabs::SEARCH_BOX_LAYOUT_STYLE_3 => EPKB_KB_Config_Layout_Tabs::SEARCH_BOX_LAYOUT_STYLE_3,
 				              EPKB_KB_Config_Layout_Tabs::SEARCH_BOX_LAYOUT_STYLE_4 => EPKB_KB_Config_Layout_Tabs::SEARCH_BOX_LAYOUT_STYLE_4
+				);
+				break;
+			case EPKB_KB_Config_Layout_Categories::LAYOUT_NAME:
+				return array( EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_1 => EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_1,
+				              EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_2 => EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_2,
+				              EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_3 => EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_3,
+				              EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_4 => EPKB_KB_Config_Layout_Categories::SEARCH_BOX_LAYOUT_STYLE_4
 				);
 				break;
 		}
@@ -246,21 +262,28 @@ class EPKB_KB_Config_Layouts {
 		// register layouts and colors and text
 		add_filter( 'epkb_kb_main_page_style_settings', array( 'EPKB_KB_Config_Layout_Basic', 'get_kb_config_style' ), 10, 2 );
 		add_filter( 'epkb_kb_main_page_style_settings', array( 'EPKB_KB_Config_Layout_Tabs', 'get_kb_config_style' ), 10, 2 );
+		add_filter( 'epkb_kb_main_page_style_settings', array( 'EPKB_KB_Config_Layout_Categories', 'get_kb_config_style' ), 10, 2 );
 		add_filter( 'epkb_kb_main_page_colors_settings', array( 'EPKB_KB_Config_Layout_Basic', 'get_kb_config_colors' ), 10, 2 );
 		add_filter( 'epkb_kb_main_page_colors_settings', array( 'EPKB_KB_Config_Layout_Tabs', 'get_kb_config_colors' ), 10, 2 );
+		add_filter( 'epkb_kb_main_page_colors_settings', array( 'EPKB_KB_Config_Layout_Categories', 'get_kb_config_colors' ), 10, 2 );
 		add_filter( 'epkb_kb_main_page_text_settings', array( 'EPKB_KB_Config_Layout_Basic', 'get_kb_config_text' ), 10, 2 );
 		add_filter( 'epkb_kb_main_page_text_settings', array( 'EPKB_KB_Config_Layout_Tabs', 'get_kb_config_text' ), 10, 2 );
+		add_filter( 'epkb_kb_main_page_text_settings', array( 'EPKB_KB_Config_Layout_Categories', 'get_kb_config_text' ), 10, 2 );
 
 		// register style, search box style and color sets
 		add_filter( 'epkb_kb_main_page_style_set', array( 'EPKB_KB_Config_Layout_Basic', 'get_style_set' ), 10, 3 );
 		add_filter( 'epkb_kb_main_page_style_set', array( 'EPKB_KB_Config_Layout_Tabs', 'get_style_set' ), 10, 3 );
+		add_filter( 'epkb_kb_main_page_style_set', array( 'EPKB_KB_Config_Layout_Categories', 'get_style_set' ), 10, 3 );
 		add_filter( 'epkb_kb_main_page_search_box_style_set', array( 'EPKB_KB_Config_Layout_Basic', 'get_search_box_style_set' ), 10, 3 );
 		add_filter( 'epkb_kb_main_page_search_box_style_set', array( 'EPKB_KB_Config_Layout_Tabs', 'get_search_box_style_set' ), 10, 3 );
+		add_filter( 'epkb_kb_main_page_search_box_style_set', array( 'EPKB_KB_Config_Layout_Categories', 'get_search_box_style_set' ), 10, 3 );
 		add_filter( 'epkb_kb_main_page_colors_set', array( 'EPKB_KB_Config_Layout_Basic', 'get_colors_set' ), 10, 3 );
 		add_filter( 'epkb_kb_main_page_colors_set', array( 'EPKB_KB_Config_Layout_Tabs', 'get_colors_set' ), 10, 3 );
+		add_filter( 'epkb_kb_main_page_colors_set', array( 'EPKB_KB_Config_Layout_Categories', 'get_colors_set' ), 10, 3 );
 
 		add_filter( 'epkb_max_layout_level', array( 'EPKB_KB_Config_Layouts', 'get_max_layout_level') );
 
+		// register add-on hooks
 		do_action( 'epkb_register_kb_config_hooks' );
 	}
 
@@ -291,7 +314,9 @@ class EPKB_KB_Config_Layouts {
 		if ( $layout === EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME ) {
 			return EPKB_KB_Config_Layout_Tabs::CATEGORY_LEVELS;
 		}
-
+		if ( $layout === EPKB_KB_Config_Layout_Categories::LAYOUT_NAME ) {
+			return EPKB_KB_Config_Layout_Categories::CATEGORY_LEVELS;
+		}
 		return $layout;
 	}
 

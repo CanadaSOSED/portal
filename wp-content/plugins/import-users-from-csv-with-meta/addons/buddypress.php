@@ -2,9 +2,12 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-if( is_plugin_active( 'buddypress/bp-loader.php' ) ){
-	add_action( 'acui_tab_import_before_import_button', 'acui_buddypress_tab_import_before_import_button' );
+if( !is_plugin_active( 'buddypress/bp-loader.php' ) ){
+	return;
 }
+
+add_action( 'acui_tab_import_before_import_button', 'acui_buddypress_tab_import_before_import_button' );
+add_action( 'acui_documentation_after_plugins_activated', 'acui_buddypress_documentation_after_plugins_activated' );
 
 function acui_buddypress_tab_import_before_import_button(){
 	if( !class_exists( "BP_XProfile_Group" ) ){
@@ -12,7 +15,7 @@ function acui_buddypress_tab_import_before_import_button(){
 	}
 
 	$buddypress_fields = array();
-	$buddypress_types=array();
+	$buddypress_types = array();
 	$profile_groups = BP_XProfile_Group::get( array( 'fetch_fields' => true	) );
 
 	if ( !empty( $profile_groups ) ) {
@@ -43,5 +46,23 @@ function acui_buddypress_tab_import_before_import_button(){
 		</tr>
 		</tbody>
 	</table>
+	<?php
+}
+
+function acui_buddypress_documentation_after_plugins_activated(){
+	?>
+	<tr valign="top">
+		<th scope="row"><?php _e( "BuddyPress is activated", 'import-users-from-csv-with-meta' ); ?></th>
+		<td><?php _e( "You can use the <strong>profile fields</strong> you have created and also you can set one or more groups for each user. For example:", 'import-users-from-csv-with-meta' ); ?>
+			<ul style="list-style:disc outside none; margin-left:2em;">
+				<li><?php _e( "If you want to assign an user to a group you have to create a column 'bp_group' and a column 'bp_group_role'", 'import-users-from-csv-with-meta' ); ?></li>
+				<li><?php _e( "Then in each cell you have to fill with the BuddyPress <strong>group slug</strong>", 'import-users-from-csv-with-meta' ); ?></li>
+				<li><?php _e( "And the role assigned in this group: <em>Administrator, Moderator or Member</em>", 'import-users-from-csv-with-meta' ); ?></li>
+				<li><?php _e( "You can do it with multiple groups at the same time using commas to separate different groups, in bp_group column, i.e.: <em>group_1, group_2, group_3</em>", 'import-users-from-csv-with-meta' ); ?></li>
+				<li><?php _e( "But you will have to assign a role for each group: <em>Moderator,Moderator,Member,Member</em>", 'import-users-from-csv-with-meta' ); ?></li>
+				<li><?php _e( "If you get some error of this kind:", 'import-users-from-csv-with-meta' ); ?> <code>Fatal error: Class 'BP_XProfile_Group'</code> <?php _e( "please enable Buddypress Extended Profile then import the csv file. You can then disable this afterwards", 'import-users-from-csv-with-meta' ); ?></li>
+			</ul>
+		</td>
+	</tr>
 	<?php
 }

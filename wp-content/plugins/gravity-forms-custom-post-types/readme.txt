@@ -1,10 +1,10 @@
 === Gravity Forms + Custom Post Types ===
 Contributors: spivurno,bradvin,wpsmith
-Donate link: http://gravitywiz.com/donate/
+Donate link: http://gravitywiz.com/
 Tags: form,forms,gravity,gravity form,gravity forms,CPT,custom post types,custom post type,taxonomy,taxonomies
 Requires at least: 3.0.1
-Tested up to: 4.8
-Stable tag: 3.1.8
+Tested up to: 5.4
+Stable tag: 3.1.12
 
 Map your Gravity-Forms-generated posts to a custom post type and/or custom taxonomies.
 
@@ -77,7 +77,38 @@ When populating a Drop Down field with a post type, you may wish to set the sele
 
 == Changelog ==
 
-= 3.1.8
+= 3.1.15 =
+
+* Fixed issue when exporting taxonomy-and-post-type-populated Checkbox fields.
+* Updated how scripts are enqueued.
+* Tested with 5.5.1.
+
+= 3.1.14 =
+
+* Updated how taxonomy enhanced UI script and data were loaded.
+
+= 3.1.13 =
+
+* Added 'gfcpt_hierarchical_display' filter to allow filtering whether to display choices hierarchically.
+
+= 3.1.12 =
+
+* Fixed issue with GF 2.3 where taxonomies were not correctly saved on submission.
+
+= 3.1.11 =
+
+* Fixed issue where dynamic placeholder was duplicated in some instances.
+
+= 3.1.10 =
+
+* Fixed issue where dynamic placeholder was added even when default placeholder was specified.
+
+= 3.1.9 =
+
+* Added support for displaying Post Title on entry list, detail and export for fields populated with a post type.
+* Updated default sort order for pages to "menu_order".
+
+= 3.1.8 =
 
 * Fixed issue mapping taxonomies for Single Line Text fiela and Multi Select fields. Thanks, Cameron!
 

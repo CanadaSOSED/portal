@@ -2,8 +2,8 @@
 Contributors: ojredmond
 Tags: upload, thumbnail
 Requires at least: 3.5
-Tested up to: 4.8
-Stable tag: 3.2
+Tested up to: 5.2.4
+Stable tag: 4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,15 +20,15 @@ This Plugins extends the functionality provided by wordpress by enabling the fol
 * Add files straight to Wordpress Gallery.
 * Add files straight to BWS Gallery.
 * Select Category for files before uploading.  Will read MP3 tags to guess category. Can exclude categories from list e.g. Uncategorized.
-* Can replace the Default uploader.
 
 The settings for this plugin are in Media Settings page.
 
 This plugin requires a modern browser, e.g. IE8 will not work.
 
 This plugin uses code from the following sources
-* Plupload - multi-runtime File Uploader - v2.1.1 - Copyright 2013, Moxiecode Systems AB.  This is the software wordpress use for uploading, makes sure version 2 is used for extra features.
-* PDF.JS - Copyright 2012 Mozilla Foundation - v1.7.225 - This is to create the PDF thumbnails.
+* DropzoneJS - Copyright (c) 2012, Matias Meno, More info at [www.dropzonejs.com](http://www.dropzonejs.com) - This used to allow chunked uploading
+* PDF.JS - Copyright 2012 Mozilla Foundation - v2.3.2 - This is to create the PDF thumbnails.
+* JS MediaTags - v3.9.0 - This used for reading the mp3 tags
 
 == Installation ==
 
@@ -50,6 +50,10 @@ Go to Settings -> Media to configure.
 2. This screen shot is for the destination selection page
 
 == Changelog ==
+= 4.0 =
+* rewritten to integrate DropzoneJS JS MediaTags
+* updated to newer version of PDF.JS
+* removed ability to replace default uploader
 = 3.2 = 
 * fixed override to kb
 = 3.1 = 

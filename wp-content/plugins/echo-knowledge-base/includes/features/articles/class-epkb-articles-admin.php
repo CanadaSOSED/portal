@@ -165,7 +165,7 @@ class EPKB_Articles_Admin {
 		$article_order_method = epkb_get_instance()->kb_config_obj->get_value( 'articles_display_sequence', $kb_id );
 
 		// 2. get all term ids  ( do not use WP function get_terms() to avoid recursions or unhook actions )
-		$all_kb_terms = EPKB_Utilities::get_kb_categories( $kb_id );
+		$all_kb_terms = EPKB_Utilities::get_kb_categories_unfiltered( $kb_id );
 		if ( $all_kb_terms === null ) {
 			return false;
 		}
@@ -251,7 +251,7 @@ class EPKB_Articles_Admin {
 	public function get_articles_sequence_non_custom( $kb_id, $article_order_method ) {
 
 		// 1. get all term ids  ( do not use WP function get_terms() to avoid recursions or unhook actions )
-		$all_kb_terms = EPKB_Utilities::get_kb_categories( $kb_id );
+		$all_kb_terms = EPKB_Utilities::get_kb_categories_unfiltered( $kb_id );
 		if ( $all_kb_terms === null ) {
 			return false;
 		}

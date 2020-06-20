@@ -1,9 +1,9 @@
 === Flamingo ===
-Contributors: takayukister, megumithemes
+Contributors: takayukister, megumithemes, itpixelz
 Tags: bird, contact, mail, crm
-Requires at least: 4.7
-Tested up to: 4.8
-Stable tag: 1.6
+Requires at least: 5.2
+Tested up to: 5.3
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,6 +17,10 @@ After activation of the plugin, you'll find *Flamingo* on the WordPress admin sc
 
 For more detailed information, please refer to the [Contact Form 7 documentation page](https://contactform7.com/save-submitted-messages-with-flamingo/).
 
+= Privacy Notices =
+
+This plugin stores submission data collected through contact forms, which may include the submitters' personal information, in the database on the server that hosts the website.
+
 == Installation ==
 
 1. Upload the entire `flamingo` folder to the `/wp-content/plugins/` directory.
@@ -28,19 +32,17 @@ For more detailed information, please refer to the [Contact Form 7 documentation
 
 == Changelog ==
 
-= 1.6 =
+= 2.1.1 =
 
-* Tested up to WordPress 4.8.
-* Requires WordPress 4.7 or higher.
-* Added RTL stylesheet.
-* Strengthened capability checking.
-* Removed inappropriate content from h1 headings.
-* Changed the default format of the export CSV.
-* Introduced the flamingo_csv_value_separator and flamingo_csv_quotation filter hooks to enable customizing CSV output.
+* Security enhancement, CSV: Prefixes a field when its value begins with `=`, `+`, `-`, or `@`. See https://contactform7.com/2020/01/15/heads-up-about-spreadsheet-vulnerabilities/ for details.
+* New filter hook: flamingo_csv_field_prefix
 
-= 1.5 =
+= 2.1 =
 
-* Tested up to WordPress 4.7.
-* Requires WordPress 4.5 or higher.
-* count() method added to Flamingo_Inbound_Message class.
-* All language files in the languages folder were removed. Translations have moved to translate.wordpress.org.
+* UI improvements in displaying JSON reCAPTCHA logs in the Inbound Message editor page.
+* Moves to trash automatically after every 30 days of the creation of spam messages.
+
+= 2.0 =
+
+* Displays spam logs in the Inbound Message editor page.
+* Displays reCAPTCHA logs in the Inbound Message editor page.

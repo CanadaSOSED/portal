@@ -5,7 +5,7 @@
 
 /* form_tag handler */
 
-add_action( 'wpcf7_init', 'wpcf7_add_form_tag_quiz' );
+add_action( 'wpcf7_init', 'wpcf7_add_form_tag_quiz', 10, 0 );
 
 function wpcf7_add_form_tag_quiz() {
 	wpcf7_add_form_tag( 'quiz',
@@ -13,6 +13,7 @@ function wpcf7_add_form_tag_quiz() {
 		array(
 			'name-attr' => true,
 			'do-not-store' => true,
+			'not-for-mail' => true,
 		)
 	);
 }
@@ -36,20 +37,22 @@ function wpcf7_quiz_form_tag_handler( $tag ) {
 	$atts['maxlength'] = $tag->get_maxlength_option();
 	$atts['minlength'] = $tag->get_minlength_option();
 
-	if ( $atts['maxlength'] && $atts['minlength'] && $atts['maxlength'] < $atts['minlength'] ) {
+	if ( $atts['maxlength'] and $atts['minlength']
+	and $atts['maxlength'] < $atts['minlength'] ) {
 		unset( $atts['maxlength'], $atts['minlength'] );
 	}
 
 	$atts['class'] = $tag->get_class_option( $class );
 	$atts['id'] = $tag->get_id_option();
-	$atts['tabindex'] = $tag->get_option( 'tabindex', 'int', true );
+	$atts['tabindex'] = $tag->get_option( 'tabindex', 'signed_int', true );
 	$atts['autocomplete'] = 'off';
 	$atts['aria-required'] = 'true';
 	$atts['aria-invalid'] = $validation_error ? 'true' : 'false';
 
 	$pipes = $tag->pipes;
 
-	if ( $pipes instanceof WPCF7_Pipes && ! $pipes->zero() ) {
+	if ( $pipes instanceof WPCF7_Pipes
+	and ! $pipes->zero() ) {
 		$pipe = $pipes->random_pipe();
 		$question = $pipe->before;
 		$answer = $pipe->after;
@@ -70,7 +73,8 @@ function wpcf7_quiz_form_tag_handler( $tag ) {
 		'<span class="wpcf7-form-control-wrap %1$s"><label><span class="wpcf7-quiz-label">%2$s</span> <input %3$s /></label><input type="hidden" name="_wpcf7_quiz_answer_%4$s" value="%5$s" />%6$s</span>',
 		sanitize_html_class( $tag->name ),
 		esc_html( $question ), $atts, $tag->name,
-		wp_hash( $answer, 'wpcf7_quiz' ), $validation_error );
+		wp_hash( $answer, 'wpcf7_quiz' ), $validation_error
+	);
 
 	return $html;
 }
@@ -92,7 +96,7 @@ function wpcf7_quiz_validation_filter( $result, $tag ) {
 		? (string) $_POST['_wpcf7_quiz_answer_' . $name]
 		: '';
 
-	if ( $answer_hash != $expected_hash ) {
+	if ( $answer_hash !== $expected_hash ) {
 		$result->invalidate( $tag, wpcf7_get_message( 'quiz_answer_not_correct' ) );
 	}
 
@@ -102,8 +106,8 @@ function wpcf7_quiz_validation_filter( $result, $tag ) {
 
 /* Ajax echo filter */
 
-add_filter( 'wpcf7_ajax_onload', 'wpcf7_quiz_ajax_refill' );
-add_filter( 'wpcf7_ajax_json_echo', 'wpcf7_quiz_ajax_refill' );
+add_filter( 'wpcf7_ajax_onload', 'wpcf7_quiz_ajax_refill', 10, 1 );
+add_filter( 'wpcf7_ajax_json_echo', 'wpcf7_quiz_ajax_refill', 10, 1 );
 
 function wpcf7_quiz_ajax_refill( $items ) {
 	if ( ! is_array( $items ) ) {
@@ -126,7 +130,8 @@ function wpcf7_quiz_ajax_refill( $items ) {
 			continue;
 		}
 
-		if ( $pipes instanceof WPCF7_Pipes && ! $pipes->zero() ) {
+		if ( $pipes instanceof WPCF7_Pipes
+		and ! $pipes->zero() ) {
 			$pipe = $pipes->random_pipe();
 			$question = $pipe->before;
 			$answer = $pipe->after;
@@ -151,7 +156,7 @@ function wpcf7_quiz_ajax_refill( $items ) {
 
 /* Messages */
 
-add_filter( 'wpcf7_messages', 'wpcf7_quiz_messages' );
+add_filter( 'wpcf7_messages', 'wpcf7_quiz_messages', 10, 1 );
 
 function wpcf7_quiz_messages( $messages ) {
 	$messages = array_merge( $messages, array(
@@ -169,7 +174,7 @@ function wpcf7_quiz_messages( $messages ) {
 
 /* Tag generator */
 
-add_action( 'wpcf7_admin_init', 'wpcf7_add_tag_generator_quiz', 40 );
+add_action( 'wpcf7_admin_init', 'wpcf7_add_tag_generator_quiz', 40, 0 );
 
 function wpcf7_add_tag_generator_quiz() {
 	$tag_generator = WPCF7_TagGenerator::get_instance();

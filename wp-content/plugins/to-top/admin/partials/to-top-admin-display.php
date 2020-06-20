@@ -27,6 +27,37 @@
 
                 <div id="dashboard" class="wpcatchtab  nosave active">
                     <?php require_once plugin_dir_path( dirname( __FILE__ ) ) . '/partials/to-top-dashboard.php'; ?>
+
+                    <div id="ctp-switch" class="content-wrapper col-3 to-top-main">
+                        <div class="header">
+                            <h2><?php esc_html_e( 'Catch Themes & Catch Plugins Tabs', 'to-top' ); ?></h2>
+                        </div> <!-- .Header -->
+
+                        <div class="content">
+
+                            <p><?php echo esc_html__( 'If you want to turn off Catch Themes & Catch Plugins tabs option in Add Themes and Add Plugins page, please uncheck the following option.', 'to-top' ); ?>
+                            </p>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <?php echo esc_html__( 'Turn On Catch Themes & Catch Plugin tabs', 'to-top' );  ?>
+                                    </td>
+                                    <td><?php //echo '<pre>'; print_r($settings); echo '</pre>';  
+                                        $ctp_options = ctp_get_options()
+                                    ?>
+                                        <div class="module-header <?php echo $ctp_options['theme_plugin_tabs'] ? 'active' : 'inactive'; ?>">
+                                            <div class="switch">
+                                                <input type="checkbox" id="ctp_options[theme_plugin_tabs]" class="ctp-switch" rel="theme_plugin_tabs" <?php checked( true, $ctp_options['theme_plugin_tabs'] ); ?> >
+                                                <label for="ctp_options[theme_plugin_tabs]"></label>
+                                            </div>
+                                            <div class="loader"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                        </div>
+                    </div><!-- .content-wrapper -->
                 </div><!-- .dashboard -->
 
                 <div id="features" class="wpcatchtab save">

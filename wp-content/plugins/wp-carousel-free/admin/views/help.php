@@ -80,7 +80,7 @@ This video will help you get started with the plugin.', 'wp-carousel-free' ) . '
 
 			<div class="feature-section three-col">
 				<div class="col">
-					<div class="sp-wpcp-feature sp-wpcp-text-center">
+					<div class="sp-wpcp-feature text-center">
 						<i class="sp-wpcp-font-icon fa-life-ring"></i>
 						<h3>' . esc_html__( 'Need any Assistance?', 'wp-carousel-free' ) . '</h3>
 						<p>' . esc_html__( 'Our Expert Support Team is always ready to help you out promptly.', 'wp-carousel-free' ) . '</p>
@@ -88,7 +88,7 @@ This video will help you get started with the plugin.', 'wp-carousel-free' ) . '
 					</div>
 				</div>
 				<div class="col">
-					<div class="sp-wpcp-feature sp-wpcp-text-center">
+					<div class="sp-wpcp-feature text-center">
 						<i class="sp-wpcp-font-icon fa-file-text"></i>
 						<h3>' . esc_html__( 'Looking for Documentation?', 'wp-carousel-free' ) . '</h3>
 						<p>' . esc_html__( 'We have detailed documentation on every aspects of WordPress Carousel.', 'wp-carousel-free' ) . '</p>
@@ -96,7 +96,7 @@ This video will help you get started with the plugin.', 'wp-carousel-free' ) . '
 					</div>
 				</div>
 				<div class="col">
-					<div class="sp-wpcp-feature sp-wpcp-text-center">
+					<div class="sp-wpcp-feature text-center">
 						<i class="sp-wpcp-font-icon fa-thumbs-up"></i>
 						<h3>' . esc_html__( 'Like This Plugin?', 'wp-carousel-free' ) . '</h3>
 						<p>' . esc_html__( 'If you like WordPress Carousel, please leave us a 5 star rating.', 'wp-carousel-free' ) . '</p>

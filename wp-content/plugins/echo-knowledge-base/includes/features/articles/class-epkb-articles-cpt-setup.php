@@ -12,6 +12,7 @@ class EPKB_Articles_CPT_Setup {
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'register_knowledge_base_post_types'), 10 );
+		add_filter( 'post_type_link', array( $this, 'replace_linked_article_permalink' ), 10, 2 );
 
 		// only for front-end page display when categories are listed
 		if ( ! defined('WP_ADMIN') ) {
@@ -51,12 +52,12 @@ class EPKB_Articles_CPT_Setup {
 	public static function register_custom_post_type( $kb_config, $current_id ) {
 
 		$kb_id = $kb_config['id'];
-		
+
 		// do not register Archived KB
 		if ( $kb_id !== EPKB_KB_Config_DB::DEFAULT_KB_ID && EPKB_Utilities::is_kb_archived( $kb_config['status'] ) ) {
 			return true;
 		}
-		
+
 		$kb_post_type = EPKB_KB_Handler::get_post_type( $kb_id );
 		$kb_articles_common_path = empty( $kb_config['kb_articles_common_path'] ) ?
 									EPKB_KB_Handler::get_default_slug( $kb_id ) : $kb_config['kb_articles_common_path'];
@@ -144,6 +145,7 @@ class EPKB_Articles_CPT_Setup {
 		}
 
 		/** setup Custom Post Type */
+		$categories_in_url = self::is_category_in_url( $kb_config );
 		$post_type_name = _x( $kb_config['kb_name'], 'post type general name', 'echo-knowledge-base' );
 		$post_type_name = empty($post_type_name) ? 'Knowledge Base' : $post_type_name;
 		$labels = array(
@@ -168,7 +170,7 @@ class EPKB_Articles_CPT_Setup {
 				'show_in_menu'       => $show_post_in_ui,
 				'publicly_queryable' => true,
 				'query_var'          => true,
-				'rewrite'            => array( 'slug' => $kb_articles_common_path, 'with_front' => false ),
+				'rewrite'            => array( 'slug' => $kb_articles_common_path . ( $categories_in_url ? '/%category%' : '' ), 'with_front' => false ), // do not translate
 				'capability_type'    => 'post',
 				'map_meta_cap'       => true,
 				'has_archive'        => false,
@@ -204,6 +206,92 @@ class EPKB_Articles_CPT_Setup {
 		}
 
 		return true;
+	}
+
+	/**
+	 * If configured to include category in article permalinks then makes that happen here.
+	 *
+	 * @param $permalink
+	 * @param $post
+	 *
+	 * @return mixed
+	 * @noinspection PhpUnused
+	 */
+	public function replace_linked_article_permalink( $permalink, $post ) {
+
+		// only handle our articles
+		if ( ! EPKB_KB_Handler::is_kb_post_type( $post->post_type ) ) {
+			return $permalink;
+		}
+
+		// handle all posts except onces that are not ready to have slug altered
+		$draft_or_pending = isset($post->post_status) && in_array($post->post_status, array('trash','inherit','auto-draft'), true );
+		if ( $draft_or_pending ) {
+			return $permalink;
+		}
+
+		$kb_id = EPKB_KB_Handler::get_kb_id_from_post_type( $post->post_type );
+		if ( is_wp_error( $kb_id ) ) {
+			return $permalink;
+		}
+
+		// only if KB config has set option to include categories in URL continue
+		$kb_config = epkb_get_instance()->kb_config_obj->get_kb_config_or_default( $kb_id );
+		if ( ! self::is_category_in_url( $kb_config ) ) {
+			return $permalink;
+		}
+
+		$kb_taxonomy_name = EPKB_KB_Handler::get_category_taxonomy_name( $kb_id );
+
+		$default_category = get_term( get_option( 'default_category' ), 'category' );
+		$default_category = empty( $default_category ) || is_wp_error( $default_category ) ? _x( 'uncategorized', 'do not change again', 'echo-knowledge-base' ) : $default_category->slug;
+
+		// retrieve all post categories
+		$categories = get_the_terms( $post->ID, $kb_taxonomy_name );
+		if ( empty( $categories ) || is_wp_error( $categories ) ) {
+			return str_replace( '%category%' , $default_category , $permalink );
+		}
+
+		// invoke filter on selected first category
+		$category_object = apply_filters( 'post_link_category', $categories[0], $categories, $post );
+		if ( empty( $category_object ) || is_wp_error( $category_object ) ) {
+			return str_replace( '%category%' , $default_category , $permalink );
+		}
+
+		// find category hierarchy slug
+		$category_object = get_term( $category_object, 'category' );
+		if ( empty( $category_object->slug ) || is_wp_error( $category_object ) ) {
+			return str_replace( '%category%' , $default_category , $permalink );
+		}
+
+		// add parent slugs if any
+		$category_slug = $category_object->slug;
+
+		if ( $category_object->parent ) {
+
+			$parent = $category_object->parent;
+			$args = array(
+				'separator' => '/',
+				'link'      => false,
+				'format'    => 'slug',
+			);
+			$parents_slug = get_term_parents_list( $parent, $kb_taxonomy_name, $args );
+			if ( empty( $parents_slug ) || is_wp_error( $parents_slug ) ) {
+				return str_replace( '%category%' , $default_category , $permalink );
+			}
+
+			$category_slug = $parents_slug . $category_slug;
+		}
+
+		// show default category in permalinks, without having to assign it explicitly.
+		if ( empty( $category_slug ) ) {
+			$category_slug = $default_category;
+		}
+
+		// add proper category slug
+		$permalink = str_replace( '%category%' , $category_slug , $permalink );
+
+		return $permalink;
 	}
 
 	/**
@@ -244,6 +332,16 @@ class EPKB_Articles_CPT_Setup {
 		}
 
 		return $thelist;
+	}
+
+	/**
+	 * Determine if KB Category name appears in article URL
+	 * @param $kb_config
+	 * @return bool
+	 */
+	public static function is_category_in_url( $kb_config ) {
+		return ! empty($kb_config['categories_in_url_enabled']) && $kb_config['categories_in_url_enabled'] == 'on' &&
+		       $kb_config['kb_main_page_layout'] == EPKB_KB_Config_Layout_Categories::LAYOUT_NAME;
 	}
 }
 

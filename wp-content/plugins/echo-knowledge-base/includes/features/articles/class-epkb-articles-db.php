@@ -54,14 +54,13 @@ class EPKB_Articles_DB {
 		$kb_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
 		if ( ! is_wp_error( $kb_config ) && EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
 			$order_by = $order_by == 'title' ? 'post_title' : 'post_modified';
-			$articles = $wpdb->get_results( " SELECT * " .
+			return $wpdb->get_results( " SELECT * " .
 			                                " FROM $wpdb->posts p " .
 			                                " WHERE p.ID in " .
 			                                "   (SELECT object_id FROM $wpdb->term_relationships tr INNER JOIN $wpdb->term_taxonomy tt ON tt.term_taxonomy_id = tr.term_taxonomy_id " .
 			                                "    WHERE tt.term_id = " . $sub_or_category_id . " AND tt.taxonomy = '" . EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ) . "') " .
 			                                "   AND post_type = '" . EPKB_KB_Handler::get_post_type( $kb_id ) . "' AND post_status in ('publish')
 		                              ORDER BY " . $order_by . ' ' . $order );  // Get only Published articles
-			return $articles;
 		}
 
 		return get_posts( $query_args );  /** @secure 02.17 */
@@ -71,10 +70,11 @@ class EPKB_Articles_DB {
 	 * Retrieve all KB articles but do not count articles in Trash
 	 *
 	 * @param $kb_id
+	 * @param bool $only_published
 	 *
 	 * @return number of all posts
 	 */
-	static function get_count_of_all_kb_articles( $kb_id ) {
+	static function get_count_of_all_kb_articles( $kb_id, $only_published=true ) {
 		/** @var $wpdb Wpdb */
 		global $wpdb;
 
@@ -83,7 +83,7 @@ class EPKB_Articles_DB {
 		// parameters sanitized
 		$posts = $wpdb->get_results( " SELECT * " .
 									 " FROM $wpdb->posts " . /** @secure 02.17 */
-		                             " WHERE post_type = '" . EPKB_KB_Handler::get_post_type( $kb_id ) . "' AND post_status in ('publish') ");
+		                             " WHERE post_type = '" . EPKB_KB_Handler::get_post_type( $kb_id ) . "' " . ( $only_published ? "AND post_status in ('publish') " : '' ) );
 		if ( empty( $posts ) || ! is_array( $posts ) ) {
 			return 0;
 		}

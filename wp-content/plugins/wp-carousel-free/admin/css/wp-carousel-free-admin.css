@@ -1,3 +1,6 @@
+.text-center {
+    text-align: center;
+}
 #adminmenu .menu-icon-sp_wp_carousel .wp-menu-image img {
     width: 22px;
     padding: 7px 0;
@@ -8,13 +11,27 @@
     display: inline;
     margin: 5px;
 }
-.js .tmce-active .wp-editor-area{color:#000000}
-
-
-/* Help Page */
-.sp-wpcp-text-center{
-    text-align: center;
+.js .tmce-active .wp-editor-area{
+    color:#000000;
 }
+.disable-color-picker .spf-field-color {
+    pointer-events: none;
+    opacity: .6;
+}
+
+/* Admin Preloader */
+.sp_wpcp_shortcode_generator .spf-wrapper{
+    min-height:200px;
+    z-index:999;
+    background-image:url(../img/preloader.gif);
+    background-repeat:no-repeat;
+    background-color:#fff;
+    background-position:center;
+}
+.sp_wpcp_shortcode_generator .spf-wrapper li{
+    opacity:0;
+}
+/* Help Page */
 .sp-wpcp-help .wp-badge{
     border: none;
     background: url(../img/wpcp-icon-256.png) right no-repeat;
@@ -23,18 +40,27 @@
     height: auto;
     top: -75px;
 }
-.about-wrap.sp-wpcf-upgrade [class$="-col"] .col+.col{
+.about-wrap.sp-wpcp-help [class$="-col"],
+.about-wrap.sp-wpcf-upgrade [class$="-col"] {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.about-wrap.sp-wpcf-upgrade [class$="-col"] .col,
+.about-wrap.sp-wpcp-help [class$="-col"] .col {
+    flex: 1;
+    align-self: flex-start;
+}
+.about-wrap.sp-wpcp-help .feature-section .col {
+    margin-top: 40px;
+}
+.about-wrap.sp-wpcf-upgrade [class$="-col"] .col+.col  {
     margin-left: 0;
 }
-.about-wrap.sp-wpcf-upgrade .about-text{
-    min-height: 60px;
+.about-wrap.sp-wpcp-help [class$="-col"] .col+.col {
+    margin-left: 20px;
 }
-.about-wrap.sp-wpcf-upgrade hr {
-    order: 0;
-    height: 0;
-    margin: 0;
-    border-top: 1px solid rgba(0,0,0,.1);
-}
+
 .sp-wpcf-upgrade .headline-feature.feature-video,
 .sp-wpcp-help .headline-feature.feature-video {
     position: relative;
@@ -103,6 +129,15 @@
     box-shadow: none;
     top: 0px;
     padding-right: 8px;
+}
+.about-wrap.sp-wpcf-upgrade .about-text{
+    min-height: 60px;
+}
+.about-wrap.sp-wpcf-upgrade hr {
+    order: 0;
+    height: 0;
+    margin: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
 }
 .sp-wpcf-upgrade .feature-section .sp-wpc-feature{
     background-color: #fff;
@@ -221,13 +256,75 @@
 .sp-wpcf-upgrade a.wpcf-upgrade-btn{
     display: inline-block;
 }
+
+/* Review notice */
+#sp-wpcfree-review-notice {
+    padding:15px 15px 15px 0;
+    background-color:#fff;
+    border-radius:3px;
+    margin:20px 20px 0 0;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-plugin-icon {
+    width:125px;
+    float:left;
+    line-height:90px;
+    text-align:center;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-plugin-icon img {
+    max-width:83px;
+    vertical-align:middle;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-notice-text {
+    overflow:hidden;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-notice-text h3 {
+    font-size:24px;
+    margin:0 0 5px;
+    font-weight:400;
+    line-height:1;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-notice-text p {
+    margin:10px 0 10px 0;
+    font-size:13px;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-notice-text p.sp-wpcfree-review-actions {
+    margin:10px 0 2px 0;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-notice-text .sp-wpcfree-review-actions a {
+    text-decoration:none;
+    margin-right:8px;
+    color:#63a37b;
+    display:inline-block;
+    position:relative;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-notice-text .sp-wpcfree-review-actions a span {
+    padding-right:2px;
+}
+#sp-wpcfree-review-notice .sp-wpcfree-notice-text .sp-wpcfree-review-actions a.button {
+    color:#fff;
+}
+
 /* Responsive CSS */
+@media screen and (max-width: 782px) {
+    .about-wrap .three-col .col {
+        min-width: 48%!important;
+        max-width: 48%!important;
+        margin-left: 0!important;
+    }
+    .about-wrap.sp-wpcp-help .feature-section .col {
+        margin-top: 20px;
+    }
+}
+
 @media (max-width: 960px) {
     .sp-wpc-help .sp-wpc-upgrade-sticky-footer {
         width: calc(100%);
     }
 }
-@media (max-width: 500px) {
+@media only screen and (max-width: 500px) {
+    .about-wrap .three-col .col {
+        min-width: 100%!important;
+    }
     .sp-wpcf-upgrade .wp-badge {
         background-position-x: center;
     }

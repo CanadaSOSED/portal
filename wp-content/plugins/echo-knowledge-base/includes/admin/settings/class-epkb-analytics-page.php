@@ -87,30 +87,30 @@ class EPKB_Analytics_Page {
 	 */
 	private function display_core_analytics( $kb_id ) {
 
-		$all_kb_terms      = EPKB_Utilities::get_kb_categories( $kb_id );
+		$all_kb_terms      = EPKB_Utilities::get_kb_categories_unfiltered( $kb_id );
 		$nof_kb_categories = $all_kb_terms === null ? 'unknown' : count( $all_kb_terms );
 		$nof_kb_articles   = EPKB_Articles_DB::get_count_of_all_kb_articles( $kb_id );  ?>
 
 		<div class="overview-info-widget">
-			<div class="widget-header"><h4>Categories</h4></div>
+			<div class="widget-header"><h4><?php _e( 'Categories', 'echo-knowledge-base' ); ?></h4></div>
 			<div class="widget-content">
 				<div class="widget-count"><?php echo EPKB_Utilities::sanitize_int( $nof_kb_categories ); ?></div>
-				<div class="widget-desc">Categories help you to organize articles into groups and hierarchies.</div>
+				<div class="widget-desc"><?php _e( 'Categories help you to organize articles into groups and hierarchies.', 'echo-knowledge-base' ); ?></div>
 			</div>
 			<div class="widget-toggle"><?php
 				$url = admin_url('edit-tags.php?taxonomy=' . EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ) .'&post_type=' . EPKB_KB_Handler::get_post_type( $kb_id ));  ?>
-				<a href="<?php echo esc_url( $url ); ?>" target="_blank">View Categories</a>
+				<a href="<?php echo esc_url( $url ); ?>" target="_blank"><?php _e( 'View Categories', 'echo-knowledge-base' ); ?></a>
 			</div>
 		</div>
 
 		<div class="overview-info-widget">
-			<div class="widget-header"><h4>Articles</h4></div>
+			<div class="widget-header"><h4><?php _e( 'Articles', 'echo-knowledge-base' ); ?></h4></div>
 			<div class="widget-content">
 				<div class="widget-count"><?php echo EPKB_Utilities::sanitize_int( $nof_kb_articles ); ?></div>
-				<div class="widget-desc">Article belongs to one or more categories or sub-categories.</div>
+				<div class="widget-desc"><?php _e( 'Article belongs to one or more categories or sub-categories.', 'echo-knowledge-base' ); ?></div>
 			</div>
 			<div class="widget-toggle">
-				<a href="<?php echo esc_url( admin_url('edit.php?post_type=' . EPKB_KB_Handler::get_post_type( $kb_id )) ); ?>" target="_blank">View Articles</a>
+				<a href="<?php echo esc_url( admin_url('edit.php?post_type=' . EPKB_KB_Handler::get_post_type( $kb_id )) ); ?>" target="_blank"><?php _e( 'View Articles', 'echo-knowledge-base' ); ?></a>
 			</div>
 		</div>	<?php
 	}

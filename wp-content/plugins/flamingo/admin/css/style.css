@@ -47,3 +47,12 @@ table.message-fields td.field-value li {
 .tablenav .actions input.button {
 	margin: 1px 8px 0 0;
 }
+
+#misc-publishing-actions .spam-log .dashicons-before::before {
+	position: relative;
+	top: -1px;
+	margin-left: -1px;
+	padding-right: 3px;
+	vertical-align: top;
+	color: #82878c;
+}

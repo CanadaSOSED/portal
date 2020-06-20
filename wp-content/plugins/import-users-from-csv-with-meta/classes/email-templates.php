@@ -90,7 +90,7 @@ class ACUI_Email_Template{
 	function refresh_enable_email_templates(){
 		check_ajax_referer( 'codection-security', 'security' );
 		update_option( 'acui_enable_email_templates', ( $_POST[ 'enable' ] == "true" ) );
-		die();
+		wp_die();
 	}
 	
 	function email_template_selected(){
@@ -106,7 +106,7 @@ class ACUI_Email_Template{
 			'attachment_url' => wp_get_attachment_url( $attachment_id ),
 		) );
 
-		die();
+		wp_die();
 	}
 
 	function add_meta_boxes(){

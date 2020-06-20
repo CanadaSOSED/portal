@@ -5,10 +5,10 @@ Description: A trustworthy message storage plugin for Contact Form 7.
 Author: Takayuki Miyoshi
 Text Domain: flamingo
 Domain Path: /languages/
-Version: 1.6
+Version: 2.1.1
 */
 
-define( 'FLAMINGO_VERSION', '1.6' );
+define( 'FLAMINGO_VERSION', '2.1.1' );
 
 define( 'FLAMINGO_PLUGIN', __FILE__ );
 
@@ -20,6 +20,10 @@ define( 'FLAMINGO_PLUGIN_NAME',
 
 define( 'FLAMINGO_PLUGIN_DIR',
 	untrailingslashit( dirname( FLAMINGO_PLUGIN ) ) );
+
+if ( ! defined( 'FLAMINGO_MOVE_TRASH_DAYS' ) ) {
+	define( 'FLAMINGO_MOVE_TRASH_DAYS', 30 );
+}
 
 // Deprecated, not used in the plugin core. Use flamingo_plugin_url() instead.
 define( 'FLAMINGO_PLUGIN_URL',
@@ -35,6 +39,7 @@ require_once FLAMINGO_PLUGIN_DIR . '/includes/class-outbound-message.php';
 require_once FLAMINGO_PLUGIN_DIR . '/includes/user.php';
 require_once FLAMINGO_PLUGIN_DIR . '/includes/comment.php';
 require_once FLAMINGO_PLUGIN_DIR . '/includes/akismet.php';
+require_once FLAMINGO_PLUGIN_DIR . '/includes/cron.php';
 
 if ( is_admin() ) {
 	require_once FLAMINGO_PLUGIN_DIR . '/admin/admin.php';

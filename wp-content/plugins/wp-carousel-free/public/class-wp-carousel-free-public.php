@@ -39,7 +39,7 @@ class WP_Carousel_Free_Public {
 	 * @param string $version The version of the plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-		$this->suffix      = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$this->suffix      = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 	}
@@ -51,13 +51,13 @@ class WP_Carousel_Free_Public {
 	 * @return void
 	 */
 	public function enqueue_styles() {
-		if ( true == sp_get_option( 'wpcp_dequeue_slick_css' ) ) {
-			wp_enqueue_style( 'wpcf-slick', WPCAROUSELF_URL . 'public/css/slick.css', array(), $this->version, 'all' );
+		if ( wpcf_get_option( 'wpcp_enqueue_slick_css', true ) ) {
+			wp_enqueue_style( 'wpcf-slick', WPCAROUSELF_URL . 'public/css/slick' . $this->suffix . '.css', array(), $this->version, 'all' );
 		}
-		if ( true == sp_get_option( 'wpcp_dequeue_fa_css' ) ) {
+		if ( wpcf_get_option( 'wpcp_enqueue_fa_css', true ) ) {
 			wp_enqueue_style( $this->plugin_name . '-fontawesome', WPCAROUSELF_URL . 'public/css/font-awesome.min.css', array(), $this->version, 'all' );
 		}
-		wp_enqueue_style( $this->plugin_name, WPCAROUSELF_URL . 'public/css/wp-carousel-free-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, WPCAROUSELF_URL . 'public/css/wp-carousel-free-public' . $this->suffix . '.css', array(), $this->version, 'all' );
 	}
 
 	/**
@@ -67,7 +67,8 @@ class WP_Carousel_Free_Public {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_register_script( 'wpcf-slick', WPCAROUSELF_URL . 'public/js/slick.js', array( 'jquery' ), $this->version, true );
-		wp_register_script( 'wpcf-slick-config', WPCAROUSELF_URL . 'public/js/wp-carousel-free-public.js', array( 'jquery', 'wpcf-slick' ), $this->version, true );
+		wp_register_script( 'wpcp-preloader', WPCAROUSELF_URL . 'public/js/preloader' . $this->suffix . '.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( 'wpcf-slick', WPCAROUSELF_URL . 'public/js/slick' . $this->suffix . '.js', array( 'jquery' ), $this->version, true );
+		wp_register_script( 'wpcf-slick-config', WPCAROUSELF_URL . 'public/js/wp-carousel-free-public' . $this->suffix . '.js', array( 'jquery' ), $this->version, true );
 	}
 }

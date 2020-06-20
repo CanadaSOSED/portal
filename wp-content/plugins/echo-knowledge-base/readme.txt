@@ -1,88 +1,128 @@
-=== Knowledge Base for Documents and FAQs ===
+=== Knowledge Base for Documentation and FAQs ===
 Author URI: https://www.echoknowledgebase.com
 Plugin URI: https://www.echoknowledgebase.com
 Contributors: echoplugins
-Tags: knowledge base, documentation, knowledgebase, documents, faqs, help, admin, plugin, articles
+Tags: knowledge base, docs, documentation, help, faq, knowledgebase, documents, admin, plugin, articles, learn
 Requires at least: 4.0
-Tested up to: 5.2
-Stable tag: 4.6.1
+Tested up to: 5.4
+Stable tag: 6.5.1
 License: GPL2+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Organize your documentation and FAQs with our extendable Knowledge Base plugin. Easy to use, flexible and professional.
+Organize documentation and FAQ pages with the best WordPress Knowledge Base plugin. Create knowledgebase docs and FAQs easily, works with any theme.
 
 == Description ==
 
-Professional WordPress Knowledge Base plugin for articles, documents and FAQs. It's easy to use, works with any theme and has predefined layouts, styles and colors.
+The most popular WordPress Knowledge Base plugin for articles, documents and FAQs that is easy to use and works with any theme.
 
-Help your users and customers find documents and faqs with a well-organized knowledge base that also looks professional.
+Create modern, professional-looking documentation with our wizard with 26 predefined themes and over 500 icons.
 
-See our knowledgebase demos [here](https://www.echoknowledgebase.com/demo-1-knowledge-base-basic-layout/ "KB Demos") and our knowledgebase documentation [here](https://www.echoknowledgebase.com/documentation/ "KB documentation")
+[youtube https://www.youtube.com/watch?v=5uI9q2ipZxU]
 
+= Best Documentation Plugin =
+* A proven product with 5-star ratings from more than 10,000 customers.
+* Setup in minutes with Wizard to help you choose your style, colors, and layout.
+* Get a professional look with the option to customize nearly all components.
+* Organize your docs by team, product, and service using Tabs Layout.
+* Benefit from constant improvements and new features.
+* Get friendly support, seven days a week.
 
-[youtube https://www.youtube.com/watch?v=9x1njLJvgOc]
+<strong>Layouts</strong>
+* Basic Layout - Demo 1 [here](https://www.echoknowledgebase.com/demo-1-knowledge-base-basic-layout/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo1 "KB Demo 1")
+* Basic Layout - Demo 2 [here](https://www.echoknowledgebase.com/demo-2-knowledge-base-basic-layout/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo2 "KB Demo 2")
+* Tabs Layout - Demo 3 [here](https://www.echoknowledgebase.com/demo-3-knowledge-base-tabs-layout/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo3 "KB Demos 3") (Multi Product Example)
+* Tabs Layout - Demo 4 [here](https://www.echoknowledgebase.com/demo-4-knowledge-base-tabs-layout/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo4 "KB Demos 4") (Multi Product Example)
+* Uploaded Images - Demo 12 [here](https://www.echoknowledgebase.com/demo-12-knowledge-base-image-layout/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo12 "KB Demos 12")
 
+See our knowledgebase documentation [here](https://www.echoknowledgebase.com/documentation/ "KB documentation")
 
-= Features of the knowledgebase plugin include: =
-* Have up to 3 levels of categories and sub-categories.
-* Order articles and categories alphabetically, chronologically or in any order.
-* Choose from over 500 icons to display for top categories.
-* Choose from 16 pre-defined color themes.
-* Choose from 4 pre-defined style combinations.
-* Choose article template - current theme template or Knowledge Base template
-* Add tags, breadcrumbs, back button and comments to your knowledgebase articles.
-* Use visual builder and check your configuration changes in live preview.
-* Add an AJAX enabled search box.
-* For better SEO, choose the URL for your knowledgebase articles.
-* Setup hierarchical documentation with sub-categories.
-* Set front-end text to any language.
-* Looks great on phones and tablets.
-* Knowledgebase Articles and Categories are CPTs.
-* It also works perfectly with or without Gutenberg.
-* Compatible with WPML, Elementor, Visual Composer, and others.
+= Main Features =
+* Wizard with 26 Predefined themes.
+* Basic, Tabs, and Category Focused Layouts.
+* Articles with table of contents (TOC).
+* A fast search bar with listed results.
+* Up to five levels of hierarchical documentation.
+* 500 icons, with the option to upload your own icons.
+* Customization of any text on the front-end.
+* Shortcode and templates designed for Frequently Asked Questions.
+* Ordering of articles and categories alphabetically, chronologically, or in any order.
+* Ability to add tags, breadcrumbs, back button, and comments to your documents.
+* Coded for best SEO results.
+* Compatible with WPML, Elementor, Beaver Builder, Divi, Visual Composer, and others
+* And much more
 
-= Additional Benefits =
-* Start right way with a basic Knowledge Base created during plugin installation. No coding required.
-* Choose from predefined layouts and styles to avoid dealing with templates.
-* Expert users can take advantage of the most advanced yet easy-to-use configuration available on the market.
+= Add-ons Features =
+* Control access and permissions based on groups, WordPress users and roles, and custom roles.
+* Control public and private articles and who can read, write, and edit articles.
+* Create multiple Knowledge Bases with separate articles, categories, tags, and more.
+* Create Sidebar and Grid layouts.
+* Vote on articles, a feedback form, and analytics.
+* Use widgets and shortcodes for categories, articles, and the search bar.
+* Replace articles with PDFs, external docs, video links, and more.
+* Filter search by category.
+* Use Advanced search analytics to determine the most popular and empty searches.
+* Use advanced search with custom backgrounds and support links.
 
-= A Great Solution For These Applications =
-* Frequently Asked Questions (FAQs),
-* Internal knowledge base for your employees and teams,
-* External knowledge base for your customers,
-* Documentation about your products and services, and
-* Software manuals
+= Use Cases =
+* Frequently Asked Questions (FAQs)
+* Internal knowledge base for company employees and teams on an intranet
+* External knowledge base for customers
+* Products and services documentation
+* Product manuals
+* E-commerce websites
+* Standards and policies at government agencies
+* Schools and colleges (eLearning)
 
+Enjoy many other features to help you build better documentation:
+
+* Linking Categories to the Category Archive Page
+* Counter of articles in categories
+* Customizable article slug to include category name
+* Controlling the length of the list of articles under each category.
+* Uploading custom images
+* Resetting CSS
+* Developer hooks into article output.
+* And much more.
 
 > <strong>GO FURTHER WITH ADD-ONS</strong>
 >
 >
-> <strong>Elegant Layouts</strong><br>
-> [Elegant Layouts](https://www.echoknowledgebase.com/wordpress-plugin/elegant-layouts) adds Grid and Sidebar Layouts. Use Grid Layout or Sidebar Layout for KB Main page or combine Basic, Tabs, Grid and Sidebar layouts in a variety ways. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/elegant-layouts/).
->
->
-> <strong>Multiple Knowledge Bases</strong><br>
-> Create [Multiple Knowledge Bases](https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases), one for each product, service, topic or department. Each Knowledgebase has separate articles, URLs, KB Main Page and admin screens. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases/).
->
->
-> <strong>Advanced Search</strong><br>
-> Enhance users search experience and view search analytics including popular searches and no results searches. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/advanced-search/).
->
->
-> <strong>Widgets</strong><br>
-> Add Knowledgebase Search, Most Recent Articles and other Widgets and Shortcodes to your articles, sidebars and pages. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/widgets/).
->
->
-> <strong>Links Editor for PDFs and More</strong><br>
-> Set Articles to links to PDFs, pages, posts and websites. On KB Main Page, choose icons for your articles. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/links-editor-for-pdfs-and-more/).
+> <strong>PRO Bundle</strong><br>
+> See our [PRO Bundle](https://www.echoknowledgebase.com/bundle-pricing/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=pro-bundle).
 >
 >
 > <strong>Access Manager</strong><br>
-> [Access Manager](https://www.echoknowledgebase.com/wordpress-plugin/access-manager/) allows administrators, companies, and organizations to control and restrict access to their private Knowledge Base. Grant permission based on roles and groups.
+> [Access Manager](https://www.echoknowledgebase.com/wordpress-plugin/access-manager/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=access-mgr) allows administrators, companies, and organizations to control and restrict access to their private Knowledge Base based on WordPress user accounts. Grant permission using roles and groups.
+>
+>
+> <strong>Elegant Layouts</strong><br>
+> [Elegant Layouts](https://www.echoknowledgebase.com/wordpress-plugin/elegant-layouts/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=elegant-layouts) adds Grid and Sidebar Layouts. Use Grid Layout or Sidebar Layout for KB Main page or combine Basic, Tabs, Grid and Sidebar layouts in a variety ways. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/elegant-layouts/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=elegant-layouts).
+>
+>
+> <strong>Multiple Knowledge Bases</strong><br>
+> Create [Multiple Knowledge Bases](https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=multiple-kbs), one for each product, service, topic or department. Each Knowledgebase has separate articles, URLs, KB Main Page and admin screens. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=multiple-kbs).
+>
+>
+> <strong>Advanced Search</strong><br>
+> Enhance users search experience and view search analytics including popular searches and no results searches. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/advanced-search/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=advanced-search).
+>
+>
+> <strong>Article Rating and Feedback</strong><br>
+> Let your readers rate the quality of your articles and submit insightful feedback. Utilize analytics on most and least rated articles. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/article-rating-and-feedback/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=article-rating).
+>
+>
+> <strong>Widgets</strong><br>
+> Add Knowledgebase Search, Most Recent Articles and other Widgets and Shortcodes to your articles, sidebars and pages. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/widgets/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=widgets).
+>
+>
+> <strong>Links Editor for PDFs and More</strong><br>
+> Set Articles to links to PDFs, pages, posts and websites. On KB Main Page, choose icons for your articles. [Learn More](https://www.echoknowledgebase.com/wordpress-plugin/links-editor-for-pdfs-and-more/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=links-editor).
 >
 
+* (PRO) Grid Layout - Demo 5 [here](https://www.echoknowledgebase.com/demo-5-knowledge-base-grid-layout/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo5 "KB Demo 5")
+* (PRO) Sidebar Layout - Demo 8 [here](https://www.echoknowledgebase.com/demo-8-knowledge-base-sidebar-layout/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo8 "KB Demo 8")
+* (PRO) Links - Demo 9 [here](https://www.echoknowledgebase.com/demo-9-knowledge-base-add-ons/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=demo9 "KB Demos 9")
 
-Subscribe to our [Newsletter](https://www.echoknowledgebase.com/subscribe-to-our-newsletter/ "KB Newsletter") to learn about new features, to receive special offers and more.
 
 == Installation ==
 
@@ -106,236 +146,67 @@ You can install the Knowledge Base for Documents and FAQs from your WordPress Da
 == Frequently Asked Questions ==
 
 = Where can I find complete documentation on your knowledgebase? =
-Full searchable docs can be found at [Knowledge Base](http://www.echoknowledgebase.com/documentation/ "plugin documentation")
-
-= What browsers work with Echo Knowledge Base? =
-We support the current major release and one past major release of the following browsers: Internet Explorer/Edge, Firefox, Safari, and Chrome.
+Full searchable docs can be found at [Knowledge Base](http://www.echoknowledgebase.com/documentation/?utm_source=plugin&utm_medium=readme&utm_content=home&utm_campaign=docs "plugin documentation")
 
 
 == Screenshots ==
 
-1. Examples of the Basic Layout of Knowledge Base
+1. Example of the Basic Layout of Knowledge Base
 
-2. Example of the Tabs Layout of Knowledge Base
+2. Easy setup with Wizard
 
-3. Another Example of the Basic Layout
+3. Use your own images for categories
 
-4. Article with breadcrumbs, back button, tags and comments
+4. Wizards for fast editing and design
 
-5. Knowledge Base configuration settings in visual builder
+5. Example of the Tabs Layout of Knowledge Base
 
-6. Knowledge Base configuration screens
+6. Professional and clean design
 
-7. Manage categories
+7. Drag and drop to reorder categories
 
-8. Category Archive Page - Style 1
+8. Documentation hierarchy
 
-9. Category Archive Page - Style 2
+9. Article with breadcrumbs, back button, tags and comments
 
-10. Category Archive Page - Style 3
+10. Styles for Category Archive Page
 
-11. Category Archive Page - Style 4
+11. Extend your knowledge base with add-ons
 
-12. Example of Frequently Asked Questions (FAQs) page
+12. Article sidebars for Table of Content and Widgets
 
 
 == Changelog ==
 
-= 4.6.1, Sept 15, 2019 =
-* Update: Chrome HTML engine build 77 broke CSS. Apply temporary fix it.
+= 6.5.1 =
+Release Date: June 7, 2020
 
-= 4.6.0, Aug 3, 2019 =
-* New: Category links 
-* Update: Changed CPT Name and removed the KB prefix.
-* Update: Added aria label.
-* Update: Improve initial KB setup and defaults.
-* Fix: Category archive page title icon alignment.
-* Fix: Minor issues
+Changes:
+* New: Import and export of KB config
+* Update: Category Archive Page articles ordering
+* Update: Update translation strings
+* Fix: Initial KB URL and Wizard issues
 
-= 4.5.0, April 4, 2019 =
-* Update: Overview page to show KB status, help and new features.
-* Improved: Do not trigger preview when still configuring KB (longer wait)
+= 6.4.2 =
+Release Date: April 26th, 2020
 
-= 4.4.3, Feb 20, 2019 =
-* Fix: WPML settings affected after saving KB configuration.
+Changes:
+* Update: Improve icon configuration
+* Fix: Wizard issues
 
-= 4.4.2, Feb 18, 2019 =
-* Updates: adjusting configuration for add-ons
-* Fix: Minor issues
+= 6.4.1 =
+Release Date: April 15th, 2020
 
-= 4.4.1, Dec 26, 2018 =
-* Fix: PHP issue with upper case Self:: reference
-* Fix: Minor issues
+Changes:
+* Fix: Article sidebars and TOC for V1
 
-= 4.4.0, Dec 25, 2018 =
-* Update: Preparation for FAQ feature
-* Fix: compatibility with Gutenberg
-* Fix: Minor issues
+= 6.4.0 =
+Release Date: April 13th, 2020
 
-= 4.3.0, Dec 13, 2018 =
-* New: Make article updates compatible with Gutenberg
-* New: Finalize WPML compatibility
-* Fix: Add Section Head Category icon for Tabs Layout
+Changes:
+* New: Article structure v2 with sidebars
+* Update: Language translations
+* Fix: Wizard issues
 
-= 4.2.0, Nov 1, 2018 =
-* New: Make KB compatible with Gutenberg
-* Fix: Minor issues
 
-= 4.1.0, Oct 17, 2018 =
-* New: Add initial version of analytics page
-* New: Prepare for WPML compability
-* Fix: Minor issues
-
-= 4.0.0, Sep 1, 2018 =
-* New: Option to have Icons for top categories in Basic and Tabs layout
-* New: Option to display Article title in Sidebar Layout
-* Fix: Multisite network plugin activation did not saved initial configuration
-* Fix: Translatable text
-
-= 3.5.0, July 18, 2018 =
-* Improved: Ability to change heading on Category Archive Page
-* Improved: Added paging to KB Template - Category Archive page
-* Improved: Ensure all text is ready for translation
-* Fix: Handle articles that are in future, draft or pending.
-* Fix: Minor issues
-
-= 3.4.0, May 30, 2018 =
-* New: Hook to change search mechanism
-* Improved: Remove new lines and slashes from search
-* Improved: logging
-* Improved: enable KB installation for multisites (networked site)
-* Improved: refactored code
-* Fix: Saving KB Main Pages clears old pages
-* Fix: WordPress search results page not affected by KB Template
-* Fix: Minor issues
-
-= 3.3.1, April 17, 2018 =
-* Fix: Do not include KB Template in search results
-
-= 3.3.0, Feb 27, 2018 =
-* New: KB Templates: added template and styles for Category Archive page
-* Improved: Refactored code
-* Fix: Minor issues
-
-= 3.2.3, Dec 13, 2017 =
-* New: Added font Awesome
-* Fix: Custom sequencing of sub-sub-categories
-* Fix: Added missing Back Button options
-* Fix: Minor issues
-
-= 3.2.2, Oct 20, 2017 =
-* New: Option to turn off Main Page title when using KB templates
-* New: Option to add custom margin to breadcrumbs
-* New: Option to match style of Main page articles index and search results.
-* New: Option to add paddings and/or margins around article when using KB templates
-* Improved: Increase search results list to 20.
-* Fix: Make the Last Updated On based on the site language
-* Fix: Do not count in KB stats trashed articles.
-* Fix: Minor issues
-
-= 3.2.1, Oct 6, 2017 =
-* Fix: Properly handle saving KB with no articles and no categories.
-
-= 3.2.0, Sept 1, 2017 =
-* New: Add debug tab for easier troubleshooting
-* New: Add option for KB Templates to use CSS reset and/or default CSS
-* Fix: Use string, not array, to avoid PHP limit in posting sequence of articles
-* Fix: Minor issues
-
-= 3.1.2, July 27, 2017 =
-* Fix: Prevent loosing configuration for elegant layouts on deactivation
-
-= 3.1.1, July 27, 2017 =
-* New: Use CSS reset to ensure themes do not affect KB CSS
-* New: Set breadcrumb font size
-* Improved: Handling of Current Theme and KB Templates
-* Improved: Custom Post Type now contains KB name
-* Improved: Improved colors and styles values for resets
-* Improved: Better organization and display for the Overview tab
-* Improved: Isolate as much add-ons from KB Core as possible
-* Improved: KB Templates now handle Main Page with content around it
-* Improved: If articles and categories are sorted by date show recently created first
-* Fix: Minor issues
-
-= 3.0.1, June 8, 2017 =
-* Fix: Configuration caching
-* Fix: Article Page shortcode not working in some cases
-* Fix: Configuration screen refresh issue
-
-= 3.0.0, June 2, 2017 =
-* New: Tags with configuration to display on article pages
-* New: Control whether or not to display comments for each article
-* New: Breadcrumbs with configuration
-* New: Back button with configuration
-* New: Choice between current theme template and KB template for articles
-* New: On/off display of top category description
-* New: User interface to configure KB using Mega Menu
-* Improved: Handling shortcodes in articles
-* Improved: Search input now uses OR condition for all entered words
-* Fix: Selected tab is not highlighted
-* Fix: Respect Main Page hierarchy
-* Fix: Add missing configuration for text when Tabs Layout has top categories drop down
-* Fix: Minor issues
-
-= 2.1.0, May 4, 2017 =
-* New: Basic Layout now has 3 levels of categories
-* New: Visual configuration with live preview of configuration changes including layouts
-* New: Overview screen now displays a link to What's New page
-* New: Switch to Demo KB in order to better see what given layout and style looks like
-* New: Switch between Main Page and Article Page configuration
-* Improved: Reorganized some configuration settings, grouping them by common visual elements
-* Improved: Add Name to Feedback form
-* Improved: Code cleanup and refactoring
-* Fix: Various small fixes
-
-= 2.0.0, March 9, 2017 =
-* New: Visual builder admin page where user can order articles and categories in any sequence
-* New: Visual builder allows user to dynamically switch between sorting by title and sorting alphabetically
-* New: Search box now has a new configuration to adjust its padding, margin and input field width
-* Fix: Various small improvements
-
-= 1.3.0, Feb 25, 2017 =
-* New: Categories can now be sequenced by date or name
-* New: Code and page setup for future release of a visual builder (not available yet)
-* New: Polish translation (thanks to Arthur)
-* Improved: Hide advanced configuration with accordion
-* Fix: Ensure that no other KB has the same common article path
-* Fix: Refresh rewrite rules when needed
-* Fix: Sub-sub categories not showing
-* Fix: Article links in search results could be old
-
-= 1.2.0, Feb 11, 2017 =
-* New: Initial work to enable translations for the plugin (WIP)
-* New: Add configuration of the front-end text such as a search label
-* New: Option to completely hide the Search Box
-* Improved: Cache settings and default configuration for better performance
-* Improved: Changed menu name from Plugin Settings to Plugin Info
-* Improved: Better mobile experience on admin pages
-* Fix: Replaced spaces with dashes for the Common Path for Articles
-* Fix: Welcome Screen appears after installation
-* Fix: Search on older iPhones
-* Fix: Display 'Show more articles' for sub-categories
-
-= 1.1.0, Jan 29, 2017 =
-* New: Four ways to set each color theme.
-* New: Selection of tab in the Tabs Layout is now part of browser history.
-* New: Selected tab in the Tabs Layout can be bookmarked.
-* New: Extension to KB through add-on plugins.
-* New: Responsive admin interface
-* Improved: Selection of the Common Path for KB Articles.
-* Improved: administrative screens work better on tablets and smaller laptops
-* Improved: some terminology
-* Improved: Compatibility with PHP < 5.4
-* Improved: code refactoring
-
-= 1.0.1, Jan 19, 2017 =
-* New: Extra small font for sections
-* Improved: Do not show plugin notifications within tabs
-* Improved: Help text
-* Improved: Help themes display KB categories on a KB article page
-* Improved: Show 'Articles coming soon' when subcategories are empty
-* Fix: Conflict with other plugins that show hidden form on page
-* Fix: Do not show 'Articles coming soon' when articles present in category
-
-= 1.0.0: Jan 15, 2017 =
-* Initial release
+Find out more about our new features in [New Features](https://www.echoknowledgebase.com/new-features/).

@@ -255,7 +255,7 @@ class WP_Carousel_Free_Upgrade {
 				</div>
 				<hr>
 				<div class="sp-wpcp-join-community text-center">
-					<h2>Join the <b>12000+</b> Happy Users Worldwide!</h2>
+					<h2>Join the <b>20000+</b> Happy Users Worldwide!</h2>
 					<a class="wpcf-upgrade-btn" target="_blank" href="https://shapedplugin.com/plugin/wordpress-carousel-pro/">Get a license instantly</a>
 					<p>Every purchase comes with <b>7-day</b> money back guarantee and access to our incredibly Top-notch Support with lightening-fast response time and 100% satisfaction rate. One-Time payment, lifetime automatic update.</p>
 				</div>

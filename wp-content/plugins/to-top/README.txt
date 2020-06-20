@@ -3,7 +3,7 @@ Contributors: catchplugins, catchthemes, sakinshrestha, pratikshrestha, maheshma
 Donate link: https://catchplugins.com/plugins/to-top/
 Tags: to top, scroll up, arrow, button, icon, link to top, scroll, back to top, scroll to top, scroll top, scroll up, simple scroll to top, simple back to top, smooth scroll
 Requires at least: 4.8
-Tested up to: 5.1.1
+Tested up to: 5.4
 Stable tag: trunk
 License: GNU General Public License, version 3 (GPLv3)
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
@@ -56,6 +56,18 @@ You'll then see To Top dashboard from which you can enable or disable the button
 5. Reset Settings
 
 == Changelog ==
+
+= 2.1 (Released: March 17, 2020) =
+* Compatibility check up to version 5.4
+
+= 2.0 (Released: November 12, 2019) =
+* Compatibility check up to version 5.3
+
+= 1.9 (Released: August 20, 2019) =
+* Added: Option to turn off Catch Themes and Catch Plugin tabs
+* Compatibility check up to version 5.2
+* Updated: Catch Themes and Catch Plugins tabs displaying code
+
 = 1.8.1 (Released: February 21, 2019) =
 * Added: French language translation by Hubert
 

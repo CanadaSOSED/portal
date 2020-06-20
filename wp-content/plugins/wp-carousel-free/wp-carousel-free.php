@@ -10,7 +10,7 @@
  * Plugin Name:       WordPress Carousel
  * Plugin URI:        https://shapedplugin.com/plugin/wordpress-carousel-pro/
  * Description:       The Most Powerful and User-friendly WordPress Carousel Plugin. Create beautiful carousels in minutes using Images, Posts, WooCommerce Products etc.
- * Version:           2.0.1
+ * Version:           2.1.9
  * Author:            ShapedPlugin
  * Author URI:        https://shapedplugin.com/
  * License:           GPL-2.0+
@@ -23,6 +23,16 @@
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
+
+/**
+ * The code that runs during plugin activation.
+ * This action is documented in includes/class-wp-carousel-free-activator.php
+ */
+function activate_wp_carousel_free() {
+	require_once WPCAROUSELF_PATH . '/includes/class-wp-carousel-free-activator.php';
+	WP_Carousel_Free_Activator::activate();
+}
+register_activation_hook( __FILE__, 'activate_wp_carousel_free' );
 
 
 /**
@@ -119,7 +129,7 @@ class SP_WP_Carousel_Free {
 	 */
 	public function setup() {
 		$this->plugin_name = 'wp-carousel-free';
-		$this->version     = '2.0.1';
+		$this->version     = '2.1.9';
 		$this->define_constants();
 		$this->includes();
 		$this->load_dependencies();
@@ -163,9 +173,13 @@ class SP_WP_Carousel_Free {
 	 */
 	public function includes() {
 
+		require_once WPCAROUSELF_INCLUDES . '/class-wp-carosuel-free-updates.php';
 		require_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-loader.php';
 		require_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-post-types.php';
-		require_once WPCAROUSELF_PATH . '/admin/views/meta-box/sp-framework.php';
+		require_once WPCAROUSELF_PATH . '/admin/views/wpcfree-metabox/classes/setup.class.php';
+		require_once WPCAROUSELF_PATH . '/admin/views/notices/review.php';
+		require_once WPCAROUSELF_PATH . '/admin/views/metabox-config.php';
+		require_once WPCAROUSELF_PATH . '/admin/views/option-config.php';
 		require_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-shortcode.php';
 		require_once WPCAROUSELF_PATH . '/public/shortcode-deprecated.php';
 		require_once WPCAROUSELF_INCLUDES . '/class-wp-carousel-free-i18n.php';
@@ -220,8 +234,12 @@ class SP_WP_Carousel_Free {
 	 * @access private
 	 */
 	private function define_common_hooks() {
-		$plugin_cpt = new WP_Carousel_Free_Post_Type( $this->get_plugin_name(), $this->get_version() );
+		$plugin_cpt           = new WP_Carousel_Free_Post_Type( $this->get_plugin_name(), $this->get_version() );
+		$plugin_review_notice = new WP_Carousel_Free_Review( $this->get_plugin_name(), $this->get_version() );
+
 		$this->loader->add_action( 'init', $plugin_cpt, 'wp_carousel_post_type', 11 );
+		$this->loader->add_action( 'admin_notices', $plugin_review_notice, 'display_admin_notice' );
+		$this->loader->add_action( 'wp_ajax_sp-wpcfree-never-show-review-notice', $plugin_review_notice, 'dismiss_review_notice' );
 	}
 
 	/**
@@ -238,10 +256,7 @@ class SP_WP_Carousel_Free {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_admin_styles' );
 		$this->loader->add_filter( 'post_updated_messages', $plugin_admin, 'wpcp_carousel_updated_messages', 10, 2 );
 		$this->loader->add_filter( 'manage_sp_wp_carousel_posts_columns', $plugin_admin, 'filter_carousel_admin_column' );
-		$this->loader->add_action(
-			'manage_sp_wp_carousel_posts_custom_column', $plugin_admin,
-			'display_carousel_admin_fields', 10, 2
-		);
+		$this->loader->add_action( 'manage_sp_wp_carousel_posts_custom_column', $plugin_admin, 'display_carousel_admin_fields', 10, 2 );
 		$this->loader->add_filter( 'plugin_action_links', $plugin_admin, 'add_plugin_action_links', 10, 2 );
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'plugin_row_meta', 10, 2 );
 		$this->loader->add_filter( 'admin_footer_text', $plugin_admin, 'sp_wpcp_review_text', 10, 2 );

@@ -3,7 +3,7 @@
 		editor.addButton('sp_wpcp_mce_button', {
 			text: false,
             icon: false,
-			image: url + '/icon32.png',
+			image: url + '/wp-carousel-icon.svg',
             tooltip: 'WP Carousel',
             onclick: function () {
                 editor.windowManager.open({

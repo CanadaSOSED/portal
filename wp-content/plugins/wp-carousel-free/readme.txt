@@ -1,9 +1,9 @@
-=== WordPress Carousel ===
+=== WordPress Carousel - Responsive Image Slider for WordPress ===
 Contributors: shapedplugin
 Donate link: http://shapedplugin.com/donate
 Tags: wordpress carousel, best carousel plugin, image carousel, image slider, post carousel, custom post carousel, custom taxonomy carousel, woocommerce product carousel, content carousel, video carousel, video slider, video lightbox, youtube carousel, video gallery, carousel, slider, responsive slider, responsive carousel, carousel slider, ticker carousel, center mode carousel, slide anything, image gallery, image lightbox, wordpress image gallery, photo gallery, gallery slider, wordpress gallery plugin, gallery, post slider, vimeo slider, self hosted video carousel, content slider, wordpress slider, featured content slider, html slider, horizontal carousel slider, posts content slider, product carousel, woocommerce slider, woocommerce product slider
 Requires at least: 4.3
-Tested up to: 5.1
+Tested up to: 5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -325,6 +325,50 @@ Thank you!
 
 
 == Changelog ==
+
+= 2.1.9 – Feb 11, 2020 =
+* Fix: Conflict with WP Tabs plugin.
+
+= 2.1.8 – Jan 07, 2020 =
+* Improved: Shortcode level spelling correction.
+
+= 2.1.7 – Dec 04, 2019 =
+* Fix: HTTP and HTTPS mixed content issue.
+* Fix: Undefined index php notice.
+
+= 2.1.6 – Nov 23, 2019 =
+* Fix: WordPress 5.3 compatibility issue.
+
+= 2.1.5 – Nov 02, 2019 =
+* Fix: User capabilities issue.
+
+= 2.1.4 – Sep 04, 2019 =
+* Fix: Google fonts loading issue.
+
+= 2.1.3 – Jul 13, 2019 =
+* Fix: Undefined index error notice.
+
+= 2.1.2 – Jul 02, 2019 =
+* Fix: Preloader image lod issue.
+* Improved: Admin dashboard.
+
+= 2.1.1 – MAY 25, 2019 =
+* New: Swipe to Slide option.
+* Fix: Border backward compatibility issue.
+* Fix: AutoPlay Speed backward compatibility issue.
+* Fix: Pagination Speed backward compatibility issue.
+
+= 2.1.0 - May 25, 2019 =
+* New: Carousel preloader added.
+* New: Data remove option on uninstall plugin.
+* New: Image width and height attributes added.
+* New: Plugin CSS and JS assets have been minified.
+* Improved: Carousel direction improved for RTL language.
+* Fix: WordPress 5.2.1 compatibility issue.
+* Fix: Border issue for product image.
+
+= 2.0.2 =
+* Fix: Elementor conflict issue.
 
 = 2.0.1 =
 * Fix: WordPress 5.1 compatible issue.

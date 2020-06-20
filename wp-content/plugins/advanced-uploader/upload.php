@@ -3,64 +3,75 @@
 	Plugin Name: Advanced uploader
 	Plugin URI: 
 	Description: This plugin provides an interface for uploading files.  Features - large files to upload to your site even on shared host with http upload limit.  creates thumbnails in the browser including pdf thumbnails.
-	Version: 3.2
+	Version: 4.1
 	Author: Oli Redmond
 	Author URI: 
 	*/
 	
 	//initailise variables
 	$adv_file_upload_admin_page = "";
-	$version = "3.2";
+	$version = "4.0";
 	
 	add_action( 'admin_enqueue_scripts', 'adv_file_upload_admin_init' );
 	add_action( 'admin_menu', 'adv_file_upload_admin_menu', 0);
-	add_action( 'wp_ajax_adv_upload_plupload', 'adv_upload_plupload' );
-	add_action( 'wp_ajax_adv_file_upload_thumbs', 'adv_upload_thumbs' );
+	add_action( 'wp_ajax_adv_upload_dropzone_chunks', 'adv_upload_dropzone_chunks' );
+	add_action( 'wp_ajax_adv_upload_dropzone', 'adv_upload_dropzone' );
 	add_action( 'wp_ajax_adv_file_upload_set_loader', 'adv_file_upload_set_loader' );
 	add_action( 'wp_ajax_adv_file_upload_scan', 'adv_file_upload_scan' );
-	add_action( 'wp_ajax_adv_file_upload_new_post', 'adv_upload_new_post' );  //????
+	add_action( 'wp_ajax_adv_file_upload_new_post', 'adv_upload_new_post' );  //for new gallery
 
 	function adv_file_upload_admin_init() {
-		//Register Plupload 2.1.1
-		wp_register_script( 'plupload2', plugins_url('/js/plupload.full.min.js', __FILE__), array( 'jquery', 'jquery-ui-dialog' ), '2.1.1');
+		global $version;
+		//register scripts here to make them work on plugin pages
+		if(SCRIPT_DEBUG)
+		    wp_register_script( 'adv-file-upload', plugins_url('/js/upload.js', __FILE__), array( 'dropzone', 'adv-file-upload-pdf-js', 'adv-file-upload-id3-js', 'jq-ui-autocomplete', 'jquery-ui-dialog' ), $version);
+		else
+		    wp_register_script( 'adv-file-upload', plugins_url('/js/upload.min.js', __FILE__), array( 'dropzone', 'adv-file-upload-pdf-js', 'adv-file-upload-id3-js', 'jq-ui-autocomplete', 'jquery-ui-dialog' ), $version);
+
+		wp_register_script( 'adv-file-upload-pdf-js', 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.3.200/pdf.min.js', array(), '2.3.2' );
+		wp_register_script( 'adv-file-upload-id3-js', 'https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.0/jsmediatags.min.js' );
+
+		//Dropzone JS
+		if(SCRIPT_DEBUG)
+		    wp_register_script( 'dropzone', plugins_url('/js/dropzone.js', __FILE__), array(), '5.5.0');
+		else
+		    wp_register_script( 'dropzone', plugins_url('/js/dropzone.min.js', __FILE__), array(), '5.5.0');
+
+		wp_register_script( 'jq-ui-autocomplete', plugins_url('/js/jquery-ui-1.12.1.custom/jquery-ui.min.js', __FILE__), array( 'jquery' ), '1.12.1');
 		
 		// Register settings scripts
 		wp_register_script( 'adv-file-upload-settings', plugins_url('/js/upload-settings.min.js', __FILE__), array( 'jquery', 'jquery-ui-dialog' ), '1.0');
 
 		// register style
 		wp_register_style('adv-file-upload-css', plugins_url('/css/upload.css', __FILE__), array( 'wp-jquery-ui-dialog') );
-
-		//check version number and include newer version plupload if wordpress version is older then 3.9
-		global $wp_version;
-		if( get_option('adv_file_upload_replace_default') && version_compare( $wp_version, 3.9 ) < 0 ) {
-			wp_deregister_script('plupload');
-			wp_deregister_script('plupload-html5');
-			wp_deregister_script('plupload-flash');
-			wp_deregister_script('plupload-silverlight');
-			wp_deregister_script('plupload-html4');
-			wp_register_script( 'plupload', null, array( 'plupload2' ), '1.0');
-			wp_register_script( 'plupload-html5', null, array( 'plupload2' ), '1.0');
-			wp_register_script( 'plupload-flash', null, array( 'plupload2' ), '1.0');
-			wp_register_script( 'plupload-silverlight', null, array( 'plupload2' ), '1.0');
-			wp_register_script( 'plupload-html4', null, array( 'plupload2' ), '1.0');
-		}
 	}
 	
 	//function to recursively go through categories
 	function adv_file_upload_cat_list($parnet, $cats, $excludes) {
 		$args = array(
-			'orderby'	=> 'name',
-			'hide_empty'	=> false,
-			'parent'	=> $parnet
+			'orderby'	 => 'name',
+			'hide_empty' => false,
+			'parent'	 => $parnet
 		);
 		$categories = get_categories($args);
 		foreach ($categories as $category) {
 			if( !in_array( $category->name, $excludes ) ) {
-				$cats[] = array( 'id' => $category->term_id, 'name' => $category->name, 'parent' => $category->parent);
+				$img = null;
+				if (function_exists('z_taxonomy_image_url'))
+					$img = z_taxonomy_image_url($category->term_id, 'thumbnail');
+				$cats[] = array( 'id' => $category->term_id, 'name' => $category->name, 'parent' => $category->parent, 'image' =>  $img );
 				$cats = adv_file_upload_cat_list( $category->term_id, $cats, $excludes );
 			}
 		}
 		return $cats;
+	}
+
+	function adv_admin_inline_style($hook) {
+		$progress = get_option('adv_file_upload_progress');
+		if ($progress) {
+			//added Style sheet based on settings
+			echo "#media-items .dz-progress .dz-upload{background-color:$progress !important;}";
+		}
 	}
 
 	function adv_admin_inline_js($hook) {
@@ -73,9 +84,7 @@
   		$bws = get_option('adv_file_upload_bws');
   		$cat = get_option('adv_file_upload_cat');
   		$cats = array();
-  		$progress = get_option('adv_file_upload_progress');
-		$override = get_option('adv_file_upload_overide_header_calc');
-  		$maxFileSize = '1073741824';
+		$override = strval(get_option('adv_file_upload_overide_header_calc'));
 
 		//set the default location
 		$upload_dir = wp_upload_dir();
@@ -86,8 +95,8 @@
 		// get list wordpress galleries
 		if ($gallery) {
 			$query = "
-			        SELECT	$wpdb->posts.ID, $wpdb->posts.post_title, $wpdb->posts.post_name
-			        FROM	$wpdb->posts 
+			    SELECT	$wpdb->posts.ID, $wpdb->posts.post_title, $wpdb->posts.post_name
+			    FROM	$wpdb->posts 
 				WHERE	$wpdb->posts.post_type IN ('post','page')
 				AND	$wpdb->posts.post_status IN ('publish','private','protected')
 				AND	$wpdb->posts.post_content LIKE '%[gallery%ids=%'
@@ -140,49 +149,21 @@
 			$cats = adv_file_upload_cat_list( 0, array(), $excludes );
 		}
 		
-		if ($progress) {
-			//added Style sheet based on settings
-			echo "<style type='text/css'>\n";
-			echo ".media-item .bar{background-color:$progress !important;";
-			echo "background-image:-webkit-linear-gradient(bottom, rgba(0,0,0,0.3), rgba(0,0,0,0)) !important;";
-			echo "background-image:-moz-linear-gradient(bottom, rgba(0,0,0,0.3), rgba(0,0,0,0)) !important;";
-			echo "background-image:-o-linear-gradient(bottom, rgba(0,0,0,0.3), rgba(0,0,0,0)) !important;";
-			echo "background-image:linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0)) !important;}";
-			echo ".drag-drop.drag-over #drag-drop-area{border-color:$progress !important;}\n";
-			echo ".uploader-window{background-color:$progress !important;";
-			echo "filter: alpha(opacity=90) !important;";
-			echo "opacity:0.9 !important;}\n";
-			echo "</style>\n";
-		}
+		$max_upload = strval(file_upload_max_size());
+		if ( !is_numeric( $override ) )
+			$override = 3;
 		
-		if ( $adv_file_upload_admin_page == $hook ) {
-			echo "<style type='text/css'>\n";
-			echo ".upload-flash-bypass{display:none;}\n";
-			echo ".max-upload-size{display:none;}\n";
-			echo "</style>\n";
-		}
-		
-		if ( $adv_file_upload_admin_page != $hook 
-			&& (get_user_setting('adv_uploader') == 'false' || isset( $_GET['default-uploader'] )) )
-			$js_var .= "var adv_uploader = false;\n";
-		else
-			$js_var .= "var adv_uploader = true;\n";
+		$max_upload -= $override * 1024;
+		$js_var .= "max_upload = " . $max_upload . ";\n";
 
-		if ( get_option('adv_file_upload_replace_default') )
-			$js_var .= "var adv_replace_default = true;\n";
+		if( get_option('adv_file_upload_browser') )
+			$js_var .= "var adv_browser = true;\n";
 		else
-			$js_var .= "var adv_replace_default = false;\n";
-
-		if ( is_numeric( $override ) )
-			$js_var .= "var override_header_calc = $override;\n";
-		else
-			$js_var .= "var override_header_calc = false;\n";
-
-		$js_var .= "var adv_max_file_size = $maxFileSize;\n";
+			$js_var .= "var adv_browser = false;\n";
 
 		//get images sizes
-                // make thumbnails and other intermediate sizes
-                global $_wp_additional_image_sizes;
+        //make thumbnails and other intermediate sizes
+        global $_wp_additional_image_sizes;
 
 		$js_var .= "var sizes = new Array();\n";
 		$intermediate_sizes = get_intermediate_image_sizes();
@@ -246,12 +227,14 @@
 			$js_var .= 'categories[' . $index . '][0] = "' . $value['id'] . "\";\n";
 			$js_var .= 'categories[' . $index . '][1] = "' . $value['name'] . "\";\n";
 			$js_var .= 'categories[' . $index . '][2] = "' . $value['parent'] . "\";\n";
+			$js_var .= 'categories[' . $index . '][3] = "' . $value['image'] . "\";\n";
 			$index++;
 		}
 
 		$js_var .= 'var pluginPath = "'.plugins_url( '' , __FILE__ ).'/js/";'."\n";
-		$js_var .= 'var security = "' . wp_create_nonce( 'alt_upl_nonce' . get_current_user_id() ) . "\";\n";
-		$js_var .= 'PDFJS.workerSrc = "'.plugins_url( '' , __FILE__ ).'/js/pdf.worker.js";'."\n";
+
+		//add destiantions values to form
+		$js_var .= 'document.getElementById("destinations").value=JSON.stringify(destinations);' . "\n";
 
 		return $js_var;
 	}
@@ -259,34 +242,24 @@
 	function adv_file_upload_admin_menu() {
 		global $adv_file_upload_admin_page;
 		/* Register our plugin page */
-		if (!get_option('adv_file_upload_replace_default')) {
-			$adv_file_upload_admin_page = add_media_page( 
-					__('Advanced uploader','adv-file-upload'), // The Page title
-	        			__('Advanced uploader','adv-file-upload'), // The Menu title
-					'upload_files', // The capability required for access to this item
-					'adv-file-upload', // the slug to use for the page in the URL
-					'adv_file_upload_manage_menu' // The function to call to render the page
-	                       );
-	        }
+		$adv_file_upload_admin_page = add_media_page( 
+				__('Advanced uploader','adv-file-upload'), // The Page title
+        			__('Advanced uploader','adv-file-upload'), // The Menu title
+				'upload_files', // The capability required for access to this item
+				'adv-file-upload', // the slug to use for the page in the URL
+				'adv_file_upload_manage_menu' // The function to call to render the page
+                 );
 	}
 	
 	function adv_file_upload_admin_scripts($hook) {
-		global $adv_file_upload_admin_page, $version;
-		if( $adv_file_upload_admin_page == $hook || get_option('adv_file_upload_replace_default') ) {
-			//register scripts here to make them work on plugin pages
-			wp_register_script( 'adv-file-upload', plugins_url('/js/upload.min.js', __FILE__), array( 'plupload', 'adv-file-upload-pdf-js', 'adv-file-upload-id3-js', 'jquery-ui-autocomplete', 'jquery-ui-dialog' ), $version);
-
-			//TBD wp_register_script( 'adv-file-upload-spark-md5', plugins_url('/js/spark-md5.min.js', __FILE__) );
-			wp_register_script( 'adv-file-upload-pdf-js', plugins_url('/js/pdf.js', __FILE__) );
-			wp_register_script( 'adv-file-upload-id3-js', plugins_url('/js/id3.min.js', __FILE__) );
-
+		global $adv_file_upload_admin_page;
+		if( $adv_file_upload_admin_page == $hook ) {
 			//enqueue scripts and style
 			wp_enqueue_script( 'adv-file-upload' );
 			wp_enqueue_style( 'adv-file-upload-css' );
 		}
 	}
 	add_action('admin_enqueue_scripts', 'adv_file_upload_admin_scripts');
-	add_action('wp_enqueue_media', 'adv_file_upload_admin_scripts');
 
 	function adv_file_upload_set_loader() {
 		set_user_setting('adv_uploader', $_REQUEST['loader']);
@@ -344,22 +317,60 @@
 		return $directories;
 	}
 		
+    function file_upload_max_size() {
+      static $max_size = -1;
+    
+      if ($max_size < 0) {
+        // Start with post_max_size.
+        $post_max_size = parse_size(ini_get('post_max_size'));
+        if ($post_max_size > 0) {
+          $max_size = $post_max_size;
+        }
+    
+        // If upload_max_size is less, then reduce. Except if upload_max_size is
+        // zero, which indicates no limit.
+        $upload_max = parse_size(ini_get('upload_max_filesize'));
+        if ($upload_max > 0 && $upload_max < $max_size) {
+          $max_size = $upload_max;
+        }
+      }
+      return $max_size;
+    }
+    
+    function parse_size($size) {
+      $unit = preg_replace('/[^bkmgtpezy]/i', '', $size); // Remove the non-unit characters from the size.
+      $size = preg_replace('/[^0-9\.]/', '', $size); // Remove the non-numeric characters from the size.
+      if ($unit) {
+        // Find the position of the unit in the ordered string which is the power of magnitude to multiply a kilobyte by.
+        return round($size * pow(1024, stripos('bkmgtpezy', $unit[0])));
+      }
+      else {
+        return round($size);
+      }
+    }
+
 	function adv_file_upload_manage_menu() {
+	    global $adv_file_upload_admin_page;
 		if ( !current_user_can( 'upload_files' ) )  {
 			wp_die( __( 'You do not have permission to upload files.' ) );
 		}
 
-		wp_enqueue_script('plupload-handlers');
-
-		echo "<div id='upload_form' class='wrap'>";
-		screen_icon('upload');
-		echo "<h2>Advanced uploader</h2>";
-		echo "<form id='file-form' class='media-upload-form'>";
-		media_upload_form();
-		echo '<div id="media-items" class="hide-if-no-js"></div>';
-		echo "</form>";
+		echo "<h1>Advanced uploader</h1>\n";
+		echo '<div id="media-upload-notice"></div>';
+		echo '<div id="media-upload-error"></div>';
+		echo '<form action="' . admin_url( 'admin-ajax.php' ) . '" method="post" enctype="multipart/form-data" id="drag-drop-area" class="dropzone">' . "\n";
+	    //echo "	   <div calss='fallback'><p>Your browser doesn't HTML5 support.</p></div>\n";
+		echo '     <input type="hidden" name="action" value="adv_upload_dropzone_chunks">' . "\n";
+		echo '     <input type="hidden" id="destinations" name="destinations" value="">' . "\n";
+		echo '     <input type="hidden" id="security" name="security" value="' . wp_create_nonce( 'alt_upl_nonce' . get_current_user_id() ) . '">' . "\n";
+        echo '     <DIV class="dz-message needsclick">Drop files here or click to upload.</div>' . "\n";
+        echo "</form>\n";
+        echo '<div id="media-items" class="hide-if-no-js"></div>';
+        echo "<style type='text/css'>\n";
+		echo adv_admin_inline_style($adv_file_upload_admin_page);
+		echo "</style>\n";
 		echo "<script type='text/javascript'>\n";
-		echo "var post_id=0;\n";
+		echo adv_admin_inline_js($adv_file_upload_admin_page);
 		echo "</script>\n";
 	}
 
@@ -393,7 +404,7 @@
 
 		//get reduced size images imformation from file
 		if($sizes != null && count($sizes) > 0) {
-			if (pathinfo($name, PATHINFO_EXTENSION) == 'pdf') {
+			if( get_option('adv_file_upload_pdf') && pathinfo($name, PATHINFO_EXTENSION) == 'pdf' ) {
 				//Horizontal size of large image of the pdf, in pixels.
 				$attach_data["width"] = $sizes["large"]["width"];
 				//Vertical size of large image of the pdf, in pixels.
@@ -414,7 +425,7 @@
 			$rel_path = str_replace ( $upload_dir['basedir'] . DIRECTORY_SEPARATOR, '', $target_path );
 			$rel_path = untrailingslashit( $rel_path ) . DIRECTORY_SEPARATOR;
 			$attach_data["file"] =  $rel_path . urlencode($name);
-			if (pathinfo($name, PATHINFO_EXTENSION) == 'pdf')
+			if( get_option('adv_file_upload_pdf') && pathinfo($name, PATHINFO_EXTENSION) == 'pdf' )
 			    $sizes["full"] = $sizes["large"];
 			
 			$attach_data["sizes"] = $sizes;
@@ -452,6 +463,18 @@
 			'media',
 			'adv_file_upload');
 
+		add_settings_field('adv_file_upload_browser',
+			'Browser conversion',
+			'adv_file_upload_setting_browser',
+			'media',
+			'adv_file_upload');
+		
+		add_settings_field('adv_file_upload_pdf',
+			'PDF image',
+			'adv_file_upload_setting_pdf',
+			'media',
+			'adv_file_upload');
+		
 		add_settings_field('adv_file_upload_gallery',
 			'Include Wordpress Galleries',
 			'adv_file_upload_setting_gallery',
@@ -482,22 +505,17 @@
 			'media',
 			'adv_file_upload');
 			
-		add_settings_field('adv_file_upload_replace_default',
-			'Replace Default Uploader',
-			'adv_file_upload_setting_replace_default',
-			'media',
-			'adv_file_upload');
-
 		// Register our setting so that $_POST handling is done for us and
 		// our callback function just has to echo the <input>
 		register_setting('media','adv_file_upload_destination','adv_file_upload_validate_destination');
 		register_setting('media','adv_file_upload_progress','adv_file_upload_validate_progress');
+		register_setting('media','adv_file_upload_browser');
+		register_setting('media','adv_file_upload_pdf');
 		register_setting('media','adv_file_upload_gallery');
 		register_setting('media','adv_file_upload_bws');
 		register_setting('media','adv_file_upload_cat');
 		register_setting('media','adv_file_upload_exc_cat');
 		register_setting('media','adv_file_upload_overide_header_calc', 'adv_file_upload_validate_overide_header_calc');
-		register_setting('media','adv_file_upload_replace_default');
 	}
 	add_action('admin_init', 'adv_file_upload_settings_api_init');
 	
@@ -532,17 +550,31 @@
 	}
 	
 	// ------------------------------------------------------------------
-	// Default Override Callback function
+	//  Browser conversion Callback function
 	// ------------------------------------------------------------------
 	//
-	// creates a checkbox for overiding default 
+	// creates a checkbox for Wordpress Galleries settings
 	//
 	
-	function adv_file_upload_setting_replace_default () {
-		$default = get_option('adv_file_upload_replace_default');
- 		echo "<input name='adv_file_upload_replace_default' id='adv_file_upload_replace_default' type='checkbox' value='1' class='code' " . checked( 1, $default, false ) . " />";
+	function adv_file_upload_setting_browser () {
+		$browser = get_option('adv_file_upload_browser');
+ 		echo "<input name='adv_file_upload_browser' id='adv_file_upload_browser' type='checkbox' value='1' class='code' " . checked( 1, $browser, false ) . " />";
+ 		echo " Create additonal images sizes in browser<br />";
 	}
+
+	// ------------------------------------------------------------------
+	//  PDF image Callback function
+	// ------------------------------------------------------------------
+	//
+	// creates a checkbox for Wordpress Galleries settings
+	//
 	
+	function adv_file_upload_setting_pdf () {
+		$pdf = get_option('adv_file_upload_pdf');
+ 		echo "<input name='adv_file_upload_pdf' id='adv_file_upload_pdf' type='checkbox' value='1' class='code' " . checked( 1, $pdf, false ) . " />";
+ 		echo " Create image of pdf files, This switch does not effect server side, but requires imagick<br />";
+	}
+
 	// ------------------------------------------------------------------
 	// Wordpress Galleries Callback function
 	// ------------------------------------------------------------------
@@ -999,52 +1031,7 @@
 	}
 	add_filter('attachment_fields_to_save', 'save_display_attachment_image', 20, 2);
 	
-	function adv_plupload_default_settings($defaults) {
-		if ( get_option('adv_file_upload_replace_default') ) {
-			$defaults['flash_swf_url'] = plugins_url('/js/Moxie.swf', __FILE__);
-			$defaults['silverlight_xap_url'] = plugins_url('/js/Moxie.xap', __FILE__);
-			$defaults['max_retries'] = 3;
-		}
-		return $defaults;
-	}
-	add_filter('plupload_default_settings', 'adv_plupload_default_settings');
-	add_filter('plupload_init', 'adv_plupload_default_settings');
-
-	//add functions to plupload default settings
-	function adv_pre_plupload() {
-		global $pagenow, $adv_file_upload_admin_page;
-		$screen = get_current_screen();
-
-		if( ( $pagenow == 'media-new.php' && get_option('adv_file_upload_replace_default') ) || $screen->id == $adv_file_upload_admin_page ) {
-			echo "<script type='text/javascript'>\n"
-			. adv_admin_inline_js($screen->id)
-			. "adv_plupload_defaults();\n"
-			.  "</script>\n";
-		}
-	}
-	add_action( 'pre-html-upload-ui', 'adv_pre_plupload');
-
-	function adv_plupload_default_script () {
-		global $wp_scripts, $pagenow, $adv_file_upload_admin_page;
-		$screen = get_current_screen();
-
-		if( get_option('adv_file_upload_replace_default') && 
-			!( $pagenow == 'media-new.php' || $screen->id == $adv_file_upload_admin_page ) ) {
-			$script = adv_admin_inline_js($screen->id) . "jQuery().ready( function() { adv_plupload_defaults(); } );\n";
-	
-			$data = $wp_scripts->get_data( 'wp-plupload', 'data' );
-			if ( $data )
-				$wp_scripts->add_data( 'wp-plupload', 'data', "$data\n$script" );
-				
-			$data = $wp_scripts->get_data( 'plupload-handlers', 'data' );
-			if ( $data )
-				$wp_scripts->add_data( 'plupload-handlers', 'data', "$data\n$script" );
-		}
-	}
-	add_action( 'customize_controls_print_footer_scripts', 'adv_plupload_default_script');
-	add_action( 'admin_footer', 'adv_plupload_default_script');
-
-	//create new post
+	//create new post for WP Gallery
 	function adv_upload_new_post () {
 		check_ajax_referer('alt_upl_nonce' . get_current_user_id(),'security');
 		
@@ -1066,119 +1053,143 @@
 
 	}
 	
-	function adv_upload_thumbs () {
+	function adv_upload_dropzone() {
 		//check nounce is correct
 		check_ajax_referer('alt_upl_nonce' . get_current_user_id(),'security');
 
+		// Make sure file is not cached (as it happens for example on iOS devices)
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+
+		// Settings
+		$cleanupTargetDir = true; // Remove old files
+		$maxFileAge = 5 * 3600; // Temp file age in seconds
+			
 		// 5 minutes execution time
 		@set_time_limit(5 * 60);
-		
+
 		// Get parameters
-		$post_id = isset($_REQUEST["post_id"]) ? intval($_REQUEST["post_id"]) : 0;
-		$name = isset($_REQUEST["filename"]) ? $_REQUEST["filename"] : '';
-		$sizesObj = json_decode(stripcslashes($_REQUEST['meta']));
+		$post_id = 0;
+		$uid = isset($_REQUEST["dzuuid"]) ? $_REQUEST["dzuuid"] : 0;
+		$totalchunkcount = isset($_REQUEST["dztotalchunkcount"]) ? intval($_REQUEST["dztotalchunkcount"]) : 0;
+		$fileName = isset($_REQUEST["filename"]) ? $_REQUEST["filename"] : '';
+       		$sizesObj = isset($_REQUEST['meta']) ? json_decode(stripcslashes($_REQUEST['meta'])) : null;
+		$album = isset($_REQUEST["album"]) ? intval($_REQUEST["album"]) : 0;
 		//get destinations from JSON object
 		$destinations = json_decode(stripcslashes($_REQUEST['destinations']));
 		$dest = isset($_REQUEST["fileDest"]) ? intval($_REQUEST["fileDest"]) : 0;
-		$album = isset($_REQUEST["album"]) ? stripcslashes($_REQUEST["album"]) : '';
 		$targetDir = ABSPATH . $destinations [$dest][1];
-		$targetUrl = site_url() . DIRECTORY_SEPARATOR . $destinations [$dest][1];
+		$sourceDir = wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . 'adv-upload-dir';
+		$sourcePath = $sourceDir . DIRECTORY_SEPARATOR . $uid;
 
-	    	if( $destinations[$dest][2] == 'Wordpress Gallery' ) {
-	    		if( $destinations[$dest][3] == 'new' ) {
-	    			$post_id = intval( $album );
-	    		} else {
-	    			$post_id = $destinations[$dest][3];
-	    		}
-	    	}
-		    	
-		// Look for the content type header
-		if (isset($_SERVER["HTTP_CONTENT_TYPE"]))
-			$contentType = $_SERVER["HTTP_CONTENT_TYPE"];
+		// get a valid wordpress filesname
+		$fileName = wp_unique_filename($targetDir, $fileName);
 		
-		if (isset($_SERVER["CONTENT_TYPE"]))
-			$contentType = $_SERVER["CONTENT_TYPE"];
-		
-		if (strpos($contentType, "multipart") !== false) {
-			for ($i = 0; $i < count($_FILES['thumbs']['name']); $i++) {
-				$file = array();
-				$file['name'] = $_FILES['thumbs']['name'][$i];
-				$file['tmp_name'] = $_FILES['thumbs']['tmp_name'][$i];
+		$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
-				if (isset($file['tmp_name']) && is_uploaded_file($file['tmp_name'])) {
-					// write to desired location
-					$out = @fopen($targetDir . DIRECTORY_SEPARATOR . $file['name'], "wb");
-					if ($out) {
-						// Read binary input stream and append it to temp file
-						$in = @fopen($file['tmp_name'], "rb");
-			
-						if ($in) {
-							while ($buff = fread($in, 4096))
-								fwrite($out, $buff);
-						} else {
-							echo json_encode( array(
-								'success' => false,
-								'data'    => array(
-									'message'  => 'Failed to open input stream.',
-									'code'  => 101,
-									'filename' => $_FILES['async-upload']['name'],
-								)
-							) );
-					
-							wp_die();
-						}
-						@fclose($in);
-						@fclose($out);
-						@unlink($file['tmp_name']);
-					} else {
-						echo json_encode( array(
-							'success' => false,
-							'data'    => array(
-								'message'  => 'Failed to open output stream.',
-								'code'  => 102,
-								'filename' => $_FILES['async-upload']['name'],
-							)
-						) );
-				
-						wp_die();
-					}
-				} else {
-					echo json_encode( array(
-						'success' => false,
-						'data'    => array(
-							'message'  => 'Failed to move uploaded file.',
-							'code'  => 103,
-							'filename' => $_FILES['async-upload']['name'],
-						)
-					) );
-			
-					wp_die();
-				}
-			}
-		} else {
-			echo json_encode( array(
-				'success' => false,
-				'data'    => array(
-					'message'  => 'Failed to open input stream.',
-					'code'  => 104,
-					'filename' => $_FILES['async-upload']['name'],
-				)
-			) );
-	
-			wp_die();
+		// Open temp file
+		$out = @fopen("{$filePath}", "wb");
+		if ($out === false) {
+		    //send error
+		    http_response_code (500);
+		    //set Content-Type to JSON
+		    header( 'Content-Type: application/json; charset=utf-8' );
+		    die('{"code" : "102", "message": "Failed to open output stream.", "id" : "' . $uid . '"}');
 		}
 
-		if(file_exists($targetDir . DIRECTORY_SEPARATOR . $name)) {
-		    	if($sizesObj != null)
+		//loop through the part files and concate them together
+		$chunkFailed = false;
+		for ($chunk = 0; $chunk < $totalchunkcount; $chunk++) {
+		    // Open output file
+		    $in = @fopen("{$sourcePath}.{$chunk}.part", "rb");
+		    if ($in === false) {
+			    $chunkFailed = true;
+		    } else {
+			    while ($buff = fread($in, 4096)) {
+				    fwrite($out, $buff);
+			    } 
+			    @fclose($in);
+			    @unlink("{$sourcePath}.{$chunk}.part");
+		    }
+		}
+		@fclose($out);
+
+		if ($chunkFailed) {
+			//send error
+			http_response_code (500);
+		        //set Content-Type to JSON
+		        header( 'Content-Type: application/json; charset=utf-8' );
+			die('{"code" : "102", "message": "Failed to open input stream.", "id" : "' . $uid . '"}');
+	    	}
+        
+        //save thumbnails with main file
+        if (array_key_exists('thumbs', $_FILES) && count($_FILES['thumbs']) > 0) {
+			for ($i = 0; $i < count($_FILES['thumbs']['name']); $i++) {
+				$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName . $_FILES['thumbs']['name'][$i];
+				$temp_file = $_FILES['thumbs']['tmp_name'][$i];
+				$error = $_FILES['thumbs']['error'][$i];
+		
+        		// Open temp file
+        		if (!$out = @fopen("{$filePath}", "wb")) {
+        		    //send error
+        		    http_response_code (500);
+        		    //set Content-Type to JSON
+        		    header( 'Content-Type: application/json; charset=utf-8' );
+        		    die('{"code" : "102", "message": "Failed to open output stream.", "id" : "' . $uid . '"}');
+        		}
+        		
+    		    if ($error || !is_uploaded_file($temp_file)) {
+    		        //send error
+    		        http_response_code (500);
+    		        //set Content-Type to JSON
+    		        header( 'Content-Type: application/json; charset=utf-8' );
+    		        die('{"code" : "103", "message": "Failed to move uploaded file.", "id" : "' . $uid . '"}');
+    	        }
+    	        
+    	        // Read binary input stream and append it to temp file
+    	        if (!$in = @fopen($temp_file, "rb")) {
+    		        //send error
+    		        http_response_code (500);
+    		        //set Content-Type to JSON
+    		        header( 'Content-Type: application/json; charset=utf-8' );
+    		        die('{"code" : "101", "message": "Failed to open input stream.", "id" : "' . $uid . '"}');
+            	}
+
+                while ($buff = fread($in, 4096)) {
+                	fwrite($out, $buff);
+                }
+        
+                @fclose($out);
+                @fclose($in);
+			}
+        }
+        
+        
+		if( $destinations[$dest][2] == 'Wordpress Gallery' ) {
+			if( $destinations[$dest][3] == 'new' ) {
+				$post_id = intval( $album );
+			} else {
+				$post_id = $destinations[$dest][3];
+			}
+		}
+
+		if(file_exists($targetDir . DIRECTORY_SEPARATOR . $fileName)) {
+		    	if(isset($sizesObj))
 	    			foreach ($sizesObj  as $sizeDesc => $array) 
-	    				foreach ($array as $element => $content)
-	    					$sizes[$sizeDesc][$element] = $content;
+					foreach ($array as $element => $content)
+						if($element == 'file' )
+							$sizes[$sizeDesc][$element] = $fileName.$content;
+						else
+							$sizes[$sizeDesc][$element] = $content;
 	    		else
 	    			$sizes = null;
 	    		
 	    		//add to wordpress library if relevant
 	    		if( $destinations[$dest][4] ) {
-		    		$attachment_id = adv_upload_add_file ($name,
+		    		$attachment_id = adv_upload_add_file ($fileName,
 		    				$targetDir . DIRECTORY_SEPARATOR,
 		    				$post_id,
 		    				$sizes,
@@ -1187,26 +1198,26 @@
 		    				$destinations [$dest][3]);
 		    	} else {
 		    		//set url to mime type icon or file dependant on Mime type
-				$fileInfo = wp_check_filetype( $name );
-				$type = wp_ext2type( $fileInfo['ext'] );
-				if( preg_match( '/^image/', $fileInfo['type'] ) )
-			    		$url = $targetUrl . DIRECTORY_SEPARATOR . $name;
+			    	$fileInfo = wp_check_filetype( $fileName );
+			    	$type = wp_ext2type( $fileInfo['ext'] );
+		    		if( preg_match( '/^image/', $fileInfo['type'] ) )
+			    		$url = $targetUrl . DIRECTORY_SEPARATOR . $fileName;
 			    	else
 			    		$url = wp_mime_type_icon( $type );
 			    	
-				echo json_encode( array(
-					'success' => true,
-					'data'    => array( 'id' => false,
-							    'url' => $url,
-							    'name' => $name)
-				) );
-				wp_die();
+				    $response = json_encode( array(
+    					'code' => 0,
+    					'success' => true,
+    					'data'    => array( 'id' => false,
+    							    'url' => $url,
+    							    'name' => $fileName)
+			        ));
+                    header( 'Content-Type: application/json; charset=utf-8' );
+    		        die("{$response}");
 		    	}
 		    	
 		    	if( $destinations[$dest][2] == 'Category' ) {
-		    		$category = get_term_by( 'name', $album, 'category' );
-		    		if( $category != false )
-		    			wp_set_object_terms( $attachment_id, intval($category->term_id), 'category' );
+		    		wp_set_object_terms( $attachment_id, $album, 'category' );
 		    	}
 
 		    	if( $destinations[$dest][2] == 'Wordpress Gallery' ) {
@@ -1228,235 +1239,113 @@
 					// Update the post into the database
 					wp_update_post( $gal_upd );
 				}
-		    		
-		    	}
-			if ( ! $attachment = wp_prepare_attachment_for_js( $attachment_id ) )
-				wp_die();
-		
-			echo json_encode( array(
-				'success' => true,
-				'data'    => $attachment,
-			) );
-			wp_die();
+		    }
+			if ( ! $attachment = wp_prepare_attachment_for_js( $attachment_id ) ) {
+    		    //send error
+    		    http_response_code (500);
+    		    //set Content-Type to JSON
+    		    header( 'Content-Type: application/json; charset=utf-8' );
+    		    die('{"code" : "110", "message": "Failed to get attachment data.", "id" : "' . $uid . '"}');
+			}
 		}
-		
-		echo json_encode( array(
-			'success' => false,
-			'data'    => array(
-				'message'  => 'Failed to find uploaded file.',
-				'code'  => 104,
-				'filename' => $_FILES['async-upload']['name'],
-			)
-		) );
-		wp_die();
+        // Return Success JSON-RPC response
+	    $response = json_encode( array(
+			'code' => 0,
+			'success' => true,
+			'data'    => $attachment
+        ));
+        header( 'Content-Type: application/json; charset=utf-8' );
+        die("{$response}");
 	}
-	
-	function adv_upload_plupload() {
+
+	function adv_upload_dropzone_chunks() {
 		//check nounce is correct
 		check_ajax_referer('alt_upl_nonce' . get_current_user_id(),'security');
-		
-		if ( $_FILES['async-upload']['error'] == 1 ) {
-			$displayMaxSize = ini_get('upload_max_filesize');
-			
-			switch ( substr($displayMaxSize,-1) ) {
-				case 'G':
-					$displayMaxSize = $displayMaxSize * 1024;
-				case 'M':
-					$displayMaxSize = $displayMaxSize * 1024;
-				case 'K':
-					$displayMaxSize = $displayMaxSize * 1024;
-			}
-			
-			$error = 'Posted data is too large. '.$_SERVER[CONTENT_LENGTH].' bytes exceeds the maximum size of '.$displayMaxSize.' bytes.';
-			echo json_encode( array(
-				'success' => false,
-				'data'    => array(
-					'message'  => $error,
-					'code'  => 105,
-					'filename' => $_FILES['async-upload']['name'],
-				)
-			) );
-	
-			wp_die();
-		}
-		
+
+		// Make sure file is not cached (as it happens for example on iOS devices)
+		header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+		header("Cache-Control: no-store, no-cache, must-revalidate");
+		header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+
 		// Settings
 		$cleanupTargetDir = true; // Remove old files
 		$maxFileAge = 5 * 3600; // Temp file age in seconds
-		
+			
 		// 5 minutes execution time
 		@set_time_limit(5 * 60);
 		
 		// Get parameters
-		$post_id = isset($_REQUEST["post_id"]) ? intval($_REQUEST["post_id"]) : 0;
-		$chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
-		$chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-		$fileName = isset($_REQUEST["name"]) ? $_REQUEST["name"] : '';
-		//get destinations from JSON object
-		$destinations = json_decode(stripcslashes($_REQUEST['destinations']));
-		$dest = isset($_REQUEST["fileDest"]) ? intval($_REQUEST["fileDest"]) : 0;
-		$targetDir = ABSPATH . $destinations [$dest][1];
-		$targetUrl = site_url() . DIRECTORY_SEPARATOR . $destinations [$dest][1];
-		
-		// get a valid wordpress filesname
-		$fileName = wp_unique_filename($targetDir, $fileName);
-		
-		$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-		$fileurl = $targetUrl . DIRECTORY_SEPARATOR . $fileName;
-		
+		$uid = isset($_REQUEST["dzuuid"]) ? $_REQUEST["dzuuid"] : 0;
+		$chunkindex = isset($_REQUEST["dzchunkindex"]) ? intval($_REQUEST["dzchunkindex"]) : 0;
+		$totalchunkcount = isset($_REQUEST["dztotalchunkcount"]) ? intval($_REQUEST["dztotalchunkcount"]) : 0;
+		//$targetDir = ABSPATH . $destinations [$dest][1];
+		$targetDir = wp_upload_dir()['basedir'] . DIRECTORY_SEPARATOR . 'adv-upload-dir';
+
+		$filePath = $targetDir . DIRECTORY_SEPARATOR . $uid;
+
 		// Create target dir
 		if (!file_exists($targetDir))
 			@mkdir($targetDir);
+
 		
 		// Remove old temp files	
 		if ($cleanupTargetDir) {
-			if (is_dir($targetDir) && ($dir = opendir($targetDir))) {
-				while (($file = readdir($dir)) !== false) {
-					$tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
-		
-					// Remove temp file if it is older than the max age and is not the current file
-					if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge) && ($tmpfilePath != "{$filePath}.part")) {
-						@unlink($tmpfilePath);
-					}
-				}
-				closedir($dir);
-			} else {
-				echo json_encode( array(
-					'success' => false,
-					'data'    => array(
-						'message'  => 'Failed to open temp directory.',
-						'code'  => 100,
-						'filename' => $_FILES['async-upload']['name'],
-					)
-				) );
-		
-				wp_die();
-			}
+		    if (!is_dir($targetDir) || !$dir = opendir($targetDir)) {
+		        //send error
+		        http_response_code (500);
+		        die("Failed to open temp directory.");
+		    }
+		    
+		    while (($file = readdir($dir)) !== false) {
+		        $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
+		        
+		        // If temp file is current file proceed to the next
+		        if ($tmpfilePath == "{$filePath}.{$chunkindex}.part") {
+		            continue;
+		        }
+		        
+		        // Remove temp file if it is older than the max age and is not the current file
+		        if (preg_match('/\.part$/', $file) && (filemtime($tmpfilePath) < time() - $maxFileAge)) {
+		            @unlink($tmpfilePath);
+		        }
+		    }
+		    closedir($dir);
 		}	
-		
-		// Look for the content type header
-		if (isset($_SERVER["HTTP_CONTENT_TYPE"]))
-			$contentType = $_SERVER["HTTP_CONTENT_TYPE"];
-		
-		if (isset($_SERVER["CONTENT_TYPE"]))
-			$contentType = $_SERVER["CONTENT_TYPE"];
-		
-		// Handle non multipart uploads older WebKit versions didn't support multipart in HTML5
-		if (strpos($contentType, "multipart") !== false) {
-			if (isset($_FILES['async-upload']['tmp_name']) && is_uploaded_file($_FILES['async-upload']['tmp_name'])) {
-				// Open temp file
-				$out = @fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
-				if ($out) {
-					// Read binary input stream and append it to temp file
-					$in = @fopen($_FILES['async-upload']['tmp_name'], "rb");
-		
-					if ($in) {
-						while ($buff = fread($in, 4096))
-							fwrite($out, $buff);
-					} else {
-						echo json_encode( array(
-							'success' => false,
-							'data'    => array(
-								'message'  => 'Failed to open input stream.',
-								'code'  => 101,
-								'filename' => $_FILES['async-upload']['name'],
-							)
-						) );
-				
-						wp_die();
-					}
-					@fclose($in);
-					@fclose($out);
-					@unlink($_FILES['async-upload']['tmp_name']);
-				} else {
-					echo json_encode( array(
-						'success' => false,
-						'data'    => array(
-							'message'  => 'Failed to open input stream.',
-							'code'  => 102,
-							'filename' => $_FILES['async-upload']['name'],
-						)
-					) );
-			
-					wp_die();
-				}
-			} else {
-				echo json_encode( array(
-					'success' => false,
-					'data'    => array(
-						'message'  => 'Failed to move uploaded file.',
-						'code'  => 103,
-						'filename' => $_FILES['async-upload']['name'],
-					)
-				) );
-		
-				wp_die();
-			}
-		} else {
-			// Open temp file
-			$out = @fopen("{$filePath}.part", $chunk == 0 ? "wb" : "ab");
-			if ($out) {
-				// Read binary input stream and append it to temp file
-				$in = @fopen("php://input", "rb");
-		
-				if ($in) {
-					while ($buff = fread($in, 4096))
-						fwrite($out, $buff);
-				} else {
-					echo json_encode( array(
-						'success' => false,
-						'data'    => array(
-							'message'  => 'Failed to open input stream.',
-							'code'  => 101,
-							'filename' => $_FILES['async-upload']['name'],
-						)
-					) );
-			
-					wp_die();
-				}
-		
-				@fclose($in);
-				@fclose($out);
-			} else {
-				echo json_encode( array(
-					'success' => false,
-					'data'    => array(
-						'message'  => 'Failed to open output stream.',
-						'code'  => 102,
-						'filename' => $_FILES['async-upload']['name'],
-					)
-				) );
-		
-				wp_die();
-			}
-		}
-		
-		// Check if file has been uploaded
-		if (!$chunks || $chunk == $chunks - 1) {
-			// rename from temp filename 
-			rename("{$filePath}.part", $filePath);
-			echo json_encode( array(
-				'success' => 'file_complete',
-				'data'    => array(
-					'filename' => $_FILES['async-upload']['name'],
-					'name' => $fileName,
-					'file' => $fileurl,
-				)
-			) );
-	
-			wp_die();
-		}
-		
-		echo json_encode( array(
-			'success' => true,
-			'data'    => array(
-				'filename' => $_FILES['async-upload']['name'],
-			)
-		) );
 
-		wp_die();
-	}
-	
+		// Open temp file
+		if (!$out = @fopen("{$filePath}.{$chunkindex}.part", "wb")) {
+		    //send error
+		    http_response_code (500);
+		    die("Failed to open output stream.");
+		}
+		
+		if (!empty($_FILES)) {
+		    if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
+		        //send error
+		        http_response_code (500);
+		        die("Failed to move uploaded file.");
+	        }
+	        
+	        // Read binary input stream and append it to temp file
+	        if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
+		        //send error
+		        http_response_code (500);
+		        die("Failed to open input stream.");
+        	}
+        } 
+
+        while ($buff = fread($in, 4096)) {
+        	fwrite($out, $buff);
+        }
+
+        @fclose($out);
+        @fclose($in);
+        
+        die("Success.");
+    }
+
 	// fix issue with missing full image for PDF file.
 	function adv_uploader_update_attachment_metadata( $metadata, $attachment_id ) {
 	    //if( is_admin() && isset( $metadata["sizes"]) && !isset( $metadata["sizes"]["full"] ))
@@ -1472,7 +1361,8 @@
 
 	    return $metadata;
 	}
-	add_filter( 'wp_generate_attachment_metadata', 'adv_uploader_update_attachment_metadata', 20, 2 );
+	if( get_option('adv_file_upload_pdf') )
+		add_filter( 'wp_generate_attachment_metadata', 'adv_uploader_update_attachment_metadata', 20, 2 );
 
     function adv_uploader_pdf_srcset_meta( $image_meta, $size_array, $image_src, $attachment_id ){
         if( isset( $image_meta['file'] ) ) {
@@ -1484,7 +1374,8 @@
         }
         return $image_meta;
     }
-    add_filter( 'wp_calculate_image_srcset_meta', 'adv_uploader_pdf_srcset_meta', 10, 4 );
+	if( get_option('adv_file_upload_pdf') )
+	    add_filter( 'wp_calculate_image_srcset_meta', 'adv_uploader_pdf_srcset_meta', 10, 4 );
 
     function adv_uploader_pdf_correct( $downsize, $id, $size ){
         $image_meta = wp_get_attachment_metadata($id);
@@ -1515,5 +1406,17 @@
         }
         return false;
     }
-    add_filter( 'image_downsize', 'adv_uploader_pdf_correct', 10, 3 );
+	if( get_option('adv_file_upload_pdf') )
+	    add_filter( 'image_downsize', 'adv_uploader_pdf_correct', 10, 3 );
+
+	function show_pdf_with_images( $query = array() ) {
+		if( is_array( $query['post_mime_type'] ) && in_array( 'image', $query['post_mime_type'] ) )
+			$query['post_mime_type'][] = 'application/pdf';
+		return $query;
+	}
+
+	//if PDF images is activated allow them to be added as images
+	if( get_option('adv_file_upload_pdf') )
+		add_filter( 'ajax_query_attachments_args', 'show_pdf_with_images', 10, 1 );
+
 ?>

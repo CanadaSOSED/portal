@@ -17,11 +17,11 @@ if ( ! class_exists( 'WooCommerce' ) ) {
 $number_of_total_products = $upload_data['wpcp_total_products'];
 
 // $show_product_image           = $shortcode_data['show_image'];
-$show_product_name            = $shortcode_data['wpcp_product_name'];
-$show_product_price           = $shortcode_data['wpcp_product_price'];
-$show_product_rating          = $shortcode_data['wpcp_product_rating'];
-$show_product_cart            = $shortcode_data['wpcp_product_cart'];
-	$default_args = array(
+$show_product_name   = $shortcode_data['wpcp_product_name'];
+$show_product_price  = $shortcode_data['wpcp_product_price'];
+$show_product_rating = $shortcode_data['wpcp_product_rating'];
+$show_product_cart   = $shortcode_data['wpcp_product_cart'];
+	$default_args    = array(
 		'post_type'           => 'product',
 		'post_status'         => 'publish',
 		'ignore_sticky_posts' => 1,
@@ -36,14 +36,17 @@ $show_product_cart            = $shortcode_data['wpcp_product_cart'];
 			),
 		),
 	);
-	$product_query = new WP_Query( $default_args );
+	$product_query   = new WP_Query( $default_args );
 
 	// Carousel Wrapper Start.
 	echo '<div class="wpcp-carousel-wrapper wpcp-wrapper-' . $post_id . '">';
 	if ( $section_title ) {
 		echo '<h2 class="sp-wpcpro-section-title">' . get_the_title( $post_id ) . '</h2>';
 	}
-	echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . '>';
+	if ( $preloader ) {
+		require WPCAROUSELF_PATH . '/public/templates/preloader.php';
+	}
+	echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' dir="ltr">';
 	if ( $product_query->have_posts() ) {
 		while ( $product_query->have_posts() ) :
 			$product_query->the_post();
@@ -59,7 +62,7 @@ $show_product_cart            = $shortcode_data['wpcp_product_cart'];
 			// Product Thumbnail.
 			$wpcp_product_image = '';
 			if ( ! empty( $image_url[0] ) && $show_slide_image ) {
-						$wpcp_product_thumb = sprintf( '<img class="wpcp-product-image" src="%1$s"%2$s alt="%3$s" />', $image_url[0], $image_title_attr, $product_thumb_alt_text );
+						$wpcp_product_thumb = sprintf( '<img class="wpcp-product-image" src="%1$s"%2$s alt="%3$s" width="%4$s" height="%5$s"/>', $image_url[0], $image_title_attr, $product_thumb_alt_text, $image_url[1], $image_url[2] );
 
 						$wpcp_product_image = sprintf( '<div class="wpcp-slide-image"><a href="%1$s">%2$s</a></div>', get_the_permalink(), $wpcp_product_thumb );
 			}

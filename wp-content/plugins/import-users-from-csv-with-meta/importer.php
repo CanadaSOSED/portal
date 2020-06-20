@@ -1,20 +1,24 @@
 <?php
-
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false, $is_frontend = false ){?>
+function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false, $is_frontend = false ){
+	if ( ! function_exists( 'get_editable_roles' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/user.php';
+	}
+	?>
 	<div class="wrap">
-		<h2><?php _e('Importing users','import-users-from-csv-with-meta'); ?></h2>
+		<h2><?php echo apply_filters( 'acui_log_main_title', __('Importing users','import-users-from-csv-with-meta') ); ?></h2>
 		<?php
 			set_time_limit(0);
 			
 			do_action( 'before_acui_import_users' );
 
 			global $wpdb;
-			global $wp_users_fields;
-			global $wp_min_fields;
-			global $acui_fields;
+			$wp_users_fields = acui_get_wp_users_fields();
+			$acui_not_meta_fields = acui_get_not_meta_fields();
 			$acui_restricted_fields = acui_get_restricted_fields();
+			$all_roles = array_keys( wp_roles()->roles );
+			$editable_roles = array_keys( get_editable_roles() );
 
 			if( is_plugin_active( 'wp-access-areas/wp-access-areas.php' ) ){
 				$wpaa_labels = WPAA_AccessArea::get_available_userlabels(); 
@@ -30,6 +34,7 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 						if ( !empty( $profile_group->fields ) ) {				
 							foreach ( $profile_group->fields as $field ) {
 								$buddypress_fields[] = $field->name;
+								$buddypress_types[] = $field->type;
 							}
 						}
 					}
@@ -38,7 +43,8 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 
 			$users_registered = array();
 			$headers = array();
-			$headers_filtered = array();	
+			$headers_filtered = array();
+			$is_backend = !$is_frontend && !$is_cron;			
 			$update_existing_users = isset( $form_data["update_existing_users"] ) ? sanitize_text_field( $form_data["update_existing_users"] ) : '';
 
 			$role_default = isset( $form_data["role"] ) ? $form_data["role"] : array( '' );
@@ -50,16 +56,12 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 			$empty_cell_action = isset( $form_data["empty_cell_action"] ) ? sanitize_text_field( $form_data["empty_cell_action"] ) : '';
 			$delete_users = isset( $form_data["delete_users"] ) ? sanitize_text_field( $form_data["delete_users"] ) : '';
 			$delete_users_assign_posts = isset( $form_data["delete_users_assign_posts"] ) ? sanitize_text_field( $form_data["delete_users_assign_posts"] ) : '';
+			$delete_users_only_specified_role = isset( $form_data["delete_users_only_specified_role"] ) ? sanitize_text_field( $form_data["delete_users_only_specified_role"] ) : false;			
+
 			$change_role_not_present = isset( $form_data["change_role_not_present"] ) ? sanitize_text_field( $form_data["change_role_not_present"] ) : '';
 			$change_role_not_present_role = isset( $form_data["change_role_not_present_role"] ) ? sanitize_text_field( $form_data["change_role_not_present_role"] ) : '';
+			$activate_users_wp_members = ( !isset( $form_data["activate_users_wp_members"] ) || empty( $form_data["activate_users_wp_members"] ) ) ? "no_activate" : sanitize_text_field( $form_data["activate_users_wp_members"] );
 
-			if( $is_frontend ){
-				$activate_users_wp_members = get_option( "acui_frontend_activate_users_wp_members" );
-			}
-			else{
-				$activate_users_wp_members = ( !isset( $form_data["activate_users_wp_members"] ) || empty( $form_data["activate_users_wp_members"] ) ) ? "no_activate" : sanitize_text_field( $form_data["activate_users_wp_members"] );
-			}
-			
 			if( $is_cron ){
 				$allow_multiple_accounts = ( get_option( "acui_cron_allow_multiple_accounts" ) == "allowed" ) ? "allowed" : "not_allowed";
 			}
@@ -74,13 +76,14 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 
 			// disable WordPress default emails if this must be disabled
 			if( !get_option('acui_automatic_wordpress_email') ){
-				add_filter( 'send_email_change_email', 'acui_return_false', 999 );
-				add_filter( 'send_password_change_email', 'acui_return_false', 999 );
+				add_filter( 'send_email_change_email', function() { return false; }, 999 );
+				add_filter( 'send_password_change_email', function() { return false; }, 999 );
 			}
 
 			// action
-			echo "<h3>" . __('Ready to registers','import-users-from-csv-with-meta') . "</h3>";
-			echo "<p>" . __('First row represents the form of sheet','import-users-from-csv-with-meta') . "</p>";
+			echo apply_filters( "acui_log_header", "<h3>" . __('Ready to registers','import-users-from-csv-with-meta') . "</h3>" );
+			echo apply_filters( "acui_log_header_first_row_explanation", "<p>" . __('First row represents the form of sheet','import-users-from-csv-with-meta') . "</p>" );
+
 			$row = 0;
 			$positions = array();
 			$error_importing = false;
@@ -98,7 +101,7 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 					$data = $data[0];
 				
 				if( !is_array( $data ) ){
-					_e( 'CSV file seems to be bad formed. Please use LibreOffice to create and manage CSV to be sure the format is correct', 'import-users-from-csv-with-meta');
+					echo apply_filters( 'acui_message_csv_file_bad_formed', __( 'CSV file seems to be bad formed. Please use LibreOffice to create and manage CSV to be sure the format is correct', 'import-users-from-csv-with-meta') );
 					break;
 				}
 
@@ -162,9 +165,15 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 							width:200px!important;
 						}
 					</style>
-					<h3><?php _e( 'Inserting and updating data', 'import-users-from-csv-with-meta' ); ?></h3>
+					<h3><?php echo apply_filters( 'acui_log_inserting_updating_data_title', __( 'Inserting and updating data', 'import-users-from-csv-with-meta' ) ); ?></h3>
 					<table>
-						<tr><th><?php _e( 'Row', 'import-users-from-csv-with-meta' ); ?></th><?php foreach( $headers as $element ) echo "<th>" . $element . "</th>"; ?></tr>
+						<tr>
+							<th><?php _e( 'Row', 'import-users-from-csv-with-meta' ); ?></th>
+							<?php foreach( $headers as $element ): 
+								echo "<th>" . $element . "</th>"; 
+							endforeach; ?>
+							<?php do_action( 'acui_header_table_extra_rows' ); ?>
+						</tr>
 					<?php
 					$row++;
 				else:
@@ -214,6 +223,22 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 
 						array_walk( $roles_cells, 'trim' );
 						$role = $roles_cells;
+					}
+
+					if ( !empty( array_diff( $role, $all_roles ) ) ){
+						$roles_printable = implode( ', ', $role );
+						$error_string = sprintf( __( 'Some of the next roles "%s" does not exists', 'import-users-from-csv-with-meta' ), $roles_printable );
+						echo '<script>alert("' . __( 'Problems with user: ', 'import-users-from-csv-with-meta' ) . $username . __( ', we are going to skip. \r\nError:  ', 'import-users-from-csv-with-meta') . $error_string . '");</script>';
+						$created = false;
+						continue;
+					}
+
+					if ( !empty( array_diff( $role, $editable_roles ) ) ){ // users only are able to import users with a role they are allowed to edit
+						$roles_printable = implode( ', ', $role );
+						$error_string = sprintf( __( 'You do not have permission to assign some of the next roles "%s"', 'import-users-from-csv-with-meta' ), $roles_printable );
+						echo '<script>alert("' . __( 'Problems with user: ', 'import-users-from-csv-with-meta' ) . $username . __( ', we are going to skip. \r\nError:  ', 'import-users-from-csv-with-meta') . $error_string . '");</script>';
+						$created = false;
+						continue;
 					}
 
 					if( !empty( $id ) ){ // if user have used id
@@ -286,7 +311,14 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 								'ID'         => $user_id,
 								'user_email' => $email
 							);
-							wp_update_user( $updateEmailArgs );
+							
+							$update_email_result = wp_update_user( $updateEmailArgs );
+							
+							if( is_wp_error( $update_email_result ) ){
+								$problematic_row = true;
+								$error_importing = true;
+								$data[0] = $update_email_result->get_error_message();
+							}
 						}
 
 						$created = false;
@@ -338,7 +370,7 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 					$user_object = new WP_User( $user_id );
 
 					if( $created || $update_roles_existing_users != 'no' ){
-						if(!( in_array("administrator", acui_get_roles($user_id), FALSE) || is_multisite() && is_super_admin( $user_id ) )){
+						if( !( in_array("administrator", acui_get_roles($user_id), FALSE) || is_multisite() && is_super_admin( $user_id ) )){
 							
 							if( $update_roles_existing_users == 'yes' || $created ){
 								$default_roles = $user_object->roles;
@@ -391,7 +423,7 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 					}
 
 					// Multisite add user to current blog
-					if( is_multisite() ){
+					if( is_multisite() && ( $created || $update_roles_existing_users != 'no' ) ){
 						if( !empty( $role ) ){
 							if( is_array( $role ) ){
 								foreach ($role as $single_role) {
@@ -405,14 +437,17 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 					}
 
 					// WP Members activation
-					if( $activate_users_wp_members == "activate" )
+					if( $activate_users_wp_members == "activate" ){
 						update_user_meta( $user_id, "active", true );
+					}
 
 					// New User Approve
-					if( $approve_users_new_user_approve == "approve" )
+					if( $approve_users_new_user_approve == "approve" ){
 						update_user_meta( $user_id, "pw_user_status", "approved" );
-					else
+					}
+					else{
 						update_user_meta( $user_id, "pending", true );
+					}
 						
 					if( $columns > 2 ){
 						for( $i = 2 ; $i < $columns; $i++ ):
@@ -500,7 +535,14 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 								    	
 								    continue;							    
 								}
+								elseif( $headers[ $i ] == 'member_type' ){ // buddypress member_type
+									bp_set_member_type( $user_id, $data[$i] );
+									continue;
+								}
 								elseif( $headers[ $i ] == 'bp_group_role' ){
+									continue;
+								}
+								elseif( in_array( $headers[ $i ], $acui_not_meta_fields ) ){
 									continue;
 								}
 								else{ // wp_usermeta data									
@@ -520,20 +562,20 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 						endfor;
 					}
 
-					do_action('post_acui_import_single_user', $headers, $data, $user_id );
-
 					$styles = "";
 					if( $problematic_row )
 						$styles = "background-color:red; color:white;";
 
 					echo "<tr style='$styles' ><td>" . ($row - 1) . "</td>";
-					foreach ($data as $element){
+					foreach ( $data as $element ){
 						if( is_array( $element ) )
 							$element = implode ( ',' , $element );
 
 						$element = sanitize_textarea_field( $element );
 						echo "<td>$element</td>";
 					}
+
+					do_action('post_acui_import_single_user', $headers, $data, $user_id, $role );
 
 					echo "</tr>\n";
 
@@ -547,18 +589,20 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 							}							
 						}
 					}
-					elseif( $is_frontend ){
-						if( get_option( "acui_frontend_send_mail" ) ){
-							if( $created || ( !$created && get_option( "acui_frontend_send_mail_updated" ) ) ){
-								$mail_for_this_user = true;
-							}							
-						}
-					}
 					else{
 						if( isset( $form_data["sends_email"] ) && $form_data["sends_email"] ){
 							if( $created || ( !$created && ( isset( $form_data["send_email_updated"] ) && $form_data["send_email_updated"] ) ) )
 								$mail_for_this_user = true;
 						}
+					}
+
+					// wordpress default user created and edited emails
+					if( get_option('acui_automatic_created_edited_wordpress_email') == 'true' && $created ){
+						do_action( 'register_new_user', $user_id );
+					}
+
+					if( get_option('acui_automatic_created_edited_wordpress_email') == 'true' && !$created ){
+						do_action( 'edit_user_created_user', $user_id, 'both' );
 					}
 						
 					// send mail
@@ -566,49 +610,56 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 						$key = get_password_reset_key( $user_object );
 						$user_login= $user_object->user_login;
 						
-						$body_mail = get_option( "acui_mail_body" );
+						$body = get_option( "acui_mail_body" );
 						$subject = get_option( "acui_mail_subject" );
 												
-						$body_mail = str_replace( "**loginurl**", wp_login_url(), $body_mail );
-						$body_mail = str_replace( "**username**", $user_login, $body_mail );
-						$body_mail = str_replace( "**lostpasswordurl**", wp_lostpassword_url(), $body_mail );
-						
-						if( !is_wp_error( $key ) ){
+						$body = str_replace( "**loginurl**", wp_login_url(), $body );
+						$body = str_replace( "**username**", $user_login, $body );
+						$body = str_replace( "**lostpasswordurl**", wp_lostpassword_url(), $body );
+                        $subject = str_replace( "**username**", $user_login, $subject );
+
+                        if( !is_wp_error( $key ) ){
 							$passwordreseturl = apply_filters( 'acui_email_passwordreseturl', network_site_url( 'wp-login.php?action=rp&key=' . $key . '&login=' . rawurlencode( $user_login ), 'login' ) );
-							$body_mail = str_replace( "**passwordreseturl**", $passwordreseturl, $body_mail );
+							$body = str_replace( "**passwordreseturl**", $passwordreseturl, $body );
 						
 							$passwordreseturllink = wp_sprintf( '<a href="%s">%s</a>', $passwordreseturl, __( 'Password reset link', 'import-users-from-csv-with-meta' ) );
-							$body_mail = str_replace( "**passwordreseturllink**", $passwordreseturllink, $body_mail );
+							$body = str_replace( "**passwordreseturllink**", $passwordreseturllink, $body );
 						}
 						
-						if( empty( $password ) && !$created ) 
+						if( empty( $password ) && !$created ){
 							$password = __( 'Password has not been changed', 'import-users-from-csv-with-meta' );
+						}
 
-						$body_mail = str_replace("**password**", $password, $body_mail);
-						$body_mail = str_replace("**email**", $email, $body_mail);
+						$body = str_replace( "**password**", $password, $body );
+						$body = str_replace( "**email**", $email, $body );
 
 						foreach ( $wp_users_fields as $wp_users_field ) {								
 							if( $positions[ $wp_users_field ] != false && $wp_users_field != "password" ){
-								$body_mail = str_replace("**" . $wp_users_field .  "**", $data[ $positions[ $wp_users_field ] ] , $body_mail);							
-							}
+								$body = str_replace( "**" . $wp_users_field .  "**", $data[ $positions[ $wp_users_field ] ] , $body );
+                                $subject = str_replace( "**" . $wp_users_field .  "**", $data[ $positions[ $wp_users_field ] ] , $subject );
+                            }
 						}
 
 						for( $i = 0 ; $i < count( $headers ); $i++ ) {
-							$body_mail = str_replace("**" . $headers[ $i ] .  "**", $data[ $i ] , $body_mail);							
-						}
+							$data[ $i ] = ( is_array( $data[ $i ] ) ) ? implode( "-", $data[ $i ] ) : $data[ $i ];
+							$body = str_replace( "**" . $headers[ $i ] .  "**", $data[ $i ] , $body );
+                            $subject = str_replace( "**" . $headers[ $i ] .  "**", $data[ $i ] , $subject );
+                        }
 
-						$body_mail = wpautop( $body_mail );
-						$headers_mail = array();
-						$headers_mail = apply_filters( 'acui_import_email_headers', $headers_mail, $headers, $data );
-
+						$body = wpautop( $body );
+						
 						$attachments = array();
 						$attachment_id = get_option( 'acui_mail_attachment_id' );
 						if( !empty( $attachment_id ) )
 							$attachments[] = get_attached_file( $attachment_id );
 
-						add_filter( 'wp_mail_content_type', 'cod_set_html_content_type' );
-						wp_mail( apply_filters( 'acui_import_email_to', $email, $headers, $data ), $subject, $body_mail, $headers_mail );
-						remove_filter( 'wp_mail_content_type', 'cod_set_html_content_type' );						
+						$email_to = apply_filters( 'acui_import_email_to', $email, $headers, $data, $created );
+						$subject = apply_filters( 'acui_import_email_subject', $subject, $headers, $data, $created );
+						$body = apply_filters( 'acui_import_email_body', $body, $headers, $data, $created );
+						$headers_mail = apply_filters( 'acui_import_email_headers', array( 'Content-Type: text/html; charset=UTF-8' ), $headers, $data );
+						$attachments = apply_filters( 'acui_import_email_attachments', $attachments, $headers, $data, $created );
+
+						wp_mail( $email_to, $subject, $body, $headers_mail, $attachments );
 					endif;
 
 				endif;
@@ -618,8 +669,8 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 
 			// let the filter of default WordPress emails as it were before deactivating them
 			if( !get_option('acui_automatic_wordpress_email') ){
-				remove_filter( 'send_email_change_email', 'acui_return_false', 999 );
-				remove_filter( 'send_password_change_email', 'acui_return_false', 999 );
+				remove_filter( 'send_email_change_email', function() { return false; }, 999 );
+				remove_filter( 'send_password_change_email', function() { return false; }, 999 );
 			}
 
 			if( $attach_id != 0 )
@@ -638,21 +689,16 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 				$delete_users_assign_posts = get_option( "acui_cron_delete_users_assign_posts");
 			}
 
-			if( $is_frontend && get_option( "acui_frontend_delete_users" ) ){
-				$delete_users_flag = true;
-				$delete_users_assign_posts = get_option( "acui_frontend_delete_users_assign_posts");
-			}
-
-			if( $change_role_not_present == 'yes' ){
+			if( $is_backend && $change_role_not_present == 'yes' ){
 				$change_role_not_present_flag = true;
 			}
 
-			if( $is_cron && get_option( "acui_cron_change_role_not_present" ) ){
+			if( $is_cron && !empty( get_option( "acui_cron_change_role_not_present" ) ) ){
 				$change_role_not_present_flag = true;
 				$change_role_not_present_role = get_option( "acui_cron_change_role_not_present_role");
 			}
 
-			if( $is_frontend && get_option( "acui_frontend_change_role_not_present" ) ){
+			if( $is_frontend && !empty( get_option( "acui_frontend_change_role_not_present" ) ) ){
 				$change_role_not_present_flag = true;
 				$change_role_not_present_role = get_option( "acui_frontend_change_role_not_present_role");
 			}
@@ -665,20 +711,32 @@ function acui_import_users( $file, $form_data, $attach_id = 0, $is_cron = false,
 			if( $delete_users_flag ):
 				require_once( ABSPATH . 'wp-admin/includes/user.php');	
 
-				$all_users = get_users( array( 
-					'fields' => array( 'ID' ),
-					'role__not_in' => array( 'administrator' )
-				) );				
+				global $wp_roles; // get all roles
+				$all_roles = $wp_roles->roles;
+				$exclude_roles = array_diff( array_keys( $all_roles ), $editable_roles ); // remove editable roles
 
-				foreach ( $all_users as $user ) {
-					if( !in_array( $user->ID, $users_registered ) ){
-						if( !empty( $delete_users_assign_posts ) && get_userdata( $delete_users_assign_posts ) !== false ){
-							wp_delete_user( $user->ID, $delete_users_assign_posts );
-						}
-						else{
-							wp_delete_user( $user->ID );
-						}						
-					}
+				if ( !in_array( 'administrator', $exclude_roles )){ // just to be sure
+					$exclude_roles[] = 'administrator';
+				}
+
+				$args = array( 
+					'fields' => array( 'ID' ),
+					'role__not_in' => $exclude_roles,
+					'exclude' => array( get_current_user_id() ), // current user never cannot be deleted
+				);
+
+				if( $delete_users_only_specified_role ){
+					$args[ 'role__in' ] = $role_default;
+				}
+
+				$all_users = get_users( $args );
+				$all_users_ids = array_map( function( $element ){ return intval( $element->ID ); }, $all_users );
+				$users_to_remove = array_diff( $all_users_ids, $users_registered );
+
+				$delete_users_assign_posts = ( get_userdata( $delete_users_assign_posts ) === false ) ? false : $delete_users_assign_posts;	
+
+				foreach ( $users_to_remove as $user_id ) {
+					( empty( $delete_users_assign_posts ) ) ? wp_delete_user( $user_id ) : wp_delete_user( $user_id, $delete_users_assign_posts );
 				}
 			endif;
 
@@ -731,12 +789,13 @@ function acui_options(){
 
 		switch ( $tab ){
       		case 'homepage':
+      			update_option( 'acui_last_roles_used', ( empty( $_POST['role'] ) ? '' : array_map( 'sanitize_text_field', $_POST['role'] ) ) );
       			acui_fileupload_process( $_POST, false );
       			return;
       		break;
 
       		case 'frontend':
-      			acui_manage_frontend_process( $_POST );
+      			do_action( 'acui_frontend_save_settings', $_POST );
       		break;
 
       		case 'columns':
@@ -748,7 +807,7 @@ function acui_options(){
       		break;
 
       		case 'cron':
-      			acui_manage_cron_process( $_POST );
+      			do_action( 'acui_cron_save_settings', $_POST );
       		break;
       	}
 	endif;
@@ -763,12 +822,20 @@ function acui_options(){
 			ACUI_Homepage::admin_gui();	
 		break;
 
+		case 'export' :
+			ACUI_Exporter::admin_gui();	
+		break;
+
 		case 'frontend':
 			ACUI_Frontend::admin_gui();	
 		break;
 
 		case 'columns':
 			ACUI_Columns::admin_gui();
+		break;
+
+		case 'meta-keys':
+			ACUI_MetaKeys::admin_gui();
 		break;
 
 		case 'doc':

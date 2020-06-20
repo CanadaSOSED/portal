@@ -187,6 +187,28 @@ class EPKB_Categories_Array {
 							}
 							continue;
 						}
+						
+						// next level 5
+						if ( ! is_array( $sub_sub_sub_sub_categories ) ) {
+							return $null_array;
+						}
+
+						if ( empty($sub_sub_sub_sub_categories) ) {
+							continue;
+						}
+						
+						// LEVEL 5
+						$null_array = null;
+						
+						foreach ( $sub_sub_sub_sub_categories as $sub_sub_sub_sub_category_id => $sub_sub_sub_sub_sub_categories ) {
+							// if we are on the level then see if we found the category
+							if ( $parent_level == 5 ) {
+								if ( $parent_category_id == $sub_sub_sub_sub_category_id && isset( $this->ids_array[$category_id][$sub_category_id][$sub_sub_category_id][$sub_sub_sub_category_id] ) ) {
+									return $this->ids_array[$category_id][$sub_category_id][$sub_sub_category_id][$sub_sub_sub_category_id];
+								}
+								continue;
+							}
+						} // for level 5
 					} // for - level 4
 				} // for - level 3
 			} // for - level 2

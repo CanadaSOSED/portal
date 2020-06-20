@@ -9,31 +9,47 @@ class ACUI_Email_Options{
 	}
 
 	public static function admin_gui(){
-		$from_email = get_option( "acui_mail_from" );
-		$from_name = get_option( "acui_mail_from_name" );
-		$body_mail = get_option( "acui_mail_body" );
+		$automatic_created_edited_wordpress_email = get_option( "acui_automatic_created_edited_wordpress_email" );
+		$automatic_wordpress_email = get_option( "acui_automatic_wordpress_email" );
 		$subject_mail = get_option( "acui_mail_subject" );
+		$body_mail = get_option( "acui_mail_body" );
 		$template_id = get_option( "acui_mail_template_id" );
 		$attachment_id = get_option( "acui_mail_attachment_id" );
 		$enable_email_templates = get_option( "acui_enable_email_templates" );
-		$automatic_wordpress_email = get_option( "acui_automatic_wordpress_email" );
 	?>
 		<form method="POST" enctype="multipart/form-data" action="" accept-charset="utf-8">
-		<h3><?php _e('Mail options','import-users-from-csv-with-meta'); ?></h3>
+		<h3><?php _e('WordPress automatic emails','import-users-from-csv-with-meta'); ?></h3>
 		
 		<table class="optiontable form-table">
 			<tbody>
 				<tr valign="top">
-					<th scope="row"><?php _e( 'WordPress automatic emails users updated', 'import-users-from-csv-with-meta' ); ?></th>
+					<th scope="row"><?php _e( 'User created or edited', 'import-users-from-csv-with-meta' ); ?></th>
 					<td>
 						<fieldset>
 							<legend class="screen-reader-text">
-								<span><?php _e( 'Send automatic WordPress emails?', 'import-users-from-csv-with-meta' ); ?></span>
+								<span><?php _e( 'User created or edited', 'import-users-from-csv-with-meta' ); ?></span>
+							</legend>
+							<label for="automatic_created_edited_wordpress_email">
+								<select name="automatic_created_edited_wordpress_email" id="automatic_created_edited_wordpress_email">
+									<option <?php selected( $automatic_created_edited_wordpress_email, "false" ); ?> value="false"><?php _e( "Deactivate WordPress automatic email when an user is created or edited", 'import-users-from-csv-with-meta' ) ;?></option>
+									<option <?php selected( $automatic_created_edited_wordpress_email, "true" ); ?> value="true"><?php _e( 'Activate WordPress automatic email when an user is created or edited', 'import-users-from-csv-with-meta' ); ?></option>
+								</select>
+								<span class="description"><? _e( "When you create or update an user, WordPress prepare and send automatic email, you can deactivate it here.", 'import-users-from-csv-with-meta' ); ?></span>
+							</label>
+						</fieldset>
+					</td>
+				</tr>
+				<tr valign="top">
+					<th scope="row"><?php _e( 'Password changed', 'import-users-from-csv-with-meta' ); ?></th>
+					<td>
+						<fieldset>
+							<legend class="screen-reader-text">
+								<span><?php _e( 'Send automatic change password WordPress emails?', 'import-users-from-csv-with-meta' ); ?></span>
 							</legend>
 							<label for="automatic_wordpress_email">
 								<select name="automatic_wordpress_email" id="automatic_wordpress_email">
-									<option <?php if( $automatic_wordpress_email == 'false' ) echo "selected='selected'"; ?> value="false"><?php _e( "Deactivate WordPress automatic email when an user is updated or his password is changed", 'import-users-from-csv-with-meta' ) ;?></option>
-									<option <?php if( $automatic_wordpress_email == 'true' ) echo "selected='selected'"; ?> value="true"><?php _e( 'Activate WordPress automatic email when an user is updated or his password is changed', 'import-users-from-csv-with-meta' ); ?></option>
+									<option <?php selected( $automatic_wordpress_email, "false" ); ?> value="false"><?php _e( "Deactivate WordPress automatic email when an user is updated or his password is changed", 'import-users-from-csv-with-meta' ) ;?></option>
+									<option <?php selected( $automatic_wordpress_email, "true" ); ?> value="true"><?php _e( 'Activate WordPress automatic email when an user is updated or his password is changed', 'import-users-from-csv-with-meta' ); ?></option>
 								</select>
 								<span class="description"><? _e( "When you update an user or change his password, WordPress prepare and send automatic email, you can deactivate it here.", 'import-users-from-csv-with-meta' ); ?></span>
 							</label>
