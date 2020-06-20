@@ -160,7 +160,8 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
  * @see register_setting()
  *
  * @param string $option_group A settings group name. Should correspond to a whitelisted option key name.
- * 	Default whitelisted option key names include "general," "discussion," and "reading," among others.
+ *                             Default whitelisted option key names include 'general', 'discussion', 'media',
+ *                             'reading', 'writing', 'misc', 'options', and 'privacy'.
  * @param string $option_name The name of an option to sanitize and save.
  * @param callable $sanitize_callback A callback function that sanitizes the option's value.
  */
@@ -222,6 +223,8 @@ function use_codepress() {
  *
  * @deprecated 3.1.0 Use get_users()
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return array List of user IDs.
  */
 function get_author_user_ids() {
@@ -231,7 +234,7 @@ function get_author_user_ids() {
 	if ( !is_multisite() )
 		$level_key = $wpdb->get_blog_prefix() . 'user_level';
 	else
-		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // WPMU site admins don't have user_levels.
 
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value != '0'", $level_key) );
 }
@@ -240,6 +243,8 @@ function get_author_user_ids() {
  * Gets author users who can edit posts.
  *
  * @deprecated 3.1.0 Use get_users()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id User ID.
  * @return array|bool List of editable authors. False if no editable users.
@@ -266,6 +271,8 @@ function get_editable_authors( $user_id ) {
  *
  * @deprecated 3.1.0 Use get_users()
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @param int  $user_id       User ID.
  * @param bool $exclude_zeros Optional. Whether to exclude zeroes. Default true.
  * @return array Array of editable user IDs, empty array otherwise.
@@ -289,7 +296,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
 	if ( !is_multisite() )
 		$level_key = $wpdb->get_blog_prefix() . 'user_level';
 	else
-		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // WPMU site admins don't have user_levels.
 
 	$query = $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s", $level_key);
 	if ( $exclude_zeros )
@@ -302,6 +309,8 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
  * Gets all users who are not authors.
  *
  * @deprecated 3.1.0 Use get_users()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function get_nonauthor_user_ids() {
 	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
@@ -311,7 +320,7 @@ function get_nonauthor_user_ids() {
 	if ( !is_multisite() )
 		$level_key = $wpdb->get_blog_prefix() . 'user_level';
 	else
-		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // wpmu site admins don't have user_levels
+		$level_key = $wpdb->get_blog_prefix() . 'capabilities'; // WPMU site admins don't have user_levels.
 
 	return $wpdb->get_col( $wpdb->prepare("SELECT user_id FROM $wpdb->usermeta WHERE meta_key = %s AND meta_value = '0'", $level_key) );
 }
@@ -536,7 +545,7 @@ class WP_User_Search {
 			$this->query_from .= " INNER JOIN $wpdb->usermeta ON $wpdb->users.ID = $wpdb->usermeta.user_id";
 			$this->query_where .= $wpdb->prepare(" AND $wpdb->usermeta.meta_key = '{$wpdb->prefix}capabilities' AND $wpdb->usermeta.meta_value LIKE %s", '%' . $this->role . '%');
 		} elseif ( is_multisite() ) {
-			$level_key = $wpdb->prefix . 'capabilities'; // wpmu site admins don't have user_levels
+			$level_key = $wpdb->prefix . 'capabilities'; // WPMU site admins don't have user_levels.
 			$this->query_from .= ", $wpdb->usermeta";
 			$this->query_where .= " AND $wpdb->users.ID = $wpdb->usermeta.user_id AND meta_key = '{$level_key}'";
 		}
@@ -556,7 +565,7 @@ class WP_User_Search {
 		$this->results = $wpdb->get_col("SELECT DISTINCT($wpdb->users.ID)" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
 
 		if ( $this->results )
-			$this->total_users_for_query = $wpdb->get_var("SELECT COUNT(DISTINCT($wpdb->users.ID))" . $this->query_from . $this->query_where); // no limit
+			$this->total_users_for_query = $wpdb->get_var("SELECT COUNT(DISTINCT($wpdb->users.ID))" . $this->query_from . $this->query_where); // No limit.
 		else
 			$this->search_errors = new WP_Error('no_matching_users_found', __('No users found.'));
 	}
@@ -576,7 +585,7 @@ class WP_User_Search {
 	 * @access public
 	 */
 	public function do_paging() {
-		if ( $this->total_users_for_query > $this->users_per_page ) { // have to page the results
+		if ( $this->total_users_for_query > $this->users_per_page ) { // Have to page the results.
 			$args = array();
 			if ( ! empty($this->search_term) )
 				$args['usersearch'] = urlencode($this->search_term);
@@ -591,7 +600,9 @@ class WP_User_Search {
 				'add_args' => $args
 			) );
 			if ( $this->paging_text ) {
-				$this->paging_text = sprintf( '<span class="displaying-num">' . __( 'Displaying %s&#8211;%s of %s' ) . '</span>%s',
+				$this->paging_text = sprintf(
+					/* translators: 1: Starting number of users on the current page, 2: Ending number of users, 3: Total number of users. */
+					'<span class="displaying-num">' . __( 'Displaying %1$s&#8211;%2$s of %3$s' ) . '</span>%s',
 					number_format_i18n( ( $this->page - 1 ) * $this->users_per_page + 1 ),
 					number_format_i18n( min( $this->page * $this->users_per_page, $this->total_users_for_query ) ),
 					number_format_i18n( $this->total_users_for_query ),
@@ -663,6 +674,8 @@ endif;
  * @since 2.3.0
  * @deprecated 3.1.0 Use get_posts()
  * @see get_posts()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $user_id User ID to not retrieve posts from.
  * @param string $type    Optional. Post type to retrieve. Accepts 'draft', 'pending' or 'any' (all).
@@ -750,7 +763,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 	static $num = 1;
 
 	if ( ! class_exists( '_WP_Editors', false ) )
-		require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
+		require_once ABSPATH . WPINC . '/class-wp-editor.php';
 
 	$editor_id = 'content' . $num++;
 
@@ -989,7 +1002,7 @@ function add_contextual_help( $screen, $help ) {
  * @deprecated 3.4.0 Use wp_get_themes()
  * @see wp_get_themes()
  *
- * @return array $themes Array of allowed themes.
+ * @return WP_Theme[] Array of WP_Theme objects keyed by their name.
  */
 function get_allowed_themes() {
 	_deprecated_function( __FUNCTION__, '3.4.0', "wp_get_themes( array( 'allowed' => true ) )" );
@@ -1144,7 +1157,7 @@ function wp_update_core($current, $feedback = '') {
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
-	include( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	require ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	$upgrader = new Core_Upgrader();
 	return $upgrader->upgrade($current);
 
@@ -1167,7 +1180,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
-	include( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	require ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	$upgrader = new Plugin_Upgrader();
 	return $upgrader->upgrade($plugin);
 }
@@ -1189,7 +1202,7 @@ function wp_update_theme($theme, $feedback = '') {
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
-	include( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	require ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 	$upgrader = new Theme_Upgrader();
 	return $upgrader->upgrade($theme);
 }
@@ -1210,22 +1223,23 @@ function the_attachment_links( $id = false ) {
  * Displays a screen icon.
  *
  * @since 2.7.0
- * @since 3.8.0 Screen icons are no longer used in WordPress. This function no longer produces output.
- * @deprecated 3.8.0 Use get_screen_icon()
- * @see get_screen_icon()
+ * @deprecated 3.8.0
  */
 function screen_icon() {
+	_deprecated_function( __FUNCTION__, '3.8.0' );
 	echo get_screen_icon();
 }
 
 /**
  * Retrieves the screen icon (no longer used in 3.8+).
  *
+ * @since 3.2.0
  * @deprecated 3.8.0
  *
- * @return string
+ * @return string An HTML comment explaining that icons are no longer used.
  */
 function get_screen_icon() {
+	_deprecated_function( __FUNCTION__, '3.8.0' );
 	return '<!-- Screen icons are no longer used as of WordPress 3.8. -->';
 }
 
@@ -1306,7 +1320,7 @@ function wp_dashboard_secondary_control() {}
 function wp_dashboard_plugins_output( $rss, $args = array() ) {
 	_deprecated_function( __FUNCTION__, '4.8.0' );
 
-	// Plugin feeds plus link to install them
+	// Plugin feeds plus link to install them.
 	$popular = fetch_feed( $args['url']['popular'] );
 
 	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
@@ -1322,9 +1336,9 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 
 		$items = $feed->get_items(0, 5);
 
-		// Pick a random, non-installed plugin
+		// Pick a random, non-installed plugin.
 		while ( true ) {
-			// Abort this foreach loop iteration if there's no plugins left of this type
+			// Abort this foreach loop iteration if there's no plugins left of this type.
 			if ( 0 == count($items) )
 				continue 2;
 
@@ -1354,7 +1368,7 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 			break;
 		}
 
-		// Eliminate some common badly formed plugin descriptions
+		// Eliminate some common badly formed plugin descriptions.
 		while ( ( null !== $item_key = array_rand($items) ) && false !== strpos( $items[$item_key]->get_description(), 'Plugin Name:' ) )
 			unset($items[$item_key]);
 
@@ -1366,7 +1380,7 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
 		echo '<li class="dashboard-news-plugin"><span>' . __( 'Popular Plugin' ) . ':</span> ' . esc_html( $raw_title ) .
 			'&nbsp;<a href="' . $ilink . '" class="thickbox open-plugin-details-modal" aria-label="' .
-			/* translators: %s: plugin name */
+			/* translators: %s: Plugin name. */
 			esc_attr( sprintf( __( 'Install %s' ), $raw_title ) ) . '">(' . __( 'Install' ) . ')</a></li>';
 
 		$feed->__destruct();
@@ -1464,7 +1478,9 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * Replaced with wp_page_reload_on_back_button_js() that also fixes this problem.
  *
  * @since 4.0.0
- * $deprecated 4.6.0
+ * @deprecated 4.6.0
+ *
+ * @link https://core.trac.wordpress.org/ticket/35852
  *
  * @global bool $is_safari
  * @global bool $is_chrome
@@ -1477,4 +1493,74 @@ function post_form_autocomplete_off() {
 	if ( $is_safari || $is_chrome ) {
 		echo ' autocomplete="off"';
 	}
+}
+
+/**
+ * Display JavaScript on the page.
+ *
+ * @since 3.5.0
+ * @deprecated 4.9.0
+ */
+function options_permalink_add_js() {
+	?>
+	<script type="text/javascript">
+		jQuery(document).ready(function() {
+			jQuery('.permalink-structure input:radio').change(function() {
+				if ( 'custom' == this.value )
+					return;
+				jQuery('#permalink_structure').val( this.value );
+			});
+			jQuery( '#permalink_structure' ).on( 'click input', function() {
+				jQuery( '#custom_selection' ).prop( 'checked', true );
+			});
+		});
+	</script>
+	<?php
+}
+
+/**
+ * Previous class for list table for privacy data export requests.
+ *
+ * @since 4.9.6
+ * @deprecated 5.3.0
+ */
+class WP_Privacy_Data_Export_Requests_Table extends WP_Privacy_Data_Export_Requests_List_Table {
+	function __construct( $args ) {
+		_deprecated_function( __CLASS__, '5.3.0', 'WP_Privacy_Data_Export_Requests_List_Table' );
+
+		if ( ! isset( $args['screen'] ) || $args['screen'] === 'export_personal_data' ) {
+			$args['screen'] = 'export-personal-data';
+		}
+
+		parent::__construct( $args );	
+	}
+}
+
+/**
+ * Previous class for list table for privacy data erasure requests.
+ *
+ * @since 4.9.6
+ * @deprecated 5.3.0
+ */
+class WP_Privacy_Data_Removal_Requests_Table extends WP_Privacy_Data_Removal_Requests_List_Table {
+	function __construct( $args ) {
+		_deprecated_function( __CLASS__, '5.3.0', 'WP_Privacy_Data_Removal_Requests_List_Table' );
+
+		if ( ! isset( $args['screen'] ) || $args['screen'] === 'remove_personal_data' ) {
+			$args['screen'] = 'erase-personal-data';
+		}
+
+		parent::__construct( $args );
+	}
+}
+
+/**
+ * Was used to add options for the privacy requests screens before they were separate files.
+ *
+ * @since 4.9.8
+ * @access private
+ * @deprecated 5.3.0
+ */
+function _wp_privacy_requests_screen_options() {
+	_deprecated_function( __FUNCTION__, '5.3.0' );
 }
