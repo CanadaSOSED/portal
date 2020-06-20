@@ -37,7 +37,7 @@ abstract class EPKB_Layout {
 		}
 
 		// for WPML filter categories and articles given active language
-		if ( EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
+		if ( EPKB_Utilities::is_wpml_enabled( $kb_config ) && ! isset($_POST['epkb-wizard-demo-data']) ) {
 			$this->category_seq_data = EPKB_WPML::apply_category_language_filter( $this->category_seq_data );
 			$this->articles_seq_data = EPKB_WPML::apply_article_language_filter( $this->articles_seq_data );
 		}
@@ -123,22 +123,24 @@ abstract class EPKB_Layout {
 			 margin-bottom::search_box_margin_bottom,
 			 ');
 		$style2 = $this->get_inline_style( 'background-color:: search_btn_background_color, background:: search_btn_background_color, border-width:: search_input_border_width, border-color::search_btn_border_color' );
-		$style3 = $this->get_inline_style( 'color:: search_title_font_color' );
+		$style3 = $this->get_inline_style( 'color:: search_title_font_color, font-size:: search_title_font_size' );
 		$style4 = $this->get_inline_style( 'border-width:: search_input_border_width, border-color:: search_text_input_border_color, background-color:: search_text_input_background_color, background:: search_text_input_background_color' );
 		$class1 = $this->get_css_class( 'epkb-search, ::search_layout' );
-
+		
+		$search_title_tag = empty($this->kb_config['search_title_html_tag']) ? 'h2' : $this->kb_config['search_title_html_tag'];
 		$search_input_width = $this->kb_config['search_box_input_width'];
 		$form_style = $this->get_inline_style('width:' . $search_input_width . '%' );		?>
 
-		<div class="epkb-doc-search-container" <?php echo $style1 ?> >
+		<div class="epkb-doc-search-container" <?php echo $style1; ?> >
 
-			<h2 <?php echo $style3; ?>> <?php echo esc_html( $this->kb_config['search_title'] ); ?></h2>
+			<<?php echo $search_title_tag; ?> class="epkb-doc-search-container__title" <?php echo $style3; ?>> <?php echo esc_html( $this->kb_config['search_title'] ); ?></<?php echo $search_title_tag; ?>>
 			<form id="epkb_search_form" <?php echo $form_style . ' ' . $class1; ?> method="get" action="">
 
 				<div class="epkb-search-box">
 					<input type="text" <?php echo $style4; ?> id="epkb_search_terms" aria-label="<?php echo esc_attr( $this->kb_config['search_box_hint'] ); ?>" name="epkb_search_terms" value="" placeholder="<?php echo esc_attr( $this->kb_config['search_box_hint'] ); ?>" />
 					<input type="hidden" id="epkb_kb_id" value="<?php echo $this->kb_id; ?>"/>
 					<button type="submit" id="epkb-search-kb" <?php echo $style2; ?>><?php echo esc_html( $this->kb_config['search_button_name'] ); ?> </button>
+					<!-- Chrome 77 fix rendering text issue Sidebar Layout -->
 					<script>
 						jQuery( "#epkb-search-kb" ).load(function() {
 							let search_text = $( '#epkb-search-kb' ).text();

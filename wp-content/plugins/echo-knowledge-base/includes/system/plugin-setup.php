@@ -37,10 +37,9 @@ function epkb_activate_plugin_do() {
 
 		set_transient( '_epkb_plugin_installed', true, WEEK_IN_SECONDS );
 		EPKB_KB_Handler::add_new_knowledge_base( EPKB_KB_Config_DB::DEFAULT_KB_ID, $new_kb_main_page_title );  // ignore errors
-		EPKB_Utilities::save_wp_option( 'epkb_version', Echo_Knowledge_Base::$version, true );
 
-	} else {
-		EPKB_KB_Handler::update_existing_knowledge_base( EPKB_KB_Config_DB::DEFAULT_KB_ID, $new_kb_main_page_title );  // ignore errors
+		EPKB_Utilities::save_wp_option( 'epkb_version', Echo_Knowledge_Base::$version, true );
+		EPKB_Utilities::save_wp_option( 'epkb_version_first', Echo_Knowledge_Base::$version, true );
 	}
 
 	set_transient( '_epkb_plugin_activated', true, 3600 );

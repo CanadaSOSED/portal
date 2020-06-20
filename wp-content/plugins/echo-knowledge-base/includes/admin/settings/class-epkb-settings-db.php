@@ -112,7 +112,7 @@ class EPKB_Settings_DB {
 		$serialized_settings = maybe_serialize($settings);
 		if ( empty($serialized_settings) ) {
 			EPKB_Logging::add_log( 'Failed to serialize settings' );
-			return new WP_Error( 'save_settings', 'Failed to serialize settings' );
+			return new WP_Error( 'save_settings', __( 'Failed to convert settings', 'echo-knowledge-base' ) );
 		}
 
 		$result = $wpdb->query( $wpdb->prepare( "INSERT INTO $wpdb->options (`option_name`, `option_value`, `autoload`) VALUES (%s, %s, %s)

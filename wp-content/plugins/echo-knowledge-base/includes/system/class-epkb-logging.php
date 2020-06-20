@@ -25,6 +25,7 @@ class EPKB_Logging {
 
 		// do not log anything if not in the back-end or not logged in as an admin
 		if ( ! self::can_log_message() ) {
+			// FUTURE if needed for early logging: self::store_message( $error_message, $param1, $param2 );
 			return;
 		}
 
@@ -34,7 +35,7 @@ class EPKB_Logging {
 		$variable = EPKB_Utilities::get_variable_string( $variable );
 
 		// prepare error message
-		$error_message .= $variable;
+		$error_message .= ' ' . $variable;
 
 		if ( $wp_error instanceof  WP_Error ) {
 			$error_message .= ' WP Error: ' . $wp_error->get_error_message();
@@ -74,6 +75,13 @@ class EPKB_Logging {
 		EPKB_Utilities::save_wp_option( self::LOGGING_OPTION_NAME, $error_log, true );
 	}
 
+	/* private static function store_message($error_message, $param1='', $param2=null) {
+		global $eckb_log_messages;
+
+		$eckb_log_messages = empty($eckb_log_messages) ? array() : $eckb_log_messages;
+		$eckb_log_messages[] = array($error_message, $param1, $param2);
+	} */
+
 	/**
 	 * Get stored logs
 	 *
@@ -94,13 +102,13 @@ class EPKB_Logging {
 
 	/**
 	 * Do not log anything if not in the back-end or not logged in as an admin
-     *
+	 *
 	 * @return bool
 	 */
 	private static function can_log_message() {
 
 		// we cannot log too early
-		if ( ! defined('wp_get_current_user') ) {
+		if ( ! function_exists('wp_get_current_user') ) {
 			return false;
 		}
 
@@ -110,7 +118,7 @@ class EPKB_Logging {
 		}
 
 		$is_debug_on = EPKB_Utilities::get_wp_option( EPKB_Settings_Controller::EPKB_DEBUG, false );
-        return ( $is_debug_on === true ) && current_user_can( 'manage_options' );
+        return  ! empty($is_debug_on) && current_user_can( 'manage_options' );
 	}
 
 	public static function disable_logging() {
@@ -124,22 +132,61 @@ class EPKB_Logging {
 	public static function generateStackTrace()	{
 		$msg = "\tStack Trace:\n";
 		$stackMsg = "";
-		$next_line_number = "";
+
 		foreach( debug_backtrace() as $trace ) {
 
 			$file = isset($trace['file']) ? $trace['file'] : '';
 			$file = EPKB_Utilities::substr($file, 1, 500);
 
 			$function = isset($trace['function']) ? $trace['function'] : '[unknown]';
-
+			$class = isset($trace['class']) ? $trace['class'] . $trace['type'] : '';
 			$line_number = isset($trace['line']) ? $trace['line'] : '-';
-			$line = $file . ' - ' . $function . '[' . $next_line_number . "]";
-			$next_line_number = $line_number;
+			$line = $file . '[' . $line_number . '] - ' . $class . $function ;
 
 			if ( strpos($line, 'generateStackTrace') !== false || strpos($line, 'add_log_now') !== false) {
 				continue;
 			}
+			
+			// add hooks names 
+			$hooks = '';
+			if ( isset($trace['class']) && $trace['class'] == 'WP_Hook' && isset($trace['object']) ) {
+				
+				/* if ( is_array($trace['object']->callbacks) ) {
+					
+					foreach ( $trace['object']->callbacks as $order => $callback_data ) {
+						foreach ( $callback_data as $name => $function_data ) {
+							
+							// if hooks meand that hooks have text and it is not first hook 
+							if ( $hooks && !empty($function_data['function'][1])) {
+								$hooks .= ', ';
+							}
+							
+							if ( !empty($function_data['function'][1]) ) {
 
+								if ( @get_class($function_data['function'][0]) ) {
+									$hooks .=  '( ' . get_class($function_data['function'][0]) . ', ' . $function_data['function'][1] . ') "' . $order . '"';
+								} else {
+									$hooks .=  $function_data['function'][0] . ' "' . $order . '"';
+								}
+							}
+						}
+					}
+				}
+				
+				if ( $hooks ) {
+					$line .= ' (Filters/Actions: ' . $hooks . ')';
+				} */
+				
+			} else if ( isset($trace['class']) && isset($trace['function']) && $trace['class'] != 'WP_Hook' && strpos($line, 'class-wp-hook.php') !== false) {
+				//  we run some class with function via hook and want to find the function that was called from some class 
+				$r_class = new ReflectionClass($trace['class']);
+				$method = $r_class->getMethod($trace['function']);
+				$line = $method->getFileName() . ' [' . $method->getStartLine() . "] - " . $function;
+				
+			} else if ( strpos($line, 'admin-ajax.php') !== false && ! empty ($trace['args']) && is_string( $trace['args'][0] ) ) { 
+				// add ajax start point 
+				$line .= ' (' . $trace['args'][0] . ')';
+			}
 			$stackMsg .= "\t" . $line . "\n";
 		}
 

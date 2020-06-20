@@ -30,7 +30,7 @@ class EPKB_Templates {
 		$is_kb_taxonomy = ! empty($GLOBALS['taxonomy']) && EPKB_KB_Handler::is_kb_taxonomy($GLOBALS['taxonomy']);
 		if ( $is_kb_taxonomy && self::is_kb_template_active() ) {
 			$located_template = self::locate_template( 'archive-categories.php' );
-			$kb_id = EPKB_KB_Handler::get_kb_id_from_category_taxonomy_name($GLOBALS['taxonomy']);
+			$kb_id = EPKB_KB_Handler::get_kb_id_from_any_taxonomy($GLOBALS['taxonomy']);
 			if ( ! empty( $located_template ) && ! is_wp_error($kb_id) ) {
 				$eckb_kb_id = $kb_id;
 				return $located_template;
@@ -53,7 +53,7 @@ class EPKB_Templates {
             return $template;
         }
 
-		// ignore search results page
+		// ignore WordPress search results page
 		if ( $wp_query->is_search() ) {
 			return $template;
 		}
@@ -98,7 +98,7 @@ class EPKB_Templates {
 			return $template;
 		}
 
-		// if we can't locate any KB template then return the default WP template
+		// locate KB template; if none found then return the default WP template
 		$located_template = self::locate_template( $template_name );
 		if ( empty($located_template) ) {
 			return $template;
@@ -113,7 +113,7 @@ class EPKB_Templates {
 
 		if ( empty($kb_config) ) {
 			$taxonomy = empty($GLOBALS['taxonomy']) ? '' : $GLOBALS['taxonomy'];
-			$kb_id = EPKB_KB_Handler::get_kb_id_from_category_taxonomy_name( $taxonomy );
+			$kb_id = EPKB_KB_Handler::get_kb_id_from_any_taxonomy( $taxonomy );
 			if ( is_wp_error($kb_id) ) {
 				return false;
 			}
@@ -138,7 +138,7 @@ class EPKB_Templates {
 		$layout_name = strtolower( $layout_name );
 		if ( $layout_name == 'article' ) {
 			return 'single-article.php';
-		} else if ( in_array( $layout_name, array('basic', 'tabs', 'grid', 'sidebar') ) ) {
+		} else if ( in_array( $layout_name, array('basic', 'tabs', 'categories', 'grid', 'sidebar') ) ) {
             return 'layout-' . $layout_name . '.php';
         }
 
@@ -223,7 +223,7 @@ class EPKB_Templates {
 	 * @param string $slug
 	 * @param string $name Optional. Default null
 	 * @param $kb_config - used in templates
-	 * @param $article
+	 * @param $article - used in templates
 	 * @param bool $load
 	 *
 	 * @return string

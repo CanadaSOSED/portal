@@ -3,11 +3,11 @@
  * Plugin Name: Knowledge Base for Documents and FAQs
  * Plugin URI: https://www.echoknowledgebase.com
  * Description: Echo Knowledge Base is super easy to configure, works well with themes and can handle a variety of article hierarchies.
- * Version: 4.6.1
+ * Version: 6.5.1
  * Author: Echo Plugins
  * Author URI: https://www.echoknowledgebase.com
  * Text Domain: echo-knowledge-base
- * Domain Path: languages
+ * Domain Path: /languages
  * License: GNU General Public License v2.0
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  *
@@ -27,6 +27,10 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+if ( ! defined( 'EPKB_PLUGIN_NAME' ) ) {
+	define( 'EPKB_PLUGIN_NAME', 'Echo Knowledge Base' );
+}
+
 if ( ! class_exists( 'Echo_Knowledge_Base' ) && ! epkb_is_amag_conflict() ) :
 
 /**
@@ -39,11 +43,12 @@ final class Echo_Knowledge_Base {
 	/* @var Echo_Knowledge_Base */
 	private static $instance;
 
-	public static $version = '4.6.1';
+	public static $version = '6.5.1';
 	public static $plugin_dir;
 	public static $plugin_url;
 	public static $plugin_file = __FILE__;
-	public static $needs_min_add_on_version = array( 'LAY' => '1.2.1', 'MKB' => '1.5.0', 'RTD' => '1.0.0', 'IDG' => '1.0.0', 'BLK' => '1.0.0', 'SEA' => '1.0.0' );
+	public static $needs_min_add_on_version = array( 'LAY' => '1.2.1', 'MKB' => '1.10.0', 'RTD' => '1.0.0', 'IDG' => '1.0.0', 'BLK' => '1.0.0',
+													 'SEA' => '1.0.0', 'PRF' => '1.0.0' );
 
 	/* @var EPKB_KB_Config_DB */
 	public $kb_config_obj;
@@ -73,7 +78,7 @@ final class Echo_Knowledge_Base {
 			self::$instance->setup_system();
 			self::$instance->setup_plugin();
 
-			add_action( 'plugins_loaded', array( self::$instance, 'load_text_domain' ) );
+			add_action( 'plugins_loaded', array( self::$instance, 'load_text_domain' ), 11 );
 			add_action( 'init', array( self::$instance, 'epkb_stop_heartbeat' ), 1 );
 		}
 		return self::$instance;
@@ -132,9 +137,6 @@ final class Echo_Knowledge_Base {
 			require_once self::$plugin_dir . 'includes/admin/admin-functions.php';
 		}
 
-		// FRONT-END with admin-bar
-		add_action( 'wp_enqueue_scripts', array($this, 'handle_admin_bar_front') );
-
 		// FRONT-END (no ajax, possibly admin bar)
 		new EPKB_Layouts_Setup();      // KB Main page shortcode, list of themes
 		new EPKB_Articles_Setup();
@@ -178,12 +180,15 @@ final class Echo_Knowledge_Base {
 		} else if ( in_array($action,
 			array( 'epkb_change_main_page_config_ajax', 'epkb_change_article_page_config_ajax',
 				'epkb_change_one_config_param_ajax', 'epkb_save_kb_config_changes', 'epkb_change_article_category_sequence',
-				'epkb_close_upgrade_message') ) ) {
+				'epkb_close_upgrade_message', 'epkb_save_kb_advanced_config_changes' ) ) ) {
 			new EPKB_KB_Config_Controller();
 			return;
-		} else if ( in_array($action,
-				array( 'epkb_send_feedback', 'epkb_toggle_debug', 'epkb_save_wpml_settings' ) ) ) {
+		} else if ( in_array($action, array( 'epkb_toggle_debug', 'epkb_save_wpml_settings' ) ) ) {
 			new EPKB_Settings_Controller();
+			return;
+		} else if ( in_array($action, array( 'epkb_get_wizard_template', 'epkb_apply_wizard_changes', 'epkb_wizard_update_color_article_view', 'epkb_wizard_update_order_view',
+											'epkb_update_wizard_preview', 'epkb_hide_demo_content_alert' ) ) ) {
+			new EPKB_KB_Wizard_Cntrl();
 			return;
 		}
 
@@ -192,6 +197,11 @@ final class Echo_Knowledge_Base {
 
 		if ( $action == 'delete-tag' || $action == 'inline-save-tax' || EPKB_KB_Handler::is_kb_taxonomy( $epkb_taxonomy ) ) {
 			new EPKB_Categories_Admin();
+			return;
+		}
+		
+		if ( $action == 'add-tag' ) {
+			new EPKB_KB_Config_Category();
 			return;
 		}
 	}
@@ -204,10 +214,21 @@ final class Echo_Knowledge_Base {
 
 		$is_kb_request = EPKB_KB_Handler::is_kb_request();
 
-		// include our admin scripts on our admin pages (submenus of KB menu)
-		if ( $is_kb_request || $pagenow == 'post.php' ) {
+		// include our admin scripts on our admin pages (submenus of KB menu) but not on Edit/Add page due to blocks etc.
+		if ( $is_kb_request && $pagenow != 'post-new.php' && $pagenow != 'post.php' ) {
 			add_action( 'admin_enqueue_scripts', 'epkb_load_admin_plugin_pages_resources' );
+		}
+		
+		// article new or edit page
+		if ( $pagenow == 'post.php' || $pagenow == 'post-new.php' ) {
+			add_action( 'admin_enqueue_scripts', 'epkb_load_admin_article_page_styles' );
+		}
+
+		// show KB notice on our pages or when potential KB Main Page is being edited
+		if ( $is_kb_request || $pagenow == 'post.php' ) {
 			new EPKB_Categories_Admin( $pagenow );
+			new EPKB_Admin_Notices();
+		} else if ( $pagenow == 'edit.php' ) {
 			new EPKB_Admin_Notices();
 		}
 
@@ -215,6 +236,11 @@ final class Echo_Knowledge_Base {
 		if ( $is_kb_request && isset($_REQUEST['page']) && $_REQUEST['page'] == 'epkb-kb-configuration' ) {
 			add_action( 'admin_enqueue_scripts', 'epkb_load_admin_kb_config_script' );
 			add_action( 'admin_enqueue_scripts', 'epkb_kb_config_load_public_css' );
+		}
+
+		// on Category page show category icon selection feature
+		if ( $is_kb_request && ( $pagenow == 'term.php' || $pagenow == 'edit-tags.php' ) ) {
+			new EPKB_KB_Config_Category();
 		}
 
 		// admin core classes
@@ -248,46 +274,11 @@ final class Echo_Knowledge_Base {
 	}
 
 	/**
-	 * Invoked on the FRONT-END and checks if admin bar is showing
-	 */
-	public function handle_admin_bar_front() {
-		/* if ( function_exists( 'is_admin_bar_showing' ) && function_exists( 'is_user_logged_in' ) && is_admin_bar_showing() ) {
-			//epkb_load_admin_bar_resources();
-		} */
-	}
-
 	/**
-	 * Loads the plugin language files
-	 *
-	 * Note: the first-loaded translation file overrides any following files if they both have the same translation
+	 * Loads the plugin language files from ./languages directory.
 	 */
 	public function load_text_domain() {
-		global $wp_version;
-
-		// Set filter for plugin's languages directory
-		$plugin_lang_dir = 'echo-knowledge-base/languages/';
-		$plugin_lang_dir = apply_filters( 'epkb_wp_languages_directory', $plugin_lang_dir );
-
-		// Traditional WordPress plugin locale filter
-		$user_locale = $wp_version >= 4.7 && function_exists( 'get_user_locale' ) ? get_user_locale() : get_locale();
-		$locale = apply_filters( 'plugin_locale', $user_locale, 'echo-knowledge-base' );
-		$mofile = sprintf( '%1$s-%2$s.mo', 'echo-knowledge-base', $locale );
-
-		// Setup paths to current locale file
-		$mofile_local  = $plugin_lang_dir . $mofile;
-		$mofile_global = WP_LANG_DIR . '/plugins/' . $mofile;
-
-		// does WP provide language pack?  (only 100% translated packs will be downloaded ??)
-		if ( file_exists( $mofile_global ) ) {
-			// in global /wp-content/languages/<plugin-name>/ folder
-			load_textdomain( 'echo-knowledge-base', $mofile_global );
-		}
-
-		// complement with our own language packs
-		if ( file_exists( WP_PLUGIN_DIR . '/' . $mofile_local ) ) {
-			// in /wp-content/plugins/<plugin-name>/languages/ folder
-			load_plugin_textdomain( 'echo-knowledge-base', false, $plugin_lang_dir );
-		}
+		load_plugin_textdomain( 'echo-knowledge-base', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
 
 	// Don't allow this singleton to be cloned.
@@ -306,7 +297,7 @@ final class Echo_Knowledge_Base {
 	 * When developing and debugging we don't need heartbeat
 	 */
 	public function epkb_stop_heartbeat() {
-		if ( defined( 'RUNTIME_ENVIRONMENT' ) && RUNTIME_ENVIRONMENT == 'DEV' ) {
+		if ( defined( 'RUNTIME_ENVIRONMENT' ) && RUNTIME_ENVIRONMENT == 'ECHODEV' ) {
 			wp_deregister_script( 'heartbeat' );
 			// EPKB_Utilities::save_wp_option( EPKB_Settings_Controller::EPKB_DEBUG, true, true );
 		}

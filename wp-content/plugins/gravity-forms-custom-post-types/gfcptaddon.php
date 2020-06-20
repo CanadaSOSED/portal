@@ -3,7 +3,7 @@
 Plugin Name: Gravity Forms + Custom Post Types
 Plugin URI: http://gravitywiz.com/
 Description: Map your Gravity-Forms-generated posts to a custom post type and/or custom taxonomies.
-Version: 3.1.8
+Version: 3.1.15
 Author: spivurno
 Author URI: http://gravitywiz.com/
 License: GPL2
@@ -16,7 +16,7 @@ class GFCPTAddon {
 
     private static $name = 'Gravity Forms + Custom Post Types';
     private static $slug = 'GFCPTAddon';
-    private static $version = '3.1.8';
+    private static $version = '3.1.15';
     private static $min_gravityforms_version = '1.9.3';
 
     //Plugin starting point. Will load appropriate files
@@ -124,4 +124,3 @@ class GFCPTAddon {
             return true;
     }
 }
-?>

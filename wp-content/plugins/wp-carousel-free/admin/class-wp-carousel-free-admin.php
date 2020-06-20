@@ -70,7 +70,7 @@ class WP_Carousel_Free_Admin {
 	 * @param string $version The version of the plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-		$this->suffix      = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+		$this->suffix      = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 	}
@@ -83,7 +83,9 @@ class WP_Carousel_Free_Admin {
 	 */
 	public function enqueue_admin_styles() {
 		wp_enqueue_style( 'font-awesome', WPCAROUSELF_URL . 'public/css/font-awesome.min.css', array(), $this->version, 'all' );
-		wp_enqueue_style( $this->plugin_name . 'admin', WPCAROUSELF_URL . 'admin/css/wp-carousel-free-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . 'admin', WPCAROUSELF_URL . 'admin/css/wp-carousel-free-admin' . $this->suffix . '.css', array(), $this->version, 'all' );
+		// Scripts.
+		wp_enqueue_script( $this->plugin_name . 'admin', WPCAROUSELF_URL . 'admin/js/wp-carousel-free-admin' . $this->suffix . '.js', array( 'jquery' ), $this->version, true );
 	}
 
 	/**

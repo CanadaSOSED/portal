@@ -18,7 +18,10 @@ class Flamingo_Inbound_Message {
 	public $fields;
 	public $meta;
 	public $akismet;
+	public $recaptcha;
 	public $spam;
+	public $spam_log;
+	public $consent;
 
 	public static function register_post_type() {
 		register_post_type( self::post_type, array(
@@ -121,10 +124,14 @@ class Flamingo_Inbound_Message {
 			'fields' => array(),
 			'meta' => array(),
 			'akismet' => array(),
+			'recaptcha' => array(),
 			'spam' => false,
+			'spam_log' => array(),
+			'consent' => array(),
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args = apply_filters( 'flamingo_add_inbound',
+			wp_parse_args( $args, $defaults ) );
 
 		$obj = new self();
 
@@ -136,12 +143,10 @@ class Flamingo_Inbound_Message {
 		$obj->fields = $args['fields'];
 		$obj->meta = $args['meta'];
 		$obj->akismet = $args['akismet'];
-
-		if ( $args['spam'] ) {
-			$obj->spam = true;
-		} else {
-			$obj->spam = isset( $obj->akismet['spam'] ) && $obj->akismet['spam'];
-		}
+		$obj->recaptcha = $args['recaptcha'];
+		$obj->spam = $args['spam'];
+		$obj->spam_log = $args['spam_log'];
+		$obj->consent = $args['consent'];
 
 		$obj->save();
 
@@ -153,7 +158,8 @@ class Flamingo_Inbound_Message {
 			$this->id = $post->ID;
 
 			$this->date = get_the_time(
-				__( 'Y/m/d g:i:s A', 'flamingo' ), $this->id );
+				/* translators: date format, see https://php.net/date */
+				__( 'M j, Y @ H:i', 'flamingo' ), $this->id );
 			$this->subject = get_post_meta( $post->ID, '_subject', true );
 			$this->from = get_post_meta( $post->ID, '_from', true );
 			$this->from_name = get_post_meta( $post->ID, '_from_name', true );
@@ -173,6 +179,9 @@ class Flamingo_Inbound_Message {
 
 			$this->meta = get_post_meta( $post->ID, '_meta', true );
 			$this->akismet = get_post_meta( $post->ID, '_akismet', true );
+			$this->recaptcha = get_post_meta( $post->ID, '_recaptcha', true );
+			$this->spam_log = get_post_meta( $post->ID, '_spam_log', true );
+			$this->consent = get_post_meta( $post->ID, '_consent', true );
 
 			$terms = wp_get_object_terms( $this->id, self::channel_taxonomy );
 
@@ -195,10 +204,15 @@ class Flamingo_Inbound_Message {
 			$post_title = __( '(No Title)', 'flamingo' );
 		}
 
-		$fields = flamingo_array_flatten( $this->fields );
-		$fields = array_filter( array_map( 'trim', $fields ) );
+		$post_content = array_merge(
+			$this->fields,
+			$this->consent,
+			$this->meta
+		);
 
-		$post_content = implode( "\n", $fields );
+		$post_content = flamingo_array_flatten( $post_content );
+		$post_content = array_filter( array_map( 'trim', $post_content ) );
+		$post_content = implode( "\n", $post_content );
 
 		$post_status = $this->spam ? self::spam_status : 'publish';
 
@@ -208,12 +222,24 @@ class Flamingo_Inbound_Message {
 			'post_status' => $post_status,
 			'post_title' => $post_title,
 			'post_content' => $post_content,
+			'post_date' => $this->get_post_date(),
 		);
 
 		$post_id = wp_insert_post( $postarr );
 
 		if ( $post_id ) {
 			$this->id = $post_id;
+
+			if ( $post_status == self::spam_status ) {
+
+				// set spam meta time for later use to trash
+				update_post_meta( $post_id, '_spam_meta_time', time() );
+			} else {
+
+				// delete spam meta time to stop trashing in cron job
+				delete_post_meta( $post_id, '_spam_meta_time' );
+			}
+
 			update_post_meta( $post_id, '_subject', $this->subject );
 			update_post_meta( $post_id, '_from', $this->from );
 			update_post_meta( $post_id, '_from_name', $this->from_name );
@@ -228,6 +254,9 @@ class Flamingo_Inbound_Message {
 			update_post_meta( $post_id, '_fields', $this->fields );
 			update_post_meta( $post_id, '_meta', $this->meta );
 			update_post_meta( $post_id, '_akismet', $this->akismet );
+			update_post_meta( $post_id, '_recaptcha', $this->recaptcha );
+			update_post_meta( $post_id, '_spam_log', $this->spam_log );
+			update_post_meta( $post_id, '_consent', $this->consent );
 
 			if ( term_exists( $this->channel, self::channel_taxonomy ) ) {
 				wp_set_object_terms( $this->id, $this->channel,
@@ -236,6 +265,20 @@ class Flamingo_Inbound_Message {
 		}
 
 		return $post_id;
+	}
+
+	private function get_post_date() {
+		if ( empty( $this->id ) ) {
+			return false;
+		}
+
+		$post = get_post( $this->id );
+
+		if ( ! $post ) {
+			return false;
+		}
+
+		return $post->post_date;
 	}
 
 	public function trash() {
@@ -281,6 +324,25 @@ class Flamingo_Inbound_Message {
 
 		$this->akismet_submit_spam();
 		$this->spam = true;
+
+		$user_name = get_user_option( 'user_login' );
+
+		if ( false === $user_name ) {
+			$user_name = __( 'Unknown', 'flamingo' );
+		}
+
+		if ( empty( $this->spam_log ) ) {
+			$this->spam_log = array();
+		}
+
+		$this->spam_log[] = array(
+			'agent' => 'flamingo',
+			'reason' => sprintf(
+				/* translators: %s: WordPress user name */
+				__( '%s has marked this message as spam.', 'flamingo' ),
+				$user_name
+			),
+		);
 
 		return $this->save();
 	}

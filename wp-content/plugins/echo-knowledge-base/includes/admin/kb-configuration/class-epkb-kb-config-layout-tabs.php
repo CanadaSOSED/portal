@@ -8,7 +8,7 @@
 class EPKB_KB_Config_Layout_Tabs {
 
 	const LAYOUT_NAME = 'Tabs';
-	const CATEGORY_LEVELS = 3;
+	const CATEGORY_LEVELS = 6;
 
 	// styles available for this layout
 	const LAYOUT_STYLE_1 = 'Basic';
@@ -38,7 +38,6 @@ class EPKB_KB_Config_Layout_Tabs {
 			'tab_font_size' => array(
 				'label'       => __( 'Text Size', 'echo-knowledge-base' ),
 				'name'        => 'tab_font_size',
-				'info'        => __( 'Affects category names listed in top tabs.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'tab_small_font' => __( 'Small', 'echo-knowledge-base' ),
@@ -49,7 +48,6 @@ class EPKB_KB_Config_Layout_Tabs {
 			'tab_down_pointer' => array(
 				'label'       => __( 'Down Pointer', 'echo-knowledge-base' ),
 				'name'        => 'tab_down_pointer',
-				'info'        => __( 'Active category tab will have triangle-like icon pointing down.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => 'on'
 			),
@@ -60,27 +58,24 @@ class EPKB_KB_Config_Layout_Tabs {
 			'tab_nav_active_font_color' => array(
 				'label'       => __( 'Text', 'echo-knowledge-base' ),
 				'name'        => 'tab_nav_active_font_color',
-				'info'        => __( 'Text color for the active (selected) tab.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
 				'type'        => EPKB_Input_Filter::COLOR_HEX,
-				'default'     => '#686868'
+				'default'     => '#000000'
 			),
 			'tab_nav_active_background_color' => array(
 				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'tab_nav_active_background_color',
-				'info'        => __( 'Background color for the active (selected) tab.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
 				'type'        => EPKB_Input_Filter::COLOR_HEX,
-				'default'     => '#FFFFFF'
+				'default'     => '#F1F1F1'
 			),
 			'tab_nav_font_color' => array(
 				'label'       => __( 'Text', 'echo-knowledge-base' ),
 				'name'        => 'tab_nav_font_color',
-				'info'        => __( 'Text and background color for all inactive tabs.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -90,7 +85,6 @@ class EPKB_KB_Config_Layout_Tabs {
 			'tab_nav_background_color' => array(
 				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'tab_nav_background_color',
-				'info'        => '',
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -100,7 +94,6 @@ class EPKB_KB_Config_Layout_Tabs {
 			'tab_nav_border_color' => array(
 				'label'       => __( 'Border', 'echo-knowledge-base' ),
 				'name'        => 'tab_nav_border_color',
-				'info'        => __( 'Tabs border color.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -184,8 +177,7 @@ class EPKB_KB_Config_Layout_Tabs {
 
 		// SEARCH BOX - Layout
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'search_layout' ),
-			'option-heading' => 'Search Layout',
+			'option-heading' => __( 'Search Layout', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-tuning-searchbox-layout',
 			'inputs' => array(
 				'0' => $form->dropdown( $feature_specs['search_layout'] + array(
@@ -200,9 +192,7 @@ class EPKB_KB_Config_Layout_Tabs {
 
 		// SEARCH BOX - Advanced Style
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'search_box_padding_top', 'search_box_padding_bottom', 'search_box_padding_left', 'search_box_padding_right', 'search_box_margin_top',
-				'search_box_margin_bottom', 'search_box_input_width', 'search_input_border_width' ,'search_box_results_style'),
-			'option-heading' => 'Search Box - Advanced Style',
+			'option-heading' => __( 'Search Box - Advanced Style', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-tuning-searchbox-advanced',
 			'inputs' => array(
 				'0' => $form->multiple_number_inputs(
@@ -211,7 +201,7 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => '',
 						'main_label_class'  => '',
 						'input_class'       => '',
-						'label'             => 'Padding( px )'
+						'label'             => __( 'Padding( px )', 'echo-knowledge-base' )
 					),
 					array( $arg1_search_box_padding_vertical, $arg2_search_box_padding_vertical ,$arg1_search_box_padding_horizontal, $arg2_search_box_padding_horizontal )
 				),
@@ -221,7 +211,7 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => '',
 						'main_label_class'  => '',
 						'input_class'       => '',
-						'label'             => 'Margin( px )'
+						'label'             => __( 'Margin( px )', 'echo-knowledge-base' )
 					),
 					array( $arg1_search_box_margin_vertical, $arg2_search_box_margin_vertical )
 				),
@@ -231,7 +221,7 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => '',
 						'main_label_class'  => '',
 						'input_class'       => '',
-						'label'             => 'Search Box Input ( % ) ( px )'
+						'label'             => __( 'Search Box Input ( % ) ( px )', 'echo-knowledge-base' )
 					),
 					array( $search_input_input_arg1, $search_input_input_arg2 )
 				),
@@ -242,12 +232,23 @@ class EPKB_KB_Config_Layout_Tabs {
 						'label_class'       => 'config-col-5',
 						'input_class'       => 'config-col-2'
 					) ),
+				'4' => $form->text( $feature_specs['search_title_html_tag'] + array(
+			            'value'             => $kb_config['search_title_html_tag'],
+			            'input_group_class' => 'config-col-12',
+			            'label_class'       => 'config-col-5',
+			            'input_class'       => 'config-col-2'
+		            ) ),
+				'5' => $form->text( $feature_specs['search_title_font_size'] + array(
+			            'value'             => $kb_config['search_title_font_size'],
+			            'input_group_class' => 'config-col-12',
+			            'label_class'       => 'config-col-5',
+			            'input_class'       => 'config-col-2'
+					) ),
 			)), $kb_page_layout);
 
 		// CONTENT - Style
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'width', 'nof_columns', 'section_font_size' ),
-			'option-heading' => 'Content - Style',
+			'option-heading' => __( 'Content - Style', 'echo-knowledge-base' ),
 			'class'          => 'eckb-mm-mp-links-tuning-content-style',
 			'inputs' => array(
 				'0' => $form->dropdown( $feature_specs['width'] + array(
@@ -273,13 +274,20 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => 'config-col-12',
 						'label_class' => 'config-col-5',
 						'input_class' => 'config-col-4'
-					) )
+					) ),
+				'3' => $form->radio_buttons_vertical( $feature_specs['show_articles_before_categories'] + array(
+						'value'     => $kb_config['show_articles_before_categories'],
+						'current'   => $kb_config['show_articles_before_categories'],
+						'input_group_class' => 'config-col-12',
+						'main_label_class'  => 'config-col-4',
+						'input_class'       => 'config-col-8',
+						'radio_class'       => 'config-col-12'
+					) ),
 			)));
 
 		// LIST OF ARTICLES - Style
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'nof_articles_displayed', 'expand_articles_icon', 'section_body_height', 'section_box_height_mode' ),
-			'option-heading' => 'List of Articles - Style',
+			'option-heading' => __( 'List of Articles - Style', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-tuning-listofarticles-style',
 			'inputs' => array(
 				'0' => $form->text( $feature_specs['nof_articles_displayed'] + array(
@@ -299,17 +307,14 @@ class EPKB_KB_Config_Layout_Tabs {
 					'id'                => 'list_height',
 					'input_group_class' => 'config-col-12',
 					'main_label_class'  => 'config-col-5',
-					'label'             => 'Articles List Height',
+					'label'             => __( 'Articles List Height', 'echo-knowledge-base' ),
 					'input_class'       => 'config-col-6',
-					'info'              => 'List of articles can have one of the following heights: unrestricted height ("Not Fixed"), at least # px ("Minimum") or at most # px ("Maximum")'
 				), $arg1, $arg2 )
 			)
 		));
-
 		// LIST OF ARTICLES - Advanced Style
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'article_list_margin', 'article_list_spacing', 'section_article_underline', 'section_body_padding_top', 'section_body_padding_bottom', 'section_body_padding_left', 'section_body_padding_right'),
-			'option-heading' => 'List of Articles - Advanced Style',
+			'option-heading' => __( 'List of Articles - Advanced Style', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-tuning-listofarticles-advanced',
 			'inputs' => array(
 
@@ -326,7 +331,7 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => '',
 						'main_label_class'  => '',
 						'input_class'       => '',
-						'label'             => 'Article Spacing ( px )'
+						'label'             => __( 'Article Spacing ( px )', 'echo-knowledge-base' )
 					),
 					array( $article_spacing_arg1, $article_spacing_arg2 )
 				),
@@ -336,7 +341,7 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => '',
 						'main_label_class'  => '',
 						'input_class'       => '',
-						'label'             => 'Section Body Padding( px )'
+						'label'             => __( 'Section Body Padding( px )', 'echo-knowledge-base' )
 					),
 					array( $arg1_section_body_padding_vertical, $arg2_section_body_padding_vertical, $arg1_section_body_padding_horizontal, $arg2_section_body_padding_horizontal)
 				),
@@ -345,8 +350,7 @@ class EPKB_KB_Config_Layout_Tabs {
 
 		// CATEGORIES - Style
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'tab_font_size', 'tab_down_pointer', 'section_head_alignment', 'section_divider', 'section_divider_thickness' ),
-			'option-heading' => 'Categories - Style',
+			'option-heading' => __( 'Categories - Style', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-tuning-categories-style',
 			'inputs' => array(
 				'0' => $form->dropdown( $feature_specs['tab_font_size'] + array(
@@ -386,13 +390,18 @@ class EPKB_KB_Config_Layout_Tabs {
 						'label_class'       => 'config-col-5',
 						'input_class'       => 'config-col-2'
 					) ),
+				'6' => $form->checkbox( $feature_specs['section_hyperlink_text_on'] + array(
+						'value'             => $kb_config['section_hyperlink_text_on'],
+						'input_group_class' => 'config-col-12',
+						'label_class'       => 'config-col-5',
+						'input_class'       => 'config-col-2'
+					) ),
 			)
 		));
 
 		// CATEGORIES - Style
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'section_head_category_icon_location', 'section_head_category_icon_size', 'section_head_category_icon' ),
-			'option-heading' => 'Top Category Icon',
+			'option-heading' => __( 'Top Category Icon', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-tuning-categories-style',
 			'inputs' => array(
 				'0' => $form->dropdown( $feature_specs['section_head_category_icon_location'] + array(
@@ -407,29 +416,12 @@ class EPKB_KB_Config_Layout_Tabs {
 						'label_class'       => 'config-col-5',
 						'input_class'       => 'config-col-2'
 					) ),
-				'2' => $form->radio_buttons_icons_list( $feature_specs['section_head_category_icon'] + array(
-						'current'                   => $kb_config['section_head_category_icon'],
-						'input_group_class'         => 'epkb-category-icon-list',
-						'input_class'               => 'config-col-12',
-						'radio_class'               => 'config-col-12'
-					)),
 			)
 		));
-
-		// get data about categories and their icons
-		$categories_icons = EPKB_Utilities::get_kb_option( $kb_config['id'], EPKB_Icons::CATEGORIES_ICONS, array(), true );
-		$icons_output = '';
-		foreach( $categories_icons as $category_id => $icon_name ) {
-			$icons_output .= ( empty($icons_output) ? '' : '.' ) . $icon_name . '=' . $category_id;
-		}   ?>
-
-		<input id="epkb_categories_icons" type="text" name="epkb_categories_icons" value="<?php echo $icons_output; ?>" hidden/>
-		<input id="epkb_save_categories_icons" type="text" name="epkb_save_categories_icons" value="" hidden/>        <?php
-
+		
 		// CATEGORIES - Advanced Style
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array( 'section_box_shadow', 'section_border_radius', 'section_border_width', 'section_head_padding_top', 'section_head_padding_bottom', 'section_head_padding_left', 'section_head_padding_right' ),
-			'option-heading' => 'Categories - Advanced Style',
+			'option-heading' => __( 'Categories - Advanced Style', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-tuning-categories-advanced',
 			'inputs' => array(
 				'0' => $form->dropdown( $feature_specs['section_box_shadow'] + array(
@@ -445,7 +437,7 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => '',
 						'main_label_class'  => '',
 						'input_class'       => '',
-						'label'             => 'Section Head Padding( px )'
+						'label'             => __( 'Section Head Padding( px )', 'echo-knowledge-base' )
 					),
 					array( $arg1_section_head_padding_vertical, $arg2_section_head_padding_vertical, $arg1_section_head_padding_horizontal, $arg2_section_head_padding_horizontal  )
 				),
@@ -456,7 +448,7 @@ class EPKB_KB_Config_Layout_Tabs {
 						'input_group_class' => '',
 						'main_label_class'  => '',
 						'input_class'       => '',
-						'label'             => 'Box Border ( px )'
+						'label'             => __( 'Box Border ( px )', 'echo-knowledge-base' )
 					),
 					array( $arg1_box_border, $arg2_box_border )
 				)
@@ -508,9 +500,7 @@ class EPKB_KB_Config_Layout_Tabs {
 
 		// SEARCH BOX - Colors
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info'              => array( 'search_title_font_color', 'search_background_color', 'search_text_input_background_color', 'search_text_input_border_color', 'search_btn_background_color',
-				'search_btn_border_color'),
-			'option-heading'    => 'Search Box - Colors',
+			'option-heading'    => __( 'Search Box - Colors', 'echo-knowledge-base' ),
 			'class'             => 'eckb-mm-mp-links-tuning-searchbox-colors',
 			'inputs' => array(
 				'0' => $form->text( $feature_specs['search_title_font_color'] + array(
@@ -532,21 +522,20 @@ class EPKB_KB_Config_Layout_Tabs {
 					'input_group_class' => 'config-col-12',
 					'main_label_class'  => 'config-col-4',
 					'input_class'       => 'config-col-7 ekb-color-picker',
-					'label'             => 'Input Text Field'
+					'label'             => __( 'Input Text Field', 'echo-knowledge-base' )
 				), $arg1_input_text_field, $arg2_input_text_field ),
 				'3' => $form->text_fields_horizontal( array(
 					'id'                => 'button',
 					'input_group_class' => 'config-col-12',
 					'main_label_class'  => 'config-col-4',
 					'input_class'       => 'config-col-7 ekb-color-picker',
-					'label'             => 'Button'
+					'label'             => __( 'Button', 'echo-knowledge-base' )
 				), $arg1_button, $arg2_button ) )
 		), $kb_page_layout);
 
 		// CONTENT - Colors
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info'              => array( 'background_color' ),
-			'option-heading'    => 'Content - Colors',
+			'option-heading'    => __( 'Content - Colors', 'echo-knowledge-base' ),
 			'class'             => 'eckb-mm-mp-links-tuning-content-colors',
 			'inputs'            => array(
 				'0' => $form->text( $feature_specs['background_color'] + array(
@@ -560,8 +549,7 @@ class EPKB_KB_Config_Layout_Tabs {
 
 		// LIST OF ARTICLES - Colors
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info'              => array( 'section_body_background_color', 'section_border_color', 'article_font_color', 'article_icon_color'),
-			'option-heading'    => 'List of Articles - Colors',
+			'option-heading'    => __( 'List of Articles - Colors', 'echo-knowledge-base' ),
 			'class'             => 'eckb-mm-mp-links-tuning-listofarticles-colors',
 			'inputs'            => array(
 				'0' => $form->text_fields_horizontal( array(
@@ -569,39 +557,36 @@ class EPKB_KB_Config_Layout_Tabs {
 					'input_group_class' => 'config-col-12',
 					'main_label_class'  => 'config-col-4',
 					'input_class'       => 'config-col-7 ekb-color-picker',
-					'label'             => 'Article List'
+					'label'             => __( 'Article List', 'echo-knowledge-base' )
 				), $arg1_article_list, $arg2_article_list ),
 				'1' => $form->text_fields_horizontal( array(
 					'id'                => 'articles',
 					'input_group_class' => 'config-col-12',
 					'main_label_class'  => 'config-col-4',
 					'input_class'       => 'config-col-7 ekb-color-picker',
-					'label'             => 'Articles'
+					'label'             => __( 'Articles', 'echo-knowledge-base' )
 				), $arg1_articles, $arg2_articles )
 			)
 		));
 
 		// CATEGORIES - Colors
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info'              => array( 'tab_nav_active_font_color', 'tab_nav_active_background_color', 'tab_nav_font_color', 'tab_nav_background_color', 'section_category_font_color',
-				'section_category_icon_color', 'section_divider_color', 'section_head_font_color', 'section_head_background_color', 'section_head_description_font_color',
-	                                      'section_head_category_icon_color'),
-            'option-heading'    => 'Categories - Colors',
-            'class'             => 'eckb-mm-mp-links-tuning-categories-colors',
-            'inputs'            => array(
+			'option-heading'    => __( 'Categories - Colors', 'echo-knowledge-base' ),
+			'class'             => 'eckb-mm-mp-links-tuning-categories-colors',
+			'inputs'            => array(
 			'0' => $form->text_fields_horizontal( array(
 				'id'                => 'active_tab',
 				'input_group_class' => 'config-col-12',
 				'main_label_class'  => 'config-col-4',
 				'input_class'       => 'config-col-7 ekb-color-picker',
-				'label'             => 'Active Tab'
+				'label'             => __( 'Active Tab', 'echo-knowledge-base' )
 			), $arg1_active_tab, $arg2_active_tab ),
 			'1' => $form->text_fields_horizontal( array(
 				'id'                => 'inactive_tabs',
 				'input_group_class' => 'config-col-12',
 				'main_label_class'  => 'config-col-4',
 				'input_class'       => 'config-col-7 ekb-color-picker',
-				'label'             => 'Inactive Tabs'
+				'label'             => __( 'Inactive Tabs', 'echo-knowledge-base' )
 			), $arg1_inactive_tabs, $arg2_inactive_tabs ),
 			'2' => $form->text( $feature_specs['section_head_category_icon_color'] + array(
 					'value'             => $kb_config['section_head_category_icon_color'],
@@ -622,7 +607,7 @@ class EPKB_KB_Config_Layout_Tabs {
 				'input_group_class' => 'config-col-12',
 				'main_label_class'  => 'config-col-4',
 				'input_class'       => 'config-col-7 ekb-color-picker',
-				'label'             => 'Sub-category'
+				'label'             => __( 'Sub-category', 'echo-knowledge-base' )
 			), $arg1_sub_category, $arg2_sub_category ),
 			'5' => $form->text( $feature_specs['section_divider_color'] + array(
 					'value' => $kb_config['section_divider_color'],
@@ -636,7 +621,7 @@ class EPKB_KB_Config_Layout_Tabs {
 				'input_group_class' => 'config-col-12',
 				'main_label_class'  => 'config-col-4',
 				'input_class'       => 'config-col-7 ekb-color-picker',
-				'label'             => 'Category Box Heading'
+				'label'             => __( 'Category Box Heading', 'echo-knowledge-base' )
 			), $arg1_category_box_heading, $arg2_category_box_heading ),
 			'7' => $form->text( $feature_specs['section_head_description_font_color'] + array(
 					'value'             => $kb_config['section_head_description_font_color'],
@@ -668,8 +653,7 @@ class EPKB_KB_Config_Layout_Tabs {
 		$form = new EPKB_KB_Config_Elements();
 
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info' => array('search_title', 'search_box_hint', 'search_button_name', 'search_results_msg', 'no_results_found', 'min_search_word_size_msg'),
-			'option-heading' => 'Search Box - Text',
+			'option-heading' => __( 'Search Box - Text', 'echo-knowledge-base' ),
 			'class'        => 'eckb-mm-mp-links-alltext-text-searchbox eckb-mm-mp-links-tuning-searchbox-text',
 			'inputs' => array(
 				'0' => $form->text( $feature_specs['search_title'] +
@@ -706,8 +690,7 @@ class EPKB_KB_Config_Layout_Tabs {
 		), $kb_page_layout);
 
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info'              => array('category_empty_msg', 'choose_main_topic'),
-			'option-heading'    => 'Categories - Text',
+			'option-heading'    => __( 'Categories - Text', 'echo-knowledge-base' ),
 			'class'             => 'eckb-mm-mp-links-alltext-text-categories eckb-mm-mp-links-tuning-categories-text',
 			'inputs' => array(
 				'1' => $form->text( $feature_specs['category_empty_msg'] +
@@ -724,8 +707,7 @@ class EPKB_KB_Config_Layout_Tabs {
 		));
 
 		$form->option_group_filter( $kb_config, $feature_specs, array(
-			'info'  => array('collapse_articles_msg', 'show_all_articles_msg'),
-			'option-heading'    => 'Articles - Text',
+			'option-heading'    => __( 'Articles - Text', 'echo-knowledge-base' ),
 			'class'             => 'eckb-mm-mp-links-alltext-text-articles eckb-mm-mp-links-tuning-listofarticles-text',
 			'inputs' => array(
 				'1' => $form->text( $feature_specs['collapse_articles_msg'] +
@@ -890,6 +872,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#dadada',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#868686',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -965,6 +948,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#CDCDCD',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#868686',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#525252'
 		);
@@ -999,6 +983,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#FFFFFF',
 			'section_category_font_color'           =>  '#000000',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#FFFFFF',
 			'article_font_color'                    =>  '#000000',
 			'article_icon_color'                    =>  '#525252'
 		);
@@ -1171,6 +1156,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#000000',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1205,6 +1191,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#FFFFFF',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1239,6 +1226,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#FFFFFF',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1273,6 +1261,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#CDCDCD',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#FFFFFF',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1342,6 +1331,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#FFFFFF',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1376,6 +1366,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#FFFFFF',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1410,6 +1401,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_divider_color'                 =>  '#c5c5c5',
 			'section_category_font_color'           =>  '#868686',
 			'section_category_icon_color'           =>  '#868686',
+			'section_head_category_icon_color'      =>  '#FFFFFF',
 			'article_font_color'                    =>  '#b3b3b3',
 			'article_icon_color'                    =>  '#b3b3b3'
 		);
@@ -1456,6 +1448,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			//KB Main Page -> General
 			'width'                                     =>  'epkb-full',
 			'section_font_size'                         =>  'section_medium_font',
+			'show_articles_before_categories'           =>  'off',
 			'nof_columns'                               =>  'three-col',
 			'nof_articles_displayed'                    =>  8,
 			'expand_articles_icon'                      =>  'ep_font_icon_arrow_carrot_right',
@@ -1469,8 +1462,10 @@ class EPKB_KB_Config_Layout_Tabs {
 			'search_box_padding_right'                  =>  0,
 			'search_box_margin_top'                     =>  0,
 			'search_box_margin_bottom'                  =>  40,
-			'search_box_input_width'                    =>  60,
+			'search_box_input_width'                    =>  50,
 			'search_box_results_style'                  =>  'off',
+			'search_title_html_tag'                     => 'h2',
+			'search_title_font_size'                    => '36',
 
 			//KB Main Page -> Articles Listed in Sub-Category
 			'section_head_alignment'                =>  'left',
@@ -1480,8 +1475,8 @@ class EPKB_KB_Config_Layout_Tabs {
 			'section_head_padding_right'            =>  4,
 			'section_head_category_icon_location'   => 'left',
 			'section_head_category_icon_size'       => 21,
-
 			'section_desc_text_on'                  =>  'off',
+			'section_hyperlink_text_on'             =>  'off',
 			'section_border_radius'                 =>  4,
 			'section_border_width'                  =>  0,
 			'section_box_shadow'                    =>  'no_shadow',
@@ -1526,6 +1521,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			//KB Main Page -> General
 			'width'                         =>  'epkb-full',
 			'section_font_size'             =>  'section_medium_font',
+			'show_articles_before_categories'     =>  'off',
 			'nof_columns'                   =>  'three-col',
 			'nof_articles_displayed'        =>  8,
 			'expand_articles_icon'          =>  'ep_font_icon_arrow_carrot_right',
@@ -1536,6 +1532,8 @@ class EPKB_KB_Config_Layout_Tabs {
 
 			'section_body_height'           =>  350,
 			'section_box_height_mode'       =>  'section_no_height',
+			'search_title_html_tag'         => 'h2',
+			'search_title_font_size'        => '36',
 
 			//Advanced Configuration
 
@@ -1593,6 +1591,7 @@ class EPKB_KB_Config_Layout_Tabs {
 			//General
 			'width'                         =>  'epkb-boxed',
 			'section_font_size'             =>  'section_medium_font',
+			'show_articles_before_categories'     =>  'off',
 			'nof_articles_displayed'        =>  10,
 			'expand_articles_icon'          =>  'ep_font_icon_plus_box',
 			'nof_columns'                   =>  'three-col',
@@ -1602,6 +1601,8 @@ class EPKB_KB_Config_Layout_Tabs {
 			//Search Box
 			'search_layout'                 =>  'epkb-search-form-1',
 			'search_input_border_width'     =>  1,
+			'search_title_html_tag'         => 'h2',
+			'search_title_font_size'        => '36',
 
 			//Advanced Configuration
 
@@ -1725,8 +1726,10 @@ class EPKB_KB_Config_Layout_Tabs {
 			'search_box_margin_left'        =>  0,
 			'search_box_margin_right'       =>  0,
 			//Search Input Width
-			'search_box_input_width'        =>  80,
+			'search_box_input_width'        =>  50,
 			'search_box_results_style'      =>  'off',
+			'search_title_html_tag'         => 'h2',
+			'search_title_font_size'        => '36',
 
 			//Search Input Border Width
 			'search_input_border_width'     =>  1
@@ -1749,8 +1752,10 @@ class EPKB_KB_Config_Layout_Tabs {
 			'search_box_margin_left'        =>  0,
 			'search_box_margin_right'       =>  0,
 			//Search Input Width
-			'search_box_input_width'        =>  80,
+			'search_box_input_width'        =>  50,
 			'search_box_results_style'      =>  'off',
+			'search_title_html_tag'         => 'h2',
+			'search_title_font_size'        => '36',
 
 			//Search Input Border Width
 			'search_input_border_width'     =>  1
@@ -1772,8 +1777,10 @@ class EPKB_KB_Config_Layout_Tabs {
 			'search_box_margin_left'        =>  0,
 			'search_box_margin_right'       =>  0,
 			//Search Input Width
-			'search_box_input_width'        =>  80,
+			'search_box_input_width'        =>  50,
 			'search_box_results_style'      =>  'off',
+			'search_title_html_tag'         => 'h2',
+			'search_title_font_size'        => '36',
 
 			//Search Input Border Width
 			'search_input_border_width'     =>  1
@@ -1795,9 +1802,10 @@ class EPKB_KB_Config_Layout_Tabs {
 			'search_box_margin_left'        =>  0,
 			'search_box_margin_right'       =>  0,
 			//Search Input Width
-			'search_box_input_width'        =>  80,
+			'search_box_input_width'        =>  50,
 			'search_box_results_style'      =>  'off',
-
+			'search_title_html_tag'         => 'h2',
+			'search_title_font_size'        => '36',
 			//Search Input Border Width
 			'search_input_border_width'     =>  1
 		);

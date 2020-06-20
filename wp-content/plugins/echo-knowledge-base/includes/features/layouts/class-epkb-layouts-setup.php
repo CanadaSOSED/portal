@@ -10,7 +10,7 @@ class EPKB_Layouts_Setup {
 	}
 
 	/**
-	 * Current Theme / KB template  ==>  the_content()  ==> get article (this method)
+	 * ARTICLE PAGE: Current Theme / KB template  ==>  the_content()  ==> get article (this method)
 	 *
 	 * @param $content
 	 * @return string
@@ -41,8 +41,8 @@ class EPKB_Layouts_Setup {
 		// retrieve article content and features
 		$content = EPKB_Articles_Setup::get_article_content_and_features( $post, $content, $kb_config );
 
-		// if this is ARTICLE PAGE with SBL then add Sidebar
-		if ( $kb_config['kb_article_page_layout'] == EPKB_KB_Config_Layouts::SIDEBAR_LAYOUT ) {
+		// V1 - if this is ARTICLE PAGE with SBL then add Sidebar
+		if ( $kb_config['kb_article_page_layout'] == EPKB_KB_Config_Layouts::SIDEBAR_LAYOUT && ! EPKB_Articles_Setup::is_article_structure_v2( $kb_config ) ) {
 			$content = EPKB_Articles_Setup:: output_article_page_with_layout( $content, $kb_config );
 		}
 
@@ -50,7 +50,7 @@ class EPKB_Layouts_Setup {
 	}
 
 	/**
-	 * Output layout based on KB Shortcode.
+	 * MAIN PAGE: Output layout based on KB Shortcode.
 	 *
 	 * @param array $shortcode_attributes are shortcode attributes that the user added with the shortcode
 	 * @return string of HTML output replacing the shortcode itself
@@ -83,9 +83,25 @@ class EPKB_Layouts_Setup {
 
 		$layout_output = '';
 		if ( ! self::is_core_layout( $layout ) ) {
-			ob_start();
-			apply_filters( 'epkb_' . strtolower($layout) . '_layout_output', $kb_config, $is_builder_on, $article_seq, $categories_seq );
-			$layout_output = ob_get_clean();
+
+			if ( $layout == EPKB_KB_Config_Layouts::SIDEBAR_LAYOUT && EPKB_Articles_Setup::is_article_structure_v2( $kb_config ) ) {
+
+				$intro_text = apply_filters( 'eckb_main_page_sidebar_intro_text', '', $kb_config['id'] );
+				$temp_article = new stdClass();
+				$temp_article->ID = 0;
+				$temp_article->post_title = __( 'Demo Article', 'echo-knowledge-base' );
+				$temp_article->post_content = wp_kses_post($intro_text);
+				$temp_article = new WP_Post( $temp_article );
+				$kb_config['sidebar_welcome'] = 'on';
+				$kb_config['back_navigation_toggle'] = 'off';
+				$layout_output = EPKB_Articles_Setup::get_article_content_and_features( $temp_article, $temp_article->post_content, $kb_config );
+
+			} else {  // Grid Layout or V1 Sidebar Layout
+
+				ob_start();
+				apply_filters( 'epkb_' . strtolower($layout) . '_layout_output', $kb_config, $is_builder_on, $article_seq, $categories_seq );
+				$layout_output = ob_get_clean();
+			}
 
 			// use Basic Layout if the current layout is missing
 			$layout = empty($layout_output) ? EPKB_KB_Config_Layout_Basic::LAYOUT_NAME : $layout;
@@ -103,8 +119,9 @@ class EPKB_Layouts_Setup {
 		return $layout_output;
 	}
 
-	private static function is_core_layout( $layout ) {
-		return $layout == EPKB_KB_Config_Layout_Basic::LAYOUT_NAME || $layout == EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME;
+
+	public static function is_core_layout( $layout ) {
+		return $layout == EPKB_KB_Config_Layout_Basic::LAYOUT_NAME || $layout == EPKB_KB_Config_Layout_Tabs::LAYOUT_NAME || $layout == EPKB_KB_Config_Layout_Categories::LAYOUT_NAME;
 	}
 
 	/**

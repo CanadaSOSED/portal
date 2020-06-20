@@ -1049,6 +1049,32 @@
 				}
 			}
 		});
+		$('.open-plugin-details-modal').click(function(){
+			var request = {
+				action: 'redirect_after_addon_installed',
+				addon: 'export-wp-users-xml-csv',
+				security: wp_all_export_security
+			};
+			var check_add_on_installed = setInterval(function() {
+				// If plugin details iframe closed.
+				if (!$('#TB_iframeContent').length) {
+					// Send ajax request to check if plugin already installed.
+					$.ajax({
+						type: 'POST',
+						url: get_valid_ajaxurl(),
+						data: request,
+						success: function(response) {
+							if (response.result) {
+								$( window ).off( 'beforeunload' );
+								clearInterval(check_add_on_installed);
+								window.location.href = '/wp-admin/plugins.php';
+							}
+						},
+						dataType: "json"
+					});
+				}
+			}, 1000);
+		});
 	});
 	// [ \Step 1 ( chose & filter export data ) ]
 

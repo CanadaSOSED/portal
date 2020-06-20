@@ -9,6 +9,7 @@
 class EPKB_Utilities {
 
 	static $wp_options_cache = array();
+	static $postmeta = array();
 
 	/**************************************************************************************************************************
 	 *
@@ -364,6 +365,62 @@ class EPKB_Utilities {
 			  </div>';
 	}
 
+	/**
+	 * DIALOG BOX - User has to do something with a form values
+	 *	$values ['id']                  CSS ID, used for JS targeting, no CSS styling.
+	 *	$values ['title']               Top Title of Dialog Box.
+	 *	$values ['body']                Text description.
+	 *	$values ['form_inputs']         Form Inputs
+	 *	$values ['accept_label']        Text for Accept button.
+	 *	$values ['accept_type']         Text for Accept button. ( success, default, primary, error , warning )
+	 *
+	 * @param $values
+	 */
+	public static function dialog_box_form( $values ) { ?>
+
+		<div id="<?php echo $values[ 'id' ]; ?>" class="epkb-dialog-box-form">
+
+			<!---- Header ---->
+			<div class="epkb-dbf__header">
+				<h4><?php echo $values['title']; ?></h4>
+			</div>
+
+			<!---- Body ---->
+			<div class="epkb-dbf__body">				<?php 
+				echo empty( $values['body']) ? '' : $values['body']; ?>
+			</div>
+
+			<!---- Form ---->
+			<form class="epkb-dbf__form">				<?php
+				if ( isset($values['form_inputs']) ) {
+					foreach ( $values['form_inputs'] as $input ) {
+						echo '<div class="epkb-dbf__form__input">' . $input . '</div>';
+					}				
+				}; 			?>
+			</form>
+
+			<!---- Footer ---->
+			<div class="epkb-dbf__footer">
+
+				<div class="epkb-dbf__footer__accept <?php echo isset($values['accept_type']) ? 'epkb-dbf__footer__accept--'.$values['accept_type'] : 'epkb-dbf__footer__accept--success'; ?>">
+					<span id="epkb-accept-button" class="epkb-dbf__footer__accept__btn">
+						<?php echo $values['accept_label'] ? $values['accept_label'] : __( 'Accept', 'echo-knowledge-base' ); ?>
+					</span>
+				</div>
+
+				<div class="epkb-dbf__footer__cancel">
+					<span class="epkb-dbf__footer__cancel__btn"><?php _e( 'Cancel', 'echo-knowledge-base' ); ?></span>
+				</div>
+
+			</div>
+
+			<div class="epkb-dbf__close epkbfa epkbfa-times"></div>
+
+		</div>
+		<div class="epkb-dialog-box-form-black-background"></div>		<?php
+	}
+	
+
 
 	/**************************************************************************************************************************
 	 *
@@ -477,19 +534,46 @@ class EPKB_Utilities {
 		}
 
 		// first urldecode()
-		parse_str($form, $submitted_fields);
+		if (is_string($form)) {
+			parse_str($form, $submitted_fields);
+		} else {
+			$submitted_fields = $form;
+		}
 
 		// now sanitize each field
 		$sanitized_fields = array();
 		foreach( $submitted_fields as $submitted_key => $submitted_value ) {
+
 			if ( ! empty($all_fields_specs[$submitted_key]['type']) && $all_fields_specs[$submitted_key]['type'] == EPKB_Input_Filter::WP_EDITOR ) {
 				$sanitized_fields[$submitted_key] = wp_kses_post( $submitted_value );
+			} elseif ( ! empty( $all_fields_specs[$submitted_key]['type'] ) && ! empty( $all_fields_specs[$submitted_key]['allowed_tags'] ) && $all_fields_specs[$submitted_key]['type'] == EPKB_Input_Filter::TEXT ) {
+				// text input with allowed tags 
+				$sanitized_fields[$submitted_key] = wp_kses( $submitted_value, $all_fields_specs[$submitted_key]['allowed_tags'] );
 			} else {
 				$sanitized_fields[$submitted_key] = sanitize_text_field( $submitted_value );
 			}
+
 		}
 
 		return $sanitized_fields;
+	}
+
+	/**
+	 * Return ints and comma only.
+	 *
+	 * @param $text
+	 * @param String $default
+	 * @return String|<default>
+	 */
+	public static function sanitize_comma_separated_ints( $text, $default='' ) {
+
+		if ( empty($text) || ! is_string($text) ) {
+			return $default;
+		}
+
+		$text = preg_replace('/[^0-9 \,_]/', '', $text);
+
+		return empty($text) ? $default : $text;
 	}
 
 	/**
@@ -535,14 +619,19 @@ class EPKB_Utilities {
 	/**
 	 * Check if Aaccess Manager is considered active.
 	 *
+	 * @param bool $is_active_check_only
 	 * @return bool
 	 */
-	public static function is_amag_on() {
+	public static function is_amag_on( $is_active_check_only=false ) {
 		/** @var $wpdb Wpdb */
 		global $wpdb;
 
 		if ( defined( 'AMAG_PLUGIN_NAME' ) ) {
 			return true;
+		}
+
+		if ( $is_active_check_only ) {
+			return false;
 		}
 
 		$table = $wpdb->prefix . 'am'.'gr_kb_groups';
@@ -597,13 +686,13 @@ class EPKB_Utilities {
 
 		// retrieve specific KB option
 		$option = $wpdb->get_var( $wpdb->prepare("SELECT option_value FROM $wpdb->options WHERE option_name = %s", $option_name ) );
-		if ($option !== null ) {
+		if ( $option !== null ) {
 			$option = maybe_unserialize( $option );
 		}
 
 		if ( $return_error && $option === null && ! empty($wpdb->last_error) ) {
 			EPKB_Logging::add_log( "DB failure: " . $wpdb->last_error, 'Option Name: ' . $option_name );
-			return new WP_Error('DB failure', $wpdb->last_error);
+			return new WP_Error(__( 'Database failure', 'echo-knowledge-base' ), $wpdb->last_error);
 		}
 
 		// if KB option is missing then return defaults
@@ -647,7 +736,7 @@ class EPKB_Utilities {
 		global $wpdb;
 
 		if ( $sanitized !== true ) {
-			return new WP_Error( '433', 'Option value was not sanitized for option: ' . $option_name );
+			return new WP_Error( '433', __( 'Option value was not sanitized for option: ', 'echo-knowledge-base' ) . $option_name );
 		}
 
 		// do not store null
@@ -660,7 +749,7 @@ class EPKB_Utilities {
 		if ( is_array( $option_value ) || is_object( $option_value ) ) {
 			$serialized_value = maybe_serialize($option_value);
 			if ( empty($serialized_value) ) {
-				return new WP_Error( '434', 'Failed to serialize value for option: ' . $option_name );
+				return new WP_Error( '434', __( 'Failed to serialize value for option: ', 'echo-knowledge-base' ) . $option_name );
 			}
 		}
 
@@ -699,8 +788,12 @@ class EPKB_Utilities {
 		/** @var $wpdb Wpdb */
 		global $wpdb;
 
+		if ( isset(self::$postmeta[$post_id][$meta_key]) ) {
+			return self::$postmeta[$post_id][$meta_key];
+		}
+
 		if ( ! self::is_positive_int( $post_id) ) {
-			return $return_error ? new WP_Error( 'Invalid Post ID', self::get_variable_string( $post_id ) ) : $default;
+			return $return_error ? new WP_Error( __( 'Invalid Post ID', 'echo-knowledge-base' ), self::get_variable_string( $post_id ) ) : $default;
 		}
 
 		// retrieve specific KB option
@@ -711,13 +804,15 @@ class EPKB_Utilities {
 
 		if ( $return_error && $option === null && ! empty($wpdb->last_error) ) {
 			EPKB_Logging::add_log( "DB failure: " . $wpdb->last_error, 'Meta Key: ' . $meta_key );
-			return new WP_Error('DB failure', $wpdb->last_error);
+			return new WP_Error(__( 'Database failure', 'echo-knowledge-base' ), $wpdb->last_error);
 		}
 
 		// if KB option is missing then return defaults
 		if ( $option === null || ( $is_array && ! is_array($option) ) ) {
 			return $default;
 		}
+
+		self::$postmeta[$post_id][$meta_key] = $option;
 
 		return $option;
 	}
@@ -737,11 +832,11 @@ class EPKB_Utilities {
 		global $wpdb;
 
 		if ( ! self::is_positive_int( $post_id) ) {
-			return new WP_Error( 'Invalid Post ID', self::get_variable_string( $post_id ) );
+			return new WP_Error( __( 'Invalid Post ID', 'echo-knowledge-base' ), self::get_variable_string( $post_id ) );
 		}
 
 		if ( $sanitized !== true ) {
-			return new WP_Error( '433', 'Option value was not sanitized for meta key: ' . $meta_key );
+			return new WP_Error( '433', __( 'Option value was not sanitized for meta key: ', 'echo-knowledge-base' ) . $meta_key );
 		}
 
 		// do not store null
@@ -754,7 +849,7 @@ class EPKB_Utilities {
 		if ( is_array( $meta_value ) || is_object( $meta_value ) ) {
 			$serialized_value = maybe_serialize($meta_value);
 			if ( empty($serialized_value) ) {
-				return new WP_Error( '434', 'Failed to serialize value for meta key: ' . $meta_key );
+				return new WP_Error( '434', __( 'Failed to serialize value for meta key: ', 'echo-knowledge-base' ) . $meta_key );
 			}
 		}
 
@@ -762,26 +857,28 @@ class EPKB_Utilities {
 		$result = $wpdb->get_row( $wpdb->prepare( "SELECT meta_value FROM $wpdb->postmeta WHERE meta_key = '%s' AND post_id = %d", $meta_key, $post_id ) );
 		if ( $result === null && ! empty($wpdb->last_error) ) {
 			EPKB_Logging::add_log( "DB failure: " . $wpdb->last_error );
-			return new WP_Error('DB failure', $wpdb->last_error);
+			return new WP_Error(__( 'Database failure', 'echo-knowledge-base' ), $wpdb->last_error);
 		}
 
 		// INSERT or UPDATE the meta field
 		if ( empty($result) ) {
 			if ( false === $wpdb->query( $wpdb->prepare( "INSERT INTO $wpdb->postmeta (`meta_key`, `meta_value`, `post_id`) VALUES (%s, %s, %d)", $meta_key, $serialized_value, $post_id ) ) ) {
 				EPKB_Logging::add_log("Failed to insert meta data. ", $meta_key);
-				return new WP_Error( '33', 'Failed to insert meta data' );
+				return new WP_Error( '33', __( 'Failed to insert meta data', 'echo-knowledge-base' ) );
 			}
 		} else {
 			if ( false === $wpdb->query( $wpdb->prepare( "UPDATE $wpdb->postmeta SET meta_value = %s WHERE meta_key = '%s' AND post_id = %d", $serialized_value, $meta_key, $post_id ) ) ) {
 				EPKB_Logging::add_log("Failed to update meta data. ", $meta_key);
-				return new WP_Error( '33', 'Failed to update meta data' );
+				return new WP_Error( '33', __( 'Failed to update meta data', 'echo-knowledge-base' ) );
 			}
 		}
 
 		if ( $result === false ) {
 			EPKB_Logging::add_log( 'Failed to update meta key', $meta_key );
-			return new WP_Error( '435', 'Failed to update meta key ' . $meta_key );
+			return new WP_Error( '435', __( 'Failed to update meta key ', 'echo-knowledge-base' ) . $meta_key );
 		}
+
+		self::$postmeta[$post_id][$meta_key] = $meta_value;
 
 		return $meta_value;
 	}
@@ -819,13 +916,16 @@ class EPKB_Utilities {
 	 *************************************************************************************************************************/
 
     /**
+     *
+     * USED TO HANDLE ALL CATEGORIES REGARDLESS OF USER PERMISSIONS.
+     *
      * Get all existing KB categories.
      *
      * @param $kb_id
      * @param string $order_by
      * @return array|null - return array of KB categories (empty if not found) or null on error
      */
-    public static function get_kb_categories( $kb_id, $order_by='name' ) {
+    public static function get_kb_categories_unfiltered( $kb_id, $order_by='name' ) {
         /** @var wpdb $wpdb */
         global $wpdb;
 
@@ -834,18 +934,50 @@ class EPKB_Utilities {
         $kb_category_taxonomy_name = EPKB_KB_Handler::get_category_taxonomy_name( $kb_id );
         $result = $wpdb->get_results( $wpdb->prepare("SELECT t.*, tt.*
 												   FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id
-												   WHERE tt.taxonomy IN (%s) ORDER BY " . esc_sql('t.' . $order_by) . ' ' . $order . ' LIMIT 500', $kb_category_taxonomy_name ) );
+												   WHERE tt.taxonomy IN (%s) ORDER BY " . esc_sql('t.' . $order_by) . ' ' . $order . ' ', $kb_category_taxonomy_name ) );
         return isset($result) && is_array($result) ? $result : null;
     }
 
 	/**
+	 * USED TO HANDLE ALL CATEGORIES REGARDLESS OF USER PERMISSIONS.
+	 *
+	 * Get KB Article categories.
+	 *
+	 * @param $kb_id
+	 * @param $article_id
+	 * @return array|null - categories belonging to the given KB Article or null on error
+	 */
+	public static function get_article_categories_unfiltered( $kb_id, $article_id ) {
+		/** @var $wpdb Wpdb */
+		global $wpdb;
+
+		if ( empty($article_id) ) {
+			return null;
+		}
+
+		// get article categories
+		$post_taxonomy_objs = $wpdb->get_results( $wpdb->prepare(
+											"SELECT * FROM $wpdb->term_taxonomy
+																	 WHERE taxonomy = '%s' and term_taxonomy_id in
+																	(SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = %d) ",
+											EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ), $article_id ) );
+		if ( ! empty($wpdb->last_error) ) {
+			return null;
+		}
+
+		return $post_taxonomy_objs === null || ! is_array($post_taxonomy_objs) ? array() : $post_taxonomy_objs;
+	}
+
+	/**
+	 * USED TO HANDLE ALL CATEGORIES REGARDLESS OF USER PERMISSIONS.
+	 *
 	 * Retrieve KB Category.
 	 *
 	 * @param $kb_id
 	 * @param $kb_category_id
 	 * @return WP_Term|false
 	 */
-    public static function get_kb_category( $kb_id, $kb_category_id ) {
+    public static function get_kb_category_unfiltered( $kb_id, $kb_category_id ) {
 	    $term = get_term_by('id', $kb_category_id, EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ) );
 	    if ( empty($term) || ! $term instanceof WP_Term ) {
 		    EPKB_Logging::add_log( "Category is not KB Category: " . $kb_category_id . "(35)", $kb_id);
@@ -856,13 +988,15 @@ class EPKB_Utilities {
     }
 
 	/**
-	 * Retrieve KB Category by its slug
+	 * USED TO HANDLE ALL CATEGORIES REGARDLESS OF USER PERMISSIONS.
+	 *
+	 * Retrieve KB Category by its slug.
 	 *
 	 * @param $kb_id
 	 * @param $kb_category_slug
 	 * @return WP_Term|false
 	 */
-	public static function get_kb_category_by_slug( $kb_id, $kb_category_slug ) {
+	public static function get_kb_category_by_slug_unfiltered( $kb_id, $kb_category_slug ) {
 		$term = get_term_by('slug', $kb_category_slug, EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ) );
 		if ( empty($term) || ! $term instanceof WP_Term ) {
 			EPKB_Logging::add_log( "Category is not KB Category: " . $kb_category_slug . "(34)", $kb_id);
@@ -898,13 +1032,16 @@ class EPKB_Utilities {
     }
 
 	/**
+	 *
+	 *  USED TO HANDLE ALL CATEGORIES REGARDLESS OF USER PERMISSIONS.
+	 *
 	 * Get KB Article categories.
 	 *
 	 * @param $kb_id
 	 * @param $article_id
 	 * @return array|null - categories belonging to the given KB Article or null on error
 	 */
-	public static function get_article_category_ids( $kb_id, $article_id ) {
+	public static function get_article_category_ids_unfiltered( $kb_id, $article_id ) {
 		/** @var $wpdb Wpdb */
 		global $wpdb;
 
@@ -916,7 +1053,7 @@ class EPKB_Utilities {
 		$post_taxonomy_objs = $wpdb->get_results( $wpdb->prepare(
 										"SELECT term_id FROM $wpdb->term_taxonomy
 										 WHERE taxonomy = '%s' and term_taxonomy_id in 
-										(SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = %d) LIMIT 500",
+										(SELECT term_taxonomy_id FROM $wpdb->term_relationships WHERE object_id = %d) ",
 										EPKB_KB_Handler::get_category_taxonomy_name( $kb_id ), $article_id ) );
 		if ( $post_taxonomy_objs === null || ! is_array( $post_taxonomy_objs ) ) {
 			return null;
@@ -961,16 +1098,6 @@ class EPKB_Utilities {
 	}
 
 	/**
-	 * Check if KB is ARCHIVED.
-	 *
-	 * @param $kb_status
-	 * @return bool
-	 */
-	public static function is_kb_archived( $kb_status ) {
-		return $kb_status === 'archived';
-	}
-
-	/**
 	 * Return string representation of given variable for logging purposes
 	 *
 	 * @param $var
@@ -984,7 +1111,7 @@ class EPKB_Utilities {
 		}
 
 		if ( empty($var) ) {
-			return '[empty]';
+			return '['. __( 'empty', 'echo-knowledge-base' ) . ']';
 		}
 
 		$output = 'array';
@@ -1028,12 +1155,12 @@ class EPKB_Utilities {
 	private static function get_variable_not_array( $var ) {
 
 		if ( $var === null ) {
-			return '<null>';
+			return '<' . __( 'null', 'echo-knowledge-base' ) . '>';
 		}
 
 		if ( ! isset($var) ) {
             /** @noinspection HtmlUnknownAttribute */
-            return '<not set>';
+            return '<' . __( 'not set', 'echo-knowledge-base' ) . '>';
 		}
 
 		if ( is_array($var) ) {
@@ -1052,24 +1179,7 @@ class EPKB_Utilities {
 			return $var;
 		}
 
-		return '<unknown>';
-	}
-
-	/**
-	 * Retrieve roles that current user has
-	 * @return array $roles
-	 *
-	 * Not tested - simple
-	 */
-	public static function get_user_roles() {
-		global $wp_roles;
-
-		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
-		}
-		$roles = $wp_roles->get_names();
-
-		return $roles;
+		return '<' . __( 'unknown', 'echo-knowledge-base' ) . '>';
 	}
 
 	/**
@@ -1226,7 +1336,46 @@ class EPKB_Utilities {
 	}
 
 	/**
-	 * Is WMPL enabled? Only for KB CORE. ADD-ONs to call this function in core
+	 * Check if KB is ARCHIVED.
+	 *
+	 * @param $kb_status
+	 * @return bool
+	 */
+	public static function is_kb_archived( $kb_status ) {
+		return $kb_status === 'archived';
+	}
+
+	/**
+	 * Check if given articles belong to the currently selected langauge. Return ones that are.
+	 * @param $articles
+	 * @param bool $are_posts
+	 * @return array
+	 */
+	public static function is_wpml_article_active( $articles, $are_posts=false ) {
+
+		$article_ids = $articles;
+		if ( $are_posts ) {
+			$article_ids = array();
+			foreach( $articles as $article ) {
+				$article_ids[] = empty($article->ID) ? 0 : $article->ID;
+			}
+		}
+
+		$current_lang = apply_filters( 'wpml_current_language', NULL );
+		$current_article_ids = array();
+		foreach( $article_ids as $article_id ) {
+			$args = array( 'element_id' => $article_id, 'element_type' => 'post' );
+			$article_lang = apply_filters( 'wpml_element_language_code', null, $args );
+			if ( $article_lang == $current_lang ) {
+				$current_article_ids[] = $article_id;
+			}
+		}
+
+		return $current_article_ids;
+	}
+
+	/**
+	 * Is WPML enabled? Only for KB CORE. ADD-ONs to call this function in core
 	 * @param array $kb_config
 	 * @return bool
 	 */
@@ -1239,6 +1388,85 @@ class EPKB_Utilities {
 		       $kb_config['kb_articles_common_path'] != 'demo-1-knowledge-base-basic-layout' &&
 		       $kb_config['kb_articles_common_path'] != 'demo-2-knowledge-base-basic-layout' &&
 		       $kb_config['kb_articles_common_path'] != 'demo-3-knowledge-base-tabs-layout' &&
-		       $kb_config['kb_articles_common_path'] != 'demo-4-knowledge-base-tabs-layout';
+		       $kb_config['kb_articles_common_path'] != 'demo-4-knowledge-base-tabs-layout' &&
+		       $kb_config['kb_articles_common_path'] != 'demo-12-knowledge-base-image-layout';
+	}
+
+	public static function is_elegant_layouts_enabled() {
+		return defined('E'.'LAY_PLUGIN_NAME');
+	}
+
+	public static function is_multiple_kbs_enabled() {
+		return defined('E'.'MKB_PLUGIN_NAME');
+	}
+	
+	public static function is_export_import_enabled() {
+		return defined('E'.'PIE_PLUGIN_NAME');
+	}
+	
+	public static function is_creative_addons_widgets_enabled() {
+		return defined( 'CREATIVE_ADDONS_VERSION' ) && defined( 'ELEMENTOR_VERSION' );
+	}
+
+	/**
+	 * Show error message at the top of WordPress page
+	 * @param $message
+	 * @param null $button_text
+	 * @param null $button_url
+	 */
+	public static function output_top_error_message( $message, $button_text=null, $button_url=null ) {  ?>
+		<div class="wrap">
+			<h1></h1>
+		</div>
+		<div class="notice notice-error">
+			<p>				<?php
+				_e( $message, 'echo-knowledge-base' );
+				if ( ! empty($button_text) && ! empty($button_url) ) {
+					echo ' <a class="button button-primary" href="' . esc_url( $button_url ) . '">' . __( $button_text, 'echo-knowledge-base' ) . '</a>';
+				}   ?>
+			</p>
+		</div>		<?php
+	}
+
+	/**
+	 * Common way to show support link
+	 * @return string
+	 */
+	public static function contact_us_for_support() {
+
+		$label = ' ' .  _x('Please contact us for support:', 'echo-knowledge-base') . ' ';
+		$click_text =  _x('click here', 'echo-knowledge-base');
+
+		return $label . '<a href="https://www.echoknowledgebase.com/technical-support/" target="_blank" rel="noopener noreferrer">' . $click_text . '</a>';
+	}
+
+	/**
+	 * For given Main Page, retrieve its slug.
+	 *
+	 * @param $kb_main_page_id
+	 *
+	 * @return string
+	 */
+	public static function get_main_page_slug( $kb_main_page_id ) {
+
+		$kb_page = get_post( $kb_main_page_id );
+		if ( empty($kb_page) ) {
+			return '';
+		}
+
+		$slug      = urldecode(sanitize_title_with_dashes( $kb_page->post_name, '', 'save' ));
+		$ancestors = get_post_ancestors( $kb_page );
+		foreach ( $ancestors as $ancestor_id ) {
+			$post_ancestor = get_post( $ancestor_id );
+			if ( empty($post_ancestor) ) {
+				continue;
+			}
+			$slug = urldecode(sanitize_title_with_dashes( $post_ancestor->post_name, '', 'save' )) . '/' . $slug;
+			if ( $kb_main_page_id == $ancestor_id ) {
+				break;
+			}
+		}
+
+		return $slug;
 	}
 }

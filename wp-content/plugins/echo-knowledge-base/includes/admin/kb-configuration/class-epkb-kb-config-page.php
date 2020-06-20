@@ -15,13 +15,16 @@ class EPKB_KB_Config_Page {
 	var $kb_main_page_layout = EPKB_KB_Config_Layout_Basic::LAYOUT_NAME;
 	var $kb_article_page_layout = EPKB_KB_Config_Layouts::KB_ARTICLE_PAGE_NO_LAYOUT;
 	var $show_main_page = false;
+	var $show_overview_page = true;
+	var $show_wizard_page = false;
 	var $can_save_config = true;
 
 	public function __construct( $kb_config=array() ) {
+
 		// retrieve current KB configuration
 		$kb_config = empty($kb_config) ? epkb_get_instance()->kb_config_obj->get_current_kb_configuration() : $kb_config;
-		if ( is_wp_error( $kb_config ) ) {
-			$this->can_save_config = false;
+		if ( is_wp_error( $kb_config ) || empty($kb_config) || ! is_array($kb_config) || count($kb_config) < 100 ) {
+			$this->can_save_config = $kb_config;
 			$kb_config = EPKB_KB_Config_Specs::get_default_kb_config( EPKB_KB_Config_DB::DEFAULT_KB_ID );
 		}
 
@@ -30,7 +33,12 @@ class EPKB_KB_Config_Page {
 		$this->form                   = new EPKB_KB_Config_Elements();
 		$this->kb_main_page_layout    = EPKB_KB_Config_Layouts::get_kb_main_page_layout_name( $this->kb_config );
 		$this->kb_article_page_layout = EPKB_KB_Config_Layouts::get_article_page_layout_name( $this->kb_config );
-		$this->show_main_page         = isset($_REQUEST['epkb-demo']) || isset($_REQUEST['ekb-main-page']);
+		$this->show_main_page         = isset($_REQUEST['epkb-demo']) || isset($_REQUEST['ekb-main-page']); // maybe deprecated
+		
+		if ( isset($_REQUEST['epkb-wizard-tab']) ) {
+			$this->show_wizard_page = true;
+			$this->show_overview_page = false;
+		}
 	}
 
 	/**
@@ -38,8 +46,71 @@ class EPKB_KB_Config_Page {
 	 */
 	public function display_kb_config_page() {
 
-		if ( ! $this->can_save_config ) {
-			echo '<p>' . __( 'Could not retrieve KB configuration.', 'echo-knowledge-base' ) . '</p>';
+		if ( is_wp_error($this->can_save_config) ) {
+			EPKB_Logging::add_log('Could not retrieve KB configuration (773)', $this->can_save_config);
+			echo '<p>' . __( 'Could not retrieve KB configuration.', 'echo-knowledge-base' ) . ' (773: ' . $this->can_save_config->get_error_message() . ') ' . EPKB_Utilities::contact_us_for_support() . '</p>';
+			return;
+		}
+
+		$is_blank_kb = EPKB_KB_Wizard::is_blank_KB( $this->kb_config['id'] );
+		if ( is_wp_error($is_blank_kb) ) {
+			EPKB_Logging::add_log('Could not retrieve KB configuration (775)', $is_blank_kb);
+			echo '<p>' .  __( 'Could not retrieve KB configuration.', 'echo-knowledge-base' ) . ' (775: ' . $is_blank_kb->get_error_message() . ') ' . EPKB_Utilities::contact_us_for_support() . '</p>';
+			return;
+		}
+		
+		// get current add-ons configuration
+		$wizard_kb_config = $this->kb_config;
+		$wizard_kb_config = apply_filters( 'epkb_all_wizards_get_current_config', $wizard_kb_config, EPKB_KB_Handler::get_current_kb_id() );
+		if ( is_wp_error( $wizard_kb_config ) ) {
+			echo '<p>' . __( 'Could not retrieve KB configuration.', 'echo-knowledge-base' ) . ' (777: ' . $wizard_kb_config->get_error_message() . ') ' . EPKB_Utilities::contact_us_for_support() . '</p>';
+			return;
+		}
+		if ( empty($wizard_kb_config) || ! is_array($wizard_kb_config) || count($wizard_kb_config) < 100 ) {
+			echo '<p>' . __( 'Could not retrieve KB configuration.', 'echo-knowledge-base' ) . ' (7782) ' . EPKB_Utilities::contact_us_for_support() . '</p>';
+			return;
+		}
+
+
+		// should we display Wizard or KB Configuration?
+		if ( isset($_GET['wizard-on']) || $is_blank_kb ) {
+			$handler = new EPKB_KB_Wizard();
+			$handler->display_kb_wizard( $wizard_kb_config );
+			return;
+		}
+
+		// should we display Text Wizard or KB Configuration?
+		if ( isset($_GET['wizard-text-on']) && ! $is_blank_kb ) {
+			$handler = new EPKB_KB_Wizard_Text();
+			$handler->display_kb_wizard( $wizard_kb_config );
+			return;
+		}
+
+		// should we display Features Wizard or KB Configuration?
+		if ( isset($_GET['wizard-features']) && ! $is_blank_kb ) {
+			$handler = new EPKB_KB_Wizard_Features();
+			$handler->display_kb_wizard( $wizard_kb_config );
+			return;
+		}
+
+		// should we display Search Wizard or KB Configuration?
+		if ( isset($_GET['wizard-search']) && ! $is_blank_kb ) {
+			$handler = new EPKB_KB_Wizard_Search();
+			$handler->display_kb_wizard( $wizard_kb_config );
+			return;
+		}
+
+		// should we display Ordering Wizard or KB Configuration?
+		if ( isset($_GET['wizard-ordering']) && ! $is_blank_kb ) {
+			$handler = new EPKB_KB_Wizard_Ordering();
+			$handler->display_kb_wizard( $wizard_kb_config );
+			return;
+		}
+		
+		// should we display Global Wizard or KB Configuration?
+		if ( isset($_GET['wizard-global']) && ! $is_blank_kb ) {
+			$handler = new EPKB_KB_Wizard_Global();
+			$handler->display_kb_wizard( $wizard_kb_config );
 			return;
 		}
 
@@ -47,13 +118,14 @@ class EPKB_KB_Config_Page {
 		EPKB_KB_Config_Layouts::register_kb_config_hooks();
 
 		// display all elements of the configuration page
-		$this->display_page();
+		$this->display_page( $is_blank_kb );
 	}
 
 	/**
 	 * Display KB Config content areas
+	 * @param $is_blank_kb
 	 */
-	private function display_page() {        ?>
+	private function display_page( $is_blank_kb ) {        ?>
 
 		<div class="wrap">
 			<h1></h1>
@@ -63,13 +135,20 @@ class EPKB_KB_Config_Page {
 				<div class="wrap" id="ekb_core_top_heading"></div>
 
 				<div id="epkb-config-main-info">		<?php
-					$this->display_top_panel();         ?>
+					$this->display_top_panel( $is_blank_kb );         ?>
                     <div class="epkb-open-mm">
                         <span class="ep_font_icon_arrow_carrot_down"></span>
                     </div>
 				</div>
-
-				<div id="epkb-admin-mega-menu" <?php echo $this->show_main_page ? 'class="epkb-active-page"' : ''; ?>>         <?php
+				<div class="epkb-moving-to-wizard-container" id="epkb-configuration-old-message" style="display: none;">
+					<div class="epkbfa epkbfa-certificate"></div>
+					<h1>We are making major improvements to the KB configuration</h1>
+					<p>Hey everyone! We are in the process of moving all of these settings into the <strong>Wizards</strong> section where it will be faster and easier to setup a KB.
+					Why are we doing this? We are taking the actions based on customer feedback and requests.</p>
+					<p>You should see the <strong>Wizard</strong> icon <span class="epkbfa epkbfa-magic"></span> at the top of this page next to the Overview icon.</p>
+					<p>Advanced section will contain configurations like padding and template options.</p>
+				</div>
+				<div id="epkb-admin-mega-menu" <?php echo $this->show_main_page ? 'class="epkb-active-page"' : ''; ?>>					<?php
                     $this->display_mega_menu();         ?>
 				</div>                                  <?php
 
@@ -81,10 +160,7 @@ class EPKB_KB_Config_Page {
             <div class="eckb-bottom-notice-message"></div>
 		</div>
 
-		<div id="epkb-dialog-info-icon" title="" style="display: none;">
-			<p id="epkb-dialog-info-icon-msg"><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></p>
-		</div>      <?php
-
+	    <?php
 	}
 
 
@@ -96,11 +172,11 @@ class EPKB_KB_Config_Page {
 
 	public function display_mega_menu() {
 
-		$setup_i18 = __( 'SETUP', 'echo-knowledge-base' );
-		$organize_i18 = __( 'ORGANIZE', 'echo-knowledge-base' );
-		$all_text_i18 = __( 'ALL TEXT', 'echo-knowledge-base' );
-		$tuning_i18 = __( 'TUNING', 'echo-knowledge-base' );
-		$features_i18 = __( 'FEATURES', 'echo-knowledge-base' );
+		$setup_i18 = 'SETUP';
+		$organize_i18 = 'ORGANIZE';
+		$all_text_i18 = 'ALL TEXT';
+		$tuning_i18 = 'TUNING';
+		$features_i18 = 'FEATURES';
 
         echo '<div class="epkb-mm-sidebar">';
 
@@ -115,8 +191,8 @@ class EPKB_KB_Config_Page {
         $this->mega_menu_sidebar_links( array(
             'id'            => 'eckb-mm-mp-links',
             'core_links'    => $main_page_core_links,
-            'add_on_links'  => array( __( 'Article', 'echo-knowledge-base' ), __( 'Widgets', 'echo-knowledge-base' ), __( 'Table of Contents', 'echo-knowledge-base' ),
-	                                    __( 'Article Feedback', 'echo-knowledge-base' ), __( 'Analytics', 'echo-knowledge-base' ), __( 'Advanced Search', 'echo-knowledge-base' ) )
+            'add_on_links'  => array( 'Article', 'Widgets', 'Table of Contents',
+	                                    'Article Feedback', 'Analytics', 'Advanced Search' )
         ));
 
 		if ( $this->kb_article_page_layout != EPKB_KB_Config_Layouts::KB_ARTICLE_PAGE_NO_LAYOUT ) {
@@ -161,6 +237,7 @@ class EPKB_KB_Config_Page {
 
         $grid_layout = $this->kb_main_page_layout == EPKB_KB_Config_Layouts::GRID_LAYOUT;
 		$main_page_sbl = $this->kb_main_page_layout == EPKB_KB_Config_Layouts::SIDEBAR_LAYOUT;
+		$categories_layout = $this->kb_main_page_layout == EPKB_KB_Config_Layouts::CATEGORIES_LAYOUT;
 
 		// define Search Box or Advanced Search Box configuration menu
 		$search_box_menu = array(
@@ -180,7 +257,7 @@ class EPKB_KB_Config_Page {
 			'id'        => 'eckb-mm-mp-links-setup',
 			'sections'  => array(
 				array(
-					'heading' => '1. Layout',
+					'heading'       => '1. Layout',
 					'form_elements' => array(
 						array(
 							'id'   => 'mega-menu-main-page-layout',
@@ -191,7 +268,7 @@ class EPKB_KB_Config_Page {
 											'input_class'       => '',
 											'radio_class'       => 'config-col-12' ) ) .
 						          ( $this->kb_main_page_layout != EPKB_KB_Config_Layouts::GRID_LAYOUT ? '' :
-							          $this->form->radio_buttons_vertical( array('label' => ' Category Links Go to:') + $this->feature_specs['kb_main_page_category_link'] + array(
+							        $this->form->radio_buttons_vertical( array( 'label' => __( ' Category Links Go to:', 'echo-knowledge-base' ) ) + $this->feature_specs['kb_main_page_category_link'] + array(
 									        'current'           => $this->kb_config['kb_main_page_category_link'],
 									        'input_group_class' => 'config-col-12',
 									        'main_label_class'  => 'config-col-12',
@@ -383,7 +460,7 @@ class EPKB_KB_Config_Page {
             'sections'  => array(
                 array(
                     'heading' => 'Features',
-                    'links' => array( 'Back Navigation', 'Comments', 'Breadcrumb', 'Other' )
+                    'links' => array( 'Article TOC', 'Back Navigation', 'Comments', 'Breadcrumb', 'Other' )
                 ),
             )
         ));
@@ -426,9 +503,12 @@ class EPKB_KB_Config_Page {
                         'heading' => 'Article Common Path',
                         'links' => array( 'Configuration' )
                     ),
+	                array(
+		                'heading' => 'Article Structure',
+		                'links' => array( 'Setup' )
+	                ),
                 )
             ));
-
 
         } else {
             $this->mega_menu_item_content( array(
@@ -438,13 +518,17 @@ class EPKB_KB_Config_Page {
                         'heading' => 'Article Common Path',
                         'links' => array( 'Configuration' )
                     ),
+	                array(
+		                'heading' => 'Article Structure',
+		                'links' => array( 'Setup' )
+                    ),
                 )
             ));
         }
 
 
 		/********************************************************************
-		 * 4. display ARCHIVE PAGE menu content (Right side)
+		 * 4. display CATEGORIES ARCHIVE PAGE menu content (Right side)
 		 ********************************************************************/
 
 		echo '<div class="epkb-archive-page-template-config">';
@@ -474,7 +558,7 @@ class EPKB_KB_Config_Page {
 
 			));
 
-			// ARCHIVE PAGE - SETUP menu item
+			// ARCHIVE PAGE - ALL TEXT menu item
 			$this->mega_menu_item_custom_html_content( array(
 				'id'        => 'eckb-mm-arch-links-alltext',
 				'sections'  => array(
@@ -492,6 +576,17 @@ class EPKB_KB_Config_Page {
 							)
 						)
 					)
+				)
+			));
+
+			// ARCHIVE PAGE - TUNING menu item
+			$this->mega_menu_item_content( array(
+				'id'        => 'eckb-mm-arch-links-tuning',
+				'sections'  => array(
+					array(
+						'heading' => 'Page Structure',
+						'links' => array( 'Setup' )
+					),
 				)
 			));
 
@@ -584,7 +679,7 @@ class EPKB_KB_Config_Page {
 		foreach( $args['core_links'] as $link ) {
 			$class = $ix++ == 0 ? 'class="epkb-mm-active"' : '';
 			$linkID = $args['id'] . '-' . str_replace(' ', '', strtolower( $link ) );
-			echo '<li id="' . $linkID . '" ' . $class . '>' . $link . '</li>';
+			echo '<li id="' . $linkID . '" ' . $class . '>' . __( $link, 'echo-knowledge-base' ) . '</li>';
 		}
 
 		echo '</ul>';
@@ -766,37 +861,57 @@ class EPKB_KB_Config_Page {
 
 	/**
 	 * Display top overview panel
+	 * @param $is_blank_kb
 	 */
-	private function display_top_panel() {
+	private function display_top_panel( $is_blank_kb ) {
 
         // display link to KB Main Page if any
 		$link_output = EPKB_KB_Handler::get_first_kb_main_page_url( $this->kb_config );
 		if ( ! empty($link_output) ) {
 			$link_output = '<a href="' . $link_output . '" target="_blank"><div class="epkb-view ep_font_icon_external_link"></div></a>';
-		}
-
-        // for demo switch
-		$checked = '';
-		if ( isset($_REQUEST['epkb-demo']) || ( isset($_POST['epkb_demo_kb']) && $_POST['epkb_demo_kb'] == "true" ) ) {
-			$checked = 'checked';
 		}   ?>
 
 		<div class="epkb-info-section epkb-kb-name-section">   <?php
-			$this->display_list_of_kbs(); 			?>
+			self::display_list_of_kbs( $this->kb_config ); 			?>
 		</div>
-        <div class="epkb-info-section epkb-view">
-            <?php echo $link_output; ?>
+        <div class="epkb-info-section epkb-info-main has-margin" id="epkb-view-kb-button">
+			<div class="overview-icon-container">
+				<p><?php _e( 'View KB', 'echo-knowledge-base' ); ?></p>
+            	<?php echo $link_output; ?>
+			</div>
         </div>
 
-		<div class="epkb-info-section epkb-info-main <?php echo $this->show_main_page ? '' : 'epkb-active-page'; ?>">
+		<!-- OVERVIEW -->
+		<div class="epkb-info-section epkb-info-main <?php echo $this->show_overview_page ? 'epkb-active-page' : ''; ?>">
 			<div class="overview-icon-container">
 				<p><?php _e( 'Overview', 'echo-knowledge-base' ); ?></p>
 				<div class="page-icon overview-icon ep_font_icon_data_report" id="epkb-config-overview"></div>
 			</div>
 		</div>
 
+		<div class="epkb-info-section epkb-info-main <?php echo $this->show_wizard_page ? 'epkb-active-page' : ''; ?>"">
+				<div class="wizard-icon-container">
+					<p><?php _e( 'Wizards', 'echo-knowledge-base' ); ?></p>
+					<div class="page-icon wizard-icon epkbfa epkbfa-magic" id="epkb-config-wizards"></div>
+				</div>
+		</div>
+		<div class="epkb-info-section epkb-info-main">
+			<div class="wizard-icon-container">
+				<p><?php _e( 'Advanced', 'echo-knowledge-base' ); ?></p>
+				<div class="page-icon wizard-icon epkbfa epkbfa-puzzle-piece" id="epkb-config-advanced-config"></div>
+			</div>
+		</div>
+		
+		<div class="epkb-info-section epkb-info-old-button epkb-info-main" <?php if ($this->kb_config['article-structure-version'] == 'version-2') echo 'style="display: none;"'; ?>>
+			<div class="wizard-icon-container">
+				<p><?php _e( 'Old Config', 'echo-knowledge-base' ); ?></p>
+				<div class="page-icon wizard-icon epkbfa epkbfa-sitemap" id="epkb-config-open-old"></div>
+			</div>
+		</div>
+		
+
 		<!--  MAIN PAGE BUTTONS -->
-		<div class="epkb-info-section epkb-info-pages <?php echo $this->show_main_page ? 'epkb-active-page' : ''; ?>" id="epkb-main-page-button">
+		<div class="epkb-info-section epkb-info-pages epkb-info-old <?php echo $this->show_main_page ? 'epkb-active-page' : ''; ?>" id="epkb-main-page-button">
 			<div class="page-icon-container">
 				<p><?php _e( 'Main Page', 'echo-knowledge-base' ); ?></p>
 				<div class="page-icon ep_font_icon_flow_chart" id="epkb-main-page"></div>
@@ -805,7 +920,7 @@ class EPKB_KB_Config_Page {
 		</div>
 
 		<!--  ARTICLE PAGE BUTTONS -->
-		<div class="epkb-info-section epkb-info-pages" id="epkb-article-page-button">
+		<div class="epkb-info-section epkb-info-pages epkb-info-old" id="epkb-article-page-button">
 			<div class="page-icon-container">
 				<p><?php _e( 'Article Page', 'echo-knowledge-base' ); ?></p>
 				<div class="page-icon ep_font_icon_document" id="epkb-article-page"></div>
@@ -813,7 +928,7 @@ class EPKB_KB_Config_Page {
 		</div>
 
 		<!--  CATEGORY/TAG PAGE BUTTON -->
-		<div class="epkb-info-section epkb-info-pages" id="epkb-archive-page-button">
+		<div class="epkb-info-section epkb-info-pages epkb-info-old" id="epkb-archive-page-button">
 			<div class="page-icon-container">
 				<p><?php _e( 'Archive Page', 'echo-knowledge-base' ); ?></p>
 				<div class="page-icon epkbfa epkbfa-archive" id="epkb-archive-page"></div>
@@ -827,7 +942,7 @@ class EPKB_KB_Config_Page {
 				'main_class'        => 'epkb_save_kb_config',
 				'action'            => 'epkb_save_kb_config',
 				'input_class'       => 'epkb-info-settings-button success-btn',
-			) );   ?>
+			) ); 			 ?>
 		</div>      <?php
 	}
 
@@ -841,17 +956,33 @@ class EPKB_KB_Config_Page {
 	/**
 	 * Display individual preview panels
 	 */
-	private function display_main_panel() {       ?>
-
-		<div class="epkb-config-content" id="epkb-config-overview-content" <?php echo $this->show_main_page ? 'style="display: none;"' : ''; ?>>   <?php
+	private function display_main_panel() {		?>
+		<div class="epkb-config-content" id="epkb-config-overview-content" <?php echo $this->show_overview_page ? '' : 'style="display: none;"'; ?>>   <?php
 			EPKB_KB_Config_Overview::display_overview( $this->kb_config, $this->feature_specs, $this->form );  	?>
-		</div>
+		</div>		<?php
 
-		<div class="epkb-config-content" id="epkb-main-page-content" <?php echo $this->show_main_page ? '' : 'style="display: none;"'; ?>>    <?php
+		EPKB_KB_Config_Wizards::display_page( $this->kb_config['id'], $this->show_wizard_page );
+		EPKB_KB_Config_Advanced::display_page( $this->kb_config );         		   ?>
+
+		<div class="epkb-config-content" id="epkb-main-page-content" <?php echo $this->show_main_page ? '' : 'style="display: none;"'; ?>>			<?php
+			$this->form->submit_button( array(
+				'label'             => __( 'Preview Changes', 'echo-knowledge-base' ),
+				'id'                => 'epkb_update_preview',
+				'main_class'        => 'epkb_update_preview',
+				'action'            => 'epkb_save_kb_config', // the same action because we have 2 submit buttons
+				'input_class'       => 'epkb-info-settings-button epkb-update-preview-button primary-btn',
+			) );
 			$this->display_kb_main_page_layout_preview();     ?>
 		</div>
 
-		<div class="epkb-config-content" id="epkb-article-page-content" style="display: none;">    <?php
+		<div class="epkb-config-content" id="epkb-article-page-content" style="display: none;">			<?php
+			$this->form->submit_button( array(
+				'label'             => __( 'Preview Changes', 'echo-knowledge-base' ),
+				'id'                => 'epkb_update_preview',
+				'main_class'        => 'epkb_update_preview',
+				'action'            => 'epkb_save_kb_config', // the same action because we have 2 submit buttons
+				'input_class'       => 'epkb-info-settings-button epkb-update-preview-button primary-btn',
+			) );
 			$this->display_article_page_layout_preview( true );     ?>
 		</div>
 
@@ -859,7 +990,7 @@ class EPKB_KB_Config_Page {
 			$this->display_archive_page_layout_preview();     ?>
 		</div>
 
-		<input type="hidden" id="epkb_kb_id" value="<?php echo $this->kb_config['id']; ?>"/>   <?php
+		<input type="hidden" id="epkb_config_kb_id" value="<?php echo $this->kb_config['id']; ?>"/>   <?php
 	}
 
 	/**
@@ -874,18 +1005,18 @@ class EPKB_KB_Config_Page {
 		global $eckb_is_kb_main_page;
 
 		// retrieve KB preview using Current KB or Demo KB
-		/* if ( isset($_REQUEST['epkb-demo']) || ( isset($_POST['epkb_demo_kb']) && $_POST['epkb_demo_kb'] == "true" ) ) {
+		if ( EPKB_Utilities::post('epkb-wizard-demo-data', false, false) ) {
 			$demo_data = EPKB_KB_Demo_Data::get_category_demo_data( $this->kb_main_page_layout, $this->kb_config );
 			$category_seq_data = $demo_data['category_seq'];
 			$articles_seq_data = $demo_data['article_seq'];
-		} */
+			$this->kb_config['wizard-icons'] = $demo_data['category_icons'];
+		}
 
 		$eckb_is_kb_main_page = true;   // pretend this is Main Page
 		$main_page_output = EPKB_Layouts_Setup::output_main_page( $this->kb_config, true, $articles_seq_data, $category_seq_data );
 
 		// setup test icons
-		/* if ( $this->kb_main_page_layout == EPKB_KB_Config_Layouts::GRID_LAYOUT &&
-		     ( isset($_REQUEST['epkb-demo']) || ( isset($_POST['epkb_demo_kb']) && $_POST['epkb_demo_kb'] == "true" ) ) ) {
+		if ( $this->kb_main_page_layout == EPKB_KB_Config_Layouts::GRID_LAYOUT && EPKB_Utilities::post('epkb-wizard-demo-data', false, false) ) {
 			$count = 2;
 			$main_page_output = preg_replace( '/ep_font_icon_document/', 'ep_font_icon_person', $main_page_output, $count );
 			$main_page_output = preg_replace( '/ep_font_icon_document/', 'ep_font_icon_shopping_cart', $main_page_output, $count );
@@ -893,7 +1024,7 @@ class EPKB_KB_Config_Page {
 			$main_page_output = preg_replace( '/ep_font_icon_document/', 'ep_font_icon_tag', $main_page_output, $count );
 			$main_page_output = preg_replace( '/ep_font_icon_document/', 'ep_font_icon_credit_card', $main_page_output, $count );
 			$main_page_output = preg_replace( '/ep_font_icon_document/', 'ep_font_icon_building', $main_page_output, $count );
-		} */
+		}
 		
 		if ( $display ) {
 			echo $main_page_output;
@@ -913,12 +1044,14 @@ class EPKB_KB_Config_Page {
 	public function display_article_page_layout_preview( $display=false, $articles_seq_data=array(), $category_seq_data=array() ) {
 		global $eckb_is_kb_main_page;
 
+		$eckb_is_kb_main_page = false;      // for preview set Article Page
+
 		// setup either current KB or demo KB data
-		/* if ( isset($_POST['epkb_demo_kb']) && $_POST['epkb_demo_kb'] == "true" ) {
+		if ( ( isset($_POST['epkb_demo_kb']) && $_POST['epkb_demo_kb'] == "true" ) || ! empty($_POST['epkb-wizard-demo-data']) ) {
 			$demo_data = EPKB_KB_Demo_Data::get_category_demo_data( $this->kb_config['kb_article_page_layout'], $this->kb_config );
 			$category_seq_data = $demo_data['category_seq'];
 			$articles_seq_data = $demo_data['article_seq'];
-        } */
+        }
 
         $temp_config = $this->kb_config;
 
@@ -926,25 +1059,72 @@ class EPKB_KB_Config_Page {
         $demo_article->ID = 0;
 		$demo_article->post_title = __( 'Demo Article', 'echo-knowledge-base' );
 		$demo_article->post_content = wp_kses_post( EPKB_KB_Demo_Data::get_demo_article() );
+		$demo_article->post_date = current_time( 'mysql' );
 		$demo_article->post_modified = current_time( 'mysql' );
+		$demo_article->is_demo = true;
         $demo_article = new WP_Post( $demo_article );
 
 		$temp_config[EPKB_Articles_Admin::KB_ARTICLES_SEQ_META] = $articles_seq_data;
 		$temp_config[EPKB_Categories_Admin::KB_CATEGORIES_SEQ_META] = $category_seq_data;
 
-		$eckb_is_kb_main_page = false;      // for preview set Article Page
-        if ( EPKB_KB_Config_Layouts::is_article_page_displaying_sidebar( $this->kb_config['kb_article_page_layout'] ) ) {
-            $article_page_output = EPKB_Articles_Setup::output_article_page_with_layout( $demo_article->post_content, $temp_config, true, $articles_seq_data, $category_seq_data );
-        } else {
-	        $article_page_output = EPKB_Articles_Setup::get_article_content_and_features( $demo_article, $demo_article->post_content, $temp_config );
+		// for article structure V2 we need to pass to elay demo data this way
+		if ( EPKB_Articles_Setup::is_article_structure_v2( $this->kb_config )  ) {
+			$GLOBALS['epkb-articles-seq-data'] = $articles_seq_data;
+			$GLOBALS['epkb-categories-seq-data'] = $category_seq_data;
+		}
+
+		$article_page_output = EPKB_Articles_Setup::get_article_content_and_features( $demo_article, $demo_article->post_content, $temp_config );
+		
+        if ( EPKB_KB_Config_Layouts::is_article_page_displaying_sidebar( $this->kb_config['kb_article_page_layout'] ) && ! EPKB_Articles_Setup::is_article_structure_v2( $this->kb_config ) ) {
+			$article_page_output = EPKB_Articles_Setup::output_article_page_with_layout( $article_page_output, $temp_config, true, $articles_seq_data, $category_seq_data );
         }
 
-        echo $display? $article_page_output : '';
+        echo $display ? $article_page_output : '';
 
 		return $article_page_output;
 	}
 
-	public function display_archive_page_layout_preview (){	}
+	/**
+	 * Only with Demo mode
+	 * @param bool $display
+	 * @return string|void
+	 */
+	public function display_archive_page_layout_preview ( $display = false ){
+
+		if ( empty($this->kb_config['templates_for_kb_category_archive_page_style']) ) {
+			return;
+		}
+
+		// Just images for now 
+		// TODO: add demo archive template to have live preview 
+		
+		$img_url = Echo_Knowledge_Base::$plugin_url . 'img/features-wizard/';
+		
+		switch ( $this->kb_config['templates_for_kb_category_archive_page_style'] ) {
+			case 'eckb-category-archive-style-1':
+				$img_url .= 'wizard-archive-style-1.jpg';
+				break;
+			case 'eckb-category-archive-style-2':
+				$img_url .= 'wizard-archive-style-2.jpg';
+				break;
+			case 'eckb-category-archive-style-3':
+				$img_url .= 'wizard-archive-style-3.jpg';
+				break;
+			case 'eckb-category-archive-style-4':
+				$img_url .= 'wizard-archive-style-4.jpg';
+				break;
+			case 'eckb-category-archive-style-5':
+				$img_url .= 'wizard-archive-style-5.jpg';
+				break;
+				
+		}
+		
+		$archive_page_output = '<img src="' . $img_url . '" class="epkb-wizard-text-archive-page-preview-image">';
+		
+		echo $display ? $archive_page_output : '';
+
+		return $archive_page_output;
+	}
 
 
 	/**************************************************************************************
@@ -967,6 +1147,10 @@ class EPKB_KB_Config_Page {
             <div class="epkb-sidebar-container" id="epkb-article-page-settings">
                 <?php $this->display_article_page_sections(); ?>
             </div>
+
+	        <div class="epkb-sidebar-container" id="epkb-archive-page-settings">
+		        <?php $this->display_archive_page_sections(); ?>
+	        </div>
 
             <div id='epkb-ajax-in-progress' style="display:none;">
                 <?php esc_html__( 'Saving configuration', 'echo-knowledge-base' ); ?> <img class="epkb-ajax waiting" style="height: 30px;" src="<?php echo Echo_Knowledge_Base::$plugin_url . 'img/loading_spinner.gif'; ?>">
@@ -1012,8 +1196,7 @@ class EPKB_KB_Config_Page {
                 $arg_bn_margin_right  = $feature_specs['templates_for_kb_margin_right'] + array( 'value' => $this->kb_config['templates_for_kb_margin_right'], 'current' => $this->kb_config['templates_for_kb_margin_right'], 'text_class' => 'config-col-6' );
 
                 $form->option_group( $feature_specs, array(
-                    'info'              => array( 'templates_for_kb_padding_top', 'templates_for_kb_padding_bottom', 'templates_for_kb_padding_left', 'templates_for_kb_padding_right', 'templates_for_kb_article_reset', 'templates_for_kb_article_defaults', 'templates_display_main_page_main_title'  ),
-                    'option-heading'    => __( 'Templates', 'echo-knowledge-base' ),
+                    'option-heading'    => 'Templates',
                     'class'             => 'eckb-mm-mp-links-setup-main-template',
                     'inputs'            => array(
 	                    '0' => $form->checkbox( $feature_specs['templates_for_kb_article_reset'] + array(
@@ -1043,7 +1226,7 @@ class EPKB_KB_Config_Page {
 			                    'input_group_class' => '',
 			                    'main_label_class'  => '',
 			                    'input_class'       => '',
-			                    'label'             => 'Padding( px )'
+			                    'label'             => 'Template Padding( px )'
 		                    ),
 		                    array( $arg_bn_padding_top, $arg_bn_padding_bottom, $arg_bn_padding_left, $arg_bn_padding_right )
 	                    ),
@@ -1053,7 +1236,7 @@ class EPKB_KB_Config_Page {
 			                    'input_group_class' => '',
 			                    'main_label_class'  => '',
 			                    'input_class'       => '',
-			                    'label'             => 'Margin( px )'
+			                    'label'             => 'Template Margin( px )'
 		                    ),
 		                    array( $arg_bn_margin_top, $arg_bn_margin_bottom , $arg_bn_margin_left, $arg_bn_margin_right )
 	                    ),
@@ -1090,25 +1273,24 @@ class EPKB_KB_Config_Page {
             );
 
             // Grid Layout does not show articles
-            if ( $this->kb_main_page_layout != 'Grid' ) {
+            //if ( $this->kb_main_page_layout != 'Grid' ) {
                 $sequence_widets[1] = $this->form->radio_buttons_vertical(
                     $this->feature_specs['articles_display_sequence'] +
                     array(
                         'id'        => 'front-end-columns',
                         'value'     => $this->kb_config['articles_display_sequence'],
                         'current'   => $this->kb_config['articles_display_sequence'],
-                        'input_group_class' => 'config-col-12',
+                        'input_group_class' => 'config-col-12' . ( ($this->kb_main_page_layout == 'Grid') ? ' epkb-grid-option-hide-show' : ''),
                         'main_label_class'  => 'config-col-12',
                         'input_class'       => 'config-col-12',
                         'radio_class'       => 'config-col-12'
                     )
                 );
-            }
+            //}
 
             $this->form->option_group( $this->feature_specs, array(
                 'option-heading'    => 'Organize Categories and Articles',
                 'class'             => 'eckb-mm-mp-links-organize--organize',
-                'info' => array( 'categories_display_sequence', 'articles_display_sequence' ),
                 'inputs' => $sequence_widets
             ));            ?>
             </div>
@@ -1171,7 +1353,8 @@ class EPKB_KB_Config_Page {
 
 	private function display_article_page_sections() {
 		echo $this->get_article_page_templates_form();
-		echo $this->get_article_page_order_form();
+		echo $this->get_article_page_version_2();
+		//echo $this->get_article_page_order_form();
         echo $this->get_article_page_features_form();
         echo $this->get_article_page_styles_form();
         echo $this->get_article_page_colors_form();
@@ -1203,7 +1386,6 @@ class EPKB_KB_Config_Page {
                 $article_margin_right  = $feature_specs['templates_for_kb_article_margin_right']    + array( 'value' => $this->kb_config['templates_for_kb_article_margin_right'],      'current' => $this->kb_config['templates_for_kb_article_margin_right'],     'text_class' => 'config-col-6' );
 
                 $form->option_group( $feature_specs, array(
-	                'info'              => array( 'templates_for_kb_article_padding_top', 'templates_for_kb_article_padding_bottom', 'templates_for_kb_article_padding_left', 'templates_for_kb_article_padding_right', 'templates_for_kb_article_margin_top', 'templates_for_kb_article_margin_bottom', 'templates_for_kb_article_margin_left','templates_for_kb_article_margin_right' ),
 	                'option-heading'    => 'Article Template',
 	                'class'             => 'eckb-mm-mp-links-setup-article-template',
 	                'inputs'            => array(
@@ -1235,6 +1417,159 @@ class EPKB_KB_Config_Page {
 
 		return ob_get_clean();
 
+	}
+
+	/**
+	 * Generate form fields for the Article Version 2
+	 */
+	public function get_article_page_version_2() {
+		ob_start();
+		$feature_specs = EPKB_KB_Config_Specs::get_fields_specification( $this->kb_config['id'] );
+		$form = new EPKB_KB_Config_Elements();		?>
+
+		<div class="epkb-config-sidebar" id="epkb-config-article-features-sidebar">
+			<div class="epkb-config-sidebar-options">   			 <?php
+
+				 // Container
+				 $form->option_group( $feature_specs, array(
+					 'option-heading'    => 'Article Main',
+					 'class'             => 'eckb-mm-ap-links-tuning-articlestructure-setup',
+					 'inputs'            => array(
+						 '0' => $form->text( $feature_specs['article-container-desktop-width-v2'] +
+							 array( $this->kb_config['article-container-desktop-width-v2'],
+								 'value'             => $this->kb_config['article-container-desktop-width-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+						 '1' => $form->dropdown( $feature_specs['article-container-desktop-width-units-v2'] + array(
+								 'value' => $this->kb_config['article-container-desktop-width-units-v2'],
+								 'current' => $this->kb_config['article-container-desktop-width-units-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class' => 'config-col-5',
+								 'input_class' => 'config-col-4'
+							 ) ),
+					 )
+				 ));
+
+				 // Left Sidebar
+				 $form->option_group( $feature_specs, array(
+					 'option-heading'    => 'Article - Left Sidebar',
+					 'class'             => 'eckb-mm-ap-links-tuning-articlestructure-setup',
+					 'inputs'            => array(
+						
+						 // Sidebar width
+						 '1' => $form->text( $feature_specs['article-left-sidebar-desktop-width-v2'] +
+							 array( $this->kb_config['article-left-sidebar-desktop-width-v2'],
+								 'value'             => $this->kb_config['article-left-sidebar-desktop-width-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+						 // Sidebar Padding
+						 '2' => $form->text( $feature_specs['article-left-sidebar-padding-v2'] +
+							 array( $this->kb_config['article-left-sidebar-padding-v2'],
+								 'value'             => $this->kb_config['article-left-sidebar-padding-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+						 // Sidebar Background Color
+						 '3' => $form->text( $feature_specs['article-left-sidebar-background-color-v2'] + array(
+								 'value' =>  $this->kb_config['article-left-sidebar-background-color-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'class'             => 'ekb-color-picker',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-7 ekb-color-picker'
+							 ) ),
+					 )
+				 ));
+
+				 // Content
+				 $form->option_group( $feature_specs, array(
+					 'option-heading'    => 'Article - Content Area',
+					 'class'             => 'eckb-mm-ap-links-tuning-articlestructure-setup',
+					 'inputs'            => array(
+						 // Content Width ( 20% )
+						 '0' => $form->text( $feature_specs['article-content-desktop-width-v2'] +
+							 array( $this->kb_config['article-content-desktop-width-v2'],
+								 'value'             => $this->kb_config['article-content-desktop-width-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+						 // Content Padding ( 20 ) px
+						 '1' => $form->text( $feature_specs['article-content-padding-v2'] +
+							 array( $this->kb_config['article-content-padding-v2'],
+								 'value'             => $this->kb_config['article-content-padding-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+						 // Content Background Color
+						 '2' => $form->text( $feature_specs['article-content-background-color-v2'] + array(
+								 'value' =>  $this->kb_config['article-content-background-color-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'class'             => 'ekb-color-picker',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-7 ekb-color-picker'
+							 ) ),
+					 )
+				 ));
+
+				 // Right Sidebar
+				 $form->option_group( $feature_specs, array(
+					 'option-heading'    => 'Article - Right Sidebar',
+					 'class'             => 'eckb-mm-ap-links-tuning-articlestructure-setup',
+					 'inputs'            => array(
+						 // Sidebar width
+						 '1' => $form->text( $feature_specs['article-right-sidebar-desktop-width-v2'] +
+							 array( $this->kb_config['article-right-sidebar-desktop-width-v2'],
+								 'value'             => $this->kb_config['article-right-sidebar-desktop-width-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+						 // Sidebar Padding
+						 '2' => $form->text( $feature_specs['article-right-sidebar-padding-v2'] +
+							 array( $this->kb_config['article-right-sidebar-padding-v2'],
+								 'value'             => $this->kb_config['article-right-sidebar-padding-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+						 // Sidebar Background Color
+						 '3' => $form->text( $feature_specs['article-right-sidebar-background-color-v2'] + array(
+								 'value' =>  $this->kb_config['article-right-sidebar-background-color-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'class'             => 'ekb-color-picker',
+								 'label_class'       => 'config-col-5',
+								 'input_class'       => 'config-col-7 ekb-color-picker'
+							 ) ),
+					 )
+				 ));
+
+				 //Advanced Settings
+				 $form->option_group( $feature_specs, array(
+					 'option-heading'    => 'Advanced',
+					 'class'             => 'eckb-mm-ap-links-tuning-articlestructure-setup',
+					 'inputs'            => array(
+
+						 // Small Screen ( Mobile ) 1 Column Layout Breakpoint. This will make the 3 Columns turn into 1 column stacked layout.
+						 '0' => $form->text( $feature_specs['article-mobile-break-point-v2'] +
+							 array( $this->kb_config['article-mobile-break-point-v2'],
+								 'value'             => $this->kb_config['article-mobile-break-point-v2'],
+								 'input_group_class' => 'config-col-12',
+								 'label_class'       => 'config-col-6',
+								 'input_class'       => 'config-col-5'
+							 ) ),
+					 )
+				 ));
+
+				 ?>
+			 </div>
+		 </div>
+		<?php return ob_get_clean();
 	}
 
 	/**
@@ -1277,7 +1612,6 @@ class EPKB_KB_Config_Page {
 				$this->form->option_group( $this->feature_specs, array(
 					'option-heading'    => 'Organize Categories and Articles',
 					'class'             => 'eckb-mm-ap-links-organize--organize',
-					'info' => array( 'categories_display_sequence', 'articles_display_sequence' ),
 					'inputs' => $sequence_widets
 				));            ?>
 			</div>
@@ -1311,9 +1645,6 @@ class EPKB_KB_Config_Page {
                 $arg_bn_margin_right  = $feature_specs['back_navigation_margin_right'] + array( 'value' => $this->kb_config['back_navigation_margin_right'], 'current' => $this->kb_config['back_navigation_margin_right'], 'text_class' => 'config-col-6' );
 
                 $form->option_group( $feature_specs, array(
-                    'info'              => array('back_navigation_toggle', 'back_navigation_mode', 'back_navigation_text', 'back_navigation_text_color', 'back_navigation_bg_color',
-                        'back_navigation_border_color', 'back_navigation_font_size', 'back_navigation_border', 'back_navigation_border_radius',
-                        'back_navigation_border_radius', 'back_navigation_border_width'),
                     'option-heading'    => 'Back Navigation',
                     'class'             => 'eckb-mm-ap-links-features-features-backnavigation',
                     'inputs'            => array(
@@ -1384,15 +1715,9 @@ class EPKB_KB_Config_Page {
                                 'label_class'       => 'config-col-5',
                                 'input_class'       => 'config-col-5'
                             ) ),
-
-
                     )
                 ));
                 $form->option_group( $feature_specs, array(
-                    'info'              => array(
-                            'back_navigation_padding_top', 'back_navigation_padding_bottom', 'back_navigation_padding_left', 'back_navigation_padding_right',
-                            'back_navigation_margin_top', 'back_navigation_margin_bottom', 'back_navigation_margin_left', 'back_navigation_margin_right'
-                    ),
                     'option-heading'    => 'Back Navigation - Advanced',
                     'class'             => 'eckb-mm-ap-links-features-features-backnavigation',
                     'inputs'            => array(
@@ -1422,7 +1747,6 @@ class EPKB_KB_Config_Page {
 
                 // FEATURES - Comments
                 $form->option_group( $feature_specs, array(
-                    'info'              => array('articles_comments_global'),
                     'option-heading'    => 'Comments',
                     'class'             => 'eckb-mm-ap-links-features-features-comments',
                     'inputs'            => array(
@@ -1434,11 +1758,193 @@ class EPKB_KB_Config_Page {
                                 'input_class'       => 'config-col-9'	) ),
                     )
                 ));
+				
+				// FEATURES - TOC
+
+	            $arg1_active_heading = $feature_specs['article_toc_active_bg_color'] + array( 'value' => $this->kb_config['article_toc_active_bg_color'],
+	                                                                                            'current' => $this->kb_config['article_toc_active_bg_color'], 'class' => 'ekb-color-picker', 'text_class' => 'config-col-6' );
+	            $arg2_active_heading = $feature_specs['article_toc_active_text_color'] + array( 'value' => $this->kb_config['article_toc_active_text_color'],
+	                                                                                   'current' => $this->kb_config['article_toc_active_text_color'], 'class' => 'ekb-color-picker', 'text_class' => 'config-col-6' );
+
+	            $arg1_cursor_hover = $feature_specs['article_toc_cursor_hover_bg_color'] + array( 'value' => $this->kb_config['article_toc_cursor_hover_bg_color'],
+	                                                                                          'current' => $this->kb_config['article_toc_cursor_hover_bg_color'], 'class' => 'ekb-color-picker', 'text_class' => 'config-col-6' );
+	            $arg2_cursor_hover = $feature_specs['article_toc_cursor_hover_text_color'] + array( 'value' => $this->kb_config['article_toc_cursor_hover_text_color'],
+	                                                                                            'current' => $this->kb_config['article_toc_cursor_hover_text_color'], 'class' => 'ekb-color-picker', 'text_class' => 'config-col-6' );
+
+	            $form->option_group( $feature_specs, array(
+                    'option-heading'    => 'TOC Settings',
+                    'class'             => 'eckb-mm-ap-links-features-features-articletoc',
+                    'inputs'            => array(
+                        '0' => $form->checkbox( $feature_specs['article_toc_enable'] + array(
+                                'value'             => $this->kb_config['article_toc_enable'],
+		                        'current'           => $this->kb_config['article_toc_enable'],
+                                'input_group_class' => 'config-col-12',
+                                'label_class'       => 'config-col-5',
+                                'input_class'       => 'config-col-5'
+							) ),
+                        '1' => $form->text( $feature_specs['article_toc_title'] + array(
+		                        'value'             => $this->kb_config['article_toc_title'],
+		                        'input_group_class' => 'config-col-12',
+		                        'label_class'       => 'config-col-5',
+		                        'input_class'       => 'config-col-5'
+	                        ) ),
+                        '2' => $form->radio_buttons_vertical( $feature_specs['article_toc_position'] + array(
+		                        'value' => $this->kb_config['article_toc_position'],
+		                        'current' => $this->kb_config['article_toc_position'],
+		                        'input_group_class' => 'config-col-12 ' . $this->kb_config['kb_main_page_layout'],
+		                        'main_label_class'  => 'config-col-5',
+		                        'input_class'       => 'config-col-7',
+		                        'radio_class'       => 'config-col-12'
+	                        ) ),
+                        '3' => $form->text( $feature_specs['article_toc_font_size'] + array(
+		                        'value'             => $this->kb_config['article_toc_font_size'],
+		                        'input_group_class' => 'config-col-12',
+		                        'class'             => 'ekb-color-picker',
+		                        'label_class'       => 'config-col-5',
+		                        'input_class'       => 'config-col-5'
+	                        ) ),
+						'4' => $form->radio_buttons_vertical( $feature_specs['article_toc_start_level'] + array(
+                                'value' => $this->kb_config['article_toc_start_level'],
+								'current' => $this->kb_config['article_toc_start_level'],
+					            'input_group_class' => 'config-col-12',
+					            'main_label_class'  => 'config-col-5',
+					            'input_class'       => 'config-col-7',
+					            'radio_class'       => 'config-col-12'
+                            ) ),
+                        '5' => $form->text( $feature_specs['article_toc_scroll_offset'] + array(
+                                'value' => $this->kb_config['article_toc_scroll_offset'],
+                                'input_group_class' => 'config-col-12',
+                                'label_class'       => 'config-col-5',
+                                'input_class'       => 'config-col-5'
+                            ) ),
+						'6' => $form->text( $feature_specs['article_toc_exclude_class'] + array(
+                                'value' => $this->kb_config['article_toc_exclude_class'],
+                                'input_group_class' => 'config-col-12',
+                                'label_class'       => 'config-col-5',
+                                'input_class'       => 'config-col-5'
+                            ) ),
+						'7' => $form->radio_buttons_vertical( $feature_specs['article_toc_border_mode'] + array(
+                                'value' => $this->kb_config['article_toc_border_mode'],
+								'current' => $this->kb_config['article_toc_border_mode'],
+					            'input_group_class' => 'config-col-12',
+					            'main_label_class'  => 'config-col-5',
+					            'input_class'       => 'config-col-7',
+					            'radio_class'       => 'config-col-12'
+                            ) ),
+						'8' => $form->text( $feature_specs['article_toc_position_from_top'] + array(
+                                'value'             => $this->kb_config['article_toc_position_from_top'],
+                                'input_group_class' => 'config-col-12',
+                                'class'             => 'ekb-color-picker',
+                                'label_class'       => 'config-col-5',
+                                'input_class'       => 'config-col-5'
+                            ) ),
+                        '9' => $form->text( $feature_specs['article_toc_gutter'] + array(
+		                        'value'             => $this->kb_config['article_toc_gutter'],
+		                        'input_group_class' => 'config-col-12',
+		                        'class'             => 'ekb-color-picker',
+		                        'label_class'       => 'config-col-5',
+		                        'input_class'       => 'config-col-5'
+	                        ) ),
+						/*'13' => $form->text( $feature_specs['article_toc_position_from_content'] + array(
+                                'value'             => $this->kb_config['article_toc_position_from_content'],
+                                'input_group_class' => 'config-col-12',
+                                'class'             => 'ekb-color-picker',
+                                'label_class'       => 'config-col-5',
+                                'input_class'       => 'config-col-5'
+                            ) ),*/
+                    )
+                ));
+
+	            // FEATURES - TOC - COLORS
+	            $form->option_group( $feature_specs, array(
+		            'option-heading'    => 'TOC Colors',
+		            'class'             => 'eckb-mm-ap-links-features-features-articletoc',
+		            'inputs'            => array(
+			            '1' => $form->text( $feature_specs['article_toc_text_color'] + array(
+					            'value'             => $this->kb_config['article_toc_text_color'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5 ekb-color-picker'
+				            ) ),
+			            '2' => $form->text( $feature_specs['article_toc_background_color'] + array(
+					            'value'             => $this->kb_config['article_toc_background_color'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5 ekb-color-picker'
+				            ) ),
+			            '3' => $form->text( $feature_specs['article_toc_border_color'] + array(
+					            'value'             => $this->kb_config['article_toc_border_color'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5 ekb-color-picker'
+				            ) ),
+			            '4' => $form->text_fields_horizontal( array(
+				            'id'                => 'article_list',
+				            'input_group_class' => 'config-col-12',
+				            'main_label_class'  => 'config-col-4',
+				            'input_class'       => 'config-col-7 ekb-color-picker',
+				            'label'             => 'Active Heading'
+			            ), $arg1_active_heading, $arg2_active_heading ),
+			            '5' => $form->text_fields_horizontal( array(
+				            'id'                => 'article_list',
+				            'input_group_class' => 'config-col-12',
+				            'main_label_class'  => 'config-col-4',
+				            'input_class'       => 'config-col-7 ekb-color-picker',
+				            'label'             => 'Cursor Hover'
+			            ), $arg1_cursor_hover, $arg2_cursor_hover ),
+		            )
+	            ));
+
+	            // FEATURES - TOC - ADVANCED
+	            $form->option_group( $feature_specs, array(
+		            'option-heading'    => 'TOC Advanced',
+		            'class'             => 'eckb-mm-ap-links-features-features-articletoc',
+		            'inputs'            => array(
+			            '1' => $form->text( $feature_specs['article_toc_width_1'] + array(
+					            'value'             => $this->kb_config['article_toc_width_1'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5'
+				            ) ),
+			            '2' => $form->text( $feature_specs['article_toc_media_1'] + array(
+					            'value'             => $this->kb_config['article_toc_media_1'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5'
+				            ) ),
+			            '3' => $form->text( $feature_specs['article_toc_width_2'] + array(
+					            'value'             => $this->kb_config['article_toc_width_2'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5'
+				            ) ),
+			            '4' => $form->text( $feature_specs['article_toc_media_2'] + array(
+					            'value'             => $this->kb_config['article_toc_media_2'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5'
+				            ) ),
+			            '5' => $form->text( $feature_specs['article_toc_media_3'] + array(
+					            'value'             => $this->kb_config['article_toc_media_3'],
+					            'input_group_class' => 'config-col-12',
+					            'class'             => 'ekb-color-picker',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-5'
+				            ) ),
+		            )
+	            ));
+
 
 
                 // FEATURES - Breadcrumb
                 $form->option_group( $feature_specs, array(
-                    'info'              => array( 'breadcrumb_toggle','breadcrumb_font_size', 'breadcrumb_icon_separator', 'breadcrumb_text_color', 'breadcrumb_description_text', 'breadcrumb_home_text'),
                     'option-heading'    => 'Breadcrumb',
                     'class'             => 'eckb-mm-ap-links-features-features-breadcrumb',
                     'inputs'            => array(
@@ -1499,7 +2005,6 @@ class EPKB_KB_Config_Page {
 
 
 	            $form->option_group( $feature_specs, array(
-                    'info'              => array( 'breadcrumb_padding_top', 'breadcrumb_padding_bottom', 'breadcrumb_padding_left', 'breadcrumb_padding_right' ,'breadcrumb_margin_top', 'breadcrumb_margin_bottom', 'breadcrumb_margin_left', 'breadcrumb_margin_right'),
                     'option-heading'    => 'Breadcrumb - Advanced',
                     'class'             => 'eckb-mm-ap-links-features-features-breadcrumb',
                     'inputs'            => array(
@@ -1529,7 +2034,6 @@ class EPKB_KB_Config_Page {
 
 	            // FETAURES - other
 	            $form->option_group( $feature_specs, array(
-		            'info'              => array('last_udpated_on', 'last_udpated_on_text'),
 		            'option-heading'    => 'Other',
 		            'class'             => 'eckb-mm-ap-links-features-features-other',
 		            'inputs'            => array(
@@ -1546,23 +2050,57 @@ class EPKB_KB_Config_Page {
 					            'label_class'       => 'config-col-5',
 					            'input_class'       => 'config-col-7'
 				            ) ),
+			            '2' => $form->radio_buttons_vertical( $feature_specs['created_on'] + array(
+					            'value'             => $this->kb_config['created_on'],
+					            'current'           => $this->kb_config['created_on'],
+					            'input_group_class' => 'config-col-12',
+					            'main_label_class'  => 'config-col-4',
+					            'input_class'       => 'config-col-8',
+					            'radio_class'       => 'config-col-12')),
+			            '3' => $form->text( $feature_specs['created_on_text'] + array(
+					            'value'             => $this->kb_config['created_on_text'],
+					            'input_group_class' => 'config-col-12',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-7'
+				            ) ),
+						'4' => $form->radio_buttons_vertical( $feature_specs['author_mode'] + array(
+					            'value'             => $this->kb_config['author_mode'],
+					            'current'           => $this->kb_config['author_mode'],
+					            'input_group_class' => 'config-col-12',
+					            'main_label_class'  => 'config-col-4',
+					            'input_class'       => 'config-col-8',
+					            'radio_class'       => 'config-col-12')),
+			            '5' => $form->text( $feature_specs['author_text'] + array(
+					            'value'             => $this->kb_config['author_text'],
+					            'input_group_class' => 'config-col-12',
+					            'label_class'       => 'config-col-5',
+					            'input_class'       => 'config-col-7'
+				            ) ),					
+						'6' => $form->radio_buttons_vertical( $feature_specs['article_meta_icon_on'] + array(
+					            'value'             => $this->kb_config['article_meta_icon_on'],
+					            'current'           => $this->kb_config['article_meta_icon_on'],
+					            'input_group_class' => 'config-col-12',
+					            'main_label_class'  => 'config-col-4',
+					            'input_class'       => 'config-col-8',
+					            'radio_class'       => 'config-col-12'
+							) ),		
+                        /* '7' => $form->dropdown( $feature_specs['date_format'] + array(
+                                'value'             => $this->kb_config['date_format'],
+                                'current'           => $this->kb_config['date_format'],
+		                        'input_group_class' => 'config-col-12',
+		                        'label_class'       => 'config-col-5',
+		                        'input_class'       => 'config-col-7'
+                            ) ), */
+			            '8' => $form->dropdown( $feature_specs['categories_layout_list_mode'] + array(
+					            'value' => $this->kb_config['categories_layout_list_mode'],
+					            'current' => $this->kb_config['categories_layout_list_mode'],
+					            'input_group_class' => 'config-col-12',
+					            'main_label_class'  => 'config-col-3',
+					            'label_class' => 'config-col-5',
+					            'input_class' => 'config-col-4'
+				            ) ),
 		            )
-	            ));
-
-
-                // FETAURES - Tags
-                /* $form->option_group( $feature_specs, array(
-                    'info'              => array( 'tags_toggle' ),
-                    'option-heading'    => 'Tags',
-                    'class'             => 'eckb-mm-ap-links-features-features-tags',
-                    'inputs'            => array(
-                        '0' => $form->checkbox( $feature_specs['tags_toggle'] + array(
-                                'value'             => $this->kb_config['tags_toggle'],
-                                'input_group_class' => 'config-col-12',
-                                'label_class'       => 'config-col-5',
-                                'input_class'       => 'config-col-2'
-                            ) ),
-                ))); */     ?>
+	            )); ?>
             </div>
         </div>      <?php
 
@@ -1573,7 +2111,6 @@ class EPKB_KB_Config_Page {
 	 * Generate form fields for the ARTICLE PAGE side bar
 	 */
 	public function get_article_page_general_form() {
-
 		ob_start();     ?>
 
 		<div class="epkb-config-sidebar" id="epkb-config-article-general-sidebar">
@@ -1658,6 +2195,190 @@ class EPKB_KB_Config_Page {
 		return ob_get_clean();
 	}
 
+	/**************************************************************************************
+	 *
+	 *                   CATEGORY ARCHIVE PAGE
+	 *
+	 *************************************************************************************/
+
+	/**
+	 * Generate form fields for the Archive Version 2
+	 */
+	private function display_archive_page_sections() {
+		echo $this->get_archive_page_version_2();
+	}
+
+	/**
+	 * Show the Archive Page section
+	 * @return false|string
+	 */
+	public function get_archive_page_version_2() {
+		ob_start();
+
+		$feature_specs = EPKB_KB_Config_Specs::get_fields_specification( $this->kb_config['id'] );
+		$form = new EPKB_KB_Config_Elements();		?>
+
+		<div class="epkb-config-sidebar" id="epkb-config-archive-features-sidebar">
+			<div class="epkb-config-sidebar-options">   					<?php
+
+				// Container
+				$form->option_group( $feature_specs, array(
+						'option-heading'    => 'Archive Main',
+						'class'             => 'eckb-mm-arch-links-tuning-pagestructure-setup',
+						'inputs'            => array(
+								'0' => $form->text( $feature_specs['archive-container-width-v2'] +
+								                    array( $this->kb_config['archive-container-width-v2'],
+										                    'value'             => $this->kb_config['archive-container-width-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-5',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+								'1' => $form->dropdown( $feature_specs['archive-container-width-units-v2'] + array(
+												'value' => $this->kb_config['archive-container-width-units-v2'],
+												'current' => $this->kb_config['archive-container-width-units-v2'],
+												'input_group_class' => 'config-col-12',
+												'label_class' => 'config-col-5',
+												'input_class' => 'config-col-4'
+										) ),
+						)
+				));
+
+				// Left Sidebar
+				$form->option_group( $feature_specs, array(
+						'option-heading'    => 'Archive - Left Sidebar',
+						'class'             => 'eckb-mm-arch-links-tuning-pagestructure-setup',
+						'inputs'            => array(
+							// Turn on left Sidebar
+								/* '0' => $form->checkbox( $feature_specs['archive-left-sidebar-on-v2'] + array(
+												'value'             => $this->kb_config['archive-left-sidebar-on-v2'],
+												'id'                => 'archive-left-sidebar-on-v2',
+												'input_group_class' => 'config-col-12',
+												'label_class'       => 'config-col-5',
+												'input_class'       => 'config-col-2'
+										) ), */
+							// Sidebar width
+								'1' => $form->text( $feature_specs['archive-left-sidebar-width-v2'] +
+								                    array( $this->kb_config['archive-left-sidebar-width-v2'],
+										                    'value'             => $this->kb_config['archive-left-sidebar-width-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-5',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+							// Sidebar Padding
+								'2' => $form->text( $feature_specs['archive-left-sidebar-padding-v2'] +
+								                    array( $this->kb_config['archive-left-sidebar-padding-v2'],
+										                    'value'             => $this->kb_config['archive-left-sidebar-padding-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-5',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+							// Sidebar Background Color
+								'3' => $form->text( $feature_specs['archive-left-sidebar-background-color-v2'] + array(
+												'value' =>  $this->kb_config['archive-left-sidebar-background-color-v2'],
+												'input_group_class' => 'config-col-12',
+												'class'             => 'ekb-color-picker',
+												'label_class'       => 'config-col-5',
+												'input_class'       => 'config-col-7 ekb-color-picker'
+										) ),
+						)
+				));
+
+				// Content
+				$form->option_group( $feature_specs, array(
+						'option-heading'    => 'Archive - Content Area',
+						'class'             => 'eckb-mm-arch-links-tuning-pagestructure-setup',
+						'inputs'            => array(
+							// Content Width
+								'0' => $form->text( $feature_specs['archive-content-width-v2'] +
+								                    array( $this->kb_config['archive-content-width-v2'],
+										                    'value'             => $this->kb_config['archive-content-width-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-5',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+							// Content Padding
+								'1' => $form->text( $feature_specs['archive-content-padding-v2'] +
+								                    array( $this->kb_config['archive-content-padding-v2'],
+										                    'value'             => $this->kb_config['archive-content-padding-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-5',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+							// Content Background Color
+								'2' => $form->text( $feature_specs['archive-content-background-color-v2'] + array(
+												'value' =>  $this->kb_config['archive-content-background-color-v2'],
+												'input_group_class' => 'config-col-12',
+												'class'             => 'ekb-color-picker',
+												'label_class'       => 'config-col-5',
+												'input_class'       => 'config-col-7 ekb-color-picker'
+										) ),
+						)
+				));
+
+				// Right Sidebar
+
+				/*$form->option_group( $feature_specs, array(
+						'option-heading'    => 'Archive - Right Sidebar',
+						'class'             => 'eckb-mm-arch-links-tuning-pagestructure-setup',
+						'inputs'            => array(
+							// Turn on right Sidebar
+							'0' => $form->checkbox( $feature_specs['archive-right-sidebar-on-v2'] + array(
+												'value'             => $this->kb_config['archive-right-sidebar-on-v2'],
+												'id'                => 'archive-right-sidebar-on-v2',
+												'input_group_class' => 'config-col-12',
+												'label_class'       => 'config-col-5',
+												'input_class'       => 'config-col-2'
+										) ),
+							// Sidebar width
+								'1' => $form->text( $feature_specs['archive-right-sidebar-width-v2'] +
+								                    array( $this->kb_config['archive-right-sidebar-width-v2'],
+										                    'value'             => $this->kb_config['archive-right-sidebar-width-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-5',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+							// Sidebar Padding
+								'2' => $form->text( $feature_specs['archive-right-sidebar-padding-v2'] +
+								                    array( $this->kb_config['archive-right-sidebar-padding-v2'],
+										                    'value'             => $this->kb_config['archive-right-sidebar-padding-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-5',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+							// Sidebar Background Color
+								'3' => $form->text( $feature_specs['archive-right-sidebar-background-color-v2'] + array(
+												'value' =>  $this->kb_config['archive-right-sidebar-background-color-v2'],
+												'input_group_class' => 'config-col-12',
+												'class'             => 'ekb-color-picker',
+												'label_class'       => 'config-col-5',
+												'input_class'       => 'config-col-7 ekb-color-picker'
+										) ),
+						)
+				));*/
+
+				//Advanced Settings
+				$form->option_group( $feature_specs, array(
+						'option-heading'    => 'Advanced',
+						'class'             => 'eckb-mm-arch-links-tuning-pagestructure-setup',
+						'inputs'            => array(
+
+							// Small Screen ( Mobile ) 1 Column Layout Breakpoint. This will make the 3 Columns turn into 1 column stacked layout.
+								'0' => $form->text( $feature_specs['archive-mobile-break-point-v2'] +
+								                    array( $this->kb_config['archive-mobile-break-point-v2'],
+										                    'value'             => $this->kb_config['archive-mobile-break-point-v2'],
+										                    'input_group_class' => 'config-col-12',
+										                    'label_class'       => 'config-col-6',
+										                    'input_class'       => 'config-col-5'
+								                    ) ),
+						)
+				));				?>
+
+			</div>
+		</div>		<?php
+
+		return ob_get_clean();
+	}
+
 
 	/**************************************************************************************
 	 *
@@ -1665,10 +2386,16 @@ class EPKB_KB_Config_Page {
 	 *
 	 *************************************************************************************/
 
-	private function display_list_of_kbs() {
+	/**
+	 * Display list of KBs.
+	 *
+	 * @param $kb_config
+	 * @param bool $is_wizard_on
+	 */
+	public static function display_list_of_kbs( $kb_config, $is_wizard_on=false ) {
 
 		if ( ! defined('EM' . 'KB_PLUGIN_NAME') ) {
-			$kb_name = $this->kb_config[ 'kb_name' ];
+			$kb_name = $kb_config[ 'kb_name' ];
 			echo '<h1 class="epkb-kb-name">' . esc_html( $kb_name ) . '</h1>';
 			return;
 		}
@@ -1683,8 +2410,8 @@ class EPKB_KB_Config_Page {
 			}
 
 			$kb_name = $one_kb_config[ 'kb_name' ];
-			$active = ( $this->kb_config['id'] == $one_kb_config['id'] ? 'selected' : '' );
-			$tab_url = 'edit.php?post_type=' . EPKB_KB_Handler::KB_POST_TYPE_PREFIX . $one_kb_config['id'] . '&page=epkb-kb-configuration';
+			$active = ( $kb_config['id'] == $one_kb_config['id'] ? 'selected' : '' );
+			$tab_url = 'edit.php?post_type=' . EPKB_KB_Handler::KB_POST_TYPE_PREFIX . $one_kb_config['id'] . '&page=epkb-kb-configuration' . ( $is_wizard_on ? '&wizard-on' : '' );
 
 			$list_output .= '<option value="' . $one_kb_config['id'] . '" ' . $active . ' data-kb-admin-url=' . esc_url($tab_url) . '>' . esc_html( $kb_name ) . '</option>';
 			$list_output .= '</a>';
@@ -1725,6 +2452,17 @@ class EPKB_KB_Config_Page {
 			'inputs'            => array(
 				'0'         => $this->common_path_kb_main_page_slug( $selected_post_id ),
 				'1'         => $this->common_path_custom_slug( $common_path, $selected_post_id )
+			)
+		));
+		
+		$this->form->option_group( $this->feature_specs, array(
+			'option-heading'    => 'Category Path',
+			'info'              => '<p>This is recommended for advanced users, support will be at a minimum for more information about
+			                                       this feature read more information <a href="https://codex.wordpress.org/Glossary#Slug" target="_blank">here
+													on wordpress.org</a></p>',
+			'class'             => 'eckb-mm-ap-links-tuning-articlecommonpath-configuration eckb-mm-ap-links-tuning-articlecommonpath-configuration--category_template',
+			'inputs'            => array(
+				'0' => $this->categories_in_url_enabled( isset($this->kb_config['categories_in_url_enabled']) && ($this->kb_config['categories_in_url_enabled'] == 'on') )
 			)
 		));
 	}
@@ -1817,6 +2555,51 @@ class EPKB_KB_Config_Page {
                         </div>
                         <label class="config-col-10" for="<?php echo 'article_common_path_99' ?>">
                             <?php echo $label ?>
+                        </label>
+                    </li>
+
+                    <li class="config-col-12" style="color:red;"><?php _e( 'For expert users only. Backup your site first. This can break your site navigation! Limited support available.', 'echo-knowledge-base' ); ?></li>
+				</ul>
+			</div>
+		</div>		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Show categories radio box
+	 *
+	 * @param $is_enabled
+	 * @return string
+	 */
+	private function categories_in_url_enabled( $is_enabled ) {
+
+		ob_start(); ?>
+
+		<div class="kb_custom_slug kb_categories_url_group" id="kb_categories_url_group">
+			<h4 class="main_label config-col-12"><?php _e( 'Categories in URL', 'echo-knowledge-base' ); ?>:</h4>
+			<div class="radio-buttons-vertical config-col-12" id="">
+				<ul>
+                    <li class="config-col-12">
+                        <div class="input_container config-col-1">
+                            <input type="radio" name="categories_in_url_enabled"
+                                   id="<?php echo 'categories_in_url_enabled_on'; ?>"
+                                   value="on"
+                                <?php checked( $is_enabled ); ?> />
+                        </div>
+                        <label class="config-col-10" for="<?php echo 'categories_in_url_enabled_on' ?>">
+                            <?php _e( 'On', 'echo-knowledge-base' ); ?>
+                        </label>
+                    </li>
+					<li class="config-col-12">
+                        <div class="input_container config-col-1">
+                            <input type="radio" name="categories_in_url_enabled"
+                                   id="<?php echo 'categories_in_url_enabled_off'; ?>"
+                                   value="off"
+                                <?php checked( ! $is_enabled ); ?> />
+                        </div>
+                        <label class="config-col-10" for="<?php echo 'categories_in_url_enabled_off' ?>">
+                            <?php _e( 'Off', 'echo-knowledge-base' ); ?>
                         </label>
                     </li>
 

@@ -11,6 +11,10 @@ class WPCF7_ConfigValidator {
 	const error_file_not_found = 106;
 	const error_unavailable_names = 107;
 	const error_invalid_mail_header = 108;
+	const error_deprecated_settings = 109;
+	const error_file_not_in_content_dir = 110;
+	const error_unavailable_html_elements = 111;
+	const error_attachments_overweight = 112;
 
 	public static function get_doc_link( $error_code = '' ) {
 		$url = __( 'https://contactform7.com/configuration-errors/',
@@ -54,8 +58,8 @@ class WPCF7_ConfigValidator {
 			}
 
 			if ( $args['section']
-			&& $key != $args['section']
-			&& preg_replace( '/\..*$/', '', $key, 1 ) != $args['section'] ) {
+			and $key != $args['section']
+			and preg_replace( '/\..*$/', '', $key, 1 ) != $args['section'] ) {
 				continue;
 			}
 
@@ -64,7 +68,7 @@ class WPCF7_ConfigValidator {
 					continue;
 				}
 
-				if ( $args['code'] && $error['code'] != $args['code'] ) {
+				if ( $args['code'] and $error['code'] != $args['code'] ) {
 					continue;
 				}
 
@@ -99,8 +103,9 @@ class WPCF7_ConfigValidator {
 				}
 
 				$error_messages[$section][] = array(
-					'message' => esc_html( $message ),
-					'link' => esc_url( $link ) );
+					'message' => $message,
+					'link' => esc_url( $link ),
+				);
 			}
 		}
 
@@ -139,6 +144,8 @@ class WPCF7_ConfigValidator {
 				return __( "Multiple form controls are in a single label element.", 'contact-form-7' );
 			case self::error_invalid_mail_header:
 				return __( "There are invalid mail header fields.", 'contact-form-7' );
+			case self::error_deprecated_settings:
+				return __( "Deprecated settings are used.", 'contact-form-7' );
 			default:
 				return '';
 		}
@@ -165,9 +172,14 @@ class WPCF7_ConfigValidator {
 		}
 
 		foreach ( (array) $this->errors[$section] as $key => $error ) {
-			if ( isset( $error['code'] ) && $error['code'] == $code ) {
+			if ( isset( $error['code'] )
+			and $error['code'] == $code ) {
 				unset( $this->errors[$section][$key] );
 			}
+		}
+
+		if ( empty( $this->errors[$section] ) ) {
+			unset( $this->errors[$section] );
 		}
 	}
 
@@ -178,6 +190,7 @@ class WPCF7_ConfigValidator {
 		$this->validate_mail( 'mail' );
 		$this->validate_mail( 'mail_2' );
 		$this->validate_messages();
+		$this->validate_additional_settings();
 
 		do_action( 'wpcf7_config_validator_validate', $this );
 
@@ -231,31 +244,15 @@ class WPCF7_ConfigValidator {
 		$tagname = $matches[2];
 		$values = $matches[3];
 
-		if ( ! empty( $values ) ) {
-			preg_match_all( '/"[^"]*"|\'[^\']*\'/', $values, $matches );
-			$values = wpcf7_strip_quote_deep( $matches[0] );
-		}
-
-		$do_not_heat = false;
-
-		if ( preg_match( '/^_raw_(.+)$/', $tagname, $matches ) ) {
-			$tagname = trim( $matches[1] );
-			$do_not_heat = true;
-		}
-
-		$format = '';
-
-		if ( preg_match( '/^_format_(.+)$/', $tagname, $matches ) ) {
-			$tagname = trim( $matches[1] );
-			$format = $values[0];
-		}
+		$mail_tag = new WPCF7_MailTag( $tag, $tagname, $values );
+		$field_name = $mail_tag->field_name();
 
 		$example_email = 'example@example.com';
 		$example_text = 'example';
 		$example_blank = '';
 
 		$form_tags = $this->contact_form->scan_form_tags(
-			array( 'name' => $tagname ) );
+			array( 'name' => $field_name ) );
 
 		if ( $form_tags ) {
 			$form_tag = new WPCF7_FormTag( $form_tags[0] );
@@ -268,7 +265,7 @@ class WPCF7_ConfigValidator {
 
 			if ( wpcf7_form_tag_supports( $form_tag->type, 'selectable-values' ) ) {
 				if ( $form_tag->pipes instanceof WPCF7_Pipes ) {
-					if ( $do_not_heat ) {
+					if ( $mail_tag->get_option( 'do_not_heat' ) ) {
 						$before_pipes = $form_tag->pipes->collect_befores();
 						$last_item = array_pop( $before_pipes );
 					} else {
@@ -279,7 +276,7 @@ class WPCF7_ConfigValidator {
 					$last_item = array_pop( $form_tag->values );
 				}
 
-				if ( $last_item && wpcf7_is_mailbox_list( $last_item ) ) {
+				if ( $last_item and wpcf7_is_mailbox_list( $last_item ) ) {
 					return $example_email;
 				} else {
 					return $example_text;
@@ -292,13 +289,31 @@ class WPCF7_ConfigValidator {
 				return $example_text;
 			}
 
-		} else {
-			$tagname = preg_replace( '/^wpcf7\./', '_', $tagname ); // for back-compat
+		} else { // maybe special mail tag
+			// for back-compat
+			$field_name = preg_replace( '/^wpcf7\./', '_', $field_name );
 
-			if ( '_post_author_email' == $tagname ) {
-				return $example_email;
-			} elseif ( '_' == substr( $tagname, 0, 1 ) ) { // maybe special mail tag
+			if ( '_site_admin_email' == $field_name ) {
+				return get_bloginfo( 'admin_email', 'raw' );
+
+			} elseif ( '_user_agent' == $field_name ) {
 				return $example_text;
+
+			} elseif ( '_user_email' == $field_name ) {
+				return $this->contact_form->is_true( 'subscribers_only' )
+					? $example_email
+					: $example_blank;
+
+			} elseif ( '_user_' == substr( $field_name, 0, 6 ) ) {
+				return $this->contact_form->is_true( 'subscribers_only' )
+					? $example_text
+					: $example_blank;
+
+			} elseif ( '_' == substr( $field_name, 0, 1 ) ) {
+				return '_email' == substr( $field_name, -6 )
+					? $example_email
+					: $example_text;
+
 			}
 		}
 
@@ -310,6 +325,7 @@ class WPCF7_ConfigValidator {
 		$form = $this->contact_form->prop( 'form' );
 		$this->detect_multiple_controls_in_label( $section, $form );
 		$this->detect_unavailable_names( $section, $form );
+		$this->detect_unavailable_html_elements( $section, $form );
 	}
 
 	public function detect_multiple_controls_in_label( $section, $content ) {
@@ -325,6 +341,8 @@ class WPCF7_ConfigValidator {
 				foreach ( $tags as $tag ) {
 					$is_multiple_controls_container = wpcf7_form_tag_supports(
 						$tag->type, 'multiple-controls-container' );
+					$is_zero_controls_container = wpcf7_form_tag_supports(
+						$tag->type, 'zero-controls-container' );
 
 					if ( $is_multiple_controls_container ) {
 						$fields_count += count( $tag->values );
@@ -332,6 +350,8 @@ class WPCF7_ConfigValidator {
 						if ( $tag->has_option( 'free_text' ) ) {
 							$fields_count += 1;
 						}
+					} elseif ( $is_zero_controls_container ) {
+						$fields_count += 0;
 					} elseif ( ! empty( $tag->name ) ) {
 						$fields_count += 1;
 					}
@@ -367,7 +387,7 @@ class WPCF7_ConfigValidator {
 		$ng_names = array();
 
 		foreach ( $ng_named_tags as $tag ) {
-			$ng_names[] = $tag['name'];
+			$ng_names[] = sprintf( '"%s"', $tag->name );
 		}
 
 		if ( $ng_names ) {
@@ -376,9 +396,27 @@ class WPCF7_ConfigValidator {
 			return $this->add_error( $section,
 				self::error_unavailable_names,
 				array(
-					'message' => __( "Unavailable names (%names%) are used for form controls.", 'contact-form-7' ),
+					'message' =>
+						/* translators: %names%: a list of form control names */
+						__( "Unavailable names (%names%) are used for form controls.", 'contact-form-7' ),
 					'params' => array( 'names' => implode( ', ', $ng_names ) ),
 					'link' => self::get_doc_link( 'unavailable_names' ),
+				)
+			);
+		}
+
+		return false;
+	}
+
+	public function detect_unavailable_html_elements( $section, $content ) {
+		$pattern = '%(?:<form[\s\t>]|</form>)%i';
+
+		if ( preg_match( $pattern, $content ) ) {
+			return $this->add_error( $section,
+				self::error_unavailable_html_elements,
+				array(
+					'message' => __( "Unavailable HTML elements are used in the form template.", 'contact-form-7' ),
+					'link' => self::get_doc_link( 'unavailable_html_elements' ),
 				)
 			);
 		}
@@ -393,7 +431,8 @@ class WPCF7_ConfigValidator {
 			return;
 		}
 
-		if ( 'mail' != $template && empty( $components['active'] ) ) {
+		if ( 'mail' != $template
+		and empty( $components['active'] ) ) {
 			return;
 		}
 
@@ -422,7 +461,7 @@ class WPCF7_ConfigValidator {
 		$sender = wpcf7_strip_newline( $sender );
 
 		if ( ! $this->detect_invalid_mailbox_syntax( sprintf( '%s.sender', $template ), $sender )
-		&& ! wpcf7_is_email_in_site_domain( $sender ) ) {
+		and ! wpcf7_is_email_in_site_domain( $sender ) ) {
 			$this->add_error( sprintf( '%s.sender', $template ),
 				self::error_email_not_in_site_domain, array(
 					'link' => self::get_doc_link( 'email_not_in_site_domain' ),
@@ -454,11 +493,11 @@ class WPCF7_ConfigValidator {
 				continue;
 			}
 
-			if ( ! preg_match( '/^([0-9A-Za-z-]+):(.+)$/', $header, $matches ) ) {
+			if ( ! preg_match( '/^([0-9A-Za-z-]+):(.*)$/', $header, $matches ) ) {
 				$invalid_mail_header_exists = true;
 			} else {
 				$header_name = $matches[1];
-				$header_value = $matches[2];
+				$header_value = trim( $matches[2] );
 
 				if ( in_array( strtolower( $header_name ), $mailbox_header_types ) ) {
 					$this->detect_invalid_mailbox_syntax(
@@ -467,6 +506,8 @@ class WPCF7_ConfigValidator {
 							'message' =>
 								__( "Invalid mailbox syntax is used in the %name% field.", 'contact-form-7' ),
 							'params' => array( 'name' => $header_name ) ) );
+				} elseif ( empty( $header_value ) ) {
+					$invalid_mail_header_exists = true;
 				}
 			}
 		}
@@ -486,15 +527,67 @@ class WPCF7_ConfigValidator {
 		$this->detect_maybe_empty( sprintf( '%s.body', $template ), $body );
 
 		if ( '' !== $components['attachments'] ) {
-			foreach ( explode( "\n", $components['attachments'] ) as $line ) {
-				$line = trim( $line );
+			$attachables = array();
 
-				if ( '' === $line || '[' == substr( $line, 0, 1 ) ) {
+			$tags = $this->contact_form->scan_form_tags(
+				array( 'type' => array( 'file', 'file*' ) )
+			);
+
+			foreach ( $tags as $tag ) {
+				$name = $tag->name;
+
+				if ( false === strpos( $components['attachments'], "[{$name}]" ) ) {
 					continue;
 				}
 
-				$this->detect_file_not_found(
-					sprintf( '%s.attachments', $template ), $line );
+				$limit = (int) $tag->get_limit_option();
+
+				if ( empty( $attachables[$name] )
+				or $attachables[$name] < $limit ) {
+					$attachables[$name] = $limit;
+				}
+			}
+
+			$total_size = array_sum( $attachables );
+
+			$has_file_not_found = false;
+			$has_file_not_in_content_dir = false;
+
+			foreach ( explode( "\n", $components['attachments'] ) as $line ) {
+				$line = trim( $line );
+
+				if ( '' === $line
+				or '[' == substr( $line, 0, 1 ) ) {
+					continue;
+				}
+
+				$has_file_not_found = $this->detect_file_not_found(
+					sprintf( '%s.attachments', $template ), $line
+				);
+
+				if ( ! $has_file_not_found
+				and ! $has_file_not_in_content_dir ) {
+					$has_file_not_in_content_dir = $this->detect_file_not_in_content_dir(
+						sprintf( '%s.attachments', $template ), $line
+					);
+				}
+
+				if ( ! $has_file_not_found ) {
+					$path = path_join( WP_CONTENT_DIR, $line );
+					$total_size += (int) @filesize( $path );
+				}
+			}
+
+			$max = 25 * 1024 * 1024; // 25 MB
+
+			if ( $max < $total_size ) {
+				$this->add_error( sprintf( '%s.attachments', $template ),
+					self::error_attachments_overweight,
+					array(
+						'message' => __( "The total size of attachment files is too large.", 'contact-form-7' ),
+						'link' => self::get_doc_link( 'attachments_overweight' ),
+					)
+				);
 			}
 		}
 	}
@@ -529,7 +622,8 @@ class WPCF7_ConfigValidator {
 	public function detect_file_not_found( $section, $content ) {
 		$path = path_join( WP_CONTENT_DIR, $content );
 
-		if ( ! @is_readable( $path ) || ! @is_file( $path ) ) {
+		if ( ! is_readable( $path )
+		or ! is_file( $path ) ) {
 			return $this->add_error( $section,
 				self::error_file_not_found,
 				array(
@@ -537,6 +631,23 @@ class WPCF7_ConfigValidator {
 						__( "Attachment file does not exist at %path%.", 'contact-form-7' ),
 					'params' => array( 'path' => $content ),
 					'link' => self::get_doc_link( 'file_not_found' ),
+				)
+			);
+		}
+
+		return false;
+	}
+
+	public function detect_file_not_in_content_dir( $section, $content ) {
+		$path = path_join( WP_CONTENT_DIR, $content );
+
+		if ( ! wpcf7_is_file_path_in_content_dir( $path ) ) {
+			return $this->add_error( $section,
+				self::error_file_not_in_content_dir,
+				array(
+					'message' =>
+						__( "It is not allowed to use files outside the wp-content directory.", 'contact-form-7' ),
+					'link' => self::get_doc_link( 'file_not_in_content_dir' ),
 				)
 			);
 		}
@@ -552,7 +663,7 @@ class WPCF7_ConfigValidator {
 		}
 
 		if ( isset( $messages['captcha_not_match'] )
-		&& ! wpcf7_use_really_simple_captcha() ) {
+		and ! wpcf7_use_really_simple_captcha() ) {
 			unset( $messages['captcha_not_match'] );
 		}
 
@@ -576,4 +687,20 @@ class WPCF7_ConfigValidator {
 
 		return false;
 	}
+
+	public function validate_additional_settings() {
+		$deprecated_settings_used =
+			$this->contact_form->additional_setting( 'on_sent_ok' ) ||
+			$this->contact_form->additional_setting( 'on_submit' );
+
+		if ( $deprecated_settings_used ) {
+			return $this->add_error( 'additional_settings.body',
+				self::error_deprecated_settings,
+				array(
+					'link' => self::get_doc_link( 'deprecated_settings' ),
+				)
+			);
+		}
+	}
+
 }

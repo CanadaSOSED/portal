@@ -140,8 +140,8 @@ class To_Top_Admin {
 	}
 
 	/**
-	 * catchwebtools: add_plugin_settings_menu
-	 * add Catch Web Tools to menu
+	 * to_top: add_plugin_settings_menu
+	 * add To Top to menu
 	 */
 	public function add_plugin_settings_menu() {
 		//add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
@@ -149,8 +149,8 @@ class To_Top_Admin {
 	}
 
 	/**
-	 * catchwebtools: catch_web_tools_settings_page
-	 * Catch Web Tools Setting function
+	 * to_top: catch_web_tools_settings_page
+	 * To Top Setting function
 	 */
 	public function settings_page() {
 		if ( !current_user_can( 'manage_options' ) )  {
@@ -161,8 +161,8 @@ class To_Top_Admin {
 	}
 
 	/**
-	 * catchwebtools: register_settings
-	 * Catch Web Tools Register Settings
+	 * to_top: register_settings
+	 * To Top Register Settings
 	 */
 	public function register_settings() {
 		// register_setting( $option_group, $option_name, $sanitize_callback )
@@ -173,8 +173,34 @@ class To_Top_Admin {
 		);
 	}
 
+	function add_plugin_meta_links( $meta_fields, $file ){
+		if( TOTOP_BASENAME == $file ) {
+			$meta_fields[] = "<a href='https://catchplugins.com/support-forum/forum/to-top/' target='_blank'>Support Forum</a>";
+			$meta_fields[] = "<a href='https://wordpress.org/support/plugin/to-top/reviews#new-post' target='_blank' title='Rate'>
+			        <i class='ct-rate-stars'>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "<svg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg>"
+			  . "</i></a>";
+
+			$stars_color = "#ffb900";
+
+			echo "<style>"
+				. ".ct-rate-stars{display:inline-block;color:" . $stars_color . ";position:relative;top:3px;}"
+				. ".ct-rate-stars svg{fill:" . $stars_color . ";}"
+				. ".ct-rate-stars svg:hover{fill:" . $stars_color . "}"
+				. ".ct-rate-stars svg:hover ~ svg{fill:none;}"
+				. "</style>";
+		}
+
+		return $meta_fields;
+	}
+
+
 	/**
-	 * catchwebtools: catchwebtools_catch_updater_sanitize_callback
+	 * to_top: sanitize_callback
 	 * Catch Ids Sanitization function callback
 	 */
 	public function sanitize_callback( $input ){

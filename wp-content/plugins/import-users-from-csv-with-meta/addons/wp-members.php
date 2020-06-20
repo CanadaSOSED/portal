@@ -2,10 +2,12 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-if( is_plugin_active( 'wp-members/wp-members.php' ) ){
-	add_action( 'acui_tab_import_before_import_button', 'acui_wp_members_tab_import_before_import_button' );
-	add_action( 'acui_tab_frontend_before_save_button', 'acui_wp_members_tab_frontend_before_save_button' );
+if( !is_plugin_active( 'wp-members/wp-members.php' ) ){
+	return;
 }
+
+add_action( 'acui_tab_import_before_import_button', 'acui_wp_members_tab_import_before_import_button' );
+add_action( 'acui_tab_frontend_before_save_button', 'acui_wp_members_tab_frontend_before_save_button' );
 
 function acui_wp_members_tab_import_before_import_button(){
 	?>

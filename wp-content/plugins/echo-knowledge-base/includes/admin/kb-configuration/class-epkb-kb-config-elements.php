@@ -63,31 +63,106 @@ class EPKB_KB_Config_Elements {
 
             }           ?>
 
-	            <div class="option-info-content hidden">
-		            <h5 class="option-info-title">Help</h5>                    <?php
+            <div class="option-info-content hidden">
+	            <h5 class="option-info-title"><?php _e( 'Help', 'echo-knowledge-base' ); ?></h5>                    <?php
 
-                    if ( $feature_specs ) {
-	                    if ( is_array( $args['info']) ) {
-		                    foreach( $args['info'] as $item ) {
-			                    if ( empty($feature_specs[$item]) ) {
-				                    continue;
-			                    }
-
-			                    echo '<h6 style="padding-top:20px;">' . $feature_specs[$item]['label'] . '</h6>';
-			                    echo '<p>' . $feature_specs[$item]['info'] . '</p>';
+                if ( $feature_specs ) {
+                    if ( is_array( $args['info']) ) {
+	                    foreach( $args['info'] as $item ) {
+		                    if ( empty($feature_specs[$item]) ) {
+			                    continue;
 		                    }
-	                    } else {
-		                    echo '<p>' .$args['info']. '</p>';
-	                    }
-                    }		            ?>
 
-                </div>            <?php
+		                    echo '<h6 style="padding-top:20px;">' . $feature_specs[$item]['label'] . '</h6>';
+		                    echo '<p>' . $feature_specs[$item]['info'] . '</p>';
+	                    }
+                    } else {
+	                    echo '<p>' .$args['info']. '</p>';
+                    }
+                }		            ?>
+
+            </div>            <?php
 
             foreach ( $args['inputs'] as $input ) {
                 echo $input;
             }   ?>
 
         </div><!-- config-option-group -->        <?php
+	}
+
+	/**
+	 * Display configuration options
+	 * @param $feature_specs
+	 * @param array $args
+	 */
+	public function option_group_wizard( $feature_specs, $args = array() ) {
+
+		$defaults = array(
+			'info' => '',
+			'option-heading' => '',
+			'class' => ' ',
+			'addition_info' => '',
+		);
+		$args = array_merge( $defaults, $args );
+
+		// there might be multiple classes
+		$classes = explode(' ', $args['class']);
+		$class_string = '';
+		foreach( $classes as $class ) {
+			$class_string .= $class . '-content ';
+		}
+
+		$depends = '';
+		
+		if ( isset($args['depends']) ) {
+			$depends = "data-depends='" . htmlspecialchars( json_encode( $args['depends'] ), ENT_QUOTES, 'UTF-8' ) . "'";
+		}		?>
+
+		<div class="<?php echo $class_string; ?>" <?php echo $depends; ?>>	        <?php
+
+			if ( $args['option-heading'] ) {    ?>
+				<div class="eckb-wizard-option-heading">
+					<h4><?php echo __( $args['option-heading'], 'echo-knowledge-base' ); ?>
+						<span class="epkbfa epkbfa-caret-right"></span>
+						<span class="epkbfa epkbfa-caret-down"></span>
+					</h4>
+					<span class="ep_font_icon_info option-info-icon"></span>
+				</div>            <?php
+
+			} else {     ?>
+				<div class="config-option-info">
+					<span class="ep_font_icon_info option-info-icon"></span>
+				</div>            <?php
+
+			}           ?>
+
+			<div class="option-info-content hidden">
+				<h5 class="option-info-title"><?php _e( 'Help', 'echo-knowledge-base' ); ?></h5>                    <?php
+				if ( $feature_specs ) {
+					if ( is_array( $args['info']) ) {
+						foreach( $args['info'] as $item ) {
+							if ( empty($feature_specs[$item]) ) {
+								continue;
+							}
+							echo '<h6>' . $feature_specs[$item]['label'] . '</h6>';
+							echo '<p>' . $feature_specs[$item]['info'] . '</p>';
+						}
+					} else {
+						echo '<p>' .$args['info']. '</p>';
+					}
+				}		            ?>
+			</div>            <?php
+
+			foreach ( $args['inputs'] as $input ) {
+				echo $input;
+			}
+
+			// Add content after Settings
+			if ( ! empty($args['addition_info']) ) {
+				echo '<div class="eckb-wizard-default-note">' . $args['addition_info'] . '</div>';
+			}		?>
+
+		</div><!-- config-option-group -->        <?php
 	}
 
 	private function add_defaults( array $input_array, array $custom_defaults=array() ) {
@@ -111,7 +186,7 @@ class EPKB_KB_Config_Elements {
 			'readonly'          => false,  // will not be submitted
 			'required'          => '',
 			'autocomplete'      => false,
-			'data'              => false,
+			'data'              => array(),
 			'disabled'          => false,
 			'size'              => 3,
 			'max'               => 50,
@@ -140,7 +215,7 @@ class EPKB_KB_Config_Elements {
 			'readonly'          => false,  // will not be submitted
 			'required'          => '',
 			'autocomplete'      => false,
-			'data'              => false,
+			'data'              => array(),
 			'disabled'          => false,
 			'size'              => 3,
 			'max'               => 50,
@@ -166,14 +241,21 @@ class EPKB_KB_Config_Elements {
 		$readonly       = $args['readonly'] ? ' readonly' : '';
 
 		$data = '';
-		if ( ! empty( $args['data'] ) ) {
-			foreach ( $args['data'] as $key => $value ) {
-				$data .= 'data-' . $key . '="' . $value . '" ';
-			}
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
 		}
+
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-single-text-example ';
+		}
+
 		ob_start();		?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >			<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-single-dropdown-text__icon epkbfa epkbfa-eye"></div>';
+			}   ?>
 
 			<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id ?>">
 				<?php echo esc_html( $args['label'] )?>
@@ -181,13 +263,13 @@ class EPKB_KB_Config_Elements {
 
 			<div class="input_container <?php echo esc_html( $args['input_class'] ); ?>" id="">
 				<input type="text"
-				       name="<?php echo $id ?>"
-				       id="<?php echo $id ?>"
+				       name=        "<?php echo $id; ?>"
+				       id=          "<?php echo $id; ?>"
 				       autocomplete="<?php echo $autocomplete; ?>"
-				       value="<?php echo esc_attr( $args['value'] ); ?>"
-				       placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>"						<?php
+				       value=       "<?php echo esc_attr( $args['value'] ); ?>"
+				       placeholder= "<?php echo esc_attr( $args['placeholder'] ); ?>"						<?php
 						echo $data . ' ' . $readonly						?>
-                       maxlength="<?php echo $args['max']; ?>"/>
+                       maxlength=   "<?php echo $args['max']; ?>"/>
 			</div>
 
 		</div>		<?php
@@ -216,10 +298,24 @@ class EPKB_KB_Config_Elements {
 		}
 
 		$id =  esc_attr( $args['name'] );
+		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
 
-		ob_start();		?>
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-single-text-example ';
+		}
+		
+		ob_start();
+		$inputText = trim($args['value']);  ?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" ><?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-single-dropdown-text__icon epkbfa epkbfa-eye"></div>';
+			}   ?>
 
 		<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id ?>">
 			<?php echo esc_html( $args['label'] )?>
@@ -229,9 +325,9 @@ class EPKB_KB_Config_Elements {
 					   rows="<?php echo esc_attr( $args['rows'] ); ?>"
 				       name="<?php echo esc_attr( $args['name'] ); ?>"
 				       id="<?php echo $id ?>"
-				       value="<?php echo esc_attr( $args['value'] ); ?>"
 				       placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>"
-					<?php echo $disabled; ?> >
+					<?php echo $data . ' ' . $disabled; ?> >
+					<?php echo esc_attr( $inputText ); ?>
 				</textarea>
 			</div>
 
@@ -252,14 +348,36 @@ class EPKB_KB_Config_Elements {
 		$defaults = array(
 			'name'         => 'checkbox',
 			'class'        => '',
+			'disabled'     => false
 		);
 		$args = $this->add_defaults( $args, $defaults );
 		$id             =  esc_attr( $args['name'] );
 		$checked = checked( "on", $args['value'], false );
+		
+		if ( $args['disabled'] ) {
+			$disabled = 'disabled="disabled"';
+			$args['input_group_class'] .= ' eckb-wizard-single-checkbox-disabled ';
+		} else {
+			$disabled = '';
+		}
+		
+		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
+
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-single-checkbox-example ';
+		}
 
 		ob_start();		?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id; ?>_group">
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id; ?>_group">			<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-single-checkbox-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
 
 			<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id; ?>">
 				<?php echo esc_html( $args['label'] ); ?>
@@ -270,7 +388,7 @@ class EPKB_KB_Config_Elements {
 				       name="<?php echo $id ?>"
 				       id="<?php echo $id ?>"
 				       value="on"
-				       <?php echo $checked; ?> />
+				       <?php echo $data . ' ' . $checked . ' ' . $disabled; ?> />
 			</div>
 
 		</div>		<?php
@@ -296,11 +414,24 @@ class EPKB_KB_Config_Elements {
 		$name =  esc_attr( $args['name'] );
 		$checked = checked( 1, $args['value'], false );
 
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
+
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-single-radio-btn-example ';
+		}
+
 		ob_start();		?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group">
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group">			<?php
 
-			<input type="radio" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo esc_attr( $args['value'] ); ?>" <?php echo $checked; ?> />
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-single-radio-btn-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
+
+			<input type="radio" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo esc_attr( $args['value'] ); ?>" <?php echo $data . ' ' . $checked; ?> />
 
 			<label class="<?php echo esc_attr( $args['label_class'] )?>" for="<?php echo $id ?>"><?php echo esc_html( $args['label'] )?></label>
 
@@ -324,16 +455,31 @@ class EPKB_KB_Config_Elements {
 		$args = $this->add_defaults( $args, $defaults );
 
 		$id =  esc_attr( $args['name'] );
+		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
+
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-single-dropdown-example ';
+		}
+
 		ob_start();		?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group">
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group">			<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-single-dropdown-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
+
 			<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id ?>">
 				<?php echo esc_html( $args['label'] )?>
 			</label>
 
 			<div class="input_container <?php echo esc_html( $args['input_class'] )?>" id="">
 
-				<select name="<?php echo $id ?>" id="<?php echo $id ?>">     <?php
+				<select name="<?php echo $id ?>" id="<?php echo $id ?>" <?php echo $data; ?>>     <?php
 					foreach( $args['options'] as $key => $label ) {
 						$selected = selected( $key, $args['current'], false );
 						echo '<option value="' . esc_attr($key) . '"' . $selected . '>' . esc_html($label) . '</option>';
@@ -363,9 +509,23 @@ class EPKB_KB_Config_Elements {
 		$args = $this->add_defaults( $args, $defaults );
 		$id =  esc_attr( $args['name'] );
 		$ix = 0;
+		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
+
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-radio-btn-horizontal-example ';
+		}
+
         ob_start();        ?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >		<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-radio-btn-horizontal-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
 
 			<span class="main_label <?php echo esc_html( $args['main_label_class'] )?>">
 				<?php echo esc_html( $args['label'] ); ?>
@@ -388,7 +548,7 @@ class EPKB_KB_Config_Elements {
 							       name="<?php echo esc_attr( $args['name'] ); ?>"
 							       id="<?php echo $id.$ix; ?>"
 							       value="<?php echo esc_attr( $key ); ?>"  <?php
-									echo $checked;	?>/>
+									echo $data . ' ' . $checked;	?>/>
 						</div>
 
 						<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id.$ix ?>">
@@ -425,15 +585,28 @@ class EPKB_KB_Config_Elements {
 		$id =  esc_attr( $args['name'] );
 		$ix = 0;
 		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
+
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-radio-btn-vertical-example ';
+		}
+
 		ob_start();		?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >            <?php
-		
-        if ( ! empty($args['label']) ) {     ?>
-			<span class="main_label <?php echo esc_html( $args['main_label_class'] )?>">
-				<?php echo esc_html( $args['label'] ); ?>
-			</span>            <?php
-        }                       ?>
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >		<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-radio-btn-vertical-example__icon epkbfa epkbfa-eye"></div>';
+			}
+
+	        if ( ! empty($args['label']) ) {     ?>
+				<span class="main_label <?php echo esc_html( $args['main_label_class'] )?>">
+					<?php echo esc_html( $args['label'] ); ?>
+				</span>            <?php
+	        }                       ?>
 
 			<div class="radio-buttons-vertical <?php echo esc_html( $args['input_class'] )?>" id="<?php echo $id ?>">
                 <ul>	                <?php
@@ -453,7 +626,7 @@ class EPKB_KB_Config_Elements {
                                        name="<?php echo esc_attr( $args['name'] ); ?>"
                                        id="<?php echo $id . $ix; ?>"
                                        value="<?php echo esc_attr( $key ); ?>"					                <?php
-                                       echo $checked; ?> />
+                                       echo $data . ' ' . $checked; ?> />
                             </div>
                             <label class="<?php echo esc_html( $args['label_class'] )?> config-col-10" for="<?php echo $id.$ix ?>">
 				                <?php echo esc_html( $label )?>
@@ -495,6 +668,7 @@ class EPKB_KB_Config_Elements {
 		<?php
 	}
 
+	// deprecated ?
 	public function radio_buttons_icons_list( $args = array() ) {
 
 		$defaults = array(
@@ -537,7 +711,7 @@ class EPKB_KB_Config_Elements {
                                        value="<?php echo esc_attr( $key ); ?>"					                <?php
                                        echo $checked; ?> />
 	                            <label class="<?php echo esc_html( $args['label_class'] )?> config-col-10" for="<?php echo $id.$ix; ?>">
-		                            <i class="epkbfa <?php echo esc_html( $key );  ?>"></i>
+		                            <i class="epkbfa <?php echo str_replace( ' fa-','epkbfa-' ,esc_html( $key ) );  ?>"></i>
 		                            <span class="epkb-label"><?php echo EPKB_Icons::format_font_awesome_icon_name( $label );        ?></span>
 	                            </label>
                             </div>
@@ -572,12 +746,26 @@ class EPKB_KB_Config_Elements {
 
 		$ix = 0;
 		$id =  esc_attr( $args['name'] );
+		
+		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
 
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-radio-btn-vertical-v2-example ';
+		}
+		
 		if ( $args['return_html'] ) {
 			ob_start();
-		} ?>
+		}		?>
 
-		<li class="input_group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
+		<li class="input_group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >			<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-radio-btn-vertical-v2-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
 
 			<span class="main_label <?php echo esc_html( $args['main_label_class'] )?>"><?php echo esc_html( $args['label'] ); ?></span>
 
@@ -599,7 +787,7 @@ class EPKB_KB_Config_Elements {
 							       name="<?php echo esc_attr( $args['name'] ); ?>"
 							       id="<?php echo $id; ?>"
 							       value="<?php echo esc_attr( $key ); ?>"									<?php
-							echo $checked;	?>
+								echo $data . ' ' . $checked;	?>
 							/>
 
 							<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id; ?>">
@@ -620,22 +808,47 @@ class EPKB_KB_Config_Elements {
 		return '';
 	}
 
-	public function multiple_number_inputs($common = array() , $inputs = array() ) {
+	public function multiple_number_inputs($args = array() , $inputs = array() ) {
 		ob_start();
 		
 		$defaults = array(
 			'name'         => 'text',
 			'class'        => '',
 		);
-		$common = $this->add_common_defaults( $common, $defaults );		?>
+		$args = $this->add_common_defaults( $args, $defaults );
+		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
 
-        <div class="config-input-group eckb-multiple-number-group <?php echo esc_html( $common['input_group_class'] )?>" id="<?php echo $common['id']; ?>_group" >
-            <span class="main_label <?php echo esc_html( $common['main_label_class'] )?>"><?php echo esc_html( $common['label'] ); ?></span>
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-multiple-number-group-example ';
+		}		?>
+
+        <div class="config-input-group eckb-multiple-number-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $args['id']; ?>_group" >	        <?php
+
+	        if ( ! empty($args['data']['example_image']) ) {
+		        echo '<div class="eckb-wizard-multiple-number-group-example__icon epkbfa epkbfa-eye"></div>';
+	        }	        ?>
+
+	        <span class="main_label <?php echo esc_html( $args['main_label_class'] )?>"><?php echo esc_html( $args['label'] ); ?></span>
             <div class="number-inputs-container">                <?php
 
                 foreach( $inputs as $input ) {
+					
+					// rewrite $data if need 
+					if ( ! empty( $input['data'] ) ) {
+						$input_data = '';
+						foreach ( $input['data'] as $key => $value ) {
+							$input_data .= 'data-' . $key . '="' . $value . '" ';
+						}
+					} else {
+						$input_data = $data;
+					}
+					
                     echo '<div class="number-input">';
-                        echo '<input type="number" name="'.esc_attr( $input['name'] ).'" id="'.esc_attr( $input['name'] ).'" value="'.esc_attr( $input['value'] ).'">';
+                        echo '<input type="number" name="'.esc_attr( $input['name'] ).'" id="'.esc_attr( $input['name'] ).'" value="'.esc_attr( $input['value'] ).'" ' . $input_data . '>';
                         echo '<label for="'.esc_attr( $input['name'] ).'">'.esc_html( $input['label'] ).'</label>';
                     echo '</div>';
                 }                ?>
@@ -662,15 +875,21 @@ class EPKB_KB_Config_Elements {
 		$disabled       = $args[ 'disabled' ] ? ' disabled="disabled"' : '';
 
 		$data = '';
-		if ( ! empty( $args['data'] ) ) {
-			foreach ( $args['data'] as $key => $value ) {
-				$data .= 'data-' . $key . '="' . $value . '" ';
-			}
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
+
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-horizontal-text-example ';
 		}
 
 		ob_start();		?>
 
-		<div class="<?php echo esc_html( $args['text_class'] )?>">
+		<div class="<?php echo esc_html( $args['text_class'] )?>">		<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-horizontal-text-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
 
 			<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id; ?>">
 				<?php echo esc_html( $args['label'] )?>
@@ -692,15 +911,16 @@ class EPKB_KB_Config_Elements {
 	}
 
 	/**
-	 * Renders two text fields. The second text field depends in some way on the first one
+	 * Renders two (three) text fields. The second text field depends in some way on the first one
 	 *
 	 * @param array $common - configuration for the main classes
 	 * @param array $args1  - configuration for the first text field
 	 * @param array $args2  - configuration for the second field
+	 * @param array $args3  - configuration for the second field - not required 
 	 *
 	 * @return string
 	 */
-	public function text_fields_horizontal( $common = array(), $args1 = array(), $args2 = array() ) {
+	public function text_fields_horizontal( $common = array(), $args1 = array(), $args2 = array(), $args3 = array() ) {
 
 		$defaults = array(
 			'name'         => 'text',
@@ -711,15 +931,32 @@ class EPKB_KB_Config_Elements {
 
 		$args1 = $this->add_defaults( $args1, $defaults );
 		$args2 = $this->add_defaults( $args2, $defaults );
+		
+		if ( $args3 ) {
+			$args3 = $this->add_defaults( $args3, $defaults );	
+		}
 
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-text-fields-horizontal-example ';
+		}
+		
 		ob_start();		?>
 
-		<div class="config-input-group <?php echo esc_html( $common['input_group_class'] )?>" id="<?php echo $common['id']; ?>_group" >
+		<div class="config-input-group <?php echo esc_html( $common['input_group_class'] )?>" id="<?php echo $common['id']; ?>_group" >			<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-text-fields-horizontal-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
+
 			<span class="main_label <?php echo esc_html( $common['main_label_class'] )?>"><?php echo esc_html( $common['label'] ); ?></span>
 			<div class="text-fields-horizontal <?php echo esc_html( $common['input_class'] )?>">				  <?php
 
 					echo $this->horizontal_text_input($args1);
-					echo $this->horizontal_text_input($args2);			  ?>
+					echo $this->horizontal_text_input($args2);
+					
+					if ($args3) {
+						echo $this->horizontal_text_input($args3);
+					}					?>
 
 			</div>
 		</div>		<?php
@@ -741,9 +978,18 @@ class EPKB_KB_Config_Elements {
 		$args1 = $this->add_defaults( $args1 );
 		$args2 = $this->add_defaults( $args2 );
 		$common = $this->add_common_defaults( $common );
-		ob_start();		?>
+		ob_start();
 
-		<div class="config-input-group <?php echo esc_html( $common['input_group_class'] )?>" id="<?php echo $common['id']; ?>_group" >
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-text-and-select-fields-horizontal-example ';
+		}		?>
+
+		<div class="config-input-group <?php echo esc_html( $common['input_group_class'] )?>" id="<?php echo $common['id']; ?>_group" >			<?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-text-and-select-fields-horizontal-example__icon epkbfa epkbfa-eye"></div>';
+			}			?>
+
 			<span class="main_label <?php echo esc_html( $common['main_label_class'] )?>"><?php echo esc_html( $common['label'] ); ?></span>
 			<div class="text-select-fields-horizontal <?php echo esc_html( $common['input_class'] )?>">
 				<ul>  <?php
@@ -777,10 +1023,23 @@ class EPKB_KB_Config_Elements {
 		$args = $this->add_defaults( $args, $defaults );
 		$id =  esc_attr( $args['name'] );
 		$ix = 0;
+		
+		$data = '';
+		foreach ( $args['data'] as $key => $value ) {
+			$data .= 'data-' . $key . '="' . $value . '" ';
+		}
 
+		if ( ! empty($args['data']['example_image']) ) {
+			$args['input_group_class'] =  $args['input_group_class'] . ' eckb-wizard-single-text-example ';
+		}
+		
 		ob_start();		?>
 
-		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
+		<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" ><?php
+
+			if ( ! empty($args['data']['example_image']) ) {
+				echo '<div class="eckb-wizard-single-dropdown-text__icon epkbfa epkbfa-eye"></div>';
+			}   ?>
 
 			<span class="main_label <?php echo esc_html( $args['main_label_class'] )?>"><?php echo esc_html( $args['label'] ); ?></span>
 
@@ -802,7 +1061,7 @@ class EPKB_KB_Config_Elements {
 						<div class="config-input-group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id; ?>_group">
 							<?php
 							if ( $is_multi_select_not ) { ?>
-								<input type="hidden" value="<?php echo esc_attr( $key . '[[-HIDDEN-]]' . $label ); ?>" name="<?php echo esc_attr( $args['name'] ) . '_' . $ix; ?>">
+								<input type="hidden" value="<?php echo esc_attr( $key . '[[-HIDDEN-]]' . $label ); ?>" name="<?php echo esc_attr( $args['name'] ) . '_' . $ix; ?>" <?php echo $data; ?>>
 							<?php }	?>
 
 							<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id.$ix; ?>">
@@ -814,7 +1073,7 @@ class EPKB_KB_Config_Elements {
 								       name="<?php echo $id. '_' . $ix; ?>"
 								       id="<?php echo $id.$ix; ?>"
 								       value="<?php echo esc_attr( $key . '[[-,-]]' . $label ); ?>"
-									<?php echo $checked; ?>	/>
+									<?php echo $data . ' ' . $checked; ?>	/>
 							</div>
 						</div>   	<?php
 
@@ -850,7 +1109,7 @@ class EPKB_KB_Config_Elements {
 			<div class="input_container <?php echo esc_html( $args['input_class'] ); ?>">     <?php
 				// loading WP Editor with Ajax is problematic so it will be loaded ahead of time for Ajax situations
 				if ( $inside_dialog ) {
-					echo '<div id="eckb-wp-editor-update">Update</div>';
+					echo '<div id="eckb-wp-editor-update">' . __( 'Update', 'echo-knowledge-base' ) . '</div>';
 				} else {
 					self::get_wp_editor( $args );
 				}       ?>
@@ -889,10 +1148,12 @@ class EPKB_KB_Config_Elements {
 	 * Output submit button
 	 *
 	 * @param array $args
+	 * @param bool $return_html
+	 * @return string
 	 */
 	public function submit_button( $args = array(), $return_html=false ) {
 		$defaults = array(
-			'label'        => 'Save',
+			'label'        => __( 'Save', 'echo-knowledge-base' ),
 			'id'           => '',
 			'action'       => '',
 			'input_class'  => '',
@@ -905,10 +1166,10 @@ class EPKB_KB_Config_Elements {
 		} 		?>
 
 		<div class="config-input-group">
-			<div class="submit <?php echo esc_html( $args['main_class'] )?>">
-				<input type="hidden" id="_wpnonce_<?php echo esc_html( $args['action'] )?>" name="_wpnonce_<?php echo esc_html( $args['action'] )?>" value="<?php echo wp_create_nonce( "_wpnonce_".esc_html( $args['action'] ) ); ?>"/>
+			<div class="submit <?php echo esc_html( $args['main_class'] ); ?>">
+				<input type="hidden" id="_wpnonce_<?php echo esc_html( $args['action'] )?>" name="_wpnonce_<?php echo esc_html( $args['action'] ); ?>" value="<?php echo wp_create_nonce( "_wpnonce_" . esc_html( $args['action'] ) ); ?>"/>
 				<input type="hidden" name="action" value="<?php echo esc_html( $args['action'] )?>"/>
-				<input type="submit" id="<?php echo esc_html( $args['id'] )?>" class="<?php echo esc_html( $args['input_class'] )?>" value="<?php echo esc_html( $args['label'] )?>" />
+				<input type="submit" id="<?php echo esc_html( $args['id'] ); ?>" class="<?php echo esc_html( $args['input_class'] ); ?>" value="<?php echo esc_html( $args['label'] ); ?>" />
 			</div>
 		</div>		<?php
 		

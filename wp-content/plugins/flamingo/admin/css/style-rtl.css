@@ -13,3 +13,8 @@ table.message-fields td.field-value li {
 .tablenav .actions input.button {
 	margin: 1px 0 0 8px;
 }
+
+#misc-publishing-actions .spam-log .dashicons-before::before {
+	margin: 0 -1px 0 0;
+	padding: 0 0 0 3px;
+}

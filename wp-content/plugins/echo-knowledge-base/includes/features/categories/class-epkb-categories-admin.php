@@ -39,7 +39,7 @@ class EPKB_Categories_Admin {
 		// 1. get all KB category ids  ( do not use WP function get_terms() to avoid recursions )
 		$categories_order_method = epkb_get_instance()->kb_config_obj->get_value( 'categories_display_sequence', $kb_id );
 		$order_by =  $categories_order_method == 'created-date' ? 'date' : 'name';  // use order by name as default and temporary for custom order
-		$all_terms = EPKB_Utilities::get_kb_categories( $kb_id, $order_by );
+		$all_terms = EPKB_Utilities::get_kb_categories_unfiltered( $kb_id, $order_by );
 		if ( $all_terms === null ) {
 			return false;
 		}
@@ -123,8 +123,24 @@ class EPKB_Categories_Admin {
 							$custom_sequence[] = array( $sub_sub_category_id, 'sub-sub-category' );
 
 							if ( ! empty($sub_sub_sub_array) && is_array($sub_sub_sub_array) ) {
-								foreach( $sub_sub_sub_array as $sub_sub_sub_category_id => $other ) {
+								foreach( $sub_sub_sub_array as $sub_sub_sub_category_id => $sub_sub_sub_sub_array ) {
 									$custom_sequence[] = array( $sub_sub_sub_category_id, 'sub-sub-sub-category' );
+
+									if ( ! empty($sub_sub_sub_sub_array) && is_array($sub_sub_sub_sub_array) ) {
+										foreach( $sub_sub_sub_sub_array as $sub_sub_sub_sub_category_id => $sub_sub_sub_sub_sub_array ) {
+											$custom_sequence[] = array( $sub_sub_sub_sub_category_id, 'sub-sub-sub-sub-category' );
+											
+											if ( ! empty($sub_sub_sub_sub_sub_array) && is_array($sub_sub_sub_sub_sub_array) ) {
+												foreach( $sub_sub_sub_sub_sub_array as $sub_sub_sub_sub_sub_category_id => $other ) {
+													$custom_sequence[] = array( $sub_sub_sub_sub_sub_category_id, 'sub-sub-sub-sub-sub-category' );
+													$this->add_articles( $custom_sequence, $stored_article_ids, $sub_sub_sub_sub_sub_category_id, 'sub-sub-sub-sub-sub-article' );
+												}
+											}
+											
+											$this->add_articles( $custom_sequence, $stored_article_ids, $sub_sub_sub_sub_category_id, 'sub-sub-sub-sub-article' );
+										}
+									}
+									
 									$this->add_articles( $custom_sequence, $stored_article_ids, $sub_sub_sub_category_id, 'sub-sub-sub-article' );
 								}
 							}
@@ -182,9 +198,9 @@ class EPKB_Categories_Admin {
 	 * @param integer $parent_id the current parent ID to put them in
 	 * @param int $level - how deep the recursion went; guard
 	 */
-	private function create_ID_hierarchy_recursive( array &$terms, array &$terms_in_hierarchy, $parent_id=0, $level=0 ) {
+	private function create_ID_hierarchy_recursive( array &$terms, array &$terms_in_hierarchy, $parent_id = 0, $level = 0 ) {
 		$level++;
-		foreach ($terms as $num => $term) {
+		foreach ( $terms as $num => $term ) {
 			if ( $term->parent == $parent_id ) {
 				$terms_in_hierarchy[$term->term_id] = array();
 				unset($terms[$num]);
@@ -192,7 +208,7 @@ class EPKB_Categories_Admin {
 		}
 
 		foreach ( $terms_in_hierarchy as $term_id => $empty) {
-			if ($level < 5) {
+			if ( $level < 7 ) {
 				$this->create_ID_hierarchy_recursive( $terms, $terms_in_hierarchy[$term_id], $term_id, $level );
 				$level--;
 			}
@@ -210,7 +226,7 @@ class EPKB_Categories_Admin {
 
 		// 1. get all KB category ids  ( do not use WP function get_terms() to avoid recursions )
 		$order_by =  $categories_order_method == 'created-date' ? 'date' : 'name';  // use order by name as default and temporary for custom order
-		$all_terms = EPKB_Utilities::get_kb_categories( $kb_id, $order_by );
+		$all_terms = EPKB_Utilities::get_kb_categories_unfiltered( $kb_id, $order_by );
 		if ( $all_terms === null ) {
 			return false;
 		}

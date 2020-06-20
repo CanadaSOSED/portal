@@ -27,6 +27,8 @@ if (!class_exists('GFCPTAddonBase')) {
 			//alter the form for submission - this is mainly for checkboxes
 			add_filter('gform_pre_submission_filter', array(&$this, 'setup_form') );
 
+			add_filter( 'gform_form_post_get_meta', array( $this, 'setup_form_on_export' ) );
+
 			//set the post type when saving a post
 			add_filter("gform_post_data", array(&$this, 'set_post_values'), 10, 2);
 
@@ -38,15 +40,19 @@ if (!class_exists('GFCPTAddonBase')) {
 			add_action( 'gform_after_create_post', array( $this, 'save_taxonomies'), 10, 3 );
 
 			//enqueue scripts to the page
-			add_action('gform_enqueue_scripts', array(&$this, 'enqueue_custom_scripts'), 10, 2);
-
-			add_action('wp_print_scripts', array(&$this, 'enqueue_scripts'), 10, 2);
+			add_action( 'gform_enqueue_scripts',       array( $this, 'enqueue_form_scripts' ), 10, 2 );
+			add_action( 'gform_register_init_scripts', array( $this, 'register_init_scripts' ), 10, 2 );
 
 			add_filter("gform_preview_styles", array(&$this, 'preview_print_styles'), 10, 2);
 
 			add_filter( 'gform_entry_field_value',   array( $this, 'display_term_name_on_entry_detail' ), 10, 4 );
 			add_filter( 'gform_entries_field_value', array( $this, 'display_term_name_on_entry_list' ), 10, 4 );
 			add_filter( 'gform_export_field_value',  array( $this, 'display_term_name_on_export' ), 10, 4 );
+
+			add_filter( 'gform_entry_field_value',   array( $this, 'display_post_title_on_entry_detail' ), 10, 4 );
+			add_filter( 'gform_entries_field_value', array( $this, 'display_post_title_on_entry_list' ), 10, 4 );
+			add_filter( 'gform_export_field_value',  array( $this, 'display_post_title_on_export' ), 10, 4 );
+
 
 		}
 
@@ -82,108 +88,102 @@ if (!class_exists('GFCPTAddonBase')) {
 		  return $form;
 		}
 
-		function enqueue_scripts() {
-		  if ($this->_has_tag_inputs) {
-			$script_block = '';
-			if (sizeof($this->_tag_inputs)>0) {
-			  $script_block = 'var gfcpt_tag_inputs = {"tag_inputs": [';
-			  $input_ids = array();
-			  foreach($this->_tag_inputs as $input_id => $taxonomy) {
-				$input_ids[] = '{input: "'.$input_id.'", taxonomy: "'.$taxonomy.'"}';
-			  }
-			  $script_block .= implode(', ', $input_ids);
-			  $script_block .= ']};' . "\n";;
+		function setup_form_on_export( $form ) {
+
+			if( in_array( rgpost( 'action' ), array( 'rg_select_export_form', 'gf_process_export' ) ) ) {
+				$form = $this->setup_form( $form );
 			}
 
-			if (sizeof($this->_tag_terms)>0) {
-			  $script_block .= 'var gfcpt_tag_taxonomies = [];' . "\n";
-			  foreach($this->_tag_terms as $taxonomy => $terms) {
-				$script_block .= 'gfcpt_tag_taxonomies["'.$taxonomy.'"] = ["'.implode('", "', $terms).'"];' . "\n";;
-			  }
-			}
-			if (strlen($script_block) > 0) {
-			?>
-  <script type='text/javascript'>
-	<?php
-	echo $script_block;
-	?>
-  </script>
-  <?php
-			}
-		  }
+			return $form;
 		}
+
+		function register_init_scripts( $form ) {
+
+			$inputs = array();
+			$taxonomies = array();
+
+			foreach( $form['fields'] as $field ) {
+
+				if( ! $this->has_tax_enhanced_ui( $field ) ) {
+					continue;
+				}
+
+				$inputs[] = array( 'input' => sprintf( '#input_%d_%d', $form['id'], $field->id ), 'taxonomy' => $field->saveToTaxonomy );
+				if( ! array_key_exists( $field->saveToTaxonomy, $taxonomies ) ) {
+					$taxonomies[ $field->saveToTaxonomy ] = get_terms( $field->saveToTaxonomy, 'orderby=name&hide_empty=0&fields=names' );
+				}
+
+			}
+
+			if( empty( $inputs ) ) {
+				return;
+			}
+
+			$script = '
+				if( typeof gfcpt_tag_inputs == "undefined" ) { window.gfcpt_tag_inputs = { "tag_inputs" : [] }; }
+				if( typeof gfcpt_tag_taxonomies == "undefined" ) { window.gfcpt_tag_taxonomies = {}; }
+				var gfcptCurrentInputs = ' . json_encode( $inputs ) . ';
+				for ( input in gfcptCurrentInputs ) {
+				    if( gfcptCurrentInputs.hasOwnProperty( input ) ) {
+						gfcpt_tag_inputs.tag_inputs.push( gfcptCurrentInputs[ input ] );        
+				    }
+				}
+				var gfcptCurrentTaxonomies = ' . json_encode( $taxonomies ) . ';
+				for ( taxonomy in gfcptCurrentTaxonomies ) {
+				    if( gfcptCurrentTaxonomies.hasOwnProperty( taxonomy ) ) {
+						gfcpt_tag_taxonomies[ taxonomy ] = gfcptCurrentTaxonomies[ taxonomy ];        
+				    }
+				}';
+
+
+			GFFormDisplay::add_init_script( $form['id'], 'gfcpt_tagit', GFFormDisplay::ON_PAGE_RENDER, $script );
+
+		}
+
+		function enqueue_form_scripts( $form ) {
+
+			if( ! $this->has_tax_enhanced_ui( $form ) ) {
+				return;
+			}
+
+			wp_register_style( 'gfcpt_jquery_ui_theme', plugins_url( 'css/custom/jquery-ui-1.8.16.custom.css' , __FILE__ ) );
+			wp_enqueue_style( 'gfcpt_jquery_ui_theme' );
+
+			wp_register_style( 'gfcpt_tagit_css', plugins_url( 'css/jquery.tagit.css' , __FILE__ ) );
+			wp_enqueue_style( 'gfcpt_tagit_css' );
+
+			wp_enqueue_script( 'jquery-ui-core' );
+			wp_enqueue_script( 'jquery-ui-widget' );
+			wp_enqueue_script( 'jquery-ui-autocomplete' );
+
+			wp_register_script( 'gfcpt_tagit_js', plugins_url( 'js/tag-it.js' , __FILE__ ), array( 'jquery-ui-widget' ) );
+			wp_enqueue_script( 'gfcpt_tagit_js' );
+
+			wp_register_script( 'gfcpt_tagit_init_js', plugins_url( 'js/tag-it.init.js' , __FILE__ ), array('gfcpt_tagit_js' ), false, true );
+			wp_enqueue_script( 'gfcpt_tagit_init_js' );
+
+		}
+
+		function has_tax_enhanced_ui( $form_or_field ) {
+
+			if( is_a( $form_or_field, 'GF_Field' ) ) {
+				if( $form_or_field->get_input_type() == 'text' && $form_or_field->saveToTaxonomy && $form_or_field->taxonomyEnhanced ) {
+					return true;
+				}
+			} else {
+				foreach( $form_or_field['fields'] as $field ) {
+					if( $this->has_tax_enhanced_ui( $field ) ) {
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
 
 		function preview_print_styles( $styles, $form ) {
 			return array_merge( $styles, array( 'gfcpt_jquery_ui_theme', 'gfcpt_tagit_css' ) );
-		}
-
-		function enqueue_custom_scripts($form, $is_ajax) {
-		  //loop thru all fields
-		  foreach($form['fields'] as &$field) {
-			//if its a text field, see if we have set it to save to a taxonomy
-			if ($field['type'] == 'text' && array_key_exists('saveToTaxonomy', $field)) {
-			  $saveToTaxonomy = $field['saveToTaxonomy'];
-
-			  if (taxonomy_exists($saveToTaxonomy) && array_key_exists('taxonomyEnhanced', $field)) {
-				if ($field['taxonomyEnhanced']) {
-
-				  $this->_has_tag_inputs = true;
-
-				  $tag_input_id = '#input_'.$form['id'].'_'.$field['id'];
-
-				  $this->_tag_inputs[$tag_input_id] = $saveToTaxonomy;
-
-				  if ( !array_key_exists($saveToTaxonomy, $this->_tag_terms) ) {
-					//get the existing taxonomies and add them to an array to render later
-					$terms = get_terms($saveToTaxonomy, 'orderby=name&hide_empty=0&fields=names');
-					$this->_tag_terms[$saveToTaxonomy] = $terms;
-				  }
-
-				  if (!$this->_included_js) {
-
-					//enqueue some scripts for the enhaced UI
-					$this->_included_js = true;
-
-					wp_register_style(
-							$handle = 'gfcpt_jquery_ui_theme',
-							$src = plugins_url( 'css/custom/jquery-ui-1.8.16.custom.css' , __FILE__ ) );
-					wp_enqueue_style('gfcpt_jquery_ui_theme');
-
-					wp_register_style(
-							$handle = 'gfcpt_tagit_css',
-							$src = plugins_url( 'css/jquery.tagit.css' , __FILE__ ) );
-					wp_enqueue_style('gfcpt_tagit_css');
-
-
-//                    wp_register_script(
-//                            $handle = 'gfcpt_jquery_ui',
-//                            $src = plugins_url( 'js/jquery-ui-1.8.16.custom.min.js' , __FILE__ ),
-//                            $deps = array('jquery') );
-//
-					wp_enqueue_script( 'jquery-ui-core' );
-					wp_enqueue_script( 'jquery-ui-widget' );
-					wp_enqueue_script( 'jquery-ui-autocomplete' );
-
-					wp_register_script(
-							$handle = 'gfcpt_tagit_js',
-							$src = plugins_url( 'js/tag-it.js' , __FILE__ ),
-							$deps = array( 'jquery-ui-widget' )
-					);
-
-					wp_enqueue_script('gfcpt_tagit_js');
-
-					wp_register_script(
-							$handle = 'gfcpt_tagit_init_js',
-							$src = plugins_url( 'js/tag-it.init.js' , __FILE__ ),
-							$deps = array('gfcpt_tagit_js' ), false, true  );
-
-					wp_enqueue_script('gfcpt_tagit_init_js');
-				  }
-
-				}
-			  }
-			}
-		  }
 		}
 
 		/*
@@ -281,6 +281,7 @@ if (!class_exists('GFCPTAddonBase')) {
 		function setup_post_type_field( &$field, $post_type ) {
 			$first_choice = $field['choices'][0]['text'];
 			$field['choices'] = $this->load_post_type_choices( $post_type, $first_choice, $field );
+			$field->enableChoiceValue = true;
 		}
 
 		function load_post_type_choices($post_type, $first_choice = '', $field ) {
@@ -307,7 +308,8 @@ if (!class_exists('GFCPTAddonBase')) {
 			$args = gf_apply_filters( 'gfcpt_get_posts_args', array( $form_id, $field_id ), array(
 				'post_type'   => $post_type,
 				'numberposts' => -1,
-				'orderby'     => 'title',
+				'orderby'     => $post_type == 'page' ? 'menu_order' : 'title',
+				'order'       => $post_type == 'page' ? null : 'ASC',
 				'post_status' => 'publish'
 			) );
 			$posts = get_posts( $args );
@@ -335,6 +337,7 @@ if (!class_exists('GFCPTAddonBase')) {
 
 			$first_choice = rgars( $field, 'choices/0/text' );
 			$field['choices'] = $this->load_taxonomy_choices( $taxonomy, $field['type'], $first_choice, $field );
+			$field->enableChoiceValue = true;
 
 			//now check if we are dealing with a checkbox list and do some extra magic
 			if ( $field['type'] == 'checkbox' ) {
@@ -351,7 +354,7 @@ if (!class_exists('GFCPTAddonBase')) {
 						$counter++;
 					}
 
-					$id = floatval( $field['id'] . '.' . $counter );
+					$id = $field['id'] . '.' . $counter;
 					$inputs[] = array( 'label' => $choice['text'], 'id' => $id );
 				}
 
@@ -366,17 +369,15 @@ if (!class_exists('GFCPTAddonBase')) {
 		function load_taxonomy_choices($taxonomy, $type, $first_choice = '', $field ) {
 			$choices = array();
 
-			if ( in_array( $field->get_input_type(), array( 'select', 'multiselect' ) ) ) {
+			if ( in_array( $field->get_input_type(), gf_apply_filters( array( 'gfcpt_hierarchical_display', $field->formId, $field->fieldId ), array( 'select', 'multiselect' ) ) ) ) {
 
 				$terms = $this->load_taxonomy_hierarchical( $taxonomy, $field );
 
 				if( $field->get_input_type() == 'select' ) {
-					if ( $first_choice === '' || $first_choice === 'First Choice' ) {
+					if ( $first_choice !== '' && $first_choice !== 'First Choice' && empty( $field->placeholder ) ) {
 						// if no default option is specified, dynamically create based on taxonomy name
 						$taxonomy = get_taxonomy($taxonomy);
 						$choices[] = array('text' => "-- select a {$taxonomy->labels->singular_name} --", 'value' => '');
-					} else {
-						$choices[] = array( 'text' => $first_choice, 'value' => '' );
 					}
 				}
 
@@ -552,6 +553,34 @@ if (!class_exists('GFCPTAddonBase')) {
 
 		function display_term_name_on_export( $value, $form_id, $field_id ) {
 			return $this->display_term_name_on_entry_list( $value, $form_id, $field_id );
+		}
+
+		function get_post_title( $post_id, $field ) {
+
+			if( $field->populatePostType && ! empty( $post_id ) ) {
+				$post = get_post( $post_id );
+				return $post ? $post->post_title : $post_id;
+			}
+
+			return $post_id;
+		}
+
+		function display_post_title_on_entry_detail( $value, $field, $entry, $form ) {
+			return $this->get_post_title( $value, $field );
+		}
+
+		function display_post_title_on_entry_list( $value, $form_id, $field_id ) {
+
+			if( is_numeric( $field_id ) ) {
+				$field = GFFormsModel::get_field( GFAPI::get_form( $form_id ), $field_id );
+				$value = $this->get_post_title( $value, $field );
+			}
+
+			return $value;
+		}
+
+		function display_post_title_on_export( $value, $form_id, $field_id ) {
+			return $this->display_post_title_on_entry_list( $value, $form_id, $field_id );
 		}
 
 	}

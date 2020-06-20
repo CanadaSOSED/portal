@@ -357,7 +357,68 @@ class EPKB_KB_Config_Sequence {
 		if ( ! empty($builder_child_categories) && ! empty($last_sub_sub_category_id) ) {
 			$this->sync_category_level( $orig_categories_obj, $last_sub_sub_category_id, $parent_level, $builder_child_categories );
 		}
+		
+		// 5. order SUB-SUB-SUB-SUB-CATEGORIES
+		$parent_level = 4;
+		$last_sub_sub_sub_category_id = 0;
+		$builder_child_categories = array();
+		foreach( $new_sequence as $item_id_level ) {
+			$pieces = explode("_", $item_id_level);
+			$item_id = $pieces[0];
+			$item_level = $pieces[1];
 
+			if ( ! in_array($item_level, array('category', 'sub-category', 'sub-sub-category', 'sub-sub-sub-category', 'sub-sub-sub-sub-category')) ) {
+				continue;
+			}
+
+			if ( $item_level == 'sub-sub-sub-sub-category' ) {
+				$builder_child_categories[] = $item_id;
+				continue;
+			}
+
+			if ( ! empty($builder_child_categories) ) {
+				$this->sync_category_level( $orig_categories_obj, $last_sub_sub_sub_category_id, $parent_level, $builder_child_categories );
+				$builder_child_categories = array();
+			}
+
+			if ( $item_level == 'sub-sub-sub-category' ) {
+				$last_sub_sub_sub_category_id = $item_id;
+			}
+		}
+		if ( ! empty($builder_child_categories) && ! empty($last_sub_sub_sub_category_id) ) {
+			$this->sync_category_level( $orig_categories_obj, $last_sub_sub_sub_category_id, $parent_level, $builder_child_categories );
+		}
+		
+		// 6. order SUB-SUB-SUB-SUB-SUB-CATEGORIES
+		$parent_level = 5;
+		$last_sub_sub_sub_sub_category_id = 0;
+		$builder_child_categories = array();
+		foreach( $new_sequence as $item_id_level ) {
+			$pieces = explode("_", $item_id_level);
+			$item_id = $pieces[0];
+			$item_level = $pieces[1];
+
+			if ( ! in_array($item_level, array('category', 'sub-category', 'sub-sub-category', 'sub-sub-sub-category', 'sub-sub-sub-sub-category', 'sub-sub-sub-sub-sub-category')) ) {
+				continue;
+			}
+
+			if ( $item_level == 'sub-sub-sub-sub-sub-category' ) {
+				$builder_child_categories[] = $item_id;
+				continue;
+			}
+
+			if ( ! empty($builder_child_categories) ) {
+				$this->sync_category_level( $orig_categories_obj, $last_sub_sub_sub_sub_category_id, $parent_level, $builder_child_categories );
+				$builder_child_categories = array();
+			}
+
+			if ( $item_level == 'sub-sub-sub-sub-category' ) {
+				$last_sub_sub_sub_sub_category_id = $item_id;
+			}
+		}
+		if ( ! empty($builder_child_categories) && ! empty($last_sub_sub_sub_sub_category_id) ) {
+			$this->sync_category_level( $orig_categories_obj, $last_sub_sub_sub_sub_category_id, $parent_level, $builder_child_categories );
+		}
 		return $orig_categories_obj;
 	}
 
@@ -488,7 +549,7 @@ class EPKB_KB_Config_Sequence {
 			$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
 		}
 
-		// 2. order all SUB-SUB-ARTICLES
+		// 3. order all SUB-SUB-ARTICLES
 		$last_category_id = 0;
 		$builder_child_articles = array();
 		foreach( $new_sequence as $item_id_level ) {
@@ -513,7 +574,84 @@ class EPKB_KB_Config_Sequence {
 		if ( ! empty($builder_child_articles) && ! empty($last_category_id) ) {
 			$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
 		}
+		
+		// 4. order all SUB-SUB-ARTICLES
+		$last_category_id = 0;
+		$builder_child_articles = array();
+		foreach( $new_sequence as $item_id_level ) {
+			$pieces = explode("_", $item_id_level);
+			$item_id = $pieces[0];
+			$item_level = $pieces[1];
 
+			if ( $item_level == 'sub-sub-sub-article' ) {
+				$builder_child_articles[] = $item_id;
+				continue;
+			}
+
+			if ( ! empty($builder_child_articles) ) {
+				$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
+				$builder_child_articles = array();
+			}
+
+			if ( $item_level == 'sub-sub-sub-category' ) {
+				$last_category_id = $item_id;
+			}
+		}
+		if ( ! empty($builder_child_articles) && ! empty($last_category_id) ) {
+			$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
+		}
+		
+		// 5. order all SUB-SUB-SUB-ARTICLES
+		$last_category_id = 0;
+		$builder_child_articles = array();
+		foreach( $new_sequence as $item_id_level ) {
+			$pieces = explode("_", $item_id_level);
+			$item_id = $pieces[0];
+			$item_level = $pieces[1];
+
+			if ( $item_level == 'sub-sub-sub-sub-article' ) {
+				$builder_child_articles[] = $item_id;
+				continue;
+			}
+
+			if ( ! empty($builder_child_articles) ) {
+				$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
+				$builder_child_articles = array();
+			}
+
+			if ( $item_level == 'sub-sub-sub-sub-category' ) {
+				$last_category_id = $item_id;
+			}
+		}
+		if ( ! empty($builder_child_articles) && ! empty($last_category_id) ) {
+			$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
+		}
+		// 6. order all SUB-SUB-SUB-SUB-ARTICLES
+		$last_category_id = 0;
+		$builder_child_articles = array();
+		foreach( $new_sequence as $item_id_level ) {
+			$pieces = explode("_", $item_id_level);
+			$item_id = $pieces[0];
+			$item_level = $pieces[1];
+
+			if ( $item_level == 'sub-sub-sub-sub-sub-article' ) {
+				$builder_child_articles[] = $item_id;
+				continue;
+			}
+
+			if ( ! empty($builder_child_articles) ) {
+				$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
+				$builder_child_articles = array();
+			}
+
+			if ( $item_level == 'sub-sub-sub-sub-sub-category' ) {
+				$last_category_id = $item_id;
+			}
+		}
+		if ( ! empty($builder_child_articles) && ! empty($last_category_id) ) {
+			$this->sync_article_level( $orig_articles_obj, $last_category_id, $builder_child_articles );
+		}
+		
 		return $orig_articles_obj;
 	}
 
@@ -559,7 +697,7 @@ class EPKB_KB_Config_Sequence {
 	 * @return array|false - false to indicate an error
 	 */
 	public function verify_and_format_new_sequence( $new_sequence ) {
-		$levels = array('category', 'sub-category', 'sub-sub-category', 'sub-sub-sub-category', 'article', 'sub-article', 'sub-sub-article', 'sub-sub-sub-article');
+		$levels = array('category', 'sub-category', 'sub-sub-category', 'sub-sub-sub-category', 'sub-sub-sub-sub-category', 'sub-sub-sub-sub-sub-category', 'article', 'sub-article', 'sub-sub-article', 'sub-sub-sub-article', 'sub-sub-sub-sub-article', 'sub-sub-sub-sub-sub-article');
 		$new_sequence_out = array();
 		$last_level = null;
 		foreach( $new_sequence as $ix => $data ) {
@@ -606,6 +744,16 @@ class EPKB_KB_Config_Sequence {
 							return false;
 						}
 						break;
+					case 'sub-sub-sub-sub-category':
+						if ( $last_level == 'article' || $last_level == 'category' || $last_level == 'sub-category' || $last_level == 'sub-sub-category') {
+							return false;
+						}
+						break;
+					case 'sub-sub-sub-sub-sub-category':
+						if ( $last_level == 'article' || $last_level == 'category' || $last_level == 'sub-category' || $last_level == 'sub-sub-category' || $last_level == 'sub-sub-sub-category') {
+							return false;
+						}
+						break;
 					case 'sub-article':
 						if ( $last_level == 'article' || $last_level == 'category' ) {
 							return false;
@@ -618,6 +766,16 @@ class EPKB_KB_Config_Sequence {
 						break;
 					case 'sub-sub-sub-article':
 						if ( $last_level == 'article' || $last_level == 'category' || $last_level == 'sub-category' || $last_level == 'sub-sub-category' || $last_level == 'sub-article' ) {
+							return false;
+						}
+						break;
+					case 'sub-sub-sub-sub-article':
+						if ( $last_level == 'article' || $last_level == 'category' || $last_level == 'sub-category' || $last_level == 'sub-sub-category' || $last_level == 'sub-sub-sub-category' || $last_level == 'sub-article' ) {
+							return false;
+						}
+						break;
+					case 'sub-sub-sub-sub-sub-article':
+						if ( $last_level == 'article' || $last_level == 'category' || $last_level == 'sub-category' || $last_level == 'sub-sub-category' || $last_level == 'sub-sub-sub-category' || $last_level == 'sub-sub-sub-sub-category' || $last_level == 'sub-article' ) {
 							return false;
 						}
 						break;

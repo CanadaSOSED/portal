@@ -72,9 +72,16 @@ class EPKB_KB_Search {
 					$article_title_icon = empty( $article_title_icon ) ? 'epkbfa-file-text-o' : $article_title_icon;
 				}
 
+				// linked articles have open in new tab option
+				$new_tab = '';
+				if ( class_exists( 'KBLK_Utilities' ) ) {
+					$link_editor_config = KBLK_Utilities::get_postmeta( $post->ID, 'kblk-link-editor-data', [], true );
+					$new_tab            = empty( $link_editor_config['open-new-tab'] ) ? '' : 'target="_blank"';
+				}
+
 				$search_result .=
 					'<li>' .
-						'<a href="' .  esc_url( $article_url ) . '" class="epkb-ajax-search" data-kb-article-id="' . $post->ID . '">' .
+						'<a href="' .  esc_url( $article_url ) . '" ' . $new_tab . ' class="epkb-ajax-search" data-kb-article-id="' . $post->ID . '">' .
 							'<span class="eckb-article-title" ' . $title_style . '>' .
 	                            '<i class="eckb-article-title-icon epkbfa ' . esc_attr($article_title_icon) . ' ' . $icon_style . '"></i>' .
 								'<span>' . esc_html($post->post_title) . '</span>' .

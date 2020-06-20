@@ -21,7 +21,10 @@ echo '<div class="wpcp-carousel-wrapper wpcp-wrapper-' . $post_id . '">';
 if ( $section_title ) {
 	echo '<h2 class="sp-wpcpro-section-title">' . get_the_title( $post_id ) . '</h2>';
 }
-echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . '>';
+if ( $preloader ) {
+	require WPCAROUSELF_PATH . '/public/templates/preloader.php';
+}
+echo '<div id="sp-wp-carousel-free-id-' . $post_id . '" class="' . $carousel_classes . '" ' . $wpcp_slick_options . ' dir="ltr">';
 $attachments = explode( ',', $gallery_ids );
 ( ( 'rand' == $image_orderby ) ? shuffle( $attachments ) : '' );
 if ( is_array( $attachments ) || is_object( $attachments ) ) :
@@ -33,8 +36,8 @@ if ( is_array( $attachments ) || is_object( $attachments ) ) :
 		$image_url            = wp_get_attachment_image_src( $attachment, $image_sizes );
 		$the_image_title_attr = ' title="' . $image_title . '"';
 		$image_title_attr     = 'true' === $show_image_title_attr ? $the_image_title_attr : '';
-		$image_src = $image_url[0];
-			$image = sprintf( '<img src="%1$s"%2$s alt="%3$s">', $image_src, $image_title_attr, $image_alt_title );
+
+		$image = sprintf( '<img src="%1$s"%2$s alt="%3$s" width="%4$s" height="%5$s">', $image_url[0], $image_title_attr, $image_alt_title, $image_url[1], $image_url[2] );
 		// Single Item.
 		echo '<div class="wpcp-single-item">';
 		echo sprintf( '<div class="wpcp-slide-image">%1$s</div>', $image );

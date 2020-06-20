@@ -6,21 +6,36 @@
  * @copyright   Copyright (C) 2018, Echo Plugins
  */
 class EPKB_KB_Config_Specs {
-	
+
 	private static $cached_specs = array();
 
 	public static function get_categories_display_order() {
 		$base_order = array( 'alphabetical-title' => __( 'Alphabetical by Name', 'echo-knowledge-base' ),
 							 'created-date' => __( 'Chronological by Date Created', 'echo-knowledge-base' ),
-							 'user-sequenced' => __( 'Custom - Drag and Drop Categories on the Left', 'echo-knowledge-base' ) );
+							 'user-sequenced' => __( 'Custom - Drag and Drop Categories', 'echo-knowledge-base' ) );
 		return apply_filters( 'epkb_categories_display_order', $base_order );
 	}
 
 	public static function get_articles_display_order() {
 		$base_order = array( 'alphabetical-title' => __( 'Alphabetical by Title', 'echo-knowledge-base' ),
 		                     'created-date' => __( 'Chronological by Date Created', 'echo-knowledge-base' ),
-		                     'user-sequenced' => __( 'Custom - Drag and Drop articles on the Left', 'echo-knowledge-base' ) );
+		                     'user-sequenced' => __( 'Custom - Drag and Drop articles', 'echo-knowledge-base' ) );
 		return apply_filters( 'epkb_articles_display_order', $base_order );
+	}
+
+	public static $sidebar_component_priority_defaults = array(
+		'elay_sidebar_left' => '1',
+		'toc_left' => '0',
+		'kb_sidebar_left' => '0',
+		'categories_left' => '1',
+		'toc_content' => '0',
+		'toc_right' => '1',
+		'kb_sidebar_right' => '0',
+		'categories_right' => '0'
+	);
+
+	public static function add_sidebar_component_priority_defaults( $article_sidebar_component_priority ) {
+		return array_merge(self::$sidebar_component_priority_defaults, $article_sidebar_component_priority);
 	}
 
 	/**
@@ -63,7 +78,7 @@ class EPKB_KB_Config_Specs {
 			'status' => array(
 				'label'       => 'status',
 				'type'        => EPKB_Input_Filter::ENUMERATION,
-				'options'     => array( EPKB_KB_Status::PUBLISHED, EPKB_KB_Status::ARCHIVED ),
+				'options'     => array( EPKB_KB_Status::BLANK, EPKB_KB_Status::PUBLISHED, EPKB_KB_Status::ARCHIVED ),
 				'internal'    => true,
 				'default'     => EPKB_KB_Status::PUBLISHED
 			),
@@ -72,6 +87,12 @@ class EPKB_KB_Config_Specs {
 				'type'        => EPKB_Input_Filter::INTERNAL_ARRAY,
 				'internal'    => true,
 				'default'     => array()
+			),
+			'article_sidebar_component_priority' => array(
+				'label'       => 'article_sidebar_component_priority',
+				'type'        => EPKB_Input_Filter::INTERNAL_ARRAY,
+				'internal'    => true,
+				'default'     => self::$sidebar_component_priority_defaults
 			),
 
 
@@ -84,9 +105,8 @@ class EPKB_KB_Config_Specs {
 			'kb_name' => array(
 				'label'       => __( 'CPT Name', 'echo-knowledge-base' ),
 				'name'        => 'kb_name',
-				'info'        => __( 'The name of this Knowledge Base and its Custom Post Type.' ),
 				'size'        => '50',
-				'max'         => '50',
+				'max'         => '70',
 				'min'         => '1',
 				'reload'      => true,
 				'type'        => EPKB_Input_Filter::TEXT,
@@ -95,7 +115,6 @@ class EPKB_KB_Config_Specs {
 			'kb_articles_common_path' => array(
 				'label'       => __( 'Common Path for Articles', 'echo-knowledge-base' ),
 				'name'        => 'kb_articles_common_path',
-				'info'        => __( 'Each KB article URL with share this common base in its URL e.g. See online help for details.' ),
 				'size'        => '20',
 				'max'         => '70',
 				'min'         => '1',
@@ -108,35 +127,526 @@ class EPKB_KB_Config_Specs {
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => EPKB_KB_Config_Layouts::get_main_page_layout_name_value(),
 				'default'     => EPKB_KB_Config_Layout_Basic::LAYOUT_NAME,
-				'info'        => __( '• <strong>Basic layout</strong> – This is a typical knowledge base layout, listing categories in rows and columns.<br/><br/>' .
-				                 '• <strong>Tabs layout</strong> – This layout has additional top-level categories listed in tabs at the top of KB. Each tab ' .
-				                 'displays a list of categories. This is useful e.g. when you need to separate articles into different groups (tabs) based on ' .
-				                 'different services or products supported.<br/><br/>Additional layouts are available through our add-on plugins.' ),
-			),
-			'kb_main_page_category_link' => array(
-				'label'       => __( 'Main Page Category Link', 'echo-knowledge-base' ),
-				'name'        => 'kb_main_page_category_link',
-				'type'        => EPKB_Input_Filter::SELECTION,
-				'options'     =>
-					array(
-						'default'          => 'Article Page with Sidebar',
-						'category_archive' => 'Category Archive Page'
-					),
-				'default'     => 'default',
-				'info'        => __( 'Determines whether each Category on the KB Main Page should link to its Category Archive Page.' ),
 			),
 			'kb_article_page_layout' => array(
-				'label'       => __( 'Article Page Layout', 'echo-knowledge-base' ),
-				'name'        => 'kb_article_page_layout',
+					'label'       => __( 'Article Page Layout', 'echo-knowledge-base' ),
+					'name'        => 'kb_article_page_layout',
+					'type'        => EPKB_Input_Filter::SELECTION,
+					'options'     => EPKB_KB_Config_Layouts::get_article_page_layout_names(),
+					'default'     => EPKB_KB_Config_Layouts::KB_ARTICLE_PAGE_NO_LAYOUT,
+			),
+			'kb_sidebar_location' => array( // TODO in UI
+					'label'       => __( 'Article Sidebar Location', 'echo-knowledge-base' ),
+					'name'        => 'kb_sidebar_location',
+					'type'        => EPKB_Input_Filter::SELECTION,
+					'options'     => array(
+							'left-sidebar'   => _x( 'Left Sidebar', 'echo-knowledge-base' ),
+							'right-sidebar'  => _x( 'Right Sidebar', 'echo-knowledge-base' ),
+							'no-sidebar'     => _x( 'No Sidebar', 'echo-knowledge-base' ) ),
+					'default'     => 'no-sidebar'
+			),
+
+			/******************************************************************************
+			 *
+			 *  ARTICLE STRUCTURE v2
+			 *
+			 ******************************************************************************/
+
+			'article-structure-version' => array(
+					'label'       => __( 'Article Page Structure', 'echo-knowledge-base' ),
+					'name'        => 'article-structure-version',
+					'type'        => EPKB_Input_Filter::SELECTION,
+					'options'     =>
+							array(
+									'version-1' => __( 'Legacy Style', 'echo-knowledge-base' ),
+									'version-2' => __( 'Modern Style (Recommended)', 'echo-knowledge-base' ),
+							),
+					'default'     => 'version-1',
+			),
+
+			// Article Version 2 settings -----------------------------------/
+			'article-container-desktop-width-v2' => array(
+				'label'       => __( 'Width', 'echo-knowledge-base' ),
+				'name'        => 'article-container-desktop-width-v2',
+				'max'         => 3000,
+				'min'         => 10,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 100
+			),
+			'article-container-desktop-width-units-v2' => array(
+				'label'       => __( 'Width - Units', 'echo-knowledge-base' ),
+				'name'        => 'article-container-desktop-width-units-v2',
 				'type'        => EPKB_Input_Filter::SELECTION,
-				'options'     => EPKB_KB_Config_Layouts::get_article_page_layout_names(),
-				'default'     => EPKB_KB_Config_Layouts::KB_ARTICLE_PAGE_NO_LAYOUT,
-				'info'        => __( 'Layout chosen for Article pages.' ),
+				'options'     => array(
+					'px'         => _x( 'px', 'echo-knowledge-base' ),
+					'%'    => _x( '%',  'echo-knowledge-base' )
+				),
+				'default'     => '%'
+			),
+			'article-container-tablet-width-v2' => array(
+				'label'       => __( 'Width (Tablets)', 'echo-knowledge-base' ),
+				'name'        => 'article-container-tablet-width-v2',
+				'max'         => 3000,
+				'min'         => 10,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 100
+			),
+			'article-container-tablet-width-units-v2' => array(
+				'label'       => __( 'Width - Units(Tablets)', 'echo-knowledge-base' ),
+				'name'        => 'article-container-tablet-width-units-v2',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'px'         => _x( 'px', 'echo-knowledge-base' ),
+					'%'    => _x( '%',  'echo-knowledge-base' )
+				),
+				'default'     => '%'
+			),
+
+			// Article Version 2 - Body Container
+			'article-body-desktop-width-v2' => array(
+				'label'       => __( 'Width', 'echo-knowledge-base' ),
+				'name'        => 'article-body-desktop-width-v2',
+				'max'         => 3000,
+				'min'         => 10,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 1140
+			),
+			'article-body-desktop-width-units-v2' => array(
+				'label'       => __( 'Width Units', 'echo-knowledge-base' ),
+				'name'        => 'article-body-desktop-width-units-v2',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'px'         => _x( 'px', 'echo-knowledge-base' ),
+					'%'    => _x( '%',  'echo-knowledge-base' )
+				),
+				'default'     => 'px'
+			),
+			'article-body-tablet-width-v2' => array(
+				'label'       => __( 'Width (Tablets)', 'echo-knowledge-base' ),
+				'name'        => 'article-body-tablet-width-v2',
+				'max'         => 3000,
+				'min'         => 10,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 100
+			),
+			'article-body-tablet-width-units-v2' => array(
+				'label'       => __( 'Width - Units (Tablets)', 'echo-knowledge-base' ),
+				'name'        => 'article-body-tablet-width-units-v2',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'px'         => _x( 'px', 'echo-knowledge-base' ),
+					'%'    => _x( '%',  'echo-knowledge-base' )
+				),
+				'default'     => '%'
+			),
+
+
+			// Article Version 2 - Left Sidebar
+			'article-left-sidebar-desktop-width-v2' => array(
+				'label'       => __( 'Desktop Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'article-left-sidebar-desktop-width-v2',
+				'max'         => 80,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 20
+			),
+			'article-left-sidebar-tablet-width-v2' => array(
+				'label'       => __( 'Tablet Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'article-left-sidebar-tablet-width-v2',
+				'max'         => 80,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 20
+			),
+			'article-left-sidebar-padding-v2' => array(
+				'label'       => __( 'Left Sidebar Padding ( px )', 'echo-knowledge-base' ),
+				'name'        => 'article-left-sidebar-padding-v2',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 10
+			),
+			'article-left-sidebar-background-color-v2' => array(
+				'label'       => __( 'Left Sidebar Background', 'echo-knowledge-base' ),
+				'name'        => 'article-left-sidebar-background-color-v2',
+				'size'        => '10',
+				'max'         => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#FFFFFF'
+			),
+			'article-left-sidebar-starting-position' => array(
+				'label'       => __( 'Top Offset ( px )', 'echo-knowledge-base' ),
+				'name'        => 'article-left-sidebar-starting-position',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 0
+			),
+			'article-left-sidebar-match' => array(
+				'label'       => __( 'Match to content', 'echo-knowledge-base' ),
+				'name'        => 'article-left-sidebar-match',
+				'type'        => EPKB_Input_Filter::CHECKBOX,
+				'default'     => 'off'
+			),
+			
+			// Article Version 2 - Article Content
+			'article-content-desktop-width-v2' => array(
+				'label'       => __( 'Desktop Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'article-content-desktop-width-v2',
+				'max'         => 100,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 60
+			),
+			'article-content-tablet-width-v2' => array(
+				'label'       => __( 'Tablet Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'article-content-tablet-width-v2',
+				'max'         => 100,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 60
+			),
+
+			'article-content-padding-v2' => array(
+				'label'       => __( 'Content Area Padding ( px )', 'echo-knowledge-base' ),
+				'name'        => 'article-content-padding-v2',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 20
+			),
+			'article-content-background-color-v2' => array(
+				'label'       => __( 'Content Area Background', 'echo-knowledge-base' ),
+				'name'        => 'article-content-background-color-v2',
+				'size'        => '10',
+				'max'         => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#ffffff'
+			),
+
+			// Article Version 2 - Right Sidebar
+			'article-right-sidebar-desktop-width-v2' => array(
+				'label'       => __( 'Desktop Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'article-right-sidebar-desktop-width-v2',
+				'max'         => 80,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 20
+			),
+			'article-right-sidebar-tablet-width-v2' => array(
+				'label'       => __( 'Tablet Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'article-right-sidebar-tablet-width-v2',
+				'max'         => 80,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 20
+			),
+			'article-right-sidebar-padding-v2' => array(
+				'label'       => __( 'Right Sidebar Padding ( px )', 'echo-knowledge-base' ),
+				'name'        => 'article-right-sidebar-padding-v2',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 10
+			),
+			'article-right-sidebar-background-color-v2' => array(
+				'label'       => __( 'Right Sidebar Background', 'echo-knowledge-base' ),
+				'name'        => 'article-right-sidebar-background-color-v2',
+				'size'        => '10',
+				'max'         => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#FFFFFF'
+			),
+			'article-right-sidebar-starting-position' => array(
+				'label'       => __( 'Top Offset ( px )', 'echo-knowledge-base' ),
+				'name'        => 'article-right-sidebar-starting-position',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 0
+			),
+			'article-right-sidebar-match' => array(
+				'label'       => __( 'Match to content', 'echo-knowledge-base' ),
+				'name'        => 'article-right-sidebar-match',
+				'type'        => EPKB_Input_Filter::CHECKBOX,
+				'default'     => 'off'
+			),
+
+			// Article Version 2 - Advanced
+			'article-mobile-break-point-v2' => array(
+				'label'       => __( 'Mobile Screen Break point (px)', 'echo-knowledge-base' ),
+				'name'        => 'article-mobile-break-point-v2',
+				'max'         => 2000,
+				'min'         => 100,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 768
+			),
+			
+			'article-tablet-break-point-v2' => array(
+				'label'       => __( 'Tablet Screen Break point (px)', 'echo-knowledge-base' ),
+				'name'        => 'article-tablet-break-point-v2',
+				'max'         => 2000,
+				'min'         => 100,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 1025
+			),
+
+
+			/******************************************************************************
+			 *
+			 *  CATEGORY ARCHIVE v2
+			 *
+			 ******************************************************************************/
+
+			/* 'category-archive-structure-version' => array( // TODO NOT USED RIGHT NOW, not in UI, auto determined
+					'label'       => __( 'Category Archive Structure', 'echo-knowledge-base' ),
+					'name'        => 'category-archive-structure-version',
+					'type'        => EPKB_Input_Filter::SELECTION,
+					'options'     =>
+							array(
+									'version-1' => 'Legacy Style',
+									'version-2' => 'Modern Style (Recommended)'
+							),
+					'default'     => 'version-1',
+			), */
+
+			// Archive Version 2 settings -----------------------------------/
+			'archive-container-width-v2' => array(
+				'label'       => __( 'Archive Container Width', 'echo-knowledge-base' ),
+				'name'        => 'archive-container-width-v2',
+				'max'         => 3000,
+				'min'         => 10,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 1080
+			),
+			'archive-container-width-units-v2' => array(
+				'label'       => __( 'Archive Container Width Units', 'echo-knowledge-base' ),
+				'name'        => 'archive-container-width-units-v2',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'px'         => _x( 'px', 'echo-knowledge-base' ),
+					'%'    => _x( '%',  'echo-knowledge-base' ),
+
+				),
+				'default'     => 'px'
+			),
+
+			// Archive Version 2 - Left Sidebar
+			/* 'archive-left-sidebar-on-v2' => array(
+				'label'       => __( 'Turn on Left Sidebar', 'echo-knowledge-base' ),
+				'name'        => 'archive-left-sidebar-on-v2',
+				'type'        => EPKB_Input_Filter::CHECKBOX,
+				'default'     => 'off'
+			), */
+			'archive-left-sidebar-width-v2' => array(
+				'label'       => __( 'Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'archive-left-sidebar-width-v2',
+				'max'         => 80,
+				'min'         => 5,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 20
+			),
+			'archive-left-sidebar-padding-v2' => array(
+				'label'       => __( 'Padding ( px )', 'echo-knowledge-base' ),
+				'name'        => 'archive-left-sidebar-padding-v2',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 10
+			),
+			'archive-left-sidebar-background-color-v2' => array(
+				'label'       => __( 'Left Sidebar Background', 'echo-knowledge-base' ),
+				'name'        => 'archive-left-sidebar-background-color-v2',
+				'size'        => '10',
+				'max'         => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#FFFFFF'
+			),
+
+			// Archive Version 2 - Archive Content
+			'archive-content-width-v2' => array(
+				'label'       => __( 'Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'archive-content-width-v2',
+				'max'         => 100,
+				'min'         => 5,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 80
+			),
+			'archive-content-padding-v2' => array(
+				'label'       => __( 'Padding ( px )', 'echo-knowledge-base' ),
+				'name'        => 'archive-content-padding-v2',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 10
+			),
+			'archive-content-background-color-v2' => array(
+				'label'       => __( 'Content Background', 'echo-knowledge-base' ),
+				'name'        => 'archive-content-background-color-v2',
+				'size'        => '10',
+				'max'         => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#ffffff'
+			),
+
+			// Archive Version 2 - Right Sidebar
+			// We are hiding all the right sidebar settings for now since it will not be used for this release. We have to show these once we have
+			// Enabled the KB Sidebar.
+
+			/* 'archive-right-sidebar-on-v2' => array(
+				'label'       => __( 'Turn on Right Sidebar', 'echo-knowledge-base' ),
+				'name'        => 'archive-right-sidebar-on-v2',
+				'type'        => EPKB_Input_Filter::CHECKBOX,
+				'default'     => 'off'
+			),
+			'archive-right-sidebar-width-v2' => array(
+				'label'       => __( 'Width ( % )', 'echo-knowledge-base' ),
+				'name'        => 'archive-right-sidebar-width-v2',
+				'max'         => 80,
+				'min'         => 5,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 20
+			),
+			'archive-right-sidebar-padding-v2' => array(
+				'label'       => __( 'Padding ( px )', 'echo-knowledge-base' ),
+				'name'        => 'archive-right-sidebar-padding-v2',
+				'max'         => 200,
+				'min'         => 0,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 10
+			),
+			'archive-right-sidebar-background-color-v2' => array(
+				'label'       => __( 'Right Sidebar Background', 'echo-knowledge-base' ),
+				'name'        => 'archive-right-sidebar-background-color-v2',
+				'size'        => '10',
+				'max'         => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#f7f7f7'
+			),*/
+
+			// Archive Version 2 - Advanced
+			'archive-mobile-break-point-v2' => array(
+				'label'       => __( 'Small Screen Break point ( px )', 'echo-knowledge-base' ),
+				'name'        => 'archive-mobile-break-point-v2',
+				'max'         => 2000,
+				'min'         => 100,
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => 1000
+			),
+			
+			/******************************************************************************
+			 *
+			 *  CATEGORIES BOX
+			 *
+			 ******************************************************************************/
+			'categories_box_top_margin' => array(
+                'label'       => __( 'Container Top Margin, (px)', 'echo-knowledge-base' ),
+                'name'        => 'categories_box_top_margin',
+                'max'         => '100',
+                'min'         => '0',
+                'type'        => EPKB_Input_Filter::NUMBER,
+                'default'     => '0'
+            ),
+			'categories_box_font_size' => array(
+                'label'       => __( 'Font Size, (px)', 'echo-knowledge-base' ),
+                'name'        => 'categories_box_font_size',
+                'max'         => '50',
+                'min'         => '8',
+                'type'        => EPKB_Input_Filter::NUMBER,
+                'default'     => '14'
+            ),
+			'category_box_title_text_color' => array(
+				'label'       => __( 'Title Text', 'echo-knowledge-base' ),
+				'name'      => 'category_box_title_text_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#666666'
+			),
+			'category_box_container_background_color' => array(
+				'label'       => __( 'Background', 'echo-knowledge-base' ),
+				'name'      => 'category_box_container_background_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#fcfcfc'
+			),
+			'category_box_category_text_color' => array(
+				'label'       => __( 'Text', 'echo-knowledge-base' ),
+				'name'      => 'category_box_category_text_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#2b98e5'
+			),
+			'category_box_count_background_color' => array(
+				'label'       => __( 'Count Background', 'echo-knowledge-base' ),
+				'name'      => 'category_box_count_background_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#FFFFFF'
+			),
+			'category_box_count_text_color' => array(
+				'label'       => __( 'Count Text', 'echo-knowledge-base' ),
+				'name'      => 'category_box_count_text_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#000000'
+			),
+			'category_box_count_border_color' => array(
+				'label'       => __( 'Count Border', 'echo-knowledge-base' ),
+				'name'      => 'category_box_count_border_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#CCCCCC'
+			),
+			
+			
+			/******************************************************************************
+			 *
+			 *  OTHER
+			 *
+			 ******************************************************************************/
+
+			'categories_in_url_enabled' => array(
+					'label'       => __( 'Categories in URL', 'echo-knowledge-base' ),
+					'name'        => 'categories_in_url_enabled',
+					'type'        => EPKB_Input_Filter::SELECTION,
+					'options'     => array(
+							'on'     => __( 'on', 'echo-knowledge-base' ),
+							'off'    => __( 'off', 'echo-knowledge-base' )
+					),
+					'default'     => 'off'
+			),
+			'kb_main_page_category_link' => array(
+					'label'       => __( 'Main Page Category Link', 'echo-knowledge-base' ),
+					'name'        => 'kb_main_page_category_link',
+					'type'        => EPKB_Input_Filter::SELECTION,
+					'options'     =>
+							array(
+									'default'          => __( 'Article Page', 'echo-knowledge-base' ),
+									'category_archive' => __( 'Category Archive Page', 'echo-knowledge-base' )
+							),
+					'default'     => 'default',
 			),
 			'categories_display_sequence' => array(
 				'label'       => __( 'Categories Sequence', 'echo-knowledge-base' ),
 				'name'        => 'categories_display_sequence',
-				'info'        => __( 'Order in which categories will appear on the KB main page.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => self::get_categories_display_order(),
 				'default'     => 'alphabetical-title'
@@ -144,38 +654,25 @@ class EPKB_KB_Config_Specs {
 			'articles_display_sequence' => array(
 				'label'       => __( 'Articles Sequence', 'echo-knowledge-base' ),
 				'name'        => 'articles_display_sequence',
-				'info'        => __( 'An order in which articles will be listed within each category on Knowledge Base main page.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => self::get_articles_display_order(),
 				'default'     => 'alphabetical-title'
 			),
-			'css_version' => array(
-				'label'       => __( 'CSS Version', 'echo-knowledge-base' ),
-				'name'        => 'css_version',
-				'info'        => __( 'Use Current Version unless you have an older installation and need to keep using the Legacy Version of KB CSS.' ),
-				'type'        => EPKB_Input_Filter::SELECTION,
-				'options'     => array(
-					'css-current'   => _x( 'Current Version', 'echo-knowledge-base' ),
-					'css-legacy'    => _x( 'Legacy Version', 'echo-knowledge-base' ) ),
-				'default'     => 'css-current'
-			),
 			'templates_for_kb' => array(
-				'label'       => __( 'Preview mode is not available for this option. View front-end to see the template in action.', 'echo-knowledge-base' ),
+				'label'       => __( 'Choose Template', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb',
-				'info'        => __( 'Description.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
-					'current_theme_templates'    => __( 'Current Theme Templates Used for Posts and Pages' ),
-					'kb_templates'       => __( 'Knowledge Base Templates Designed for Articles' ),
+					'current_theme_templates'    => __( 'Current Theme', 'echo-knowledge-base'  ),
+					'kb_templates'       => __( 'Knowledge Base Theme', 'echo-knowledge-base'  ),
 				),
 				'default'     => 'kb_templates'
 			),
 			'wpml_is_enabled' => array(
-					'label'       => __( 'WPML is enabled', 'echo-knowledge-base' ),
+					'label'       => __( 'WPML is Enabled', 'echo-knowledge-base' ),
 					'name'        => 'wpml_is_enabled',
-					'info'        => __( 'If selected, WPML features will become available for this KB.' ),
 					'type'        => EPKB_Input_Filter::CHECKBOX,
-					'internal'    => true,  // field update handled separately
+					//'internal'    => true,  // field update handled separately
 					'default'     => 'off'
 			),
 
@@ -185,20 +682,17 @@ class EPKB_KB_Config_Specs {
 			 *
 			 ******************************************************************************/
 
-			//Main Page
-
+			// TEMPLATES for Main Page
 			'templates_display_main_page_main_title' => array(
 				'label'       => __( 'Display Main Title', 'echo-knowledge-base' ),
 				'name'        => 'templates_display_main_page_main_title',
-				'info'        => __( 'If KB Template is active, then choose whether or not to display the Main title on the main page.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => 'off'
 			),
             'templates_for_kb_padding_top' => array(
                 'label'       => __( 'Top', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_padding_top',
-                'info'        => __( 'Adds spacing above all the KB Content' ),
-                'max'         => '50',
+                'max'         => '300',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
                 'default'     => '0'
@@ -206,7 +700,6 @@ class EPKB_KB_Config_Specs {
             'templates_for_kb_padding_bottom' => array(
                 'label'       => __( 'Bottom', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_padding_bottom',
-                'info'        => __( 'Adds spacing below all the KB Content' ),
                 'max'         => '500',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
@@ -215,7 +708,6 @@ class EPKB_KB_Config_Specs {
             'templates_for_kb_padding_left' => array(
                 'label'       => __( 'Left', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_padding_left',
-                'info'        => __( 'Adds spacing left of all the KB Content' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
@@ -224,7 +716,6 @@ class EPKB_KB_Config_Specs {
             'templates_for_kb_padding_right' => array(
                 'label'       => __( 'Right', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_padding_right',
-                'info'        => __( 'Adds spacing right of all the KB Content' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
@@ -233,8 +724,7 @@ class EPKB_KB_Config_Specs {
             'templates_for_kb_margin_top' => array(
                 'label'       => __( 'Top', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_margin_top',
-                'info'        => __( 'Adds Padding Top.' ),
-                'max'         => '50',
+                'max'         => '300',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
                 'default'     => '0'
@@ -242,7 +732,6 @@ class EPKB_KB_Config_Specs {
             'templates_for_kb_margin_bottom' => array(
                 'label'       => __( 'Bottom', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_margin_bottom',
-                'info'        => __( 'Adds Padding Bottom.' ),
                 'max'         => '500',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
@@ -251,7 +740,6 @@ class EPKB_KB_Config_Specs {
             'templates_for_kb_margin_left' => array(
                 'label'       => __( 'Left', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_margin_left',
-                'info'        => __( 'Adds Padding Left.' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
@@ -260,78 +748,74 @@ class EPKB_KB_Config_Specs {
             'templates_for_kb_margin_right' => array(
                 'label'       => __( 'Right', 'echo-knowledge-base' ),
                 'name'        => 'templates_for_kb_margin_right',
-                'info'        => __( 'Adds Padding Right.' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
                 'default'     => '0'
             ),
 
-			//Article Page
+			// TEMPLATES ofr Article Page
 			'templates_for_kb_article_reset'            => array(
-				'label'       => __( 'Article CSS Reset', 'echo-knowledge-base' ),
+				'label'       => __( 'Article Content - Remove Theme Styling', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_reset',
-				'info'        => __( 'Adds a CSS reset that nullifies all CSS being applied to KB Article elements by CSS of a current theme or installed plugins. ' .
-					'Switching on CSS reset will remove any undesirable effects from KB articles.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => 'off'
 			),
 			'templates_for_kb_article_defaults'         => array(
-				'label'       => __( 'Article CSS Defaults', 'echo-knowledge-base' ),
+				'label'       => __( 'Article Content - Add KB Styling', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_defaults',
-				'info'        => __( 'Adds a CSS defaults styling to KB article elements in a format that is the best for writing documentation.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => 'off'
+			),
+			'templates_for_kb_widget_sidebar_defaults'         => array(
+				'label'       => __( 'Widget Sidebar Styling', 'echo-knowledge-base' ),
+				'name'        => 'templates_for_kb_widget_sidebar_defaults',
+				'type'        => EPKB_Input_Filter::CHECKBOX,
+				'default'     => 'on'
 			),
 			'templates_for_kb_article_padding_top'      => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_padding_top',
-				'info'        => __( 'Adds spacing above the KB article' ),
 				'max'         => '300',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => '30'
+				'default'     => '0'
 			),
 			'templates_for_kb_article_padding_bottom'   => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_padding_bottom',
-				'info'        => __( 'Adds spacing below the KB article' ),
 				'max'         => '500',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => '50'
+				'default'     => '0'
 			),
 			'templates_for_kb_article_padding_left'     => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_padding_left',
-				'info'        => __( 'Adds spacing to the left of the KB article' ),
 				'max'         => '300',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => '4'
+				'default'     => '0'
 			),
 			'templates_for_kb_article_padding_right'    => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_padding_right',
-				'info'        => __( 'Adds spacing to the right of the KB article' ),
 				'max'         => '300',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => '4'
+				'default'     => '0'
 			),
 			'templates_for_kb_article_margin_top'       => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_margin_top',
-				'info'        => __( 'Adds spacing at the top of the KB article' ),
 				'max'         => '300',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => '4'
+				'default'     => '0'
 			),
 			'templates_for_kb_article_margin_bottom'    => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_margin_bottom',
-				'info'        => __( 'Adds spacing at the bottom of the KB article.' ),
 				'max'         => '500',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -340,27 +824,24 @@ class EPKB_KB_Config_Specs {
 			'templates_for_kb_article_margin_left'      => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_margin_left',
-				'info'        => __( 'Adds spacing on the left side of the KB article.' ),
 				'max'         => '300',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => '4'
+				'default'     => '0'
 			),
 			'templates_for_kb_article_margin_right'     => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_article_margin_right',
-				'info'        => __( 'Adds spacing on the right side of the KB article.' ),
 				'max'         => '300',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => '4'
+				'default'     => '0'
 			),
 
 			//Category Archive Page
 			'templates_for_kb_category_archive_page_style' => array(
 				'label'       => __( 'Style for Category Archive Page', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_category_archive_page_style',
-				'info'        => __( 'Change the look of the Category Archive Page.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'eckb-category-archive-style-1' => __( 'Style 1 ( Basic List )', 'echo-knowledge-base' ),
@@ -374,14 +855,36 @@ class EPKB_KB_Config_Specs {
 			'templates_for_kb_category_archive_page_heading_description' => array(
 				'label'       => __( 'Heading Description', 'echo-knowledge-base' ),
 				'name'        => 'templates_for_kb_category_archive_page_heading_description',
-				'info'        => __( 'Heading Description' ),
 				'size'        => '30',
-				'max'         => '30',
+				'max'         => '50',
 				'min'         => '1',
 				'mandatory'   => false,
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Category - ', 'echo-knowledge-base' )
 			),
+			
+			'templates_for_kb_category_archive_read_more' => array(
+				'label'       => __( 'Read More', 'echo-knowledge-base' ),
+				'name'        => 'templates_for_kb_category_archive_read_more',
+				'size'        => '30',
+				'max'         => '50',
+				'min'         => '1',
+				'mandatory'   => false,
+				'type'        => EPKB_Input_Filter::TEXT,
+				'default'     => __( 'Read More', 'echo-knowledge-base' )
+			),
+			
+			'category_focused_menu_heading_text' => array(
+				'label'       => __( 'Categories Heading', 'echo-knowledge-base' ),
+				'name'        => 'category_focused_menu_heading_text',
+				'size'        => '30',
+				'max'         => '50',
+				'min'         => '1',
+				'mandatory'   => false,
+				'type'        => EPKB_Input_Filter::TEXT,
+				'default'     => __( 'Categories', 'echo-knowledge-base' )
+			),
+
 
 			/******************************************************************************
 			 *
@@ -393,25 +896,229 @@ class EPKB_KB_Config_Specs {
 			'articles_comments_global' => array(
 				'label'       => __( 'Comments', 'echo-knowledge-base' ),
 				'name'        => 'articles_comments_global',
-				'info'        => __( 'Controls whether article comments will be available or not. If this option is "on" then when and how comments will be displayed ' .
-				                     'is controlled by:<br/><br/>
-				                      • your theme,<br/>  •  the WordPress Discussion settings<br/>  • per-article settings.<br/><br/> See our documentation <lin> for further details.'),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => 'off'
+			),
+
+			/**** TOC ****/
+			'article_toc_enable' => array(
+				'label'       => __( 'Show Table of Contents', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_enable',
+				'type'        => EPKB_Input_Filter::CHECKBOX,
+				'default'     => 'off'  /* TODO existing KB is off, new KB is on */
+			),
+			'article_toc_start_level' => array(
+                'label'       => __( 'The Heading TOC Will Map To', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_start_level',
+                'type'        => EPKB_Input_Filter::SELECTION,
+                'options'     => array(
+                    '1'   => 'H1-H6',
+                    '2'   => 'H2-H6',
+					'3'   => 'H3-H6',
+					'4'   => 'H4-H6',
+					'5'   => 'H5-H6',
+					'6'   => 'H6 only',
+                ),
+                'default'     => '2'
+            ),
+			'article_toc_exclude_class' => array(
+                'label'       => __( 'CSS Class to exclude headers from the TOC', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_exclude_class',
+                'size'        => '200',
+				'max'         => '200',
+				'min'         => '0',
+				'mandatory'   => false,
+				'type'        => EPKB_Input_Filter::TEXT,
+				'default'     => ''
+            ),
+			'article_toc_text_color' => array(
+				'label'       => __( 'Text', 'echo-knowledge-base' ),
+				'name'      => 'article_toc_text_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#2b98e5'
+			),
+			'article_toc_active_bg_color' => array(
+				'label'       => __( 'Background', 'echo-knowledge-base' ),
+				'name'      => 'article_toc_active_bg_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#1e73be'
+			),
+			'article_toc_active_text_color' => array(
+				'label'       => __( 'Text', 'echo-knowledge-base' ),
+				'name'      => 'article_toc_active_text_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#ffffff'
+			),
+			'article_toc_cursor_hover_bg_color' => array(
+				'label'       => __( 'Background', 'echo-knowledge-base' ),
+				'name'      => 'article_toc_cursor_hover_bg_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#e1ecf7'
+			),
+			'article_toc_cursor_hover_text_color' => array(
+				'label'       => __( 'Text', 'echo-knowledge-base' ),
+				'name'      => 'article_toc_cursor_hover_text_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#000000'
+			),
+			'article_toc_scroll_offset' => array(
+                'label'       => __( 'Selected Heading Offset from Top (px)', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_scroll_offset',
+                'max'         => '200',
+                'min'         => '0',
+                'type'        => EPKB_Input_Filter::NUMBER,
+                'default'     => '130'
+            ),
+			'article_toc_position' => array(
+                'label'       => __( 'Location', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_position',
+                'type'        => EPKB_Input_Filter::SELECTION,
+                'options'     => array(
+                    'left'   => __( 'Left',   'echo-knowledge-base' ),
+                    'right'   => __( 'Right', 'echo-knowledge-base' ),
+					'middle'   => __( 'Middle', 'echo-knowledge-base' ),
+                ),
+                'default'     => 'right'
+            ),
+			'article_toc_border_mode' => array(
+                'label'       => __( 'Border Style', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_border_mode',
+                'type'        => EPKB_Input_Filter::SELECTION,
+                'options'     => array(
+                    'none'   => __( 'None',   'echo-knowledge-base' ),
+                    'between'   => __( 'Between Article and TOC', 'echo-knowledge-base' ),
+					'around'   => __( 'Around TOC', 'echo-knowledge-base' ),
+                ),
+                'default'     => 'between'
+            ),
+			'article_toc_border_color' => array(
+				'label'       => __( 'Border', 'echo-knowledge-base' ),
+				'name'      => 'article_toc_border_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#2b98e5'
+			),
+			'article_toc_font_size' => array(
+                'label'       => __( 'Font size (px)', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_font_size',
+                'max'         => '200',
+                'min'         => '0',
+                'type'        => EPKB_Input_Filter::NUMBER,
+                'default'     => '14'
+            ),
+			'article_toc_position_from_top' => array(
+                'label'       => __( 'Starting Position (px)', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_position_from_top',
+                'max'         => '1000',
+                'min'         => '0',
+                'type'        => EPKB_Input_Filter::NUMBER,
+                'default'     => '300'
+            ),
+			/*'article_toc_position_from_content' => array(
+                'label'       => __( 'Bottom padding ( px )', 'echo-knowledge-base' ),
+                'name'        => 'article_toc_position_from_content',
+                'max'         => '200',
+                'min'         => '0',
+                'type'        => EPKB_Input_Filter::NUMBER,
+                'default'     => '0'
+            ),*/
+
+			// Media Sizing
+			'article_toc_width_1' => array(
+				'label'       => __( 'TOC Width on laptops (px)', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_width_1',
+				'max'         => '500',
+				'min'         => '0',
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => '100'
+			),
+			'article_toc_media_1' => array(
+				'label'       => __( 'Starting resolution for large tablets (px)', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_media_1',
+				'max'         => '2000',
+				'min'         => '0',
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => '1367'
+			),
+			'article_toc_width_2' => array(
+				'label'       => __( 'TOC Width on tablets (px)', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_width_2',
+				'max'         => '500',
+				'min'         => '0',
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => '100'
+			),
+			'article_toc_media_2' => array(
+				'label'       => __( 'Starting resolution for small tablets (px)', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_media_2',
+				'max'         => '2000',
+				'min'         => '0',
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => '1025'
+			),
+			'article_toc_media_3' => array(
+				'label'       => __( 'Starting resolution for phones (px)', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_media_3',
+				'max'         => '2000',
+				'min'         => '0',
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => '800'
+			),
+			'article_toc_gutter' => array(
+				'label'       => __( 'Gutter', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_gutter',
+				'max'         => '500',
+				'min'         => '0',
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => '0'
+			),
+			'article_toc_background_color' => array(
+				'label'       => __( 'Background', 'echo-knowledge-base' ),
+				'name'      => 'article_toc_background_color',
+				'size'        => '10',
+				'max'        => '7',
+				'min'         => '7',
+				'type'        => EPKB_Input_Filter::COLOR_HEX,
+				'default'     => '#fcfcfc'
+			),
+			'article_toc_title' => array(
+				'label'       => __( 'Title (optional)', 'echo-knowledge-base' ),
+				'name'        => 'article_toc_title',
+				'size'        => '200',
+				'max'         => '200',
+				'min'         => '0',
+				'mandatory'   => false,
+				'type'        => EPKB_Input_Filter::TEXT,
+				'default'     => __( 'Table of Contents', 'echo-knowledge-base' )
 			),
 
 			/******   BREADCRUMB   ******/
 			'breadcrumb_toggle' => array(
 				'label'       => __( 'Show Breadcrumbs', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_toggle',
-				'info'        => __( 'Whether or not to display breadcrumbs above articles.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => 'on'
 			),
 			'breadcrumb_icon_separator' => array(
 				'label'       => __( 'Breadcrumb Separator', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_icon_separator',
-				'info'        => __( 'Icon that is used to separate individual breadcrumb links.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'ep_font_icon_none'    => __( '-- No Icon --',   'echo-knowledge-base' ),
@@ -419,15 +1126,14 @@ class EPKB_KB_Config_Specs {
 					'ep_font_icon_left_arrow'    => __( 'Left Arrow', 'echo-knowledge-base' ),
 					'ep_font_icon_arrow_carrot_right_circle'    => __( 'Arrow Right Circle',   'echo-knowledge-base' ),
 					'ep_font_icon_arrow_carrot_left_circle'    => __( 'Arrow Left Circle',   'echo-knowledge-base' ),
-					'ep_font_icon_arrow_carrot_left'    => __( 'Arrow Carrot Left',   'echo-knowledge-base' ),
-					'ep_font_icon_arrow_carrot_right'    => __( 'Arrow Carrot Right',   'echo-knowledge-base' ),
+					'ep_font_icon_arrow_carrot_left'    => __( 'Arrow Caret Left',   'echo-knowledge-base' ),
+					'ep_font_icon_arrow_carrot_right'    => __( 'Arrow Caret Right',   'echo-knowledge-base' ),
 				),
 				'default'     => 'ep_font_icon_arrow_carrot_right'
 			),
             'breadcrumb_padding_top' => array(
                 'label'       => __( 'Top', 'echo-knowledge-base' ),
                 'name'        => 'breadcrumb_padding_top',
-                'info'        => __( 'Adds Padding Top.' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
@@ -436,7 +1142,6 @@ class EPKB_KB_Config_Specs {
             'breadcrumb_padding_bottom' => array(
                 'label'       => __( 'Bottom', 'echo-knowledge-base' ),
                 'name'        => 'breadcrumb_padding_bottom',
-                'info'        => __( 'Adds Padding Bottom.' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
@@ -445,25 +1150,22 @@ class EPKB_KB_Config_Specs {
             'breadcrumb_padding_left' => array(
                 'label'       => __( 'Left', 'echo-knowledge-base' ),
                 'name'        => 'breadcrumb_padding_left',
-                'info'        => __( 'Adds Padding Left.' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '4'
+                'default'     => '0'
             ),
             'breadcrumb_padding_right' => array(
                 'label'       => __( 'Right', 'echo-knowledge-base' ),
                 'name'        => 'breadcrumb_padding_right',
-                'info'        => __( 'Adds Padding Right.' ),
                 'max'         => '50',
                 'min'         => '0',
                 'type'        => EPKB_Input_Filter::NUMBER,
-                'default'     => '4'
+                'default'     => '0'
             ),
 			'breadcrumb_margin_top' => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_margin_top',
-				'info'        => __( 'Adds margin Top.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -472,7 +1174,6 @@ class EPKB_KB_Config_Specs {
 			'breadcrumb_margin_bottom' => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_margin_bottom',
-				'info'        => __( 'Adds margin Bottom.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -481,7 +1182,6 @@ class EPKB_KB_Config_Specs {
 			'breadcrumb_margin_left' => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_margin_left',
-				'info'        => __( 'Adds margin Left.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -490,16 +1190,14 @@ class EPKB_KB_Config_Specs {
 			'breadcrumb_margin_right' => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_margin_right',
-				'info'        => __( 'Adds margin Right.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => '0'
 			),
             'breadcrumb_text_color' => array(
-                'label'       => __( 'Breadcrumb Text Color', 'echo-knowledge-base' ),
+                'label'       => __( 'Breadcrumb Text', 'echo-knowledge-base' ),
                 'name'        => 'breadcrumb_text_color',
-                'info'        => __( 'Color of Breadcrumb Text' ),
                 'size'        => '10',
                 'max'         => '7',
                 'min'         => '7',
@@ -509,9 +1207,8 @@ class EPKB_KB_Config_Specs {
 			'breadcrumb_description_text' => array(
 				'label'       => __( 'Breadcrumb Description', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_description_text',
-				'info'        => __( 'Text appearing before the breadcrumb navigation links.' ),
 				'size'        => '50',
-				'max'         => '50',
+				'max'         => '70',
 				'min'         => '0',
 				'mandatory'   => false,
 				'type'        => EPKB_Input_Filter::TEXT,
@@ -520,17 +1217,15 @@ class EPKB_KB_Config_Specs {
 			'breadcrumb_home_text' => array(
 				'label'       => __( 'Breadcrumb Home Text', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_home_text',
-				'info'        => __( 'Text of a link that goes to the KB Main Page and is shown as the root of the breadcrumb.' ),
 				'size'        => '50',
 				'max'         => '50',
-				'min'         => '2',
+				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Main', 'echo-knowledge-base' )
 			),
 			'breadcrumb_font_size' => array(
 				'label'       => __( 'Relative Text Size', 'echo-knowledge-base' ),
 				'name'        => 'breadcrumb_font_size',
-				'info'        => __( 'Sets overall text size for breadcrumbs.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'10' => _x( 'Extra Small', 'font size', 'echo-knowledge-base' ),
@@ -545,14 +1240,12 @@ class EPKB_KB_Config_Specs {
             'back_navigation_toggle' => array(
                 'label'       => __( 'Show Back Button', 'echo-knowledge-base' ),
                 'name'        => 'back_navigation_toggle',
-                'info'        => __( 'Whether or not to display back button on the article page.' ),
                 'type'        => EPKB_Input_Filter::CHECKBOX,
                 'default'     => 'on'
             ),
             'back_navigation_mode' => array(
                 'label'       => __( 'Navigation Mode', 'echo-knowledge-base' ),
                 'name'        => 'back_navigation_mode',
-                'info'        => __( 'Where user will be redirected to after clicking the back button.' ),
                 'type'        => EPKB_Input_Filter::SELECTION,
                 'options'     => array(
                     'navigate_browser_back'   => __( 'Browser Go Back Action',   'echo-knowledge-base' ),
@@ -563,18 +1256,16 @@ class EPKB_KB_Config_Specs {
             'back_navigation_text' => array(
                 'label'       => __( 'Text', 'echo-knowledge-base' ),
                 'name'        => 'back_navigation_text',
-                'info'        => __( 'Navigation Text' ),
                 'size'        => '30',
-                'max'         => '30',
+                'max'         => '50',
                 'min'         => '1',
                 'mandatory'   => false,
                 'type'        => EPKB_Input_Filter::TEXT,
-                'default'     => __( '← All Topics', 'echo-knowledge-base' )
+                'default'     => '< ' . __( 'All Topics', 'echo-knowledge-base' )
             ),
             'back_navigation_text_color' => array(
-				'label'       => __( 'Text Color', 'echo-knowledge-base' ),
+				'label'       => __( 'Text', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_text_color',
-				'info'        => __( 'Text color of the back button.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -582,9 +1273,8 @@ class EPKB_KB_Config_Specs {
 				'default'     => '#f7941d'
 			),
 			'back_navigation_bg_color' => array(
-				'label'       => __( 'Background Color', 'echo-knowledge-base' ),
+				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_bg_color',
-				'info'        => __( 'Background color of the back button' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -592,9 +1282,8 @@ class EPKB_KB_Config_Specs {
 				'default'     => '#ffffff'
 			),
             'back_navigation_border_color' => array(
-                'label'       => __( 'Border Color', 'echo-knowledge-base' ),
+                'label'       => __( 'Border', 'echo-knowledge-base' ),
                 'name'        => 'back_navigation_border_color',
-                'info'        => __( 'Border color of the back button' ),
                 'size'        => '10',
                 'max'         => '7',
                 'min'         => '7',
@@ -604,17 +1293,15 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_font_size' => array(
 				'label'       => __( 'Text Size', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_font_size',
-				'info'        => __( 'Size of the button text.' ),
 				'size'        => '50',
 				'max'         => '50',
-				'min'         => '2',
+				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
-				'default'     => __( '16', 'echo-knowledge-base' )
+				'default'     => '16'
 			),
             'back_navigation_border' => array(
                 'label'       => __( 'Button Border', 'echo-knowledge-base' ),
                 'name'        => 'back_navigation_border',
-                'info'        => __( 'Border for the back button.' ),
                 'type'        => EPKB_Input_Filter::SELECTION,
                 'options'     => array(
                     'none'    => __( '-- No Border --', 'echo-knowledge-base' ),
@@ -625,27 +1312,24 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_border_radius' => array(
 				'label'       => __( 'Border Radius', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_border_radius',
-				'info'        => __( 'The round curve of the box corners. The higher the number, the more curved it becomes.' ),
 				'size'        => '50',
 				'max'         => '50',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
-				'default'     => __( '3', 'echo-knowledge-base' )
+				'default'     => '3'
 			),
 			'back_navigation_border_width' => array(
 				'label'       => __( 'Border Width', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_border_width',
-				'info'        => __( 'Width of the border around the back button.' ),
 				'size'        => '50',
 				'max'         => '50',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
-				'default'     => __( '1', 'echo-knowledge-base' )
+				'default'     => '1'
 			),
 			'back_navigation_margin_top' => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_margin_top',
-				'info'        => __( 'Adds Margin Top.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -654,7 +1338,6 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_margin_bottom' => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_margin_bottom',
-				'info'        => __( 'Adds Margin Bottom.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -663,7 +1346,6 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_margin_left' => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_margin_left',
-				'info'        => __( 'Adds Margin Left.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -672,7 +1354,6 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_margin_right' => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_margin_right',
-				'info'        => __( 'Adds Margin Right.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -681,7 +1362,6 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_padding_top' => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_padding_top',
-				'info'        => __( 'Adds Padding Top.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -690,7 +1370,6 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_padding_bottom' => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_padding_bottom',
-				'info'        => __( 'Adds Padding Bottom.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -699,7 +1378,6 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_padding_left' => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_padding_left',
-				'info'        => __( 'Adds Padding Left.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -708,7 +1386,6 @@ class EPKB_KB_Config_Specs {
 			'back_navigation_padding_right' => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'back_navigation_padding_right',
-				'info'        => __( 'Adds Padding Right.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -719,36 +1396,98 @@ class EPKB_KB_Config_Specs {
 			'last_udpated_on' => array(
 				'label'       => __( 'Last Updated Display', 'echo-knowledge-base' ),
 				'name'        => 'last_udpated_on',
-				'info'        => __( 'When was the post last modified.', 'echo-knowledge-base' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'none'           => __( 'Not Displayed', 'echo-knowledge-base' ),
 					'article_top'    => __( 'Show Above Article', 'echo-knowledge-base' ),
 					'article_bottom' => __( 'Show Below Article', 'echo-knowledge-base' )
 				),
-				'default'     => 'none'
+				'default'     => 'article_top'
 			),
 			'last_udpated_on_text' => array(
 				'label'       => __( 'Text', 'echo-knowledge-base' ),
 				'name'        => 'last_udpated_on_text',
-				'info'        => __( 'Text displayed in front last modified date of a post.' ),
 				'size'        => '30',
 				'max'         => '60',
-				'min'         => '1',
+				'min'         => '0',
+				'mandatory'   => false,
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Last Updated On', 'echo-knowledge-base' )
+			),
+			'created_on' => array(
+				'label'       => __( 'Created On Display', 'echo-knowledge-base' ),
+				'name'        => 'created_on',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'none'           => __( 'Not Displayed', 'echo-knowledge-base' ),
+					'article_top'    => __( 'Show Above Article', 'echo-knowledge-base' ),
+					'article_bottom' => __( 'Show Below Article', 'echo-knowledge-base' )
+				),
+				'default'     => 'article_top'
+			),
+			'created_on_text' => array(
+				'label'       => __( 'Text', 'echo-knowledge-base' ),
+				'name'        => 'created_on_text',
+				'size'        => '30',
+				'max'         => '60',
+				'min'         => '0',
+				'mandatory'   => false,
+				'type'        => EPKB_Input_Filter::TEXT,
+				'default'     => __( 'Created On', 'echo-knowledge-base' )
+			),
+			'author_mode' => array(
+				'label'       => __( 'Author Display', 'echo-knowledge-base' ),
+				'name'        => 'author_mode',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'none'           => __( 'Not Displayed', 'echo-knowledge-base' ),
+					'article_top'    => __( 'Show Above Article', 'echo-knowledge-base' ),
+					'article_bottom' => __( 'Show Below Article', 'echo-knowledge-base' )
+				),
+				'default'     => 'article_top'
+			),
+			'author_text' => array(
+				'label'       => __( 'Text', 'echo-knowledge-base' ),
+				'name'        => 'author_text',
+				'size'        => '30',
+				'max'         => '60',
+				'min'         => '0',
+				'mandatory'   => false,
+				'type'        => EPKB_Input_Filter::TEXT,
+				'default'     => __( 'by', 'echo-knowledge-base' )
 			),
 
             /******   TAGS   ******/
             /* do we need this? 'tags_toggle' => array(
                 'label'       => __( 'Show Tags', 'echo-knowledge-base' ),
                 'name'        => 'tags_toggle',
-                'info'        => __( 'Whether or not to display article tags.' ),
                 'type'        => EPKB_Input_Filter::CHECKBOX,
                 'default'     => 'on'
             ), */
-
-
+			'article_meta_icon_on' => array(
+				'label'       => __( 'Article Meta Icon', 'echo-knowledge-base' ),
+				'name'        => 'article_meta_icon_on',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'on'    => __( 'Show icon', 'echo-knowledge-base' ),
+					'off'    => __( 'Hide icon', 'echo-knowledge-base' )
+				),
+				'default'     => 'on'
+			), /* option postponed
+            'date_format' => array(
+                'label'       => __( 'Date Format', 'echo-knowledge-base' ),
+                'name'        => 'date_format',
+                'type'        => EPKB_Input_Filter::SELECTION,
+                'options'     => array(
+                    'F j, Y'    => __( 'January 1, 2020', 'echo-knowledge-base' ),
+                    'M j, Y'    => __( 'Jan 1, 2020', 'echo-knowledge-base' ),
+                    'j F Y'    => __( '1 January 2020', 'echo-knowledge-base' ),
+                    'j M Y'    => __( '1 Jan 2020', 'echo-knowledge-base' ),
+                    'm/d/Y'    => __( '01/30/2020', 'echo-knowledge-base' ),
+                    'Y/m/d'    => __( '2020/01/30', 'echo-knowledge-base' ),
+                ),
+                'default'     => 'M j, Y'
+            ), */
 		);
 
 		// add CORE LAYOUTS SHARED configuration
@@ -757,6 +1496,7 @@ class EPKB_KB_Config_Specs {
 		// add CORE LAYOUTS non-shared configuration
 		$config_specification = array_merge( $config_specification, EPKB_KB_Config_Layout_Basic::get_fields_specification() );
 		$config_specification = array_merge( $config_specification, EPKB_KB_Config_Layout_Tabs::get_fields_specification() );
+		$config_specification = array_merge( $config_specification, EPKB_KB_Config_Layout_Categories::get_fields_specification() );
 
 		self::$cached_specs[$kb_id] = empty($config_specification_temp) || count($config_specification) > count($config_specification_temp)
 								? $config_specification : $config_specification_temp;
@@ -790,9 +1530,8 @@ class EPKB_KB_Config_Specs {
 			/***  KB Main Page -> General ***/
 
 			'width' => array(
-				'label'       => __( 'Page Width', 'echo-knowledge-base' ),
+				'label'       => __( 'Search Box Width', 'echo-knowledge-base' ),
 				'name'        => 'width',
-				'info'        => __( 'Full Width will expand as far as the page allows for the active theme.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'epkb-boxed' => __( 'Boxed Width', 'echo-knowledge-base' ),
@@ -802,7 +1541,6 @@ class EPKB_KB_Config_Specs {
 			'section_font_size' => array(
 				'label'       => __( 'Relative Text Size', 'echo-knowledge-base' ),
 				'name'        => 'section_font_size',
-				'info'        => __( 'Sets overall text size that affects Category and Article titles.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'section_xsmall_font' => _x( 'Extra Small', 'font size', 'echo-knowledge-base' ),
@@ -811,13 +1549,29 @@ class EPKB_KB_Config_Specs {
 					'section_large_font' => _x( 'Large', 'font size', 'echo-knowledge-base' ) ),
 				'default'     => $default_style['section_font_size']
 			),
+			'show_articles_before_categories' => array(
+				'label'       => __( 'Show Articles', 'echo-knowledge-base' ),
+				'name'        => 'show_articles_before_categories',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'on' => __( 'Before Categories', 'echo-knowledge-base' ),
+					'off' => __( 'After Categories', 'echo-knowledge-base' ),
+					),
+				'default'     => 'off'  /* TODO off for existing KBs, on for new KBs */
+			),
+			'categories_layout_list_mode' => array(
+				'label'       => __( 'Categories List Mode (Article and Archive Page)', 'echo-knowledge-base' ),
+				'name'        => 'categories_layout_list_mode',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'list_top_categories' => __( 'Top Categories', 'echo-knowledge-base' ),
+					'list_sibling_categories' => __( 'Sibling Categories', 'echo-knowledge-base' ),
+					),
+				'default'     => $default_style['categories_layout_list_mode']
+			),
 			'nof_columns' => array(
 				'label'       => __( 'Number of Columns', 'echo-knowledge-base' ),
 				'name'        => 'nof_columns',
-				'info'        => __( 'Each sub-category will list its articles. How many sub-categories will be displayed accross a page can be ' .
-				                     'controlled by this configuration. The higher the number the more sub-categories will fit into one row ' .
-				                     '(and sub-categories that do not fit will show in the next row). However more columns in a row will make each' .
-				                     ' sub-category narrower and will cause articles with longer titles to wrap.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array( 'one-col' => '1', 'two-col' => '2', 'three-col' => '3', 'four-col' => '4' ),
 				'default'     => $default_style['nof_columns']
@@ -825,8 +1579,7 @@ class EPKB_KB_Config_Specs {
 			'nof_articles_displayed' => array(
 				'label'       => __( 'Number of Articles Listed', 'echo-knowledge-base' ),
 				'name'        => 'nof_articles_displayed',
-				'info'        => __( 'The number of articles that will be displayed in a list under each sub-category.' ),
-				'max'         => '200',
+				'max'         => '2000',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => $default_style['nof_articles_displayed'],
@@ -834,13 +1587,12 @@ class EPKB_KB_Config_Specs {
 			'expand_articles_icon' => array(
 				'label'       => __( 'Icon to Expand/Collapse Articles', 'echo-knowledge-base' ),
 				'name'        => 'expand_articles_icon',
-				'info'        => __( 'When sub-category has articles listed below it this icon allows user to expand and collapse that list.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array( 'ep_font_icon_plus_box' => _x( 'Plus Box', 'icon type', 'echo-knowledge-base' ),
 				                        'ep_font_icon_plus' => _x( 'Plus Sign', 'icon type', 'echo-knowledge-base' ),
 				                        'ep_font_icon_right_arrow' => _x( 'Arrow Triangle', 'icon type', 'echo-knowledge-base' ),
-				                        'ep_font_icon_arrow_carrot_right' => _x( 'Arrow Carrot', 'icon type', 'echo-knowledge-base' ),
-				                        'ep_font_icon_arrow_carrot_right_circle' => _x( 'Arrow Carrot 2', 'icon type', 'echo-knowledge-base' ),
+				                        'ep_font_icon_arrow_carrot_right' => _x( 'Arrow Caret', 'icon type', 'echo-knowledge-base' ),
+				                        'ep_font_icon_arrow_carrot_right_circle' => _x( 'Arrow Caret 2', 'icon type', 'echo-knowledge-base' ),
 				                        'ep_font_icon_folder_add' => _x( 'Folder', 'icon type', 'echo-knowledge-base' ) ),
 				'default'     => $default_style['expand_articles_icon']
 			),
@@ -851,7 +1603,6 @@ class EPKB_KB_Config_Specs {
 			'search_layout' => array(
 				'label'       => __( 'Layout', 'echo-knowledge-base' ),
 				'name'        => 'search_layout',
-				'info'        => __( 'Position / shape of the search input field and search button within the search box.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'epkb-search-form-1' => __( 'Rounded search button is on the right', 'echo-knowledge-base' ),
@@ -863,9 +1614,8 @@ class EPKB_KB_Config_Specs {
 				'default'     => $default_style['search_layout']
 			),
 			'search_input_border_width' => array(
-				'label'       => __( 'Border', 'echo-knowledge-base' ),
+				'label'       => __( 'Border (px)', 'echo-knowledge-base' ),
 				'name'        => 'search_input_border_width',
-				'info'        => __( 'Border width of the search input field.' ),
 				'max'         => '10',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -874,7 +1624,6 @@ class EPKB_KB_Config_Specs {
 			'search_box_padding_top' => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'search_box_padding_top',
-				'info'        => __( 'Adds padding space between the search box title and the box top edge.' ),
 				'max'         => '100',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -883,7 +1632,6 @@ class EPKB_KB_Config_Specs {
 			'search_box_padding_bottom' => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'search_box_padding_bottom',
-				'info'        => __( 'Adds padding space between the search box title and the box bottom edge.' ),
 				'max'         => '100',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -892,7 +1640,6 @@ class EPKB_KB_Config_Specs {
 			'search_box_padding_left' => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'search_box_padding_left',
-				'info'        => __( 'Adds padding space between the search input field and the box left edge.' ),
 				'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -901,7 +1648,6 @@ class EPKB_KB_Config_Specs {
 			'search_box_padding_right' => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'search_box_padding_right',
-				'info'        => __( 'Adds padding space between the search input field and the box right edge.' ),
 				'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -910,7 +1656,6 @@ class EPKB_KB_Config_Specs {
 			'search_box_margin_top' => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'search_box_margin_top',
-				'info'        => __( 'Adds margin space above the search box edge.' ),
 				'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -919,36 +1664,49 @@ class EPKB_KB_Config_Specs {
 			'search_box_margin_bottom' => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'search_box_margin_bottom',
-				'info'        => __( 'Adds margin space below the search box edge.' ),
 				'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => $default_style['search_box_margin_bottom']
 			),
 			'search_box_input_width' => array(
-				'label'       => __( 'Width', 'echo-knowledge-base' ),
+				'label'       => __( 'Width (%)', 'echo-knowledge-base' ),
 				'name'        => 'search_box_input_width',
-				'info'        => __( 'Sets the width of the input search field.' ),
 				'max'         => '100',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
-				'default'     => $default_style['search_box_input_width']
+				'default'     => 40
 			),
 			'search_box_results_style' => array(
 				'label'       => __( 'Search Results: Match Article Colors', 'echo-knowledge-base' ),
 				'name'        => 'search_box_results_style',
-				'info'        => __( 'Matches the Search result colors from the articles listed below.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => $default_style['search_box_results_style']
+			),
+			'search_title_html_tag' => array(
+				'label'       => __( 'Search Title Html Tag', 'echo-knowledge-base' ),
+				'name'        => 'search_title_html_tag',
+				'size'        => '10',
+				'max'         => '10',
+				'min'         => '1',
+				'type'        => EPKB_Input_Filter::TEXT,
+				'default'     => $default_style['search_title_html_tag']
+			),
+			'search_title_font_size' => array(
+				'label'       => __( 'Search Title Font Size (px)', 'echo-knowledge-base' ),
+				'name'        => 'search_title_font_size',
+				'max'         => '50',
+				'min'         => '12',
+				'type'        => EPKB_Input_Filter::NUMBER,
+				'default'     => $default_style['search_title_font_size']
 			),
 
 			/***   KB Main Page -> Tuning -> Categories ***/
 
 			// Style
 			'section_head_alignment' => array(
-				'label'       => __( 'Head Text Alignment', 'echo-knowledge-base' ),
+				'label'       => __( 'Text Alignment', 'echo-knowledge-base' ),
 				'name'        => 'section_head_alignment',
-				'info'        => __( 'Set the Section heading alignment.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'left' => __( 'Left', 'echo-knowledge-base' ),
@@ -960,9 +1718,8 @@ class EPKB_KB_Config_Specs {
 
 			// Style - Icons
 			'section_head_category_icon_location' => array(
-				'label'       => __( 'Icons Location', 'echo-knowledge-base' ),
+				'label'       => __( 'Icons Location/Turn Off', 'echo-knowledge-base' ),
 				'name'        => 'section_head_category_icon_location',
-				'info'        => __( 'Location of icons in relation to Category box.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'no_icons' => __( 'No Icons', 'echo-knowledge-base' ),
@@ -975,34 +1732,21 @@ class EPKB_KB_Config_Specs {
 			'section_head_category_icon_size' => array(
 				'label'       => __( 'Icon Size ( px )', 'echo-knowledge-base' ),
 				'name'        => 'section_head_category_icon_size',
-				'info'        => __( 'Sets the size of the icon.' ),
-				'max'         => '100',
+				'max'         => '300',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => '21'
 			),
-			'section_head_category_icon' => array(
-				'label'       => __( 'Category Icon for: <span class="epkb-config-category-name"></span>', 'echo-knowledge-base' ),
-				'name'        => 'section_head_category_icon',
-				'info'        => __( 'Icon that is assigned to this Category.' ),
-				'type'        => EPKB_Input_Filter::SELECTION,
-				'options'     => EPKB_Icons::get_epkbfa_all_icons(),
-				'default'     => 'ep_font_icon_none'
-			),
-
-			//TODO Icon Type
 
 			'section_divider' => array(
 				'label'       => __( 'Divider', 'echo-knowledge-base' ),
 				'name'        => 'section_divider',
-				'info'        => __( 'Displays dividing line between sub-category and list of articles.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => $default_style['section_divider']
 			),
 			'section_divider_thickness' => array(
 				'label'       => __( 'Divider Thickness ( px )', 'echo-knowledge-base' ),
 				'name'        => 'section_divider_thickness',
-				'info'        => __( 'Sets the thickness of the divider between the head section and body section' ),
 				'max'         => '10',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1011,19 +1755,27 @@ class EPKB_KB_Config_Specs {
 			'section_desc_text_on' => array(
 				'label'       => __( 'Description', 'echo-knowledge-base' ),
 				'name'        => 'section_desc_text_on',
-				'info'        => __( 'Controls the displays category description.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => $default_style['section_desc_text_on']
+			),
+			'section_hyperlink_text_on' => array(
+				'label'       => __( 'Categories Linked to Archive Page', 'echo-knowledge-base' ),
+				'name'        => 'section_hyperlink_text_on',
+				'type'        => EPKB_Input_Filter::SELECTION,
+				'options'     => array(
+					'on' => __( 'Category Archive Page', 'echo-knowledge-base' ),
+					'off' => __( 'No navigation', 'echo-knowledge-base' ),
+				),
+				'default'     => 'off'
 			),
 
 			//Advanced
 			'section_box_shadow' => array(
 				'label'       => __( 'Article List Shadow', 'echo-knowledge-base' ),
 				'name'        => 'section_box_shadow',
-				'info'        => __( 'Adds shadow around boxed list of articles.' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
-					'no_shadow' => 'No Shadow',
+					'no_shadow' => __( 'No Shadow', 'echo-knowledge-base' ),
 					'section_light_shadow' => __( 'Light Shadow', 'echo-knowledge-base' ),
 					'section_medium_shadow' => __( 'Medium Shadow', 'echo-knowledge-base' ),
 					'section_bottom_shadow' => __( 'Bottom Shadow', 'echo-knowledge-base' )
@@ -1033,8 +1785,7 @@ class EPKB_KB_Config_Specs {
 			'section_head_padding_top' => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'section_head_padding_top',
-				'info'        => __( 'Adds Padding Top.' ),
-				'max'         => '20',
+				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => $default_style['section_head_padding_top']
@@ -1042,8 +1793,7 @@ class EPKB_KB_Config_Specs {
 			'section_head_padding_bottom' => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'section_head_padding_bottom',
-				'info'        => __( 'Adds Padding Bottom.' ),
-				'max'         => '30',
+				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => $default_style['section_head_padding_bottom']
@@ -1051,8 +1801,7 @@ class EPKB_KB_Config_Specs {
 			'section_head_padding_left' => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'section_head_padding_left',
-				'info'        => __( 'Adds Padding Left.' ),
-				'max'         => '20',
+				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => $default_style['section_head_padding_left']
@@ -1060,8 +1809,7 @@ class EPKB_KB_Config_Specs {
 			'section_head_padding_right' => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'section_head_padding_right',
-				'info'        => __( 'Adds Padding Right.' ),
-				'max'         => '20',
+				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
 				'default'     => $default_style['section_head_padding_right']
@@ -1069,7 +1817,6 @@ class EPKB_KB_Config_Specs {
             'section_border_radius' => array(
 				'label'       => __( 'Radius', 'echo-knowledge-base' ),
 				'name'        => 'section_border_radius',
-				'info'        => __( 'Border curve and width for the boxed list of articles.' ),
 				'max'         => '30',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1078,7 +1825,6 @@ class EPKB_KB_Config_Specs {
 			'section_border_width' => array(
 				'label'       => __( 'Width', 'echo-knowledge-base' ),
 				'name'        => 'section_border_width',
-				'info'        => '',
 				'max'         => '10',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1089,13 +1835,6 @@ class EPKB_KB_Config_Specs {
 			'section_box_height_mode' => array(
 				'label'       => __( 'Height Mode', 'echo-knowledge-base' ),
 				'name'        => 'section_box_height_mode',
-				'info'        => __( 'Sets the height of article list sections:
-                                        <ul>
-                                            <li>Variable - height will be equal to the height of opened categories.</li>
-                                            <li>Minimum - height will be no smaller then set height but can be larger.</li>
-                                            <li>Maximum height - scroll bar will appear if the categories are expanded beyond this maximum height.</li>
-                                        </ul>                                                                        
-                                    ' ),
 				'type'        => EPKB_Input_Filter::SELECTION,
 				'options'     => array(
 					'section_no_height' => __( 'Variable', 'echo-knowledge-base' ),
@@ -1106,7 +1845,6 @@ class EPKB_KB_Config_Specs {
 			'section_body_height' => array(
 				'label'       => __( 'Height ( px )', 'echo-knowledge-base' ),
 				'name'        => 'section_body_height',
-				'info'        => '',
 				'max'         => '1000',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1115,7 +1853,6 @@ class EPKB_KB_Config_Specs {
 			'section_body_padding_top' => array(
 				'label'       => __( 'Top', 'echo-knowledge-base' ),
 				'name'        => 'section_body_padding_top',
-				'info'        => __( 'Adds Padding Top.' ),
                 'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1124,7 +1861,6 @@ class EPKB_KB_Config_Specs {
 			'section_body_padding_bottom' => array(
 				'label'       => __( 'Bottom', 'echo-knowledge-base' ),
 				'name'        => 'section_body_padding_bottom',
-				'info'        => __( 'Adds Padding Bottom.' ),
                 'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1133,7 +1869,6 @@ class EPKB_KB_Config_Specs {
 			'section_body_padding_left' => array(
 				'label'       => __( 'Left', 'echo-knowledge-base' ),
 				'name'        => 'section_body_padding_left',
-				'info'        => __( 'Adds Padding Left.' ),
                 'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1142,7 +1877,6 @@ class EPKB_KB_Config_Specs {
 			'section_body_padding_right' => array(
 				'label'       => __( 'Right', 'echo-knowledge-base' ),
 				'name'        => 'section_body_padding_right',
-				'info'        => __( 'Adds Padding Right.' ),
                 'max'         => '200',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1151,14 +1885,12 @@ class EPKB_KB_Config_Specs {
 			'section_article_underline' => array(
 				'label'       => __( 'Article Underline Hover', 'echo-knowledge-base' ),
 				'name'        => 'section_article_underline',
-				'info'        => __( 'Shows underline when user hovers mouse over an article link.' ),
 				'type'        => EPKB_Input_Filter::CHECKBOX,
 				'default'     => $default_style['section_article_underline']
 			),
 			'article_list_margin' => array(
 				'label'       => __( 'Margin', 'echo-knowledge-base' ),
 				'name'        => 'article_list_margin',
-				'info'        => __( 'Sets the Top, left, bottom, right margin.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1167,7 +1899,6 @@ class EPKB_KB_Config_Specs {
 			'article_list_spacing' => array(
 				'label'       => __( 'Between', 'echo-knowledge-base' ),
 				'name'        => 'article_list_spacing',
-				'info'        => __( 'Sets the space between each article.' ),
 				'max'         => '50',
 				'min'         => '0',
 				'type'        => EPKB_Input_Filter::NUMBER,
@@ -1186,7 +1917,6 @@ class EPKB_KB_Config_Specs {
 			'search_title_font_color' => array(
 				'label'       => __( 'Title', 'echo-knowledge-base' ),
 				'name'        => 'search_title_font_color',
-				'info'        => __( 'Text color of the search box title.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1196,7 +1926,6 @@ class EPKB_KB_Config_Specs {
 			'search_background_color' => array(
 				'label'       => __( 'Search Background', 'echo-knowledge-base' ),
 				'name'        => 'search_background_color',
-				'info'        => __( 'Background color around the search input box.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1206,7 +1935,6 @@ class EPKB_KB_Config_Specs {
 			'search_text_input_background_color' => array(
 				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'search_text_input_background_color',
-				'info'        => __( 'Search input field background color' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1216,7 +1944,6 @@ class EPKB_KB_Config_Specs {
 			'search_text_input_border_color' => array(
 				'label'       => __( 'Border', 'echo-knowledge-base' ),
 				'name'        => 'search_text_input_border_color',
-				'info'        => 'Search input field border color',
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1226,7 +1953,6 @@ class EPKB_KB_Config_Specs {
 			'search_btn_background_color' => array(
 				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'search_btn_background_color',
-				'info'        => __( 'Search button background color.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1236,7 +1962,6 @@ class EPKB_KB_Config_Specs {
 			'search_btn_border_color' => array(
 				'label'       => __( 'Border', 'echo-knowledge-base' ),
 				'name'        => 'search_btn_border_color',
-				'info'        => 'Search button color',
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1248,7 +1973,6 @@ class EPKB_KB_Config_Specs {
 			'background_color' => array(
 				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'background_color',
-				'info'        => __( 'Background color of the knowledge base main page.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1260,7 +1984,6 @@ class EPKB_KB_Config_Specs {
 			'article_font_color' => array(
 				'label'       => __( 'Text', 'echo-knowledge-base' ),
 				'name'        => 'article_font_color',
-				'info'        => __( 'Text color of listed articles.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1270,7 +1993,6 @@ class EPKB_KB_Config_Specs {
 			'article_icon_color' => array(
 				'label'       => __( 'Icon', 'echo-knowledge-base' ),
 				'name'        => 'article_icon_color',
-				'info'        => __( 'Icon color of listed articles.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1280,7 +2002,6 @@ class EPKB_KB_Config_Specs {
 			'section_body_background_color' => array(
 				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'section_body_background_color',
-				'info'        => __( 'Background color for the boxed list of articles.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1290,7 +2011,6 @@ class EPKB_KB_Config_Specs {
 			'section_border_color' => array(
 				'label'       => __( 'Border', 'echo-knowledge-base' ),
 				'name'        => 'section_border_color',
-				'info'        => __( 'Border color for the boxed list of articles.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1302,7 +2022,6 @@ class EPKB_KB_Config_Specs {
 			'section_head_font_color' => array(
 				'label'       => __( 'Text', 'echo-knowledge-base' ),
 				'name'        => 'section_head_font_color',
-				'info'        => __( 'Text color of category heading for list of articles.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1312,7 +2031,6 @@ class EPKB_KB_Config_Specs {
 			'section_head_background_color' => array(
 				'label'       => __( 'Background', 'echo-knowledge-base' ),
 				'name'        => 'section_head_background_color',
-				'info'        => __('Background color of category heading for list of articles.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1322,7 +2040,6 @@ class EPKB_KB_Config_Specs {
 			'section_head_description_font_color' => array(
 				'label'       => __( 'Category Description', 'echo-knowledge-base' ),
 				'name'        => 'section_head_description_font_color',
-				'info'        => __( 'Color of category description.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1332,7 +2049,6 @@ class EPKB_KB_Config_Specs {
 			'section_divider_color' => array(
 				'label'       => __( 'Divider', 'echo-knowledge-base' ),
 				'name'        => 'section_divider_color',
-				'info'        => __( 'Color of dividing line between sub-category and list of articles' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1342,7 +2058,6 @@ class EPKB_KB_Config_Specs {
 			'section_category_font_color' => array(
 				'label'       => __( 'Text', 'echo-knowledge-base' ),
 				'name'        => 'section_category_font_color',
-				'info'        => __( 'Sub-category Text color and icon color.' ),
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1352,7 +2067,6 @@ class EPKB_KB_Config_Specs {
 			'section_category_icon_color' => array(
 				'label'       => __( 'Icon', 'echo-knowledge-base' ),
 				'name'        => 'section_category_icon_color',
-				'info'        => '',
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1362,7 +2076,6 @@ class EPKB_KB_Config_Specs {
 			'section_head_category_icon_color' => array(
 				'label'       => __( 'Top Level Category Icon', 'echo-knowledge-base' ),
 				'name'        => 'section_head_category_icon_color',
-				'info'        => 'Color of category icons',
 				'size'        => '10',
 				'max'         => '7',
 				'min'         => '7',
@@ -1381,19 +2094,17 @@ class EPKB_KB_Config_Specs {
 			'search_title' => array(
 				'label'       => __( 'Search Title', 'echo-knowledge-base' ),
 				'name'        => 'search_title',
-				'info'        => __( 'Title appears above the search field.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '100',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
-				'default'     => __( 'Search Knowledge Base by Keyword', 'echo-knowledge-base' )
+				'default'     => __( 'How Can We Help?', 'echo-knowledge-base' )
 			),
 			'search_box_hint' => array(
 				'label'       => __( 'Search Hint', 'echo-knowledge-base' ),
 				'name'        => 'search_box_hint',
-				'info'        => __( 'Hint text appears in the search input field while the field is empty.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '100',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Search the documentation...', 'echo-knowledge-base' )
@@ -1401,9 +2112,8 @@ class EPKB_KB_Config_Specs {
 			'search_button_name' => array(
 				'label'       => __( 'Search Button Name', 'echo-knowledge-base' ),
 				'name'        => 'search_button_name',
-				'info'        => __( 'Name for the search button.' ),
 				'size'        => '25',
-				'max'         => '25',
+				'max'         => '50',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Search', 'echo-knowledge-base' )
@@ -1411,9 +2121,8 @@ class EPKB_KB_Config_Specs {
 			'search_results_msg' => array(
 				'label'       => __( 'Search Results Message', 'echo-knowledge-base' ),
 				'name'        => 'search_results_msg',
-				'info'        => __( 'Search results title message.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '80',
 				'mandatory' => false,
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Search Results for', 'echo-knowledge-base' )
@@ -1421,33 +2130,34 @@ class EPKB_KB_Config_Specs {
 			'no_results_found' => array(
 				'label'       => __( 'No Matches Found Text', 'echo-knowledge-base' ),
 				'name'        => 'no_results_found',
-				'info'        => __( 'If the search did not find any results, show this text.' ),
 				'size'        => '80',
 				'max'         => '80',
 				'min'         => '1',
+				'allowed_tags' => array('a' => array(
+													'href'  => true,
+													'title' => true,
+												)),
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'No matches found', 'echo-knowledge-base' )
 			),
 			'min_search_word_size_msg' => array(
 				'label'       => __( 'Minimum Search Word Size Message', 'echo-knowledge-base' ),
 				'name'        => 'min_search_word_size_msg',
-				'info'        => __( 'If the user tries to search for a word with less than 3 characters, show this message.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '150',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Enter a word with at least one character.', 'echo-knowledge-base' )
 			),
-			
-			
+
+
             /***   Categories and Articles ***/
 
 			'category_empty_msg' => array(
 				'label'       => __( 'Empty Category Notice', 'echo-knowledge-base' ),
 				'name'        => 'category_empty_msg',
-				'info'        => __( 'If a category has no articles this notice will be displayed below the category name.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '150',
 				'mandatory' => false,
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Articles coming soon', 'echo-knowledge-base' )
@@ -1455,9 +2165,8 @@ class EPKB_KB_Config_Specs {
 			'collapse_articles_msg' => array(
 				'label'       => __( 'Collapse Articles Text', 'echo-knowledge-base' ),
 				'name'        => 'collapse_articles_msg',
-				'info'        => __( 'If alist of articles can be collapsed, the user will see this text.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '150',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Collapse Articles', 'echo-knowledge-base' )
@@ -1465,9 +2174,8 @@ class EPKB_KB_Config_Specs {
 			'show_all_articles_msg' => array(
 				'label'       => __( 'Show All Articles Text', 'echo-knowledge-base' ),
 				'name'        => 'show_all_articles_msg',
-				'info'        => __( 'If a list of articles can be expanded, the user will see this text.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '150',
 				'min'         => '1',
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Show all articles', 'echo-knowledge-base' )
@@ -1475,9 +2183,8 @@ class EPKB_KB_Config_Specs {
 			'choose_main_topic' => array(
 				'label'       => __( 'Choose Main Topic', 'echo-knowledge-base' ),
 				'name'        => 'choose_main_topic',
-				'info'        => __( 'In Tabs Layout, if a drop down of top categories is displayed, it will show this help text above it.' ),
 				'size'        => '60',
-				'max'         => '60',
+				'max'         => '150',
 				'mandatory' => false,
 				'type'        => EPKB_Input_Filter::TEXT,
 				'default'     => __( 'Choose a Main Topic', 'echo-knowledge-base' )
@@ -1531,6 +2238,7 @@ class EPKB_KB_Config_Specs {
 /** used by MKB as well */
 abstract class EPKB_KB_Status
 {
+	const BLANK = 'blank';
 	const ARCHIVED = 'archived';
 	const PUBLISHED = 'published';
 }

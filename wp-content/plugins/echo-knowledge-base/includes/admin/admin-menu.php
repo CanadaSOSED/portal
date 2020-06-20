@@ -23,14 +23,18 @@ function epkb_add_plugin_menus() {
 	do_action( 'eckb_add_kb_menu_item', $post_type_name );
 
 	add_submenu_page( 'edit.php?post_type=' . $post_type_name, __( 'Analytics - Echo Knowledge Base', 'echo-knowledge-base' ), __( 'Analytics', 'echo-knowledge-base' ),
-		'manage_options', 'epkb-plugin-analytics', array( new EPKB_Analytics_Page(), 'display_plugin_analytics_page' ) );
-
-	add_submenu_page( 'edit.php?post_type=' . $post_type_name, __( 'Plugin Info - Echo Knowledge Base', 'echo-knowledge-base' ), __( 'Plugin Info', 'echo-knowledge-base' ),
-                        'manage_options', 'epkb-plugin-settings', array( new EPKB_Settings_Page(), 'display_plugin_settings_page' ) );
+						'manage_options', 'epkb-plugin-analytics', array( new EPKB_Analytics_Page(), 'display_plugin_analytics_page' ) );
 
 	add_submenu_page( 'edit.php?post_type=' . $post_type_name, __( 'Add-ons - Echo Knowledge Base', 'echo-knowledge-base' ), __( 'Add-ons', 'echo-knowledge-base' ),
                         'manage_options', 'epkb-add-ons', array( new EPKB_Add_Ons_Page(), 'display_add_ons_page') );
-
+	
+	add_submenu_page( 'edit.php?post_type=' . $post_type_name, __( 'New Features - Echo Knowledge Base', 'echo-knowledge-base' ), EPKB_New_Features_Page::get_menu_item_title(),
+                        'manage_options', 'epkb-new-features', array( new EPKB_New_Features_Page(), 'display_new_features_page') );
+	
+	if ( EPKB_Manage_KB_Page::is_show_core_kbs_page() ) {
+		add_submenu_page( 'edit.php?post_type=' . $post_type_name, __( 'Manage KBs - Echo Knowledge Base', 'echo-knowledge-base' ), __( 'Manage KBs', 'echo-knowledge-base' ),
+							'manage_options', 'epkb-manage-kb', array( new EPKB_Manage_KB_Page(), 'display_manage_kb_page') );
+	}
 }
 add_action( 'admin_menu', 'epkb_add_plugin_menus', 10 );
 
@@ -55,6 +59,21 @@ function epkb_add_page_tabs() {
 	$no_kb_tabs = apply_filters( 'eckb_hide_kb_tabs', $screen_id );
 	if ( isset($no_kb_tabs) && $no_kb_tabs == 'no_kb_tabs' ) {
 		return;
+	}
+
+	// if KB is blank then forward to the Wizard
+	if ( in_array($screen_id, array('edit-EKB_SCREEN','EKB_SCREEN','edit-EKB_SCREEN_category','edit-EKB_SCREEN_tag','EKB_SCREEN_page_epkb-plugin-analytics')) ) {
+		$is_blank_kb = EPKB_KB_Wizard::is_blank_KB( $current_kb_id );
+		if ( is_wp_error($is_blank_kb) || $is_blank_kb ) {   ?>
+			<div class="wrap">
+				<h1></h1>
+			</div>
+			<div class="epkb-wizard-error-note epkb-wizard-back-to-wizard">
+				<?php _e( 'Your Knowledge Base is not set up yet. Use the Wizard to finish the setup.', 'echo-knowledge-base' ); ?>   <?php
+				echo ' <a class="button button-primary" href="' . esc_url( admin_url('edit.php?post_type=' . EPKB_KB_Handler::get_post_type( $current_kb_id )) ) . '&page=epkb-kb-configuration&wizard-on"> ' . __( 'Start Wizard', 'echo-knowledge-base' ) . '</a>';
+				echo is_wp_error($is_blank_kb) ? __( 'Error: ', 'echo-knowledge-base' ) . $is_blank_kb->get_error_message() : '';      ?>
+			</div>			<?php
+		}
 	}
 
 	$disable_kb_buttons = false;
@@ -85,12 +104,16 @@ function epkb_add_page_tabs() {
 		case 'EKB_SCREEN_page_epkb-kb-configuration':
 			return;
 
-		// Settings page
-		case 'EKB_SCREEN_page_epkb-plugin-settings':
-			return;
-
 		// Add-ons page
 		case 'EKB_SCREEN_page_epkb-add-ons':
+			return;
+
+		// New Features page
+		case 'EKB_SCREEN_page_epkb-new-features':
+			return;
+		
+		// Manage KBs
+		case 'EKB_SCREEN_page_epkb-manage-kb':
 			return;
 
 		// Analytics page
@@ -146,6 +169,15 @@ function epkb_display_kb_navigation_tabs( $current_kb_id, $tab_url_base, $disabl
 				$nof_kbs++;
 			}
 
+			// add button-link to the multiple kb plugin 
+			if ( ! defined( 'EM'.'KB_PLUGIN_NAME' ) && count($all_kb_configs) == 1 ) {
+				$active_kb_configs[] = array(
+					'id' => 0,
+					'kb_name' => __( 'Get Additional Knowledge Bases', 'echo-knowledge-base' ),
+					'link' => 'https://www.echoknowledgebase.com/wordpress-plugin/multiple-knowledge-bases/'
+				);
+			}
+
 			// display KB tabs
 			foreach ( $active_kb_configs as $one_kb_config ) {
 
@@ -158,10 +190,11 @@ function epkb_display_kb_navigation_tabs( $current_kb_id, $tab_url_base, $disabl
 
 				// output KB tab
 				$kb_name = isset($one_kb_config['kb_name']) ? $one_kb_config['kb_name'] : __( 'Knowledge Base', 'echo-knowledge-base' );
-				$tab_url = str_replace( '*', EPKB_KB_Handler::get_post_type( $one_kb_config['id'] ), $tab_url_base );
+				$target = isset($one_kb_config['link']) ? 'target="_blank"' : '';
+				$tab_url = isset($one_kb_config['link']) ? $one_kb_config['link'] : str_replace( '*', EPKB_KB_Handler::get_post_type( $one_kb_config['id'] ), $tab_url_base );
 				$active  = ( $current_kb_id == $one_kb_config['id'] ? 'active' : '' );
 				echo '<li>';
-				echo    '<a ' . ( $disable_kb_buttons ? '' : 'href="' . esc_url( $tab_url ) . '"' ) . ' title="' . esc_attr( $kb_name ) . '" class="nav_tab' . ' ' . $active . '">';
+				echo    '<a ' . ( $disable_kb_buttons ? '' : 'href="' . esc_url( $tab_url ) . '"' ) . ' title="' . esc_attr( $kb_name ) . '" class="nav_tab' . ' ' . $active . '" ' . $target . '>';
 				echo       '<span>' . esc_html( $kb_name ) . '</span>';
 				echo    '</a>';
 				echo '</li>';

@@ -47,7 +47,7 @@ class EPKB_Input_Filter {
 	public function validate_and_sanitize_specs( array $input, array $specification ) {
 
 		if ( empty($input) ) {
-			return new WP_Error('invalid_input', 'Empty input');
+			return new WP_Error('invalid_input', __( 'Empty input', 'echo-knowledge-base' ) );
 		}
 
 		$sanitized_input = array();
@@ -63,7 +63,7 @@ class EPKB_Input_Filter {
 			$field_spec = $specification[$key];
 
 			$defaults = array(
-				'label'       => "Label",
+				'label'       => __( "Label", 'echo-knowledge-base' ),
 				'type'        => self::TEXT,
 				'mandatory'    => true,
 				'max'         => '20',
@@ -113,6 +113,14 @@ class EPKB_Input_Filter {
 					$input_value = empty($input_value) || ! is_string($input_value) ? '' : trim($input_value);
 					break;
 
+				case self::TEXT:
+					if ( ! empty ($field_spec['allowed_tags']) ) {
+						$input_value = wp_kses( $input_value, $field_spec['allowed_tags'] );
+					} else {
+						$input_value = trim( sanitize_text_field( $input_value ) );
+					}
+					break;
+
 				default:
 					$input_value = trim( sanitize_text_field( $input_value ) );
 			}
@@ -121,14 +129,14 @@ class EPKB_Input_Filter {
 			$result = $this->filter_input_field( $input_value, $field_spec );
 			if ( is_wp_error($result) ) {
 
-                EPKB_Logging::add_log( 'Please change the value of ' . $field_spec['label'] . ' field. ' . $result->get_error_message(), $result );
+                EPKB_Logging::add_log( 'Please change the value of ' . $field_spec['label'] . ' field. Current value: "' . $input_value . '" - ' . $result->get_error_message() . ', code: ' . $result->get_error_message(), $result );
 
 				// log error only if a) NOT internal fields and more than 1 error encountered OR b) debug on
                 if ( ( empty($field_spec['internal']) && count($errors) > 0 ) || ( defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ) ||
                  ! in_array( $field_spec['type'], array(self::CHECKBOX, self::SELECTION, self::CHECKBOXES_MULTI_SELECT, self::CHECKBOXES_MULTI_SELECT_NOT, self::TRUE_FALSE, self::ENUMERATION) )) {
 
-                    $errors[] = '<div style="padding: 20px 0 20px 0;">Please change the value of <strong style="color:lightgreen;">' .
-                                    $field_spec['label'] . '</strong> field.</div>' . $result->get_error_message();
+	                $lang = '<strong>' . $field_spec['label'] . '</strong>';
+                    $errors[] = '<div style="padding: 20px 0 20px 0;">'. sprintf( __( 'Please change the value of %s field.', 'echo-knowledge-base' ), $lang ) . $result->get_error_message() . '</div>';
 
                 // internal fields and first error will just use default value
                 } else {
@@ -145,7 +153,7 @@ class EPKB_Input_Filter {
 			return $sanitized_input;
 		}
 
-		return new WP_Error('invalid_input', __( 'validation failed', 'echo-knowledge-base' ), $errors );
+		return new WP_Error('invalid_input',' ' .  __( 'validation failed', 'echo-knowledge-base' ) . ': ' . implode(", ", $errors) );
 	}
 
 	private function filter_input_field( $value, $field_spec ) {
@@ -203,7 +211,7 @@ class EPKB_Input_Filter {
 				break;
 
 			default:
-				return new WP_Error('eckb-invalid-input-type', 'unknown input type: ' . $field_spec['type']);
+				return new WP_Error('eckb-invalid-input-type', __( 'unknown input type: ', 'echo-knowledge-base' ) . $field_spec['type']);
 		}
 	}
 
@@ -224,7 +232,7 @@ class EPKB_Input_Filter {
 		if ( strlen($text) > $field_spec['max'] ) {
 			$nof_chars_to_remove = strlen($text) - $field_spec['max'];
 
-			$msg = sprintf( _n( 'The value is too long. Remove %d character.', 'is too long. Remove %d characters.', $nof_chars_to_remove, 'echo-knowledge-base' ), $nof_chars_to_remove );
+			$msg = sprintf( _n( 'The value is too long. Remove %d character.', 'The value is too long. Remove %d characters.', $nof_chars_to_remove, 'echo-knowledge-base' ), $nof_chars_to_remove );
 			return new WP_Error('filter_text_big', $msg );
 		}
 
@@ -249,8 +257,8 @@ class EPKB_Input_Filter {
 	private function filter_select( $value, $field_spec ) {
 
 		if ( ! in_array( $value, array_keys($field_spec['options']) )  && ! empty($field_spec['mandatory']) ) {
-			$value_text = ( empty($value) ? 'empty.' : '"' . $value . '".' );
-			$msg = sprintf( __( 'The value cannot be ' . $value_text . ' Valid values are: <p>%s</p>', 'echo-knowledge-base' ), implode(", ", $field_spec['options']) );
+			$value_text = ( empty($value) ? __( 'empty', 'echo-knowledge-base' ) : '"' . $value . '"' );
+			$msg = '<br>' . sprintf( __( 'The value cannot be %s. %sValid values are: %s', 'echo-knowledge-base' ), $value_text, '<br>', implode(", ", $field_spec['options']) );
 			return new WP_Error('filter_selection_invalid', $msg );
 		}
 
@@ -272,7 +280,7 @@ class EPKB_Input_Filter {
 			return $value;
 		}
 
-		return new WP_Error('filter_checkbox_invalid', __( 'The value "' . $value . '"" is not valid', 'echo-knowledge-base' ) );
+		return new WP_Error('filter_checkbox_invalid', sprintf( __( 'The value "%s" is not valid', 'echo-knowledge-base' ), $value ) );
 	}
 
 	/**
@@ -287,14 +295,14 @@ class EPKB_Input_Filter {
 		$number = empty($number) ? 0 : trim($number);
 		$number_int = EPKB_Utilities::sanitize_int( $number, null );
 		if ( $number != $number_int ) {
-			return new WP_Error('filter_not_number', 'The value "' . EPKB_Utilities::get_variable_string( $number ) . '" is not a number.');
+			return new WP_Error('filter_not_number',sprintf( __( 'The value "%s" is not a number', 'echo-knowledge-base' ), $number ) );
 		}
 
 		if ( $number > $field_spec['max'] ) {
-			$msg = sprintf( __( 'The value ' . $number . ' is larger than maximum of: %s', 'echo-knowledge-base' ), $field_spec['max'] );
+			$msg = sprintf( __( 'The value %s is larger than maximum of: %s', 'echo-knowledge-base' ), $number, $field_spec['max'] );
 			return new WP_Error( 'filter_not_number', $msg );
 		} else if ( $number < $field_spec['min'] ) {
-			$msg = sprintf( __( 'The value ' . $number . ' is smaller than minimum of: %s', 'echo-knowledge-base' ), $field_spec['min'] );
+			$msg = sprintf( __( 'The value %s is smaller than minimum of: %s', 'echo-knowledge-base' ), $number, $field_spec['min'] );
 			return new WP_Error( 'filter_not_number', $msg );
 		}
 
@@ -315,7 +323,7 @@ class EPKB_Input_Filter {
 			return false;
 		}
 
-		return new WP_Error( 'filter_not_number', __( 'The value ' . $boolean . ' is not boolean', 'echo-knowledge-base' ) );
+		return new WP_Error( 'filter_not_number', sprintf( __( 'The value "%s" is not boolean', 'echo-knowledge-base' ), $boolean ) );
 	}
 
 	/**
@@ -344,7 +352,7 @@ class EPKB_Input_Filter {
 			return $value;
 		}
 
-		return new WP_Error('filter_not_color_hex', __( 'The value "' . $value . '" is not valid HEX color.', 'echo-knowledge-base' ) );
+		return new WP_Error('filter_not_color_hex', sprintf( __( 'The value "%s" is not valid HEX color.', 'echo-knowledge-base' ), $value ));
 	}
 
 	/**
@@ -357,7 +365,7 @@ class EPKB_Input_Filter {
 	private function filter_id( $id ) {
 		$id = EPKB_Utilities::sanitize_get_id( $id );
 		if ( is_wp_error($id) ) {
-			return new WP_Error('filter_not_id', 'Getting ID "' . $id . '" - encountered internal error (' . $id->get_error_code() . ')');
+			return new WP_Error('filter_not_id', sprintf( __( 'Getting ID "%s" - encountered internal error (%s)', 'echo-knowledge-base' ), $id, $id->get_error_code() ));
 		}
 		return $id;
 	}
@@ -375,7 +383,7 @@ class EPKB_Input_Filter {
 			return $value;
 		}
 
-		return new WP_Error('filter_not_enumeration', __( 'The value "' . $value . '" is not in enumeration', 'echo-knowledge-base' ) );
+		return new WP_Error('filter_not_enumeration', sprintf( __( 'The value "%s" is not in enumeration', 'echo-knowledge-base' ), $value ));
 	}
 
 	/**
@@ -402,7 +410,7 @@ class EPKB_Input_Filter {
 		if ( ( empty($text) && ! empty($field_spec['mandatory']) ) || ( strlen($text) > 0 && strlen($text) < $field_spec['min'] ) ) {
 			$nof_chars_to_remove = $field_spec['min'] - strlen($text);
 
-			$msg = sprintf( _n( 'The value is too short. Add at least %d character.', 'is too short. Add at least %d characters.', $nof_chars_to_remove, 'echo-knowledge-base' ), $nof_chars_to_remove );
+			$msg = sprintf( _n( 'The value is too short. Add at least %d character.', 'The value is too short. Add at least %d characters.', $nof_chars_to_remove, 'echo-knowledge-base' ), $nof_chars_to_remove );
 			return new WP_Error('filter_text_small', $msg );
 		}
 
@@ -476,7 +484,15 @@ class EPKB_Input_Filter {
 			}
 
 			$input_value = stripslashes( $input_value );
-			$name_values += array( $key => ($spec['type'] == self::WP_EDITOR ? wp_kses_post($input_value) : sanitize_text_field($input_value)) );
+			
+			if ( $spec['type'] == self::WP_EDITOR ) {
+				$name_values += array( $key => wp_kses_post($input_value) );
+			} elseif ( ( $spec['type'] == self::TEXT ) && ! ( empty( $spec['allowed_tags'] ) ) ) {
+				$name_values += array( $key => wp_kses( $input_value, $spec['allowed_tags'] ) );
+			} else {
+				$name_values += array( $key => sanitize_text_field($input_value) );
+			}
+			
 		}
 
 		return $name_values;

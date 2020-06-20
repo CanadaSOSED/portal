@@ -2,9 +2,11 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-if( is_plugin_active( 'new-user-approve/new-user-approve.php' ) ){
-	add_action( 'acui_tab_import_before_import_button', 'acui_new_user_approve_tab_import_before_import_button' );
+if( !is_plugin_active( 'new-user-approve/new-user-approve.php' ) ){
+	return;
 }
+
+add_action( 'acui_tab_import_before_import_button', 'acui_new_user_approve_tab_import_before_import_button' );
 
 function acui_new_user_approve_tab_import_before_import_button(){
 	?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying Breadcrumb for KB Article.
+ * The template for displaying Breadcrumb for KB Article or KB Category Archive page.
  *
  * This template can be overridden by copying it to yourtheme/kb_templates/feature-breadcrumb.php.
  *
@@ -13,30 +13,81 @@
  * @author 		Echo Plugins
  *
  */
-/** @var WP_Post $article */
+/** @var WP_Post || WP_Term $article */
 /** @var EPKB_KB_Config_DB $kb_config */
 
-if ( empty($article) || ! $article instanceof WP_Post  ) {
+$article_rec = empty($article) || ! $article instanceof WP_Post ? null : $article;
+$term_rec = empty($article) || ! $article instanceof WP_Term ? null : $article;
+if ( empty($article_rec) && empty($term_rec) ) {
     return;
 }
 
-$breadcrumb_tree = EPKB_Templates_Various::get_article_breadcrumb( $kb_config, $article->ID );
+// setup KB Main Page link
+$kb_main_page_url = '';
+if ( EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
+	$current_lang = apply_filters( 'wpml_current_language', NULL );
 
-// setup breadcrumb links
-$breadcrumb = array( $kb_config['breadcrumb_home_text'] => EPKB_KB_Handler::get_first_kb_main_page_url( $kb_config ));
+	foreach ( $kb_config['kb_main_pages'] as $post_id => $post_title ) {
+		if ( empty($post_id) ) {
+			continue;
+		}
 
-foreach( $breadcrumb_tree as $category_id => $category_name ) {
-    $term_link = get_term_link( $category_id, EPKB_KB_Handler::get_category_taxonomy_name( $kb_config['id']) );
-    if ( is_wp_error( $term_link ) ) {
-        $term_link = '';
-    }
-    $breadcrumb += array( $category_name => $term_link );
+		$args = array( 'element_id' => $post_id, 'element_type' => 'page' );
+		$kb_main_page_lang = apply_filters( 'wpml_element_language_code', null, $args );
+		if ( $kb_main_page_lang == $current_lang ) {
+			$post_url = get_permalink( $post_id );
+			$kb_main_page_url = is_wp_error( $post_url ) ? '' : $post_url;
+			break;
+		}
+	}
+
+} else {
+	$kb_main_page_url = EPKB_KB_Handler::get_first_kb_main_page_url( $kb_config );
 }
 
-$breadcrumb += array( $article->post_title => '#' );
+// setup breadcrumb links
+$breadcrumb = array( $kb_config['breadcrumb_home_text'] => $kb_main_page_url);
+
+// breadcrumbs for the article
+if ( $article_rec ) {
+
+	$breadcrumb_tree = EPKB_Templates_Various::get_article_breadcrumb( $kb_config, $article_rec->ID );
+
+	foreach( $breadcrumb_tree as $category_id => $category_name ) {
+		$term_link = get_term_link( $category_id, EPKB_KB_Handler::get_category_taxonomy_name( $kb_config['id']) );
+		if ( is_wp_error( $term_link ) ) {
+			$term_link = '';
+		}
+		$breadcrumb += array( $category_name => $term_link );
+	}
+
+	$breadcrumb += array( $article_rec->post_title => '#' );
+}
+
+// breadcrumbs for the category
+if ( $term_rec ) {
+
+	$breadcrumb_tree = EPKB_Templates_Various::get_term_breadcrumb( $kb_config, $term_rec->term_id );
+
+	foreach( $breadcrumb_tree as $category_id ) {
+		$term_link = get_term_link( $category_id, $term_rec->taxonomy );
+		if ( is_wp_error( $term_link ) ) {
+			$term_link = '';
+		}
+
+		$term = get_term( $category_id, $term_rec->taxonomy );
+		if ( empty($term) || is_wp_error( $term ) || ! property_exists( $term, 'name' ) ) {
+			continue;
+		}
+
+		$breadcrumb += array( $term->name => $term_link );
+	}
+
+	$breadcrumb += array( $term_rec->name => '#' );
+}
+
 
 //Saved Setting values
-
 $breadcrumb_style1 = EPKB_Utilities::get_inline_style('
 	                   padding-top::    breadcrumb_padding_top, 
 	                   padding-right:: breadcrumb_padding_right,

@@ -1,14 +1,18 @@
 <?php
 
 /**
- * Store Icons in an array
+ * Store and work with icons lists 
  *
  * @copyright   Copyright (C) 2018, Echo Plugins
  */
 class EPKB_Icons {
 
-	const CATEGORIES_ICONS = 'epkb_categories_icons';
-	const DEFAULT_CATEGORY_ICON = 'ep_font_icon_document';
+	const CATEGORIES_ICONS = 'epkb_categories_icons_images';
+	const DEFAULT_CATEGORY_ICON_NAME = 'ep_font_icon_document';
+	const DEFAULT_CATEGORY_TYPE = 'font';   // OR 'image'
+	const DEFAULT_CATEGORY_IMAGE_SIZE = 'full';
+	const DEFAULT_CATEGORY_IMAGE_ID = 0;
+	const DEFAULT_IMAGE_SLUG = 'img/features-wizard/demo-icons/info-icon.png';
 
 	public static function get_common_icons() {
 		$common_kb_icons = array(
@@ -746,7 +750,6 @@ class EPKB_Icons {
 			'ep_font_icon_data_report'                  => 'Data Report',
 			'ep_font_icon_document'                     => 'Document',
 			'ep_font_icon_documents'                    => 'Documents',
-			'ep_font_icon_error_shield'                 => 'Error Shield',
 			'ep_font_icon_external_link'                => 'External Link',
 			'ep_font_icon_flow_chart'                   => 'Flow Chart',
 			'ep_font_icon_folder'                       => 'Folder',
@@ -768,7 +771,7 @@ class EPKB_Icons {
 			'ep_font_icon_plus'                         => 'Plus',
 			'ep_font_icon_question'                     => 'Question',
 			'ep_font_icon_screen'                       => 'Screen',
-			'ep_font_icon_screwdriver'                  => 'Screw Driver',
+			'ep_font_icon_screw_driver'                  => 'Screw Driver',
 			'ep_font_icon_shopping_cart'                => 'Shopping Cart',
 			'ep_font_icon_tag'                          => 'Tag',
 			'ep_font_icon_tools'                        => 'Tools',
@@ -790,10 +793,10 @@ class EPKB_Icons {
 			'ep_font_icon_arrow_carrot_right_circle'    => 'Arrow Right Circle',
 			'ep_font_icon_arrow_carrot_down_circle'     => 'Arrow Down Circle',
 			'ep_font_icon_arrow_carrot_left_circle'     => 'Arrow Left Circle',
-			'ep_font_icon_arrow_carrot_left'            => 'Arrow Carrot Left',
-			'ep_font_icon_arrow_carrot_right'           => 'Arrow Carrot Right',
-			'ep_font_icon_arrow_carrot_up'              => 'Arrow Carrot Up',
-			'ep_font_icon_arrow_carrot_down'            => 'Arrow Carrot Down',
+			'ep_font_icon_arrow_carrot_left'            => 'Arrow Caret Left',
+			'ep_font_icon_arrow_carrot_right'           => 'Arrow Caret Right',
+			'ep_font_icon_arrow_carrot_up'              => 'Arrow Caret Up',
+			'ep_font_icon_arrow_carrot_down'            => 'Arrow Caret Down',
 
 			//Font Awesome Icons	( Value => Name )
 			'fa-file-pdf-o'            => 'fa-file-pdf-o',
@@ -1518,7 +1521,6 @@ class EPKB_Icons {
 			'ep_font_icon_data_report'                  => 'Data Report',
 			'ep_font_icon_document'                     => 'Document',
 			'ep_font_icon_documents'                    => 'Documents',
-			'ep_font_icon_error_shield'                 => 'Error Shield',
 			'ep_font_icon_external_link'                => 'External Link',
 			'ep_font_icon_flow_chart'                   => 'Flow Chart',
 			'ep_font_icon_folder'                       => 'Folder',
@@ -1540,7 +1542,7 @@ class EPKB_Icons {
 			'ep_font_icon_plus'                         => 'Plus',
 			'ep_font_icon_question'                     => 'Question',
 			'ep_font_icon_screen'                       => 'Screen',
-			'ep_font_icon_screwdriver'                  => 'Screw Driver',
+			'ep_font_icon_screw_driver'                  => 'Screw Driver',
 			'ep_font_icon_shopping_cart'                => 'Shopping Cart',
 			'ep_font_icon_tag'                          => 'Tag',
 			'ep_font_icon_tools'                        => 'Tools',
@@ -1562,10 +1564,10 @@ class EPKB_Icons {
 			'ep_font_icon_arrow_carrot_right_circle'    => 'Arrow Right Circle',
 			'ep_font_icon_arrow_carrot_down_circle'     => 'Arrow Down Circle',
 			'ep_font_icon_arrow_carrot_left_circle'     => 'Arrow Left Circle',
-			'ep_font_icon_arrow_carrot_left'            => 'Arrow Carrot Left',
-			'ep_font_icon_arrow_carrot_right'           => 'Arrow Carrot Right',
-			'ep_font_icon_arrow_carrot_up'              => 'Arrow Carrot Up',
-			'ep_font_icon_arrow_carrot_down'            => 'Arrow Carrot Down',
+			'ep_font_icon_arrow_carrot_left'            => 'Arrow Caret Left',
+			'ep_font_icon_arrow_carrot_right'           => 'Arrow Caret Right',
+			'ep_font_icon_arrow_carrot_up'              => 'Arrow Caret Up',
+			'ep_font_icon_arrow_carrot_down'            => 'Arrow Caret Down',
 
 			//Font Awesome Icons	( Value => Name )
 			'epkbfa-file-pdf-o'            => 'epkbfa-file-pdf-o',
@@ -2288,5 +2290,42 @@ class EPKB_Icons {
 		}
 
 		return esc_html( $value );
+	}
+
+	/**
+	 * Show or return icons pack html
+	 *
+	 * @param bool $display - bool, show or return
+	 * @param string $checked - key of the checked icon
+	 * @return false|string
+	 */
+	public static function get_icons_pack_html( $display = true, $checked = '' ) {
+		$all_icons = self::get_epkbfa_all_icons();
+		
+		ob_start(); ?>
+		
+		<div class="epkb-icon-pack"> <?php 
+			foreach ( $all_icons as $key => $label ) { ?>
+				<div class="epkb-icon-pack__icon <?php echo ( $checked == $key ) ? 'epkb-icon-pack__icon--checked' : ''; ?>" 
+					data-key="<?php echo esc_attr( $key ); ?>"
+					data-label="<?php echo self::format_font_awesome_icon_name( $label );        ?>"
+				>
+					<i class="epkbfa <?php echo esc_html( $key );  ?>"></i>
+				</div><?php 
+			} ?>
+			
+		</div> <?php 
+		
+		$html = ob_get_clean();
+		
+		if ( $display ) {
+			echo $html;
+		}
+		
+		return $html;
+	}
+
+	public static function is_theme_with_image_icons( $kb_config ) {
+		return ! empty($kb_config['theme_name']) && in_array($kb_config['theme_name'], array('theme_image'));
 	}
 }

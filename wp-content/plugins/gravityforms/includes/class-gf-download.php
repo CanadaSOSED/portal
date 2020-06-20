@@ -25,7 +25,25 @@ class GF_Download {
 
 			$hash = rgget( 'hash' );
 			GFCommon::log_debug( __METHOD__ . "(): Starting file download process. file: {$file}, hash: {$hash}." );
-			if ( self::validate_download( $form_id, $field_id, $file, $hash ) ) {
+
+			$permission_granted = self::validate_download( $form_id, $field_id, $file, $hash );
+
+			if ( has_filter( 'gform_permission_granted_pre_download' ) ) {
+				GFCommon::log_debug( __METHOD__ . '(): Executing functions hooked to gform_permission_granted_pre_download.' );
+			}
+
+			/**
+			 * Allow custom logic to be used to determine if the file can be accessed.
+			 *
+			 * @since 2.4.3.2
+			 *
+			 * @param bool $permission_granted Indicates if access to the file has been granted. Default is the result of the hash validation.
+			 * @param int  $form_id            The ID of the form used to upload the requested file.
+			 * @param int  $field_id           The ID of the field used to upload the requested file.
+			 */
+			$permission_granted = apply_filters( 'gform_permission_granted_pre_download', $permission_granted, $form_id, $field_id );
+
+			if ( $permission_granted ) {
 				GFCommon::log_debug( __METHOD__ . '(): Download validated. Proceeding.' );
 				self::deliver( $form_id, $file );
 			} else {
@@ -47,6 +65,25 @@ class GF_Download {
 	 */
 	private static function validate_download( $form_id, $field_id, $file, $hash ) {
 		if ( empty( $hash ) ) {
+			return false;
+		}
+
+		if ( has_filter( 'gform_require_login_pre_download' ) ) {
+			GFCommon::log_debug( __METHOD__ . '(): Executing functions hooked to gform_require_login_pre_download.' );
+		}
+
+		/**
+		 * Allows login to be required to access the file.
+		 *
+		 * @since 2.2.3.16
+		 *
+		 * @param bool $require_login Does the user need to be logged in to access the file? Default false.
+		 * @param int  $form_id       The ID of the form used to upload the requested file.
+		 * @param int  $field_id      The ID of the field used to upload the requested file.
+		 */
+		$require_login = apply_filters( 'gform_require_login_pre_download', false, $form_id, $field_id );
+
+		if ( $require_login && ! is_user_logged_in() ) {
 			return false;
 		}
 
@@ -75,10 +112,10 @@ class GF_Download {
 			$content_disposition = rgget( 'dl' ) ? 'attachment' : 'inline';
 
 			nocache_headers();
-			header( 'Robots: none' );
+			header( 'X-Robots-Tag: noindex', true );
 			header( 'Content-Type: ' . $content_type );
 			header( 'Content-Description: File Transfer' );
-			header( 'Content-Disposition: ' . $content_disposition . '; filename="' . basename( $file ) . '"' );
+			header( 'Content-Disposition: ' . $content_disposition . '; filename="' . wp_basename( $file ) . '"' );
 			header( 'Content-Transfer-Encoding: binary' );
 			// Clear buffer AND turn off output buffering before starting delivery of files requested for download to prevent third-parties to corrupt the file content.
 			if ( ob_get_contents() ) {

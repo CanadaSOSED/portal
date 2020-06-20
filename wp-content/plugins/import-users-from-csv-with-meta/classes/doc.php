@@ -78,55 +78,6 @@ class ACUI_Doc{
 				</td>
 			</tr>
 
-			<?php if( is_plugin_active( 'woocommerce/woocommerce.php' ) ): ?>
-
-				<tr valign="top">
-					<th scope="row"><?php _e( "WooCommerce is activated", 'import-users-from-csv-with-meta' ); ?></th>
-					<td><?php _e( "You can use those labels if you want to set data adapted to the WooCommerce default user columns", 'import-users-from-csv-with-meta' ); ?>
-					<ol>
-						<li>billing_first_name</li>
-						<li>billing_last_name</li>
-						<li>billing_company</li>
-						<li>billing_address_1</li>
-						<li>billing_address_2</li>
-						<li>billing_city</li>
-						<li>billing_postcode</li>
-						<li>billing_country</li>
-						<li>billing_state</li>
-						<li>billing_phone</li>
-						<li>billing_email</li>
-						<li>shipping_first_name</li>
-						<li>shipping_last_name</li>
-						<li>shipping_company</li>
-						<li>shipping_address_1</li>
-						<li>shipping_address_2</li>
-						<li>shipping_city</li>
-						<li>shipping_postcode</li>
-						<li>shipping_country</li>
-						<li>shipping_state</li>
-					</ol>
-				</td>
-				</tr>
-			<?php endif; ?>
-
-			<?php if( is_plugin_active( 'buddypress/bp-loader.php' ) ): ?>
-
-				<tr valign="top">
-					<th scope="row"><?php _e( "BuddyPress is activated", 'import-users-from-csv-with-meta' ); ?></th>
-					<td><?php _e( "You can use the <strong>profile fields</strong> you have created and also you can set one or more groups for each user. For example:", 'import-users-from-csv-with-meta' ); ?>
-					<ul style="list-style:disc outside none; margin-left:2em;">
-						<li><?php _e( "If you want to assign an user to a group you have to create a column 'bp_group' and a column 'bp_group_role'", 'import-users-from-csv-with-meta' ); ?></li>
-						<li><?php _e( "Then in each cell you have to fill with the BuddyPress <strong>group slug</strong>", 'import-users-from-csv-with-meta' ); ?></li>
-						<li><?php _e( "And the role assigned in this group: <em>Administrator, Moderator or Member</em>", 'import-users-from-csv-with-meta' ); ?></li>
-						<li><?php _e( "You can do it with multiple groups at the same time using commas to separate different groups, in bp_group column, i.e.: <em>group_1, group_2, group_3</em>", 'import-users-from-csv-with-meta' ); ?></li>
-						<li><?php _e( "But you will have to assign a role for each group: <em>Moderator,Moderator,Member,Member</em>", 'import-users-from-csv-with-meta' ); ?></li>
-						<li><?php _e( "If you get some error of this kind:", 'import-users-from-csv-with-meta' ); ?> <code>Fatal error: Class 'BP_XProfile_Group'</code> <?php _e( "please enable Buddypress Extended Profile then import the csv file. You can then disable this afterwards", 'import-users-from-csv-with-meta' ); ?></li>
-					</ul>
-				</td>
-				</tr>
-
-			<?php endif; ?>
-
 			<?php do_action( 'acui_documentation_after_plugins_activated' ); ?>
 
 			<tr valign="top">
@@ -142,6 +93,12 @@ class ACUI_Doc{
 					</ul>
 				</td>
 			</tr>
+
+			<tr valign="top">
+				<th scope="row"><?php _e( 'Hooks', 'import-users-from-csv-with-meta' ); ?></th>
+			<td><?php _e( 'If you are a developer you can extend or use this plugin with all the hooks we provide, you have <a href="https://codection.com/import-users-csv-meta/listado-de-hooks-de-import-and-exports-users-and-customers/">a list of them here</a>','import-users-from-csv-with-meta'); ?></td>
+			</tr>
+
 			<tr valign="top">
 				<th scope="row"><?php _e( 'Example', 'import-users-from-csv-with-meta' ); ?></th>
 			<td><?php _e( 'Download this', 'import-users-from-csv-with-meta' ); ?> <a href="<?php echo esc_url( plugins_url( 'test.csv', dirname( __FILE__ ) ) ); ?>">.csv <?php _e('file','import-users-from-csv-with-meta'); ?></a> <?php _e( 'to test', 'import-users-from-csv-with-meta' ); ?></td>

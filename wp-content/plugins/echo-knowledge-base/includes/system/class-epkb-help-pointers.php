@@ -40,8 +40,8 @@ class EPKB_Help_Pointers {
 						'event'  => 'change blur click' */
 					),
 					'options'      => array(
-						'content'  => 	'<h3>' . esc_html( 'Quick Tour of Knowledge Base plugin' ) . '</h3>' .
-										'<p>' . esc_html( 'Use this new menu to lookup any post.' ) . '</p>',
+						'content'  => 	'<h3>' . /**  esc_html__( 'Quick Tour of Knowledge Base plugin', 'echo-knowledge-base' ) .*/ '</h3>' .
+										'<p>' ./**   esc_html__( 'Use this new menu to lookup any post.', 'echo-knowledge-base' ) .*/ '</p>',
 						'position' => array(
 							'edge'  => 'top',  // where arrow will appear: left, right, top, bottom
 							'align' => 'left'  // which part of the edge where arrow appears should be: left, middle, right
@@ -53,8 +53,8 @@ class EPKB_Help_Pointers {
 					'next'         => 'cpts_lookup',
 					'next_trigger' => array(),
 					'options'      => array(
-						'content'  => 	'<h3>' . esc_html( 'Quick Tour of Knowledge Base plugin' ) . '</h3>' .
-						                 '<p>' . esc_html( 'Use this new menu to lookup any page.' ) . '</p>',
+						'content'  => 	'<h3>' . /**  esc_html__( 'Quick Tour of Knowledge Base plugin', 'echo-knowledge-base' ) . */'</h3>' .
+						                 '<p>' . /**  esc_html__( 'Use this new menu to lookup any page.', 'echo-knowledge-base' ) . */'</p>',
 						'position' => array(
 							'edge'  => 'top',
 							'align' => 'left'
@@ -66,8 +66,8 @@ class EPKB_Help_Pointers {
 					'next'         => 'plugin_settings',
 					'next_trigger' => array(),
 					'options'      => array(
-						'content'  => 	'<h3>' . esc_html( 'Quick Tour of Knowledge Base plugin' ) . '</h3>' .
-						                 '<p>' . esc_html( 'Use this new menu to lookup any Custom Post Type.' ) . '</p>',
+						'content'  => 	'<h3>' . /**  esc_html__( 'Quick Tour of Knowledge Base plugin', 'echo-knowledge-base' ) .*/ '</h3>' .
+						                 '<p>' . /**  esc_html__( 'Use this new menu to lookup any Custom Post Type.', 'echo-knowledge-base' ) .*/ '</p>',
 						'position' => array(
 							'edge'  => 'top',
 							'align' => 'left'
@@ -79,9 +79,9 @@ class EPKB_Help_Pointers {
 					'next'         => '',
 					'next_trigger' => array(),
 					'options'      => array(
-						'content'  => 	'<h3>' . esc_html( 'Quick Tour of Knowledge Base plugin' ) . '</h3>' .
+						'content'  => 	'<h3>' . /**  esc_html__( 'Quick Tour of Knowledge Base plugin', 'echo-knowledge-base' ) .*/ '</h3>' .
 						                 // TODO FUTURE <ul> does not work for some reason
-						                '<p>Configure the plugin in the <strong style="text-decoration: underline;">Settings</strong> menu.<br/></p>',
+						                '<p>' ./**   esc_html__( 'Configure the plugin in the <strong style="text-decoration: underline;">Settings</strong> menu.', 'echo-knowledge-base' ) . */'<br/></p>',
 						'position' => array(
 							'edge'  => 'left',
 							'align' => 'left'

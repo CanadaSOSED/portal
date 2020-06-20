@@ -3,6 +3,107 @@
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
 class ACUI_Cron{
+	function __construct(){
+		add_action( 'acui_cron_save_settings', array( $this, 'save_settings' ), 10, 1 );
+		add_action( 'acui_cron_process', array( $this, 'process' ), 10 );
+	}
+
+	function save_settings( $form_data ){
+		if ( !isset( $form_data['security'] ) || !wp_verify_nonce( $form_data['security'], 'codection-security' ) ) {
+			wp_die( __( 'Nonce check failed', 'import-users-from-csv-with-meta' ) ); 
+		}
+
+		$next_timestamp = wp_next_scheduled( 'acui_cron_process' );
+		$period = sanitize_text_field( $form_data[ "period" ] );
+
+		if( isset( $form_data["cron-activated"] ) && $form_data["cron-activated"] == "yes" ){
+			update_option( "acui_cron_activated", true );
+
+			$old_period = get_option( "acui_cron_period" );
+
+			if( $old_period != $period ){
+				wp_unschedule_event( $next_timestamp, 'acui_cron_process');
+				wp_schedule_event( time(), $period, 'acui_cron_process' );
+			}
+			elseif( !$next_timestamp ) {
+				wp_schedule_event( time(), $period, 'acui_cron_process' );
+			}
+		}
+		else{
+			update_option( "acui_cron_activated", false );
+			wp_unschedule_event( $next_timestamp, 'acui_cron_process');
+		}
+		
+		update_option( "acui_cron_send_mail", isset( $form_data["send-mail-cron"] ) && $form_data["send-mail-cron"] == "yes" );
+		update_option( "acui_cron_send_mail_updated", isset( $form_data["send-mail-updated"] ) && $form_data["send-mail-updated"] == "yes" );
+		update_option( "acui_cron_delete_users", isset( $form_data["cron-delete-users"] ) && $form_data["cron-delete-users"] == "yes" );
+		update_option( "acui_cron_delete_users_assign_posts", sanitize_text_field( $form_data["cron-delete-users-assign-posts"] ) );
+		update_option( "acui_move_file_cron", isset( $form_data["move-file-cron"] ) && $form_data["move-file-cron"] == "yes" );
+		update_option( "acui_cron_path_to_move_auto_rename", isset( $form_data["path_to_move_auto_rename"] ) && $form_data["path_to_move_auto_rename"] == "yes" );
+		update_option( "acui_cron_allow_multiple_accounts", ( isset( $form_data["allow_multiple_accounts"] ) && $form_data["allow_multiple_accounts"] == "yes" ) ? "allowed" : "not_allowed" );
+		update_option( "acui_cron_path_to_file", sanitize_text_field( $form_data["path_to_file"] ) );
+		update_option( "acui_cron_path_to_move", sanitize_text_field( $form_data["path_to_move"] ) );
+		update_option( "acui_cron_period", sanitize_text_field( $form_data["period"] ) );
+		update_option( "acui_cron_role", sanitize_text_field( $form_data["role"] ) );
+		update_option( "acui_cron_update_roles_existing_users", isset( $form_data["update-roles-existing-users"] ) && $form_data["update-roles-existing-users"] == "yes" );
+		update_option( "acui_cron_change_role_not_present", isset( $form_data["cron-change-role-not-present"] ) && $form_data["cron-change-role-not-present"] == "yes" );
+		update_option( "acui_cron_change_role_not_present_role", sanitize_text_field( $form_data["cron-change-role-not-present-role"] ) );
+		?>
+		<div class="updated">
+	       <p><?php _e( 'Settings updated correctly', 'import-users-from-csv-with-meta' ) ?></p>
+	    </div>
+	    <?php
+	}
+
+	function process(){
+		$message = __('Import cron task starts at', 'import-users-from-csv-with-meta' ) . ' ' . date("Y-m-d H:i:s") . '<br/>';
+
+		$form_data = array();
+		$form_data[ "path_to_file" ] = get_option( "acui_cron_path_to_file");
+		$form_data[ "role" ] = get_option( "acui_cron_role");
+		$form_data[ "update_roles_existing_users" ] = ( get_option( "acui_cron_update_roles_existing_users" ) ) ? 'yes' : 'no';
+		$form_data[ "empty_cell_action" ] = "leave";
+		$form_data[ "allow_update_emails" ] = "disallow";
+		$form_data[ "security" ] = wp_create_nonce( "codection-security" );
+
+		ob_start();
+		acui_fileupload_process( $form_data, true );
+		$message .= "<br/>" . ob_get_contents() . "<br/>";
+		ob_end_clean();
+
+		$move_file_cron = get_option( "acui_move_file_cron");
+		
+		if( $move_file_cron ){
+			$path_to_file = get_option( "acui_cron_path_to_file");
+			$path_to_move = get_option( "acui_cron_path_to_move");
+
+			rename( $path_to_file, $path_to_move );
+
+			$this->auto_rename(); // optionally rename with date and time included
+		}
+		$message .= __( '--Finished at', 'import-users-from-csv-with-meta' ) . ' ' . date("Y-m-d H:i:s") . '<br/><br/>';
+
+		update_option( "acui_cron_log", $message );
+	}
+
+	function auto_rename() {
+		if( get_option( "acui_cron_path_to_move_auto_rename" ) != true )
+			return;
+
+		$movefile  = get_option( "acui_cron_path_to_move");
+		
+		if ( $movefile && file_exists( $movefile ) ) {
+			$parts = pathinfo( $movefile );
+			$filename = $parts['filename'];
+			
+			if ( $filename ){
+				$date = date( 'YmdHis' ); 
+				$newfile = $parts['dirname'] . '/' . $filename .'_' . $date . '.' . $parts['extension'];
+				rename( $movefile , $newfile );
+			} 
+		}
+	}
+
 	public static function admin_gui(){
 		$cron_activated = get_option( "acui_cron_activated");
 		$send_mail_cron = get_option( "acui_cron_send_mail");
@@ -279,3 +380,5 @@ class ACUI_Cron{
 	<?php
 	}
 }
+
+new ACUI_Cron();

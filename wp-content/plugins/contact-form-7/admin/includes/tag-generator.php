@@ -19,7 +19,8 @@ class WPCF7_TagGenerator {
 	public function add( $id, $title, $callback, $options = array() ) {
 		$id = trim( $id );
 
-		if ( '' === $id || ! wpcf7_is_name( $id ) ) {
+		if ( '' === $id
+		or ! wpcf7_is_name( $id ) ) {
 			return false;
 		}
 
@@ -41,9 +42,11 @@ class WPCF7_TagGenerator {
 				'<a href="#TB_inline?width=900&height=500&inlineId=%1$s" class="thickbox button" title="%2$s">%3$s</a>',
 				esc_attr( $panel['content'] ),
 				esc_attr( sprintf(
+					/* translators: %s: title of form-tag like 'email' or 'checkboxes' */
 					__( 'Form-tag Generator: %s', 'contact-form-7' ),
 					$panel['title'] ) ),
-				esc_html( $panel['title'] ) );
+				esc_html( $panel['title'] )
+			);
 		}
 
 		echo '</span>';

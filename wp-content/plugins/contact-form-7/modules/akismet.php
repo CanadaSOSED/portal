@@ -4,7 +4,7 @@
 ** Akismet API: http://akismet.com/development/api/
 **/
 
-add_filter( 'wpcf7_spam', 'wpcf7_akismet' );
+add_filter( 'wpcf7_spam', 'wpcf7_akismet', 10, 1 );
 
 function wpcf7_akismet( $spam ) {
 	if ( $spam ) {
@@ -15,7 +15,9 @@ function wpcf7_akismet( $spam ) {
 		return false;
 	}
 
-	if ( ! $params = wpcf7_akismet_submitted_params() ) {
+	$submission = WPCF7_Submission::get_instance();
+
+	if ( ! $submission or ! $params = wpcf7_akismet_submitted_params() ) {
 		return false;
 	}
 
@@ -32,9 +34,8 @@ function wpcf7_akismet( $spam ) {
 	$c['user_ip'] = $_SERVER['REMOTE_ADDR'];
 	$c['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
 	$c['referrer'] = $_SERVER['HTTP_REFERER'];
-
-	// http://blog.akismet.com/2012/06/19/pro-tip-tell-us-your-comment_type/
 	$c['comment_type'] = 'contact-form';
+	$c['comment_date_gmt'] = $submission->get_meta( 'timestamp' );
 
 	if ( $permalink = get_permalink() ) {
 		$c['permalink'] = $permalink;
@@ -48,16 +49,23 @@ function wpcf7_akismet( $spam ) {
 		}
 	}
 
-	return wpcf7_akismet_comment_check( $c );
+	if ( wpcf7_akismet_comment_check( $c ) ) {
+		$spam = true;
+
+		$submission->add_spam_log( array(
+			'agent' => 'akismet',
+			'reason' => __( "Akismet returns a spam response.", 'contact-form-7' ),
+		) );
+	} else {
+		$spam = false;
+	}
+
+	return $spam;
 }
 
 function wpcf7_akismet_is_available() {
-	if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0+
+	if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) {
 		return (bool) Akismet::get_api_key();
-	}
-
-	if ( function_exists( 'akismet_get_key' ) ) {
-		return (bool) akismet_get_key();
 	}
 
 	return false;
@@ -74,7 +82,8 @@ function wpcf7_akismet_submitted_params() {
 	$has_akismet_option = false;
 
 	foreach ( (array) $_POST as $key => $val ) {
-		if ( '_wpcf7' == substr( $key, 0, 6 ) ) {
+		if ( '_wpcf7' == substr( $key, 0, 6 )
+		or '_wpnonce' == $key ) {
 			continue;
 		}
 
@@ -120,16 +129,13 @@ function wpcf7_akismet_submitted_params() {
 }
 
 function wpcf7_akismet_comment_check( $comment ) {
-	global $akismet_api_host, $akismet_api_port;
-
 	$spam = false;
 	$query_string = wpcf7_build_query( $comment );
 
-	if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0+
+	if ( is_callable( array( 'Akismet', 'http_post' ) ) ) {
 		$response = Akismet::http_post( $query_string, 'comment-check' );
 	} else {
-		$response = akismet_http_post( $query_string, $akismet_api_host,
-			'/1.1/comment-check', $akismet_api_port );
+		return $spam;
 	}
 
 	if ( 'true' == $response[1] ) {

@@ -96,7 +96,8 @@ class Flamingo_Contact {
 			'props' => array(),
 		);
 
-		$args = wp_parse_args( $args, $defaults );
+		$args = apply_filters( 'flamingo_add_contact',
+			wp_parse_args( $args, $defaults ) );
 
 		if ( empty( $args['email'] ) || ! is_email( $args['email'] ) ) {
 			return;

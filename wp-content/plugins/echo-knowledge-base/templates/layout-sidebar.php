@@ -36,9 +36,18 @@ $template_style1 = EPKB_Utilities::get_inline_style(
 	        margin-top::        templates_for_kb_margin_top,
 	        margin-bottom::     templates_for_kb_margin_bottom,
 	        margin-left::       templates_for_kb_margin_left,
-	        margin-right::      templates_for_kb_margin_right,', $kb_config );       ?>
+	        margin-right::      templates_for_kb_margin_right,', $kb_config );
 
-	<div class="eckb-kb-template" <?php echo $template_style1; ?>>	        <?php
+			// CSS Article Reset / Defaults
+			$article_class = '';
+			if ( $kb_config[ 'templates_for_kb_article_reset'] === 'on' ) {
+				$article_class .= 'eckb-article-resets ';
+			}
+			if ( $kb_config[ 'templates_for_kb_article_defaults'] === 'on' ) {
+				$article_class .= 'eckb-article-defaults ';
+			}		?>
+
+	<div class="eckb-kb-template <?php echo $article_class; ?>" <?php echo $template_style1; ?>>	        <?php
 
 	    echo $kb_main_pg_title;
 

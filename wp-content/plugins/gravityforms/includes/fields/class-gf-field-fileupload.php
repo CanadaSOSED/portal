@@ -71,11 +71,11 @@ class GF_Field_FileUpload extends GF_Field {
 			 */
 			$whitelisting_disabled = apply_filters( 'gform_file_upload_whitelisting_disabled', false );
 
-			if ( ! empty( $_FILES[ $input_name ]['name'] ) && empty( $allowed_extensions ) && ! $whitelisting_disabled ) {
+			if ( ! empty( $_FILES[ $input_name ]['name'] ) && ! $whitelisting_disabled ) {
 				$check_result = GFCommon::check_type_and_ext( $_FILES[ $input_name ] );
 				if ( is_wp_error( $check_result ) ) {
 					$this->failed_validation = true;
-					GFCommon::log_debug( __METHOD__ . '(): The uploaded file type is not allowed.' );
+					GFCommon::log_debug( sprintf( '%s(): %s; %s', __METHOD__, $check_result->get_error_code(), $check_result->get_error_message()  ) );
 					$this->validation_message = esc_html__( 'The uploaded file type is not allowed.', 'gravityforms' );
 					return;
 				}
@@ -109,7 +109,6 @@ class GF_Field_FileUpload extends GF_Field {
 
 		return $this->multipleFiles ? '' : 'input_' . $form['id'] . '_' . $this->id;
 	}
-
 
 	public function get_field_input( $form, $value = '', $entry = null ) {
 
@@ -230,11 +229,13 @@ class GF_Field_FileUpload extends GF_Field {
 				//  MAX_FILE_SIZE > 2048MB fails. The file size is checked anyway once uploaded, so it's not necessary.
 				$upload = sprintf( "<input type='hidden' name='MAX_FILE_SIZE' value='%d' />", $max_upload_size );
 			}
-			$upload .= sprintf( "<input name='input_%d' id='%s' type='file' class='%s' aria-describedby='%s' onchange='javascript:gformValidateFileSize( this, %s );' {$tabindex} %s/>", $id, $field_id, esc_attr( $class ), $extensions_message_id, esc_attr( $max_upload_size ), $disabled_text );
+			$validation_message_id = 'validation_message_' . $form_id . '_' . $id;
+			$live_validation_message_id= 'live_validation_message_' . $form_id . '_' . $id;
+			$upload .= sprintf( "<input name='input_%d' id='%s' type='file' class='%s' aria-describedby='%s %s %s' onchange='javascript:gformValidateFileSize( this, %s );' {$tabindex} %s/>", $id, $field_id, esc_attr( $class ), $validation_message_id, $live_validation_message_id, $extensions_message_id, esc_attr( $max_upload_size ), $disabled_text );
 
 			if ( ! $is_admin ) {
 				$upload .= "<span id='{$extensions_message_id}' class='screen-reader-text'>{$extensions_message}</span>";
-				$upload .= "<div class='validation_message'></div>";
+				$upload .= "<div class='validation_message' id='{$live_validation_message_id}'></div>";
 			}
 		}
 
@@ -267,16 +268,17 @@ class GF_Field_FileUpload extends GF_Field {
 				}
 				$download_file_text  = esc_attr__( 'Download file', 'gravityforms' );
 				$delete_file_text    = esc_attr__( 'Delete file', 'gravityforms' );
+				$view_file_text      = esc_attr__( 'View file', 'gravityforms' );
 				$file_index          = intval( $file_index );
 				$file_url            = esc_attr( $file_url );
 				$display_file_url    = GFCommon::truncate_url( $file_url );
-				$file_url = $this->get_download_url( $file_url );
+				$file_url            = $this->get_download_url( $file_url );
 				$download_button_url = GFCommon::get_base_url() . '/images/download.png';
 				$delete_button_url   = GFCommon::get_base_url() . '/images/delete.png';
 				$preview .= "<div id='preview_file_{$file_index}' class='ginput_preview'>
-								<a href='{$file_url}' target='_blank' alt='{$file_url}' title='{$file_url}'>{$display_file_url}</a>
-								<a href='{$file_url}' target='_blank' alt='{$download_file_text}' title='{$download_file_text}'>
-								<img src='{$download_button_url}' style='margin-left:10px;'/></a><a href='javascript:void(0);' alt='{$delete_file_text}' title='{$delete_file_text}' onclick='DeleteFile({$lead_id},{$id},this);' onkeypress='DeleteFile({$lead_id},{$id},this);' ><img src='{$delete_button_url}' style='margin-left:10px;'/></a>
+								<a href='{$file_url}' target='_blank' aria-label='{$view_file_text}'>{$display_file_url}</a>
+								<a href='{$file_url}' target='_blank' aria-label='{$download_file_text}'>
+								<img src='{$download_button_url}' alt='' style='margin-left:10px;'/></a><a href='javascript:void(0);' aria-label='{$delete_file_text}' onclick='DeleteFile({$lead_id},{$id},this);' onkeypress='DeleteFile({$lead_id},{$id},this);' ><img src='{$delete_button_url}' alt='' style='margin-left:10px;'/></a>
 							</div>";
 			}
 
@@ -292,7 +294,7 @@ class GF_Field_FileUpload extends GF_Field {
 				$preview    = sprintf( "<div id='%s'>", $file_list_id );
 				$file_infos = $multiple_files ? $uploaded_files : array( $file_infos );
 				foreach ( $file_infos as $file_info ) {
-					$file_upload_markup = apply_filters( 'gform_file_upload_markup', "<img alt='" . esc_attr__( 'Delete file', 'gravityforms' ) . "' title='" . esc_attr__( 'Delete file', 'gravityforms' ) . "' class='gform_delete' src='" . GFCommon::get_base_url() . "/images/delete.png' onclick='gformDeleteUploadedFile({$form_id}, {$id}, this);' onkeypress='gformDeleteUploadedFile({$form_id}, {$id}, this);' /> <strong>" . esc_html( $file_info['uploaded_filename'] ) . '</strong>', $file_info, $form_id, $id );
+					$file_upload_markup = apply_filters( 'gform_file_upload_markup', "<img alt='" . esc_attr__( 'Delete file', 'gravityforms' ) . "' class='gform_delete' src='" . GFCommon::get_base_url() . "/images/delete.png' onclick='gformDeleteUploadedFile({$form_id}, {$id}, this);' onkeypress='gformDeleteUploadedFile({$form_id}, {$id}, this);' /> <strong>" . esc_html( $file_info['uploaded_filename'] ) . '</strong>', $file_info, $form_id, $id );
 					$preview .= "<div class='ginput_preview'>{$file_upload_markup}</div>";
 				}
 				$preview .= '</div>';
@@ -351,7 +353,7 @@ class GF_Field_FileUpload extends GF_Field {
 				$uploaded_temp_files = GFFormsModel::$uploaded_files[ $form_id ][ $input_name ];
 				$uploaded_files      = array();
 				foreach ( $uploaded_temp_files as $i => $file_info ) {
-					$temp_filepath = GFFormsModel::get_upload_path( $form_id ) . '/tmp/' . $file_info['temp_filename'];
+					$temp_filepath = GFFormsModel::get_upload_path( $form_id ) . '/tmp/' . wp_basename( $file_info['temp_filename'] );
 					if ( $file_info && file_exists( $temp_filepath ) ) {
 						$uploaded_files[ $i ] = $this->move_temp_file( $form_id, $file_info );
 					}
@@ -390,7 +392,8 @@ class GF_Field_FileUpload extends GF_Field {
 
 			//check if file has already been uploaded by previous step
 			$file_info     = GFFormsModel::get_temp_filename( $form_id, $input_name );
-			$temp_filepath = GFFormsModel::get_upload_path( $form_id ) . '/tmp/' . $file_info['temp_filename'];
+			$temp_filename = rgar( $file_info, 'temp_filename', '' );
+			$temp_filepath = GFFormsModel::get_upload_path( $form_id ) . '/tmp/' . $temp_filename;
 
 			if ( $file_info && file_exists( $temp_filepath ) ) {
 				GFCommon::log_debug( __METHOD__ . '(): File already uploaded to tmp folder, moving.' );
@@ -449,7 +452,7 @@ class GF_Field_FileUpload extends GF_Field {
 			$thumb     = GFEntryList::get_icon_url( $file_path );
 			$file_path = $this->get_download_url( $file_path );
 			$file_path = esc_attr( $file_path );
-			$value     = "<a href='$file_path' target='_blank' title='" . esc_attr__( 'Click to view', 'gravityforms' ) . "'><img src='$thumb'/></a>";
+			$value     = "<a href='$file_path' target='_blank' aria-label='" . esc_attr__( 'View the image', 'gravityforms' ) . "'><img src='$thumb' alt='' /></a>";
 		}
 		return $value;
 	}
@@ -463,7 +466,7 @@ class GF_Field_FileUpload extends GF_Field {
 
 			if ( is_array( $file_paths ) ) {
 				foreach ( $file_paths as $file_path ) {
-					$info = pathinfo( $file_path );
+					$basename = wp_basename( $file_path );
 					$file_path = $this->get_download_url( $file_path, $force_download );
 
 					/**
@@ -494,7 +497,7 @@ class GF_Field_FileUpload extends GF_Field {
 					 * @param GF_Field_FileUpload $field     The field object for further context.
 					 */
 					$file_path    = str_replace( ' ', '%20', apply_filters( 'gform_fileupload_entry_value_file_path', $file_path, $this ) );
-					$output_arr[] = $format == 'text' ? $file_path : sprintf( "<li><a href='%s' target='_blank' title='%s'>%s</a></li>", esc_attr( $file_path ), esc_attr__( 'Click to view', 'gravityforms' ), $info['basename'] );
+					$output_arr[] = $format == 'text' ? $file_path : sprintf( "<li><a href='%s' target='_blank' aria-label='%s'>%s</a></li>", esc_attr( $file_path ), esc_attr__( 'Click to view', 'gravityforms' ), $basename );
 
 				}
 				$output = join( PHP_EOL, $output_arr );
@@ -559,7 +562,7 @@ class GF_Field_FileUpload extends GF_Field {
 	public function move_temp_file( $form_id, $tempfile_info ) {
 
 		$target = GFFormsModel::get_file_upload_path( $form_id, $tempfile_info['uploaded_filename'] );
-		$source = GFFormsModel::get_upload_path( $form_id ) . '/tmp/' . $tempfile_info['temp_filename'];
+		$source = GFFormsModel::get_upload_path( $form_id ) . '/tmp/' . wp_basename( $tempfile_info['temp_filename'] );
 
 		GFCommon::log_debug( __METHOD__ . '(): Moving temp file from: ' . $source );
 

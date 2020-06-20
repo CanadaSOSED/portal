@@ -13,15 +13,9 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 	 */
 	public function generate_kb_main_page() {
 
-		$class2 = $this->get_css_class( '::width' );
+		$class2 = $this->get_css_class( '::width' );		    ?>
 
-		if ( $this->kb_config['css_version'] == 'css-current' ) {
-			$main_container_class = 'epkb-css-full-reset epkb-basic-template';
-		} else {
-			$main_container_class = 'epkb-basic-template-legacy';
-		}	    ?>
-
-		<div id="epkb-main-page-container" class="<?php echo $main_container_class; ?>">
+		<div id="epkb-main-page-container" class="epkb-css-full-reset epkb-basic-template">
 			<div <?php echo $class2; ?>>  <?php
 
 				//  KB Search form
@@ -67,8 +61,16 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 		);
 		$style3 = $this->get_inline_style(
 					'color:: section_head_font_color,
-					 text-align::section_head_alignment'
+					 text-align::section_head_alignment,
+					justify-content::section_head_alignment'
 		);
+		if ( $this->kb_config['section_head_alignment'] == 'right' ) {
+			$style3 = $this->get_inline_style(
+				'color:: section_head_font_color,
+					 text-align::section_head_alignment,
+					justify-content:flex-end'
+			);
+		}
 		$style31 = $this->get_inline_style(
 			'color:: section_head_font_color'
 		);
@@ -91,9 +93,15 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 		// for each CATEGORY display: a) its articles and b) top-level SUB-CATEGORIES with its articles
 
 		$class1 = $this->get_css_class( ' ::nof_columns, ::section_font_size, eckb-categories-list' );
+		
+		$categories_icons = $this->is_builder_on && ! empty($this->kb_config['wizard-icons']) ? $this->kb_config['wizard-icons'] : EPKB_Utilities::get_kb_option( $this->kb_config['id'], EPKB_Icons::CATEGORIES_ICONS, array(), true );
+		
+		$header_icon_style = $this->get_inline_style( 'color:: section_head_category_icon_color, font-size:: section_head_category_icon_size' );
+		$header_image_style = $this->get_inline_style( 'max-height:: section_head_category_icon_size' );
 
-		$categories_icons = EPKB_Utilities::get_kb_option( $this->kb_config['id'], EPKB_Icons::CATEGORIES_ICONS, array(), true );
-		$header_icon_style = $this->get_inline_style( 'color:: section_head_category_icon_color, font-size:: section_head_category_icon_size' );	?>
+		$icon_location = empty($this->kb_config['section_head_category_icon_location']) ? '' : $this->kb_config['section_head_category_icon_location'];
+		$top_icon_class = $icon_location == 'top' ? 'epkb-category--top-cat-icon' : '';       ?>
+
 
 		<div <?php echo $class1; //Classes that are controlled by config settings ?> >   <?php
 
@@ -109,22 +117,8 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 					continue;
 				}
 
-				//Setup Category Icon
-				if ( empty($categories_icons[$box_category_id]) ) {
-					$icon_name = EPKB_Icons::DEFAULT_CATEGORY_ICON;
-				} else {
-					//IF epkbfa is in the string, then don't replace any characters.
-					if (strpos( $categories_icons[$box_category_id], 'epkbfa' ) !== false) {
-						$icon_name =  $categories_icons[$box_category_id];
-					} else {
-						//If it does not contain the epkbfa string then it's old and needs to be converted.
-						$icon_name = str_replace( 'fa-', 'epkbfa-', $categories_icons[$box_category_id] );
-					}
-				}
+				$category_icon = EPKB_KB_Config_Category::get_category_icon( $box_category_id, $categories_icons );
 
-				$icon_location = empty($this->kb_config['section_head_category_icon_location']) ? '' : $this->kb_config['section_head_category_icon_location'];
-
-				$box_sub_category_exists = false;
 				$category_desc = isset($this->articles_seq_data[$box_category_id][1]) && $this->kb_config['section_desc_text_on'] == 'on' ? $this->articles_seq_data[$box_category_id][1] : '';
 				$box_sub_categories = is_array($box_sub_categories) ? $box_sub_categories : array();
 				$box_category_data = $this->is_builder_on ? 'data-kb-category-id=' . $box_category_id . ' data-kb-type=category ' : '';  			?>
@@ -136,42 +130,69 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 					<div <?php echo $class_section_head . ' ' . $style_section_head; ?> >
 
 						<!-- Category Name + Icon -->
-						<div class="epkb-category-level-1" <?php echo $box_category_data . ' ' . $style3; ?> >
+						<div class="epkb-category-level-1 <?php echo $top_icon_class; ?>" <?php echo $box_category_data . ' ' . $style3; ?> >
 
 							<!-- Icon Top / Left -->	                            <?php
 							if ( in_array( $icon_location, array('left', 'top') ) ) {
-							    $top_icon_class = $icon_location == 'top' ? 'epkb-top-cat-icon' : '';      ?>
-							    <span class="epkb-cat-icon epkbfa <?php echo $top_icon_class . ' ' . $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
-							}       ?>
 
-							<span class="epkb-cat-name"><a href="<?php echo esc_url( $category_link ); ?>" <?php echo $style31; ?>><?php echo $category_name; ?></a></span>
+								if ( $category_icon['type'] == 'image' ) { ?>
+									<img class="epkb-cat-icon epkb-cat-icon--image  "
+									     src="<?php echo $category_icon['image_thumbnail_url']; ?>"
+										<?php echo $header_image_style; ?>
+									>								<?php
+								} else { ?>
+									<span class="epkb-cat-icon epkbfa <?php echo  $category_icon['name']; ?>" data-kb-category-icon="<?php echo $category_icon['name']; ?>" <?php echo $header_icon_style; ?>></span>	<?php
+								}
+
+							}
+
+							if ( $this->kb_config['section_hyperlink_text_on'] == 'on' ) { ?>
+								<span class="epkb-cat-name"><a href="<?php echo esc_url( $category_link ); ?>" <?php echo $style31; ?>><?php echo $category_name; ?></a></span>		<?php
+							} else {        ?>
+								<span class="epkb-cat-name" <?php echo $style31; ?>><?php echo $category_name; ?></span>							<?php
+							}	?>
 
 							<!-- Icon Right -->     <?php
-							if ( $icon_location == 'right' ) {     ?>
-							    <span class="epkb-cat-icon epkbfa <?php echo $icon_name; ?>" data-kb-category-icon="<?php echo $icon_name; ?>" <?php echo $header_icon_style; ?>></span>     <?php
+							if ( $icon_location == 'right' ) {
+
+								if ( $category_icon['type'] == 'image' ) { ?>
+									<img class="epkb-cat-icon epkb-cat-icon--image  "
+									     src="<?php echo $category_icon['image_thumbnail_url']; ?>"
+										<?php echo $header_image_style; ?>
+									>								<?php
+								} else { ?>
+									<span class="epkb-cat-icon epkbfa <?php echo $top_icon_class . ' ' . $category_icon['name']; ?>" data-kb-category-icon="<?php echo $category_icon['name']; ?>" <?php echo $header_icon_style; ?>></span>	<?php
+								}
+
 							}       ?>
 
 						</div>
 
-						<!-- Category Description -->
-						<?php if ( $category_desc ) {   ?>
+						<!-- Category Description -->						<?php
+						if ( $category_desc ) {   ?>
 						    <p <?php echo $style4; ?> >
 						        <?php echo $category_desc; ?>
-						    </p>
-						<?php } ?>
-					</div>
+						    </p>						<?php
+						}       ?>
 
+					</div>
 
 					<!-- Section Body -->
 					<div class="epkb-section-body" <?php echo $this->get_inline_style( $style5 ); ?> >   			<?php
-
+						
+						/** DISPLAY TOP-CATEGORY ARTICLES LIST */
+						if (  $this->kb_config['show_articles_before_categories'] != 'off' ) {
+							$this->display_articles_list( 1, $box_category_id, ! empty($box_sub_categories) );
+						}
+						
 						if ( ! empty($box_sub_categories) ) {
-							$box_sub_category_exists = true;
 							$this->display_box_sub_categories( $box_sub_categories );
 						}
-
-                        /** DISPLAY TOP-CATEGORY ARTICLES LIST */
-						$this->display_articles_list( 1, $box_category_id, $box_sub_category_exists ); ?>
+						
+						/** DISPLAY TOP-CATEGORY ARTICLES LIST */
+						if (  $this->kb_config['show_articles_before_categories'] == 'off' ) {
+							$this->display_articles_list( 1, $box_category_id, ! empty($box_sub_categories) );
+						}                      ?>
 
 					</div><!-- Section Body End -->
 
@@ -183,11 +204,11 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 	}
 	
 	/**
-	 * Display categories within the Box i.e. sub-sub-categories
+	 * Display categories within the Box i.e. sub-categories
 	 *
 	 * @param $box_sub_category_list
 	 */
-	private function display_box_sub_categories( $box_sub_category_list ) {		?>
+	private function display_box_sub_categories( $box_sub_category_list ) {     	?>
 
 		<ul class="epkb-sub-category eckb-sub-category-ordering"> <?php
 
@@ -205,16 +226,23 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 				<li <?php echo $this->get_inline_style( 'padding-bottom:: article_list_spacing,padding-top::article_list_spacing' ); ?>>
 					<div class="epkb-category-level-2-3" <?php echo $box_sub_category_data; ?>>
 						<i <?php echo $class1 . ' ' . $style1; ?>	></i>
-						<a <?php echo $style2; ?> ><?php echo $category_name; ?></a>
+						<span class="epkb-category-level-2-3__cat-name" tabindex="0" <?php echo $style2; ?> ><?php echo $category_name; ?></span>
 					</div>    <?php
-
+					
+					/** DISPLAY TOP-CATEGORY ARTICLES LIST */
+					if (  $this->kb_config['show_articles_before_categories'] != 'off' ) {
+						$this->display_articles_list( 2, $box_sub_category_id, ! empty($box_sub_sub_category_list) );
+					}
+						
 					/** DISPLAY SUB-SUB-CATEGORIES */
 					if ( ! empty($box_sub_sub_category_list) ) {
 						$this->display_box_sub_sub_categories( $box_sub_sub_category_list );
 					}
-
-					/** DISPLAY SUB-CATEGORY ARTICLES LIST */
-					$this->display_articles_list( 2, $box_sub_category_id );					?>
+					
+					/** DISPLAY TOP-CATEGORY ARTICLES LIST */
+					if (  $this->kb_config['show_articles_before_categories'] == 'off' ) {
+						$this->display_articles_list( 2, $box_sub_category_id, ! empty($box_sub_sub_category_list) );
+					}					?>
 				</li>  <?php
 			}           ?>
 
@@ -225,13 +253,17 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 	 * Display categories within the Box i.e. sub-sub-categories
 	 *
 	 * @param $box_sub_sub_category_list
+	 * @param string $level
 	 */
-	private function display_box_sub_sub_categories( $box_sub_sub_category_list ) {
-		$body_style1 = $this->get_inline_style( 'padding-left:: article_list_margin' );  	?>
+	private function display_box_sub_sub_categories( $box_sub_sub_category_list, $level = 'sub-' ) {
+
+		$level .= 'sub-';
+
+		$body_style1 = $this->get_inline_style( 'padding-left:: article_list_margin' );		?>
 		<ul class="epkb-sub-sub-category eckb-sub-sub-category-ordering" <?php echo $body_style1; ?>> <?php
 
 			/** DISPLAY SUB-SUB-CATEGORIES */
-			foreach ( $box_sub_sub_category_list as $box_sub_sub_category_id => $unused ) {
+			foreach ( $box_sub_sub_category_list as $box_sub_sub_category_id => $box_sub_sub_sub_category_list ) {
 				$category_name = isset($this->articles_seq_data[$box_sub_sub_category_id][0]) ?
 					$this->articles_seq_data[$box_sub_sub_category_id][0] : __( 'Category.', 'echo-knowledge-base' );
 
@@ -239,18 +271,30 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 				$style1 = $this->get_inline_style( 'color:: section_category_icon_color' );
 				$style2 = $this->get_inline_style( 'color:: section_category_font_color' );
 
-				$box_sub_category_data = $this->is_builder_on ? 'data-kb-category-id=' . $box_sub_sub_category_id  . ' data-kb-type=sub-sub-category ' : '';  	?>
+				$box_sub_category_data = $this->is_builder_on ? 'data-kb-category-id=' . $box_sub_sub_category_id  . ' data-kb-type=' . $level . 'category ' : '';  	?>
 
 				<li <?php echo $this->get_inline_style( 'padding-bottom:: article_list_spacing,padding-top::article_list_spacing' ); ?>>
-					<div class="epkb-category-level-2-3"<?php echo $box_sub_category_data; ?>>
+					<div class="epkb-category-level-2-3"  <?php echo $box_sub_category_data; ?>>
 						<i <?php echo $class1 . ' ' . $style1; ?> ></i>
-						<a <?php echo $style2; ?> ><?php echo $category_name; ?></a>
+						<span class="epkb-category-level-2-3__cat-name" tabindex="0" <?php echo $style2; ?> ><?php echo $category_name; ?></span>
 					</div>    <?php
-
-					/** DISPLAY SUB-SUB-CATEGORY ARTICLES LIST */
-					$this->display_articles_list( 3, $box_sub_sub_category_id );    ?>
+					
+					/** DISPLAY TOP-CATEGORY ARTICLES LIST */
+					if (  $this->kb_config['show_articles_before_categories'] != 'off' ) {
+						$this->display_articles_list( 3, $box_sub_sub_category_id, ! empty($box_sub_sub_sub_category_list), $level );
+					}
+					
+					/** RECURSION DISPLAY SUB-SUB-...-CATEGORIES */
+					if ( ! empty($box_sub_sub_sub_category_list) && strlen($level) < 20 ) {
+						$this->display_box_sub_sub_categories( $box_sub_sub_sub_category_list, $level );
+					}
+					
+					/** DISPLAY TOP-CATEGORY ARTICLES LIST */
+					if (  $this->kb_config['show_articles_before_categories'] == 'off' ) {
+						$this->display_articles_list( 3, $box_sub_sub_category_id, ! empty($box_sub_sub_sub_category_list), $level );
+					}    ?>
 				</li>  <?php
-			}   ?>
+			}           ?>
 
 		</ul> <?php
 	}
@@ -261,9 +305,10 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 	 * @param $level
 	 * @param $category_id
 	 * @param bool $sub_category_exists - if true then we don't want to show "Articles coming soon" if there are no articles because
-	 *                                   we have at least categories listed. But sub-category should always have that message if no article present
+	 *                                   we have at least categories listed.
+	 * @param string $sub_sub_string
 	 */
-	private function display_articles_list( $level, $category_id, $sub_category_exists=false ) {
+	private function display_articles_list( $level, $category_id, $sub_category_exists=false, $sub_sub_string = '' ) {
 
 		// retrieve articles belonging to given (sub) category if any
 		$articles_list = array();
@@ -286,7 +331,7 @@ class EPKB_Layout_Basic extends EPKB_Layout {
 		} else if ( $level == 2 ) {
 			$data_kb_type = 'sub-article';
 		} else {
-			$data_kb_type = 'sub-sub-article';
+			$data_kb_type = empty($sub_sub_string) ? 'sub-sub-article' : $sub_sub_string . 'article';
 		}
 
 		$style = 'class="' . ( $level == 1 ? 'epkb-main-category ' : '' ) .  'epkb-articles eckb-articles-ordering"';		?>

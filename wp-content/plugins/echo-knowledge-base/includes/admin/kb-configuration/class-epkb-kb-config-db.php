@@ -51,7 +51,7 @@ class EPKB_KB_Config_DB {
 		// retrieve all KB options for existing knowledge bases from WP Options table
 		$kb_options = $wpdb->get_results("SELECT option_value FROM $wpdb->options WHERE option_name LIKE '" . self::KB_CONFIG_PREFIX . "%'", ARRAY_A );
 		if ( empty($kb_options) || ! is_array($kb_options) ) {
-			EPKB_Logging::add_log("Did not retrieve any kb config. Using defaults", $kb_options);
+			EPKB_Logging::add_log("Did not retrieve any kb config. Using defaults (22). Last error: " . $wpdb->last_error, $kb_options);
 			$kb_options = array();
 		}
 
@@ -65,7 +65,7 @@ class EPKB_KB_Config_DB {
 
 			$config = maybe_unserialize( $row['option_value'] );
 			if ( $config === false ) {
-				EPKB_Logging::add_log("Could not unserialize configuration");
+				EPKB_Logging::add_log("Could not unserialize configuration: ", EPKB_Utilities::get_variable_string($row['option_value']));
 				continue;
 			}
 
@@ -124,7 +124,7 @@ class EPKB_KB_Config_DB {
 		// retrieve all KB option names for existing knowledge bases from WP Options table
 		$kb_option_names = $wpdb->get_results("SELECT option_name FROM $wpdb->options WHERE option_name LIKE '" . self::KB_CONFIG_PREFIX . "%'", ARRAY_A );
 		if ( empty($kb_option_names) || ! is_array($kb_option_names) ) {
-			EPKB_Logging::add_log("Did not retrieve any kb config. Using defaults", $kb_option_names);
+			EPKB_Logging::add_log("Did not retrieve any kb config. Try to deactivate and active KB plugin to see if the issue will be fixed (11). Last error: " . $wpdb->last_error, $kb_option_names);
 			$kb_option_names = array();
 		}
 
@@ -188,7 +188,7 @@ class EPKB_KB_Config_DB {
 		// if KB configuration is missing then return error
 		if ( empty($config) || ! is_array($config) ) {
 			EPKB_Logging::add_log("Did not find KB configuration (DB231).", $kb_id);
-			return new WP_Error('DB231', "Did not find KB configuration");
+			return new WP_Error('DB231', "Did not find KB configuration. Try to deactivate and reactivate KB plugin to see if this fixes the issue. " . EPKB_Utilities::contact_us_for_support() );
 		}
 
 		if ( count($config) < 100 ) {
@@ -253,7 +253,7 @@ class EPKB_KB_Config_DB {
 
 		$kb_config = empty($kb_id) ? $this->get_current_kb_configuration() : $this->get_kb_config( $kb_id );
 		if ( is_wp_error( $kb_config ) ) {
-			EPKB_Logging::add_log( "Could not retrieve KB configuration (15). Settings name: ", $setting_name, $kb_config );
+			EPKB_Logging::add_log( "Could not retrieve KB configuration (15a). Settings name: ", $setting_name, $kb_config );
 			return $default;
 		}
 
@@ -356,8 +356,8 @@ class EPKB_KB_Config_DB {
  												 ON DUPLICATE KEY UPDATE `option_name` = VALUES(`option_name`), `option_value` = VALUES(`option_value`), `autoload` = VALUES(`autoload`)",
 												$option_name, $serialized_config, 'no' ) );
 		if ( $result === false ) {
-			EPKB_Logging::add_log( 'Failed to update kb config for kb_id', $kb_id );
-			return new WP_Error( 'save_kb_config', 'Failed to update kb config for kb_id ' . $kb_id );
+			EPKB_Logging::add_log( 'Failed to update kb config for kb_id', $kb_id, 'Last DB ERROR: (' . $wpdb->last_error . ')' );
+			return new WP_Error( 'save_kb_config', 'Failed to update kb config for kb_id ' . $kb_id . ' Last DB ERROR: (' . $wpdb->last_error . ')');
 		}
 
 		// cached the settings for future use

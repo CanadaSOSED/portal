@@ -1,12 +1,13 @@
-/**
+/*
  * upload.js
  *
  * handles large file uploading.
- * version : 3.0
+ * version : 4.1
  */
 'use strict';
 
 //create global variable
+var max_upload = 0;
 var max_file_size = 0;
 var max_file_size_display = 0;
 var adv_max_file_size_display = 0;
@@ -23,546 +24,174 @@ msgProgressDiv.className = "progress";
 msgProgressDiv.appendChild(msgProgLabel);
 msgProgressDiv.appendChild(msgProgress);
 
-//This is to enable the ID3 tag reader for plupload files.
-(function(ns) {
-    ns.mOxieFileAPIReader = function(file) {
-        return function(url, fncCallback, fncError) {
-            var reader = new mOxie.FileReader();
-            
-            reader.onload = function(event) {
-            	var base_pos = this.result.search(/;base64,/);
-            	var result = this.result.slice(base_pos+8);
-                var bin_file = new D(window.atob(result));  //D is BinaryFile in the src
-                fncCallback(bin_file);
-            };
-            reader.readAsDataURL (file);
-        };
-    };
-})(this);
-
-var registerLog = function (str, className) {
-    jQuery('<div class="'+className+'">'+str+'</div>').appendTo('#log');
+var completeUpload = function (dropzone, file, callback) {
+    if(typeof(file.thumbs) !== 'undefined' && file.chunksUploaded) {
+    	var fd = new FormData();
+    	fd.append('action', 'adv_upload_dropzone');
+    	fd.append('security', security.value);
+    	fd.append('filename', file.name);
+    	fd.append('fileDest', file.dest);
+    	fd.append('album', file.album);
+    	fd.append('dzuuid', file.upload.uuid);
+    	fd.append('dztotalchunkcount', file.upload.totalChunkCount);
+    	fd.append('destinations', JSON.stringify(destinations));
+    
+        if(file.thumbs) {
+        	fd.append('meta', JSON.stringify(file.thumbsImageMeta));
+        	for (var index=0; index<file.thumbsKeys.length; index++) {
+        		var key = file.thumbsKeys[index];
+        		var binary = atob(file.thumbsDataURL[key].split(',')[1]);
+        		var array = [];
+        		for(var i = 0; i < binary.length; i++) {
+        			array.push(binary.charCodeAt(i));
+        		}
+        		
+        		//get thumb extension
+        		var blob;
+        		var thumbExt = file.name.split('.').pop();
+        		if( thumbExt.match(/jpg/) )
+        			blob = new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+        		else
+        			blob = new Blob([new Uint8Array(array)], {type: 'image/png'});
+        		fd.append('thumbs[]', blob, file.thumbsImageMeta[key].file);
+        	}
+        }
+    	
+    	//update display to show message
+	var preview = jQuery(file.previewElement);
+    	preview.find('.dz-status-message span').html( 'Completing Upload' );
+    	
+    	//upload thumbs and add file to WP Libraray
+    	jQuery.ajax({	'type': "post",
+    			'url': ajaxurl,
+    			'data': fd,
+    			'enctype': 'multipart/form-data',
+    			'encoding': 'multipart/form-data',
+    			'cache': false,
+    			'processData': false,
+    			'contentType': false
+    	}).done(function (response) {
+    		//check for errors
+    		if( response.success === false ) {
+            		dropzone.emit("error", file, 'media-upload-error');
+    			return;
+    		}
+    				
+    		//update display to show message
+		var preview = jQuery(file.previewElement);
+	    	preview.find('.dz-status-message span').html( '<a href="'+response.data.editLink+'">Edit</a>' );
+    		
+    		if( typeof(callback) === 'function' )
+    		    callback('success');
+		else if( typeof(file.sucessCallback) === 'function' )
+			file.sucessCallback('success');
+    	}).error(function ( jqXHR, textStatus, errorThrown ) {
+            	dropzone.emit("error", file, textStatus);
+    	});
+    } else if( typeof(callback) === 'function' )
+	file.sucessCallback = callback;
 };
 
-function adv_plupload_defaults () {
-	//add setting to uploader
-	var adv_preinit = {
-		PostInit: function(up) {
-			var uploaddiv = jQuery('#plupload-upload-ui');
-			if (uploaddiv.length !== 0) {
-				setResize( getUserSetting('upload_resize', false) );
-		
-				if ( up.features.dragdrop && ! jQuery(document.body).hasClass('mobile') ) {
-					uploaddiv.addClass('drag-drop');
-					jQuery('#drag-drop-area').bind('dragover.wp-uploader', function(){ // dragenter doesn't fire right :(
-						uploaddiv.addClass('drag-over');
-					}).bind('dragleave.wp-uploader, drop.wp-uploader', function(){
-						uploaddiv.removeClass('drag-over');
-					});
-				} else {
-					uploaddiv.removeClass('drag-drop');
-					jQuery('#drag-drop-area').unbind('.wp-uploader');
-				}
-		
-				if ( up.runtime == 'html4' )
-					jQuery('.upload-flash-bypass').hide();
-			}
-			
-			default_action = up.settings.multipart_params.action;
-			default_url = up.settings.url;
-			up_plupload = up;
-			jQuery('.drop-instructions').show();
-			up.settings.drop_element[0].addEventListener('dragenter', function (e) {
-				var dragdisplay = document.getElementsByClassName('uploader-window');
-				if (dragdisplay.length>0) {
-					dragdisplay[0].style.display = 'block';
-					dragdisplay[0].style.opacity = 1;
-					dragdisplay[0].addEventListener('dragleave', function (e) {
-						dragdisplay[0].style.display = 'none';
-						dragdisplay[0].style.opacity = 0;
-					}, false);
-					dragdisplay[0].addEventListener('drop', function (e) {
-						dragdisplay[0].style.display = 'none';
-						dragdisplay[0].style.opacity = 0;
-					}, false);
-				}
-			}, false);
-	
-			//disable plupload image resize
-			up.settings.resize = {};
-			up.settings.resize.enabled = false;
-	
-			if (adv_uploader) {
-				up.settings.filters.max_file_size = adv_max_file_size;
-			}
-		},
-		FilesAdded: function(up, files) {
-			if (adv_uploader) {
-				up.settings.url = ajaxurl;
-				up.settings.multipart_params.destinations = JSON.stringify(destinations);
-				up.settings.multipart_params.action = 'adv_upload_plupload';
-				up.settings.multipart_params.security = security;
-	
-				var lib_only = true;
-				if( typeof files[0].dest === 'undefined' ) {
-					if( typeof wpUploaderInit === 'object' )
-						lib_only = false;
-					selectDestination (lib_only, files, function () {
-						up.trigger("FilesAdded", files);
-					});
-					return false;
-				} else if (typeof files[0].dest === 'undefined' ) {
-					for( var i=0; i<files.length; i++)
-						files[i].dest = 0;
-				}
-			} else {
-				up.settings.url = default_url;
-				up.settings.max_retries = 0;
-				delete up.settings.multipart_params.destinations;
-				up.settings.multipart_params.action = default_action;
-				delete up.settings.multipart_params.security;
-			}
-		},
-		BeforeUpload: function(up, file) {
-			if (adv_uploader) {
-				up.settings.multipart_params.fileDest = file.dest;
-				up.settings.multipart_params.album = file.album;
-				//remove form size to stop chunking being to big for upload
-				var formsize = 0;
-				if( override_header_calc === false ) {
-    				formsize = roughSizeOfObject(up.settings.multipart_params);  //curent form params
-    				formsize += roughSizeOfObject(file); //file will be include in form
-    				formsize += 16; //add to integers for chunk parameters
-				} else
-				    formsize = override_header_calc * 1024;
-				up.settings.chunk_size = max_file_size - formsize;
-			}
-		},
-		FileUploaded: function( up, file, response ) {
-			if (adv_uploader) {
-				var uploadFileThumbs = function (dataURL, imageMeta, keys) {
-					var fd = new FormData();
-					fd.append('action', 'adv_file_upload_thumbs');
-					fd.append('security', security);
-					fd.append('filename', respObj.data.name);
-	
-					if (typeof _wpPluploadSettings === 'object')
-						fd.append('post_id', wp.media.model.settings.post.id);
-					fd.append('meta', JSON.stringify(imageMeta));
-					fd.append('fileDest', file.dest);
-					fd.append('album', file.album);
-					fd.append('destinations', JSON.stringify(destinations));
-	
-					for (var index=0; index<keys.length; index++) {
-						var key = keys[index];
-						var binary = atob(dataURL[key].split(',')[1]);
-						var array = [];
-						for(var i = 0; i < binary.length; i++) {
-							array.push(binary.charCodeAt(i));
-						}
-						
-						//get thumb extension
-						var blob;
-						var thumbExt = respObj.data.name.split('.').pop();
-						if( thumbExt.match(/jpg/) )
-							blob = new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
-						else
-							blob = new Blob([new Uint8Array(array)], {type: 'image/png'});
-						fd.append('thumbs[]', blob, imageMeta[key].file);
-					}
-					
-					console.log(fd);
-					//update display to show message
-					var item = jQuery('#media-item-' + file.id);
-					jQuery('.percent', item).html( 'Completing Upload' );
-					
-					//upload thumbs and add file to WP Libraray
-					jQuery.ajax({	'type': "post",
-							'url': ajaxurl,
-							'data': fd,
-							'enctype': 'multipart/form-data',
-							'encoding': 'multipart/form-data',
-							'cache': false,
-							'processData': false,
-							'contentType': false
-					}).done(function (response) {
-		                var respObj;
-						if (typeof response === 'string' && response !== '') {
-							if (typeof wpUploaderInit === 'object') {
-								try {
-									respObj = JSON.parse( response);
-								} catch ( e ) {
-									up.trigger("FileUploaded", file, {'response':'media-upload-error'});
-									return;
-								}
-								
-								//check for errors
-								if( respObj.success === false ) {
-									up.trigger("FileUploaded", file, {'response':'media-upload-error'});
-									return;
-								}
-								
-								//id only returned if add to Wordpress Library
-								var id;
-								if( respObj.data.id === false ) {
-									id = respObj.data.id;
-									jQuery('#media-item-' + file.id + ' .progress').remove();
-									jQuery('#media-item-' + file.id + ' .original').remove();
-									jQuery( '<img>' ).attr({
-										src: respObj.data.url,
-										class: 'pinkynail'
-										}).appendTo( '#media-item-' + file.id );
-									jQuery( '<div>' ).attr({
-										class: 'filename new'
-										}).html(respObj.data.name).appendTo( '#media-item-' + file.id );
-								} else
-									id = respObj.data.id.toString();
-								
-								up.trigger("FileUploaded", file, {'response':id});
-							} else
-								up.trigger("FileUploaded", file, {'response':response});
-						}
-					});
-				};
-	
-		        var respObj;
-				try {
-					respObj = JSON.parse( response.response );
-				} catch ( e ) {
-					return;
-				}
-	
-				if (respObj.success == 'file_complete') {
-					//get file extension
-					var ext = respObj.data.name.split('.').pop();
-	
-					//is image create thumbnail
-					if(destinations[file.dest][4] &&  ext.match(/jpg|jpeg|png/i)) {
-						//update display to show message
-						var item = jQuery('#media-item-' + file.id);
-						jQuery('.percent', item).html( 'Creating thumbs' );
-						createThumbImage (file, respObj.data.name, uploadFileThumbs, respObj.data.file);
-					//is pdf create thumbnail
-					} else if(destinations[file.dest][4] &&  ext.match(/pdf/i)) {
-						var item = jQuery('#media-item-' + file.id);
-						jQuery('.percent', item).html( 'Creating thumbs' );
-						pdf (respObj.data.file, respObj.data.name, uploadFileThumbs);
-					} else
-						uploadFileThumbs (null, null, []);
-	
-					return false;
-				}
-			}
-		},
-		Error: function(up, err) {
-			alert();
-		},
-		ChunkUploaded: function(up, file, info) {
-			var response = jQuery.parseJSON(info.response);
-			
-			if (response === 0)
-                        {
-			 	file.status = plupload.FAILED;
-				up.trigger('QueueChanged', file);
-				var text = {response: "<div class='media-upload-error'><B>"+file.name+"</B> Chunk size to large</div>"};
-				up.trigger('FileUploaded', file, text);
-			} else if (response && !response.success)
-                        {
-			 	file.status = plupload.FAILED;
-				up.trigger('QueueChanged', file);
-				var text = {response: "<div class='media-upload-error'><B>"+file.name+"</B> "+response.data.message+"</div>"};
-				up.trigger('FileUploaded', file, text);
-			}
-		}
-	};
-	
-	//add media page
-	if (typeof wpUploaderInit === 'object') {
-		wpUploaderInit.preinit  = adv_preinit;
-		max_file_size = parseInt(wpUploaderInit.filters.max_file_size);
-		if (typeof adv_uploader === 'boolean' && adv_uploader)
-			wpUploaderInit.filters.max_file_size = adv_max_file_size;
-	}
-	//edit post/page
-	if (typeof _wpPluploadSettings === 'object') {
-		_wpPluploadSettings.defaults.preinit  = adv_preinit;
-		max_file_size = parseInt(_wpPluploadSettings.defaults.filters.max_file_size);
-		updatehtml();
-		if (typeof adv_uploader === 'boolean' && adv_uploader)
-			_wpPluploadSettings.defaults.filters.max_file_size = adv_max_file_size;
-	}
-}
-
-function roughSizeOfObject( object ) {
-    var objectList = [];
-    var stack = [ object ];
-    var bytes = 0;
-
-    while ( stack.length ) {
-        var value = stack.pop();
-
-        if ( typeof value === 'boolean' ) {
-            bytes += 4;
-        }
-        else if ( typeof value === 'string' ) {
-            bytes += value.length * 4;
-        }
-        else if ( typeof value === 'number' ) {
-            bytes += 8;
-        }
-        else if ( typeof value === 'object' && objectList.indexOf( value ) === -1 ) {
-            objectList.push( value );
-
-            for( var i in value ) {
-                if( typeof value[i] !== 'function' && !i.startsWith( '_' ) && i != 'attachment' )
-                    stack.push( value[i] );
-            }
-        }
-    }
-    return bytes;
-}
-
-
-function toggle_loader (loader) {
-	if (loader == 'default') {
-		jQuery('#adv_upload').toggleClass('hidden', true);
-		jQuery('#default_upload').toggleClass('hidden', false);
-	} else {
-		jQuery('#default_upload').toggleClass('hidden', true);
-		jQuery('#adv_upload').toggleClass('hidden', false);
-	}
-	jQuery.ajax({'type' : "post",'url' : ajaxurl,'data' : {'action': "adv_file_upload_set_loader", 'loader': loader}});
-}
-
-//convert bytes to larges unit of wholenumbers
-function convertBytes (num) {
-	var units = 'Bytes';
-	
-	//convert to KBytes
-	if ((num % 1024) === 0) {
-		num = num / 1024;
-		units = 'KB';
-	}
-
-	//convert to MBytes
-	if (units == 'KB' && (num % 1024) === 0) {
-		num  = num / 1024;
-		units = 'MB';
-	}
-
-	//convert to GBytes
-	if (units == 'MB' && (num % 1024) === 0) {
-		num = num / 1024;
-		units = 'GB';
-	}
-	
-	return num + ' ' + units;
-}
-
-jQuery(document).ready(function() {
-	if( max_file_size > 0 )
-		updatehtml();
-});
-
-// update the page HMTL so that page works correctly with plugin.
-function updatehtml () {
-	jQuery('.media-upload-form').on('click.uploader', function(e) {
-		var target = jQuery(e.target);
-        var max;
-        
-		if ( target.is('.upload-flash-bypass a') || target.is('a.uploader-html') ) { // html4 uploader
-			max = jQuery('.max-upload-size').html();
-			max = max.replace (adv_max_file_size_display, max_file_size_display);
-			jQuery('.max-upload-size').html(max);
-			jQuery('#adv_uploader_checkbox_p').hide();
-		} else if ( target.is('.upload-html-bypass a') ) { // multi-file uploader
-			jQuery('#adv_uploader_checkbox_p').show();
-			if (adv_uploader) {
-				max = jQuery('.max-upload-size').html();
-				max = max.replace (max_file_size_display, adv_max_file_size_display);
-				jQuery('.max-upload-size').html(max);
-			}
-		}
-	});
-
-	//create checkbox for changing which uploader is used 
-	if (adv_replace_default && max_file_size > 0) {
-		max_file_size_display = convertBytes (max_file_size);
-		adv_max_file_size_display = convertBytes (adv_max_file_size);
-		
-		var checked = '';
-		var max = max_file_size_display;
-		if (adv_uploader) {
-			checked = 'checked';
-			max = adv_max_file_size_display;
-		}
-		
-		var check_box = '<p id="adv_uploader_checkbox_p" style="cursor: pointer;">'
-				+ '<input type="checkbox" id="adv_uploader_checkbox" style="margin-right: 5px;" '
-				+ checked + '>Use advanced uploader</p>';
-				
-		var upload_js = document.getElementById('tmpl-uploader-inline');
-		var maxPos, pattern;
-		if (upload_js !== null) {
-			pattern = new RegExp(max_file_size_display+'|'+max_file_size_display.replace(/ /,''),'i');
-			maxPos = upload_js.innerHTML.search(pattern);
-			var pPos = upload_js.innerHTML.indexOf('</p>', maxPos);
-
-			upload_js.innerHTML = upload_js.innerHTML.substring(0, maxPos)
-				+ max + upload_js.innerHTML.substring(maxPos+max_file_size_display.length,pPos+4)
-				+ check_box + upload_js.innerHTML.substring(pPos+4);
-		}
-		
-		var upload = jQuery('.max-upload-size').html();
-		if (typeof upload === 'string') {
-			pattern = new RegExp(max_file_size_display+'|'+max_file_size_display.replace(/ /,''),'i');
-			maxPos = upload.search(pattern);
-			jQuery('.max-upload-size').html(upload.substring(0, maxPos)
-				+ max + upload.substring(maxPos+max_file_size_display.length))
-				.after(check_box);
-		}
-
-		jQuery(document).on('click','#adv_uploader_checkbox_p',show_hide_uploader);
-		jQuery(document).on('click','.media-menu-item',function (e) {
-			if (e.target.textContent == 'Upload Files') 
-				if ((!adv_uploader && jQuery('#adv_uploader_checkbox').attr('checked') == 'checked')
-				    || (adv_uploader && jQuery('#adv_uploader_checkbox').attr('checked') === undefined))
-					jQuery('#adv_uploader_checkbox_p').click();
-		});
-	}
-}
-
-function show_hide_uploader (e) {
-	if (e.target.id.indexOf('adv_uploader_checkbox') == -1)
-		return;
-
-    var adv_checkbox;
-	if (e.target.type == 'checkbox')
-		adv_checkbox = e.target;
-	else {
-		adv_checkbox = document.getElementById('adv_uploader_checkbox');
-		if (adv_checkbox.checked) adv_checkbox.checked = false;
-		else adv_checkbox.checked = true;
-	}
-
-    var max;
-	if (adv_checkbox.checked) {
-		adv_uploader = true;
-		up_plupload.settings.filters.max_file_size = adv_max_file_size;
-		up_plupload.settings.chunk_size = max_file_size - 2048; //removing 2kbytes to allow for size of post data.			
-		max = jQuery('.max-upload-size').html();
-		max = max.replace (max_file_size_display, adv_max_file_size_display);
-		jQuery('.max-upload-size').html(max);
-	} else {
-		adv_uploader = false;
-		up_plupload.settings.filters.max_file_size = max_file_size;
-		up_plupload.settings.chunk_size = 0;			
-		max = jQuery('.max-upload-size').html();
-		max = max.replace (adv_max_file_size_display, max_file_size_display);
-		jQuery('.max-upload-size').html(max);
-	}
-
-	jQuery.ajax({'type' : "post",'url' : ajaxurl,'data' : {'action': "adv_file_upload_set_loader", 'loader': adv_uploader }});
-}
-				
-var createThumbImage = function (file, name, callback, src) {
-	//get file extension
-	var ext = name.split('.').pop();
-	
-	var tempImg = new Image();
-	tempImg.src = src;
-	tempImg.onload = function() {
-	    var tempW = tempImg.width;
-	    var tempH = tempImg.height;
-	    if (tempH > sizes.thumbnail.height || tempW > sizes.thumbnail.width) {
-	        var imageMeta = {};
-	        var dataURL = {};
-	        var keys = [];
-	        var imageH = tempH;
-	        var imageW = tempW;
-	        var nameslist = '';
-
-		for (var key in sizes) {
-		    tempH = imageH;
-		    tempW = imageW;
-            //get thumbnail size
-            var MAX_WIDTH = sizes[key].width;
-            var MAX_HEIGHT = sizes[key].height;
-
-            if (tempH > MAX_HEIGHT || tempW > MAX_WIDTH) {
-		        if (tempW > imageH) {
-		               tempH *= MAX_WIDTH / tempW;
-		               tempW = MAX_WIDTH;
-		        } else {
-		               tempW *= MAX_HEIGHT / tempH;
-		               tempH = MAX_HEIGHT;
-		        }
-		    
-		        //round down image dimesions
-		        tempW = Math.round(tempW);
-		        tempH = Math.round(tempH);
-		        
-		        //set thumbnail filename
-		        var filename = name.replace(/\.(jpg|jpeg|png)$/i, "-"+tempW+"x"+tempH+".jpg");
-		        
-		        if (nameslist.search(filename) == -1) {
-		        	nameslist += filename + ';';
-			        var canvas = document.createElement('canvas');
-			        canvas.width = tempW;
-			        canvas.height = tempH;
-			        var ctx = canvas.getContext("2d");
-			        ctx.drawImage(this, 0, 0, tempW, tempH);
-	
-			        keys.push(key);
-			        dataURL[key] = canvas.toDataURL("image/jpeg",0.9);
-		        }
-		        imageMeta[key] = {};
-		        imageMeta[key].file = filename;
-		        imageMeta[key].width = tempW;
-		        imageMeta[key].height = tempH;
-		        imageMeta[key]['mime-type'] = "image/jpeg";
-		    }
-		}
-	        callback (dataURL, imageMeta, keys);
-	} else
-	        callback (null, null, []);
+var createThumbImage = function (dropzone, file, name, callback) {
+    var fileReader = new FileReader();
+    
+    fileReader.onload = function () {
+    	//get file extension
+    	var ext = name.split('.').pop();
+    	
+    	var tempImg = new Image();
+    	tempImg.src = fileReader.result;
+    	tempImg.onload = function() {
+    	    var tempW = tempImg.width;
+    	    var tempH = tempImg.height;
+    	    if (tempH > sizes.thumbnail.height || tempW > sizes.thumbnail.width) {
+    	        var imageMeta = {};
+    	        var dataURL = {};
+    	        var keys = [];
+    	        var imageH = tempH;
+    	        var imageW = tempW;
+    	        var nameslist = '';
+    
+    		for (var key in sizes) {
+    		    tempH = imageH;
+    		    tempW = imageW;
+                //get thumbnail size
+                var MAX_WIDTH = sizes[key].width;
+                var MAX_HEIGHT = sizes[key].height;
+    
+                if (tempH > MAX_HEIGHT || tempW > MAX_WIDTH) {
+    		        if (tempW > imageH) {
+    		               tempH *= MAX_WIDTH / tempW;
+    		               tempW = MAX_WIDTH;
+    		        } else {
+    		               tempW *= MAX_HEIGHT / tempH;
+    		               tempH = MAX_HEIGHT;
+    		        }
+    		    
+    		        //round down image dimesions
+    		        tempW = Math.round(tempW);
+    		        tempH = Math.round(tempH);
+    		        
+    		        //set thumbnail filename
+    		        var filename = "-"+tempW+"x"+tempH+".jpg";
+    		        
+    		        if (nameslist.search(filename) == -1) {
+    		        	nameslist += filename + ';';
+    			        var canvas = document.createElement('canvas');
+    			        canvas.width = tempW;
+    			        canvas.height = tempH;
+    			        var ctx = canvas.getContext("2d");
+    			        ctx.drawImage(this, 0, 0, tempW, tempH);
+    	
+    			        keys.push(key);
+    			        dataURL[key] = canvas.toDataURL("image/jpeg",0.9);
+    		        }
+    		        imageMeta[key] = {};
+    		        imageMeta[key].file = filename;
+    		        imageMeta[key].width = tempW;
+    		        imageMeta[key].height = tempH;
+    		        imageMeta[key]['mime-type'] = "image/jpeg";
+    		    }
+    		}
+    		
+    		//store thumbnails in the images
+    		file.thumbs = true;
+    		file.thumbsDataURL = dataURL;
+    		file.thumbsImageMeta = imageMeta;
+    		file.thumbsKeys = keys;
+    		
+    		callback (dropzone, file);
+    	} else
+    		file.thumbs = false;
+    	    callback (dropzone, file);
+        };
     };
+    
+    fileReader.readAsDataURL(file);
 };
 
       
-var pdf = function (file, name, callback) {
+var pdf = function (dropzone, file, name, callback, htmlObject) {
+    var fileReader = new FileReader();
 	var pdfDoc = null;
 	
-	//
-	// Get page info from document, resize canvas accordingly, and render page
-	//
-	function renderPage(num) {
-		// Using promise to fetch the page
-		pdfDoc.getPage(num).then(function(page) {
-			var keys = [];
-			for (var key in sizes)
-				keys.push(key);
-				
-			createPDFthumb (page, '', keys, [], {}, {});
-		});
-	}
-
 	//
 	// create thumbnail images
 	//
 	function createPDFthumb (page, nameslist, imageSizes, keys, imageMeta, dataURL) {
 		var key = imageSizes.pop();
-		var wScale = sizes[key].width / page.getViewport(1.0).width;
-		var hScale = sizes[key].height / page.getViewport(1.0).height;
+		var origViewport = page.getViewport({scale: 1.0});
+		var wScale = sizes[key].width / origViewport.width;
+		var hScale = sizes[key].height / origViewport.height;
 		var scale = wScale>hScale?hScale:wScale;
-		var viewport = page.getViewport(scale);
+		var viewport = page.getViewport({scale: scale});
 		var canvas = document.createElement('canvas');
 		var ctx = canvas.getContext('2d');
 		canvas.height = viewport.height;
 		canvas.width = viewport.width;
 		
-	        //set thumbnail filename
-	        var filename = name+"-"+canvas.width+"x"+canvas.height+".png";
+	    //set thumbnail filename
+	    var filename = "-"+canvas.width+"x"+canvas.height+".png";
 
 		imageMeta[key] = {};
 		imageMeta[key].file = filename;
@@ -570,175 +199,167 @@ var pdf = function (file, name, callback) {
 		imageMeta[key].height = canvas.height;
 		imageMeta[key]['mime-type'] = "image/png";
 	        
-	        if (nameslist.search(filename) == -1) {
-	        	nameslist += filename + ';';
+	    if (nameslist.search(filename) == -1) {
+	       	nameslist += filename + ';';
+	       	
 			// Render PDF page into canvas context
 			var renderContext = {
 				canvasContext: ctx,
 				viewport: viewport
 			};
 	
-			page.render(renderContext).then(function (){
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function () {
 				keys.push(key);
-			        dataURL[key] = canvas.toDataURL("image/png");
+			    dataURL[key] = canvas.toDataURL("image/png");
 				if (imageSizes.length > 0)
 					createPDFthumb (page, nameslist, imageSizes, keys, imageMeta, dataURL);
 				else {
-					callback (dataURL, imageMeta, keys);
+            		//store thumbnails in the images
+            		file.thumbs = true;
+            		file.thumbsDataURL = dataURL;
+            		file.thumbsImageMeta = imageMeta;
+            		file.thumbsKeys = keys;
+            		
+            		htmlObject.css('background', 'url('+dataURL['thumbnail']+')');
+            		callback (dropzone, file);
 				}
 			});
 		} else {
 			if (imageSizes.length > 0)
 				createPDFthumb (page, nameslist, imageSizes, keys, imageMeta, dataURL);
 			else {
-				callback (dataURL, imageMeta, keys);
+        		//store thumbnails in the images
+        		file.thumbs = true;
+        		file.thumbsDataURL = dataURL;
+        		file.thumbsImageMeta = imageMeta;
+        		file.thumbsKeys = keys;
+        		
+        		alert(htmlObject);
+        		callback (dropzone, file);
 			}
 		}
 	}
 	
-	var parameters = {};
-	// Read the local file into a Uint8Array.
-	var fileReader = new FileReader();
-	fileReader.onload = function webViewerChangeFileReaderOnload(evt) {
-	    var buffer = evt.target.result;
-	    parameters.data = new Uint8Array(buffer);
-	    PDFJS.getDocument(parameters).then(function getPdfForm(_pdfDoc) {
-		  pdfDoc = _pdfDoc;
-		  renderPage(1);
-  	    });
-	};
-	
-	//fileReader.readAsArrayBuffer(file);		
-	
-	// Fetch the PDF document from the URL using promices
-	PDFJS.getDocument(file).then(function getPdfForm(_pdfDoc) {
-		  pdfDoc = _pdfDoc;
-		  renderPage(1);
-	});
+    fileReader.onload = function () {
+        // Using DocumentInitParameters object to load binary data.
+        var loadingTask = pdfjsLib.getDocument({data: this.result});
+        loadingTask.promise.then(function(pdf) {
+            // Fetch the first page
+            pdf.getPage(1).then(function(page) {
+			    var keys = [];
+			    for (var key in sizes)
+				    keys.push(key);
+				
+			    createPDFthumb (page, '', keys, [], {}, {});
+		    });
+        });
+    };
+ 
+	fileReader.readAsArrayBuffer(file);		
 };
 
-function handleDragOver(evt) {
-	evt.stopPropagation();
-	evt.preventDefault();
-	evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-}
+var destination = {
+    files: [],
+    options: '',
+    group: '',
+    catOpt: '',
+    dropzone: null,
+    callback: null,
+    destSelected: false,
+    dlg: jQuery("<div id='dest-popup' />"),
+    select: function (file, drop) {
+        var i;
+        this.dropzone = drop;
+        this.files.push(file);
 
-function handleDragEnter(evt) {
-	evt.currentTarget.classList.add('drag-over');
-}
+    	//update display to show message
+	var preview = jQuery(file.previewElement);
+	preview.find('.dz-status-message span').html( 'Select Destination' );
 
-function handleDragLeave(evt) {
-	evt.currentTarget.classList.remove('drag-over');
-}
-
-function selectDestination (lib_only, files, callback) {
-	if (files.length === 0) {
-	        return;
-	}
-
-	var lib_only_dest = 0;
-	var i = 0;
-	
-	if(lib_only)
-		for (i=0; i<destinations.length; i++)
-			if (destinations[i][4])
-				lib_only_dest++;
-
-	if (destinations.length == 1 || lib_only_dest == 1) {
-		for(i=0; i<files.length; i++)
-			files[i].dest = 0;
-		callback();
-		return;
-	}
-    
 	//destinations options
-	var options = '<option value="">Select Destination</option>';
-	var group = "";
-	for (i=0; i<destinations.length; i++) {
-		if (!lib_only || (lib_only && destinations[i][4])) {
-			if (group != destinations[i][2]) {
-				if (group !== "") {
-					options += '</optgroup>';
-				}
-				options += '<optgroup label="' + destinations[i][2] + '">';
-			}
-			options += '<option value="' + i + '">' + destinations[i][0] + '</option>';
-			group = destinations[i][2];
-		}
+	if(this.options === '') {
+    	this.options = '<option value="">Select Destination</option>';
+    	this.group = "";
+    	for (i=0; i<destinations.length; i++) {
+    		if (this.group != destinations[i][2]) {
+    			if (this.group !== "") {
+    				this.options += '</optgroup>';
+    			}
+    			this.options += '<optgroup label="' + destinations[i][2] + '">';
+    		}
+    		this.options += '<option value="' + i + '">' + destinations[i][0] + '</option>';
+    		this.group = destinations[i][2];
+    	}
+
+    	if (this.group !== "") {
+    		this.options += '</optgroup>';
+    	}
 	}
 
-	if (group !== "") {
-		options += '</optgroup>';
-	}
-
-	//category options
-	var catOpt = '<option value="">Select category</option>';
-	for (i=0; i<categories.length; i++) {
-		catOpt += '<option class="' + categories[i][2] + '" value="' + i + '">' + categories[i][1] + '</option>';
+    //category options
+	if(this.catOpt === '') {
+    	this.catOpt = '<option value="">Select category</option>';
+    	for (i=0; i<categories.length; i++) {
+    		this.catOpt += '<option class="' + categories[i][2] + '" value="' + i + '">' + categories[i][1] + '</option>';
+    	}
 	}
 
 	//content for popup
-	var content = '';
-	if(lib_only && destinations.length > lib_only_dest)
-		content += '<i>Can only upload to Library from this page.</i>';
-	if (files.length > 1)
-		content += '<p>Select destination for all files';
-	else
-		content += '<p>Select destination for ' + files[0].name;
-	content  += '<select id="dest">';
-	content  += options;
-	content  += '</select>';
-	content  += '<span id="wg_" class="hide gallery_name"><input class="alignright" type=text />Gallery name: </span>';
-	content  += '<select id="cat" class="hide">';
-	content  += catOpt;
-	content  += '</select>';
-	content  += '</p>';
-	if (files.length > 1) {
+	var content;
+	if(this.files.length === 1) {
+		content = '<p id="eachSelect">Select destination for each file</p>';
+        this.dlg.html(content);
+	} else if (this.files.length === 2) {
+	    content   = '<p>Select destination for all files';
+    	content  += '<select id="dest">';
+    	content  += this.options;
+    	content  += '</select>';
+    	content  += '<span id="wg_" class="hide gallery_name"><input class="alignright" type=text />Gallery name: </span>';
+    	content  += '<select id="cat" class="hide">';
+    	content  += this.catOpt;
+    	content  += '</select>';
+    	content  += '</p>';
 		content += '<div class="dashed"></div>';
-		content += '<p>Or select destination for each file</p>';
-		for (i=0; i < files.length; i++) {
-			content  += '<div class="option">' + files[i].name + '<select id="dest' + i + '" class="file" name="file' + i + '">';
-			content  += options;
-			content  += '</select>';
-			content  += '<span id="wg_' + i + '" class="hide gallery_name"><input class="alignright" type=text />Gallery name:</span>';
-			content  += '<select id="cat' + i + '" class="hide">';
-			content  += catOpt;
-			content  += '</select></div>';
-		}
+		jQuery(content).insertBefore('#eachSelect');
 	}
-
-	var dlg = jQuery("<div id='dest-popup' />")
-	.html(content);
 	
-	var id3_tags = function (i) {
-		var file = files[i].getSource();
-		file.index = i;
-		if( file.name.split('.').pop() == 'mp3' ) {
-			ID3.loadTags(file.name, function() {
-					var tags = ID3.getAllTags(file.name);
-					files[file.index].album = tags.album;
-					if( file.index<files.length-1 )
-						id3_tags (file.index+1);
-				}, {
-				tags: ["album"],
-				dataReader: mOxieFileAPIReader(file)
-			});
-		} else
-			if( file.index<files.length-1 )
-				id3_tags (file.index+1);
-	};
-	id3_tags (0);
+	content  = '<div class="option">' + file.name + '<select id="dest' + this.files.length + '" class="file" name="file' + this.files.length + '">';
+	content  += this.options;
+	content  += '</select>';
+	content  += '<span id="wg_' + this.files.length + '" class="hide gallery_name"><input class="alignright" type=text />Gallery name:</span>';
+	content  += '<select id="cat' + this.files.length + '" class="hide">';
+	content  += this.catOpt;
+	content  += '</select></div>';
+
+    this.dlg.append(content);
+    
+    if(file.type == 'audio/mp3') {
+        //MP3 Tag Reader
+        new jsmediatags.Reader(file)
+          .setTagsToRead(["album"])
+          .read({
+            onSuccess: function(tag) {
+              file.album = tag.tags.album;
+            },
+            onError: function(error) {
+              console.log(':(', error.type, error.info);
+            }
+          });
+    }
 
 	var select = function(e) {
 	    var i=0;
 		jQuery('#dest-popup .error').remove();
 		var destall = jQuery('#dest :selected').val();
 		var dests = jQuery('.file :selected');
-		if( e.target.id == "dest" && destall.length === 0 )
+		if (destall === undefined && dests === undefined)
+		    return false;
+		if( e.target.id == "dest" && destall === undefined )
 			return false;
-		else if (destall.length) {
-			for (i=0; i < files.length; i++)
-				files[i].dest = destall;
+		if (destall !== undefined && destall !== "") {
+			for (i=0; i < destination.files.length; i++)
+				destination.files[i].dest = destall;
 			
 			if( destinations[destall] && destinations[destall][2] == 'Category' ) {
 				if( jQuery( "#adv_cat" ).val() === '' ) {
@@ -747,8 +368,17 @@ function selectDestination (lib_only, files, callback) {
 						.insertAfter('#ac_cat');
 					return false;
 				}
-				for (i=0; i < files.length; i++)
-					files[i].album = jQuery( "#adv_cat" ).val();
+				//var catName = jQuery( "#adv_cat" ).val();
+				var catIndex = jQuery( "#cat" )[0].selectedIndex - 1;
+				var catImage = categories[catIndex][3];
+				for (i=0; i < destination.files.length; i++) {
+					destination.files[i].album = categories[catIndex][0];
+					var type = destination.files[i].type;
+					if(catImage != "" && type.split('/')[0] != 'image' && type != 'application/pdf') {
+				                var preview = jQuery(destination.files[i].previewElement);
+						preview.find('.dz-image img').attr("src",catImage);
+					}
+				}
 			} else if( destinations[destall] 
 				&& destinations[destall][2] == 'Wordpress Gallery' 
 				&& destinations[destall][3] == 'new' ) {
@@ -764,15 +394,15 @@ function selectDestination (lib_only, files, callback) {
 					'security':security,
 					'title':JSON.stringify(new Array(jQuery( "#wg_ input" ).val()))
 				}, function( response ) {
-					for (var i=0; i < files.length; i++)
-						files[i].album = response[0].id;
-					callback();
-					dlg.dialog('close');
+					destination.dropzone.processQueue();
+					destination.destSelected = true;
+					destination.dlg.dialog('close');
 				}, "json");
 				return false;
 			}
-			callback();
-			dlg.dialog('close');
+			destination.dropzone.processQueue();
+			destination.destSelected = true;
+			destination.dlg.dialog('close');
 		} else if (dests.length) {
 			var missingDest = false;
 			var missingInfo = false;
@@ -786,15 +416,23 @@ function selectDestination (lib_only, files, callback) {
 						.insertAfter('#dest'+i);
 					missingDest = true;
 				} else {
-					files[i].dest = dest;
+					destination.files[i].dest = dest;
 					if( destinations[dest] && destinations[dest][2] == 'Category' ) {
-						if( jQuery( "#adv_cat"+i ).val() === '' ) {
+						var itemIndex = i+1;
+						if( jQuery( "#adv_cat"+itemIndex ).val() === '' ) {
 							jQuery( "<div>").attr({'id':'adv_err_cat'+i,'class':'clear alignright media-item error'})
 								.html('You must enter an existing category')
 								.insertAfter('#ac_cat'+i);
 							missingInfo = true;
 						}
-						files[i].album = jQuery( "#adv_cat"+i ).val();
+						var catIndex = jQuery( "#cat"+itemIndex )[0].selectedIndex - 1;
+						var catImage = categories[catIndex][3];
+						destination.files[i].album = categories[catIndex][0];
+						var type = destination.files[i].type;
+						if(catImage != "" && type.split('/')[0] != 'image' && type != 'application/pdf') {
+				                	var preview = jQuery(destination.files[i].previewElement);
+							preview.find('.dz-image img').attr("src",catImage);
+						}
 					} else if( destinations[dest] 
 						&& destinations[dest][2] == 'Wordpress Gallery' 
 						&& destinations[dest][3] == 'new' ) {
@@ -805,7 +443,7 @@ function selectDestination (lib_only, files, callback) {
 							missingInfo = true;
 						}
 
-						if( typeof newGalleries[jQuery( "#wg_"+i+" input" ).val()] === 'undefined')
+						if( typeof(newGalleries[jQuery( "#wg_"+i+" input" ).val()]) === 'undefined')
 							newGalleries[jQuery( "#wg_"+i+" input" ).val()] = i.toString();
 						else
 							newGalleries[jQuery( "#wg_"+i+" input" ).val()] += ',' + i.toString();
@@ -832,15 +470,23 @@ function selectDestination (lib_only, files, callback) {
 					for (var key in response) {
 						var ids = newGalleries[response[key].title].split(",");
 						for(var i = 0; i < ids.length; i++)
-							files[ids[i]].album = response[key].id;
+							destination.files[ids[i]].album = response[key].id;
 					}
-					callback();
-					dlg.dialog('close');
+				    destination.dropzone.processQueue();
+    	    			    //update display to show message
+				    var preview = jQuery(file.previewElement);
+			    	    preview.find('.dz-status-message span').html( 'Uploading...' );
+					destination.destSelected = true;
+					destination.dlg.dialog('close');
 				}, "json");
 				return false;
 			} else {
-				callback();
-				dlg.dialog('close');
+				destination.dropzone.processQueue();
+    	    			//update display to show message
+				var preview = jQuery(file.previewElement);
+			    	preview.find('.dz-status-message span').html( 'Uploading...' );
+				destination.destSelected = true;
+				destination.dlg.dialog('close');
 			}
 		} else {
 			jQuery( "<div>").attr({'class':'clear alignright media-item error'})
@@ -860,13 +506,12 @@ function selectDestination (lib_only, files, callback) {
 			if( jQuery( "#ac_" + catId ).length === 0 ) {
     				jQuery( "#" + catId ).combobox({ desc: 'adv_' + catId, id: 'ac_' + catId });
 		    		if (id === '')
-					id = 0;
-				if( files[id].album ) {
-					jQuery( '#ac_' + catId + ' input' ).autocomplete( "search", files[id].album );
-					
+					id = 1;
+				if( destination.files[id-1].hasOwnProperty('album') !== 'undefined' ) {
+					jQuery( '#ac_' + catId + ' input' ).autocomplete( "search", destination.files[id-1].album );
 				}
-    			} else
-    				jQuery( "#ac_" + catId ).show();
+    		} else
+    			jQuery( "#ac_" + catId ).show();
 		} else if( destinations[e.target.selectedIndex-1] 
 			&& destinations[e.target.selectedIndex-1][2] == 'Wordpress Gallery' 
 			&& destinations[e.target.selectedIndex-1][3] == 'new' ) {
@@ -878,13 +523,15 @@ function selectDestination (lib_only, files, callback) {
     			jQuery( "#ac_" + catId ).hide();
     			jQuery( "#adv_err_" + catId ).remove();
     			jQuery( "#adv_err_gal" + id ).remove();
-	  		if (id === '')
+    			
+    		var dests = jQuery('.file :selected');
+	  		if (id === '' || dests.length == 1)
 				select(e);
     		}
 	};
 	jQuery(document).on( 'change', '.ui-dialog select', addBoxCheck);
 
-	dlg.dialog({
+	this.dlg.dialog({
 		title    : 'Destination',
 		dialogClass : 'wp-dialog',
 		width    : 'auto',
@@ -903,12 +550,87 @@ function selectDestination (lib_only, files, callback) {
 			'click' : select
 		}],
 		close : function () {
-			jQuery(this).dialog('destroy').remove();
-		}});
-	dlg.dialog('open');
-}
+		    if(!destination.destSelected)
+		    for (i=0; i < destination.files.length; i++)
+			    destination.dropzone.removeFile(destination.files[i]);
+	    destination.files = [];
+	    destination.destSelected = false;
+		jQuery(this).dialog('destroy').remove();
+	}});
+this.dlg.dialog('open');
+}};
 
-(function( $ ) {
+jQuery( document ).ready(function( $ ) {
+Dropzone.options.dragDropArea = {
+    maxFilesize: 1024, //MB
+    chunking: true,
+    chunkSize: max_upload,
+    forceChunking: true,
+    previewsContainer: '#media-items',
+    previewTemplate: '<div class="dz-preview dz-file-preview"><div class="dz-image"><img data-dz-thumbnail=""></div><div class="dz-details"><div class="dz-filename"><span data-dz-name=""></span></div><div class="dz-size">Size<span data-dz-size=""></span></div><div class="dz-status-message"><span data-dz-status=""></span></div><div class="dz-error-message"><span data-dz-errormessage=""></span></div></div><div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress=""></span></div><div class="dz-success-mark"><svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"><title>Check</title><defs></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"><path d="M23.5,31.8431458 L17.5852419,25.9283877 C16.0248253,24.3679711 13.4910294,24.366835 11.9289322,25.9289322 C10.3700136,27.4878508 10.3665912,30.0234455 11.9283877,31.5852419 L20.4147581,40.0716123 C20.5133999,40.1702541 20.6159315,40.2626649 20.7218615,40.3488435 C22.2835669,41.8725651 24.794234,41.8626202 26.3461564,40.3106978 L43.3106978,23.3461564 C44.8771021,21.7797521 44.8758057,19.2483887 43.3137085,17.6862915 C41.7547899,16.1273729 39.2176035,16.1255422 37.6538436,17.6893022 L23.5,31.8431458 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z" id="Oval-2" stroke-opacity="0.198794158" stroke="#747474" fill-opacity="0.816519475" fill="#FFFFFF" sketch:type="MSShapeGroup"></path></g></svg></div><div class="dz-error-mark"><svg width="54px" height="54px" viewBox="0 0 54 54" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"><title>Error</title><defs></defs><g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"><g id="Check-+-Oval-2" sketch:type="MSLayerGroup" stroke="#747474" stroke-opacity="0.198794158" fill="#FFFFFF" fill-opacity="0.816519475"><path d="M32.6568542,29 L38.3106978,23.3461564 C39.8771021,21.7797521 39.8758057,19.2483887 38.3137085,17.6862915 C36.7547899,16.1273729 34.2176035,16.1255422 32.6538436,17.6893022 L27,23.3431458 L21.3461564,17.6893022 C19.7823965,16.1255422 17.2452101,16.1273729 15.6862915,17.6862915 C14.1241943,19.2483887 14.1228979,21.7797521 15.6893022,23.3461564 L21.3431458,29 L15.6893022,34.6538436 C14.1228979,36.2202479 14.1241943,38.7516113 15.6862915,40.3137085 C17.2452101,41.8726271 19.7823965,41.8744578 21.3461564,40.3106978 L27,34.6568542 L32.6538436,40.3106978 C34.2176035,41.8744578 36.7547899,41.8726271 38.3137085,40.3137085 C39.8758057,38.7516113 39.8771021,36.2202479 38.3106978,34.6538436 L32.6568542,29 Z M27,53 C41.3594035,53 53,41.3594035 53,27 C53,12.6405965 41.3594035,1 27,1 C12.6405965,1 1,12.6405965 1,27 C1,41.3594035 12.6405965,53 27,53 Z" id="Oval-2" sketch:type="MSShapeGroup"></path></g></g></svg></div></div>',
+	    autoProcessQueue: false,
+	    accept: function(file, done) {
+		//run Dropzones accept functionality first
+		done();
+
+		destination.select(file,this);
+
+            //get thumbnail element
+	    var preview = jQuery(file.previewElement);
+            var thumbnail = preview.find('.dz-image');
+
+			//is image create thumbnail
+			if(adv_browser && file.type.startsWith('image')) {
+				//update display to show message
+				createThumbImage (this, file, file.name, completeUpload);
+			//is pdf create thumbnail
+			} else if(adv_browser && file.type == 'application/pdf' && typeof(pdfjsLib) != 'undefined') {
+				pdf (this, file, file.name, completeUpload, thumbnail);
+			} else
+				file.thumbs = false;
+
+
+            switch (file.type.split('/')[0]) {
+              case 'image':
+                break;
+              case 'audio':
+                thumbnail.css('background', 'url(../wp-includes/images/media/audio.png) center no-repeat');
+                break;
+              case 'video':
+                thumbnail.css('background', 'url(../wp-includes/images/media/video.png) center no-repeat');
+                break;
+              case 'text':
+                thumbnail.css('background', 'url(../wp-includes/images/media/text.png) center no-repeat');
+                break;
+              case 'application':
+                switch (file.type) {
+                  case 'application/pdf':
+                    thumbnail.css('background', 'url(../wp-includes/images/media/document.png) center no-repeat');
+                    break;
+                  case 'application/x-zip-compressed':
+                    thumbnail.css('background', 'url(../wp-includes/images/media/archive.png) center no-repeat');
+                    break;
+                  case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+                    thumbnail.css('background', 'url(../wp-includes/images/media/document.png) center no-repeat');
+                    break;
+                  case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                    thumbnail.css('background', 'url(../wp-includes/images/media/spreadsheet.png) center no-repeat');
+                    break;
+                  default:
+                    thumbnail.css('background', 'url(../wp-includes/images/media/default.png) center no-repeat');
+                }
+                break;
+              default:
+                thumbnail.css('background', 'url(../wp-includes/images/media/default.png) center no-repeat');
+            }
+            thumbnail.css('background-size', 'contain');
+	    },
+	    chunksUploaded: function(file, done) {
+            file.chunksUploaded = true;
+            completeUpload(this,file,done);
+        },
+	};
+
     $.widget( "custom.combobox", {
       _create: function() {
         this.wrapper = $( "<div>" )
@@ -1035,4 +757,4 @@ function selectDestination (lib_only, files, callback) {
         this.element.show();
       }
     });
-  })( jQuery );
+  });

@@ -9,6 +9,11 @@ spl_autoload_register(array('EPKB_Autoloader', 'autoload'), false);
  */
 class EPKB_WPML {
 
+	/**
+	 * Filter all categories not belonging to the current language
+	 * @param $category_seq_data
+	 * @return mixed
+	 */
 	public static function apply_category_language_filter( $category_seq_data ) {
 		$current_lang = apply_filters( 'wpml_current_language', NULL );
 
@@ -26,12 +31,37 @@ class EPKB_WPML {
 					continue;
 				}
 
-				foreach ( $box_sub_sub_category as $box_sub_sub_category_id => $unused ) {
+				foreach ( $box_sub_sub_category as $box_sub_sub_category_id => $box_sub_sub_sub_category ) {
 					$unset_category = self::remove_language_category( $box_sub_sub_category_id, $current_lang );
 					if ( $unset_category ) {
 						unset($box_sub_sub_category[$box_sub_sub_category_id]);
 						continue;
 					}
+					
+					foreach ( $box_sub_sub_sub_category as $box_sub_sub_sub_category_id => $box_sub_sub_sub_sub_category ) {
+						$unset_category = self::remove_language_category( $box_sub_sub_sub_category_id, $current_lang );
+						if ( $unset_category ) {
+							unset($box_sub_sub_sub_category[$box_sub_sub_sub_category_id]);
+							continue;
+						}
+						
+						foreach ( $box_sub_sub_sub_sub_category as $box_sub_sub_sub_sub_category_id => $box_sub_sub_sub_sub_sub_category ) {
+							$unset_category = self::remove_language_category( $box_sub_sub_sub_sub_category_id, $current_lang );
+							if ( $unset_category ) {
+								unset($box_sub_sub_sub_sub_category[$box_sub_sub_sub_sub_category_id]);
+								continue;
+							}
+							
+							foreach ( $box_sub_sub_sub_sub_sub_category as $box_sub_sub_sub_sub_sub_category_id => $unused ) {
+								$unset_category = self::remove_language_category( $box_sub_sub_sub_sub_sub_category_id, $current_lang );
+								if ( $unset_category ) {
+									unset($box_sub_sub_sub_sub_sub_category[$box_sub_sub_sub_sub_sub_category_id]);
+									continue;
+								}
+							}
+						}
+					}
+					
 				}
 			}
 		}
@@ -58,6 +88,11 @@ class EPKB_WPML {
 		return $my_category_language_code != $current_lang;
 	}
 
+	/**
+	 * Remove all articles that do not belong to the currently selected language
+	 * @param $articles_seq_data
+	 * @return mixed
+	 */
 	public static function apply_article_language_filter( $articles_seq_data ) {
 		$current_lang = apply_filters( 'wpml_current_language', NULL );
 

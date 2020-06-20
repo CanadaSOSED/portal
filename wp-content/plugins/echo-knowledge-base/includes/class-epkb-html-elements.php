@@ -78,9 +78,11 @@ class EPKB_HTML_Elements {
 	 * Renders an HTML Text field
 	 *
 	 * @param array $args Arguments for the text field
+	 * @param bool $return_html
+	 * @return false|string
 	 */
 	public function text( $args = array(), $return_html=false ) {
-	
+
 		if ( $return_html ) {
 			ob_start();
 		}
@@ -96,9 +98,18 @@ class EPKB_HTML_Elements {
 			foreach ( $args['data'] as $key => $value ) {
 				$data .= 'data-' . $key . '="' . $value . '" ';
 			}
-		}		?>
+		}
+		$main_tag = '';
+		if ( empty( $args['main_tag'] ) ) {
+			$main_tag = 'li';
+		} else {
+			$main_tag = $args['main_tag'];
+		}
+
+
+		?>
 		
-		<li class="input_group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
+		<<?php echo $main_tag; ?> class="input_group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
 
 			<label class="<?php echo esc_html( $args['label_class'] )?>" for="<?php echo $id ?>">
 				<?php echo esc_html( $args['label'] )?>
@@ -118,7 +129,7 @@ class EPKB_HTML_Elements {
 				/>
 			</div>
 
-		</li>		<?php
+		</<?php echo $main_tag; ?>>		<?php
 
 		if ( $return_html ) {
 			return ob_get_clean();
@@ -198,7 +209,7 @@ class EPKB_HTML_Elements {
 				<?php echo esc_html( $args['label'] ); ?>
 			</label>
 
-			<div class="input_container <?php echo esc_html( $args['input_class'] )?>" id="">
+			<div class="input_container <?php echo esc_html( $args['input_class'] ); ?>" id="">
 				<input type="checkbox"
 				       name="<?php echo $id ?>"
 				       id="<?php echo $id ?>"
@@ -334,7 +345,7 @@ class EPKB_HTML_Elements {
 				</ul>  <?php
 
 				if ( ! empty( $args['info'] ) ) { ?>
-					<span class="info-icon"><p class="hidden"><?php echo ( is_array($args['info']) ? $args['info'] : $args['info'] ); ?></p></span>
+					<span class="info-icon"><p class="hidden"><?php echo ( $args['info'] ); ?></p></span>
 				<?php } ?>
 			</div>
 
@@ -392,11 +403,7 @@ class EPKB_HTML_Elements {
 					}//foreach					?>
 					
 				</ul>
-			</div>  <?php
-
-			if ( ! empty( $args['info'] ) ) { ?>
-				<span class="info-icon"><p class="hidden"><?php ( is_array($args['info']) ? $args['info'][$ix] : $args['info'] ); ?></p></span>			<?php 
-			} ?>
+			</div>
 
 		</li>		<?php
 	}
@@ -465,13 +472,7 @@ class EPKB_HTML_Elements {
 				<ul>   <?php
 
 					$this->horizontal_text_input($args1);
-					$this->horizontal_text_input($args2);
-
-					// HELP
-					$help_text = $args1['info'] . ' ' . $args2['info'];
-					if ( ! empty( $help_text ) ) { ?>
-						<span class='info-icon'><p class='hidden'><?php echo $help_text; ?></p></span>					<?php 
-					}  ?>
+					$this->horizontal_text_input($args2); ?>
 
 				</ul>
 			</div>
@@ -524,12 +525,13 @@ class EPKB_HTML_Elements {
 			'value'        => array(),
 			'class'        => '',
 			'main_class'   => '',
+			'main_tag' => 'li'
 		);
 		$args = $this->add_defaults( $args, $defaults );
 		$id =  esc_attr( $args['name'] );
 		$ix = 0;    	?>
 
-		<li class="input_group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
+		<<?php echo esc_html( $args['main_tag'] )?> class="input_group <?php echo esc_html( $args['input_group_class'] )?>" id="<?php echo $id ?>_group" >
 
 			<span class="main_label <?php echo esc_html( $args['main_label_class'] )?>"><?php echo esc_html( $args['label'] ); ?></span>
 
@@ -573,7 +575,7 @@ class EPKB_HTML_Elements {
 
 				</ul>
 			</div>
-		</li>   <?php
+		</<?php echo esc_html( $args['main_tag'] )?>>   <?php
 	}
 
 	/**
@@ -914,9 +916,9 @@ class EPKB_HTML_Elements {
         }
         ?>
 
-        <div <?php echo $id ?> class="callout callout_<?php echo $args['callout_type']; ?>">
-                <h4><?php echo $args['title']; ?></h4>
-	            <?php echo $args['content']; ?>
+        <div <?php echo $id ?> class="epkb_callout epkb_callout_<?php echo $args['callout_type']; ?>">
+                <h4 class="epkb_callout__title"><?php echo $args['title']; ?></h4>
+	            <?php echo '<div class="epkb_callout__body">'.$args['content'].'</div>' ?>
         </div>    <?php
     }
 }

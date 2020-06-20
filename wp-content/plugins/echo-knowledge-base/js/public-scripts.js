@@ -5,15 +5,15 @@ jQuery(document).ready(function($) {
 	var tabContainer = $('#epkb-content-container');
 	var navTabsLi    = $('.epkb-nav-tabs li');
 	var tabPanel     = $('.epkb-tab-panel');
-
+	var articleContent = $('#eckb-article-content-body');
+	var articleToc     = $('.eckb-article-toc');
 
 	/********************************************************************
 	 *                      Search
 	 ********************************************************************/
 
 	// handle KB search form
-	$( 'body' ).on( 'submit', '#epkb_search_form', function( e )
-	{
+	$( 'body' ).on( 'submit', '#epkb_search_form', function( e ) {
 		e.preventDefault();  // do not submit the form
 
 		if ( $('#epkb_search_terms').val() === '' ) {
@@ -191,7 +191,7 @@ jQuery(document).ready(function($) {
 
 		$(this).on('click', function(){
 
-			$(this).next().toggleClass('active');
+			$(this).parent().children('ul').toggleClass('active'); 
 
 		});
 	});
@@ -277,5 +277,198 @@ jQuery(document).ready(function($) {
 	
 	let search_text = $( '#epkb-search-kb' ).text();
 	$( '#epkb-search-kb' ).text( search_text );
+
+
+	/********************************************************************
+	 *                      Article TOC
+	 ********************************************************************/
+	 
+	if (articleToc.length) {
+		
+		if ( !articleToc.data('min') ) {
+			articleToc.data('min', 1);
+		}
+		
+		if ( !articleToc.data('offset') ) {
+			articleToc.data('offset', 50);
+		}
+
+		let firstLevel = articleToc.data('min');
+		let searchStr = 'h' + firstLevel;
+		let params = {'scrollOffset' : articleToc.data('offset')};
+		let exclude_class = false;
+		
+		if ( typeof articleToc.data('exclude_class') !== 'undefined' ) {
+			exclude_class = articleToc.data('exclude_class');
+		}
+		
+		while ( firstLevel < 6 ) {
+			firstLevel++;
+			searchStr += ', h' + firstLevel;
+		}
+		
+		// return object with headers and their ids 
+		function getArticleHeaders() {
+			let headers = [];
+			
+			articleContent.find(searchStr).each(function(){
+				
+				if ( $(this).text().length == 0 ) {
+					return;
+				}
+				
+				if ( exclude_class && $(this).hasClass( articleToc.data('exclude_class') ) ) {
+					return;
+				}
+				
+				let tid;
+				let header = {};
+					
+				if ($(this).prop('id')) {
+					tid = $(this).prop('id');
+				} else {
+					tid = 'articleTOC_' + headers.length;
+					$(this).prop('id', tid);
+				}
+					
+				header.id = tid;
+				header.title = $(this).text();
+					
+				if ('H1' == $(this).prop("tagName")) {
+					header.level = 1;
+				} else if ('H2' == $(this).prop("tagName")) {
+					header.level = 2;
+				} else if ('H3' == $(this).prop("tagName")) {
+					header.level = 3;
+				} else if ('H4' == $(this).prop("tagName")) {
+					header.level = 4;
+				} else if ('H5' == $(this).prop("tagName")) {
+					header.level = 5;
+				} else if ('H6' == $(this).prop("tagName")) {
+					header.level = 6;
+				}
+				
+				headers.push(header);
+			
+			});
+			
+			if ( headers.length == 0 ) {
+				return headers;
+			}
+			
+			// find max and min header level 
+			let maxH = 1;
+			let minH = 6;
+			
+			headers.forEach(function(header){
+				if (header.level > maxH) {
+					maxH = header.level
+				}
+				
+				if (header.level < minH) {
+					minH = header.level
+				}
+			});
+			
+			// move down all levels to have 1 lowest 
+			if ( minH > 1 ) {
+				headers.forEach(function(header, i){
+					headers[i].level = header.level - minH + 1;
+				});
+			}
+			
+			// now we have levels started from 1 but maybe some levels do not exist
+
+			// check level exist and decrease if not exist 
+			let i = 1;
+			
+			while (i < maxH) {
+				let levelExist = false;
+				headers.forEach(function(header){
+					if (header.level == i) {
+						levelExist = true;
+					}
+				});
+				
+				if (levelExist) {
+					// all right, level exist, go to the next 
+					i++;
+				} else {
+					// no such levelm move all levels that more than current down and check once more
+					headers.forEach(function(header, j){
+						if (header.level > i) {
+							headers[j].level = header.level - 1;
+						}
+					});
+				}
+				i++;
+			}
+			
+			return headers;
+		}
+		
+		// return html from headers object 
+		function getToCHTML(headers) {
+			let html;
+			
+			if ( articleToc.find('.eckb-article-toc__title').length ) {
+				let title = articleToc.find('.eckb-article-toc__title').html();
+				html = `
+					<div class="eckb-article-toc__inner">
+						<div class="eckb-article-toc__title">${title}</div>
+						<ul>
+					`;
+			} else {
+				html = `
+					<div class="eckb-article-toc__inner">
+						<ul>
+					`;
+			}
+
+			headers.forEach(function(header){
+				html += `<li class="eckb-article-toc__level eckb-article-toc__level-${header.level}"><a href="#${header.id}">${header.title}</a></li>`;
+			});
+			
+			html += `
+						</ul>
+					</div>
+				`;
+			
+			return html;
+		}
+
+		let articleHeaders = getArticleHeaders();
+
+		// show TOC only if headers preset
+		if ( articleHeaders.length > 0 ) {
+			articleToc.html(getToCHTML(articleHeaders));
+			articleContent.find(searchStr).scrollSpy(params);
+
+			if( $(' .eckb-article-toc--position-middle ').length > 0 ) {
+				articleToc.css('display' , 'inline-block' );
+
+			}else {
+				articleToc.fadeIn();
+			}
+		}else {
+			articleToc.hide();
+		}
+
+
+		// Get the Article Content Body Position
+		let articleContentBodyPosition = $( '#eckb-article-content-body' ).position();
+
+
+		//TODO: Dave - Change Sidebar position if TOC is in the Middle
+		// If the setting is on, Offset the Sidebar to match the article Content
+		if( $('.eckb-article-page--L-sidebar-to-content').length > 0 ){
+			$('#eckb-article-page-container-v2').find( '#eckb-article-left-sidebar ').css( "margin-top" , articleContentBodyPosition.top+'px' );
+		}
+		if( $('.eckb-article-page--R-sidebar-to-content').length > 0 ){
+			$('#eckb-article-page-container-v2').find( '#eckb-article-right-sidebar ').css( "margin-top" , articleContentBodyPosition.top+'px' );
+		}
+
+
+	}
 
 });

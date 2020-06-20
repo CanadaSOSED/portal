@@ -16,6 +16,8 @@ class EPKB_KB_Config_Controller {
 		add_action( 'wp_ajax_nopriv_epkb_change_one_config_param_ajax', array( $this, 'user_not_logged_in' ) );
 		add_action( 'wp_ajax_epkb_save_kb_config_changes', array( $this, 'save_kb_config_changes_in_db' ) );
 		add_action( 'wp_ajax_nopriv_epkb_save_kb_config_changes', array( $this, 'user_not_logged_in' ) );
+		add_action( 'wp_ajax_epkb_save_kb_advanced_config_changes', array( $this, 'save_kb_advanced_config_changes_in_db' ) );
+		add_action( 'wp_ajax_nopriv_epkb_save_kb_advanced_config_changes', array( $this, 'user_not_logged_in' ) );
 		add_action( 'wp_ajax_epkb_close_upgrade_message', array( $this, 'close_upgrade_header' ) );
 	}
 
@@ -59,7 +61,7 @@ class EPKB_KB_Config_Controller {
 		// retrieve current KB configuration
 		$new_kb_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
 		if ( is_wp_error( $new_kb_config ) ) {
-			$this->ajax_show_error_die( __( 'Error occurred. Please refresh your browser and try again.', 'echo-knowledge-base' ) );
+			$this->ajax_show_error_die( __( 'Error occurred. Please refresh your browser and try again. (0)', 'echo-knowledge-base' ) );
 		}
 
 		// retrieve user input so we can refresh the KB Main or Article page
@@ -70,6 +72,7 @@ class EPKB_KB_Config_Controller {
 
 		$config_seq = new EPKB_KB_Config_Sequence();
 		$new_sequence = $config_seq->get_new_sequence();
+		
 		if ( $new_sequence === false ) {
 			EPKB_Logging::add_log( "Could not retrieve new sequence" );
 			$this->ajax_show_error_die( __( 'Error occurred. Could not retrieve new sequence.', 'echo-knowledge-base' ) );
@@ -96,6 +99,7 @@ class EPKB_KB_Config_Controller {
 					$this->ajax_show_error_die( __( 'This page is outdated. Please refresh your browser (2)', 'echo-knowledge-base' ) );
 				}
 				$article_seq = $new_articles_ids_obj->ids_array;
+				
 			}
 
 			// get non-custom ordering regardless (default to by title if this IS custom order)
@@ -130,7 +134,7 @@ class EPKB_KB_Config_Controller {
 		// add to output <script>
 		$output = epkb_frontend_kb_theme_styles_now( $new_kb_config ) . $output;
 		
-		$msg = __( ' Sequence udpated but not saved.', 'echo-knowledge-base' );
+		$msg = __( 'Sequence udpated but not saved.', 'echo-knowledge-base' );
 		wp_die( json_encode( array( 'kb_page_output' => $output, 'message' => $this->get_kb_config_message_box( $msg, '', 'success') ) ) );
 	}
 
@@ -153,7 +157,7 @@ class EPKB_KB_Config_Controller {
 		// retrieve current KB configuration
 		$orig_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
 		if ( is_wp_error( $orig_config ) ) {
-			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again.', 'echo-knowledge-base' ));
+			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again. (5)', 'echo-knowledge-base' ));
 		}
 
 		// retrieve user input
@@ -195,10 +199,10 @@ class EPKB_KB_Config_Controller {
 			$this->ajax_show_error_die(__( 'This page is outdated. Please refresh your browser', 'echo-knowledge-base' ));
 		}
 
-		// retrieve current KB configuration
+		// retrieve current KB CORE configuration
 		$current_kb_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
 		if ( is_wp_error( $current_kb_config ) ) {
-			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again.', 'echo-knowledge-base' ));
+			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again. (6)', 'echo-knowledge-base' ));
 		}
 
 		$target_type = sanitize_text_field( $_POST['target_type'] );
@@ -232,7 +236,7 @@ class EPKB_KB_Config_Controller {
 			$this->ajax_show_error_die(__( 'Invalid parameters. Please refresh your page.', 'echo-knowledge-base' ));
 		}
 
-		// add filters for core layouts and colors
+		// add filters for core/add-ons layouts and colors
 		EPKB_KB_Config_Layouts::register_kb_config_hooks();
 
 		// get given layout or color settings input
@@ -314,7 +318,7 @@ class EPKB_KB_Config_Controller {
 		// update Main Page layout
 		$main_page_layout = $kb_config_page->display_kb_main_page_layout_preview( false );
 
-		$message .= __( 'Configuration NOT saved. ', 'echo-knowledge-base' );
+		$message .= __( 'Configuration NOT saved (1). ', 'echo-knowledge-base' );
 
 		// add to output <script>
 		$main_page_layout = epkb_frontend_kb_theme_styles_now( $kb_config ) . $main_page_layout;
@@ -356,7 +360,7 @@ class EPKB_KB_Config_Controller {
 		// retrieve current KB configuration
 		$current_kb_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
 		if ( is_wp_error( $current_kb_config ) ) {
-			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again.', 'echo-knowledge-base' ));
+			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again. (7)', 'echo-knowledge-base' ));
 		}
 
 		// retrieve user changes
@@ -482,7 +486,7 @@ class EPKB_KB_Config_Controller {
 		$kb_config_page = new EPKB_KB_Config_Page( $kb_config );
 		$article_page_output = $kb_config_page->display_article_page_layout_preview();
 
-		$message .= __( 'Configuration NOT saved. ', 'echo-knowledge-base' );
+		$message .= __( 'Configuration NOT saved (2). ', 'echo-knowledge-base' );
 
 		return array( 'article_page_output' => $article_page_output, 'article_text' => $text_tab_output, 'article_general' => $general_tab_output,
 		              'article_ordering_output' => $article_ordering_output,
@@ -494,11 +498,11 @@ class EPKB_KB_Config_Controller {
 		$option_name = empty($option_name) ? '' : ', ' . __( 'Option', 'echo-knowledge-base' ) . $option_name;
 		$theme_name = substr($target_name, 0, strlen($target_name) - 1);
 		if ( $theme_name == 'demo_' ) {
-			$theme_name = 'Installation Defaults';
+			$theme_name = __( 'Installation Defaults', 'echo-knowledge-base' );
 		}
 		$color_theme_name = ( empty($theme_name) ? $target_name : $theme_name ) . $option_name;
 
-		return 'Colors were set to ' . ucfirst($color_theme_name) . '. ';
+		return __( 'Colors were set to ', 'echo-knowledge-base' ) . ucfirst($color_theme_name) . '. ';
 	}
 
 	/**
@@ -506,7 +510,7 @@ class EPKB_KB_Config_Controller {
 	 */
 	public function save_kb_config_changes_in_db() {
 
-		// verify that the request is authentic
+		// verify that the request is authentic and check where it comes
 		if ( empty( $_REQUEST['_wpnonce_epkb_save_kb_config'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce_epkb_save_kb_config'], '_wpnonce_epkb_save_kb_config' ) ) {
 			$this->ajax_show_error_die(__( 'Settings not saved. First refresh your page', 'echo-knowledge-base' ));
 		}
@@ -533,11 +537,11 @@ class EPKB_KB_Config_Controller {
 		// retrieve current KB configuration
 		$orig_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
 		if ( is_wp_error( $orig_config ) ) {
-			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again.', 'echo-knowledge-base' ));
+			$this->ajax_show_error_die(__( 'Error occurred. Please refresh your browser and try again. (8)', 'echo-knowledge-base' ));
 		}
 
 		// retrieve user input
-		$field_specs = $this->retrieve_all_kb_specs( $kb_id );
+		$field_specs = self::retrieve_all_kb_specs( $kb_id );
 		$form_fields = empty($_POST['form']) ? array() : EPKB_Utilities::retrieve_and_sanitize_form( $_POST['form'], $field_specs );
 		if ( empty($form_fields) ) {
 			EPKB_Logging::add_log("form fields missing");
@@ -557,7 +561,7 @@ class EPKB_KB_Config_Controller {
 			if ( empty($message) ) {
 				$this->ajax_show_error_die( $result->get_error_message(), __( 'Could not save the new configuration (2)', 'echo-knowledge-base' ) );
 			} else {
-				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Configuration NOT saved due to following problems:', 'echo-knowledge-base' ) );
+				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Configuration NOT saved (3) due to following problems:', 'echo-knowledge-base' ) );
 			}
 		}
 
@@ -584,6 +588,11 @@ class EPKB_KB_Config_Controller {
 			}
 		}
 
+		// if Sidebar layout chosen and TOC is on the left, set it to the right
+		if ( $new_kb_config['kb_article_page_layout'] == EPKB_KB_Config_Layouts::SIDEBAR_LAYOUT && $new_kb_config['article_toc_position'] == 'left' ) {
+			$new_kb_config['article_toc_position'] = 'right';
+		}
+
 		// sanitize and save configuration in the database. see EPKB_Settings_DB class
 		$result = epkb_get_instance()->kb_config_obj->update_kb_configuration( $kb_id, $new_kb_config );
 		if ( is_wp_error( $result ) ) {
@@ -592,16 +601,10 @@ class EPKB_KB_Config_Controller {
 			if ( empty($message) ) {
 				$this->ajax_show_error_die( $result->get_error_message(), __( 'Could not save the new configuration (3)', 'echo-knowledge-base' ) );
 			} else {
-				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Configuration NOT saved due to following problems:', 'echo-knowledge-base' ) );
+				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Configuration NOT saved (4) due to following problems:', 'echo-knowledge-base' ) );
 			}
 		}
-
-		// save category icons
-		$result = $this->save_categories_icons( $kb_id, $form_fields, $new_kb_config['kb_main_page_layout'], $new_kb_config );
-		if ( is_wp_error( $result ) ) {
-			$this->ajax_show_error_die( $result->get_error_message(), __( 'Could not save category icons', 'echo-knowledge-base' ) );
-		}
-
+		
 		// in case user changed article common path, flush the rules
 		EPKB_Articles_CPT_Setup::register_custom_post_type( $new_kb_config, $kb_id );
 
@@ -619,6 +622,131 @@ class EPKB_KB_Config_Controller {
 
 		// we are done here
 		$this->ajax_show_info_die( $reload ? __( 'Reload Settings saved. PAGE WILL RELOAD NOW.', 'echo-knowledge-base' ) : __( 'Settings saved', 'echo-knowledge-base' ) );
+	}
+	
+	/**
+	 * Triggered when user submits changes to Advanced KB configuration
+	 */
+	public function save_kb_advanced_config_changes_in_db() {
+
+		// verify that the request is authentic and check where it comes
+		if ( empty( $_REQUEST['_wpnonce_epkb_save_kb_config'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce_epkb_save_kb_config'], '_wpnonce_epkb_save_kb_config' ) ) {
+			$this->ajax_show_error_die(__( 'Settings not saved. First refresh your page', 'echo-knowledge-base' ));
+		}
+
+		// ensure user has correct permissions
+		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+			$this->ajax_show_error_die(__( 'You do not have permission to edit this knowledge base', 'echo-knowledge-base' ));
+		}
+
+		// retrieve KB ID we are saving
+		$kb_id = empty($_POST['epkb_kb_id']) ? '' : EPKB_Utilities::sanitize_get_id( $_POST['epkb_kb_id'] );
+		if ( empty($kb_id) || is_wp_error( $kb_id ) ) {
+			EPKB_Logging::add_log( "invalid kb id", $kb_id );
+			$this->ajax_show_error_die(__( 'This page is outdated. Please refresh your browser', 'echo-knowledge-base' ));
+		}
+
+		// core handles only default KB
+		if ( $kb_id != EPKB_KB_Config_DB::DEFAULT_KB_ID && ! defined( 'E' . 'MKB_PLUGIN_NAME' ) ) {
+			EPKB_Logging::add_log("received invalid kb_id when saving config. (x5)", $kb_id );
+			$this->ajax_show_error_die(__( 'Ensure that Multiple KB add-on is active and refresh this page.', 'echo-knowledge-base' ));
+			return;
+		}
+		
+		// retrieve user input
+		$new_config_post = EPKB_Utilities::post('advanced_form', array());
+		parse_str($new_config_post, $new_config_post);
+		if ( empty($new_config_post) || count($new_config_post) < 10 ) {
+			$this->ajax_show_error_die( __( 'Invalid post parameters (12). Please refresh your page', 'echo-knowledge-base' ) );
+		}
+		
+		// retrieve current KB configuration
+		$orig_config = epkb_get_instance()->kb_config_obj->get_kb_config( $kb_id );
+		if ( is_wp_error( $orig_config ) ) {
+			$message = $orig_config->get_error_data();
+			if ( empty($message) ) {
+				$this->ajax_show_error_die( $orig_config->get_error_message(), __( 'Could not save the new advanced configuration (2)', 'echo-knowledge-base' ) );
+			} else {
+				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Advanced configuration NOT saved (3) due to following problems:', 'echo-knowledge-base' ) );
+			}
+		}
+		
+		// get current KB configuration for addons (for blank KB, configuration will contain default values)
+		$orig_config = apply_filters( 'epkb_all_wizards_get_current_config', $orig_config, $kb_id );
+		$advanced_fields = EPKB_KB_Config_Advanced::$advanced_fields;
+		
+		// filter fields from Advanced Config to ensure we are saving only configuration that is applicable for this config
+		$new_config = array();
+		foreach($new_config_post as $field_name => $field_value) {
+			if ( in_array($field_name, $advanced_fields) ) {
+				$new_config[$field_name] = $field_value;
+			} 
+		}
+		
+		// merge with unused in this wizard config values from orig config
+		foreach($orig_config as $field_name => $field_value) {
+			if ( ! in_array($field_name, $advanced_fields) ) {
+				$new_config[$field_name] = $orig_config[$field_name];
+			} 
+		}
+		
+		$is_blank_kb = EPKB_KB_Wizard::is_blank_KB( $kb_id );
+		if ( is_wp_error($is_blank_kb) ) {
+			EPKB_Utilities::ajax_show_error_die( __( 'Could not load KB config (3). Please contact us.', 'echo-knowledge-base' ) );
+		}
+		
+		// KB should not be blank
+		if ( $is_blank_kb ) {
+			EPKB_Utilities::ajax_show_error_die( __( 'Could not process KB config (3). Please contact us.', 'echo-knowledge-base' ) );
+		}
+		
+		// prevent new config to overwrite essential fields
+		$new_config['id'] = $orig_config['id'];
+		$new_config['status'] = $orig_config['status'];
+		$new_config['kb_main_pages'] = $orig_config['kb_main_pages'];
+		$new_config['kb_articles_common_path'] = $orig_config['kb_articles_common_path'];
+		
+		$field_specs = self::retrieve_all_kb_specs( $kb_id );
+		$form_fields = EPKB_Utilities::retrieve_and_sanitize_form( $new_config, $field_specs );
+		
+		if ( empty($form_fields) ) {
+			EPKB_Logging::add_log("form fields missing");
+			$this->ajax_show_error_die(__( 'Form fields missing. Please refresh your browser', 'echo-knowledge-base' ));
+		} else if ( count($form_fields) < 10 ) {
+			EPKB_Logging::add_log("Found KB configuration is incomplete", count($form_fields));
+			$this->ajax_show_error_die(__( 'Some form fields are missing. Please refresh your browser and try again or contact support', 'echo-knowledge-base' ));
+		}
+
+		$input_handler = new EPKB_Input_Filter();
+		$new_kb_config = $input_handler->retrieve_and_sanitize_form_fields( $form_fields, $field_specs, $orig_config );
+		
+		// save add-ons configuration
+		$form_fields['icons_not_saved'] = true;
+		$result = apply_filters( 'epkb_kb_config_save_input_v2', '', $kb_id, $form_fields, $new_kb_config['kb_main_page_layout'] );
+		if ( is_wp_error( $result ) ) {
+			/* @var $result WP_Error */
+			$message = $result->get_error_data();
+			if ( empty($message) ) {
+				$this->ajax_show_error_die( $result->get_error_message(), __( 'Could not save the new configuration (2)', 'echo-knowledge-base' ) );
+			} else {
+				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Configuration NOT saved (3) due to following problems:', 'echo-knowledge-base' ) );
+			}
+		}
+
+		// sanitize and save configuration in the database. see EPKB_Settings_DB class
+		$result = epkb_get_instance()->kb_config_obj->update_kb_configuration( $kb_id, $new_kb_config );
+		if ( is_wp_error( $result ) ) {
+			/* @var $result WP_Error */
+			$message = $result->get_error_data();
+			if ( empty($message) ) {
+				$this->ajax_show_error_die( $result->get_error_message(), __( 'Could not save the new configuration (3)', 'echo-knowledge-base' ) );
+			} else {
+				$this->ajax_show_error_die( $this->generate_error_summary( $message ), __( 'Configuration NOT saved (4) due to following problems:', 'echo-knowledge-base' ) );
+			}
+		}
+
+		// we are done here
+		$this->ajax_show_info_die( __( 'Settings saved', 'echo-knowledge-base' ) );
 	}
 
     /**
@@ -664,7 +792,7 @@ class EPKB_KB_Config_Controller {
 	private function populate_kb_config_from_form( $kb_id, $orig_kb_config ) {
 
 		// get user input
-		$feature_specs = $this->retrieve_all_kb_specs( $kb_id );
+		$feature_specs = self::retrieve_all_kb_specs( $kb_id );
 		$form_fields = empty($_POST['form']) ? array() : EPKB_Utilities::retrieve_and_sanitize_form( $_POST['form'], $feature_specs );
 
 		$input_handler = new EPKB_Input_Filter();
@@ -684,14 +812,25 @@ class EPKB_KB_Config_Controller {
 	 * @param $kb_id
 	 * @return array
 	 */
-	private function retrieve_all_kb_specs( $kb_id ) {
+	public static function retrieve_all_kb_specs( $kb_id ) {
 
 		$feature_specs = EPKB_KB_Config_Specs::get_fields_specification( $kb_id );
 
 		// get add-on configuration from user changes if applicable
 		$add_on_specs = apply_filters( 'epkb_add_on_config_specs', array() );
 		if ( ! is_array($add_on_specs) || is_wp_error( $add_on_specs )) {
-			$this->ajax_show_error_die(__( 'Could not change KB specs. (8)', 'echo-knowledge-base' ));
+			
+			$message = 
+				"<div class='eckb-bottom-notice-message'>
+					<div class='contents'>
+						<span class='error'>
+							<p> " . __( 'Could not change KB specs. (8)', 'echo-knowledge-base' ) . "</p>
+						</span>
+					</div>
+					<div class='epkb-close-notice icon_close'></div>
+				</div>";
+				
+			wp_die( json_encode( array( 'error' => true, 'message' => $message ) ) );
 		}
 
 		// merge core and add-on specs
@@ -816,96 +955,4 @@ class EPKB_KB_Config_Controller {
 		return $i18_message;
 	}
 
-	/**
-	 * Update categories icons when user is saving KB configuration
-	 *
-	 * @param $kb_id
-	 * @param $form_fields
-	 * @param $main_page_layout
-	 * @param $kb_config
-	 * @return true|WP_Error
-	 */
-	private function save_categories_icons( $kb_id, $form_fields, $main_page_layout, $kb_config ) {
-
-		// Elegant Layout has its own data (for now)
-		if ( in_array($main_page_layout, array(EPKB_KB_Config_Layouts::GRID_LAYOUT, EPKB_KB_Config_Layouts::SIDEBAR_LAYOUT)) ) {
-			return true;
-		}
-
-		// if user did not modify icons then don't save them
-		$save_icons = empty($form_fields['epkb_save_categories_icons']) ? '' : $form_fields['epkb_save_categories_icons'];
-		$is_save_icons = sanitize_text_field( $save_icons );
-		if ( empty($is_save_icons) ) {
-			return true;
-		}
-
-		// validate input
-		if ( ! isset($form_fields['epkb_categories_icons']) ) {
-			return new WP_Error(11, 'Invalid input (312)');
-		}
-
-		// convert input to array of category ids and icon names; ignore empty value
-		$user_input = sanitize_text_field( $form_fields['epkb_categories_icons'] );
-		if ( empty($user_input) ) {
-			return true;
-		}
-
-		// parse the input
-		$user_input = explode('.', $user_input);
-		if ( $user_input === false ) {
-			return new WP_Error(11, 'Invalid input (122)');
-		}
-
-		// collect icons for KB categories
-		$new_categories_icons = array();
-		foreach( $user_input as $name_category ) {
-			$name_category = explode('=', $name_category);
-			if ( $name_category === false || sizeof($name_category) != 2 ) {
-				return new WP_Error(11, 'Invalid input (362)');
-			}
-			$icon_name = $name_category[0];
-			$category_id = $name_category[1];
-			if ( ! EPKB_Utilities::is_positive_or_zero_int( $category_id ) || strlen($icon_name) > 50 ||
-			     ( EPKB_Utilities::substr($icon_name, 0, strlen('ep_font_icon_')) !== 'ep_font_icon_' &&
-			       EPKB_Utilities::substr($icon_name, 0, strlen('fa-')) !== 'fa-' &&
-			       EPKB_Utilities::substr($icon_name, 0, strlen('epkbfa-')) !== 'epkbfa-'
-
-			     )
-			) {
-				return new WP_Error(11, 'Invalid input (323)');
-			}
-			$new_categories_icons[$category_id] = $icon_name;
-		}
-
-		// for WPML we need to keep the other language categories in the array
-		if ( EPKB_Utilities::is_wpml_enabled( $kb_config ) ) {
-
-			// get all KB categories
-			$all_kb_categories = EPKB_Utilities::get_kb_categories( $kb_id );
-			if ( $all_kb_categories === null ) {
-				return new WP_Error(11, 'Could not retrieve KB categories (302)');
-			}
-
-			$all_kb_categories_ids = array();
-			foreach ( $all_kb_categories as $all_kb_category ) {
-				$all_kb_categories_ids[] = $all_kb_category->term_id;
-			}
-
-			// add back existing category icons
-			$categories_icons = EPKB_Utilities::get_kb_option( $kb_id, EPKB_Icons::CATEGORIES_ICONS, array(), true );
-			foreach( $categories_icons as $category_id => $icon_name ) {
-				if ( in_array($category_id, $all_kb_categories_ids) && ! in_array($category_id, array_keys($new_categories_icons)) ) {
-					$new_categories_icons[$category_id] = $icon_name;
-				}
-			}
-		}
-
-		// save new icons
-		$result = EPKB_Utilities::save_kb_option( $kb_id, EPKB_Icons::CATEGORIES_ICONS, $new_categories_icons, true );
-		if ( is_wp_error( $result ) ) {
-			return $result;
-		}
-
-		return true;
-	}
 }

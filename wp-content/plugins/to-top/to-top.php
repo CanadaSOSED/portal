@@ -5,7 +5,7 @@
  * Description:       To Top plugin allows the visitor as well as admin to easily scroll back to the top of the page, with fully customizable options and ability to use image.
  * Author:            Catch Plugins
  * Author URI:        https://catchplugins.com/
- * Version:           1.8.1
+ * Version:           2.1
  * License:           GNU General Public License, version 3 (GPLv3)
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain:       to-top
@@ -38,23 +38,24 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Define Version
-define( 'TOTOP_VERSION', '1.8.1' );
+define( 'TOTOP_VERSION', '2.1' );
 
 // The URL of the directory that contains the plugin
-if ( !defined( 'TOTOP_URL' ) ) {
+if ( ! defined( 'TOTOP_URL' ) ) {
 	define( 'TOTOP_URL', plugin_dir_url( __FILE__ ) );
 }
 
 
 // The absolute path of the directory that contains the file
-if ( !defined( 'TOTOP_PATH' ) ) {
+if ( ! defined( 'TOTOP_PATH' ) ) {
 	define( 'TOTOP_PATH', plugin_dir_path( __FILE__ ) );
 }
 
-/**
- * The code that runs during plugin activation.
- * This action is documented in includes/class-to-top-activator.php
- */
+// Gets the path to a plugin file or directory, relative to the plugins directory, without the leading and trailing slashes.
+if ( ! defined( 'TOTOP_BASENAME' ) ) {
+	define( 'TOTOP_BASENAME', plugin_basename( __FILE__ ) );
+}
+
 function activate_to_top() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-to-top-activator.php';
 	To_Top_Activator::activate();
@@ -100,11 +101,11 @@ run_to_top();
  *
  *  @since    1.0
  */
-function to_top_get_options(){
+function to_top_get_options() {
 	$defaults = to_top_default_options();
 	$options  = get_option( 'to_top_options', $defaults );
 
-	return wp_parse_args( $options, $defaults  ) ;
+	return wp_parse_args( $options, $defaults );
 }
 
 /**
@@ -116,46 +117,50 @@ function to_top_get_options(){
 function to_top_default_options( $option = null ) {
 	$default_options = array(
 		//Basic Settings
-		'scroll_offset'				=> '100',
-		'icon_opacity'				=> '50',
-		'style'						=> 'icon',
+		'scroll_offset'            => '100',
+		'icon_opacity'             => '50',
+		'style'                    => 'icon',
 
 		//Icon Settings
-		'icon_type'					=> 'dashicons-arrow-up-alt2',
-		'icon_color'				=> '#ffffff',
-		'icon_bg_color'				=> '#000000',
-		'icon_size'					=> '32',
-		'border_radius'				=> '5',
+		'icon_type'                => 'dashicons-arrow-up-alt2',
+		'icon_color'               => '#ffffff',
+		'icon_bg_color'            => '#000000',
+		'icon_size'                => '32',
+		'border_radius'            => '5',
 
 		//Image Settings
-		'image'						=> plugin_dir_url( __FILE__ ).'admin/images/default.png',
-		'image_width'				=> '65',
-		'image_alt'					=> '',
+		'image'                    => plugin_dir_url( __FILE__ ) . 'admin/images/default.png',
+		'image_width'              => '65',
+		'image_alt'                => '',
 
 		//Advanced Settings
-		'location'					=> 'bottom-right',
-		'margin_x'					=> '20',
-		'margin_y'					=> '20',
-		'show_on_admin'				=> 0,
-		'enable_autohide'			=> 0,
-		'autohide_time'				=> '2',
-		'enable_hide_small_device'	=> 0,
-		'small_device_max_width'	=> '640',
+		'location'                 => 'bottom-right',
+		'margin_x'                 => '20',
+		'margin_y'                 => '20',
+		'show_on_admin'            => 0,
+		'enable_autohide'          => 0,
+		'autohide_time'            => '2',
+		'enable_hide_small_device' => 0,
+		'small_device_max_width'   => '640',
 
 		//Reset Settings
-		'reset'						=> 0,
+		'reset'                    => 0,
 	);
 
 	if ( null == $option ) {
 		return apply_filters( 'to_top_options', $default_options );
-	}
-	else {
+	} else {
 		return $default_options[ $option ];
 	}
 }
 
-/* Adds Catch Themes tab in Add theme page and Themes by Catch Themes in Customizer's change theme option. */
-require_once TOTOP_PATH . '/admin/inc/our-themes.php';
+/* CTP tabs removal options */
+require plugin_dir_path( __FILE__ ) . 'admin/inc/ctp-tabs-removal.php';
 
-/* Adds Catch Plugins tab in Add theme page.  */
-require_once TOTOP_PATH . '/admin/inc/our-plugins.php';
+$ctp_options = ctp_get_options();
+if ( 1 == $ctp_options['theme_plugin_tabs'] ) {
+	/* Adds Catch Themes tab in Add theme page and Themes by Catch Themes in Customizer's change theme option. */
+	if ( ! class_exists( 'CatchThemesThemePlugin' ) && ! function_exists( 'add_our_plugins_tab' ) ) {
+		require plugin_dir_path( __FILE__ ) . 'admin/inc/CatchThemesThemePlugin.php';
+	}
+}

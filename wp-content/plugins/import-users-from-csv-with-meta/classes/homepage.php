@@ -4,59 +4,31 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class ACUI_Homepage{
 	public static function admin_gui(){
-		$args_old_csv = array( 'post_type'=> 'attachment', 'post_mime_type' => 'text/csv', 'post_status' => 'inherit', 'posts_per_page' => -1 );
-		$old_csv_files = new WP_Query( $args_old_csv );
-
+		$last_roles_used = empty( get_option( 'acui_last_roles_used' ) ) ? array( 'subscriber' ) : get_option( 'acui_last_roles_used' );
+		
 		acui_check_options();
 ?>
 	<div class="wrap acui">	
 
-		<?php if( $old_csv_files->found_posts > 0 ): ?>
-		<div class="postbox">
-		    <div title="<?php _e( 'Click to open/close', 'import-users-from-csv-with-meta' ); ?>" class="handlediv">
-		      <br>
-		    </div>
-
-		    <h3 class="hndle"><span>&nbsp;&nbsp;&nbsp;<?php _e( 'Old CSV files uploaded', 'import-users-from-csv-with-meta' ); ?></span></h3>
-
-		    <div class="inside" style="display: block;">
-		    	<p><?php _e( 'For security reasons you should delete this files, probably they would be visible in the Internet if a bot or someone discover the URL. You can delete each file or maybe you want delete all CSV files you have uploaded:', 'import-users-from-csv-with-meta' ); ?></p>
-		    	<input type="button" value="<?php _e( 'Delete all CSV files uploaded', 'import-users-from-csv-with-meta' ); ?>" id="bulk_delete_attachment" style="float:right;" />
-		    	<ul>
-		    		<?php while($old_csv_files->have_posts()) : 
-		    			$old_csv_files->the_post(); 
-
-		    			if( get_the_date() == "" )
-		    				$date = "undefined";
-		    			else
-		    				$date = get_the_date();
-		    		?>
-		    		<li><a href="<?php echo wp_get_attachment_url( get_the_ID() ); ?>"><?php the_title(); ?></a> <?php _e( 'uploaded on', 'import-users-from-csv-with-meta' ) . ' ' . $date; ?> <input type="button" value="<?php _e( 'Delete', 'import-users-from-csv-with-meta' ); ?>" class="delete_attachment" attach_id="<?php the_ID(); ?>" /></li>
-		    		<?php endwhile; ?>
-		    		<?php wp_reset_postdata(); ?>
-		    	</ul>
-		        <div style="clear:both;"></div>
-		    </div>
-		</div>
-		<?php endif; ?>	
+		<?php self::maybe_remove_old_csv(); ?>
 
 		<div id='message' class='updated'><?php _e( 'File must contain at least <strong>2 columns: username and email</strong>. These should be the first two columns and it should be placed <strong>in this order: username and email</strong>. If there are more columns, this plugin will manage it automatically.', 'import-users-from-csv-with-meta' ); ?></div>
 		<div id='message-password' class='error'><?php _e( 'Please, read carefully how <strong>passwords are managed</strong> and also take note about capitalization, this plugin is <strong>case sensitive</strong>.', 'import-users-from-csv-with-meta' ); ?></div>
 
 		<div>
-			<h2><?php _e( 'Import users from CSV','import-users-from-csv-with-meta' ); ?></h2>
+			<h2><?php _e( 'Import users and customers from CSV','import-users-from-csv-with-meta' ); ?></h2>
 		</div>
 
 		<div style="clear:both;"></div>
 
-		<div class="main_bar">
+		<div id="acui_form_wrapper" class="main_bar">
 			<form method="POST" enctype="multipart/form-data" action="" accept-charset="utf-8" onsubmit="return check();">
-			<h2><?php _e( 'General', 'import-users-from-csv-with-meta'); ?></h2>
-			<table class="form-table">
+			<h2 id="acui_file_header"><?php _e( 'File', 'import-users-from-csv-with-meta'); ?></h2>
+			<table  id="acui_file_wrapper" class="form-table">
 				<tbody>
 
 				<tr class="form-field form-required">
-					<th scope="row"><label><?php _e( 'CSV file <span class="description">(required)</span></label>', 'import-users-from-csv-with-meta' ); ?></th>
+					<th scope="row"><label for="uploadfile"><?php _e( 'CSV file <span class="description">(required)</span></label>', 'import-users-from-csv-with-meta' ); ?></th>
 					<td>
 						<div id="upload_file">
 							<input type="file" name="uploadfile" id="uploadfile" size="35" class="uploadfile" />
@@ -68,27 +40,37 @@ class ACUI_Homepage{
 						</div>
 					</td>
 				</tr>
-
+				</tbody>
+			</table>
+				
+			<h2 id="acui_roles_header"><?php _e( 'Roles', 'import-users-from-csv-with-meta'); ?></h2>
+			<table  id="acui_roles_wrapper" class="form-table">
+				<tbody>
 				<tr class="form-field">
 					<th scope="row"><label for="role"><?php _e( 'Default role', 'import-users-from-csv-with-meta' ); ?></label></th>
 					<td>
 					<?php 
-						$list_roles = acui_get_editable_roles(); 
+						$list_roles = acui_get_editable_roles();
 						
 						foreach ($list_roles as $key => $value) {
-							if($key == "subscriber")
-								echo "<label style='margin-right:5px;'><input name='role[]' type='checkbox' checked='checked' value='$key'/>$value</label>";
+							if( in_array( $key, $last_roles_used ) )
+								echo "<label id='$key' style='margin-right:5px;'><input name='role[]' type='checkbox' checked='checked' value='$key'/>$value</label>";
 							else
-								echo "<label style='margin-right:5px;'><input name='role[]' type='checkbox' value='$key'/>$value</label>";
+								echo "<label id='$key' style='margin-right:5px;'><input name='role[]' type='checkbox' value='$key'/>$value</label>";
 						}
 					?>
 
 					<p class="description"><?php _e( 'You can also import roles from a CSV column. Please read documentation tab to see how it can be done. If you choose more than one role, the roles would be assigned correctly but you should use some plugin like <a href="https://wordpress.org/plugins/user-role-editor/">User Role Editor</a> to manage them.', 'import-users-from-csv-with-meta' ); ?></p>
 					</td>
 				</tr>
+				</tbody>
+			</table>
 
-				<tr class="form-field form-required">
-					<th scope="row"><label><?php _e( 'What should the plugin do with empty cells?', 'import-users-from-csv-with-meta' ); ?></label></th>
+			<h2 id="acui_options_header"><?php _e( 'Options', 'import-users-from-csv-with-meta'); ?></h2>
+			<table  id="acui_options_wrapper" class="form-table">
+				<tbody>
+				<tr  id="acui_empty_cell_wrapper" class="form-field form-required">
+					<th scope="row"><label for="empty_cell_action"><?php _e( 'What should the plugin do with empty cells?', 'import-users-from-csv-with-meta' ); ?></label></th>
 					<td>
 						<select name="empty_cell_action">
 							<option value="leave"><?php _e( 'Leave the old value for this metadata', 'import-users-from-csv-with-meta' ); ?></option>
@@ -97,29 +79,28 @@ class ACUI_Homepage{
 					</td>
 				</tr>
 
-				<tr class="form-field">
+				<tr  id="acui_send_email_wrapper" class="form-field">
 					<th scope="row"><label for="user_login"><?php _e( 'Send mail', 'import-users-from-csv-with-meta' ); ?></label></th>
 					<td>
-						<p>
+						<p id="sends_email_wrapper">
 							<?php _e( 'Do you wish to send a mail with credentials and other data?', 'import-users-from-csv-with-meta' ); ?> 
 							<input type="checkbox" name="sends_email" value="yes" <?php if( get_option( 'acui_manually_send_mail' ) ): ?> checked="checked" <?php endif; ?>>
 						</p>
-						<p>
+						<p id="send_email_updated_wrapper">
 							<?php _e( 'Do you wish to send this mail also to users that are being updated? (not only to the one which are being created)', 'import-users-from-csv-with-meta' ); ?>
 							<input type="checkbox" name="send_email_updated" value="yes" <?php if( get_option( 'acui_manually_send_mail_updated' ) ): ?> checked="checked" <?php endif; ?>>
 						</p>
 					</td>
 				</tr>
-
 				</tbody>
 			</table>
 
-			<h2><?php _e( 'Update users', 'import-users-from-csv-with-meta'); ?></h2>
+			<h2  id="acui_update_users_header"><?php _e( 'Update users', 'import-users-from-csv-with-meta'); ?></h2>
 
-			<table class="form-table">
+			<table id="acui_update_users_wrapper" class="form-table">
 				<tbody>
-				<tr class="form-field form-required">
-					<th scope="row"><label><?php _e( 'Update existing users?', 'import-users-from-csv-with-meta' ); ?></label></th>
+				<tr id="acui_update_existing_users_wrapper" class="form-field form-required">
+					<th scope="row"><label for="update_existing_users"><?php _e( 'Update existing users?', 'import-users-from-csv-with-meta' ); ?></label></th>
 					<td>
 						<select name="update_existing_users">
 							<option value="yes"><?php _e( 'Yes', 'import-users-from-csv-with-meta' ); ?></option>
@@ -128,8 +109,8 @@ class ACUI_Homepage{
 					</td>
 				</tr>
 
-				<tr class="form-field form-required">
-					<th scope="row"><label><?php _e( 'Update roles for existing users?', 'import-users-from-csv-with-meta' ); ?></label></th>
+				<tr id="acui_update_roles_existing_users_wrapper" class="form-field form-required">
+					<th scope="row"><label for="update_roles_existing_users"><?php _e( 'Update roles for existing users?', 'import-users-from-csv-with-meta' ); ?></label></th>
 					<td>
 						<select name="update_roles_existing_users">
 							<option value="no"><?php _e( 'No', 'import-users-from-csv-with-meta' ); ?></option>
@@ -141,12 +122,12 @@ class ACUI_Homepage{
 				</tbody>
 			</table>
 
-			<h2><?php _e( 'Users not present in CSV file', 'import-users-from-csv-with-meta'); ?></h2>
+			<h2 id="acui_users_not_present_header"><?php _e( 'Users not present in CSV file', 'import-users-from-csv-with-meta'); ?></h2>
 
-			<table class="form-table">
+			<table id="acui_users_not_present_wrapper" class="form-table">
 				<tbody>
 				
-				<tr class="form-field form-required">
+				<tr id="acui_delete_users_wrapper" class="form-field form-required">
 					<th scope="row"><label for="delete_users"><?php _e( 'Delete users that are not present in the CSV?', 'import-users-from-csv-with-meta' ); ?></label></th>
 					<td>
 						<div style="float:left; margin-top: 10px;">
@@ -168,7 +149,7 @@ class ACUI_Homepage{
 					</td>
 				</tr>
 
-				<tr class="form-field form-required">
+				<tr id="acui_not_present_wrapper" class="form-field form-required">
 					<th scope="row"><label for="change_role_not_present"><?php _e( 'Change role of users that are not present in the CSV?', 'import-users-from-csv-with-meta' ); ?></label></th>
 					<td>
 						<div style="float:left; margin-top: 10px;">
@@ -302,5 +283,39 @@ class ACUI_Homepage{
 	} );
 	</script>
 	<?php 
+	}
+
+	public static function maybe_remove_old_csv(){
+		$args_old_csv = array( 'post_type'=> 'attachment', 'post_mime_type' => 'text/csv', 'post_status' => 'inherit', 'posts_per_page' => -1 );
+		$old_csv_files = new WP_Query( $args_old_csv );
+
+		if( $old_csv_files->found_posts > 0 ): ?>
+		<div class="postbox">
+		    <div title="<?php _e( 'Click to open/close', 'import-users-from-csv-with-meta' ); ?>" class="handlediv">
+		      <br>
+		    </div>
+
+		    <h3 class="hndle"><span>&nbsp;&nbsp;&nbsp;<?php _e( 'Old CSV files uploaded', 'import-users-from-csv-with-meta' ); ?></span></h3>
+
+		    <div class="inside" style="display: block;">
+		    	<p><?php _e( 'For security reasons you should delete this files, probably they would be visible in the Internet if a bot or someone discover the URL. You can delete each file or maybe you want delete all CSV files you have uploaded:', 'import-users-from-csv-with-meta' ); ?></p>
+		    	<input type="button" value="<?php _e( 'Delete all CSV files uploaded', 'import-users-from-csv-with-meta' ); ?>" id="bulk_delete_attachment" style="float:right;" />
+		    	<ul>
+		    		<?php while($old_csv_files->have_posts()) : 
+		    			$old_csv_files->the_post(); 
+
+		    			if( get_the_date() == "" )
+		    				$date = "undefined";
+		    			else
+		    				$date = get_the_date();
+		    		?>
+		    		<li><a href="<?php echo wp_get_attachment_url( get_the_ID() ); ?>"><?php the_title(); ?></a> <?php _e( 'uploaded on', 'import-users-from-csv-with-meta' ) . ' ' . $date; ?> <input type="button" value="<?php _e( 'Delete', 'import-users-from-csv-with-meta' ); ?>" class="delete_attachment" attach_id="<?php the_ID(); ?>" /></li>
+		    		<?php endwhile; ?>
+		    		<?php wp_reset_postdata(); ?>
+		    	</ul>
+		        <div style="clear:both;"></div>
+		    </div>
+		</div>
+		<?php endif;
 	}
 }
