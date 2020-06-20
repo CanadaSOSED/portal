@@ -12,12 +12,12 @@
  * @since 3.5.0
  */
 abstract class WP_Image_Editor {
-	protected $file = null;
-	protected $size = null;
-	protected $mime_type = null;
+	protected $file              = null;
+	protected $size              = null;
+	protected $mime_type         = null;
 	protected $default_mime_type = 'image/jpeg';
-	protected $quality = false;
-	protected $default_quality = 82;
+	protected $quality           = false;
+	protected $default_quality   = 82;
 
 	/**
 	 * Each instance handles a single file.
@@ -30,12 +30,10 @@ abstract class WP_Image_Editor {
 
 	/**
 	 * Checks to see if current environment supports the editor chosen.
-	 * Must be overridden in a sub-class.
+	 * Must be overridden in a subclass.
 	 *
 	 * @since 3.5.0
 	 *
-	 * @static
-	 * @access public
 	 * @abstract
 	 *
 	 * @param array $args
@@ -47,12 +45,10 @@ abstract class WP_Image_Editor {
 
 	/**
 	 * Checks to see if editor supports the mime-type specified.
-	 * Must be overridden in a sub-class.
+	 * Must be overridden in a subclass.
 	 *
 	 * @since 3.5.0
 	 *
-	 * @static
-	 * @access public
 	 * @abstract
 	 *
 	 * @param string $mime_type
@@ -66,7 +62,6 @@ abstract class WP_Image_Editor {
 	 * Loads image from $this->file into editor.
 	 *
 	 * @since 3.5.0
-	 * @access protected
 	 * @abstract
 	 *
 	 * @return bool|WP_Error True if loaded; WP_Error on failure.
@@ -77,7 +72,6 @@ abstract class WP_Image_Editor {
 	 * Saves current image to file.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 * @abstract
 	 *
 	 * @param string $destfilename
@@ -94,7 +88,6 @@ abstract class WP_Image_Editor {
 	 * maintain aspect ratio according to the provided dimension.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 * @abstract
 	 *
 	 * @param  int|null $max_w Image width.
@@ -108,7 +101,6 @@ abstract class WP_Image_Editor {
 	 * Resize multiple images from a single source.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 * @abstract
 	 *
 	 * @param array $sizes {
@@ -128,7 +120,6 @@ abstract class WP_Image_Editor {
 	 * Crops Image.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 * @abstract
 	 *
 	 * @param int $src_x The start x position to crop from.
@@ -146,7 +137,6 @@ abstract class WP_Image_Editor {
 	 * Rotates current image counter-clockwise by $angle.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 * @abstract
 	 *
 	 * @param float $angle
@@ -158,7 +148,6 @@ abstract class WP_Image_Editor {
 	 * Flips current image.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 * @abstract
 	 *
 	 * @param bool $horz Flip along Horizontal Axis
@@ -171,11 +160,10 @@ abstract class WP_Image_Editor {
 	 * Streams current image to browser.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 * @abstract
 	 *
-	 * @param string $mime_type
-	 * @return bool|WP_Error
+	 * @param string $mime_type The mime type of the image.
+	 * @return bool|WP_Error True on success, WP_Error object or false on failure.
 	 */
 	abstract public function stream( $mime_type = null );
 
@@ -183,9 +171,13 @@ abstract class WP_Image_Editor {
 	 * Gets dimensions of image.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 *
-	 * @return array {'width'=>int, 'height'=>int}
+	 * @return array {
+	 *     Dimensions of the image.
+	 *
+	 *     @type int $width  The image width.
+	 *     @type int $height The image height.
+	 * }
 	 */
 	public function get_size() {
 		return $this->size;
@@ -195,7 +187,6 @@ abstract class WP_Image_Editor {
 	 * Sets current image size.
 	 *
 	 * @since 3.5.0
-	 * @access protected
 	 *
 	 * @param int $width
 	 * @param int $height
@@ -203,8 +194,8 @@ abstract class WP_Image_Editor {
 	 */
 	protected function update_size( $width = null, $height = null ) {
 		$this->size = array(
-			'width' => (int) $width,
-			'height' => (int) $height
+			'width'  => (int) $width,
+			'height' => (int) $height,
 		);
 		return true;
 	}
@@ -213,7 +204,6 @@ abstract class WP_Image_Editor {
 	 * Gets the Image Compression quality on a 1-100% scale.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 *
 	 * @return int $quality Compression Quality. Range: [1,100]
 	 */
@@ -229,7 +219,6 @@ abstract class WP_Image_Editor {
 	 * Sets Image Compression quality on a 1-100% scale.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 *
 	 * @param int $quality Compression Quality. Range: [1,100]
 	 * @return true|WP_Error True if set successfully; WP_Error on failure.
@@ -285,7 +274,7 @@ abstract class WP_Image_Editor {
 			$this->quality = $quality;
 			return true;
 		} else {
-			return new WP_Error( 'invalid_image_quality', __('Attempted to set image quality outside of the range [1,100].') );
+			return new WP_Error( 'invalid_image_quality', __( 'Attempted to set image quality outside of the range [1,100].' ) );
 		}
 	}
 
@@ -298,7 +287,6 @@ abstract class WP_Image_Editor {
 	 * Provides corrected filename only if filename is provided.
 	 *
 	 * @since 3.5.0
-	 * @access protected
 	 *
 	 * @param string $filename
 	 * @param string $mime_type
@@ -307,26 +295,25 @@ abstract class WP_Image_Editor {
 	protected function get_output_format( $filename = null, $mime_type = null ) {
 		$new_ext = null;
 
-		// By default, assume specified type takes priority
+		// By default, assume specified type takes priority.
 		if ( $mime_type ) {
 			$new_ext = $this->get_extension( $mime_type );
 		}
 
 		if ( $filename ) {
-			$file_ext = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
+			$file_ext  = strtolower( pathinfo( $filename, PATHINFO_EXTENSION ) );
 			$file_mime = $this->get_mime_type( $file_ext );
-		}
-		else {
+		} else {
 			// If no file specified, grab editor's current extension and mime-type.
-			$file_ext = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
+			$file_ext  = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
 			$file_mime = $this->mime_type;
 		}
 
 		// Check to see if specified mime-type is the same as type implied by
-		// file extension.  If so, prefer extension from file.
+		// file extension. If so, prefer extension from file.
 		if ( ! $mime_type || ( $file_mime == $mime_type ) ) {
 			$mime_type = $file_mime;
-			$new_ext = $file_ext;
+			$new_ext   = $file_ext;
 		}
 
 		// Double-check that the mime-type selected is supported by the editor.
@@ -342,7 +329,7 @@ abstract class WP_Image_Editor {
 			 * @param string $mime_type Mime type string.
 			 */
 			$mime_type = apply_filters( 'image_editor_default_mime_type', $this->default_mime_type );
-			$new_ext = $this->get_extension( $mime_type );
+			$new_ext   = $this->get_extension( $mime_type );
 		}
 
 		if ( $filename ) {
@@ -359,7 +346,6 @@ abstract class WP_Image_Editor {
 	 * Builds an output filename based on current file, and adding proper suffix
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 *
 	 * @param string $suffix
 	 * @param string $dest_path
@@ -367,18 +353,23 @@ abstract class WP_Image_Editor {
 	 * @return string filename
 	 */
 	public function generate_filename( $suffix = null, $dest_path = null, $extension = null ) {
-		// $suffix will be appended to the destination filename, just before the extension
-		if ( ! $suffix )
+		// $suffix will be appended to the destination filename, just before the extension.
+		if ( ! $suffix ) {
 			$suffix = $this->get_suffix();
+		}
 
-		$dir  = pathinfo( $this->file, PATHINFO_DIRNAME );
-		$ext  = pathinfo( $this->file, PATHINFO_EXTENSION );
+		$dir = pathinfo( $this->file, PATHINFO_DIRNAME );
+		$ext = pathinfo( $this->file, PATHINFO_EXTENSION );
 
-		$name = wp_basename( $this->file, ".$ext" );
+		$name    = wp_basename( $this->file, ".$ext" );
 		$new_ext = strtolower( $extension ? $extension : $ext );
 
-		if ( ! is_null( $dest_path ) && $_dest_path = realpath( $dest_path ) )
-			$dir = $_dest_path;
+		if ( ! is_null( $dest_path ) ) {
+			$_dest_path = realpath( $dest_path );
+			if ( $_dest_path ) {
+				$dir = $_dest_path;
+			}
+		}
 
 		return trailingslashit( $dir ) . "{$name}-{$suffix}.{$new_ext}";
 	}
@@ -387,22 +378,99 @@ abstract class WP_Image_Editor {
 	 * Builds and returns proper suffix for file based on height and width.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 *
-	 * @return false|string suffix
+	 * @return string|false suffix
 	 */
 	public function get_suffix() {
-		if ( ! $this->get_size() )
+		if ( ! $this->get_size() ) {
 			return false;
+		}
 
 		return "{$this->size['width']}x{$this->size['height']}";
+	}
+
+	/**
+	 * Check if a JPEG image has EXIF Orientation tag and rotate it if needed.
+	 *
+	 * @since 5.3.0
+	 *
+	 * @return bool|WP_Error True if the image was rotated. False if not rotated (no EXIF data or the image doesn't need to be rotated).
+	 *                       WP_Error if error while rotating.
+	 */
+	public function maybe_exif_rotate() {
+		$orientation = null;
+
+		if ( is_callable( 'exif_read_data' ) && 'image/jpeg' === $this->mime_type ) {
+			$exif_data = @exif_read_data( $this->file );
+
+			if ( ! empty( $exif_data['Orientation'] ) ) {
+				$orientation = (int) $exif_data['Orientation'];
+			}
+		}
+
+		/**
+		 * Filters the `$orientation` value to correct it before rotating or to prevemnt rotating the image.
+		 *
+		 * @since 5.3.0
+		 *
+		 * @param int    $orientation EXIF Orientation value as retrieved from the image file.
+		 * @param string $file        Path to the image file.
+		 */
+		$orientation = apply_filters( 'wp_image_maybe_exif_rotate', $orientation, $this->file );
+
+		if ( ! $orientation || 1 === $orientation ) {
+			return false;
+		}
+
+		switch ( $orientation ) {
+			case 2:
+				// Flip horizontally.
+				$result = $this->flip( true, false );
+				break;
+			case 3:
+				// Rotate 180 degrees or flip horizontally and vertically.
+				// Flipping seems faster and uses less resources.
+				$result = $this->flip( true, true );
+				break;
+			case 4:
+				// Flip vertically.
+				$result = $this->flip( false, true );
+				break;
+			case 5:
+				// Rotate 90 degrees counter-clockwise and flip vertically.
+				$result = $this->rotate( 90 );
+
+				if ( ! is_wp_error( $result ) ) {
+					$result = $this->flip( false, true );
+				}
+
+				break;
+			case 6:
+				// Rotate 90 degrees clockwise (270 counter-clockwise).
+				$result = $this->rotate( 270 );
+				break;
+			case 7:
+				// Rotate 90 degrees counter-clockwise and flip horizontally.
+				$result = $this->rotate( 90 );
+
+				if ( ! is_wp_error( $result ) ) {
+					$result = $this->flip( true, false );
+				}
+
+				break;
+			case 8:
+				// Rotate 90 degrees counter-clockwise.
+				$result = $this->rotate( 90 );
+				break;
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Either calls editor's save function or handles file as a stream.
 	 *
 	 * @since 3.5.0
-	 * @access protected
 	 *
 	 * @param string|stream $filename
 	 * @param callable $function
@@ -410,7 +478,8 @@ abstract class WP_Image_Editor {
 	 * @return bool
 	 */
 	protected function make_image( $filename, $function, $arguments ) {
-		if ( $stream = wp_is_stream( $filename ) ) {
+		$stream = wp_is_stream( $filename );
+		if ( $stream ) {
 			ob_start();
 		} else {
 			// The directory containing the original file may no longer exist when using a replication plugin.
@@ -424,8 +493,10 @@ abstract class WP_Image_Editor {
 
 			$fp = fopen( $filename, 'w' );
 
-			if ( ! $fp )
+			if ( ! $fp ) {
+				ob_end_clean();
 				return false;
+			}
 
 			fwrite( $fp, $contents );
 			fclose( $fp );
@@ -444,22 +515,20 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @static
-	 * @access protected
-	 *
 	 * @param string $extension
 	 * @return string|false
 	 */
 	protected static function get_mime_type( $extension = null ) {
-		if ( ! $extension )
+		if ( ! $extension ) {
 			return false;
+		}
 
 		$mime_types = wp_get_mime_types();
 		$extensions = array_keys( $mime_types );
 
 		foreach ( $extensions as $_extension ) {
 			if ( preg_match( "/{$extension}/i", $_extension ) ) {
-				return $mime_types[$_extension];
+				return $mime_types[ $_extension ];
 			}
 		}
 
@@ -472,17 +541,15 @@ abstract class WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @static
-	 * @access protected
-	 *
 	 * @param string $mime_type
 	 * @return string|false
 	 */
 	protected static function get_extension( $mime_type = null ) {
 		$extensions = explode( '|', array_search( $mime_type, wp_get_mime_types() ) );
 
-		if ( empty( $extensions[0] ) )
+		if ( empty( $extensions[0] ) ) {
 			return false;
+		}
 
 		return $extensions[0];
 	}

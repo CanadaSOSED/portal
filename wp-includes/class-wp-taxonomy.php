@@ -17,7 +17,6 @@ final class WP_Taxonomy {
 	 * Taxonomy key.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $name;
@@ -26,25 +25,27 @@ final class WP_Taxonomy {
 	 * Name of the taxonomy shown in the menu. Usually plural.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $label;
 
 	/**
-	 * An array of labels for this taxonomy.
+	 * Labels object for this taxonomy.
+	 *
+	 * If not set, tag labels are inherited for non-hierarchical types
+	 * and category labels for hierarchical ones.
+	 *
+	 * @see get_taxonomy_labels()
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var object
 	 */
-	public $labels = array();
+	public $labels;
 
 	/**
 	 * A short descriptive summary of what the taxonomy is for.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $description = '';
@@ -53,7 +54,6 @@ final class WP_Taxonomy {
 	 * Whether a taxonomy is intended for use publicly either via the admin interface or by front-end users.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $public = true;
@@ -62,7 +62,6 @@ final class WP_Taxonomy {
 	 * Whether the taxonomy is publicly queryable.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $publicly_queryable = true;
@@ -71,7 +70,6 @@ final class WP_Taxonomy {
 	 * Whether the taxonomy is hierarchical.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $hierarchical = false;
@@ -80,7 +78,6 @@ final class WP_Taxonomy {
 	 * Whether to generate and allow a UI for managing terms in this taxonomy in the admin.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $show_ui = true;
@@ -91,7 +88,6 @@ final class WP_Taxonomy {
 	 * If true, the taxonomy is shown as a submenu of the object type menu. If false, no menu is shown.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $show_in_menu = true;
@@ -100,7 +96,6 @@ final class WP_Taxonomy {
 	 * Whether the taxonomy is available for selection in navigation menus.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $show_in_nav_menus = true;
@@ -109,7 +104,6 @@ final class WP_Taxonomy {
 	 * Whether to list the taxonomy in the tag cloud widget controls.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $show_tagcloud = true;
@@ -118,7 +112,6 @@ final class WP_Taxonomy {
 	 * Whether to show the taxonomy in the quick/bulk edit panel.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $show_in_quick_edit = true;
@@ -127,7 +120,6 @@ final class WP_Taxonomy {
 	 * Whether to display a column for the taxonomy on its post type listing screens.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $show_admin_column = false;
@@ -136,16 +128,22 @@ final class WP_Taxonomy {
 	 * The callback function for the meta box display.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool|callable
 	 */
 	public $meta_box_cb = null;
 
 	/**
+	 * The callback function for sanitizing taxonomy data saved from a meta box.
+	 *
+	 * @since 5.1.0
+	 * @var callable
+	 */
+	public $meta_box_sanitize_cb = null;
+
+	/**
 	 * An array of object types this taxonomy is registered for.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var array
 	 */
 	public $object_type = null;
@@ -154,8 +152,7 @@ final class WP_Taxonomy {
 	 * Capabilities for this taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
-	 * @var array
+	 * @var object
 	 */
 	public $cap;
 
@@ -163,7 +160,6 @@ final class WP_Taxonomy {
 	 * Rewrites information for this taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var array|false
 	 */
 	public $rewrite;
@@ -172,7 +168,6 @@ final class WP_Taxonomy {
 	 * Query var string for this taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string|false
 	 */
 	public $query_var;
@@ -181,7 +176,6 @@ final class WP_Taxonomy {
 	 * Function that will be called when the count is updated.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var callable
 	 */
 	public $update_count_callback;
@@ -193,7 +187,6 @@ final class WP_Taxonomy {
 	 * respect to $rest_base and $rest_controller_class.
 	 *
 	 * @since 4.7.4
-	 * @access public
 	 * @var bool $show_in_rest
 	 */
 	public $show_in_rest;
@@ -202,7 +195,6 @@ final class WP_Taxonomy {
 	 * The base path for this taxonomy's REST API endpoints.
 	 *
 	 * @since 4.7.4
-	 * @access public
 	 * @var string|bool $rest_base
 	 */
 	public $rest_base;
@@ -213,7 +205,6 @@ final class WP_Taxonomy {
 	 * Custom controllers must extend WP_REST_Controller.
 	 *
 	 * @since 4.7.4
-	 * @access public
 	 * @var string|bool $rest_controller_class
 	 */
 	public $rest_controller_class;
@@ -222,7 +213,6 @@ final class WP_Taxonomy {
 	 * Whether it is a built-in taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $_builtin;
@@ -231,9 +221,8 @@ final class WP_Taxonomy {
 	 * Constructor.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
-	 * @global WP $wp WP instance.
+	 * @global WP $wp Current WordPress environment instance.
 	 *
 	 * @param string       $taxonomy    Taxonomy key, must not exceed 32 characters.
 	 * @param array|string $object_type Name of the object type for the taxonomy object.
@@ -250,7 +239,6 @@ final class WP_Taxonomy {
 	 * Sets taxonomy properties.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param array|string $object_type Name of the object type for the taxonomy object.
 	 * @param array|string $args        Array or query string of arguments for registering a taxonomy.
@@ -263,9 +251,9 @@ final class WP_Taxonomy {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array  $args        Array of arguments for registering a taxonomy.
-		 * @param string $taxonomy    Taxonomy key.
-		 * @param array  $object_type Array of names of object types for the taxonomy.
+		 * @param array    $args        Array of arguments for registering a taxonomy.
+		 * @param string   $taxonomy    Taxonomy key.
+		 * @param string[] $object_type Array of names of object types for the taxonomy.
 		 */
 		$args = apply_filters( 'register_taxonomy_args', $args, $this->name, (array) $object_type );
 
@@ -282,6 +270,7 @@ final class WP_Taxonomy {
 			'show_in_quick_edit'    => null,
 			'show_admin_column'     => false,
 			'meta_box_cb'           => null,
+			'meta_box_sanitize_cb'  => null,
 			'capabilities'          => array(),
 			'rewrite'               => true,
 			'query_var'             => $this->name,
@@ -294,7 +283,7 @@ final class WP_Taxonomy {
 
 		$args = array_merge( $defaults, $args );
 
-		// If not set, default to the setting for public.
+		// If not set, default to the setting for 'public'.
 		if ( null === $args['publicly_queryable'] ) {
 			$args['publicly_queryable'] = $args['public'];
 		}
@@ -306,43 +295,46 @@ final class WP_Taxonomy {
 				$args['query_var'] = sanitize_title_with_dashes( $args['query_var'] );
 			}
 		} else {
-			// Force query_var to false for non-public taxonomies.
+			// Force 'query_var' to false for non-public taxonomies.
 			$args['query_var'] = false;
 		}
 
 		if ( false !== $args['rewrite'] && ( is_admin() || '' != get_option( 'permalink_structure' ) ) ) {
-			$args['rewrite'] = wp_parse_args( $args['rewrite'], array(
-				'with_front'   => true,
-				'hierarchical' => false,
-				'ep_mask'      => EP_NONE,
-			) );
+			$args['rewrite'] = wp_parse_args(
+				$args['rewrite'],
+				array(
+					'with_front'   => true,
+					'hierarchical' => false,
+					'ep_mask'      => EP_NONE,
+				)
+			);
 
 			if ( empty( $args['rewrite']['slug'] ) ) {
 				$args['rewrite']['slug'] = sanitize_title_with_dashes( $this->name );
 			}
 		}
 
-		// If not set, default to the setting for public.
+		// If not set, default to the setting for 'public'.
 		if ( null === $args['show_ui'] ) {
 			$args['show_ui'] = $args['public'];
 		}
 
-		// If not set, default to the setting for show_ui.
+		// If not set, default to the setting for 'show_ui'.
 		if ( null === $args['show_in_menu'] || ! $args['show_ui'] ) {
 			$args['show_in_menu'] = $args['show_ui'];
 		}
 
-		// If not set, default to the setting for public.
+		// If not set, default to the setting for 'public'.
 		if ( null === $args['show_in_nav_menus'] ) {
 			$args['show_in_nav_menus'] = $args['public'];
 		}
 
-		// If not set, default to the setting for show_ui.
+		// If not set, default to the setting for 'show_ui'.
 		if ( null === $args['show_tagcloud'] ) {
 			$args['show_tagcloud'] = $args['show_ui'];
 		}
 
-		// If not set, default to the setting for show_ui.
+		// If not set, default to the setting for 'show_ui'.
 		if ( null === $args['show_in_quick_edit'] ) {
 			$args['show_in_quick_edit'] = $args['show_ui'];
 		}
@@ -359,7 +351,7 @@ final class WP_Taxonomy {
 
 		$args['object_type'] = array_unique( (array) $object_type );
 
-		// If not set, use the default meta box
+		// If not set, use the default meta box.
 		if ( null === $args['meta_box_cb'] ) {
 			if ( $args['hierarchical'] ) {
 				$args['meta_box_cb'] = 'post_categories_meta_box';
@@ -370,19 +362,32 @@ final class WP_Taxonomy {
 
 		$args['name'] = $this->name;
 
+		// Default meta box sanitization callback depends on the value of 'meta_box_cb'.
+		if ( null === $args['meta_box_sanitize_cb'] ) {
+			switch ( $args['meta_box_cb'] ) {
+				case 'post_categories_meta_box':
+					$args['meta_box_sanitize_cb'] = 'taxonomy_meta_box_sanitize_cb_checkboxes';
+					break;
+
+				case 'post_tags_meta_box':
+				default:
+					$args['meta_box_sanitize_cb'] = 'taxonomy_meta_box_sanitize_cb_input';
+					break;
+			}
+		}
+
 		foreach ( $args as $property_name => $property_value ) {
 			$this->$property_name = $property_value;
 		}
 
 		$this->labels = get_taxonomy_labels( $this );
-		$this->label = $this->labels->name;
+		$this->label  = $this->labels->name;
 	}
 
 	/**
 	 * Adds the necessary rewrite rules for the taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @global WP $wp Current WordPress environment instance.
 	 */
@@ -411,7 +416,6 @@ final class WP_Taxonomy {
 	 * Removes any rewrite rules, permastructs, and rules for the taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @global WP $wp Current WordPress environment instance.
 	 */
@@ -435,7 +439,6 @@ final class WP_Taxonomy {
 	 * Registers the ajax callback for the meta box.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 */
 	public function add_hooks() {
 		add_filter( 'wp_ajax_add-' . $this->name, '_wp_ajax_add_hierarchical_term' );
@@ -445,7 +448,6 @@ final class WP_Taxonomy {
 	 * Removes the ajax callback for the meta box.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 */
 	public function remove_hooks() {
 		remove_filter( 'wp_ajax_add-' . $this->name, '_wp_ajax_add_hierarchical_term' );
