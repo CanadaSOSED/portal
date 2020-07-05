@@ -24,7 +24,7 @@ class WPGens_RAF_Product {
         $tabs_hide = apply_filters('wpgens_raf_tab_disable',get_option( 'gens_raf_tabs_disable' ));
         if($tabs_hide !== TRUE && $tabs_hide !== "yes") {
             $tabs['refer_tab'] = array(
-                'title'     => __( 'Refer to a friend', 'gens-raf' ),
+                'title'     => apply_filters("gens_raf_tab_title", __( 'Refer a Friend', 'gens-raf' )),
                 'priority'  => 40,
                 'callback'  => array($this,'raf_product_tab_content')
             );          
@@ -39,12 +39,18 @@ class WPGens_RAF_Product {
         $guest_text  = __(get_option( 'gens_raf_guest_text' ),'gens-raf');
         $title       = __(get_option( 'gens_raf_twitter_title' ),'gens-raf');
         $twitter_via = __(get_option( 'gens_raf_twitter_via' ),'gens-raf');
+        $email_hide  = get_option( 'gens_raf_email_hide' );
+        $linkedin     = get_option( 'gens_raf_linkedin' );
+        $pinterest     = get_option( 'gens_raf_pinterest' );
+        $whatsapp     = get_option( 'gens_raf_whatsapp' );
 
         $template_path  = WPGens_RAF::get_template_path('product-tab.php','',TRUE);
         $rafLink        = $this->get_referral_link();
         
         $referral_code  = get_option( 'gens_raf_referral_codes' );
         $raf_id         = $this->get_referral_id();
+        $allow_guests   = get_option( 'gens_raf_allow_guests' );
+        $guest_cookie_class   = isset($_COOKIE['gens_raf_guest']) && $allow_guests === "yes" ? "guest_cookie_true" : "guest_cookie_false";
 
         if (!is_readable($template_path)) {
             return sprintf('<!-- Could not read "%s" file -->', $template_path);
@@ -70,6 +76,3 @@ class WPGens_RAF_Product {
     }
 
 }
-
-
-$wpgens_raf_product = new WPGens_RAF_Product();

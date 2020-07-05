@@ -2,8 +2,8 @@
 Contributors: wpgens
 Tags: refer a friend, refer, referral, woocommerce, ecommerce, affiliate, referral marketing,reward, sponsors, sponsorship
 Requires at least: 4.4
-Tested up to: 4.9
-Stable tag: 2.0.8
+Tested up to: 5.4
+Stable tag: 2.3.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,108 @@ As with our other plugins, refer a friend is coded with best practice, it is sup
 == Screenshots ==
 
 == Changelog ==
+
+= 2.3.11 =
+* Better WPML support
+* WhatsApp guest share fix
+* Buyer email subject fix
+* Minor coupon issue fixed
+* Fix empty referrals applied on subscription renewals.
+* Added button to remove email field
+* Fix for number of referrals per screen
+* Fix events timezone.
+
+= 2.3.10 =
+* Support for Aelia currency switcher for minimum order amount.
+* Missing raf link bug fix.
+
+= 2.3.9 =
+* Security update
+* Change in woo subscription, ability to disable shipping costs when applying on automatic subscription.
+
+= 2.3.8 =
+* Guests can no longer keep using same referral code to get a discount on the same email address. 
+
+= 2.3.7 =
+* Exclude sales item for coupon codes
+* Japanese translation
+
+= 2.3.6 =
+* Fixed issue with referrals not showing even if checkbox to hide the ones with zero order is not checked.
+* Notice error removed.
+
+= 2.3.5 =
+* Added option to disable referral codes for users without orders.
+* Prevent the use of false emails to get guest discounts.
+
+= 2.3.4 =
+* Fixed minimum amount required when applying coupon manually.
+
+= 2.3.3 =
+* WhatsApp share link fix.
+
+= 2.3.2 =
+* Disable sending of emails via option under emails tab.
+* Urgent fix for manually added referral codes.
+
+= 2.3.1 =
+* Manually add referral code for past orders
+* Updated pot file with new translatable strings
+* Few bugs fixed regarding the new event system
+
+= 2.3.0 =
+* New Raf Events system.
+* Added more social share options
+
+= 2.2.5 =
+* New filter for points rewards plugin and a filter to disable showing of referral code per user role.
+
+= 2.2.4 =
+* Fix send email button for guest users
+
+= 2.2.3 =
+* Fix notice for Contact Form 7 shortcode
+
+= 2.2.1 - 2.2.2 =
+* Couple of small errors fixed after 2.2 update.
+
+= 2.2.0 =
+* FEATURE: Guests referral. A user does not need to be registered user to refer anymore, guests can refer now as well.
+* FEATURE: Make sure email is valid when inviting via email.
+* FEATURE: Export all referrals as CSV under Woocommerce -> Refer a friend data screen.
+* FEATURE: WooCommerce Points & Rewards plugin is now fully supported, you can choose how many points user will earn when he is referring a friend. 
+* Critical fix: User could use both referral link and referral code in some cases.
+* Support for latest Contact form 7 version.
+* Optimization for checkout email field
+* Templates have been updated to 2.2.0., please update them.
+
+= 2.1.1 =
+* Fix for referral codes, exclude bug fix
+* Added tab title filter.
+* Added new classes for custom styling for referral codes vs referral links.
+* Fix for referral codes applied on cart/checkout.
+* Fix header notice on checkout, 
+* Fix issue of guest coupons when using referral codes instead of links, he was able to use code multiple times even tho he was registered user.
+
+
+= 2.1.0 =
+* Option to hide share via email.
+* Better UX on share via email, inputs are reappearing after sending emails.
+* Added a free shipping option for a coupon
+* Added a new filter to enable coupon types created by other plugins
+* Translation updates.
+* Fall back to "Your Friend", when user does not have first and last name and invites friends. 
+* Filter to easly change coupon generation to other order status than completed.
+* Added action that runs after sending referral email.
+* Subscription - option to spend all coupons at once.
+* Added support for popup maker
+* Contact Form 7 - bug fix.
+* Small bug fixes
+* Update to templates.
+
+= 2.0.9 =
+* Subscription renewal, fix a renewal bug.
+* Click to copy is now available. Update your templates. Clear site cache.
 
 = 2.0.8 =
 * Minimum order bug fixed

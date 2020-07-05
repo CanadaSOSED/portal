@@ -18,9 +18,13 @@ class Gens_RAF_Activator {
 	 * @since 2.0.0
 	 */
 	public static function activate() {
+        // Install DB Tables
+        $dbs = new WPGens_RAF_DB();
+        $dbs->raf_create_db_table();
+        // Add Referal Tab at My Account Page
 		add_rewrite_endpoint( 'myreferrals', EP_PAGES );
 		flush_rewrite_rules();
-		self::set_default_options();
+        self::set_default_options();
 	}
 
 	/**

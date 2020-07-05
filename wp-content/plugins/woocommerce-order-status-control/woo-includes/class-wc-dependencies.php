@@ -1,4 +1,5 @@
 <?php
+
 /**
  * WC Dependency Checker
  *

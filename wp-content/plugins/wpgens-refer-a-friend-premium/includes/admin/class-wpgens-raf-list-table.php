@@ -9,10 +9,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if(!class_exists('WP_List_Table')){
-   require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
+include_once( WPGENS_RAF_ABSPATH . 'includes/extensions/wplisttable-csv-export/src/WPGensGamajoTemplateLoader.php' );
+include_once( WPGENS_RAF_ABSPATH . 'includes/extensions/wplisttable-csv-export/src/WPGensTemplateLoader.php' );
+include_once( WPGENS_RAF_ABSPATH . 'includes/extensions/wplisttable-csv-export/src/WPGensWpListTableExportable.php' );
+include_once( WPGENS_RAF_ABSPATH . 'includes/extensions/wplisttable-csv-export/bootstrap.php' );
 
-class RAF_List_Table extends WP_List_Table {
+
+class RAF_List_Table extends WPGensWpListTableExportable {
 
 	/**
 	 * Initialize the class and set its properties.
@@ -77,7 +82,7 @@ class RAF_List_Table extends WP_List_Table {
 
 		switch ( $column_name ) {
 			case 'status':
-				return $order->get_status();
+				return wc_get_order_status_name($order->get_status());
 				break;
 			case 'ID':
 				$return = "<a href='".get_edit_post_link( $item->ID )."'>#".$item->ID."</a> by ";
@@ -95,8 +100,10 @@ class RAF_List_Table extends WP_List_Table {
 					$referralID = get_post_meta( $order->get_id(), '_raf_id', true );					
 				} else {
 					$referralID = get_post_meta( $order->id, '_raf_id', true );
-				}
-				if (!empty($referralID)) {
+                }
+                if(filter_var($referralID, FILTER_VALIDATE_EMAIL)) {
+                    return "<a target='_blank' href='mailto:".$referralID."'>".$referralID."</a>";
+                } else if (!empty($referralID)) {
 					$args = array('meta_key' => "gens_referral_id", 'meta_value' => $referralID );
 					$user = get_users($args);
 					return "<a href='".get_edit_user_link( $user[0]->ID )."'>".$user[0]->display_name."</a>";					
@@ -115,7 +122,7 @@ class RAF_List_Table extends WP_List_Table {
 
 	function prepare_items() {
 
-		$posts = $this->get_customers();
+        $posts = $this->get_customers();
 		// Lets filter here instead with meta query which is super slow.
 		$filtered_posts = array();
 		foreach ($posts as $single_post) {
@@ -129,7 +136,15 @@ class RAF_List_Table extends WP_List_Table {
 			}
 		}
 
-		$per_page = 10;
+		// Per page from screen option:
+		$user = get_current_user_id();
+		$screen = get_current_screen();
+		$screen_option = $screen->get_option('per_page', 'option');
+		$per_page = get_user_meta($user, $screen_option, true);
+		if ( empty ( $per_page) || $per_page < 1 ) {
+			$per_page = 20;
+		}
+
 		$current_page = $this->get_pagenum();
 		$total_items = count($filtered_posts);
 
@@ -139,15 +154,24 @@ class RAF_List_Table extends WP_List_Table {
 	    $this->_column_headers = array($columns, $hidden, $sortable);
 	    $this->process_bulk_action();
 		
-		$filtered_posts = array_slice($filtered_posts,(($current_page-1)*$per_page),$per_page);
+        if($total_items == 0) {
+            $this->set_pagination_args( array (
+                'total_items' => 0,
+                'per_page'    => 20,
+                'total_pages' => 0
+            ) );
+            $this->items = array();
+        } else {
+		    $this->set_pagination_args( array (
+		        'total_items' => $total_items,
+		        'per_page'    => (int)$per_page,
+		        'total_pages' => ceil( (int)$total_items / (int)$per_page )
+		    ) );
 
-	    $this->set_pagination_args( array (
-	        'total_items' => $total_items,
-	        'per_page'    => $per_page,
-	        'total_pages' => ceil( $total_items / $per_page )
-	    ) );
+		    $this->items = array_slice($filtered_posts,(((int)$current_page-1)*(int)$per_page),(int)$per_page);
+            ;        	
+        }
 
-	    $this->items = $filtered_posts;
 	}
 
 }

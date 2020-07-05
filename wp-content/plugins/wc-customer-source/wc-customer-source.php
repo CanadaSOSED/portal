@@ -3,11 +3,11 @@
  * Plugin Name:			Where Did You Hear About Us Checkout Field for WooCommerce
  * Plugin URI:			http://wooassist.com/
  * Description:			Adds a custom field in the checkout page to ask the custom where they've heard about your store.
- * Version:				1.0.1
+ * Version:				1.1.2
  * Author:				Wooassist
  * Author URI:			http://wooassist.com/
  * Requires at least:	4.0.0
- * Tested up to:		4.9.2
+ * Tested up to:		5.2.1
  *
  * Text Domain: wc-customer-source
  * Domain Path: /languages/
@@ -161,9 +161,11 @@ final class WC_Customer_Source {
 	 */
 	public function plugin_links( $links ) {
 		$plugin_links = array(
-			'<a href="' . admin_url('admin.php?page=wc-reports&tab=customer_source&report=customer_source_report') . '">' . __( 'View Report', 'wc-customer-source' ) . '</a>',
-			'<a href="' . admin_url('admin.php?page=wc-reports&tab=customer_source&report=customer_source_settings') . '">' . __( 'Settings', 'wc-customer-source' ) . '</a>',
-			'<a href="https://wordpress.org/support/plugin/wc-customer-source">' . __( 'Support', 'wc-customer-source' ) . '</a>',
+			'<a href="' . admin_url('admin.php?page=wc-reports&tab=customer_source&report=customer_source_report') . '">' . __( 'View report', 'woocommerce-admin' ) . '</a>',
+			'<a href="' . admin_url('admin.php?page=wc-reports&tab=customer_source&report=customer_source_settings') . '">' . __( 'Settings' ) . '</a>',
+			//@since  1.1.0
+			'<a href="' . admin_url('admin.php?page=wc-reports&tab=customer_source&report=customer_source_export') . '">' . __( 'Export' ) . '</a>',
+			'<a href="https://wordpress.org/support/plugin/wc-customer-source">' .__( 'Support' ) . '</a>',
 		);
 
 		return array_merge( $plugin_links, $links );
@@ -235,11 +237,11 @@ final class WC_Customer_Source {
 	 */
 	public function display_custom_field() {
 
-		$source_options = array( '' => 'select...' );
+		$source_options = array( '' =>  __( 'Select an option&hellip;', 'woocommerce' ) );
 		$source_options = array_merge( $source_options, (array) $this->settings['checkout_field_options'] );
 
 		if ( ! $this->settings['other_field_disable'] ) {
-			$source_options['other'] = __( 'Other', 'wc-customer-source' );
+			$source_options['other'] = __( 'Other', 'woocommerce-admin' );
 		}
 		?>
 		<div id="wc-customer-source">
@@ -346,16 +348,23 @@ final class WC_Customer_Source {
                  'title'         =>  __( 'Customer Source', 'wc-customer-source' ),
                  'reports'       =>  array(
                          'customer_source_report'  => array(
-                             'title'         => __( 'Report', 'wc-customer-source' ),
+                             'title'         =>  __( 'Reports', 'woocommerce' ),
                              'description'   => '',
                              'hide_title'    => true,
                              'callback'      => array( __CLASS__, 'display_report' )
                          ),
                          'customer_source_settings'  => array(
-                             'title'         => __( 'Settings', 'wc-customer-source' ),
+                             'title'         => __( 'Settings' ),
                              'description'   => '',
                              'hide_title'    => true,
                              'callback'      => array( __CLASS__, 'display_settings' )
+                         ),
+						 //@since  1.1.0
+					 	 'customer_source_export'  => array(
+                             'title'         => __( 'Export' ),
+                             'description'   => '',
+                             'hide_title'    => true,
+                             'callback'      => array( __CLASS__, 'display_export' )
                          ),
                  ),
 
@@ -393,5 +402,21 @@ final class WC_Customer_Source {
 		$settings = new WC_Customer_Source_Settings();
 		$settings->save_settings();
 		$settings->display_settings_page();
+     }
+	
+	/**
+	  * Display export
+	  *
+	  * @access public
+ 	  * @since 1.1.0
+ 	  * @return void
+	  */
+     public static function display_export() {
+
+		include_once( 'includes/wccs-admin-export.php' );
+
+		$settings = new WC_Customer_Source_Export();
+		$settings->export_data();
+		$settings->display_export_page();
      }
 } // End Class

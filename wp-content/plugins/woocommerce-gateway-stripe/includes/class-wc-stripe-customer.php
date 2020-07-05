@@ -30,12 +30,12 @@ class WC_Stripe_Customer {
 
 	/**
 	 * Constructor
-	 * @param integer $user_id
+	 * @param int $user_id The WP user ID
 	 */
 	public function __construct( $user_id = 0 ) {
 		if ( $user_id ) {
 			$this->set_user_id( $user_id );
-			$this->set_id( get_user_meta( $user_id, '_stripe_customer_id', true ) );
+			$this->set_id( $this->get_id_from_meta( $user_id ) );
 		}
 	}
 
@@ -52,6 +52,13 @@ class WC_Stripe_Customer {
 	 * @param [type] $id [description]
 	 */
 	public function set_id( $id ) {
+		// Backwards compat for customer ID stored in array format. (Pre 3.0)
+		if ( is_array( $id ) && isset( $id['customer_id'] ) ) {
+			$id = $id['customer_id'];
+
+			$this->update_id_in_meta( $id );
+		}
+
 		$this->id = wc_clean( $id );
 	}
 
@@ -87,33 +94,53 @@ class WC_Stripe_Customer {
 	}
 
 	/**
-	 * Get data from the Stripe API about this customer
+	 * Generates the customer request, used for both creating and updating customers.
+	 *
+	 * @param  array $args Additional arguments (optional).
+	 * @return array
 	 */
-	public function get_customer_data() {
-		if ( empty( $this->customer_data ) && $this->get_id() && false === ( $this->customer_data = get_transient( 'stripe_customer_' . $this->get_id() ) ) ) {
-			$response = WC_Stripe_API::request( array(), 'customers/' . $this->get_id() );
+	protected function generate_customer_request( $args = array() ) {
+		$billing_email = isset( $_POST['billing_email'] ) ? filter_var( $_POST['billing_email'], FILTER_SANITIZE_EMAIL ) : '';
+		$user          = $this->get_user();
 
-			if ( ! is_wp_error( $response ) ) {
-				$this->set_customer_data( $response );
-				set_transient( 'stripe_customer_' . $this->get_id(), $response, HOUR_IN_SECONDS * 48 );
+		if ( $user ) {
+			$billing_first_name = get_user_meta( $user->ID, 'billing_first_name', true );
+			$billing_last_name  = get_user_meta( $user->ID, 'billing_last_name', true );
+
+			// If billing first name does not exists try the user first name.
+			if ( empty( $billing_first_name ) ) {
+				$billing_first_name = get_user_meta( $user->ID, 'first_name', true );
 			}
+
+			// If billing last name does not exists try the user last name.
+			if ( empty( $billing_last_name ) ) {
+				$billing_last_name = get_user_meta( $user->ID, 'last_name', true );
+			}
+
+			// translators: %1$s First name, %2$s Second name, %3$s Username.
+			$description = sprintf( __( 'Name: %1$s %2$s, Username: %s', 'woocommerce-gateway-stripe' ), $billing_first_name, $billing_last_name, $user->user_login );
+
+			$defaults = array(
+				'email'       => $user->user_email,
+				'description' => $description,
+			);
+		} else {
+			$billing_first_name = isset( $_POST['billing_first_name'] ) ? filter_var( wp_unslash( $_POST['billing_first_name'] ), FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+			$billing_last_name  = isset( $_POST['billing_last_name'] ) ? filter_var( wp_unslash( $_POST['billing_last_name'] ), FILTER_SANITIZE_STRING ) : ''; // phpcs:ignore WordPress.Security.NonceVerification
+
+			// translators: %1$s First name, %2$s Second name.
+			$description = sprintf( __( 'Name: %1$s %2$s, Guest', 'woocommerce-gateway-stripe' ), $billing_first_name, $billing_last_name );
+
+			$defaults = array(
+				'email'       => $billing_email,
+				'description' => $description,
+			);
 		}
-		return $this->customer_data;
-	}
 
-	/**
-	 * Get default card/source
-	 * @return string
-	 */
-	public function get_default_card() {
-		$data   = $this->get_customer_data();
-		$source = '';
+		$metadata             = array();
+		$defaults['metadata'] = apply_filters( 'wc_stripe_customer_metadata', $metadata, $user );
 
-		if ( $data ) {
-			$source = $data->default_source;
-		}
-
-		return $source;
+		return wp_parse_args( $args, $defaults );
 	}
 
 	/**
@@ -122,32 +149,11 @@ class WC_Stripe_Customer {
 	 * @return WP_Error|int
 	 */
 	public function create_customer( $args = array() ) {
-		if ( $user = $this->get_user() ) {
-			$billing_first_name = get_user_meta( $user->ID, 'billing_first_name', true );
-			$billing_last_name  = get_user_meta( $user->ID, 'billing_last_name', true );
+		$args     = $this->generate_customer_request( $args );
+		$response = WC_Stripe_API::request( apply_filters( 'wc_stripe_create_customer_args', $args ), 'customers' );
 
-			$defaults = array(
-				'email'       => $user->user_email,
-				'description' => $billing_first_name . ' ' . $billing_last_name,
-			);
-		} else {
-			$defaults = array(
-				'email'       => '',
-				'description' => '',
-			);
-		}
-
-		$metadata = array();
-
-		$defaults['metadata'] = apply_filters( 'wc_stripe_customer_metadata', $metadata, $user );
-
-		$args     = wp_parse_args( $args, $defaults );
-		$response = WC_Stripe_API::request( $args, 'customers' );
-
-		if ( is_wp_error( $response ) ) {
-			return $response;
-		} elseif ( empty( $response->id ) ) {
-			return new WP_Error( 'stripe_error', __( 'Could not create Stripe customer.', 'woocommerce-gateway-stripe' ) );
+		if ( ! empty( $response->error ) ) {
+			throw new WC_Stripe_Exception( print_r( $response, true ), $response->error->message );
 		}
 
 		$this->set_id( $response->id );
@@ -155,7 +161,7 @@ class WC_Stripe_Customer {
 		$this->set_customer_data( $response );
 
 		if ( $this->get_user_id() ) {
-			update_user_meta( $this->get_user_id(), '_stripe_customer_id', $response->id );
+			$this->update_id_in_meta( $response->id );
 		}
 
 		do_action( 'woocommerce_stripe_add_customer', $args, $response );
@@ -164,99 +170,188 @@ class WC_Stripe_Customer {
 	}
 
 	/**
-	 * Add a card for this stripe customer.
-	 * @param string $token
-	 * @param bool $retry
-	 * @return WP_Error|int
+	 * Updates the Stripe customer through the API.
+	 *
+	 * @param array $args     Additional arguments for the request (optional).
+	 * @param bool  $is_retry Whether the current call is a retry (optional, defaults to false). If true, then an exception will be thrown instead of further retries on error.
+	 *
+	 * @return string Customer ID
+	 *
+	 * @throws WC_Stripe_Exception
 	 */
-	public function add_card( $token, $retry = true ) {
-		if ( ! $this->get_id() ) {
-			if ( ( $response = $this->create_customer() ) && is_wp_error( $response ) ) {
-				return $response;
-			}
+	public function update_customer( $args = array(), $is_retry = false ) {
+		if ( empty( $this->get_id() ) ) {
+			throw new WC_Stripe_Exception( 'id_required_to_update_user', __( 'Attempting to update a Stripe customer without a customer ID.', 'woocommerce-gateway-stripe' ) );
 		}
 
-		$response = WC_Stripe_API::request( array(
-			'source' => $token,
-		), 'customers/' . $this->get_id() . '/sources' );
+		$args     = $this->generate_customer_request( $args );
+		$args     = apply_filters( 'wc_stripe_update_customer_args', $args );
+		$response = WC_Stripe_API::request( $args, 'customers/' . $this->get_id() );
 
-		if ( is_wp_error( $response ) ) {
+		if ( ! empty( $response->error ) ) {
+			if ( $this->is_no_such_customer_error( $response->error ) && ! $is_retry ) {
+				// This can happen when switching the main Stripe account or importing users from another site.
+				// If not already retrying, recreate the customer and then try updating it again.
+				$this->recreate_customer();
+				return $this->update_customer( $args, true );
+			}
+
+			throw new WC_Stripe_Exception( print_r( $response, true ), $response->error->message );
+		}
+
+		$this->clear_cache();
+		$this->set_customer_data( $response );
+
+		do_action( 'woocommerce_stripe_update_customer', $args, $response );
+
+		return $this->get_id();
+	}
+
+	/**
+	 * Checks to see if error is of invalid request
+	 * error and it is no such customer.
+	 *
+	 * @since 4.1.2
+	 * @param array $error
+	 */
+	public function is_no_such_customer_error( $error ) {
+		return (
+			$error &&
+			'invalid_request_error' === $error->type &&
+			preg_match( '/No such customer/i', $error->message )
+		);
+	}
+
+	/**
+	 * Add a source for this stripe customer.
+	 * @param string $source_id
+	 * @return WP_Error|int
+	 */
+	public function add_source( $source_id ) {
+		if ( ! $this->get_id() ) {
+			$this->set_id( $this->create_customer() );
+		}
+
+		$response = WC_Stripe_API::request(
+			array(
+				'source' => $source_id,
+			),
+			'customers/' . $this->get_id() . '/sources'
+		);
+
+		$wc_token = false;
+
+		if ( ! empty( $response->error ) ) {
 			// It is possible the WC user once was linked to a customer on Stripe
 			// but no longer exists. Instead of failing, lets try to create a
 			// new customer.
-			if ( preg_match( '/No such customer:/', $response->get_error_message() ) ) {
-				delete_user_meta( $this->get_user_id(), '_stripe_customer_id' );
-				$this->create_customer();
-				return $this->add_card( $token, false );
-			} elseif ( 'customer' === $response->get_error_code() && $retry ) {
-				$this->create_customer();
-				return $this->add_card( $token, false );
+			if ( $this->is_no_such_customer_error( $response->error ) ) {
+				$this->recreate_customer();
+				return $this->add_source( $source_id );
 			} else {
 				return $response;
 			}
 		} elseif ( empty( $response->id ) ) {
-			return new WP_Error( 'error', __( 'Unable to add card', 'woocommerce-gateway-stripe' ) );
+			return new WP_Error( 'error', __( 'Unable to add payment source.', 'woocommerce-gateway-stripe' ) );
 		}
 
-		// Add token to WooCommerce
+		// Add token to WooCommerce.
 		if ( $this->get_user_id() && class_exists( 'WC_Payment_Token_CC' ) ) {
-			$token = new WC_Payment_Token_CC();
-			$token->set_token( $response->id );
-			$token->set_gateway_id( 'stripe' );
-			$token->set_card_type( strtolower( $response->brand ) );
-			$token->set_last4( $response->last4 );
-			$token->set_expiry_month( $response->exp_month );
-			$token->set_expiry_year( $response->exp_year );
-			$token->set_user_id( $this->get_user_id() );
-			$token->save();
+			if ( ! empty( $response->type ) ) {
+				switch ( $response->type ) {
+					case 'alipay':
+						break;
+					case 'sepa_debit':
+						$wc_token = new WC_Payment_Token_SEPA();
+						$wc_token->set_token( $response->id );
+						$wc_token->set_gateway_id( 'stripe_sepa' );
+						$wc_token->set_last4( $response->sepa_debit->last4 );
+						break;
+					default:
+						if ( 'source' === $response->object && 'card' === $response->type ) {
+							$wc_token = new WC_Payment_Token_CC();
+							$wc_token->set_token( $response->id );
+							$wc_token->set_gateway_id( 'stripe' );
+							$wc_token->set_card_type( strtolower( $response->card->brand ) );
+							$wc_token->set_last4( $response->card->last4 );
+							$wc_token->set_expiry_month( $response->card->exp_month );
+							$wc_token->set_expiry_year( $response->card->exp_year );
+						}
+						break;
+				}
+			} else {
+				// Legacy.
+				$wc_token = new WC_Payment_Token_CC();
+				$wc_token->set_token( $response->id );
+				$wc_token->set_gateway_id( 'stripe' );
+				$wc_token->set_card_type( strtolower( $response->brand ) );
+				$wc_token->set_last4( $response->last4 );
+				$wc_token->set_expiry_month( $response->exp_month );
+				$wc_token->set_expiry_year( $response->exp_year );
+			}
+
+			$wc_token->set_user_id( $this->get_user_id() );
+			$wc_token->save();
 		}
 
 		$this->clear_cache();
 
-		do_action( 'woocommerce_stripe_add_card', $this->get_id(), $token, $response );
+		do_action( 'woocommerce_stripe_add_source', $this->get_id(), $wc_token, $response, $source_id );
 
 		return $response->id;
 	}
 
 	/**
-	 * Get a customers saved cards using their Stripe ID. Cached.
+	 * Get a customers saved sources using their Stripe ID.
 	 *
 	 * @param  string $customer_id
 	 * @return array
 	 */
-	public function get_cards() {
-		$cards = array();
+	public function get_sources() {
+		if ( ! $this->get_id() ) {
+			return array();
+		}
 
-		if ( $this->get_id() && false === ( $cards = get_transient( 'stripe_cards_' . $this->get_id() ) ) ) {
-			$response = WC_Stripe_API::request( array(
-				'limit'       => 100,
-			), 'customers/' . $this->get_id() . '/sources', 'GET' );
+		$sources = get_transient( 'stripe_sources_' . $this->get_id() );
 
-			if ( is_wp_error( $response ) ) {
+		if ( false === $sources ) {
+			$response = WC_Stripe_API::request(
+				array(
+					'limit' => 100,
+				),
+				'customers/' . $this->get_id() . '/sources',
+				'GET'
+			);
+
+			if ( ! empty( $response->error ) ) {
 				return array();
 			}
 
 			if ( is_array( $response->data ) ) {
-				$cards = $response->data;
+				$sources = $response->data;
 			}
 
-			set_transient( 'stripe_cards_' . $this->get_id(), $cards, HOUR_IN_SECONDS * 48 );
+			set_transient( 'stripe_sources_' . $this->get_id(), $sources, DAY_IN_SECONDS );
 		}
 
-		return $cards;
+		return empty( $sources ) ? array() : $sources;
 	}
 
 	/**
-	 * Delete a card from stripe.
-	 * @param string $card_id
+	 * Delete a source from stripe.
+	 * @param string $source_id
 	 */
-	public function delete_card( $card_id ) {
-		$response = WC_Stripe_API::request( array(), 'customers/' . $this->get_id() . '/sources/' . sanitize_text_field( $card_id ), 'DELETE' );
+	public function delete_source( $source_id ) {
+		if ( ! $this->get_id() ) {
+			return false;
+		}
+
+		$response = WC_Stripe_API::request( array(), 'customers/' . $this->get_id() . '/sources/' . sanitize_text_field( $source_id ), 'DELETE' );
 
 		$this->clear_cache();
 
-		if ( ! is_wp_error( $response ) ) {
-			do_action( 'wc_stripe_delete_card', $this->get_id(), $response );
+		if ( empty( $response->error ) ) {
+			do_action( 'wc_stripe_delete_source', $this->get_id(), $response );
 
 			return true;
 		}
@@ -265,18 +360,22 @@ class WC_Stripe_Customer {
 	}
 
 	/**
-	 * Set default card in Stripe
-	 * @param string $card_id
+	 * Set default source in Stripe
+	 * @param string $source_id
 	 */
-	public function set_default_card( $card_id ) {
-		$response = WC_Stripe_API::request( array(
-			'default_source' => sanitize_text_field( $card_id ),
-		), 'customers/' . $this->get_id(), 'POST' );
+	public function set_default_source( $source_id ) {
+		$response = WC_Stripe_API::request(
+			array(
+				'default_source' => sanitize_text_field( $source_id ),
+			),
+			'customers/' . $this->get_id(),
+			'POST'
+		);
 
 		$this->clear_cache();
 
-		if ( ! is_wp_error( $response ) ) {
-			do_action( 'wc_stripe_set_default_card', $this->get_id(), $response );
+		if ( empty( $response->error ) ) {
+			do_action( 'wc_stripe_set_default_source', $this->get_id(), $response );
 
 			return true;
 		}
@@ -288,8 +387,44 @@ class WC_Stripe_Customer {
 	 * Deletes caches for this users cards.
 	 */
 	public function clear_cache() {
-		delete_transient( 'stripe_cards_' . $this->get_id() );
+		delete_transient( 'stripe_sources_' . $this->get_id() );
 		delete_transient( 'stripe_customer_' . $this->get_id() );
 		$this->customer_data = array();
+	}
+
+	/**
+	 * Retrieves the Stripe Customer ID from the user meta.
+	 *
+	 * @param  int $user_id The ID of the WordPress user.
+	 * @return string|bool  Either the Stripe ID or false.
+	 */
+	public function get_id_from_meta( $user_id ) {
+		return get_user_option( '_stripe_customer_id', $user_id );
+	}
+
+	/**
+	 * Updates the current user with the right Stripe ID in the meta table.
+	 *
+	 * @param string $id The Stripe customer ID.
+	 */
+	public function update_id_in_meta( $id ) {
+		update_user_option( $this->get_user_id(), '_stripe_customer_id', $id, false );
+	}
+
+	/**
+	 * Deletes the user ID from the meta table with the right key.
+	 */
+	public function delete_id_from_meta() {
+		delete_user_option( $this->get_user_id(), '_stripe_customer_id', false );
+	}
+
+	/**
+	 * Recreates the customer for this user.
+	 *
+	 * @return string ID of the new Customer object.
+	 */
+	private function recreate_customer() {
+		$this->delete_id_from_meta();
+		return $this->create_customer();
 	}
 }
