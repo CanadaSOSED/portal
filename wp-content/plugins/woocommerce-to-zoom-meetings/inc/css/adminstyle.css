@@ -1,0 +1,53 @@
+.alertify-logs {
+    z-index: 9999 !important;
+}
+
+.connected-text {
+    color: green;
+    font-weight: 600;
+}
+
+.disconnected-text {
+    color: red;
+    font-weight: bold;   
+}
+
+#zoom-connect-button {
+    background-color: #0e71eb;
+    border-width: 0px !important;
+    color: white;
+    font-weight: 600;
+    padding: 6px 20px;
+    font-size: 16px;
+    border-radius: 23px;
+}
+
+.connection-container {
+    display: inline-block;
+}
+
+.video-icon {
+    position: relative;
+    top: 7px;
+    margin-right: 3px;
+}
+
+.connection-container {
+    display: inline-block;
+    margin-left: 15px;
+    margin-top: 12px;
+}
+
+.transient-settings {
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.answer {
+    display: none;
+}
+.question {
+    cursor: pointer;
+    font-weight: 300;
+}
