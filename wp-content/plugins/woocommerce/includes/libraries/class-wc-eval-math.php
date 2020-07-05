@@ -1,4 +1,7 @@
 <?php
+
+use Automattic\Jetpack\Constants;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -135,7 +138,7 @@ if ( ! class_exists( 'WC_Eval_Math', false ) ) {
 					return self::trigger( "illegal character '_'" ); // but not in the input expression
 					// ===============
 				} elseif ( ( in_array( $op, $ops ) or $ex ) and $expecting_op ) { // are we putting an operator on the stack?
-					if ( $ex ) { // are we expecting an operator but have a number/variable/function/opening parethesis?
+					if ( $ex ) { // are we expecting an operator but have a number/variable/function/opening parenthesis?
 						$op = '*';
 						$index--; // it's an implicit multiplication
 					}
@@ -315,7 +318,7 @@ if ( ! class_exists( 'WC_Eval_Math', false ) ) {
 		 */
 		private static function trigger( $msg ) {
 			self::$last_error = $msg;
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( ! Constants::is_true( 'DOING_AJAX' ) && Constants::is_true( 'WP_DEBUG' ) ) {
 				echo "\nError found in:";
 				self::debugPrintCallingFunction();
 				trigger_error( $msg, E_USER_WARNING );

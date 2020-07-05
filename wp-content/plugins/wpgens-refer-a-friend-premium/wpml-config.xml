@@ -1,0 +1,16 @@
+<wpml-config>
+  <admin-texts>
+    <key name="gens_raf_buyer_email_message"/>
+    <key name="gens_raf_buyer_email_subject"/>
+    <key name="gens_raf_email_body"/>
+    <key name="gens_raf_email_message"/>
+    <key name="gens_raf_email_subject"/>
+    <key name="gens_raf_email_heading"/>
+    <key name="gens_raf_email_subject_share"/>
+    <key name="gens_raf_email_heading_share"/>
+    <key name="gens_raf_guest_coupon_msg"/>
+    <key name="gens_raf_hide_no_orders_text"/>
+    <key name="gens_raf_myaccount_text"/>
+    <key name="gens_raf_share_text"/>
+  </admin-texts>
+</wpml-config>

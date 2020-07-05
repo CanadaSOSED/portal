@@ -23,25 +23,26 @@ class WPGENS_RAF_Order {
 	public function gens_maybe_create_send_coupon($order_id)
 	{
 		
-		$raf_meta = get_post_meta( $order_id, '_raf_meta', true );
-
+        $raf_meta = get_post_meta( $order_id, '_raf_meta', true );
+        $disable_emails = get_option( 'gens_raf_disable_emails' );
+        
 		// No referral ID? Exit.
 		if(!get_post_meta( $order_id, '_raf_id', true)) {
 			return false;
-		}
+        }
 
 		// Wrong referral ID? Exit
 		$referral_id = $this->get_referral_id($order_id);
-		if(!$referral_id) {
+        if(!$referral_id) {
 			return false;
-		}
+        }
 
 		// Referrer Coupon
 		$coupon_object = new WPGens_RAF_Coupons('referrer', $order_id, $referral_id);
 		$coupon_code   = $coupon_object->get_coupon(); // returns coupon code
 
 		// Email Coupon Code
-		if($coupon_code){
+		if($coupon_code && $disable_emails !== 'yes'){
             $email = new WPGens_RAF_Email($coupon_object->coupon_mail, $coupon_code, $order_id);
             $email->send_email();
         }
@@ -53,7 +54,7 @@ class WPGENS_RAF_Order {
 		}
 
 		// Email Friend Coupon Code
-		if(get_option( 'gens_raf_friend_enable' ) === "yes" && $friend_coupon_code){
+		if(get_option( 'gens_raf_friend_enable' ) === "yes" && $friend_coupon_code  && $disable_emails !== 'yes'){
             $email = new WPGens_RAF_Email($friend_coupon_object->coupon_mail, $friend_coupon_code, $order_id, 'friend');
             $email->send_email();
         }
@@ -67,7 +68,11 @@ class WPGENS_RAF_Order {
 	}
 
 	public function get_referral_id($order_id){
-		$rafID = esc_attr(get_post_meta( $order_id, '_raf_id', true));
+        $rafID = esc_attr(get_post_meta( $order_id, '_raf_id', true));
+        // Is guest referring?
+        if(filter_var($rafID, FILTER_VALIDATE_EMAIL)) {
+            return $rafID;
+        }
         $gens_users = get_users( array(
             "meta_key" => "gens_referral_id",
             "meta_value" => $rafID,

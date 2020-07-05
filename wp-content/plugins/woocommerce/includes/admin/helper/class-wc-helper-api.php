@@ -1,4 +1,11 @@
 <?php
+/**
+ * WooCommerce Admin
+ *
+ * @class    WC_Helper_API
+ * @package  WooCommerce/Admin
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -9,6 +16,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Provides a communication interface with the WooCommerce.com Helper API.
  */
 class WC_Helper_API {
+	/**
+	 * Base path for API routes.
+	 *
+	 * @var $api_base
+	 */
 	public static $api_base;
 
 	/**
@@ -26,15 +38,17 @@ class WC_Helper_API {
 	 * Perform an HTTP request to the Helper API.
 	 *
 	 * @param string $endpoint The endpoint to request.
-	 * @param array $args Additional data for the request. Set authenticated to a truthy value to enable auth.
+	 * @param array  $args Additional data for the request. Set authenticated to a truthy value to enable auth.
 	 *
-	 * @return array The response from wp_safe_remote_request()
+	 * @return array|WP_Error The response from wp_safe_remote_request()
 	 */
 	public static function request( $endpoint, $args = array() ) {
 		$url = self::url( $endpoint );
 
 		if ( ! empty( $args['authenticated'] ) ) {
-			self::_authenticate( $url, $args );
+			if ( ! self::_authenticate( $url, $args ) ) {
+				return new WP_Error( 'authentication', 'Authentication failed.' );
+			}
 		}
 
 		/**
@@ -51,24 +65,27 @@ class WC_Helper_API {
 	 * Adds authentication headers to an HTTP request.
 	 *
 	 * @param string $url The request URI.
-	 * @param array $args By-ref, the args that will be passed to wp_remote_request().
+	 * @param array  $args By-ref, the args that will be passed to wp_remote_request().
+	 * @return bool Were the headers added?
 	 */
-	private static function _authenticate( $url, &$args ) {
+	private static function _authenticate( &$url, &$args ) {
 		$auth = WC_Helper_Options::get( 'auth' );
+
 		if ( empty( $auth['access_token'] ) || empty( $auth['access_token_secret'] ) ) {
-			return;
+			return false;
 		}
 
-		$request_uri = parse_url( $url, PHP_URL_PATH );
+		$request_uri  = parse_url( $url, PHP_URL_PATH );
 		$query_string = parse_url( $url, PHP_URL_QUERY );
-		if ( $query_string ) {
+
+		if ( is_string( $query_string ) ) {
 			$request_uri .= '?' . $query_string;
 		}
 
 		$data = array(
-			'host' => parse_url( $url, PHP_URL_HOST ),
+			'host'        => parse_url( $url, PHP_URL_HOST ),
 			'request_uri' => $request_uri,
-			'method' => ! empty( $args['method'] ) ? $args['method'] : 'GET',
+			'method'      => ! empty( $args['method'] ) ? $args['method'] : 'GET',
 		);
 
 		if ( ! empty( $args['body'] ) ) {
@@ -80,17 +97,28 @@ class WC_Helper_API {
 			$args['headers'] = array();
 		}
 
-		$args['headers'] = array(
-			'Authorization' => 'Bearer ' . $auth['access_token'],
+		$headers         = array(
+			'Authorization'   => 'Bearer ' . $auth['access_token'],
 			'X-Woo-Signature' => $signature,
 		);
+		$args['headers'] = wp_parse_args( $headers, $args['headers'] );
+
+		$url = add_query_arg(
+			array(
+				'token'     => $auth['access_token'],
+				'signature' => $signature,
+			),
+			$url
+		);
+
+		return true;
 	}
 
 	/**
 	 * Wrapper for self::request().
 	 *
 	 * @param string $endpoint The helper API endpoint to request.
-	 * @param array $args Arguments passed to wp_remote_request().
+	 * @param array  $args Arguments passed to wp_remote_request().
 	 *
 	 * @return array The response object from wp_safe_remote_request().
 	 */
@@ -103,12 +131,25 @@ class WC_Helper_API {
 	 * Wrapper for self::request().
 	 *
 	 * @param string $endpoint The helper API endpoint to request.
-	 * @param array $args Arguments passed to wp_remote_request().
+	 * @param array  $args Arguments passed to wp_remote_request().
 	 *
 	 * @return array The response object from wp_safe_remote_request().
 	 */
 	public static function post( $endpoint, $args = array() ) {
 		$args['method'] = 'POST';
+		return self::request( $endpoint, $args );
+	}
+
+	/**
+	 * Wrapper for self::request().
+	 *
+	 * @param string $endpoint The helper API endpoint to request.
+	 * @param array  $args Arguments passed to wp_remote_request().
+	 *
+	 * @return array The response object from wp_safe_remote_request().
+	 */
+	public static function put( $endpoint, $args = array() ) {
+		$args['method'] = 'PUT';
 		return self::request( $endpoint, $args );
 	}
 

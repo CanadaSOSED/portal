@@ -33,7 +33,7 @@ class WPGens_RAF_Assets {
      */
     public static function localize_printed_scripts() {
         $time = get_option( 'gens_raf_cookie_time' );
-        $cookies = array( 'timee' => $time, 'ajax_url' => admin_url( 'admin-ajax.php' ), 'success_msg' => __('Invitation has been sent!', 'gens-raf') );
+        $cookies = array( 'cookieTime' => $time, 'ajax_url' => admin_url( 'admin-ajax.php' ), 'success_msg' => __('Invitation has been sent!', 'gens-raf') );
         wp_localize_script('gens-raf-js', 'gens_raf', $cookies );
     }
 }

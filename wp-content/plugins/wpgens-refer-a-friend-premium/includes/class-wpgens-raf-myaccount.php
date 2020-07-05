@@ -17,7 +17,7 @@ class WPGens_RAF_MyAccount {
     public function __construct($account_page = TRUE) {
 
         if($account_page === TRUE) {
-            add_action( 'init', array( $this, 'gens_myreferral_tab') );
+            add_action( 'init', array( $this, 'gens_myreferral_tab'));
             add_filter( 'woocommerce_account_menu_items', array( $this, 'gens_account_menu_item'), 10, 1 );            
         }
         add_action( 'woocommerce_account_myreferrals_endpoint', array( $this, 'gens_account_referral_content') );
@@ -29,12 +29,19 @@ class WPGens_RAF_MyAccount {
 
     public function gens_account_menu_item( $items ) {
         // Remove the logout menu tab.
-        $logout = $items['customer-logout'];
-        unset( $items['customer-logout'] );
+        $logout_exists = false;
+        if(isset($items['customer-logout'])) {
+            $logout_exists = true;
+            $logout = $items['customer-logout'];
+            unset( $items['customer-logout'] );            
+        }
+
         // Insert RAF Tab.
-        $items['myreferrals'] = __( 'Refer a Friend', 'gens-raf' );
+        $items['myreferrals'] = apply_filters("gens_raf_tab_title", __( 'Refer a Friend', 'gens-raf' ));
         // Insert back the logout tab.
-        $items['customer-logout'] = $logout;
+        if($logout_exists) {
+            $items['customer-logout'] = $logout;
+        }
         return $items;
     }
 
@@ -42,6 +49,10 @@ class WPGens_RAF_MyAccount {
         $share_text     = __(get_option( 'gens_raf_myaccount_text' ),'gens-raf');
         $title          = __(get_option( 'gens_raf_twitter_title' ),'gens-raf');
         $twitter_via    = __(get_option( 'gens_raf_twitter_via' ),'gens-raf');
+        $email_hide     = get_option( 'gens_raf_email_hide' );
+        $linkedin     = get_option( 'gens_raf_linkedin' );
+        $pinterest     = get_option( 'gens_raf_pinterest' );
+        $whatsapp     = get_option( 'gens_raf_whatsapp' );
 
         $referral_code  = get_option( 'gens_raf_referral_codes' );
         $template_path  = WPGens_RAF::get_template_path('myaccount-tab.php');
@@ -95,7 +106,8 @@ class WPGens_RAF_MyAccount {
                 $discount = esc_attr(get_post_meta($coupon->ID, "coupon_amount" ,true));
                 $separator = get_option( 'woocommerce_price_decimal_sep', '.' );
                 $discount_type = esc_attr(get_post_meta($coupon->ID, "discount_type" ,true));
-                $usage_count = esc_attr(get_post_meta($coupon->ID, "usage_count" ,true));
+                $usageCount = esc_attr(get_post_meta($coupon->ID, "usage_count" ,true));
+                $usageLimit = esc_attr(get_post_meta($coupon->ID,'usage_limit', true));
                 $expiry_date = esc_attr(get_post_meta($coupon->ID,"expiry_date",true));
                 if($expiry_date == "") {
                     $expiry_date = __('No expiry date','gens-raf');
@@ -103,15 +115,19 @@ class WPGens_RAF_MyAccount {
                     $date = new DateTime();
                     $expiry_date = date_i18n(wc_date_format(), strtotime($expiry_date));
                 }
-                if($discount_type == "percent_product" || $discount_type == "percent") {
+                if($discount_type === "percent_product" || $discount_type === "percent" || $discount_type === "sign_up_fee_percent" || $discount_type === "recurring_percent") {
                     $discount = $discount."%";
                 } else {
-                    $discount = get_woocommerce_currency_symbol().$discount;
+                    $discount = wc_price($discount);
                 }
+
+                $usageLimitText = $usageLimit ? $usageLimit : __('Unlimited','gens-raf');
+                
                 // If coupon isnt used yet.
-                if($usage_count == 0) {
+                if($usageCount < $usageLimit || $usageLimit === '') {
                     $raf_coupons[$i]['title']    = $coupon->post_title;
                     $raf_coupons[$i]['discount'] = str_replace(".", $separator,$discount);
+                    $raf_coupons[$i]['usageCount'] = $usageCount.'/'.$usageLimitText;
                     $raf_coupons[$i]['expiry']   = $expiry_date;
                 } 
                 $i++;
@@ -184,12 +200,15 @@ class WPGens_RAF_MyAccount {
                 }
                 $friends[$i]['name']   = $user;
                 $friends[$i]['date']   = $date;
-                $friends[$i]['status'] = $order->get_status();
+                $friends[$i]['status'] = wc_get_order_status_name($order->get_status());
                 $i++;
             }
         }
-
-        $data['num_friends_refered'] = $raf_user->get_number_of_referrals();
+        if($raf_user->get_number_of_referrals() > 0) {
+            $data['num_friends_refered'] = $raf_user->get_number_of_referrals();
+        } else {
+            $data['num_friends_refered'] = 0;
+        }
         $data['potential_orders']    = $potential_orders;
         $data['friends']             = $friends;
         return $data;
@@ -210,5 +229,3 @@ class WPGens_RAF_MyAccount {
     }
 
 }
-
-$wpgens_raf_myaccount = new WPGens_RAF_MyAccount();

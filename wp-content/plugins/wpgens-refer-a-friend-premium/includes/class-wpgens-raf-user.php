@@ -18,6 +18,8 @@ class WPGens_RAF_User
      */
     public function __construct( $user_id ){
         $this->user_id = $user_id;
+        $this->hide_no_orders = get_option( 'gens_raf_hide_no_orders' );
+        $this->hide_no_orders_text = get_option( 'gens_raf_hide_no_orders_text' );
     }
 
     /**
@@ -30,15 +32,30 @@ class WPGens_RAF_User
         if ( !$this->user_id ) {
             return false;
         }
+        
+        if($this->hide_no_orders === "yes") {
+            
+            $customer_orders = get_posts( array(
+                'numberposts' => 1,
+                'meta_key'    => '_customer_user',
+                'meta_value'  => $this->user_id,
+                'post_type'   => wc_get_order_types(),
+                'post_status' => array( 'wc-processing', 'wc-completed' )
+            ) );
+            if(count($customer_orders) < 1) {
+                return $this->hide_no_orders_text;
+            }
+        }
+
         $referral_id = get_user_meta($this->user_id, "gens_referral_id", true);
         if($referral_id && $referral_id != "") {
-            return $referral_id;
+            return apply_filters('wpgens_raf_code', $referral_id);
         } else {
             do{
                 $referral_id = $this->generate_referral_id();
             } while ($this->exists_ref_id($referral_id));
             update_user_meta( $this->user_id, 'gens_referral_id', $referral_id );
-            return $referral_id;
+            return apply_filters('wpgens_raf_code', $referral_id);
         }
 
     }
@@ -96,27 +113,53 @@ class WPGens_RAF_User
      */
     public function generate_referral_url($type,$url = NULL) 
     {
+
+        if($this->hide_no_orders === "yes") {
+
+            $customer_orders = get_posts( array(
+                'numberposts' => 1,
+                'meta_key'    => '_customer_user',
+                'meta_value'  => $this->user_id,
+                'post_type'   => wc_get_order_types(),
+                'post_status' => array( 'wc-processing', 'wc-completed' )
+            ) );
+            if(count($customer_orders) < 1) {
+                return $this->hide_no_orders_text;
+            }
+        }
+
         global $wp;
         $referral_id = $this->get_referral_id();
         $link = get_home_url();
         
         switch ($type) {
             case 'product_tab':
-                $refLink = esc_url(home_url(add_query_arg(array('raf' => $referral_id),$wp->request)));
+                $refLink = esc_url(home_url(add_query_arg(array('raf' => $referral_id),trailingslashit($wp->request))));
             break;
             case 'shortcode':
                 if($url) {
                     $link = $url;
                 }
-                $refLink = esc_url(add_query_arg( 'raf', $referral_id, $link ));
+                $refLink = esc_url(add_query_arg( 'raf', $referral_id, trailingslashit($link) ));
             break;
             default:
                 $my_account_url = get_option( 'gens_raf_my_account_url' );
                 if($my_account_url != "") {
                     $link = $my_account_url;
                 }
-                $refLink = esc_url(add_query_arg( 'raf', $referral_id, $link ));
+                $refLink = esc_url(add_query_arg( 'raf', $referral_id, trailingslashit($link) ));
             break;
+        }
+
+        // If its a guest and cookie is set?
+        if(!is_user_logged_in() && isset($_COOKIE['gens_raf_guest'])) {
+            $refLink = $refLink .'?raf='.$_COOKIE['gens_raf_guest'];
+        }
+
+        if(isset($_GET['order']) && !is_user_logged_in()) {
+            $order = new WC_Order( $_GET['order'] );
+            $user_email = ( version_compare( WC_VERSION, '2.7', '<' ) ) ? $order->billing_email : $order->get_billing_email();  
+            $refLink = $refLink .'?raf='.$user_email;
         }
 
         return apply_filters('wpgens_raf_link', $refLink, $referral_id, $type);
@@ -139,8 +182,11 @@ class WPGens_RAF_User
      * @since 2.0.0
      */
     public static function set_number_of_referrals( $user_id ) {
-        $referral = new WPGens_RAF_User($user_id);
-        $num_friends_refered = $referral->get_number_of_referrals();
-        update_user_meta( $user_id, 'gens_num_friends', (int)$num_friends_refered + 1 );
+        if(!filter_var($user_id, FILTER_VALIDATE_EMAIL)) {
+            $referral = new WPGens_RAF_User($user_id);
+            $num_friends_refered = $referral->get_number_of_referrals();
+            update_user_meta( $user_id, 'gens_num_friends', (int)$num_friends_refered + 1 );
+        }
+
     }
 }

@@ -30,10 +30,6 @@ class WPGens_RAF_Shortcodes
             add_shortcode( apply_filters( "{$shortcode}_shortcode_tag", $shortcode ), $function );
         }
 
-        // Init CF7 Shortcode - maybe move to extensions.
-        if(function_exists('wpcf7_add_form_tag')){
-            wpcf7_add_form_tag( 'gens_raf', __CLASS__.'::cf7_shortcode' );
-        }
     }
 
     public static function simple_shortcode($atts)
@@ -62,9 +58,14 @@ class WPGens_RAF_Shortcodes
             'id'         => get_current_user_id()
         ), $atts, 'WOO_GENS_RAF_ADVANCE' );
 
-        $guest_text  = $atts['guest_text'];
-        $title       = __(get_option( 'gens_raf_twitter_title' ),'gens-raf');
-        $twitter_via = __(get_option( 'gens_raf_twitter_via' ),'gens-raf');
+        $guest_text   = $atts['guest_text'];
+        $title        = __(get_option( 'gens_raf_twitter_title' ),'gens-raf');
+        $twitter_via  = __(get_option( 'gens_raf_twitter_via' ),'gens-raf');
+        $email_hide   = get_option( 'gens_raf_email_hide' );
+        $linkedin     = get_option( 'gens_raf_linkedin' );
+        $pinterest     = get_option( 'gens_raf_pinterest' );
+        $whatsapp     = get_option( 'gens_raf_whatsapp' );
+        $allow_guests = get_option( 'gens_raf_allow_guests' );
 
         $raf_user = new WPGens_RAF_User($atts['id']);
         $rafLink = $raf_user->generate_referral_url('shortcode',$atts['url']);
@@ -73,6 +74,7 @@ class WPGens_RAF_Shortcodes
         $raf_id = $raf_user->get_referral_id();
 
         $template_path  = WPGens_RAF::get_template_path('advance-shortcode.php','',TRUE);
+        $guest_cookie_class   = (isset($_COOKIE['gens_raf_guest']) || isset($_GET['order'])) && $allow_guests === "yes" ? "guest_cookie_true" : "guest_cookie_false";
 
         if (!is_readable($template_path)) {
             return sprintf('<!-- Could not read "%s" file -->', $template_path);
@@ -89,10 +91,12 @@ class WPGens_RAF_Shortcodes
     {
         $atts = shortcode_atts( array(
             'guest_text' => 'Please register to get your referral link.',
+            'url'        => get_home_url(),
         ), $atts, 'WOO_GENS_RAF_FULL' );
 
         if(!is_user_logged_in()) {
             $guest_text  = $atts['guest_text'];
+            $rafLink = $atts['url'];
             ob_start();
             include WPGENS_RAF_ABSPATH . 'templates/guest-advance-shortcode.php';
             return ob_get_clean();
@@ -112,9 +116,14 @@ class WPGens_RAF_Shortcodes
      *
      * @since    2.0.0
      */
-    public function cf7_shortcode() 
+    public static function gens_raf_add_cf7_form_tag()
     {
-        $raf_user = new WPGens_RAF_User($atts['id']);
+        wpcf7_add_form_tag( 'gens_raf', __CLASS__.'::cf7_shortcode' );
+    }
+
+    public static function cf7_shortcode() 
+    {
+        $raf_user = new WPGens_RAF_User(get_current_user_id());
         $rafLink = $raf_user->generate_referral_url('shortcode');
         return '<input type="hidden" name="gens_raf" value="'.$rafLink.'" />';
     }

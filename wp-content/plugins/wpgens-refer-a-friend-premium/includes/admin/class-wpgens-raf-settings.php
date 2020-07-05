@@ -81,6 +81,15 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 	}
 
 	/**
+	 * Fallback for is plugin active for new PHP version
+	 *
+	 * @return bool
+	 */
+	function gens_is_plugin_active( $plugin ) {
+		return in_array( $plugin, (array) get_option( 'active_plugins', array() ) );
+	}
+
+	/**
 	 * Get settings array
 	 *
 	 * @since 1.0.0
@@ -88,7 +97,19 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 	 * @return array Array of settings
 	 */
 	public function get_settings( $current_section = '' ) {
-		$prefix = 'gens_raf_';
+        $prefix = 'gens_raf_';
+        $couponTypes = array(
+            'fixed_cart'	=> __( 'Cart Discount', 'gens-raf' ),
+            'percent'	=> __( 'Percentage Discount', 'gens-raf' ),
+            'fixed_product'	=> __( 'Product Discount', 'gens-raf' ),
+            'order_percent'	=> __( 'Percent of Order', 'gens-raf' )
+        );
+        if($this->gens_is_plugin_active('woocommerce-subscriptions/woocommerce-subscriptions.php')) {
+            $couponTypes['recurring_fee'] = 'Recurring Product Discount';
+            $couponTypes['recurring_percent'] = 'Recurring Product % Discount';
+            $couponTypes['sign_up_fee'] = 'Sign Up Fee Discount';
+            $couponTypes['sign_up_fee_percent'] = 'Sign Up Fee % Discount';
+        }
 		switch ($current_section) {
 			case 'coupon_settings':
 				$settings = array(
@@ -103,13 +124,8 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'name' 			=> __( 'Coupon Type', 'gens-raf' ), // Type: fixed_cart, percent, fixed_product, percent_product
 						'type' 			=> 'select',
 						'class'    => 'wc-enhanced-select',
-						'options'		=> array(
-							'fixed_cart'	=> __( 'Cart Discount', 'gens-raf' ),
-							'percent'	=> __( 'Cart % Discount', 'gens-raf' ),
-							'fixed_product'	=> __( 'Product Discount', 'gens-raf' ),
-							'order_percent'	=> __( 'Percent of Order', 'gens-raf' )
-						)
-					),
+						'options'		=> $couponTypes
+                    ),
 					array(
 						'id'		=> $prefix.'coupon_amount',
 						'name' 		=> __( 'Coupon Amount', 'gens-raf' ), 
@@ -163,6 +179,14 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'name' 		=> __( 'Individual Use', 'gens-raf' ),
 						'type' 		=> 'checkbox',
 						'desc' 	=> __( 'Check this box if the coupon cannot be used in conjunction with other coupons.', 'gens-raf' ), // checkbox only
+						'default' 	=> 'no'
+					),
+
+					array(
+						'id'		=> $prefix.'free_shipping',
+						'name' 		=> __( 'Free Shipping', 'gens-raf' ),
+						'type' 		=> 'checkbox',
+						'desc' 	=> __( 'Check this box if the coupon grants free shipping. A free shipping method must be enabled in your shipping zone and be set to require "a valid free shipping coupon" (see the "Free Shipping Requires" setting).', 'gens-raf' ), // checkbox only
 						'default' 	=> 'no'
 					),
 					array(
@@ -220,6 +244,7 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'id'		=> $prefix.'friend_coupon_amount',
 						'name' 		=> __( 'Coupon Amount', 'gens-raf' ), 
 						'type' 		=> 'number',
+						'custom_attributes' => array('step'=>'0.01'),
 						'desc_tip'	=> __( ' Entered without the currency unit or a percent sign as these will be added automatically, e.g., ’10’ for 10£ or 10%.', 'gens-raf'),
 						'desc' 		=> __( 'Fixed value or percentage off depending on the discount type you choose.', 'gens-raf' )
 					),
@@ -268,6 +293,13 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'name' 		=> __( 'Individual Use', 'gens-raf' ),
 						'type' 		=> 'checkbox',
 						'desc' 	=> __( 'Check this box if the coupon cannot be used in conjunction with other coupons.', 'gens-raf' ), // checkbox only
+						'default' 	=> 'no'
+					),
+					array(
+						'id'		=> $prefix.'friend_free_shipping',
+						'name' 		=> __( 'Free Shipping', 'gens-raf' ),
+						'type' 		=> 'checkbox',
+						'desc' 	=> __( 'Check this box if the coupon grants free shipping. A free shipping method must be enabled in your shipping zone and be set to require "a valid free shipping coupon" (see the "Free Shipping Requires" setting).', 'gens-raf' ), // checkbox only
 						'default' 	=> 'no'
 					),
 					array(
@@ -330,6 +362,14 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'type' => 'title',
 						'desc' => __( 'Setup the look of email that will be sent to the referral together with coupon.', 'gens-raf'),
 						'id'   => 'email_options',
+					),
+                    array(
+						'id'			=> $prefix.'disable_emails',
+						'name' 			=> __( 'Disable sending of emails', 'gens-raf' ),
+						'type' 			=> 'checkbox',
+						'label' 		=> __( 'Check this to disable sending of emails', 'gens-raf' ),
+						'desc'			=> __( 'If you dont want to inform customers of their coupon via email, check this box.', 'gens-raf'),
+						'default' 		=> 'no'
 					),
 					array(
 						'id'			=> $prefix.'use_woo_mail',
@@ -502,10 +542,42 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 					),
 					array(
 						'id'			=> $prefix.'email_from',
-						'name' 			=> __( 'Send via Referrer email.', 'gens-raf' ),
+						'name' 			=> __( 'Send via Referrer email', 'gens-raf' ),
 						'type' 			=> 'checkbox',
 						'label' 		=> __( 'Referrer email as from.', 'gens-raf' ), // checkbox only
 						'desc'			=> __( 'Checking this will use referrer from email instead of sites, but gmail might mark it as a spam so test it out.', 'gens-raf'),
+						'default' 		=> 'no'
+					),
+					array(
+						'id'			=> $prefix.'email_hide',
+						'name' 			=> __( 'Hide share via email option', 'gens-raf' ),
+						'type' 			=> 'checkbox',
+						'label' 		=> __( 'Hide share via email', 'gens-raf' ), // checkbox only
+						'desc'			=> __( 'Checking this will remove share via email option.', 'gens-raf'),
+						'default' 		=> 'no'
+                    ),
+                    array(
+						'id'			=> $prefix.'whatsapp',
+						'name' 			=> __( 'Enable desktop WhatsApp share', 'gens-raf' ),
+						'type' 			=> 'checkbox',
+						'label' 		=> __( 'Enable desktop WhatsApp share', 'gens-raf' ), // checkbox only
+						'desc'			=> __( 'Checking this will enable WhatsApp desktop share. Mobile is always available on mobile.', 'gens-raf'),
+						'default' 		=> 'no'
+                    ),
+                    array(
+						'id'			=> $prefix.'linkedin',
+						'name' 			=> __( 'Enable share via LinkedIn', 'gens-raf' ),
+						'type' 			=> 'checkbox',
+						'label' 		=> __( 'Enable LinkedIn share', 'gens-raf' ), // checkbox only
+						'desc'			=> __( 'Checking this will enable LinkedIn share icon.', 'gens-raf'),
+						'default' 		=> 'no'
+                    ),
+                    array(
+						'id'			=> $prefix.'pinterest',
+						'name' 			=> __( 'Enable share via Pinterest', 'gens-raf' ),
+						'type' 			=> 'checkbox',
+						'label' 		=> __( 'Enable Pinterest share', 'gens-raf' ), // checkbox only
+						'desc'			=> __( 'Checking this will enable Pinterest share icon.', 'gens-raf'),
 						'default' 		=> 'no'
 					),
 					array(
@@ -585,6 +657,7 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'id'		=> $prefix.'min_ref_order',
 						'name' 		=> __( 'Minimum referral order', 'gens-raf' ),
 						'type' 		=> 'number',
+						'custom_attributes' => array('step'=>'0.01'),
 						'desc' 		=> __( 'Set how much someone needs to purchase in order to generate coupon for referral','gens-raf' )
 					),
 					array(
@@ -596,8 +669,30 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'desc' 		=> __( 'If checked, cookie will be deleted after customer makes a purchase.' ),
 					),
 					array(
+						'id'		=> $prefix.'allow_guests',
+						'name' 		=> __( 'Enable referral links for guests', 'gens-raf' ),
+						'label' 	=> __( 'Enable referral links for guests', 'gens-raf' ),
+						'type' 		=> 'checkbox',
+						'desc' 		=> __( 'If checked, guests will be able to get referral links as well. This works in shortcode and product tabs.' ),
+					),
+					array(
+						'id'		=> $prefix.'hide_no_orders',
+						'name' 		=> __( 'Hide referral link for users without any orders', 'gens-raf' ),
+						'label' 	=> __( 'Hide referral link for users without any orders', 'gens-raf' ),
+						'type' 		=> 'checkbox',
+						'desc' 		=> __( 'If checked, users that dont have at least a single order wont see their referral code and link.' ),
+					),
+					array(
+						'id'			=> $prefix.'hide_no_orders_text',
+						'name' 			=> __( 'No orders text', 'gens-raf' ),
+						'type' 			=> 'text',
+                        'class'         => 'regular-input',
+						'desc'          => __( 'Text that appears instead of a referral link for users that dont have any orders. If you chose to hide link from them. Place something like: Referral code is available only to users with at least one order.', 'gens-raf'),
+						'default' 		=> ''
+					),
+					array(
 						'id'		=> $prefix.'referral_codes',
-						'name' 		=> __( 'Referral Codes', 'gens-raf' ),
+						'name' 		=> __( 'Referral Codes (only Woo 3.0+)', 'gens-raf' ),
 						'label' 	=> __( 'Referral Codes', 'gens-raf' ),
 						'type' 		=> 'checkbox',
 						'desc_tip'	=> __( 'Referral codes are users personal coupon code that he share with his friend. Their friend will insert them as coupons and get discount while user will get new referral and once order is completed, a coupon. Applied coupon is the one that you define at the bottom of the "Referred Person Coupon Settings" tab.', 'gens-raf'),
@@ -612,6 +707,22 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 						'desc' 		=> __( 'Check this to enable auto applying of coupons to subscription renewal. Works with payment gateways that support <a href="https://docs.woocommerce.com/document/subscriptions/payment-gateways/#advanced-features" target="_blank">recurring total modifications.</a>' ),
 					),
 					array(
+						'id'		=> $prefix.'subscription_all_coupons',
+						'name' 		=> __( 'WooCommerce Subscription Apply All Coupons', 'gens-raf' ),
+						'label' 	=> __( 'WooCommerce Subscription Apply All Coupons', 'gens-raf' ), // checkbox only
+						'type' 		=> 'checkbox',
+						'desc_tip'	=> __( 'Checking this to apply all of the available users coupons for next subscription renewal.', 'gens-raf'),
+						'desc' 		=> __( 'Checking this means that the plugin will automatically apply all of the users available coupons (if he has more than one) during the next renewal, up to renewal price. If he has more coupons than renewal price, they will be passed to be used during the next renewal period.' ),
+					),
+					array(
+						'id'		=> $prefix.'subscription_exclude_shipping',
+						'name' 		=> __( 'WooCommerce Subscription exclude shipping', 'gens-raf' ),
+						'label' 	=> __( 'WooCommerce Subscription exclude shipping', 'gens-raf' ), // checkbox only
+						'type' 		=> 'checkbox',
+						'desc_tip'	=> __( 'Check this box if you want to exclude shipping from being discounted in Woo Subscription renewals.', 'gens-raf'),
+						'desc' 		=> __( 'Check this box if you want to exclude shipping from being discounted in Woo Subscription renewals. This only applies to renewals.' ),
+					),
+					array(
 						'id'		=> '',
 						'name' 		=> __( 'General', 'gens-raf' ),
 						'type' 		=> 'sectionend',
@@ -620,8 +731,20 @@ class WPGens_Settings_RAF extends WC_Settings_Page {
 					),
 				);
 				break;
-		}
-
+        }
+        
+        if($current_section === 'coupon_settings' && $this->gens_is_plugin_active('woocommerce-subscriptions/woocommerce-subscriptions.php')) {
+            $activePayments = array(array(
+                'id'		=> $prefix.'wcs_number_payments',
+                'name' 		=> __( 'Active for x Payments', 'gens-raf' ), 
+                'type' 		=> 'number',
+                'placeholder' => 'Unlimited payments',
+                'desc_tip'	=> __( 'Coupon will be limited to the given number of payments. It will then be automatically removed from the subscription. "Payments" also includes the initial subscription payment.', 'gens-raf'),
+                'desc' 		=> __( 'If you are using Recurring Product Discount Type, coupon can be limited to the given number of payments. It will then be automatically removed from the subscription. "Payments" also includes the initial subscription payment.', 'gens-raf' )
+            ));
+            array_splice( $settings, 3, 0, $activePayments ); // splice in at position 3
+        }
+        
 		/**
 		 * Filter Memberships Settings
 		 *

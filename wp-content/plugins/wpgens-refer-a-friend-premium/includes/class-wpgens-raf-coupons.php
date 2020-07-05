@@ -14,7 +14,7 @@ class WPGens_RAF_Coupons {
 
     public $order_id;
 
-    public $referral_id;
+    public $referral_user_id;
 
     public $coupon_mail;
 
@@ -23,12 +23,12 @@ class WPGens_RAF_Coupons {
     /**
      * Hook in profile tabs.
      */
-    public function __construct($type, $order_id, $referral_id) 
+    public function __construct($type, $order_id, $referral_user_id) 
     {
         $this->type = $type;
         $this->order_id = $order_id;
         $this->raf_meta = get_post_meta( $order_id, '_raf_meta', true );        
-        $this->referral_id = $referral_id; 
+        $this->referral_user_id = $referral_user_id;
     }
 
 
@@ -59,8 +59,13 @@ class WPGens_RAF_Coupons {
         }
 
         if($this->type === "referrer") {
-            $user_info = get_userdata($this->referral_id);
-            $this->coupon_mail = $user_info->user_email;
+            if(filter_var($this->referral_user_id, FILTER_VALIDATE_EMAIL)) {
+                $this->coupon_mail = $this->referral_user_id;
+            } else {
+                $user_info = get_userdata($this->referral_user_id);
+                $this->coupon_mail = $user_info->user_email;
+            }
+
         } else {
             $order = new WC_Order( $this->order_id );
             $this->coupon_mail = ( version_compare( WC_VERSION, '2.7', '<' ) ) ? $order->billing_email : $order->get_billing_email();        
@@ -91,8 +96,10 @@ class WPGens_RAF_Coupons {
         $discount_type = get_option( $prefix.'_coupon_type' );
         $limit_usage = get_option( $prefix.'_limit_usage' );
         $minimum_amount = get_option( $prefix.'_min_order' );
+        $wcs_number_payments = get_option( $prefix.'_wcs_number_payments' );
         $product_ids = get_option( $prefix.'_product_ids' );
-        $exclude_product_ids = get_option( $prefix.'_exclude_product_ids' );
+        $free_shipping = get_option( $prefix.'_free_shipping' );
+        $exclude_product_ids = get_option( $prefix.'_product_exclude_ids' );
         $exclude_product_categories = get_option( $prefix.'_exclude_product_categories' );
         $exclude_product_categories = array_map('intval', explode(',', $exclude_product_categories));
         $product_categories = get_option( $prefix.'_product_categories' );
@@ -106,44 +113,62 @@ class WPGens_RAF_Coupons {
             $amount = number_format($order_total * ($amount / 100),2,'.','');
         }
 
+        $generate = apply_filters("gens_raf_generate_coupon", true, $this->order_id);
+
         $amount = apply_filters($prefix."_coupon_amount",$amount,$this->order_id);
+
+        do_action( 'gens_before_generate_user_coupon', $this->referral_user_id, $this->type, $order);
 
         $coupon = array(
             'post_title' => $coupon_code,
-            'post_excerpt' => 'Referral coupon for: '.$this->coupon_mail.' from order #'.$this->order_id,
+            'post_excerpt' => __('Referral coupon for: ','gens-raf'). $this->coupon_mail. __(' from order #','gens-raf') .$this->order_id,
             'post_status' => 'publish',
             'post_author' => 1,
             'post_type'     => 'shop_coupon'
         );
-                            
-        $new_coupon_id = wp_insert_post( $coupon );
+        
+        if($generate) {
+            $newCouponID = wp_insert_post( $coupon );
 
-        // Add meta
-        update_post_meta( $new_coupon_id, 'discount_type', $discount_type );
-        update_post_meta( $new_coupon_id, 'coupon_amount', $amount );
-        update_post_meta( $new_coupon_id, 'individual_use', $individual );
-        update_post_meta( $new_coupon_id, 'limit_usage_to_x_items', $limit_usage );
-        update_post_meta( $new_coupon_id, 'exclude_product_categories', $exclude_product_categories );
-        update_post_meta( $new_coupon_id, 'product_categories', $product_categories );
-        update_post_meta( $new_coupon_id, 'product_ids', $product_ids );
-        update_post_meta( $new_coupon_id, 'usage_count', 0 );
-        update_post_meta( $new_coupon_id, 'customer_email', strtolower($this->coupon_mail));
-        update_post_meta( $new_coupon_id, 'exclude_product_ids', $exclude_product_ids );
-        update_post_meta( $new_coupon_id, 'usage_limit', '1' ); // Only one coupon
-        if($duration) {
-            update_post_meta( $new_coupon_id, 'expiry_date', date('Y-m-d', strtotime('+'.$duration.' days')));          
+            // Enable the filtering of discount type for other plugins.
+            $discount_type = apply_filters($prefix."_discount_type", $discount_type);
+            // Add meta
+            update_post_meta( $newCouponID, 'discount_type', $discount_type );
+            update_post_meta( $newCouponID, 'coupon_amount', $amount );
+            update_post_meta( $newCouponID, 'individual_use', $individual );
+            update_post_meta( $newCouponID, 'limit_usage_to_x_items', $limit_usage );
+            update_post_meta( $newCouponID, 'exclude_product_categories', $exclude_product_categories );
+            update_post_meta( $newCouponID, 'product_categories', $product_categories );
+            update_post_meta( $newCouponID, 'product_ids', $product_ids );
+            update_post_meta( $newCouponID, 'usage_count', 0 );
+            update_post_meta( $newCouponID, '_wcs_number_payments', $wcs_number_payments);
+            update_post_meta( $newCouponID, 'customer_email', strtolower($this->coupon_mail));
+            update_post_meta( $newCouponID, 'exclude_product_ids', $exclude_product_ids );
+            if($discount_type === 'recurring_percent' || $discount_type === 'recurring_fee' && $wcs_number_payments === '') {
+                update_post_meta( $newCouponID, 'usage_limit', '');
+            } else {
+                update_post_meta( $newCouponID, 'usage_limit', $wcs_number_payments > 1 ? $wcs_number_payments : 1 );
+            }
+            if($duration) {
+                update_post_meta( $newCouponID, 'expiry_date', date('Y-m-d', strtotime('+'.$duration.' days')));          
+            }
+            update_post_meta( $newCouponID, 'minimum_amount', $minimum_amount );
+            update_post_meta( $newCouponID, 'apply_before_tax', 'yes' );
+            update_post_meta( $newCouponID, 'free_shipping', $free_shipping );
+            update_post_meta( $newCouponID, '_raf_order_id', $this->order_id );
+
+            do_action('new_raf_data', 'new_coupon', array('user' => $this->referral_user_id, 'order' => $this->order_id, 'coupon_id' => $newCouponID) );
+
         }
-        update_post_meta( $new_coupon_id, 'minimum_amount', $minimum_amount );
-        update_post_meta( $new_coupon_id, 'apply_before_tax', 'yes' );
-        update_post_meta( $new_coupon_id, 'free_shipping', 'no' );
-        update_post_meta( $new_coupon_id, '_raf_order_id', $this->order_id );
 
-        do_action( 'gens_generate_user_coupon', $new_coupon_id);
+        do_action( 'gens_after_generate_user_coupon', $this->referral_user_id, $this->type, $order, $newCouponID);
 
-        if($new_coupon_id) {
+        do_action( 'gens_generate_user_coupon', $newCouponID);
+
+        if($newCouponID) {
             return $coupon_code;            
         } else {
-            return "Error creating coupon";
+            return false;
         }
 
     }

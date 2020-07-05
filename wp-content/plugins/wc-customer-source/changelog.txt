@@ -9,3 +9,15 @@
 * Tested with WordPress 4.9.2
 * Tested with Storefront 2.2.7
 * Tested with WooCommerce 3.2.6
+
+1.1.0
+* Added Order Export Feature
+* Tested with WordPress 5.2.1
+* Tested with Storefront 2.5.0
+* Tested with WooCommerce 3.6.4
+
+1.1.1
+* Updated code as suggested by @d9media
+
+1.1.2
+* Updated code for translations

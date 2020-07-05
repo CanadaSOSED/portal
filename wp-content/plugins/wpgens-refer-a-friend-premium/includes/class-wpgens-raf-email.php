@@ -34,8 +34,7 @@ class WPGens_RAF_Email
      */
     public function send_email() 
     {
-        global $woocommerce;
-        $mailer = $woocommerce->mailer();
+        $mailer = WC()->mailer();
 
         $subject          = str_replace( '{{name}}', $this->name, get_option( 'gens_raf_email_subject' ));
         $heading          = str_replace( '{{name}}', $this->name, get_option( 'gens_raf_email_heading' ));
@@ -44,8 +43,10 @@ class WPGens_RAF_Email
         $footer_text      = get_option( 'woocommerce_email_footer_text' );
         $header_image     = get_option( 'woocommerce_email_header_image' );
         $expiry           = get_option( 'gens_raf_coupon_duration' );
+        $type             = $this->type;
         // Referrer or friend?
-        if($this->type === "friend") {
+        if($type === "friend") {
+            $subject       = str_replace( '{{name}}', $this->name, get_option( 'gens_raf_buyer_email_subject' ));
             $user_message  = str_replace( '{{name}}', $this->name, get_option( 'gens_raf_buyer_email_message' ));
         } else {
             $user_message  = str_replace( '{{name}}', $this->name, get_option( 'gens_raf_email_message' ));
@@ -75,8 +76,12 @@ class WPGens_RAF_Email
         }
 
         $message = ob_get_clean();
-        // Debug wp_die($user_email);
-        $mailer->send( $this->email, $subject, $message);
+        
+        if($mailer->send( $this->email, $subject, $message)){
+            do_action('new_raf_data', 'email_sent', array('email' => $this->email, 'subject' => $subject, 'type' => $type, 'coupon_code' => $coupon_code ) );
+        }
+
+        do_action('gens_raf_send_referral_coupon', $this->email, $this->coupon_code);
     }
 
     public function get_user_name()

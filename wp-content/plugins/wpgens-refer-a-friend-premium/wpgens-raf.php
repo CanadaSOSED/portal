@@ -3,11 +3,13 @@
  * Plugin Name: Refer a Friend for WooCommerce PREMIUM
  * Plugin URI: https://wpgens.com/downloads/refer-a-friend-for-woocommerce-premium/
  * Description: PREMIUM Refer a friend by WPGENS. Go to WooCommerce -> Settings -> Refer a friend tab to set it up.
- * Version: 2.0.8
+ * Version: 2.3.11
  * Author: WPGens
  * Author URI: https://wpgens.com
  * Text Domain: gens-raf
  * Domain Path: /languages
+ * WC requires at least: 2.6
+ * WC tested up to: 3.9
  */
 
 
@@ -26,7 +28,35 @@ if ( !class_exists( 'WPGens_RAF' ) ) :
 		 * @var string
 		 * @since 2.0
 		 */
-		private $version = '2.0.8';
+		private $version = '2.3.11';
+
+		/**
+		 * Product Tab instance.
+		 *
+		 * @var WC_Cart
+		 */
+		public $product_tab = null;
+
+		/**
+		 * Order instance.
+		 *
+		 * @var WC_Cart
+		 */
+		public $order_object = null;
+
+		/**
+		 * Order instance.
+		 *
+		 * @var WPGens_RAF_DB
+		 */
+		public $db_object = null;
+
+		/**
+		 * My Account instance.
+		 *
+		 * @var WC_Cart
+		 */
+		public $my_account = null;
 
 		/**
 		 * The single instance of the class.
@@ -109,15 +139,19 @@ if ( !class_exists( 'WPGens_RAF' ) ) :
 		public function includes()
 		{
 			// Admin Classes
+			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-db.php' );
 			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-activator.php' );
 			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/edd_licence/class-wpgens-raf-licence.php' );
 		//	include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-options.php' ); need to move all options to this separate class.
 			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-tools.php' );
 			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-user-meta.php' );
 			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-menu.php' );
+			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-events.php' );
 			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-admin-order.php' );
-			include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-list-table.php' );
 			
+			if(isset($_GET['page']) && $_GET['page'] === 'gens-raf') {
+				include_once( WPGENS_RAF_ABSPATH . 'includes/admin/class-wpgens-raf-list-table.php' );
+			}
 			if(version_compare( WC_VERSION, '3.0', '>' )) {
 				include_once( WPGENS_RAF_ABSPATH . 'includes/admin/reports/class-wpgens-raf-report.php' );				
 			}
@@ -136,6 +170,8 @@ if ( !class_exists( 'WPGens_RAF' ) ) :
 
 			// Extensions
 			include_once( WPGENS_RAF_ABSPATH . 'includes/extensions/class-wpgens-raf-subscription.php' );
+			include_once( WPGENS_RAF_ABSPATH . 'includes/extensions/class-wpgens-raf-pointsrewards.php' );
+			include_once( WPGENS_RAF_ABSPATH . 'includes/extensions/class-wpgens-raf-popupmaker.php' );
 		}
 		
 		/**
@@ -145,10 +181,21 @@ if ( !class_exists( 'WPGens_RAF' ) ) :
 		private function init_hooks()
 		{
 			register_activation_hook( __FILE__, array( 'Gens_RAF_Activator', 'activate' ) );
-			add_action( 'init', array( $this, 'init' ), 0 );
+            add_action( 'init', array( $this, 'init' ), 0 );
+            add_action( 'plugins_loaded', array($this, 'wpgens_event_action_init'), 0 );
  			add_action( 'init', array( 'WPGens_RAF_Shortcodes', 'init' ) );
+ 			add_action( 'wpcf7_init', array('WPGens_RAF_Shortcodes','gens_raf_add_cf7_form_tag') );
  			add_action( 'user_register', array( 'WPGens_RAF_User', 'new_user_add_referral_id') ); // new user registration hook
-		}
+        }
+
+		/**
+		 * Initialize do_action for saving events.
+		 * @since  2.3
+		 */
+        public function wpgens_event_action_init()
+        {
+			$this->db_object = new WPGens_RAF_DB();
+        }
 
 		/**
 		 * Init Refer a Friend plugin when WordPress Initialises.
@@ -158,9 +205,13 @@ if ( !class_exists( 'WPGens_RAF' ) ) :
 		{
 			// Before init action.
 			do_action( 'before_wpgens_raf_init' );
-			
-			// Init order actions
-			new WPGENS_RAF_Order();
+
+			// Init My Account Tab Class
+			$this->my_account   = new WPGens_RAF_MyAccount();
+			// Init Product Tab Class
+			$this->product_tab  = new WPGens_RAF_Product();
+			// Init Order Class
+			$this->order_object = new WPGENS_RAF_Order();
 
 			// Set up localisation.
 			$this->load_plugin_textdomain();
@@ -198,8 +249,7 @@ if ( !class_exists( 'WPGens_RAF' ) ) :
 			// Look within passed path within the theme - this is priority.
 			$template = locate_template(
 				array(
-					'wpgens-raf'. trailingslashit( $template_path ) . $template_name,
-					$template_name,
+					'wpgens-raf'. trailingslashit( $template_path ) . $template_name
 				)
 			);
 

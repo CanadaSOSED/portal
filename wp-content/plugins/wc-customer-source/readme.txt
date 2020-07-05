@@ -2,8 +2,8 @@
 Contributors: wooassist
 Tags: logo, custom, customizer, branding, storefront
 Requires at least: 3.0.1
-Tested up to: 4.9.4
-Stable tag: 4.9.4
+Tested up to: 5.2.1
+Stable tag: 5.2.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,7 @@ This plugin also offers an "Other" field where your customer can provide a speci
 * Enable/disable the custom field to be required on checkout.
 * Enable/disable the "Other" field.
 * Modify order statuses you want to include in the reports.
+* Export Orders with Customer Source field
 
 == Installation ==
 
@@ -66,3 +67,15 @@ You can find the settings page by navigating to WooCommerce > Reports and click 
 * Tested with WordPress 4.9.2
 * Tested with Storefront 2.2.7
 * Tested with WooCommerce 3.2.6
+
+= 1.1.0 =
+* Added Order Export Feature
+* Tested with WordPress 5.2.1
+* Tested with Storefront 2.5.0
+* Tested with WooCommerce 3.6.4
+
+= 1.1.1 =
+* Updated code as suggested by @d9media
+
+= 1.1.2 =
+* Updated code for translations
