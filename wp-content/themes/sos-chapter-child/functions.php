@@ -78,7 +78,12 @@ function sos_wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
     }
 }
 
-
+// Zoom WooCommerce will only display NEW meetings - Joanna
+////////////////////////////////////////////////////////////////////////////////////
+add_filter( 'woocommerce_to_zoom_meetings_get_meetings_args', 'only_upcoming_meetings',10,1);
+function only_upcoming_meetings($args) {
+return $args.'&type=upcoming';
+}
 
 // Woocommerce products (aka sessions) - display adjustments
 //////////////////////////////////////////////////////////////////////////////////////////
