@@ -1,0 +1,249 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Customer Email verification for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-22 11:41+0000\n"
+"PO-Revision-Date: 2020-06-29 13:47+0000\n"
+"Last-Translator: zorem Demo\n"
+"Language-Team: Hebrew\n"
+"Language: he_IL\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.4.0; wp-5.4.2"
+
+#: customer-email-verification-for-woocommerce.php:194
+#: customer-email-verification-for-woocommerce.php:259
+msgid "Sign Up Email Verification"
+msgstr "הרשמה אימות דוא\"ל"
+
+#: customer-email-verification-for-woocommerce.php:260
+#, php-format
+msgid ""
+"To verify your email a PIN was sent to <strong>%s</strong>. Please check "
+"your inbox and enter the PIN below."
+msgstr ""
+"כדי לאמת את הדוא\"ל שלך נשלח קוד PIN ל <strong>% s </ strong>. אנא בדוק את "
+"תיבת הדואר הנכנס שלך והזן את ה- PIN למטה."
+
+#: customer-email-verification-for-woocommerce.php:275
+msgid "Invalid PIN Code"
+msgstr "קוד PIN לא חוקי"
+
+#: customer-email-verification-for-woocommerce.php:282
+#: includes/class-wc-customer-email-verification-admin.php:454
+#: includes/class-wc-customer-email-verification-admin.php:592
+msgid "Verify"
+msgstr "תאשר"
+
+#: customer-email-verification-for-woocommerce.php:289
+msgid "Didn’t receive an email?"
+msgstr "לא קיבלת דוא\"ל?"
+
+#: customer-email-verification-for-woocommerce.php:289
+#: includes/class-wc-customer-email-verification-admin.php:475
+msgid "Resend Email"
+msgstr "שלח אימייל מחדש"
+
+#: includes/class-wc-customer-email-verification-admin.php:111
+msgid "Customize"
+msgstr "התאמה אישית"
+
+#: includes/class-wc-customer-email-verification-admin.php:314
+msgid "Enable customer email verification"
+msgstr "אפשר אימות בדוא\"ל של לקוחות"
+
+#: includes/class-wc-customer-email-verification-admin.php:319
+#: includes/customizer/class-cev-customizer.php:218
+msgid "Email for Verification"
+msgstr "אימייל לאימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:322
+msgid "Separate Verification Email"
+msgstr "דוא\"ל אימות נפרד"
+
+#: includes/class-wc-customer-email-verification-admin.php:323
+msgid "Verification in Account Email"
+msgstr "אימות בדוא\"ל החשבון"
+
+#: includes/class-wc-customer-email-verification-admin.php:330
+msgid "Skip email verification for the selected user roles"
+msgstr "דלג על אימות הדוא\"ל עבור תפקידי המשתמש שנבחרו"
+
+#: includes/class-wc-customer-email-verification-admin.php:337
+msgid "Select email verification form theme color"
+msgstr "בחר צבע נושא של אימות דוא\"ל"
+
+#: includes/class-wc-customer-email-verification-admin.php:353
+msgid "Verification Message"
+msgstr "הודעת אימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:355
+msgid "We sent you a verification email. Check and verify your account."
+msgstr "שלחנו לך דוא\"ל אימות. בדוק ואמת את חשבונך."
+
+#: includes/class-wc-customer-email-verification-admin.php:360
+msgid "Verification Success Message"
+msgstr "הודעת הצלחה באימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:362
+msgid "Your Email is verified!"
+msgstr "האימייל שלך מאומת!"
+
+#: includes/class-wc-customer-email-verification-admin.php:367
+msgid "Resend verification email message"
+msgstr "שלח שוב את הודעת הדוא\"ל לאימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:369
+msgid "You need to verify your account before login. {{cev_resend_email_link}}"
+msgstr "עליך לאמת את חשבונך לפני הכניסה. {{cev_resend_email_link}}"
+
+#: includes/class-wc-customer-email-verification-admin.php:374
+msgid "Message For Verified Users"
+msgstr "הודעה למשתמשים מאומתים"
+
+#: includes/class-wc-customer-email-verification-admin.php:376
+msgid "Your Email is already verified"
+msgstr "הדוא\"ל שלך כבר אומת"
+
+#: includes/class-wc-customer-email-verification-admin.php:381
+msgid "Re-Verification Message"
+msgstr "הודעת אימות מחדש"
+
+#: includes/class-wc-customer-email-verification-admin.php:383
+msgid "A new verification link is sent. Check email. {{cev_resend_email_link}}"
+msgstr "נשלח קישור אימות חדש. בדוק דואר אלקטרוני. {{cev_resend_email_link}}"
+
+#: includes/class-wc-customer-email-verification-admin.php:388
+msgid "You can use following tag in email and message"
+msgstr "אתה יכול להשתמש בתג הבא בדוא\"ל ובהודעות"
+
+#: includes/class-wc-customer-email-verification-admin.php:422
+#: includes/class-wc-customer-email-verification-admin.php:575
+msgid "Verification Status"
+msgstr "סטטוס אימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:423
+#: includes/class-wc-customer-email-verification-admin.php:588
+msgid "Manual Verify"
+msgstr "אימות ידני"
+
+#: includes/class-wc-customer-email-verification-admin.php:424
+#: includes/class-wc-customer-email-verification-admin.php:611
+msgid "Verification Email"
+msgstr "אימייל אימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:442
+#: includes/class-wc-customer-email-verification-admin.php:579
+msgid "Verified"
+msgstr "מאומת"
+
+#: includes/class-wc-customer-email-verification-admin.php:444
+#: includes/class-wc-customer-email-verification-admin.php:581
+msgid "Not Verified"
+msgstr "לא אומת"
+
+#: includes/class-wc-customer-email-verification-admin.php:462
+#: includes/class-wc-customer-email-verification-admin.php:600
+msgid "Unverify"
+msgstr "בטל אימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:532
+msgid "Verification Email Successfully Sent."
+msgstr "דוא\"ל האימות נשלח בהצלחה."
+
+#: includes/class-wc-customer-email-verification-admin.php:541
+msgid "User Verified Successfully."
+msgstr "המשתמש אומת בהצלחה."
+
+#: includes/class-wc-customer-email-verification-admin.php:550
+msgid "User Unverified."
+msgstr "המשתמש לא מאומת."
+
+#: includes/class-wc-customer-email-verification-admin.php:561
+msgid "Resend Verification Email"
+msgstr "לשלוח דוא\"ל לאימות"
+
+#: includes/class-wc-customer-email-verification-admin.php:571
+#: includes/customizer/class-cev-customizer.php:206
+msgid "Customer Email Verification for WooCommerce"
+msgstr "ולידציה של כתובת אימייל לקוח עבור ווקומרס"
+
+#: includes/class-wc-customer-email-verification-admin.php:614
+msgid "Send Verification Email"
+msgstr "שלח מייל אימות"
+
+#: includes/class-wc-customer-email-verification-email-common.php:123
+msgid "User login"
+msgstr "כניסת משתמש"
+
+#: includes/class-wc-customer-email-verification-email-common.php:127
+msgid "User display name"
+msgstr "שם תצוגה של משתמש"
+
+#: includes/class-wc-customer-email-verification-email-common.php:131
+msgid "User email"
+msgstr "דוא\"ל משתמש"
+
+#: includes/class-wc-customer-email-verification-email-common.php:135
+#: includes/class-wc-customer-email-verification-email-common.php:185
+msgid "Email Verification link"
+msgstr "קישור לאימות דוא\"ל"
+
+#: includes/class-wc-customer-email-verification-email-common.php:139
+msgid "Verification link"
+msgstr "קישור לאימות"
+
+#: includes/class-wc-customer-email-verification-email-common.php:143
+#: includes/class-wc-customer-email-verification-email-common.php:193
+msgid "Resend Confirmation Email"
+msgstr "שלח מחדש דוא\"ל אימות"
+
+#: includes/class-wc-customer-email-verification-email-common.php:147
+msgid "Verification Pin"
+msgstr "סיכת אימות"
+
+#: includes/customizer/class-cev-customizer.php:247
+#: includes/customizer/class-cev-customizer.php:270
+msgid "Only for a separate verification email"
+msgstr "רק לדוא\"ל אימות נפרד"
+
+#: includes/customizer/class-cev-customizer.php:269
+msgid "Email Heading"
+msgstr "כותרת דוא\"ל"
+
+#: includes/customizer/class-cev-customizer.php:292
+msgid "Email Body"
+msgstr "גוף דוא\"ל"
+
+#: includes/customizer/class-cev-customizer.php:313
+msgid "Available variables"
+msgstr "משתנים זמינים"
+
+#: includes/views/admin_options_customize.php:12
+msgid "Customize the verification email"
+msgstr "התאם אישית את דוא\"ל האימות"
+
+#: includes/views/admin_options_customize.php:20
+msgid "Launch Customizer"
+msgstr "הפעל את ההתאמה האישית"
+
+#: includes/views/admin_options_customize.php:31
+msgid "Customize frontend messages"
+msgstr "התאם אישית הודעות חזיתית"
+
+#: includes/views/admin_options_customize.php:42
+#: includes/views/admin_options_settings.php:26
+msgid "Save Changes"
+msgstr "שמור שינויים"
+
+#: includes/views/admin_options_customize.php:44
+#: includes/views/admin_options_settings.php:28
+msgid "Data saved successfully."
+msgstr "הנתונים נשמרו בהצלחה."
+
+#: includes/views/admin_options_settings.php:15
+msgid "General Settings"
+msgstr "הגדרות כלליות"

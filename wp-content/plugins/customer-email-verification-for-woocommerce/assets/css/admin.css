@@ -1,0 +1,204 @@
+.woocommerce_page_customer-email-verification-for-woocommerce #wpcontent {
+    background: #f1f7f9;
+    padding-left: 0;
+}
+.cev-plugin-logo{	
+    padding: 15px 0 15px 30px;
+	max-width: 600px;
+}
+.cev_admin_content {
+    width: 100%;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+section.cev_tab_section {
+	display: none;
+	padding: 0 30px 30px;
+	border-top: 1px solid #ddd;
+	background: #fafafa;
+}
+section.cev_tab_inner_container {
+	display: none;
+}
+
+input.cev_tab_input {
+	display: none;
+}
+label.cev_tab_label {
+    text-decoration: none;
+    padding: 17px 0 15px;    
+    font-size: 14px;
+    color: #393f4c;
+    display: inline-block;
+    margin-right: 25px;
+    line-height: 1;
+    outline: none;
+}
+label.cev_tab_label.first_label {
+    margin-left: 30px;
+}
+label.cev_tab_label:before {
+	font-family: fontawesome;
+	font-weight: normal;
+	margin-right: 10px;
+}
+label.cev_tab_label:hover {
+	color: #74C2E1;
+	cursor: pointer;
+}
+input.cev_tab_input:checked + label {	
+	color: #74C2E1;
+	border-bottom: 2px solid #74C2E1;	
+	margin-bottom: -1px;
+}
+#setting_tab:checked ~ #cev_content_settings,#customize_tab:checked ~ #cev_content_customize{
+	display:block;
+}
+.woocommerce.cev_admin_layout table.form-table {
+    background: #fff;
+    border: 1px solid #eee;
+    margin-top: 0;
+    margin-bottom: 0px;
+}
+.woocommerce.cev_admin_layout table.form-table.heading-table {
+    margin: 25px 0 0;
+    border-bottom: 0;
+    background: #f1f7f9;
+}
+.woocommerce.cev_admin_layout table.form-table.heading-table td h3 {
+    margin: 0;
+    color: #005B9A;
+    font-weight: 400;
+}
+.woocommerce.cev_admin_layout table.form-table td {
+    padding: 15px 15px;
+}
+.woocommerce.cev_admin_layout table.form-table.heading-table td {
+    padding: 12px 15px;
+}
+.cev_admin_content .form-table th.titledesc {
+    width: 30%;
+}
+.woocommerce.cev_admin_layout table.form-table th {
+    padding: 20px 24px 20px 15px;
+    vertical-align: middle;
+}
+.woocommerce.cev_admin_layout table.form-table th label {
+    font-weight: 400;
+    color: #444;
+    cursor: auto;
+}
+.cev_admin_content div.submit {
+    padding: 0;
+	display:inline-block;
+}
+#cev_settings_form .form-table tr{
+    border-bottom: 1px solid #eee;
+}
+.form-table .multiple_checkbox {
+    display: inline-block;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    min-width: 160px;
+}
+.cev_tab_inner_container .form-table .tag_block{
+	padding: 10px 0;
+    display: block;
+    background: #f9f9f9;
+    color: #505050;
+	word-break: break-word;
+}
+.cev_tab_inner_container .form-table .tag_block code{
+	padding: 5px 5px 5px 5px;
+	margin: 0px 5px 5px 0;
+	display: inline-block;
+}
+.cev_tab_inner_container {
+    padding: 0;
+    display: table-cell;
+    vertical-align: top;
+}
+.cev_admin_sidebar {
+    width: 280px;
+    display: table-cell;
+    vertical-align: top;
+    padding: 25px 0px 25px 20px;
+}
+.cev_admin_sidebar_inner {
+    border-left: 1px solid #eee;
+    padding-left: 20px;
+}
+.cev_sidebar__section {
+    margin-bottom: 20px;
+}
+.cev_admin_layout .cev_admin_sidebar h3 {
+    margin: 0 0 5px 0;
+    color: #005B9A;
+    border-bottom: 1px solid #eee;
+    padding: 0 0 10px;
+}
+.cev_admin_layout .cev_admin_sidebar h3.cev-top-border {
+    padding: 10px 0 10px;
+    border-top: 1px solid #eee;
+}
+.cev_sidebar__section ul {
+    position: relative;
+    margin: 10px 0 10px 0;
+}
+.cev_sidebar__section li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+.cev_sidebar__section li img.cev_plugin_thumbnail {
+    width: 60px;
+    display: inline-block;
+	vertical-align: middle;
+}
+.cev_sidebar__section li a.cev_plugin_url {
+    width: 70%;
+    vertical-align: middle;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 0;
+    line-height: 20px;
+}
+.cev_color_field input[type=text] {
+    width: 80px !important;
+}
+.wp-core-ui .button-primary.cev-btn-large{
+	line-height: 36px;
+    height: 40px;
+    padding: 0 20px;
+    font-size: 15px;
+}
+.cev-btn-large .dashicons{
+	vertical-align: middle;
+    margin-left: 5px;
+}
+.success_msg {
+    border-left: 3px solid;
+    border-color: green;
+    background: #fff;
+    margin-top: 20px;
+    padding: 10px 15px;
+}
+.cev_tab_section .spinner{
+	float: none;
+	margin: 0px 10px 0;
+	display:none;
+}
+.cev_tab_section .spinner.active{
+	display:inline-block;
+	visibility: visible;
+}
+.cev_tab_section .success_msg{
+	display:inline-block;
+	margin: 0 20px;
+	background: #f9f9f9;
+}
+.woocommerce.cev_admin_layout .cev_admin_content .wp-picker-container .wp-picker-input-wrap .input-text{
+	line-height: 15px;
+	margin-right: 5px;
+}

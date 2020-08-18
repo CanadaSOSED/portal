@@ -1,0 +1,248 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Customer Email verification for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-22 11:41+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.1; wp-5.3.2"
+
+#: customer-email-verification-for-woocommerce.php:194
+#: customer-email-verification-for-woocommerce.php:259
+msgid "Sign Up Email Verification"
+msgstr ""
+
+#: customer-email-verification-for-woocommerce.php:260
+#, php-format
+msgid ""
+"To verify your email a PIN was sent to <strong>%s</strong>. Please check "
+"your inbox and enter the PIN below."
+msgstr ""
+
+#: customer-email-verification-for-woocommerce.php:275
+msgid "Invalid PIN Code"
+msgstr ""
+
+#: customer-email-verification-for-woocommerce.php:282
+#: includes/class-wc-customer-email-verification-admin.php:454
+#: includes/class-wc-customer-email-verification-admin.php:592
+msgid "Verify"
+msgstr ""
+
+#: customer-email-verification-for-woocommerce.php:289
+msgid "Didn’t receive an email?"
+msgstr ""
+
+#: customer-email-verification-for-woocommerce.php:289
+#: includes/class-wc-customer-email-verification-admin.php:475
+msgid "Resend Email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:111
+msgid "Customize"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:314
+msgid "Enable customer email verification"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:319
+#: includes/customizer/class-cev-customizer.php:218
+msgid "Email for Verification"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:322
+msgid "Separate Verification Email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:323
+msgid "Verification in Account Email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:330
+msgid "Skip email verification for the selected user roles"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:337
+msgid "Select email verification form theme color"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:353
+msgid "Verification Message"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:355
+msgid "We sent you a verification email. Check and verify your account."
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:360
+msgid "Verification Success Message"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:362
+msgid "Your Email is verified!"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:367
+msgid "Resend verification email message"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:369
+msgid "You need to verify your account before login. {{cev_resend_email_link}}"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:374
+msgid "Message For Verified Users"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:376
+msgid "Your Email is already verified"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:381
+msgid "Re-Verification Message"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:383
+msgid "A new verification link is sent. Check email. {{cev_resend_email_link}}"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:388
+msgid "You can use following tag in email and message"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:422
+#: includes/class-wc-customer-email-verification-admin.php:575
+msgid "Verification Status"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:423
+#: includes/class-wc-customer-email-verification-admin.php:588
+msgid "Manual Verify"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:424
+#: includes/class-wc-customer-email-verification-admin.php:611
+msgid "Verification Email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:442
+#: includes/class-wc-customer-email-verification-admin.php:579
+msgid "Verified"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:444
+#: includes/class-wc-customer-email-verification-admin.php:581
+msgid "Not Verified"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:462
+#: includes/class-wc-customer-email-verification-admin.php:600
+msgid "Unverify"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:532
+msgid "Verification Email Successfully Sent."
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:541
+msgid "User Verified Successfully."
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:550
+msgid "User Unverified."
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:561
+msgid "Resend Verification Email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:571
+#: includes/customizer/class-cev-customizer.php:206
+msgid "Customer Email Verification for WooCommerce"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:614
+msgid "Send Verification Email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-email-common.php:123
+msgid "User login"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-email-common.php:127
+msgid "User display name"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-email-common.php:131
+msgid "User email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-email-common.php:135
+#: includes/class-wc-customer-email-verification-email-common.php:185
+msgid "Email Verification link"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-email-common.php:139
+msgid "Verification link"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-email-common.php:143
+#: includes/class-wc-customer-email-verification-email-common.php:193
+msgid "Resend Confirmation Email"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-email-common.php:147
+msgid "Verification Pin"
+msgstr ""
+
+#: includes/customizer/class-cev-customizer.php:247
+#: includes/customizer/class-cev-customizer.php:270
+msgid "Only for a separate verification email"
+msgstr ""
+
+#: includes/customizer/class-cev-customizer.php:269
+msgid "Email Heading"
+msgstr ""
+
+#: includes/customizer/class-cev-customizer.php:292
+msgid "Email Body"
+msgstr ""
+
+#: includes/customizer/class-cev-customizer.php:313
+msgid "Available variables"
+msgstr ""
+
+#: includes/views/admin_options_customize.php:12
+msgid "Customize the verification email"
+msgstr ""
+
+#: includes/views/admin_options_customize.php:20
+msgid "Launch Customizer"
+msgstr ""
+
+#: includes/views/admin_options_customize.php:31
+msgid "Customize frontend messages"
+msgstr ""
+
+#: includes/views/admin_options_customize.php:42
+#: includes/views/admin_options_settings.php:26
+msgid "Save Changes"
+msgstr ""
+
+#: includes/views/admin_options_customize.php:44
+#: includes/views/admin_options_settings.php:28
+msgid "Data saved successfully."
+msgstr ""
+
+#: includes/views/admin_options_settings.php:15
+msgid "General Settings"
+msgstr ""

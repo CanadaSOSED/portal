@@ -1,0 +1,258 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Customer Email verification for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-22 11:41+0000\n"
+"PO-Revision-Date: 2020-04-22 11:44+0000\n"
+"Last-Translator: John\n"
+"Language-Team: Spanish (Spain)\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.3; wp-5.4"
+
+#: customer-email-verification-for-woocommerce.php:194
+#: customer-email-verification-for-woocommerce.php:259
+msgid "Sign Up Email Verification"
+msgstr "Registrarse Verificación por correo electrónico"
+
+#: customer-email-verification-for-woocommerce.php:260
+#, php-format
+msgid ""
+"To verify your email a PIN was sent to <strong>%s</strong>. Please check "
+"your inbox and enter the PIN below."
+msgstr ""
+"Para verificar su correo electrónico, se envió un PIN a <strong>% s </strong>"
+". Verifique su bandeja de entrada e ingrese el PIN a continuación."
+
+#: customer-email-verification-for-woocommerce.php:275
+msgid "Invalid PIN Code"
+msgstr "Código PIN inválido"
+
+#: customer-email-verification-for-woocommerce.php:282
+#: includes/class-wc-customer-email-verification-admin.php:454
+#: includes/class-wc-customer-email-verification-admin.php:592
+msgid "Verify"
+msgstr "Verificar"
+
+#: customer-email-verification-for-woocommerce.php:289
+msgid "Didn’t receive an email?"
+msgstr "¿No recibiste un correo electrónico?"
+
+#: customer-email-verification-for-woocommerce.php:289
+#: includes/class-wc-customer-email-verification-admin.php:475
+msgid "Resend Email"
+msgstr "Reenviar email"
+
+#: includes/class-wc-customer-email-verification-admin.php:111
+msgid "Customize"
+msgstr "Personalizar"
+
+#: includes/class-wc-customer-email-verification-admin.php:314
+msgid "Enable customer email verification"
+msgstr "Habilitar la verificación de correo electrónico del cliente"
+
+#: includes/class-wc-customer-email-verification-admin.php:319
+#: includes/customizer/class-cev-customizer.php:218
+msgid "Email for Verification"
+msgstr "Correo electrónico para verificación"
+
+#: includes/class-wc-customer-email-verification-admin.php:322
+msgid "Separate Verification Email"
+msgstr "Correo electrónico de verificación separado"
+
+#: includes/class-wc-customer-email-verification-admin.php:323
+msgid "Verification in Account Email"
+msgstr "Verificación en el correo electrónico de la cuenta"
+
+#: includes/class-wc-customer-email-verification-admin.php:330
+msgid "Skip email verification for the selected user roles"
+msgstr ""
+"Omitir verificación de correo electrónico para los roles de usuario "
+"seleccionados"
+
+#: includes/class-wc-customer-email-verification-admin.php:337
+msgid "Select email verification form theme color"
+msgstr ""
+"Seleccione el color del tema del formulario de verificación de correo "
+"electrónico"
+
+#: includes/class-wc-customer-email-verification-admin.php:353
+msgid "Verification Message"
+msgstr "Mensaje de verificación"
+
+#: includes/class-wc-customer-email-verification-admin.php:355
+msgid "We sent you a verification email. Check and verify your account."
+msgstr ""
+"Te enviamos un correo electrónico de verificación. Verifique y verifique su "
+"cuenta."
+
+#: includes/class-wc-customer-email-verification-admin.php:360
+msgid "Verification Success Message"
+msgstr "Mensaje de verificación correcta"
+
+#: includes/class-wc-customer-email-verification-admin.php:362
+msgid "Your Email is verified!"
+msgstr "Su correo electrónico está verificado!"
+
+#: includes/class-wc-customer-email-verification-admin.php:367
+msgid "Resend verification email message"
+msgstr "Reenviar mensaje de correo electrónico de verificación"
+
+#: includes/class-wc-customer-email-verification-admin.php:369
+msgid "You need to verify your account before login. {{cev_resend_email_link}}"
+msgstr ""
+"Debe verificar su cuenta antes de iniciar sesión. {{cev_resend_email_link}}"
+
+#: includes/class-wc-customer-email-verification-admin.php:374
+msgid "Message For Verified Users"
+msgstr "Mensaje para usuarios verificados"
+
+#: includes/class-wc-customer-email-verification-admin.php:376
+msgid "Your Email is already verified"
+msgstr "Tu correo electrónico ya está verificado"
+
+#: includes/class-wc-customer-email-verification-admin.php:381
+msgid "Re-Verification Message"
+msgstr "Mensaje de reverificación"
+
+#: includes/class-wc-customer-email-verification-admin.php:383
+msgid "A new verification link is sent. Check email. {{cev_resend_email_link}}"
+msgstr ""
+"Se envía un nuevo enlace de verificación. Revisar correo electrónico. "
+"{{cev_resend_email_link}}"
+
+#: includes/class-wc-customer-email-verification-admin.php:388
+msgid "You can use following tag in email and message"
+msgstr "Puede usar la siguiente etiqueta en el correo electrónico y el mensaje"
+
+#: includes/class-wc-customer-email-verification-admin.php:422
+#: includes/class-wc-customer-email-verification-admin.php:575
+msgid "Verification Status"
+msgstr "Estado de verificación"
+
+#: includes/class-wc-customer-email-verification-admin.php:423
+#: includes/class-wc-customer-email-verification-admin.php:588
+msgid "Manual Verify"
+msgstr "Verificación manual"
+
+#: includes/class-wc-customer-email-verification-admin.php:424
+#: includes/class-wc-customer-email-verification-admin.php:611
+msgid "Verification Email"
+msgstr "Correo electrónico de verificación"
+
+#: includes/class-wc-customer-email-verification-admin.php:442
+#: includes/class-wc-customer-email-verification-admin.php:579
+msgid "Verified"
+msgstr "Verificada"
+
+#: includes/class-wc-customer-email-verification-admin.php:444
+#: includes/class-wc-customer-email-verification-admin.php:581
+msgid "Not Verified"
+msgstr "No verificada"
+
+#: includes/class-wc-customer-email-verification-admin.php:462
+#: includes/class-wc-customer-email-verification-admin.php:600
+msgid "Unverify"
+msgstr "No verificar"
+
+#: includes/class-wc-customer-email-verification-admin.php:532
+msgid "Verification Email Successfully Sent."
+msgstr "Correo electrónico de verificación enviado correctamente."
+
+#: includes/class-wc-customer-email-verification-admin.php:541
+msgid "User Verified Successfully."
+msgstr "Usuario verificada con éxito."
+
+#: includes/class-wc-customer-email-verification-admin.php:550
+msgid "User Unverified."
+msgstr "Usuario no verificada."
+
+#: includes/class-wc-customer-email-verification-admin.php:561
+msgid "Resend Verification Email"
+msgstr "Reenviar correo electrónico de verificación"
+
+#: includes/class-wc-customer-email-verification-admin.php:571
+#: includes/customizer/class-cev-customizer.php:206
+msgid "Customer Email Verification for WooCommerce"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:614
+msgid "Send Verification Email"
+msgstr "Envia un correo electronico de verificación"
+
+#: includes/class-wc-customer-email-verification-email-common.php:123
+msgid "User login"
+msgstr "Inicio de sesión de usuario"
+
+#: includes/class-wc-customer-email-verification-email-common.php:127
+msgid "User display name"
+msgstr "Nombre para mostrar del usuario"
+
+#: includes/class-wc-customer-email-verification-email-common.php:131
+msgid "User email"
+msgstr "Correo electrónico del usuario"
+
+#: includes/class-wc-customer-email-verification-email-common.php:135
+#: includes/class-wc-customer-email-verification-email-common.php:185
+msgid "Email Verification link"
+msgstr "Enlace de verificación de correo electrónico"
+
+#: includes/class-wc-customer-email-verification-email-common.php:139
+msgid "Verification link"
+msgstr "link de verificacion"
+
+#: includes/class-wc-customer-email-verification-email-common.php:143
+#: includes/class-wc-customer-email-verification-email-common.php:193
+msgid "Resend Confirmation Email"
+msgstr "Reenviar correo electrónico de confirmación"
+
+#: includes/class-wc-customer-email-verification-email-common.php:147
+msgid "Verification Pin"
+msgstr "Pin de verificación"
+
+#: includes/customizer/class-cev-customizer.php:247
+#: includes/customizer/class-cev-customizer.php:270
+msgid "Only for a separate verification email"
+msgstr "Solo para un correo electrónico de verificación por separado"
+
+#: includes/customizer/class-cev-customizer.php:269
+msgid "Email Heading"
+msgstr "Encabezado de correo electrónico"
+
+#: includes/customizer/class-cev-customizer.php:292
+msgid "Email Body"
+msgstr "Cuerpo del correo electronico"
+
+#: includes/customizer/class-cev-customizer.php:313
+msgid "Available variables"
+msgstr "Variables disponibles"
+
+#: includes/views/admin_options_customize.php:12
+msgid "Customize the verification email"
+msgstr "Personaliza el correo electrónico de verificación"
+
+#: includes/views/admin_options_customize.php:20
+msgid "Launch Customizer"
+msgstr "Iniciar personalizador"
+
+#: includes/views/admin_options_customize.php:31
+msgid "Customize frontend messages"
+msgstr "Personalizar mensajes frontend"
+
+#: includes/views/admin_options_customize.php:42
+#: includes/views/admin_options_settings.php:26
+msgid "Save Changes"
+msgstr "Guardar cambios"
+
+#: includes/views/admin_options_customize.php:44
+#: includes/views/admin_options_settings.php:28
+msgid "Data saved successfully."
+msgstr "Datos guardados exitosamente."
+
+#: includes/views/admin_options_settings.php:15
+msgid "General Settings"
+msgstr "Configuración general"

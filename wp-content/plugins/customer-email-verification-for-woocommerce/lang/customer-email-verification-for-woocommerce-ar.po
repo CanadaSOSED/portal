@@ -1,0 +1,253 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Customer Email verification for WooCommerce\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-22 11:41+0000\n"
+"PO-Revision-Date: 2020-04-22 11:42+0000\n"
+"Last-Translator: John\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100 >= 3 "
+"&& n%100<=10 ? 3 : n%100 >= 11 && n%100<=99 ? 4 : 5;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.3.3; wp-5.4"
+
+#: customer-email-verification-for-woocommerce.php:194
+#: customer-email-verification-for-woocommerce.php:259
+msgid "Sign Up Email Verification"
+msgstr "الاشتراك في التحقق من البريد الإلكتروني"
+
+#: customer-email-verification-for-woocommerce.php:260
+#, php-format
+msgid ""
+"To verify your email a PIN was sent to <strong>%s</strong>. Please check "
+"your inbox and enter the PIN below."
+msgstr ""
+"للتحقق من بريدك الإلكتروني ، تم إرسال رقم التعريف الشخصي إلى <strong>٪ s "
+"</strong>. يرجى التحقق من البريد الوارد الخاص بك وإدخال رقم التعريف الشخصي "
+"أدناه."
+
+#: customer-email-verification-for-woocommerce.php:275
+msgid "Invalid PIN Code"
+msgstr "رمز PIN غير صالح"
+
+#: customer-email-verification-for-woocommerce.php:282
+#: includes/class-wc-customer-email-verification-admin.php:454
+#: includes/class-wc-customer-email-verification-admin.php:592
+msgid "Verify"
+msgstr "تحقق"
+
+#: customer-email-verification-for-woocommerce.php:289
+msgid "Didn’t receive an email?"
+msgstr "ألم تتلق بريدًا إلكترونيًا؟"
+
+#: customer-email-verification-for-woocommerce.php:289
+#: includes/class-wc-customer-email-verification-admin.php:475
+msgid "Resend Email"
+msgstr "إعادة إرسال البريد الإلكتروني"
+
+#: includes/class-wc-customer-email-verification-admin.php:111
+msgid "Customize"
+msgstr "يعدل أو يكيف"
+
+#: includes/class-wc-customer-email-verification-admin.php:314
+msgid "Enable customer email verification"
+msgstr "تمكين التحقق من البريد الإلكتروني للعميل"
+
+#: includes/class-wc-customer-email-verification-admin.php:319
+#: includes/customizer/class-cev-customizer.php:218
+msgid "Email for Verification"
+msgstr "البريد الإلكتروني للتحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:322
+msgid "Separate Verification Email"
+msgstr "رسالة تحقق منفصلة"
+
+#: includes/class-wc-customer-email-verification-admin.php:323
+msgid "Verification in Account Email"
+msgstr "التحقق في البريد الإلكتروني للحساب"
+
+#: includes/class-wc-customer-email-verification-admin.php:330
+msgid "Skip email verification for the selected user roles"
+msgstr "تخطي التحقق من البريد الإلكتروني لأدوار المستخدم المحدد"
+
+#: includes/class-wc-customer-email-verification-admin.php:337
+msgid "Select email verification form theme color"
+msgstr "حدد لون مظهر نموذج التحقق من البريد الإلكتروني"
+
+#: includes/class-wc-customer-email-verification-admin.php:353
+msgid "Verification Message"
+msgstr "رسالة التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:355
+msgid "We sent you a verification email. Check and verify your account."
+msgstr "لقد أرسلنا إليك رسالة تحقق. تحقق وتحقق من حسابك."
+
+#: includes/class-wc-customer-email-verification-admin.php:360
+msgid "Verification Success Message"
+msgstr "رسالة نجاح التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:362
+msgid "Your Email is verified!"
+msgstr "تم التحقق من بريدك الإلكتروني!"
+
+#: includes/class-wc-customer-email-verification-admin.php:367
+msgid "Resend verification email message"
+msgstr "إعادة إرسال رسالة البريد الإلكتروني للتحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:369
+msgid "You need to verify your account before login. {{cev_resend_email_link}}"
+msgstr "تحتاج إلى التحقق من حسابك قبل تسجيل الدخول. {{cev_resend_email_link}}"
+
+#: includes/class-wc-customer-email-verification-admin.php:374
+msgid "Message For Verified Users"
+msgstr "رسالة للمستخدمين المعتمدين"
+
+#: includes/class-wc-customer-email-verification-admin.php:376
+msgid "Your Email is already verified"
+msgstr "تم التحقق من بريدك الإلكتروني بالفعل"
+
+#: includes/class-wc-customer-email-verification-admin.php:381
+msgid "Re-Verification Message"
+msgstr "رسالة إعادة التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:383
+msgid "A new verification link is sent. Check email. {{cev_resend_email_link}}"
+msgstr ""
+"تم إرسال رابط التحقق الجديد. تفقد البريد الإلكتروني. {{cev_resend_email_link}"
+"}"
+
+#: includes/class-wc-customer-email-verification-admin.php:388
+msgid "You can use following tag in email and message"
+msgstr "يمكنك استخدام العلامة التالية في البريد الإلكتروني والرسالة"
+
+#: includes/class-wc-customer-email-verification-admin.php:422
+#: includes/class-wc-customer-email-verification-admin.php:575
+msgid "Verification Status"
+msgstr "حالة التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:423
+#: includes/class-wc-customer-email-verification-admin.php:588
+msgid "Manual Verify"
+msgstr "التحقق اليدوي"
+
+#: includes/class-wc-customer-email-verification-admin.php:424
+#: includes/class-wc-customer-email-verification-admin.php:611
+msgid "Verification Email"
+msgstr "رسالة التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:442
+#: includes/class-wc-customer-email-verification-admin.php:579
+msgid "Verified"
+msgstr "تم التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:444
+#: includes/class-wc-customer-email-verification-admin.php:581
+msgid "Not Verified"
+msgstr "لم يتم التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:462
+#: includes/class-wc-customer-email-verification-admin.php:600
+msgid "Unverify"
+msgstr "تحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:532
+msgid "Verification Email Successfully Sent."
+msgstr "تم إرسال رسالة التحقق بنجاح."
+
+#: includes/class-wc-customer-email-verification-admin.php:541
+msgid "User Verified Successfully."
+msgstr "تم التحقق من المستخدم بنجاح."
+
+#: includes/class-wc-customer-email-verification-admin.php:550
+msgid "User Unverified."
+msgstr "لم يتم التحقق من المستخدم."
+
+#: includes/class-wc-customer-email-verification-admin.php:561
+msgid "Resend Verification Email"
+msgstr "إعادة ارسال بريد التحقق"
+
+#: includes/class-wc-customer-email-verification-admin.php:571
+#: includes/customizer/class-cev-customizer.php:206
+msgid "Customer Email Verification for WooCommerce"
+msgstr ""
+
+#: includes/class-wc-customer-email-verification-admin.php:614
+msgid "Send Verification Email"
+msgstr "ارسل ايميل التفعيل"
+
+#: includes/class-wc-customer-email-verification-email-common.php:123
+msgid "User login"
+msgstr "تسجيل دخول المستخدم"
+
+#: includes/class-wc-customer-email-verification-email-common.php:127
+msgid "User display name"
+msgstr "اسم عرض المستخدم"
+
+#: includes/class-wc-customer-email-verification-email-common.php:131
+msgid "User email"
+msgstr "البريد الالكتروني للمستخدم"
+
+#: includes/class-wc-customer-email-verification-email-common.php:135
+#: includes/class-wc-customer-email-verification-email-common.php:185
+msgid "Email Verification link"
+msgstr "رابط التحقق من البريد الإلكتروني"
+
+#: includes/class-wc-customer-email-verification-email-common.php:139
+msgid "Verification link"
+msgstr "رابط التحقق"
+
+#: includes/class-wc-customer-email-verification-email-common.php:143
+#: includes/class-wc-customer-email-verification-email-common.php:193
+msgid "Resend Confirmation Email"
+msgstr "أعد إرسال رسالة البريد الالكتروني الخاصة بالتأكيد"
+
+#: includes/class-wc-customer-email-verification-email-common.php:147
+msgid "Verification Pin"
+msgstr "دبوس التحقق"
+
+#: includes/customizer/class-cev-customizer.php:247
+#: includes/customizer/class-cev-customizer.php:270
+msgid "Only for a separate verification email"
+msgstr "فقط لرسالة تحقق منفصلة"
+
+#: includes/customizer/class-cev-customizer.php:269
+msgid "Email Heading"
+msgstr "عنوان البريد الإلكتروني"
+
+#: includes/customizer/class-cev-customizer.php:292
+msgid "Email Body"
+msgstr "هيئة البريد الإلكتروني"
+
+#: includes/customizer/class-cev-customizer.php:313
+msgid "Available variables"
+msgstr "المتغيرات المتاحة"
+
+#: includes/views/admin_options_customize.php:12
+msgid "Customize the verification email"
+msgstr "تخصيص البريد الإلكتروني للتحقق"
+
+#: includes/views/admin_options_customize.php:20
+msgid "Launch Customizer"
+msgstr "قم بتشغيل Customizer"
+
+#: includes/views/admin_options_customize.php:31
+msgid "Customize frontend messages"
+msgstr "تخصيص رسائل الواجهة الأمامية"
+
+#: includes/views/admin_options_customize.php:42
+#: includes/views/admin_options_settings.php:26
+msgid "Save Changes"
+msgstr "حفظ التغييرات"
+
+#: includes/views/admin_options_customize.php:44
+#: includes/views/admin_options_settings.php:28
+msgid "Data saved successfully."
+msgstr "تم حفظ المعلومات بنجاح."
+
+#: includes/views/admin_options_settings.php:15
+msgid "General Settings"
+msgstr "الاعدادات العامة"
