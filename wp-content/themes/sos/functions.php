@@ -47,11 +47,11 @@ add_filter( 'script_loader_src', 'remove_cssjs_ver', 10, 2 );
 
 // Hide All WordPress and plugin update notifications
 //////////////////////////////////////////////////////////////////////
-function remove_update_notifications(){
+// function remove_update_notifications(){
 
-    global $wp_version;return(object) array('last_checked'=> time(),'version_checked'=> $wp_version,);
+//     global $wp_version;return(object) array('last_checked'=> time(),'version_checked'=> $wp_version,);
 
-}
+// }
 
 // Make sure we're on the development server
 $ip = getenv('REMOTE_ADDR');
